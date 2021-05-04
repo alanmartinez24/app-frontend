@@ -297,7 +297,7 @@ class Search extends Component {
                       md={!isLoading && users.length === 0 ? 12 : 8}
                       xs={12}
                       tourname='SearchPosts'
-                      style={{ overflow: 'hidden' }}
+                      style={{ overflow: 'hidden', display: !isLoading && posts.length === 0 ? 'none' : '' }}
                     >
                       <Typography
                         variant='h6'
@@ -317,6 +317,7 @@ class Search extends Component {
                       md={!isLoading && posts.length === 0 ? 12 : 4}
                       xs={12}
                       tourname='SearchUsers'
+                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
                     >
                       <Typography
                         variant='h6'
