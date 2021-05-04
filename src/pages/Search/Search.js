@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
 import Fade from '@material-ui/core/Fade'
-// import { createSelector } from 'reselect'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 
 const MIN_SEARCH_LEN = 1
@@ -297,7 +296,7 @@ class Search extends Component {
                       md={!isLoading && users.length === 0 ? 12 : 8}
                       xs={12}
                       tourname='SearchPosts'
-                      style={{ overflow: 'hidden', display: !isLoading && posts.length === 0 ? 'none' : '' }}
+                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
                     >
                       <Typography
                         variant='h6'

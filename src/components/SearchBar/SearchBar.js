@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PropTypes from 'prop-types'
-// import { debounce } from 'lodash'
 import CloseIcon from '@material-ui/icons/Close'
 import { fetchUserSearchResults, fetchPostSearchResults } from '../../redux/actions'
 
@@ -138,7 +137,7 @@ class SearchBar extends Component {
 
   handleSearchClose = (e) => {
     const { searchPosts, searchUsers, history } = this.props
-    e.preventDefault()
+    this.setState({ searchText: '' })
 
     searchPosts('', 0)
     searchUsers('', 0)
