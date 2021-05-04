@@ -83,10 +83,7 @@ const styles = theme => ({
   },
   feedLoader: {
     margin: '0px',
-    maxWidth: '590px',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '420px'
-    }
+    maxWidth: '590px'
   },
   collectionHeader: {
     position: 'sticky',

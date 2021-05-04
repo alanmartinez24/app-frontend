@@ -58,17 +58,11 @@ const styles = theme => ({
   feedLoader: {
     margin: '0px',
     maxWidth: '590px',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '420px'
-    },
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-15px'
     }
   },
   resultsContainer: {
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '0px'
-    },
     [theme.breakpoints.down('xs')]: {
       margin: '65px 0px 0px 5px'
     }
@@ -157,10 +151,7 @@ const styles = theme => ({
     }
   },
   article: {
-    maxWidth: '590px',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '420px'
-    }
+    maxWidth: '590px'
   }
 })
 
@@ -302,8 +293,8 @@ class Search extends Component {
                 {searchText.length > MIN_SEARCH_LEN && (posts.length > 0 || users.length > 0) &&
                   <>
                     <Grid item
-                      lg={!isLoading && posts.length === 0 ? 12 : 5}
-                      md={!isLoading && posts.length === 0 ? 12 : 7}
+                      lg={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && users.length === 0 ? 12 : 8}
                       xs={12}
                       tourname='SearchPosts'
                       style={{ overflow: 'hidden' }}
@@ -323,7 +314,7 @@ class Search extends Component {
                     </Grid>
                     <Grid item
                       lg={!isLoading && posts.length === 0 ? 12 : 7}
-                      md={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && posts.length === 0 ? 12 : 4}
                       xs={12}
                       tourname='SearchUsers'
                     >
