@@ -88,7 +88,6 @@ function Feed (props) {
                 post={post}
                 hideInteractions={hideInteractions}
                 classes={classes}
-                renderObjects
               />
             ))
           }
