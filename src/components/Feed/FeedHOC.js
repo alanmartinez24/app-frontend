@@ -103,6 +103,7 @@ const Feed = (props) => {
             posts.map((post) => (
               <PostController key={post._id}
                 post={post}
+                renderObjects
               />
             ))
           }
