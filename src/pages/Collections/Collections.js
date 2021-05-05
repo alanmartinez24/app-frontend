@@ -94,13 +94,14 @@ const styles = theme => ({
     background: 'linear-gradient(0deg,#1a1a1a,#1b1b1b)',
     borderRadius: '5px',
     zIndex: 1000,
+    marginBottom: '25px',
     [theme.breakpoints.down('xs')]: {
       top: 0,
-      paddingTop: '0px !important'
+      marginBottom: '0px'
     }
   },
   collectionContainer: {
-    width: 'calc(100vw - 140px)',
+    width: '100vw',
     position: 'relative',
     marginLeft: 0,
     [theme.breakpoints.down('sm')]: {
@@ -181,9 +182,11 @@ const styles = theme => ({
     display: 'none'
   },
   minimize: {
-    [theme.breakpoints.up('lg')]: {
-      height: '50px',
-      width: '50px'
+    height: '50px',
+    width: '50px',
+    [theme.breakpoints.down('xs')]: {
+      height: '30px',
+      width: '30px'
     }
   },
   minimizeHeader: {
@@ -192,7 +195,8 @@ const styles = theme => ({
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '70px'
+      maxHeight: '60px',
+      padding: '5px !important'
     }
   },
   recommendedImg: {
@@ -502,9 +506,7 @@ class Collections extends Component {
                     <Grid
                       item
                       xl={1}
-                      lg={isMinimize ? 1 : 2}
                       md={isMinimize ? 1 : 2}
-                      sm={1}
                       xs={2}
                     >
                       <Fade in
@@ -523,7 +525,7 @@ class Collections extends Component {
                       lg={8}
                       md={7}
                       sm={8}
-                      xs={8}
+                      xs={6}
                     >
                       <Fade in
                         timeout={400}
@@ -567,7 +569,7 @@ class Collections extends Component {
                       container
                       lg={2}
                       sm={3}
-                      xs={2}
+                      xs={4}
                       justify='flex-end'
                     >
                       <Fade in
