@@ -434,17 +434,29 @@ class Collections extends Component {
             property='og:description'
             content={`${collection.description}`}
           />
+          <meta property='og:image'
+            content={`${collection.coverImgSrc}`}
+          />
+          <meta
+            property='twitter:card'
+            content='summary_large_image'
+          />
+          <meta
+            property='twitter:site'
+            content='@yup_io'
+          />
           <meta
             property='twitter:title'
             content={`${collection.name} | ${collection.owner}`}
+          />
+          <meta property='twitter:image'
+            content={`${collection.coverImgSrc}`}
           />
           <meta
             property='twitter:description'
             content={`${collection.description}`}
           />
-          <meta property='og:image'
-            content={`${collection.coverImgSrc}`}
-          />
+
         </Helmet>
         <Snackbar
           autoHideDuration={4000}
