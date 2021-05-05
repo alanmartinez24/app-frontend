@@ -14,6 +14,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import ReactPlayer from 'react-player'
 
 const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/)')
+const collectionPattern = new RegExp('^(app.yup.io/collections/|www.app.yup.io/collections/|http://app.yup.io/collections/|https://app.yup.io/collections/)')
 const { AUDIUS_EMBED } = process.env
 
 const styles = theme => ({
@@ -188,6 +189,7 @@ class ListPreview extends Component {
 
     // TODO: Adjust this for Yup lists, should only get quantile for category and website being compared
     const isNftArt = url && url.match(nftPattern)
+    const isCollection = url && url.match(collectionPattern)
     const isAudiusPost = previewData && (previewData.trackId && previewData.ownerId)
 
     return (
@@ -240,7 +242,7 @@ class ListPreview extends Component {
                       onError={this.addDefaultVid}
                       />
                     : <img src={image || this.state.faviconURL || this.state.faviconURLFallback}
-                      className={isNftArt ? classes.nftArt : classes.image}
+                      className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
                       onError={this.addDefaultSrc}
                       alt='favicon'
                       />
