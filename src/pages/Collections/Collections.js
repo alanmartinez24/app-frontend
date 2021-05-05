@@ -641,6 +641,7 @@ class Collections extends Component {
                       classes={classes}
                       posts={posts}
                       hideInteractions
+                      renderObjects
                       tourname='CollectionPosts'
                     />
                   )}
