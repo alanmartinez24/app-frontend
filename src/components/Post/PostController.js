@@ -70,7 +70,7 @@ function isMusicPost (caption) {
 }
 
 function isTallPreviewPost (caption) {
-  const tallPattern = new RegExp('^(giphy.com/*/|www.giphy.com/*/|http://giphy.com/*/|https://giphy.com/*/|http://www.giphy.com/*/|https://www.giphy.com/*/)')
+  const tallPattern = new RegExp('^(giphy.com/*/|www.giphy.com/*/|http://giphy.com/*/|https://giphy.com/*/|http://www.giphy.com/*/|https://www.giphy.com/*/|app.yup.io/collections*/|www.app.yup.io/collections/*/|http://app.yup.io/collections/*/|https://app.yup.io/collections/*/|http://www.app.yup.io/collections/*/|https://www.app.yup.io/collections/*/)')
   return tallPattern.test(caption)
 }
 
