@@ -46,7 +46,7 @@ const styles = theme => ({
 })
 
 function Feed (props) {
-  const { posts, classes, isLoading, hasMore, hideInteractions } = props
+  const { posts, classes, isLoading, hasMore, hideInteractions, renderObjects } = props
   // remove duplicate posts
   const formatPosts = Array.from(new Set(posts))
 
@@ -84,6 +84,7 @@ function Feed (props) {
           {
             formatPosts.map((post, index) => (
               <PostController key={index}
+                renderObjects={renderObjects}
                 post={post}
                 hideInteractions={hideInteractions}
                 classes={classes}
@@ -104,7 +105,8 @@ Feed.propTypes = {
   classes: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasMore: PropTypes.bool.isRequired,
-  hideInteractions: PropTypes.bool
+  hideInteractions: PropTypes.bool,
+  renderObjects: PropTypes.bool
 }
 
 export default memo(withStyles(styles)(Feed))
