@@ -40,7 +40,7 @@ function isAudiusTrackPost (caption) {
 }
 
 function isObjPost (caption) {
-  const objPattern = new RegExp('^(wikipedia.org/wiki/|en.wikipedia.org/wiki/|www.wikipedia.com/|http://wikipedia.com/*/|https://wikipedia.com/*/|http://www.wikipedia.com/*/|https://en.wikipedia.org/wiki/|https://www.amazon.com/|http://twitter.com/[^/]*$|https://twitter.com/[^/]*$|http://www.twitter.com/[^/]*$|https://www.twitter.com/[^/]*$|https://www.reddit.com/r/[^/]*[/]?$|http://www.reddit.com/r/[^/]*[/]?$|www.reddit.com/r/[^/]*[/]?$|reddit.com/r/[^/]*[/]?$|https://www.youtube.com/channel/[^/]*[/]?$|http://www.youtube.com/channel/[^/]*[/]?$|www.youtube.com/channel/[^/]*[/]?$|youtube.com/user/[^/]*[/]?$|https://www.youtube.com/user/*|http://www.youtube.com/user/[^/]*[/]?$|www.youtube.com/user/*?$|youtube.com/user/[^/]*[/]?$)')
+  const objPattern = new RegExp('^(wikipedia.org/wiki/|en.wikipedia.org/wiki/|www.wikipedia.com/|http://wikipedia.com/*/|https://wikipedia.com/*/|http://www.wikipedia.com/*/|https://en.wikipedia.org/wiki/|www.amazon.com/|http://amazon.com|https://amazon.com/|http://twitter.com/[^/]*$|https://twitter.com/[^/]*$|http://www.twitter.com/[^/]*$|https://www.twitter.com/[^/]*$|https://www.reddit.com/r/[^/]*[/]?$|http://www.reddit.com/r/[^/]*[/]?$|www.reddit.com/r/[^/]*[/]?$|reddit.com/r/[^/]*[/]?$|https://www.youtube.com/channel/[^/]*[/]?$|http://www.youtube.com/channel/[^/]*[/]?$|www.youtube.com/channel/[^/]*[/]?$|youtube.com/user/[^/]*[/]?$|https://www.youtube.com/user/*|http://www.youtube.com/user/[^/]*[/]?$|www.youtube.com/user/*?$|youtube.com/user/[^/]*[/]?$)')
   return objPattern.test(caption)
 }
 
