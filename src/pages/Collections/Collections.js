@@ -650,13 +650,15 @@ class Collections extends Component {
                     <Grid item
                       xs={12}
                     >
-                      {recommended.map(collection => {
-                        return (
-                          <Recommended
-                            classes={classes}
-                            collection={collection}
-                          />
-                        )
+                      {recommended.map(rec => {
+                        if (rec.postIds.length > 0 && rec.name !== collection.name) {
+                          return (
+                            <Recommended
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        }
                       })}
                     </Grid>
                   </Grid>
