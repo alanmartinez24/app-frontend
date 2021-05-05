@@ -31,7 +31,9 @@ import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
 const BACKEND_API = process.env.BACKEND_API
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
+  Math.random() * 5
+) + 1}.png`
 
 const styles = theme => ({
   '@global': {
@@ -75,9 +77,8 @@ const styles = theme => ({
     width: '100%',
     overflow: 'hidden',
     maxWidth: '640px',
-    marginTop: 0,
+    marginTop: 20,
     [theme.breakpoints.down('sm')]: {
-      marginTop: 20,
       padding: '0px !important'
     }
   },
@@ -162,8 +163,12 @@ const styles = theme => ({
     position: 'sticky',
     top: 200,
     margin: 0,
+    opacity: 0.7,
     [theme.breakpoints.down('md')]: {
       display: 'none'
+    },
+    '&:hover': {
+      opacity: 1
     }
   },
   headerImg: {
@@ -190,7 +195,6 @@ const styles = theme => ({
     }
   },
   minimizeHeader: {
-    maxHeight: '80px',
     padding: '0px 16px',
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
@@ -344,7 +348,7 @@ class Collections extends Component {
     this.setState({ dialogOpen: false })
   }
 
-  getSocialLevel = async (id) => {
+  getSocialLevel = async id => {
     const res = (await axios.get(`${BACKEND_API}/levels/user/${id}`)).data
     this.setState({
       socialLevelColor: levelColors[res.quantile]
@@ -375,9 +379,13 @@ class Collections extends Component {
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
-    const isLoggedUserCollection = (account && account.name) === (collection && collection.ownerId)
+    const isLoggedUserCollection =
+      (account && account.name) === (collection && collection.ownerId)
 
-    let headerImgSrc = posts && ((posts[0] && posts[0].previewData.img) || (posts[1] && posts[1].previewData.img))
+    let headerImgSrc =
+      posts &&
+      ((posts[0] && posts[0].previewData.img) ||
+        (posts[1] && posts[1].previewData.img))
 
     if (!isLoading && !collection) {
       return (
@@ -438,17 +446,29 @@ class Collections extends Component {
             property='og:description'
             content={`${collection.description}`}
           />
+          <meta property='og:image'
+            content={`${collection.coverImgSrc}`}
+          />
+          <meta
+            property='twitter:card'
+            content='summary_large_image'
+          />
+          <meta
+            property='twitter:site'
+            content='@yup_io'
+          />
           <meta
             property='twitter:title'
             content={`${collection.name} | ${collection.owner}`}
+          />
+          <meta property='twitter:image'
+            content={`${collection.coverImgSrc}`}
           />
           <meta
             property='twitter:description'
             content={`${collection.description}`}
           />
-          <meta property='og:image'
-            content={`${collection.coverImgSrc}`}
-          />
+
         </Helmet>
         <Snackbar
           autoHideDuration={4000}
@@ -520,8 +540,7 @@ class Collections extends Component {
                         />
                       </Fade>
                     </Grid>
-                    <Grid
-                      item
+                    <Grid item
                       lg={8}
                       md={7}
                       sm={8}
@@ -597,7 +616,7 @@ class Collections extends Component {
                         >
                           <MenuIcon />
                         </IconButton>
-                        )}
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -611,8 +630,7 @@ class Collections extends Component {
                     md={2}
                   />
                 </Hidden>
-                <Grid
-                  item
+                <Grid item
                   lg={6}
                   xs={12}
                   className={classes.feedContainer}
@@ -715,9 +733,7 @@ const steps = [
     selector: '[tourName="CollectionPosts"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
-          📰 Collection Posts
-        </h4>
+        <h4 className='tourHeader'>📰 Collection Posts</h4>
         <p>These are the curated posts in this collection.</p>
       </div>
     )
@@ -726,9 +742,7 @@ const steps = [
     selector: '[tourName="RecommendedCollections"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
-          📖 Recommended Collections
-        </h4>
+        <h4 className='tourHeader'>📖 Recommended Collections</h4>
         <p>These are some other collections you should check out!</p>
       </div>
     )
@@ -737,9 +751,7 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
-          📡 Feeds
-        </h4>
+        <h4 className='tourHeader'>📡 Feeds</h4>
         <p>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
@@ -755,9 +767,7 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
-          📈 Leaderboard
-        </h4>
+        <h4 className='tourHeader'>📈 Leaderboard</h4>
         <p>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
@@ -772,9 +782,7 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
-          👏 That's it!
-        </h3>
+        <h3 className='tourHeader'>👏 That's it!</h3>
         <p>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button

@@ -358,7 +358,6 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({
       >
         {/* <StyledYupListLink /> */}
         <StyledAboutListLink />
-        <StyledExtensionListLink />
       </List>
     )
   }
@@ -755,6 +754,27 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                     style={{ color: '#c0c0c0', fontWeight: '100' }}
                   >
                     Leaderboards
+                  </span>
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to='/leaderboard?site=all&subject=collections&category=overall'
+                style={{ paddingLeft: '5px' }}
+              >
+                <ListItemIcon>
+                  <Icon fontSizeSmall
+                    className='fal fa-list'
+                  />
+                </ListItemIcon>
+                <ListItemText>
+                  <span
+                    className={classes.typography}
+                    style={{ color: '#c0c0c0', fontWeight: '100' }}
+                  >
+                    {' '}
+                    Collections
                   </span>
                 </ListItemText>
               </ListItem>
