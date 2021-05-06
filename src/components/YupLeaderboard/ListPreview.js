@@ -40,8 +40,8 @@ const styles = theme => ({
     }
   },
   nftArt: {
-    maxWidth: '80px',
-    maxHeight: '80px',
+    maxWidth: '75px',
+    maxHeight: '75px',
     width: '100%',
     aspectRatio: '1 / 1',
     borderRadius: '20%',
@@ -170,7 +170,11 @@ class ListPreview extends Component {
   addDefaultSrc = (e) => {
     e.target.onerror = null
     e.target.src = this.state.faviconURL || this.state.faviconURLFallback
-    e.target.style = { border: 'none !important' }
+    e.target.style = {
+      border: 'none !important',
+      maxWidth: '50px',
+      maxHeight: '50px'
+    }
   }
 
   render () {
