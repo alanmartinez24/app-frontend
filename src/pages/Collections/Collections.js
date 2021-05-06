@@ -31,11 +31,11 @@ import CollectionEditDialog from '../../components/Collections/CollectionEditDia
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
-const BACKEND_API = process.env.BACKEND_API
+const BACKEND_API = 'http://localhost:4001'
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
   Math.random() * 5
 ) + 1}.png`
-const isMobile = window.innerWidth <= 600
+const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
   '@global': {
@@ -80,7 +80,7 @@ const styles = theme => ({
     overflow: 'hidden',
     maxWidth: '640px',
     marginTop: 20,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('md')]: {
       marginTop: 0
     }
   },
@@ -168,9 +168,6 @@ const styles = theme => ({
     opacity: 0.7,
     '&:hover': {
       opacity: 1
-    },
-    [theme.breakpoints.down('xs')]: {
-      opacity: 1
     }
   },
   headerImg: {
@@ -233,10 +230,17 @@ const styles = theme => ({
     textDecoration: 'none',
     color: '#fff',
     margin: 'auto',
+    [theme.breakpoints.down('md')]: {
+      margin: '10px 0px',
+      width: '500px'
+    },
     [theme.breakpoints.down('xs')]: {
       width: '70%',
       margin: '10px auto'
     }
+  },
+  tabs: {
+    fontSize: '1.2rem'
   }
 })
 
@@ -580,7 +584,7 @@ class Collections extends Component {
                     </Grid>
                     <Grid item
                       lg={8}
-                      md={7}
+                      md={6}
                       sm={8}
                       xs={6}
                     >
@@ -665,15 +669,19 @@ class Collections extends Component {
                   md={2}
                 />
 
-                {isMobile ? <>
+                {showTabs ? <>
                   <Grid item
                     xs={12}
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
                     >
-                      <Tab label='Feed' />
-                      <Tab label='Recommended' />
+                      <Tab label='Feed'
+                        className={classes.tabs}
+                      />
+                      <Tab label='Recommended'
+                        className={classes.tabs}
+                      />
                     </Tabs>
                   </Grid>
                   <TabPanel value={activeTab}
@@ -750,8 +758,6 @@ class Collections extends Component {
                     container
                     column
                     lg={4}
-                    md={0}
-                    sm={0}
                     spacing={2}
                     tourname='RecommendedCollections'
                     className={classes.recommended}
