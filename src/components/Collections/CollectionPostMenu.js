@@ -6,6 +6,7 @@ import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import CollectionPostDialog from './CollectionPostDialog.js'
 import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -158,6 +159,7 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
         account={account}
         dialogOpen={dialogOpen}
         postid={postid}
+        ethAuth={ethAuth}
         handleDialogClose={handleDialogClose}
       />
     </>
@@ -167,7 +169,15 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
   account: PropTypes.object,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  ethAuth: PropTypes.object
 }
 
-export default (withStyles(styles)(CollectionPostMenu))
+const mapStateToProps = (state, ownProps) => {
+  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  return {
+    ethAuth
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(CollectionPostMenu))
