@@ -14,8 +14,9 @@ import {
   Icon,
   SnackbarContent,
   Snackbar,
-  Hidden,
-  Fade
+  Fade,
+  Tabs,
+  Tab
 } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -34,6 +35,7 @@ const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
   Math.random() * 5
 ) + 1}.png`
+const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
   '@global': {
@@ -78,8 +80,8 @@ const styles = theme => ({
     overflow: 'hidden',
     maxWidth: '640px',
     marginTop: 20,
-    [theme.breakpoints.down('sm')]: {
-      padding: '0px !important'
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0
     }
   },
   feedLoader: {
@@ -164,10 +166,10 @@ const styles = theme => ({
     top: 200,
     margin: 0,
     opacity: 0.7,
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    },
     '&:hover': {
+      opacity: 1
+    },
+    [theme.breakpoints.down('xs')]: {
       opacity: 1
     }
   },
@@ -226,6 +228,15 @@ const styles = theme => ({
     '&:hover': {
       background: '#fafafa05'
     }
+  },
+  links: {
+    textDecoration: 'none',
+    color: '#fff',
+    margin: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      width: '70%',
+      margin: '10px auto'
+    }
   }
 })
 
@@ -238,7 +249,7 @@ const Recommended = ({ classes, collection }) => {
   return (
     <Link
       to={`/collections/${fmtCollectionName}/${collection._id}`}
-      style={{ textDecoration: 'none', color: '#fff' }}
+      className={classes.links}
     >
       <Grid
         container
@@ -273,6 +284,27 @@ Recommended.propTypes = {
   collection: PropTypes.array.isRequired
 }
 
+function TabPanel (props) {
+  const { children, value, index } = props
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+    >
+      {value === index && (
+        <div>{children}</div>
+      )}
+    </div>
+  )
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
+}
+
 class Collections extends Component {
   state = {
     collection: null,
@@ -283,7 +315,8 @@ class Collections extends Component {
     recommended: [],
     dialogOpen: false,
     isTourOpen: false,
-    socialLevelColor: ''
+    socialLevelColor: '',
+    activeTab: 0
   }
 
   async componentDidMount () {
@@ -363,6 +396,10 @@ class Collections extends Component {
     this.setState({ isTourOpen: true })
   }
 
+  handleChange = (e, newTab) => {
+    this.setState({ activeTab: newTab })
+  }
+
   render () {
     const { classes, account } = this.props
     const {
@@ -373,7 +410,8 @@ class Collections extends Component {
       snackbarMsg,
       recommended,
       dialogOpen,
-      socialLevelColor
+      socialLevelColor,
+      activeTab
     } = this.state
 
     const hidden = isMinimize ? classes.hidden : null
@@ -621,37 +659,92 @@ class Collections extends Component {
                   </Grid>
                 </Grid>
 
-                <Hidden smDown
-                  lgUp
-                >
-                  <Grid item
-                    xl={3}
-                    lg={3}
-                    md={2}
-                  />
-                </Hidden>
                 <Grid item
-                  lg={6}
-                  xs={12}
-                  className={classes.feedContainer}
-                >
-                  {posts.length === 0 ? (
-                    <Typography className={classes.noPostsFound}>
-                      No posts found in this collection
-                    </Typography>
-                  ) : (
-                    <Feed
-                      isLoading={isLoading}
-                      hasMore
-                      classes={classes}
-                      posts={posts}
-                      hideInteractions
-                      renderObjects
-                      tourname='CollectionPosts'
-                    />
-                  )}
-                </Grid>
-                <Hidden smDown>
+                  xl={3}
+                  lg={3}
+                  md={2}
+                />
+
+                {isMobile ? <>
+                  <Grid item
+                    xs={12}
+                  >
+                    <Tabs value={activeTab}
+                      onChange={this.handleChange}
+                    >
+                      <Tab label='Feed' />
+                      <Tab label='Recommended' />
+                    </Tabs>
+                  </Grid>
+                  <TabPanel value={activeTab}
+                    index={0}
+                  >
+                    <Grid item
+                      xs={12}
+                      className={classes.feedContainer}
+                    >
+                      {posts.length === 0 ? (
+                        <Typography className={classes.noPostsFound}>
+                          No posts found in this collection
+                        </Typography>
+                      ) : (
+                        <Feed
+                          isLoading={isLoading}
+                          hasMore
+                          classes={classes}
+                          posts={posts}
+                          hideInteractions
+                          renderObjects
+                          tourname='CollectionPosts'
+                        />
+                      )}
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel value={activeTab}
+                    index={1}
+                  >
+                    <Grid item
+                      container
+                      column
+                      spacing={4}
+                      tourname='RecommendedCollections'
+                      className={classes.recommended}
+                    >
+                      {recommended.map(rec => {
+                        if (rec.postIds.length > 0 && rec.name !== collection.name) {
+                          return (
+                            <Recommended
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        }
+                      })}
+                    </Grid>
+                  </TabPanel>
+                </>
+                : <>
+                  <Grid item
+                    lg={6}
+                    xs={12}
+                    className={classes.feedContainer}
+                  >
+                    {posts.length === 0 ? (
+                      <Typography className={classes.noPostsFound}>
+                        No posts found in this collection
+                      </Typography>
+                    ) : (
+                      <Feed
+                        isLoading={isLoading}
+                        hasMore
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                        renderObjects
+                        tourname='CollectionPosts'
+                      />
+                    )}
+                  </Grid>
                   <Grid
                     item
                     container
@@ -681,7 +774,8 @@ class Collections extends Component {
                       })}
                     </Grid>
                   </Grid>
-                </Hidden>
+                </>
+                }
               </Grid>
             </Grid>
 
