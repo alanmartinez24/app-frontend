@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
 import wallet from '../../eos/scatter/scatter.wallet.js'
+import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -217,6 +218,13 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
   )
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  return {
+    ethAuth
+  }
+}
+
 CollectionEditDialog.propTypes = {
   collection: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
@@ -225,4 +233,4 @@ CollectionEditDialog.propTypes = {
   history: PropTypes.object.isRequired
 }
 
-export default withRouter(withStyles(styles)(CollectionEditDialog))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))
