@@ -31,7 +31,7 @@ import CollectionEditDialog from '../../components/Collections/CollectionEditDia
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
-const BACKEND_API = 'http://localhost:4001'
+const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
   Math.random() * 5
 ) + 1}.png`
