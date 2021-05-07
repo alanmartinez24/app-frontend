@@ -43,9 +43,12 @@ import Grow from '@material-ui/core/Grow'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import CollectionPostDialog from '../Collections/CollectionPostDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import axios from 'axios'
 import numeral from 'numeral'
 
 const drawerWidth = 190
+
+const { BACKEND_API } = process.env
 
 const styles = theme => ({
   appBar: {
@@ -387,24 +390,17 @@ const getReduxState = state => {
   let account = scatterIdentity || twitterInfo || ethAccount
   if (!scatterIdentity && ethAccount) {
     account = { name: ethAccount._id, authority: 'active' }
-    return {
-      account,
-      level: {
-        isLoading: false,
-        error: false,
-        levelInfo: ethAccount
-      }
-    }
   }
 
   return {
-    account,
-    level: state.socialLevels.levels[account && account.name] || {
-      isLoading: true,
-      error: false,
-      levelInfo: {}
-    }
+    account
   }
+}
+
+const defaultLevelInfo = {
+  isLoading: true,
+  error: false,
+  levelInfo: {}
 }
 
 function TopBar ({ classes, notifications, history, width, isTourOpen }) {
@@ -417,7 +413,8 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
   const [collectionDialogOpen, setCollectionDialogOpen] = React.useState(false)
 
   let authInfo = useSelector(getReduxState)
-  let { level } = authInfo
+
+  const [level, setLevel] = React.useState(defaultLevelInfo)
 
   useEffect(() => {
     const search = window.location.search
@@ -428,6 +425,20 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
     setCollectionDialogOpen(collectionDialog || false)
     setAccount(authInfo.account)
   }, [authInfo])
+
+  useEffect(() => {
+    if (authInfo && authInfo.account) {
+      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`).then(res => {
+        const levelInfo = res.data
+        setLevel({
+          isLoading: false,
+          error: false,
+          levelInfo
+        })
+      })
+      .catch(() => {})
+    }
+  })
 
   useEffect(() => {
     setIsShown(isTourOpen)
