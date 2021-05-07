@@ -76,7 +76,7 @@ const styles = theme => ({
   feedContainer: {
     width: '100%',
     overflow: 'hidden',
-    maxWidth: '640px',
+    maxWidth: '650px',
     marginTop: 20,
     [theme.breakpoints.down('sm')]: {
       padding: '0px !important'
@@ -84,7 +84,7 @@ const styles = theme => ({
   },
   feedLoader: {
     margin: '0px',
-    maxWidth: '590px',
+    maxWidth: '650px',
     [theme.breakpoints.down('md')]: {
       maxWidth: '420px'
     }
@@ -670,7 +670,7 @@ class Collections extends Component {
                       xs={12}
                     >
                       {recommended.map(rec => {
-                        if (rec.postIds.length > 0 && rec.name !== collection.name) {
+                        if (rec.name !== collection.name) {
                           return (
                             <Recommended
                               classes={classes}

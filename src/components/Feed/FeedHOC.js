@@ -18,6 +18,12 @@ const styles = theme => ({
     minWidth: '250px',
     minHeight: '800px',
     margin: '0 auto',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '600px'
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 'auto'
+    },
     [theme.breakpoints.down('sm')]: {
       maxWidth: '85vw',
       marginleft: '0'
@@ -52,6 +58,12 @@ const styles = theme => ({
     maxWidth: '625px',
     width: '100%',
     margin: '0 auto',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '600px'
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 'auto'
+    },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '0%'
     }
