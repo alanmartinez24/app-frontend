@@ -108,24 +108,13 @@ const styles = theme => ({
     minWidth: '20px',
     width: '20px',
     height: '20px',
-    position: 'absolute',
-    zIndex: '99999',
-    [theme.breakpoints.down('sm')]: {
-      right: '60px',
-      marginTop: '20px'
-    }
+    zIndex: '99999'
   },
   usernameButton: {
     minWidth: '20px',
     width: '20px',
     height: '20px',
-    position: 'absolute',
-    zIndex: '99999',
-    right: '85px',
-    bottom: '18%',
-    [theme.breakpoints.down('sm')]: {
-      bottom: '17%'
-    }
+    zIndex: '99999'
   },
   stepper: {
     backgroundColor: 'transparent'
@@ -782,23 +771,26 @@ class SubscribeDialog extends Component {
                                   root: classes.inputRoot,
                                   input: classes.inputInput,
                                   notchedOutline: classes.outline
-                              },
-                              className: classes.stepperInput }}
+                                },
+                                className: classes.stepperInput,
+                                endAdornment: (
+                                  <Button className={classes.emailButton}
+                                    onClick={this.handleWhitelist}
+                                    style={{ width: 'auto' }}
+                                  >
+                                    {this.state.EthIsLoading
+                                    ? <CircularProgress size={20}
+                                      className={classes.loader}
+                                      />
+                                    : <img alt='submit'
+                                      src='/images/icons/arrow.svg'
+                                      className={classes.arrowIcon}
+                                      />
+                                    }
+                                  </Button>
+                                )
+                              }}
                             />
-                            <Button className={classes.emailButton}
-                              onClick={this.handleWhitelist}
-                              style={{ width: 'auto' }}
-                            >
-                              {this.state.EthIsLoading
-                              ? <CircularProgress size={20}
-                                className={classes.loader}
-                                />
-                              : <img alt='submit'
-                                src='/images/icons/arrow.svg'
-                                className={classes.arrowIcon}
-                                />
-                              }
-                            </Button>
                           </DialogContent>
                       }
 
@@ -824,23 +816,26 @@ class SubscribeDialog extends Component {
                                   root: classes.inputRoot,
                                   input: classes.inputInput,
                                   notchedOutline: classes.outline
-                              },
-                              className: classes.stepperInput }}
+                                },
+                                className: classes.stepperInput,
+                                endAdornment: (
+                                  <Button className={classes.usernameButton}
+                                    onClick={this.handleUsername}
+                                    style={{ width: 'auto' }}
+                                  >
+                                    {this.state.EthIsLoading
+                                    ? <CircularProgress size={20}
+                                      className={classes.loader}
+                                      />
+                                    : <img alt='submit'
+                                      src='/images/icons/arrow.svg'
+                                      className={classes.arrowIcon}
+                                      />
+                                  }
+                                  </Button>
+                                )
+                              }}
                             />
-                            <Button className={classes.usernameButton}
-                              onClick={this.handleUsername}
-                              style={{ width: 'auto' }}
-                            >
-                              {this.state.EthIsLoading
-                              ? <CircularProgress size={20}
-                                className={classes.loader}
-                                />
-                              : <img alt='submit'
-                                src='/images/icons/arrow.svg'
-                                className={classes.arrowIcon}
-                                />
-                            }
-                            </Button>
                           </DialogContent>
                       }
                       </StepContent>
