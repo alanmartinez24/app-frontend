@@ -24,8 +24,7 @@ const styles = theme => ({
     minWidth: '0px',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0%',
-      marginRight: '0%',
-      width: '98%'
+      marginRight: '0%'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',

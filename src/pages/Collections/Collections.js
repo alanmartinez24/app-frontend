@@ -84,10 +84,7 @@ const styles = theme => ({
   },
   feedLoader: {
     margin: '0px',
-    maxWidth: '650px',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '420px'
-    }
+    maxWidth: '650px'
   },
   collectionHeader: {
     position: 'sticky',
@@ -632,6 +629,7 @@ class Collections extends Component {
                 </Hidden>
                 <Grid item
                   lg={6}
+                  md={10}
                   xs={12}
                   className={classes.feedContainer}
                   tourname='CollectionPosts'
@@ -657,7 +655,7 @@ class Collections extends Component {
                     container
                     column
                     lg={4}
-                    md={0}
+                    md={2}
                     sm={0}
                     spacing={2}
                     tourname='RecommendedCollections'
