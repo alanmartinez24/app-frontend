@@ -438,7 +438,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
       })
       .catch(() => {})
     }
-  })
+  }, authInfo.account)
 
   useEffect(() => {
     setIsShown(isTourOpen)
