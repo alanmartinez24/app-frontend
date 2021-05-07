@@ -634,6 +634,7 @@ class Collections extends Component {
                   lg={6}
                   xs={12}
                   className={classes.feedContainer}
+                  tourname='CollectionPosts'
                 >
                   {posts.length === 0 ? (
                     <Typography className={classes.noPostsFound}>
@@ -647,7 +648,6 @@ class Collections extends Component {
                       posts={posts}
                       hideInteractions
                       renderObjects
-                      tourname='CollectionPosts'
                     />
                   )}
                 </Grid>
