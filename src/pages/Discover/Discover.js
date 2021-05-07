@@ -373,8 +373,8 @@ class Discover extends Component {
 
   render () {
     const { classes, feed, query } = this.props
-
-    return document.location.search === '' ? (
+    const search = document.location.search
+    return !search.includes('feed=') ? (
       <HomeMenu />
     ) : (
       <div className={classes.container}>
