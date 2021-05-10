@@ -26,7 +26,8 @@ const styles = theme => ({
 })
 
 const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
-  if (!account || !postid) return null
+  if (!(account || ethAuth) || !postid) return null
+  console.log('!(account || ethAuth) :>> ', !(account || ethAuth))
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [userCollections, setUserCollections] = useState([])
@@ -42,18 +43,19 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
 
   const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+  const accountName = (account && account.name) || ethAuth.account.eosname
 
   useEffect(() => {
         (async () => {
           try {
             if (userCollections.length > 0) return
-            const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${account.name}/collections`)).data
+            const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
             setUserCollections(userCollectionData)
           } catch (err) {
             console.error(err)
           }
         })()
-  }, [account])
+  }, [account, ethAuth])
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth

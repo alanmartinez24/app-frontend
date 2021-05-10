@@ -93,6 +93,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
       const authToken = await fetchAuthToken()
+      if (authToken.account.eosname) authToken.eosname = authToken.account.eosname
       const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
       setNewCollectionInfo(data)

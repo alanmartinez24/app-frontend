@@ -101,6 +101,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     } catch (err) {
       handleSnackbarOpen('There was a problem updating your collection')
       console.error(err)
+      setIsLoadingUpdate(false)
     }
   }
 
@@ -108,12 +109,14 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingDelete(true)
       const authToken = await fetchAuthToken()
+      if (authToken.account.eosname) authToken.eosname = authToken.account.eosname
       const params = { ...authToken }
       await axios.delete(`${BACKEND_API}/collections/${collection._id}`, { data: params })
-      history.push(`/${authToken.eosname || '/'}`)
+      history.push(`/${authToken.eosname}`)
     } catch (err) {
       handleSnackbarOpen('There was a problem deleting your collection')
       console.error(err)
+      setIsLoadingDelete(false)
     }
   }
 
