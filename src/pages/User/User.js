@@ -177,8 +177,9 @@ const styles = theme => ({
   }
 })
 
-const Collection = ({ classes, collection }) => {
+const Collection = ({ classes, collection, username }) => {
   const fmtCollectionName = collection && (collection.name).replace(/\s+/g, '-').toLowerCase()
+  const collectionSubheader = username === collection.owner ? `${collection.postIds.length} posts` : collection.owner
 
   return (
     <Link to={`/collections/${fmtCollectionName}/${collection._id}`}
@@ -207,7 +208,7 @@ const Collection = ({ classes, collection }) => {
             {collection.name}
           </Typography>
           <Typography variant='body1'>
-            {collection.owner}
+            {collectionSubheader}
           </Typography>
         </Grid>
       </Grid>
@@ -217,7 +218,8 @@ const Collection = ({ classes, collection }) => {
 
 Collection.propTypes = {
   classes: PropTypes.object.isRequired,
-  collection: PropTypes.array.isRequired
+  collection: PropTypes.array.isRequired,
+  username: PropTypes.string
 }
 
 class User extends Component {
@@ -566,6 +568,7 @@ class User extends Component {
                         return (
                           <Collection classes={classes}
                             collection={collection}
+                            username={username}
                           />
                         )
                       })
