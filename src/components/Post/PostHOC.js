@@ -177,7 +177,21 @@ class PostHOC extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { ...state.scatterRequest }
+  const { account: ethAccount } = state.ethAuth
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+
+  const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
+  const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
+
+  let account = twitterInfo || scatterIdentity || state.ethAccount
+
+  if (!scatterIdentity && ethAccount) {
+    account = { name: ethAccount._id, authority: 'active' }
+  }
+
+  return {
+    account
+  }
 }
 
 PostHOC.propTypes = {

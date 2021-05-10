@@ -12,11 +12,10 @@ import { Link } from 'react-router-dom'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
 import Fade from '@material-ui/core/Fade'
-// import { createSelector } from 'reselect'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 
-const MIN_SEARCH_LEN = 1
 const DISPLAYED_USERS = 2
+const isMobile = window.innerWidth <= 480
 
 const styles = theme => ({
   '@global': {
@@ -29,12 +28,13 @@ const styles = theme => ({
     background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: 'calc(100vh - 75px)',
     width: '100vw',
-    overflow: 'hidden',
+    overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
     color: '#fff',
     [theme.breakpoints.down('xs')]: {
-      background: '#2a2a2a'
+      background: '#2a2a2a',
+      margin: '0px'
     }
   },
   feedContainer: {
@@ -48,8 +48,8 @@ const styles = theme => ({
   feedPage: {
     height: '800px',
     minHeight: '800px',
-    overflowY: 'auto',
     marginLeft: '-5px',
+    overflowY: 'scroll',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-15px',
       width: '98%'
@@ -58,17 +58,11 @@ const styles = theme => ({
   feedLoader: {
     margin: '0px',
     maxWidth: '590px',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '420px'
-    },
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-15px'
     }
   },
   resultsContainer: {
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '0px'
-    },
     [theme.breakpoints.down('xs')]: {
       margin: '65px 0px 0px 5px'
     }
@@ -79,7 +73,6 @@ const styles = theme => ({
   page: {
     width: '100%',
     marginLeft: 0,
-    position: 'relative',
     [theme.breakpoints.down('md')]: {
       marginLeft: 0,
       width: '100%'
@@ -114,7 +107,7 @@ const styles = theme => ({
     fontWeight: 300,
     marginBottom: '15px',
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '0px'
+      marginBottom: '10px'
     }
   },
   peopleContainer: {
@@ -125,12 +118,20 @@ const styles = theme => ({
       width: '85%'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '90%'
+      width: '90%',
+      padding: '0px',
+      overflow: 'auto',
+      whiteSpace: 'nowrap'
     }
   },
   people: {
     display: 'inline-block',
-    padding: '10px 0px'
+    padding: '10px 0px',
+    [theme.breakpoints.down('xs')]: {
+      width: '40%',
+      padding: '5px 0px 0px 0px',
+      verticalAlign: 'top'
+    }
   },
   avatar: {
     width: '60px',
@@ -148,7 +149,6 @@ const styles = theme => ({
   user: {
     width: '300px',
     padding: '0px 10px',
-    overflow: 'hidden',
     [theme.breakpoints.down('md')]: {
       width: '275px'
     },
@@ -157,10 +157,7 @@ const styles = theme => ({
     }
   },
   article: {
-    maxWidth: '590px',
-    [theme.breakpoints.down('md')]: {
-      maxWidth: '420px'
-    }
+    maxWidth: '590px'
   }
 })
 
@@ -175,11 +172,13 @@ const User = (props) => {
     >
       <Grid container
         direction='row'
-        justify='center'
+        justify='flex-start'
         alignItems='center'
         className={classes.user}
+        spacing={0}
       >
         <Grid item
+          md={4}
           xs={3}
         >
           <UserAvatar className={classes.avatar}
@@ -189,7 +188,9 @@ const User = (props) => {
           />
         </Grid>
         <Grid item
+          md={8}
           xs={9}
+          style={{ marginBottom: '8px' }}
         >
           <Typography variant='body1'>
             <strong>{user.fullname || user._id || user.username}</strong>
@@ -220,33 +221,47 @@ const People = (props) => {
       className={classes.peopleContainer}
     >
       {/* TODO: need better way to display users in three rows */}
-      <Grid item>
-        {
-          people.slice(0, DISPLAYED_USERS).map((user) => (
-            <User classes={classes}
-              user={user}
-            />
-          ))
-        }
-      </Grid>
-      <Grid item>
-        {
-          people.slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
-            <User classes={classes}
-              user={user}
-            />
-          ))
-        }
-      </Grid>
-      <Grid item>
-        {
-          people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
-            <User classes={classes}
-              user={user}
-            />
-          ))
-        }
-      </Grid>
+
+      {isMobile
+        ? <Grid item>
+          {
+            people.map((user) => (
+              <User classes={classes}
+                user={user}
+              />
+            ))
+          }
+        </Grid>
+        : <>
+          <Grid item>
+            {
+              people.slice(0, DISPLAYED_USERS).map((user) => (
+                <User classes={classes}
+                  user={user}
+                />
+              ))
+            }
+          </Grid>
+          <Grid item>
+            {
+              people.slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+                <User classes={classes}
+                  user={user}
+                />
+              ))
+            }
+          </Grid>
+          <Grid item>
+            {
+              people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+                <User classes={classes}
+                  user={user}
+                />
+              ))
+            }
+          </Grid>
+        </>
+      }
     </Grid>
   )
 }
@@ -299,14 +314,56 @@ class Search extends Component {
                   </Typography>
                 </Grid>
 
-                {searchText.length > MIN_SEARCH_LEN && (posts.length > 0 || users.length > 0) &&
+                {isMobile && (posts.length > 0 || users.length > 0) &&
                   <>
                     <Grid item
-                      lg={!isLoading && posts.length === 0 ? 12 : 5}
-                      md={!isLoading && posts.length === 0 ? 12 : 7}
+                      lg={!isLoading && posts.length === 0 ? 12 : 7}
+                      md={!isLoading && posts.length === 0 ? 12 : 4}
+                      xs={12}
+                      tourname='SearchUsers'
+                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
+                    >
+                      <Typography
+                        variant='h6'
+                        className={classes.headerText}
+                      >
+                        People
+                      </Typography>
+                      <People classes={classes}
+                        people={users}
+                      />
+                    </Grid>
+                    <Grid item
+                      lg={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && users.length === 0 ? 12 : 8}
                       xs={12}
                       tourname='SearchPosts'
-                      style={{ overflow: 'hidden' }}
+                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
+                    >
+                      <Typography
+                        variant='h6'
+                        className={classes.headerText}
+                      >
+                        Posts
+                      </Typography>
+                      <Feed isLoading={isLoading}
+                        hasMore
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                      />
+                    </Grid>
+                  </>
+                }
+
+                {!isMobile && (posts.length > 0 || users.length > 0) &&
+                  <>
+                    <Grid item
+                      lg={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && users.length === 0 ? 12 : 8}
+                      xs={12}
+                      tourname='SearchPosts'
+                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
                     >
                       <Typography
                         variant='h6'
@@ -323,9 +380,10 @@ class Search extends Component {
                     </Grid>
                     <Grid item
                       lg={!isLoading && posts.length === 0 ? 12 : 7}
-                      md={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && posts.length === 0 ? 12 : 4}
                       xs={12}
                       tourname='SearchUsers'
+                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
                     >
                       <Typography
                         variant='h6'
