@@ -63,7 +63,7 @@ class VoteComp extends Component {
         <div style={{
             display: 'flex',
             marginLeft: '8px',
-            maxWidth:'100%'
+            maxWidth: '100%'
           }}
           onMouseEnter={() => this.setState({ isShown: true })}
           onMouseLeave={() => this.setState({ isShown: false })}
