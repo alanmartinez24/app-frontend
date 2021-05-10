@@ -27,7 +27,6 @@ const styles = theme => ({
 
 const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
   if (!(account || ethAuth) || !postid) return null
-  console.log('!(account || ethAuth) :>> ', !(account || ethAuth))
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [userCollections, setUserCollections] = useState([])
