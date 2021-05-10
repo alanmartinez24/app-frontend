@@ -25,7 +25,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostMenu = ({ postid, account, classes }) => {
+const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
   if (!account || !postid) return null
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -55,11 +55,19 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
         })()
   }, [account])
 
+  const fetchAuthToken = async () => {
+    if (ethAuth) return ethAuth
+    else {
+      const { eosname, signature } = await wallet.scatter.getAuthToken()
+      return { eosname, signature }
+    }
+  }
+
   const addToCollection = async (collection) => {
     try {
       handleMenuClose()
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      const params = { postId: postid, eosname, signature }
+      const authToken = await fetchAuthToken()
+      const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       handleSnackbarOpen(`Succesfully added to ${collection.name}`)
     } catch (err) {
@@ -71,8 +79,8 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
   const removeFromCollection = async (collection) => {
     try {
       handleMenuClose()
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      const params = { postId: postid, eosname, signature }
+      const authToken = await fetchAuthToken()
+      const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
     } catch (err) {

@@ -69,7 +69,7 @@ spinnerLoader: {
 }
 })
 
-const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history }) => {
+const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, ethAuth }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -81,11 +81,19 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
   const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
+  const fetchAuthToken = async () => {
+    if (ethAuth) return ethAuth
+    else {
+      const { eosname, signature } = await wallet.scatter.getAuthToken()
+      return { eosname, signature }
+    }
+  }
+
   const handleEditCollection = async () => {
     try {
       setIsLoadingUpdate(true)
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      const params = { name, description, signature, eosname }
+      const authToken = await fetchAuthToken()
+      const params = { name, description, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoadingUpdate(false)
       handleSnackbarOpen('Succesfully updated your collection')
@@ -99,10 +107,10 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
   const handleDeleteCollection = async () => {
     try {
       setIsLoadingDelete(true)
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      const params = { signature, eosname }
+      const authToken = await fetchAuthToken()
+      const params = { ...authToken }
       await axios.delete(`${BACKEND_API}/collections/${collection._id}`, { data: params })
-      history.push(`/${eosname}`)
+      history.push(`/${authToken.eosname || '/'}`)
     } catch (err) {
       handleSnackbarOpen('There was a problem deleting your collection')
       console.error(err)
@@ -230,7 +238,8 @@ CollectionEditDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  ethAuth: PropTypes.object
 }
 
 export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))
