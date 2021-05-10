@@ -147,7 +147,7 @@ const steps = [
           🤔  Rating
         </h4>
         <p>
-          You can rate content out of 5 in different categories, such as like ♥️, smart 🧠, funny 😂, etc.
+          You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
         <a href='https://docs.yup.io/basic/rating'
           target='_blank'
