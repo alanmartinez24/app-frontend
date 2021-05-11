@@ -21,6 +21,7 @@ const styles = theme => ({
     padding: theme.spacing(1.5)
   },
   dialogTitleText: {
+    fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
     color: '#fafafa',
@@ -142,7 +143,9 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
-        >Update {collection.name}</DialogTitle>
+        >
+          Update {collection.name}
+        </DialogTitle>
         <DialogContent>
           <TextField
             className={classes.textField}

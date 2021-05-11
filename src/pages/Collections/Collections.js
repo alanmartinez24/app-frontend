@@ -681,6 +681,7 @@ class Collections extends Component {
                       />
                     </Tabs>
                   </Grid>
+
                   <TabPanel value={activeTab}
                     index={0}
                   >
@@ -705,6 +706,7 @@ class Collections extends Component {
                       )}
                     </Grid>
                   </TabPanel>
+
                   <TabPanel value={activeTab}
                     index={1}
                   >
@@ -728,6 +730,7 @@ class Collections extends Component {
                     </Grid>
                   </TabPanel>
                 </>
+
                 : <>
                   <Grid item
                     lg={6}
@@ -750,6 +753,7 @@ class Collections extends Component {
                       />
                     )}
                   </Grid>
+
                   <Grid
                     item
                     container

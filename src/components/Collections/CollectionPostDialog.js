@@ -21,6 +21,7 @@ const styles = theme => ({
     padding: theme.spacing(1.5)
   },
   dialogTitleText: {
+    fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
     color: '#fafafa',
@@ -132,9 +133,11 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose }
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
-        >New Collection</DialogTitle>
+        >
+          New Collection
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{ color: '#fff' }}>
             Start here to make a new collection
           </DialogContentText>
           <TextField
