@@ -6,6 +6,7 @@ import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import CollectionPostDialog from './CollectionPostDialog.js'
 import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -24,8 +25,8 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostMenu = ({ postid, account, classes }) => {
-  if (!account || !postid) return null
+const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
+  if (!(account || ethAuth) || !postid) return null
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [userCollections, setUserCollections] = useState([])
@@ -41,24 +42,33 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
 
   const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+  const accountName = (account && account.name) || ethAuth.account.eosname
 
   useEffect(() => {
         (async () => {
           try {
             if (userCollections.length > 0) return
-            const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${account.name}/collections`)).data
+            const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
             setUserCollections(userCollectionData)
           } catch (err) {
             console.error(err)
           }
         })()
-  }, [account])
+  }, [account, ethAuth])
+
+  const fetchAuthToken = async () => {
+    if (ethAuth) return ethAuth
+    else {
+      const { eosname, signature } = await wallet.scatter.getAuthToken()
+      return { eosname, signature }
+    }
+  }
 
   const addToCollection = async (collection) => {
     try {
       handleMenuClose()
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      const params = { postId: postid, eosname, signature }
+      const authToken = await fetchAuthToken()
+      const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       handleSnackbarOpen(`Succesfully added to ${collection.name}`)
     } catch (err) {
@@ -70,8 +80,8 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
   const removeFromCollection = async (collection) => {
     try {
       handleMenuClose()
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      const params = { postId: postid, eosname, signature }
+      const authToken = await fetchAuthToken()
+      const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
     } catch (err) {
@@ -158,6 +168,7 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
         account={account}
         dialogOpen={dialogOpen}
         postid={postid}
+        ethAuth={ethAuth}
         handleDialogClose={handleDialogClose}
       />
     </>
@@ -167,7 +178,15 @@ const CollectionPostMenu = ({ postid, account, classes }) => {
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
   account: PropTypes.object,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  ethAuth: PropTypes.object
 }
 
-export default (withStyles(styles)(CollectionPostMenu))
+const mapStateToProps = (state, ownProps) => {
+  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  return {
+    ethAuth
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(CollectionPostMenu))

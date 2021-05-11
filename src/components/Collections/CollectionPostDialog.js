@@ -4,6 +4,7 @@ import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, 
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
+import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
@@ -67,7 +68,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose }) => {
+const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -79,12 +80,21 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose }
   const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
+  const fetchAuthToken = async () => {
+    if (ethAuth) return ethAuth
+    else {
+      const { eosname, signature } = await wallet.scatter.getAuthToken()
+      return { eosname, signature }
+    }
+  }
+
   const handleCreateNewCollection = async () => {
     try {
       setIsLoading(true)
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
       const postId = postid === 'routeFromUrl' ? undefined : postid
-      const params = { name, description, signature, eosname, postId }
+      const authToken = await fetchAuthToken()
+      if (authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
       setNewCollectionInfo(data)
       setIsLoading(false)
@@ -199,11 +209,19 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose }
   )
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  return {
+    ethAuth
+  }
+}
+
 CollectionPostDialog.propTypes = {
   postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
-  handleDialogClose: PropTypes.func.isRequired
+  handleDialogClose: PropTypes.func.isRequired,
+  ethAuth: PropTypes.object
 }
 
-export default withStyles(styles)(CollectionPostDialog)
+export default connect(mapStateToProps)(withStyles(styles)(CollectionPostDialog))
