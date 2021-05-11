@@ -93,6 +93,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingUpdate(true)
       const authToken = await fetchAuthToken()
+      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
       const params = { name, description, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoadingUpdate(false)
@@ -109,7 +110,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingDelete(true)
       const authToken = await fetchAuthToken()
-      if (authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
       const params = { ...authToken }
       await axios.delete(`${BACKEND_API}/collections/${collection._id}`, { data: params })
       history.push(`/${authToken.eosname}`)
