@@ -21,6 +21,12 @@ const styles = theme => ({
     marginBottom: '0%',
     maxWidth: '625px',
     width: '100%',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '600px'
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 'auto'
+    },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '0%'
     }
@@ -31,6 +37,12 @@ const styles = theme => ({
     minWidth: '250px',
     margin: '0 auto',
     minHeight: '800px',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '600px'
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 'auto'
+    },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '98vw',
       margin: '0 0'
