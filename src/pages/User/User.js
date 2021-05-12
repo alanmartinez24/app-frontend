@@ -198,7 +198,6 @@ const styles = theme => ({
     }
   },
   collectionButton: {
-    border: '1px solid #fff',
     color: '#fff',
     width: '100px',
     float: 'right',
@@ -289,7 +288,7 @@ class User extends Component {
     showTour: true,
     collections: [],
     activeTab: 0,
-    limitCollections: LIMIT_COLLECTIONS
+    showAll: false
   }
 
   closeTour = () => {
@@ -460,15 +459,15 @@ class User extends Component {
     this.setState({ activeTab: newTab })
   }
 
-  showAll = (collections) => {
+  showAll = () => {
     this.setState({
-      limitCollections: this.state.limitCollections === LIMIT_COLLECTIONS ? collections.length : LIMIT_COLLECTIONS
+      showAll: !this.state.showAll
     })
   }
 
   render () {
     const { classes, account } = this.props
-    const { posts, _id: eosname, dialogOpen, initialLoad, hasMore, isLoading, ratingCount, balance, isMinimize, hasError, username, collections, activeTab, limitCollections } = this.state
+    const { posts, _id: eosname, dialogOpen, initialLoad, hasMore, isLoading, ratingCount, balance, isMinimize, hasError, username, collections, activeTab, showAll } = this.state
 
     const isLoggedIn = (account ? (account.name === eosname) : false)
 
@@ -731,7 +730,7 @@ class User extends Component {
                       xs={12}
                     >
                       {
-                        collections.slice(0, limitCollections).map((collection) => {
+                        collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
                           return (
                             <Collection classes={classes}
                               collection={collection}
@@ -741,11 +740,10 @@ class User extends Component {
                       }
                       {collections.length > LIMIT_COLLECTIONS &&
                         <Button className={classes.collectionButton}
-                          variant='outlined'
                           size='medium'
-                          onClick={() => this.showAll(collections)}
+                          onClick={this.showAll}
                         >
-                          {limitCollections === LIMIT_COLLECTIONS ? 'Show all' : 'Show less'}
+                          {showAll ? 'Show less' : 'Show all'}
                         </Button>
                       }
                     </Grid>
