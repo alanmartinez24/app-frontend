@@ -28,8 +28,6 @@ const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
 
 const styles = theme => ({
   dialog: {
-    width: '100%',
-    marginLeft: 190,
     [theme.breakpoints.down('md')]: {
       marginLeft: 0,
       width: '100%'
@@ -48,7 +46,6 @@ const styles = theme => ({
     color: '#fff'
   },
   dialogContentText: {
-    fontFamily: 'Gilroy',
     fontWeight: '200',
     color: '#fff'
   },
@@ -104,13 +101,7 @@ const styles = theme => ({
     color: '#fff8f3',
     justifyContent: 'center'
   },
-  emailButton: {
-    minWidth: '20px',
-    width: '20px',
-    height: '20px',
-    zIndex: '99999'
-  },
-  usernameButton: {
+  button: {
     minWidth: '20px',
     width: '20px',
     height: '20px',
@@ -132,6 +123,9 @@ const styles = theme => ({
 })
 
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: '"Gilroy", sans-serif'
+  },
   palette: {
     primary: {
       light: '#fafafa',
@@ -148,9 +142,12 @@ const theme = createMuiTheme({
         lineHeight: '1.75'
       },
       input: {
+        fontFamily: '"Gilroy", sans-serif',
+        fontSize: '16px',
         paddingLeft: '21px'
       },
       adornedEnd: {
+        cursor: 'pointer',
         paddingRight: '21px'
       }
     },
@@ -774,7 +771,7 @@ class SubscribeDialog extends Component {
                                 },
                                 className: classes.stepperInput,
                                 endAdornment: (
-                                  <Button className={classes.emailButton}
+                                  <Button className={classes.button}
                                     onClick={this.handleWhitelist}
                                     style={{ width: 'auto' }}
                                   >
@@ -819,7 +816,7 @@ class SubscribeDialog extends Component {
                                 },
                                 className: classes.stepperInput,
                                 endAdornment: (
-                                  <Button className={classes.usernameButton}
+                                  <Button className={classes.button}
                                     onClick={this.handleUsername}
                                     style={{ width: 'auto' }}
                                   >

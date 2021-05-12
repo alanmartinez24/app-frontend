@@ -78,7 +78,7 @@ const styles = theme => ({
   feedContainer: {
     width: '100%',
     overflow: 'hidden',
-    maxWidth: '640px',
+    maxWidth: '650px',
     marginTop: 20,
     [theme.breakpoints.down('md')]: {
       marginTop: 0
@@ -86,7 +86,7 @@ const styles = theme => ({
   },
   feedLoader: {
     margin: '0px',
-    maxWidth: '590px'
+    maxWidth: '650px'
   },
   collectionHeader: {
     position: 'sticky',
@@ -759,6 +759,8 @@ class Collections extends Component {
                     container
                     column
                     lg={4}
+                    md={2}
+                    sm={0}
                     spacing={2}
                     tourname='RecommendedCollections'
                     className={classes.recommended}
@@ -770,7 +772,7 @@ class Collections extends Component {
                       xs={12}
                     >
                       {recommended.map(rec => {
-                        if (rec.postIds.length > 0 && rec.name !== collection.name) {
+                        if (rec.name !== collection.name) {
                           return (
                             <Recommended
                               classes={classes}
