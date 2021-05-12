@@ -108,14 +108,9 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100%'
+      marginLeft: 0
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100% - 200px)`
-    },
-    [theme.breakpoints.up('lg')]: {
       marginLeft: 200,
       width: `calc(100% - 200px)`
     },

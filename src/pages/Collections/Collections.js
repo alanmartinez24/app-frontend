@@ -113,8 +113,7 @@ const styles = theme => ({
   page: {
     width: '100vw',
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100vw'
+      marginLeft: 0
     },
     [theme.breakpoints.down('sm')]: {
       marginTop: 50
@@ -123,10 +122,6 @@ const styles = theme => ({
       marginLeft: '200px',
       width: `calc(100vw - 200px)`,
       marginTop: '50px'
-    },
-    [theme.breakpoints.up('lg')]: {
-      marginLeft: '200px',
-      width: `calc(100vw - 200px)`
     },
     [theme.breakpoints.down('xs')]: {
       background: '#1b1b1ba1',
