@@ -628,14 +628,19 @@ class User extends Component {
                     <Grid item
                       xs={12}
                     >
-                      {
-                        collections.map((collection) => {
+                      {collections.length > 0
+                        ? collections.map((collection) => {
                           return (
                             <Collection classes={classes}
                               collection={collection}
                             />
                           )
                         })
+                        : <Typography variant='subtitle2'
+                          style={{ color: '#fff', textAlign: 'center' }}
+                          >
+                          No collections found
+                        </Typography>
                       }
                     </Grid>
                   </Grid>

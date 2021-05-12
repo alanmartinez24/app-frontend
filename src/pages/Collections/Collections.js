@@ -50,14 +50,6 @@ const styles = theme => ({
     fontSize: '1.5rem',
     color: '#ffffff'
   },
-  noPostsFound: {
-    paddingTop: '9%',
-    fontFamily: '"Gilroy", sans-serif',
-    fontWeight: '600',
-    fontSize: '1.5rem',
-    color: '#ffffff',
-    textAlign: 'center'
-  },
   accountErrorSub: {
     paddingTop: '25px',
     fontFamily: '"Gilroy", sans-serif',
@@ -81,6 +73,7 @@ const styles = theme => ({
     maxWidth: '650px',
     marginTop: 20,
     [theme.breakpoints.down('md')]: {
+      padding: '32px',
       marginTop: 0
     }
   },
@@ -690,7 +683,7 @@ class Collections extends Component {
                       className={classes.feedContainer}
                     >
                       {posts.length === 0 ? (
-                        <Typography className={classes.noPostsFound}>
+                        <Typography variant='subtitle2'>
                           No posts found in this collection
                         </Typography>
                       ) : (
@@ -738,7 +731,7 @@ class Collections extends Component {
                     className={classes.feedContainer}
                   >
                     {posts.length === 0 ? (
-                      <Typography className={classes.noPostsFound}>
+                      <Typography variant='subtitle2'>
                         No posts found in this collection
                       </Typography>
                     ) : (
