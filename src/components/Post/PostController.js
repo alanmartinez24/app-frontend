@@ -92,7 +92,7 @@ function isTwitterPost (caption) {
 }
 
 function isNFTPost (caption) {
-  const nftPattern = genRegEx(['app.rarible.com/*/', 'opensea.io/assets/*', 'superrare.co/*', 'superrare.co/*', 'foundation.app/*/', 'zora.co/*', 'knownorigin.io/gallery/*'])
+  const nftPattern = genRegEx(['rarible.com/*', 'app.rarible.com/*', 'opensea.io/assets/*', 'superrare.co/*', 'superrare.co/*', 'foundation.app/*/', 'zora.co/*', 'knownorigin.io/gallery/*'])
   return nftPattern.test(caption)
 }
 
@@ -107,6 +107,7 @@ class PostController extends Component {
   render () {
     const { classes, dispatch, post, hideInteractions, renderObjects } = this.props
     if (!post) return null
+    console.log('post.caption :>> ', post.caption)
 
     const isTextPost = (post.imgHash == null || post.imgHash.trim() === '') && (post.videoHash == null || post.videoHash.trim() === '')
 
