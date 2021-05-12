@@ -1,3 +1,37 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@ericHgorski 
+Yup-io
+/
+app-frontend
+2
+2
+1
+Code
+Issues
+Pull requests
+2
+Actions
+Projects
+Wiki
+Security
+Insights
+app-frontend/src/components/Post/PostController.js /
+@verminator23
+verminator23 Merge pull request #5 from Yup-io/dw-collection
+…
+Latest commit 488d561 7 days ago
+ History
+ 3 contributors
+@ericHgorski@darren-wangg@verminator23
+460 lines (436 sloc)  17.1 KB
+  
 import React, { memo, Component } from 'react'
 import Post from '../Post/Post'
 import PostHOC from './PostHOC'
@@ -32,67 +66,65 @@ const MAPS_POST_TYPE = 'maps.google.com'
 
 const US_PRES_ELECTIONS_TAG = 'politics'
 
-function genRegEx (arrOfURLs) {
-  return new RegExp(`^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`)
-}
+// TODO: Simplify regular expression patterns
 
-function isAudiusPost (caption) {
-  const audiusPattern = genRegEx(['audius.co/*'])
+function isAudiusTrackPost (caption) {
+  const audiusPattern = new RegExp('^(audius.co/|www.audius.co/|http://audius.co/|https://audius.co/)')
   return audiusPattern.test(caption)
 }
 
-function isObjectPost (caption) {
-  const objPattern = genRegEx(['wikipedia.org/wiki/*', 'wikipedia.com/*', 'en.wikipedia.org/*', 'amazon.com/*', 'twitter.com/[^/]*$', 'reddit.com/r/[^/]*[/]?$', 'youtube.com/channel/[^/]*[/]?$', 'youtube.com/user/[^/]*[/]?$'])
+function isObjPost (caption) {
+  const objPattern = new RegExp('^(wikipedia.org/wiki/|en.wikipedia.org/wiki/|www.wikipedia.com/|http://wikipedia.com/*/|https://wikipedia.com/*/|http://www.wikipedia.com/*/|https://en.wikipedia.org/wiki/|www.amazon.com/|http://amazon.com|https://amazon.com/|http://twitter.com/[^/]*$|https://twitter.com/[^/]*$|http://www.twitter.com/[^/]*$|https://www.twitter.com/[^/]*$|https://www.reddit.com/r/[^/]*[/]?$|http://www.reddit.com/r/[^/]*[/]?$|www.reddit.com/r/[^/]*[/]?$|reddit.com/r/[^/]*[/]?$|https://www.youtube.com/channel/[^/]*[/]?$|http://www.youtube.com/channel/[^/]*[/]?$|www.youtube.com/channel/[^/]*[/]?$|youtube.com/user/[^/]*[/]?$|https://www.youtube.com/user/*|http://www.youtube.com/user/[^/]*[/]?$|www.youtube.com/user/*?$|youtube.com/user/[^/]*[/]?$)')
   return objPattern.test(caption)
 }
 
 function isYoutubePost (caption) {
-  const ytPattern = genRegEx(['youtube.com/watch?'])
+  const ytPattern = new RegExp('^(youtube.com/watch?|www.youtube.com/watch?|http://youtube.com/watch?|https://youtube.com/watch?|http://www.youtube.com/watch?|https://www.youtube.com/watch?)')
   return ytPattern.test(caption)
 }
 
-function isChannelPost (caption) {
-  const ytPattern = genRegEx(['youtube.com/c?', 'youtube.com/user?', 'youtube.com/channel?'])
+function isYoutubeChannelPost (caption) {
+  const ytPattern = new RegExp('^(youtube.com/c?|www.youtube.com/channel?|youtube.com/user?|youtube.com/users?|http://youtube.com/c?|https://youtube.com/channel?|http://www.youtube.com/c?|https://www.youtube.com/channel?)')
   return ytPattern.test(caption)
 }
 
-function isSoundPost (caption) {
-  const scPattern = genRegEx(['soundcloud.com/*'])
+function isSCPost (caption) {
+  const scPattern = new RegExp('^(soundcloud.com/*/|www.soundcloud.com/*/|http://soundcloud.com/*/|https://soundcloud.com/*/|http://www.soundcloud.com/*/|https://www.soundcloud.com/*/)')
   return scPattern.test(caption)
 }
 
 function isSpotifyPost (caption) {
-  const spPattern = genRegEx(['open.spotify.com/*'])
+  const spPattern = new RegExp('^(open.spotify.com/*/|www.open.spotify.com/*/|http://open.spotify.com/*/|https://open.spotify.com/*/|http://www.open.spotify.com/*/|https://www.open.spotify.com/*/)')
   return spPattern.test(caption)
 }
 
 function isMusicPost (caption) {
-  const appleMusicRe = genRegEx(['music.apple.com/us/(artist|album)/*'])
+  const appleMusicRe = new RegExp(`^((http:|https:)([/][/]))?(www.)?(music.apple.com/us/(artist|album)/(.)*/(.)*?i=(.)*)$`)
   return appleMusicRe.test(caption)
 }
 
-function isTallPost (caption) {
-  const tallPattern = genRegEx(['giphy.com/*', 'app.yup.io/collections/*'])
+function isTallPreviewPost (caption) {
+  const tallPattern = new RegExp('^(giphy.com/*/|www.giphy.com/*/|http://giphy.com/*/|https://giphy.com/*/|http://www.giphy.com/*/|https://www.giphy.com/*/|app.yup.io/collections*/|www.app.yup.io/collections/*/|http://app.yup.io/collections/*/|https://app.yup.io/collections/*/|http://www.app.yup.io/collections/*/|https://www.app.yup.io/collections/*/)')
   return tallPattern.test(caption)
 }
 
-function isInstagramPost (caption) {
-  const igPattern = genRegEx(['instagram.com/*'])
+function isIGPost (caption) {
+  const igPattern = new RegExp('^(instagram.com/*/|www.instagram.com/*/|http://instagram.com/*/|https://instagram.com/*/|http://www.instagram.com/*/|https://www.instagram.com/*/)')
   return igPattern.test(caption)
 }
 
-function isTwitchPost (caption) {
-  const twPattern = genRegEx(['twitch.tv/*'])
+function isTwitchChannelPost (caption) {
+  const twPattern = new RegExp('^(twitch.tv/*/|www.twitch.tv/*/|http://twitch.tv/*/|https://twitch.tv/*/|http://www.twitch.tv/*/|https://www.twitch.tv/*/)')
   return twPattern.test(caption)
 }
 
-function isTwitterPost (caption) {
-  const twitterPattern = genRegEx(['twitter.com/.*/status/', 'mobile.twitter.com/.*/status/'])
+function isTwitterStatusPost (caption) {
+  const twitterPattern = new RegExp('^(twitter.com/.*/status/|www.twitter.com/.*/status/|http://twitter.com/.*/status/|https://twitter.com/.*/status/|http://www.twitter.com/.*/status/|https://www.twitter.com/.*/status/|http://mobile.twitter.com/.*/status/|https://mobile.twitter.com/.*/status/)')
   return twitterPattern.test(caption)
 }
 
-function isNFTPost (caption) {
-  const nftPattern = genRegEx(['app.rarible.com/*/', 'opensea.io/assets/*', 'superrare.co/*', 'superrare.co/*', 'foundation.app/*/', 'zora.co/*', 'knownorigin.io/gallery/*'])
+function isNftPost (caption) {
+  const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/*|www.rarible.com/*|http://rarible.com/*|https://www.rarible.com/*|https://rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/|(^((http:|https:)([/][/]))?(www.)?knownorigin.io/gallery/[^/]*[/]?$))')
   return nftPattern.test(caption)
 }
 
@@ -108,9 +140,21 @@ class PostController extends Component {
     const { classes, dispatch, post, hideInteractions, renderObjects } = this.props
     if (!post) return null
 
-    const isTextPost = (post.imgHash == null || post.imgHash.trim() === '') && (post.videoHash == null || post.videoHash.trim() === '')
-
     dispatch(setPostInfo(post._id.postid, post))
+    const isTextPost = (post.imgHash == null || post.imgHash.trim() === '') && (post.videoHash == null || post.videoHash.trim() === '')
+    const isVideoPost = isYoutubePost(post.caption)
+    const isChannelPost = isYoutubeChannelPost(post.caption)
+    const isObjectPost = isObjPost(post.caption)
+    const isNFTPost = isNftPost(post.caption)
+    const isSoundPost = isSCPost(post.caption)
+    const isSpotPost = isSpotifyPost(post.caption)
+    const isMusPost = isMusicPost(post.caption)
+    const isGiphPost = isTallPreviewPost(post.caption)
+    const isTwitchPost = isTwitchChannelPost(post.caption)
+    const isTwitterPost = isTwitterStatusPost(post.caption)
+    const isInstagramPost = isIGPost(post.caption)
+    const isAudiusPost = isAudiusTrackPost(post.caption)
+
     if (post.tag === COLUMBIA_PROF_TAG) {
       return (
         <ErrorBoundary>
@@ -170,7 +214,7 @@ class PostController extends Component {
       </ErrorBoundary>
 
     )
-  } else if (isTwitterPost(post.caption)) {
+  } else if (isTwitterPost) {
        return (
          <ErrorBoundary>
            <TweetPost caption={post.caption}
@@ -189,7 +233,7 @@ class PostController extends Component {
            />
          </ErrorBoundary>
       )
-    } else if (isYoutubePost(post.caption)) {
+    } else if (isVideoPost) {
       return (
         <ErrorBoundary>
           <VideoPost caption={post.caption}
@@ -206,7 +250,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isSoundPost(post.caption)) {
+    } else if (isSoundPost) {
       return (
         <ErrorBoundary>
           <SoundPost caption={post.caption}
@@ -223,7 +267,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isSpotifyPost(post.caption)) {
+    } else if (isSpotPost) {
       return (
         <ErrorBoundary>
           <SpotifyPost caption={post.caption}
@@ -239,7 +283,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isMusicPost(post.caption)) {
+    } else if (isMusPost) {
       return (
         <ErrorBoundary>
           <MusicPost caption={post.caption}
@@ -255,7 +299,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isTwitchPost(post.caption)) {
+    } else if (isTwitchPost) {
       return (
         <ErrorBoundary>
           <TwitchPost caption={post.caption}
@@ -272,7 +316,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isInstagramPost(post.caption)) {
+    } else if (isInstagramPost) {
       return (
         <ErrorBoundary>
           <InstagramPost caption={post.caption}
@@ -290,7 +334,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isNFTPost(post.caption)) {
+    } else if (isNFTPost) {
       return (
         <ErrorBoundary>
           <NFTPost
@@ -309,7 +353,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isTallPost(post.caption)) {
+    } else if (isGiphPost) {
       return (
         <ErrorBoundary>
           <TallPreviewPost
@@ -328,7 +372,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isObjectPost(post.caption) || isChannelPost(post.caption)) {
+    } else if (isObjectPost || isChannelPost) {
       if (renderObjects) {
         return (
           <ErrorBoundary>
@@ -373,7 +417,7 @@ class PostController extends Component {
             />
           </ErrorBoundary>
         )
-      } else if (isAudiusPost(post.caption)) {
+      } else if (isAudiusPost) {
           return (
             <ErrorBoundary>
               <AudiusPost
@@ -448,3 +492,16 @@ PostController.propTypes = {
 
 const mapStateToProps = () => { return {} }
 export default memo(connect(mapStateToProps)(PostController))
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
