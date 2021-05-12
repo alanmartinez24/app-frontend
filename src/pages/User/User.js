@@ -27,6 +27,7 @@ import '../../styles.css'
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
+const LIMIT_COLLECTIONS = 5
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
@@ -175,6 +176,7 @@ const styles = theme => ({
   },
   collectionContainer: {
     borderRadius: 10,
+    margin: '10px 0px',
     '&:hover': {
       background: '#fafafa05'
     }
@@ -194,6 +196,14 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: '0px 0px 0px 30px'
     }
+  },
+  collectionButton: {
+    border: '1px solid #fff',
+    color: '#fff',
+    width: '100px',
+    float: 'right',
+    fontSize: '0.7rem',
+    fontWeight: '300'
   }
 })
 
@@ -278,7 +288,8 @@ class User extends Component {
     isMinimize: false,
     showTour: true,
     collections: [],
-    activeTab: 0
+    activeTab: 0,
+    limitCollections: LIMIT_COLLECTIONS
   }
 
   closeTour = () => {
@@ -449,9 +460,15 @@ class User extends Component {
     this.setState({ activeTab: newTab })
   }
 
+  showAll = (collections) => {
+    this.setState({
+      limitCollections: this.state.limitCollections === LIMIT_COLLECTIONS ? collections.length : LIMIT_COLLECTIONS
+    })
+  }
+
   render () {
     const { classes, account } = this.props
-    const { posts, _id: eosname, dialogOpen, initialLoad, hasMore, isLoading, ratingCount, balance, isMinimize, hasError, username, collections, activeTab } = this.state
+    const { posts, _id: eosname, dialogOpen, initialLoad, hasMore, isLoading, ratingCount, balance, isMinimize, hasError, username, collections, activeTab, limitCollections } = this.state
 
     const isLoggedIn = (account ? (account.name === eosname) : false)
 
@@ -600,13 +617,12 @@ class User extends Component {
                     tourname='Collections'
                     className={classes.collections}
                   >
-                    <Grid item
-                      xs={12}
-                      style={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      {
-                        isLoggedIn &&
-                        <>
+                    {
+                      isLoggedIn &&
+                        <Grid item
+                          xs={12}
+                          style={{ display: 'flex', alignItems: 'center' }}
+                        >
                           <Typography variant='h4'
                             style={{ marginRight: '10%', color: '#fff' }}
                             className={classes.collectionContainer}
@@ -622,9 +638,8 @@ class User extends Component {
                           >
                             <AddIcon />
                           </IconButton>
-                        </>
-                      }
-                    </Grid>
+                        </Grid>
+                    }
                     <Grid item
                       xs={12}
                     >
@@ -678,8 +693,7 @@ class User extends Component {
                 </Grid>
 
                 <Grid item
-                  lg={4}
-                  md={0}
+                  lg={3}
                   sm={0}
                   spacing={2}
                   className={classes.collectionsHeader}
@@ -717,13 +731,22 @@ class User extends Component {
                       xs={12}
                     >
                       {
-                        collections.map((collection) => {
+                        collections.slice(0, limitCollections).map((collection) => {
                           return (
                             <Collection classes={classes}
                               collection={collection}
                             />
                           )
                         })
+                      }
+                      {collections.length > LIMIT_COLLECTIONS &&
+                        <Button className={classes.collectionButton}
+                          variant='outlined'
+                          size='medium'
+                          onClick={() => this.showAll(collections)}
+                        >
+                          {limitCollections === LIMIT_COLLECTIONS ? 'Show all' : 'Show less'}
+                        </Button>
                       }
                     </Grid>
                   </Grid>

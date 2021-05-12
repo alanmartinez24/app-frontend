@@ -751,8 +751,7 @@ class Collections extends Component {
                     item
                     container
                     column
-                    lg={4}
-                    md={2}
+                    lg={3}
                     sm={0}
                     spacing={2}
                     tourname='RecommendedCollections'
