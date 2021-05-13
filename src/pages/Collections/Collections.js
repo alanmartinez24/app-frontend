@@ -334,7 +334,7 @@ class Collections extends Component {
       isLoading: false,
       collection,
       recommended,
-      posts: collection.posts
+      posts: collection.posts.reverse()
     })
   }
 
@@ -413,11 +413,10 @@ class Collections extends Component {
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
     const isLoggedUserCollection =
       (account && account.name) === (collection && collection.ownerId)
+    const len = posts.length - 1
 
-    let headerImgSrc =
-      posts &&
-      ((posts[0] && posts[0].previewData.img) ||
-        (posts[1] && posts[1].previewData.img))
+    let headerImgSrc = posts &&
+      ((posts[len] && posts[len].previewData.img) || (posts[len - 1] && posts[len - 1].previewData.img))
 
     if (!isLoading && !collection) {
       return (
