@@ -1,4 +1,6 @@
 export * from './scatter.reducer'
+export * from './collections.reducer'
+
 export * from './follow.reducer'
 export * from './account.reducer'
 export * from './post.reducer'

@@ -2,10 +2,7 @@ import { collectionsConstants as constants } from '../constants'
 import produce from 'immer'
 
 export function userCollections (state = {}, action) {
-  console.log('action :>> ', action)
   return produce(state, draft => {
-    console.log('state :>> ', state)
-    console.log('draft :>> ', draft)
     switch (action.type) {
       case constants.FETCH_COLLECTIONS:
         draft[action.eosname] = {

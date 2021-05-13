@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -25,12 +25,13 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
+const CollectionPostMenu = ({ postid, account, classes, ethAuth, userCollections }) => {
   if (!(account || ethAuth) || !postid) return null
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [userCollections, setUserCollections] = useState([])
+  // const [menuCollections, setMenuCollections] = useState([])
   const [snackbarMsg, setSnackbarMsg] = useState('')
+  console.log('userCollections :>> ', userCollections)
 
   const menuOpen = Boolean(anchorEl)
   const collectionsPageId = window.location.href.split('/').pop()
@@ -44,17 +45,31 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
   const handleSnackbarClose = () => setSnackbarMsg('')
   const accountName = (account && account.name) || ethAuth.account.eosname
 
-  useEffect(() => {
-        (async () => {
-          try {
-            if (userCollections.length > 0) return
-            const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
-            setUserCollections(userCollectionData)
-          } catch (err) {
-            console.error(err)
-          }
-        })()
-  }, [account, ethAuth])
+  // function useCompare (val) {
+  //   const prevVal = usePrevious(val)
+  //   return prevVal !== val
+  // }
+
+  // function usePrevious (value) {
+  //   const ref = useRef()
+  //   useEffect(() => {
+  //     ref.current = value
+  //   })
+  //   return ref.current
+  // }
+  // const needsUpdate = useCompare(userCollections)
+  // console.log('userCollections :>> ', userCollections)
+  // console.log('needsUpdate :>> ', needsUpdate)
+
+  // useEffect(() => {
+  //   console.log('USE EFFECT IS TRIGGERD')
+  //   if (needsUpdate) {
+  //   // if (userCollections[accountName].length > 0) return
+  //   // const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
+  //   setMenuCollections(userCollections[accountName])
+  //   console.log('menuCollections :>> ', menuCollections)
+  //   }
+  // }, [needsUpdate])
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth
@@ -138,8 +153,8 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
         >
           New Collection...
         </MenuItem>
-        {userCollections && (
-          userCollections.map((collection) => {
+        {userCollections && accountName && userCollections[accountName].length > 0 && (
+          userCollections[accountName].map((collection) => {
             if (!collection.postIds.includes(postid) && collectionsPageId !== collection._id) {
             return (
               <MenuItem dense
@@ -179,13 +194,17 @@ CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
   account: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  ethAuth: PropTypes.object
+  ethAuth: PropTypes.object,
+  userCollections: PropTypes.object
 }
 
 const mapStateToProps = (state, ownProps) => {
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const userCollections = state.userCollections
+
   return {
-    ethAuth
+    ethAuth,
+    userCollections: userCollections || []
   }
 }
 

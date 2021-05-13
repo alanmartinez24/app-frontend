@@ -4,7 +4,7 @@ import Comments from '../Comments/Comments'
 import PostGrid from '../PostGrid/PostGrid'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import { fetchPostComments, fetchUserCollections } from '../../redux/actions'
+import { fetchPostComments } from '../../redux/actions'
 import PostHeader from '../PostHeader/PostHeader'
 import Divider from '@material-ui/core/Divider'
 import Fade from '@material-ui/core/Fade'
@@ -102,26 +102,18 @@ const styles = theme => ({
 
 class PostHOC extends PureComponent {
   componentDidMount () {
-    console.log('POSTHOC did mount')
     this.loadPostData()
   }
 
   loadPostData () {
     (async () => {
       await this.fetchComments()
-      const collections = await this.fetchCollection()
-      console.log('collections :>> ', collections)
     })()
   }
 
   fetchComments = async () => {
     const { dispatch, postid } = this.props
     await dispatch(fetchPostComments(postid))
-  }
-
-  fetchCollection = async () => {
-    const { dispatch, account } = this.props
-    await dispatch(fetchUserCollections(account.name))
   }
 
   render () {
