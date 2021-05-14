@@ -566,7 +566,7 @@ class Collections extends Component {
                   className={classes.feedContainer}
                   tourname='CollectionPosts'
                 >
-                  {(posts.length === 0 || !posts[0]) ? (
+                  {(posts.length === 0) ? (
                     <Typography className={classes.noPostsFound}>
                       No posts found in this collection
                     </Typography>
