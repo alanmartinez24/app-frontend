@@ -33,7 +33,7 @@ const styles = theme => ({
   }
 })
 
-const RecommendedCollections = memo(({ classes, collection }) => {
+const RecommendedCollections = ({ classes, collection }) => {
   const fmtCollectionName = collection && collection.name && collection.name.replace(/\s+/g, '-').toLowerCase()
 
   return (
@@ -67,11 +67,11 @@ const RecommendedCollections = memo(({ classes, collection }) => {
       </Grid>
     </Link>
   )
-})
+}
 
 RecommendedCollections.propTypes = {
   classes: PropTypes.object.isRequired,
   collection: PropTypes.array.isRequired
 }
 
-export default withStyles(styles)(RecommendedCollections)
+export default memo(withStyles(styles)(RecommendedCollections))
