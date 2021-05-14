@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Typography, Grid } from '@material-ui/core'
@@ -33,7 +33,7 @@ const styles = theme => ({
   }
 })
 
-const RecommendedCollections = ({ classes, collection }) => {
+const RecommendedCollections = memo(({ classes, collection }) => {
   const fmtCollectionName = collection && collection.name && collection.name.replace(/\s+/g, '-').toLowerCase()
 
   return (
@@ -67,7 +67,7 @@ const RecommendedCollections = ({ classes, collection }) => {
       </Grid>
     </Link>
   )
-}
+})
 
 RecommendedCollections.propTypes = {
   classes: PropTypes.object.isRequired,
