@@ -176,7 +176,7 @@ const styles = theme => ({
   },
   collectionContainer: {
     borderRadius: 10,
-    margin: '10px 0px',
+    margin: '5px 0px',
     '&:hover': {
       background: '#fafafa05'
     }
@@ -236,7 +236,7 @@ const Collection = ({ classes, collection, username }) => {
           <Typography variant='h5'>
             {collection.name}
           </Typography>
-          <Typography variant='body1'>
+          <Typography variant='body2'>
             {collectionSubheader}
           </Typography>
         </Grid>
@@ -481,7 +481,7 @@ class User extends Component {
                 <Typography
                   className={classes.accountErrorHeader}
                   color='#ffffff'
-                  variant='h2'
+                  variant='h3'
                 >
                   <strong>
                     Sorry this page is not available.
@@ -622,7 +622,7 @@ class User extends Component {
                           xs={12}
                           style={{ display: 'flex', alignItems: 'center' }}
                         >
-                          <Typography variant='h4'
+                          <Typography variant='subtitle2'
                             style={{ marginRight: '10%', color: '#fff' }}
                             className={classes.collectionContainer}
                           >
@@ -682,7 +682,7 @@ class User extends Component {
                     next={this.fetchPosts}
                   >
                     <Feed isLoading={initialLoad}
-                      renderObjects // Render object posts
+                      renderObjects
                       hideInteractions={false}
                       posts={posts}
                       hasMore={hasMore}
@@ -697,56 +697,48 @@ class User extends Component {
                   spacing={2}
                   className={classes.collectionsHeader}
                 >
-                  <Grid container
-                    direction='row'
-                    justify='flex-start'
-                    alignItems='flex-start'
-                    spacing={2}
-                    tourname='Collections'
+                  <Grid item
+                    xs={12}
+                    style={{ display: 'flex', alignItems: 'center' }}
                   >
-                    <Grid item
-                      xs={12}
-                      style={{ display: 'flex', alignItems: 'center' }}
+                    <Typography variant='h4'
+                      style={{ marginRight: '10%' }}
                     >
-                      <Typography variant='h4'
-                        style={{ marginRight: '10%' }}
+                      Collections
+                    </Typography>
+                    {
+                      isLoggedIn &&
+                      <IconButton
+                        aria-label='more'
+                        aria-controls='long-menu'
+                        aria-haspopup='true'
+                        onClick={this.handleDialogOpen}
+                        className={classes.icons}
                       >
-                        Collections
-                      </Typography>
-                      {
-                        isLoggedIn &&
-                        <IconButton
-                          aria-label='more'
-                          aria-controls='long-menu'
-                          aria-haspopup='true'
-                          onClick={this.handleDialogOpen}
-                          className={classes.icons}
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      }
-                    </Grid>
-                    <Grid item
-                      xs={12}
-                    >
-                      {
-                        collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
-                          return (
-                            <Collection classes={classes}
-                              collection={collection}
-                            />
-                          )
-                        })
-                      }
-                      {collections.length > LIMIT_COLLECTIONS &&
-                        <Button className={classes.collectionButton}
-                          size='medium'
-                          onClick={this.showAll}
-                        >
-                          {showAll ? 'Show less' : 'Show all'}
-                        </Button>
-                      }
-                    </Grid>
+                        <AddIcon />
+                      </IconButton>
+                    }
+                  </Grid>
+                  <Grid item
+                    xs={12}
+                  >
+                    {
+                      collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
+                        return (
+                          <Collection classes={classes}
+                            collection={collection}
+                          />
+                        )
+                      })
+                    }
+                    {collections.length > LIMIT_COLLECTIONS &&
+                      <Button className={classes.collectionButton}
+                        size='medium'
+                        onClick={this.showAll}
+                      >
+                        {showAll ? 'Show less' : 'Show all'}
+                      </Button>
+                    }
                   </Grid>
                 </Grid>
               </>

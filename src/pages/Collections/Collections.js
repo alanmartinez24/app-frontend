@@ -70,11 +70,8 @@ const styles = theme => ({
   feedContainer: {
     width: '100%',
     overflow: 'hidden',
-    maxWidth: '650px',
-    marginTop: 20,
     [theme.breakpoints.down('md')]: {
-      padding: '32px',
-      marginTop: 0
+      marginLeft: '5px'
     }
   },
   feedLoader: {
@@ -94,9 +91,6 @@ const styles = theme => ({
     }
   },
   collectionContainer: {
-    width: '100vw',
-    position: 'relative',
-    marginLeft: 0,
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       padding: '0px !important'
@@ -532,200 +526,143 @@ class Collections extends Component {
             >
               <Grid
                 item
-                container
-                direction='row'
-                justify='flex-start'
-                alignItems='flex-start'
-                spacing={4}
-                className={classes.collectionContainer}
+                xl={9}
+                lg={9}
+                md={10}
+                xs={12}
+                className={[minimizeHeader, classes.collectionHeader]}
               >
                 <Grid
-                  item
-                  xl={9}
-                  lg={9}
-                  md={10}
-                  xs={12}
-                  className={[minimizeHeader, classes.collectionHeader]}
+                  container
+                  direction='row'
+                  justify='center'
+                  alignItems='center'
+                  spacing={3}
                 >
                   <Grid
-                    container
-                    direction='row'
-                    justify='left'
-                    alignItems='center'
-                    spacing={3}
+                    item
+                    xl={1}
+                    md={isMinimize ? 1 : 2}
+                    xs={2}
                   >
-                    <Grid
-                      item
-                      xl={1}
-                      md={isMinimize ? 1 : 2}
-                      xs={2}
+                    <Fade in
+                      timeout={1000}
                     >
-                      <Fade in
-                        timeout={1000}
-                      >
-                        <Img
-                          src={[headerImgSrc, DEFAULT_IMG]}
-                          alt='thumbnail'
-                          loader={<div />}
-                          className={`${classes.headerImg} ${minimize}`}
-                        />
-                      </Fade>
-                    </Grid>
-                    <Grid item
-                      lg={8}
-                      md={6}
-                      sm={8}
-                      xs={6}
+                      <Img
+                        src={[headerImgSrc, DEFAULT_IMG]}
+                        alt='thumbnail'
+                        loader={<div />}
+                        className={`${classes.headerImg} ${minimize}`}
+                      />
+                    </Fade>
+                  </Grid>
+                  <Grid item
+                    lg={8}
+                    md={isMinimize ? 7 : 6}
+                    sm={8}
+                    xs={6}
+                  >
+                    <Fade in
+                      timeout={400}
                     >
-                      <Fade in
-                        timeout={400}
+                      <Typography variant='h2'
+                        className={classes.headerText}
                       >
-                        <Typography variant='h2'
-                          className={classes.headerText}
-                        >
-                          {collection.name}
-                        </Typography>
-                      </Fade>
-                      <Fade in
-                        timeout={800}
-                      >
-                        <Typography
-                          variant='h5'
-                          className={[classes.headerText, hidden]}
-                        >
-                          Curated by{' '}
-                          <Link
-                            to={`/${collection.owner}`}
-                            style={{
-                              color: '#fff',
-                              textDecoration: socialLevelColor
-                                ? `1px solid underline ${socialLevelColor}`
-                                : 'none'
-                            }}
-                          >
-                            {collection.owner}
-                          </Link>
-                        </Typography>
-                      </Fade>
+                        {collection.name}
+                      </Typography>
+                    </Fade>
+                    <Fade in
+                      timeout={800}
+                    >
                       <Typography
-                        variant='subtitle2'
+                        variant='h5'
                         className={[classes.headerText, hidden]}
                       >
-                        {collection.description}
+                        Curated by{' '}
+                        <Link
+                          to={`/${collection.owner}`}
+                          style={{
+                            color: '#fff',
+                            textDecoration: socialLevelColor
+                              ? `1px solid underline ${socialLevelColor}`
+                              : 'none'
+                          }}
+                        >
+                          {collection.owner}
+                        </Link>
                       </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      container
-                      lg={2}
-                      sm={3}
-                      xs={4}
-                      justify='flex-end'
+                    </Fade>
+                    <Typography
+                      variant='subtitle2'
+                      className={[classes.headerText, hidden]}
                     >
-                      <Fade in
-                        timeout={1500}
+                      {collection.description}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    lg={2}
+                    sm={3}
+                    xs={4}
+                    justify='flex-end'
+                  >
+                    <Fade in
+                      timeout={1500}
+                    >
+                      <IconButton
+                        aria-label='more'
+                        aria-controls='long-menu'
+                        aria-haspopup='true'
+                        onClick={this.shareCollection}
                       >
-                        <IconButton
-                          aria-label='more'
-                          aria-controls='long-menu'
-                          aria-haspopup='true'
-                          onClick={this.shareCollection}
-                        >
-                          <Icon
-                            className='fa fa-share'
-                            style={{ color: '#c0c0c0' }}
-                          />
-                        </IconButton>
-                      </Fade>
-                      {isLoggedUserCollection && (
-                        <IconButton
-                          aria-label='more'
-                          aria-controls='long-menu'
-                          aria-haspopup='true'
-                          onClick={this.handleDialogOpen}
-                          className={classes.icons}
-                        >
-                          <MenuIcon />
-                        </IconButton>
-                      )}
-                    </Grid>
+                        <Icon
+                          className='fa fa-share'
+                          style={{ color: '#c0c0c0' }}
+                        />
+                      </IconButton>
+                    </Fade>
+                    {isLoggedUserCollection && (
+                      <IconButton
+                        aria-label='more'
+                        aria-controls='long-menu'
+                        aria-haspopup='true'
+                        onClick={this.handleDialogOpen}
+                        className={classes.icons}
+                      >
+                        <MenuIcon />
+                      </IconButton>
+                    )}
                   </Grid>
                 </Grid>
+              </Grid>
 
+              <Grid item
+                xl={3}
+                lg={3}
+                md={2}
+              />
+
+              {showTabs ? <>
                 <Grid item
-                  xl={3}
-                  lg={3}
-                  md={2}
-                />
+                  xs={12}
+                >
+                  <Tabs value={activeTab}
+                    onChange={this.handleChange}
+                  >
+                    <Tab label='Feed'
+                      className={classes.tabs}
+                    />
+                    <Tab label='Recommended'
+                      className={classes.tabs}
+                    />
+                  </Tabs>
+                </Grid>
 
-                {showTabs ? <>
+                <TabPanel value={activeTab}
+                  index={0}
+                >
                   <Grid item
-                    xs={12}
-                  >
-                    <Tabs value={activeTab}
-                      onChange={this.handleChange}
-                    >
-                      <Tab label='Feed'
-                        className={classes.tabs}
-                      />
-                      <Tab label='Recommended'
-                        className={classes.tabs}
-                      />
-                    </Tabs>
-                  </Grid>
-
-                  <TabPanel value={activeTab}
-                    index={0}
-                  >
-                    <Grid item
-                      xs={12}
-                      className={classes.feedContainer}
-                    >
-                      {posts.length === 0 ? (
-                        <Typography variant='subtitle2'>
-                          No posts found in this collection
-                        </Typography>
-                      ) : (
-                        <Feed
-                          isLoading={isLoading}
-                          hasMore
-                          classes={classes}
-                          posts={posts}
-                          hideInteractions
-                          renderObjects
-                          tourname='CollectionPosts'
-                        />
-                      )}
-                    </Grid>
-                  </TabPanel>
-
-                  <TabPanel value={activeTab}
-                    index={1}
-                  >
-                    <Grid item
-                      container
-                      column
-                      spacing={4}
-                      tourname='RecommendedCollections'
-                      className={classes.recommended}
-                    >
-                      {recommended.map(rec => {
-                        if (rec.postIds.length > 0 && rec.name !== collection.name) {
-                          return (
-                            <Recommended
-                              classes={classes}
-                              collection={rec}
-                            />
-                          )
-                        }
-                      })}
-                    </Grid>
-                  </TabPanel>
-                </>
-
-                : <>
-                  <Grid item
-                    lg={6}
                     xs={12}
                     className={classes.feedContainer}
                   >
@@ -745,38 +682,85 @@ class Collections extends Component {
                       />
                     )}
                   </Grid>
+                </TabPanel>
 
-                  <Grid
-                    item
+                <TabPanel value={activeTab}
+                  index={1}
+                >
+                  <Grid item
                     container
                     column
-                    lg={3}
-                    sm={0}
-                    spacing={2}
+                    spacing={4}
                     tourname='RecommendedCollections'
                     className={classes.recommended}
                   >
-                    <Grid item>
-                      <Typography variant='h4'>Recommended</Typography>
-                    </Grid>
-                    <Grid item
-                      xs={12}
-                    >
-                      {recommended.map(rec => {
-                        if (rec.name !== collection.name) {
-                          return (
-                            <Recommended
-                              classes={classes}
-                              collection={rec}
-                            />
-                          )
-                        }
-                      })}
-                    </Grid>
+                    {recommended.map(rec => {
+                      if (rec.name !== collection.name) {
+                        return (
+                          <Recommended
+                            classes={classes}
+                            collection={rec}
+                          />
+                        )
+                      }
+                    })}
                   </Grid>
-                </>
-                }
-              </Grid>
+                </TabPanel>
+              </>
+
+              : <>
+                <Grid item
+                  lg={6}
+                  xs={12}
+                  className={classes.feedContainer}
+                >
+                  {posts.length === 0 ? (
+                    <Typography variant='subtitle2'>
+                      No posts found in this collection
+                    </Typography>
+                  ) : (
+                    <Feed
+                      isLoading={isLoading}
+                      hasMore
+                      classes={classes}
+                      posts={posts}
+                      hideInteractions
+                      renderObjects
+                      tourname='CollectionPosts'
+                    />
+                  )}
+                </Grid>
+
+                <Grid
+                  item
+                  lg={3}
+                  sm={0}
+                  spacing={2}
+                  tourname='RecommendedCollections'
+                  className={classes.recommended}
+                >
+                  <Grid item
+                    xs={12}
+                  >
+                    <Typography variant='h4'>Recommended</Typography>
+                  </Grid>
+                  <Grid item
+                    xs={12}
+                  >
+                    {recommended.map(rec => {
+                      if (rec.name !== collection.name) {
+                        return (
+                          <Recommended
+                            classes={classes}
+                            collection={rec}
+                          />
+                        )
+                      }
+                    })}
+                  </Grid>
+                </Grid>
+              </>
+              }
             </Grid>
 
             <Tour
