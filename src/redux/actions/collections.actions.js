@@ -14,18 +14,18 @@ export function fetchUserCollections (eosname) {
   }
 
   function request (eosname) {
-    return { type: constants.FETCH_COLLECTIONS, eosname }
+    return { type: constants.FETCH_USER_COLLECTIONS, eosname }
   }
 
   function success (eosname, collections) {
-    return { type: constants.FETCH_COLLECTIONS_SUCCESS, eosname, collections }
+    return { type: constants.FETCH_USER_COLLECTIONS_SUCCESS, eosname, collections }
   }
 
   function failure (eosname, error) {
-    return { type: constants.FETCH_COLLECTIONS_FAILURE, eosname, error }
+    return { type: constants.FETCH_USER_COLLECTIONS_FAILURE, eosname, error }
   }
 }
 
-export function addCollection (eosname, collection) {
-  return { type: constants.ADD_COLLECTION, eosname, collection }
+export function addUserCollection (eosname, collection) {
+  return { type: constants.ADD_USER_COLLECTION, eosname, collection }
 }

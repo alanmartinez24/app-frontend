@@ -4,28 +4,28 @@ import produce from 'immer'
 export function userCollections (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case constants.FETCH_COLLECTIONS:
+      case constants.FETCH_USER_COLLECTIONS:
         draft[action.eosname] = {
           isLoading: true,
           collections: [],
           error: null
         }
         break
-      case constants.FETCH_COLLECTIONS_SUCCESS:
+      case constants.FETCH_USER_COLLECTIONS_SUCCESS:
         draft[action.eosname] = {
           isLoading: false,
           collections: action.collections,
           error: null
         }
         break
-      case constants.FETCH_COLLECTIONS_FAILURE:
+      case constants.FETCH_USER_COLLECTIONS_FAILURE:
         draft[action.eosname] = {
           isLoading: false,
           collections: [],
           error: action.error
         }
         break
-      case constants.ADD_COMMENT:
+      case constants.ADD_USER_COLLECTION:
         if (draft[action.postid]) {
           const prevCollections = draft[action.eosname].collections
           prevCollections.push({

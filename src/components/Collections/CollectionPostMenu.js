@@ -6,7 +6,8 @@ import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import CollectionPostDialog from './CollectionPostDialog.js'
 import { withStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { createSelector } from 'reselect'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -25,16 +26,66 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostMenu = ({ postid, account, classes, ethAuth, userCollections }) => {
-  if (!(account || ethAuth) || !postid) return null
+const selectUserCollections = createSelector((state, accountName) => {
+  console.log(state, 'STATE!!')
+  const userCollections = state.userCollections
+  const userCollData = userCollections[accountName]
+  if (userCollData) {
+    return userCollData.collections
+  }
+  return []
+})
+
+const CollectionPostMenu = ({ postid, classes }) => {
+  if (!postid) return null
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
-  // const [menuCollections, setMenuCollections] = useState([])
   const [snackbarMsg, setSnackbarMsg] = useState('')
-  console.log('userCollections :>> ', userCollections)
 
-  const menuOpen = Boolean(anchorEl)
+  const ethAuth = useSelector(state => state.ethAuth)
+  const account = useSelector(state => {
+    const { account: ethAccount } = state.ethAuth
+
+    const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+    let _account = scatterIdentity || state.ethAccount
+
+    if (!scatterIdentity && ethAccount) {
+      _account = { name: ethAccount._id, authority: 'active' }
+    }
+    return _account
+  }, null)
+
+  if (!account) { return }
+  const userCollections = useSelector(({ userCollections }) => userCollections[account.name] || [], [])
+  const userCollections2 = useSelector(state => selectUserCollections(state, account.name))
+
   const collectionsPageId = window.location.href.split('/').pop()
+
+  const selectAddedCollections = createSelector(({ userCollections }) => {
+    const userCollData = userCollections[account.name]
+    if (userCollData) {
+      return userCollData.collections
+    }
+    return []
+  }, collections =>
+  collections.filter(collection => collection.postIds.includes(postid))
+)
+  const addedCollections = useSelector(state => selectAddedCollections(state))
+  console.log(userCollections2, addedCollections, 'COLL DATA')
+
+  /*
+    collections.map((collection) => {
+            if (!collection.postIds.includes(postid) && collectionsPageId !== collection._id) {
+            return (
+              <MenuItem dense
+                key={collection._id}
+                className={classes.menuItem}
+                onClick={() => addToCollection(collection)}
+              >
+                Add to {collection.name}
+              </MenuItem>
+  */
+  const menuOpen = Boolean(anchorEl)
 
   const handleMenuClick = ({ currentTarget }) => setAnchorEl(currentTarget)
   const handleMenuClose = () => setAnchorEl(null)
@@ -43,7 +94,7 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth, userCollections
 
   const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
-  const accountName = (account && account.name) || ethAuth.account.eosname
+  const accountName = account && account.name
 
   // function useCompare (val) {
   //   const prevVal = usePrevious(val)
@@ -70,6 +121,8 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth, userCollections
   //   console.log('menuCollections :>> ', menuCollections)
   //   }
   // }, [needsUpdate])
+  console.log('USER COLLECTIONS', userCollections)
+  const { collections } = userCollections
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth
@@ -153,8 +206,8 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth, userCollections
         >
           New Collection...
         </MenuItem>
-        {userCollections && accountName && userCollections[accountName].length > 0 && (
-          userCollections[accountName].map((collection) => {
+        {collections && accountName && collections.length > 0 && (
+          collections.map((collection) => {
             if (!collection.postIds.includes(postid) && collectionsPageId !== collection._id) {
             return (
               <MenuItem dense
@@ -192,20 +245,18 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth, userCollections
 
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
-  account: PropTypes.object,
-  classes: PropTypes.object.isRequired,
-  ethAuth: PropTypes.object,
-  userCollections: PropTypes.object
+  classes: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
-  const userCollections = state.userCollections
+// const mapStateToProps = (state, ownProps) => {
+//   const ethAuth = state.ethAuth.account ? state.ethAuth : null
+//   console.log(state, 'THIS IS THE STATE')
+//   const userCollections = state.userCollections
 
-  return {
-    ethAuth,
-    userCollections: userCollections || []
-  }
-}
+//   return {
+//     ethAuth,
+//     userCollections: userCollections || []
+//   }
+// }
 
-export default connect(mapStateToProps)(withStyles(styles)(CollectionPostMenu))
+export default withStyles(styles)(CollectionPostMenu)

@@ -8,7 +8,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-// import wallet from '../eos/scatter/scatter.wallet'
+import wallet from '../eos/scatter/scatter.wallet'
 import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -105,9 +105,10 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { fetchSocialLevels } = this.props
+      const { fetchSocialLevels, checkScatter, scatterInstall } = this.props
       fetchSocialLevels()
-      this.checkEthAuth()
+      // this.checkEthAuth()
+      wallet.detect(checkScatter, scatterInstall)
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
@@ -118,6 +119,7 @@ class Index extends Component {
 
   componentDidUpdate ({ account, getLoggedUserCollections }) {
     (async () => {
+      console.log('WE ARE IN HERE!!!')
       if (account && account.name) await getLoggedUserCollections(account.name)
     })()
   }
@@ -211,9 +213,9 @@ class Index extends Component {
 
 Index.propTypes = {
   fetchSocialLevels: PropTypes.func.isRequired,
-  // checkScatter: PropTypes.func.isRequired,
+  checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
-  // scatterInstall: PropTypes.func.isRequired,
+  scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
   account: PropTypes.object
