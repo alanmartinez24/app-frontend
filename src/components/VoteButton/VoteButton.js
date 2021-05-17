@@ -197,6 +197,11 @@ const styles = (theme) => ({
       width: '100%',
       marginLeft: 0
     }
+  },
+  mobileBtn: {
+    [theme.breakpoints.down('sm')]: {
+      width: '1.2em'
+    }
   }
 })
 
@@ -1107,11 +1112,11 @@ class VoteButton extends Component {
                           )}
                               icon={
                             window.matchMedia('(max-width: 520px)') ? (
-                              <SvgIcon>
+                              <SvgIcon className={classes.mobileBtn}>
                                 <circle cy='12'
                                   cx='12'
                                   r='4'
-                                  strokeWidth='2'
+                                  strokeWidth='1'
                                 />{' '}
                               </SvgIcon>
                             ) : (
