@@ -165,7 +165,7 @@ export function ethAuth (state = { address: null, signature: null, account: null
   })
 }
 
-export function authInfo (state = { signature: null, eosname: null, isLoading: false, error: null }, action) {
+export function authInfo (state = { signature: null, eosname: null, address: null, authType: null, isLoading: false, error: null }, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_AUTH_TOKEN:
@@ -175,6 +175,8 @@ export function authInfo (state = { signature: null, eosname: null, isLoading: f
       case constants.FETCH_AUTH_TOKEN_SUCCESS:
         draft.signature = action.signature
         draft.eosname = action.eosname
+        draft.authType = action.authType
+        draft.address = action.address
         draft.isLoading = false
         draft.error = null
         break

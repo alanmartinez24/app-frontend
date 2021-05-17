@@ -8,13 +8,12 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-// import wallet from '../eos/scatter/scatter.wallet'
-import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
+import wallet from '../eos/scatter/scatter.wallet'
+import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, fetchAuthInfo } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import isEqual from 'lodash/isEqual'
-// import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
 
@@ -74,40 +73,21 @@ class Index extends Component {
     setListOpts(updatedListOpts)
   }
 
-  async checkEthAuth () {
+   async checkAuth () {
     try {
-      const { updateEthAuth } = this.props
-      const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
-
-      if (!ethAuthInfo) { return }
-
-      const { address, signature } = JSON.parse(ethAuthInfo)
-      await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
-
-      const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
-      const ethAuthUpdate = { address, signature, account }
-      updateEthAuth(ethAuthUpdate)
-    } catch (err) {}
-  }
-
-  // async fetchExtAuthInfo () {
-  //   try {
-  //     const { checkScatter, scatterInstall, getExtAuthToken } = this.props
-  //     await wallet.detect(checkScatter, scatterInstall)
-  //     if (wallet.connected) {
-  //       getExtAuthToken()
-  //     }
-  //   } catch (err) {
-  //     console.log('Failed to fetch auth info', err)
-  //   }
-  // }
+      const { checkScatter, scatterInstall, fetchAuthInfo } = this.props
+      await wallet.detect(checkScatter, scatterInstall)
+        fetchAuthInfo()
+     } catch (err) {
+       console.log('Failed to fetch auth info', err)
+     }
+   }
 
   componentDidMount () {
     (async () => {
       const { fetchSocialLevels } = this.props
       fetchSocialLevels()
-      this.checkEthAuth()
-      // this.fetchExtAuthInfo()
+      this.checkAuth()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
@@ -210,11 +190,10 @@ class Index extends Component {
 
 Index.propTypes = {
   fetchSocialLevels: PropTypes.func.isRequired,
-  // checkScatter: PropTypes.func.isRequired,
+  checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
-  // scatterInstall: PropTypes.func.isRequired,
-  updateEthAuth: PropTypes.func.isRequired
-  // getExtAuthToken: PropTypes.func.isRequired
+  scatterInstall: PropTypes.func.isRequired,
+  fetchAuthInfo: PropTypes.func.isRequired
 }
 
 const mapActionToProps = (dispatch) => {
@@ -223,8 +202,7 @@ const mapActionToProps = (dispatch) => {
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
     fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
-    updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo))
-    // getExtAuthToken: throttle(() => dispatch(fetchExtAuthToken(), 5000))
+    fetchAuthInfo: () => dispatch(fetchAuthInfo())
   }
 }
 

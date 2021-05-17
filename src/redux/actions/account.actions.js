@@ -140,16 +140,25 @@ export function fetchSocialLevel (username) {
     return { type: constants.FETCH_SOCIAL_LEVEL_FAILURE, username, error }
   }
 }
-
-export function fetchExtAuthToken () {
+export function fetchAuthInfo () {
   return async dispatch => {
     dispatch(request())
     try {
-      if (!scatter.identity) {
+      let authInfo
+      const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
+      if (ethAuthInfo) {
+        const { address, signature } = JSON.parse(ethAuthInfo)
+        await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
+
+        const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
+        authInfo = { authType: 'eth', eosname: account.eosname, address: null, signature: signature }
+      } else if (!scatter.identity) {
         throw new Error('Failed to fetch auth token. User not logged in')
+      } else {
+        const { eosname, signature } = await scatter.scatter.getAuthToken()
+        authInfo = { authType: 'extension', eosname: eosname, address: null, signature: signature }
       }
-      const { eosname, signature } = await scatter.scatter.getAuthToken()
-      dispatch(success(signature, eosname))
+      dispatch(success(authInfo))
     } catch (err) {
       dispatch(failure(err))
     }
@@ -159,8 +168,8 @@ export function fetchExtAuthToken () {
     return { type: constants.FETCH_AUTH_TOKEN }
   }
 
-  function success (signature, eosname) {
-    return { type: constants.FETCH_AUTH_TOKEN_SUCCESS, signature, eosname }
+  function success (authInfo) {
+    return { type: constants.FETCH_AUTH_TOKEN_SUCCESS, ...authInfo }
   }
 
   function failure (error) {
