@@ -128,9 +128,9 @@ function feedDescription (feed) {
     case 'latenightcool':
       return 'Top content based on the like category'
     case 'politics':
-      return 'Top content related to the US presidential election'
+      return 'Top content related to current politics'
     case 'non-corona':
-      return 'A feed free from virus-related content. Its purpose is to provide a place for clarity and well-being in these hard and confusing times.'
+      return 'A feed free from virus-related content. Providing clarity and well-being in hard and confusing times.'
     case 'crypto':
       return 'The top crypto content out there'
     case 'nfts':
