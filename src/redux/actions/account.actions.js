@@ -143,25 +143,27 @@ export function fetchSocialLevel (username) {
 export function fetchAuthInfo () {
   return async dispatch => {
     dispatch(request())
+    let authInfo, error
+    const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
+    if (ethAuthInfo) {
     try {
-      let authInfo
-      const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
-      if (ethAuthInfo) {
         const { address, signature } = JSON.parse(ethAuthInfo)
         await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
-
         const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
         authInfo = { authType: 'eth', eosname: account.eosname, address: null, signature: signature }
-      } else if (!scatter.identity) {
-        throw new Error('Failed to fetch auth token. User not logged in')
-      } else {
+      } catch (err) {
+        error = err
+      }
+    } else if (scatter.identity) {
+      try {
         const { eosname, signature } = await scatter.scatter.getAuthToken()
         authInfo = { authType: 'extension', eosname: eosname, address: null, signature: signature }
+      } catch (err) {
+        error = err
       }
-      dispatch(success(authInfo))
-    } catch (err) {
-      dispatch(failure(err))
     }
+    if (authInfo) dispatch(success(authInfo))
+    else dispatch(failure(error))
   }
 
   function request () {
