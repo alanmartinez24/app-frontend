@@ -28,6 +28,7 @@ import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link } from 'react-router-dom'
 import CollectionEditDialog from '../../components/Collections/CollectionEditDialog.js'
+import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
@@ -186,21 +187,6 @@ const styles = theme => ({
       padding: '5px !important'
     }
   },
-  recommendedImg: {
-    height: '60px',
-    width: '60px',
-    objectFit: 'cover',
-    marginTop: '10px',
-    borderRadius: '5px',
-    [theme.breakpoints.down('md')]: {
-      height: '50px',
-      width: '50px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '40px',
-      width: '40px'
-    }
-  },
   snack: {
     justifyContent: 'center'
   },
@@ -227,50 +213,6 @@ const styles = theme => ({
     fontSize: '1.2rem'
   }
 })
-
-const Recommended = ({ classes, collection }) => {
-  const fmtCollectionName =
-    collection &&
-    collection.name &&
-    collection.name.replace(/\s+/g, '-').toLowerCase()
-
-  return (
-    <Link
-      to={`/collections/${fmtCollectionName}/${collection._id}`}
-      className={classes.links}
-    >
-      <Grid
-        container
-        direction='row'
-        justify='flex-start'
-        alignItems='center'
-        spacing={2}
-        className={classes.recommendedContainer}
-      >
-        <Grid item
-          xs={2}
-        >
-          <Img
-            src={[collection.imgSrcUrl, DEFAULT_IMG]}
-            alt='thumbnail'
-            className={classes.recommendedImg}
-          />
-        </Grid>
-        <Grid item
-          xs={10}
-        >
-          <Typography variant='h5'>{collection.name}</Typography>
-          <Typography variant='body2'>{collection.owner}</Typography>
-        </Grid>
-      </Grid>
-    </Link>
-  )
-}
-
-Recommended.propTypes = {
-  classes: PropTypes.object.isRequired,
-  collection: PropTypes.array.isRequired
-}
 
 function TabPanel (props) {
   const { children, value, index } = props
@@ -314,10 +256,8 @@ class Collections extends Component {
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`))
-        .data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
-        .data
+      collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       return
@@ -697,7 +637,7 @@ class Collections extends Component {
                     {recommended.map(rec => {
                       if (rec.name !== collection.name) {
                         return (
-                          <Recommended
+                          <RecommendedCollections
                             classes={classes}
                             collection={rec}
                           />
@@ -733,6 +673,7 @@ class Collections extends Component {
 
                 <Grid
                   item
+                  container
                   lg={3}
                   sm={0}
                   spacing={2}
@@ -750,7 +691,7 @@ class Collections extends Component {
                     {recommended.map(rec => {
                       if (rec.name !== collection.name) {
                         return (
-                          <Recommended
+                          <RecommendedCollections
                             classes={classes}
                             collection={rec}
                           />
