@@ -66,7 +66,7 @@ const styles = theme => ({
     minHeight: '800px',
     overflowY: 'auto',
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 35px'
+      margin: '0px 0px 0px 40px'
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0px'
@@ -79,7 +79,7 @@ const styles = theme => ({
     minHeight: '800px',
     margin: 'auto',
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 35px'
+      margin: '0px 0px 0px 40px'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '85vw',

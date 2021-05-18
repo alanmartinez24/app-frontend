@@ -16,7 +16,8 @@ import {
   Snackbar,
   Fade,
   Tabs,
-  Tab
+  Tab,
+  Hidden
 } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -68,11 +69,16 @@ const styles = theme => ({
     color: '#fff',
     overflowY: 'scroll'
   },
-  feedContainer: {
-    width: '100%',
-    overflow: 'hidden',
+  feedPage: {
+    height: '800px',
+    minHeight: '800px',
+    overflowY: 'auto',
     [theme.breakpoints.down('md')]: {
-      marginLeft: '5px'
+      margin: '0px 0px 0px 40px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100vw',
+      margin: '0px'
     }
   },
   feedLoader: {
@@ -92,9 +98,9 @@ const styles = theme => ({
     }
   },
   collectionContainer: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      padding: '0px !important'
+    [theme.breakpoints.down('xs')]: {
+      width: '100vw',
+      margin: '0px'
     }
   },
   Mask: {
@@ -147,12 +153,20 @@ const styles = theme => ({
     }
   },
   recommended: {
+    display: 'inline-block',
     position: 'sticky',
     top: 200,
     margin: 0,
     opacity: 0.7,
     '&:hover': {
       opacity: 1
+    },
+    [theme.breakpoints.down('md')]: {
+      margin: '0px 0px 0px 50px',
+      width: '500px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0px 0px 0px 30px'
     }
   },
   headerImg: {
@@ -210,7 +224,12 @@ const styles = theme => ({
     }
   },
   tabs: {
-    fontSize: '1.2rem'
+    color: '#fff',
+    fontSize: '1.2rem',
+    marginLeft: '35px',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '15px'
+    }
   }
 })
 
@@ -466,9 +485,7 @@ class Collections extends Component {
             >
               <Grid
                 item
-                xl={9}
-                lg={9}
-                md={10}
+                lg={8}
                 xs={12}
                 className={[minimizeHeader, classes.collectionHeader]}
               >
@@ -577,11 +594,11 @@ class Collections extends Component {
                 </Grid>
               </Grid>
 
-              <Grid item
-                xl={3}
-                lg={3}
-                md={2}
-              />
+              <Hidden lgDown>
+                <Grid item
+                  lg={4}
+                />
+              </Hidden>
 
               {showTabs ? <>
                 <Grid item
@@ -604,7 +621,6 @@ class Collections extends Component {
                 >
                   <Grid item
                     xs={12}
-                    className={classes.feedContainer}
                   >
                     {posts.length === 0 ? (
                       <Typography variant='subtitle2'>
@@ -652,7 +668,6 @@ class Collections extends Component {
                 <Grid item
                   lg={6}
                   xs={12}
-                  className={classes.feedContainer}
                 >
                   {posts.length === 0 ? (
                     <Typography variant='subtitle2'>
