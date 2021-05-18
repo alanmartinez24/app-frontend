@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import Footer from '../../components/Footer/Footer'
 import { withStyles } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, Tabs, Tab } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { Link } from 'react-router-dom'
@@ -15,7 +15,7 @@ import Fade from '@material-ui/core/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 
 const DISPLAYED_USERS = 2
-const isMobile = window.innerWidth <= 480
+const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
   '@global': {
@@ -38,11 +38,11 @@ const styles = theme => ({
     }
   },
   feedContainer: {
-    [theme.breakpoints.down('md')]: {
-      width: '100%'
-    },
     [theme.breakpoints.up('1700')]: {
       width: '100%'
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100vw'
     }
   },
   feedPage: {
@@ -50,16 +50,17 @@ const styles = theme => ({
     minHeight: '800px',
     marginLeft: '-5px',
     overflowY: 'scroll',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '-15px',
-      width: '98%'
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '0px',
+      width: '100vw',
+      height: '100%'
     }
   },
   feedLoader: {
     margin: '0px',
-    maxWidth: '590px',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '-15px'
+    width: '600px',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '0px'
     }
   },
   resultsContainer: {
@@ -125,12 +126,16 @@ const styles = theme => ({
     }
   },
   people: {
+    borderRadius: 10,
     display: 'inline-block',
     padding: '10px 0px',
+    width: '500px',
+    '&:hover': {
+      background: '#fafafa05'
+    },
     [theme.breakpoints.down('xs')]: {
-      width: '40%',
-      padding: '5px 0px 0px 0px',
-      verticalAlign: 'top'
+      display: 'flex',
+      padding: '5px 0px 0px 0px'
     }
   },
   avatar: {
@@ -157,7 +162,10 @@ const styles = theme => ({
     }
   },
   article: {
-    maxWidth: '590px'
+    maxWidth: '600px'
+  },
+  tabs: {
+    fontSize: '1.2rem'
   }
 })
 
@@ -175,7 +183,7 @@ const User = (props) => {
         justify='flex-start'
         alignItems='center'
         className={classes.user}
-        spacing={0}
+        spacing={4}
       >
         <Grid item
           md={4}
@@ -221,47 +229,33 @@ const People = (props) => {
       className={classes.peopleContainer}
     >
       {/* TODO: need better way to display users in three rows */}
-
-      {isMobile
-        ? <Grid item>
-          {
-            people.map((user) => (
-              <User classes={classes}
-                user={user}
-              />
-            ))
-          }
-        </Grid>
-        : <>
-          <Grid item>
-            {
-              people.slice(0, DISPLAYED_USERS).map((user) => (
-                <User classes={classes}
-                  user={user}
-                />
-              ))
-            }
-          </Grid>
-          <Grid item>
-            {
-              people.slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
-                <User classes={classes}
-                  user={user}
-                />
-              ))
-            }
-          </Grid>
-          <Grid item>
-            {
-              people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
-                <User classes={classes}
-                  user={user}
-                />
-              ))
-            }
-          </Grid>
-        </>
-      }
+      <Grid item>
+        {
+          people.slice(0, DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
+      </Grid>
+      <Grid item>
+        {
+          people.slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
+      </Grid>
+      <Grid item>
+        {
+          people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
+      </Grid>
     </Grid>
   )
 }
@@ -271,10 +265,32 @@ People.propTypes = {
   people: PropTypes.array.isRequired
 }
 
+function TabPanel (props) {
+  const { children, value, index } = props
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+    >
+      {value === index && (
+        <div>{children}</div>
+      )}
+    </div>
+  )
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
+}
+
 class Search extends Component {
   state = {
     showTour: true,
-    isTourOpen: false
+    isTourOpen: false,
+    activeTab: 0
   }
 
   closeTour = () => {
@@ -285,8 +301,13 @@ class Search extends Component {
     this.setState({ isTourOpen: true })
   }
 
+  handleChange = (e, newTab) => {
+    this.setState({ activeTab: newTab })
+  }
+
   render () {
     const { classes, postSearchResults, userSearchResults } = this.props
+    const { activeTab } = this.state
     const { posts, searchText, isLoading } = postSearchResults
     const { users } = userSearchResults
 
@@ -314,90 +335,6 @@ class Search extends Component {
                   </Typography>
                 </Grid>
 
-                {isMobile && (posts.length > 0 || users.length > 0) &&
-                  <>
-                    <Grid item
-                      lg={!isLoading && posts.length === 0 ? 12 : 7}
-                      md={!isLoading && posts.length === 0 ? 12 : 4}
-                      xs={12}
-                      tourname='SearchUsers'
-                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
-                    >
-                      <Typography
-                        variant='h6'
-                        className={classes.headerText}
-                      >
-                        People
-                      </Typography>
-                      <People classes={classes}
-                        people={users}
-                      />
-                    </Grid>
-                    <Grid item
-                      lg={!isLoading && users.length === 0 ? 12 : 5}
-                      md={!isLoading && users.length === 0 ? 12 : 8}
-                      xs={12}
-                      tourname='SearchPosts'
-                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
-                    >
-                      <Typography
-                        variant='h6'
-                        className={classes.headerText}
-                      >
-                        Posts
-                      </Typography>
-                      <Feed isLoading={isLoading}
-                        hasMore
-                        classes={classes}
-                        posts={posts}
-                        hideInteractions
-                      />
-                    </Grid>
-                  </>
-                }
-
-                {!isMobile && (posts.length > 0 || users.length > 0) &&
-                  <>
-                    <Grid item
-                      lg={!isLoading && users.length === 0 ? 12 : 5}
-                      md={!isLoading && users.length === 0 ? 12 : 8}
-                      xs={12}
-                      tourname='SearchPosts'
-                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
-                    >
-                      <Typography
-                        variant='h6'
-                        className={classes.headerText}
-                      >
-                        Posts
-                      </Typography>
-                      <Feed isLoading={isLoading}
-                        hasMore
-                        classes={classes}
-                        posts={posts}
-                        hideInteractions
-                      />
-                    </Grid>
-                    <Grid item
-                      lg={!isLoading && posts.length === 0 ? 12 : 7}
-                      md={!isLoading && posts.length === 0 ? 12 : 4}
-                      xs={12}
-                      tourname='SearchUsers'
-                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
-                    >
-                      <Typography
-                        variant='h6'
-                        className={classes.headerText}
-                      >
-                        People
-                      </Typography>
-                      <People classes={classes}
-                        people={users}
-                      />
-                    </Grid>
-                  </>
-                }
-
                 {!isLoading && posts.length === 0 && users.length === 0 &&
                   <Grid item
                     xs={12}
@@ -411,6 +348,95 @@ class Search extends Component {
                       Try searching for posts, users, or keywords
                     </Typography>
                   </Grid>
+                }
+
+                {showTabs && (posts.length > 0 || users.length > 0) &&
+                  <>
+                    <Grid item
+                      xs={12}
+                    >
+                      <Tabs value={activeTab}
+                        onChange={this.handleChange}
+                      >
+                        <Tab label='Posts'
+                          className={classes.tabs}
+                        />
+                        <Tab label='People'
+                          className={classes.tabs}
+                        />
+                      </Tabs>
+                    </Grid>
+
+                    <TabPanel value={activeTab}
+                      index={0}
+                    >
+                      <Grid item
+                        xs={12}
+                        className={classes.feedContainer}
+                      >
+                        <Feed isLoading={isLoading}
+                          hasMore
+                          classes={classes}
+                          posts={posts}
+                          hideInteractions
+                        />
+                      </Grid>
+                    </TabPanel>
+
+                    <TabPanel value={activeTab}
+                      index={1}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        <People classes={classes}
+                          people={users}
+                        />
+                      </Grid>
+                    </TabPanel>
+                  </>
+                }
+
+                {!showTabs && (posts.length > 0 || users.length > 0) &&
+                  <>
+                    <Grid item
+                      lg={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && users.length === 0 ? 12 : 8}
+                      xs={12}
+                      tourname='SearchPosts'
+                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
+                    >
+                      <Typography
+                        variant='h6'
+                        className={classes.headerText}
+                      >
+                        Posts
+                      </Typography>
+                      <Feed isLoading={isLoading}
+                        hasMore
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                      />
+                    </Grid>
+                    <Grid item
+                      lg={!isLoading && posts.length === 0 ? 12 : 7}
+                      md={!isLoading && posts.length === 0 ? 12 : 4}
+                      xs={12}
+                      tourname='SearchUsers'
+                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
+                    >
+                      <Typography
+                        variant='h6'
+                        className={classes.headerText}
+                      >
+                        People
+                      </Typography>
+                      <People classes={classes}
+                        people={users}
+                      />
+                    </Grid>
+                  </>
                 }
               </Grid>
             </Fade>
