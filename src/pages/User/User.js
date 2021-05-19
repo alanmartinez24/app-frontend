@@ -8,7 +8,7 @@ import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import Footer from '../../components/Footer/Footer'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import { withStyles } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
@@ -64,7 +64,7 @@ const styles = theme => ({
   },
   feedPage: {
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 40px'
+      margin: '0px 0px 0px 50px'
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0px'
@@ -188,8 +188,10 @@ const styles = theme => ({
     }
   },
   collections: {
+    color: '#fff',
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px'
+      margin: '0px 0px 0px 50px',
+      width: '500px'
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0px 0px 0px 30px'
@@ -199,8 +201,8 @@ const styles = theme => ({
     color: '#fff',
     width: '100px',
     float: 'right',
-    fontSize: '0.7rem',
-    fontWeight: '300'
+    fontSize: '0.8rem',
+    fontWeight: '400'
   }
 })
 
@@ -457,7 +459,7 @@ class User extends Component {
     this.setState({ activeTab: newTab })
   }
 
-  showAll = () => {
+  handleShowAll = () => {
     this.setState({
       showAll: !this.state.showAll
     })
@@ -520,11 +522,48 @@ class User extends Component {
             content={`${username}'s profile page on Yup.`}
           />
         </Helmet>
+
         <CollectionPostDialog
           account={account}
           dialogOpen={dialogOpen}
           handleDialogClose={this.handleDialogClose}
         />
+        <Dialog open={showAll}
+          onClose={this.handleShowAll}
+          aria-labelledby='form-dialog-title'
+          PaperProps={{
+            style: {
+              backgroundColor: '#0A0A0A',
+              borderRadius: '25px',
+              boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
+              width: '80%',
+              padding: '1rem 0.5rem',
+              maxWidth: '500px',
+              color: '#fafafa'
+            }
+          }}
+          BackdropProps={{
+            style: {
+              backdropFilter: 'blur(3px)'
+            }
+          }}
+        >
+          <DialogTitle id='form-dialog-title'>
+            Collections
+          </DialogTitle>
+          <DialogContent>
+            {
+              collections.map((collection) => {
+                return (
+                  <Collection classes={classes}
+                    collection={collection}
+                  />
+                )
+              })
+            }
+          </DialogContent>
+        </Dialog>
+
         <div className={classes.container}>
           <div className={classes.page}>
             <Header />
@@ -640,19 +679,21 @@ class User extends Component {
                     <Grid item
                       xs={12}
                     >
-                      {collections.length > 0
-                        ? collections.map((collection) => {
+                      {collections.slice(0, LIMIT_COLLECTIONS).map((collection) => {
                           return (
                             <Collection classes={classes}
                               collection={collection}
                             />
                           )
                         })
-                        : <Typography variant='subtitle2'
-                          style={{ color: '#fff', textAlign: 'center' }}
-                          >
-                          No collections found
-                        </Typography>
+                      }
+                      {collections.length > LIMIT_COLLECTIONS &&
+                        <Button className={classes.collectionButton}
+                          size='medium'
+                          onClick={this.handleShowAll}
+                        >
+                          Show all
+                        </Button>
                       }
                     </Grid>
                   </Grid>
@@ -693,7 +734,8 @@ class User extends Component {
                   lg={3}
                   sm={0}
                   spacing={2}
-                  className={classes.collectionsHeader}
+                  tourname='Collections'
+                  className={classes.collections}
                 >
                   {collections.length > 0 &&
                     <>
@@ -723,7 +765,7 @@ class User extends Component {
                         xs={12}
                       >
                         {
-                          collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
+                          collections.slice(0, LIMIT_COLLECTIONS).map((collection) => {
                             return (
                               <Collection classes={classes}
                                 collection={collection}
@@ -734,9 +776,9 @@ class User extends Component {
                         {collections.length > LIMIT_COLLECTIONS &&
                           <Button className={classes.collectionButton}
                             size='medium'
-                            onClick={this.showAll}
+                            onClick={this.handleShowAll}
                           >
-                            {showAll ? 'Show less' : 'Show all'}
+                            Show all
                           </Button>
                         }
                       </Grid>

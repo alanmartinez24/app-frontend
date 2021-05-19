@@ -27,6 +27,7 @@ const styles = theme => ({
   },
   recommendedContainer: {
     borderRadius: 10,
+    margin: '5px 0px',
     '&:hover': {
       background: '#fafafa05'
     }

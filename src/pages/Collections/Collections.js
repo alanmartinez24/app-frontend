@@ -5,20 +5,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import Img from 'react-image'
-import {
-  Fab,
-  Typography,
-  Grid,
-  Button,
-  IconButton,
-  Icon,
-  SnackbarContent,
-  Snackbar,
-  Fade,
-  Tabs,
-  Tab,
-  Hidden
-} from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -71,6 +58,9 @@ const styles = theme => ({
   },
   feedPage: {
     marginLeft: '40px',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '50px'
+    },
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
       margin: '0px'
@@ -198,12 +188,6 @@ const styles = theme => ({
   },
   snack: {
     justifyContent: 'center'
-  },
-  recommendedContainer: {
-    borderRadius: 10,
-    '&:hover': {
-      background: '#fafafa05'
-    }
   },
   links: {
     textDecoration: 'none',
@@ -447,8 +431,8 @@ class Collections extends Component {
             property='twitter:description'
             content={`${collection.description}`}
           />
-
         </Helmet>
+
         <Snackbar
           autoHideDuration={4000}
           onClose={this.handleSnackbarClose}
@@ -464,6 +448,7 @@ class Collections extends Component {
           dialogOpen={dialogOpen}
           handleDialogClose={this.handleDialogClose}
         />
+
         <div className={classes.container}
           onScroll={this.handleScroll}
         >
