@@ -222,7 +222,7 @@ const Collection = ({ classes, collection, username }) => {
         className={classes.collectionContainer}
       >
         <Grid item
-          xs={2}
+          xs={3}
         >
           <Img
             src={[collection.imgSrcUrl, DEFAULT_IMG]}
@@ -231,7 +231,7 @@ const Collection = ({ classes, collection, username }) => {
           />
         </Grid>
         <Grid item
-          xs={10}
+          xs={9}
         >
           <Typography variant='h5'>
             {collection.name}

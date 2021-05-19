@@ -51,7 +51,7 @@ const RecommendedCollections = ({ classes, collection }) => {
         className={classes.recommendedContainer}
       >
         <Grid item
-          xs={2}
+          xs={3}
         >
           <Img
             src={[collection.imgSrcUrl, getRandomGradientImg()]}
@@ -60,7 +60,7 @@ const RecommendedCollections = ({ classes, collection }) => {
           />
         </Grid>
         <Grid item
-          xs={10}
+          xs={9}
         >
           <Typography variant='h5'>{collection.name}</Typography>
           <Typography variant='body2'>{collection.owner}</Typography>
