@@ -13,8 +13,12 @@ const ELECTION_CATEGORIES = process.env.ELECTION_CATEGORIES.split(',')
 const NFT_ART_CATEGORIES = process.env.NFT_ART_CATEGORIES.split(',')
 const NFT_MUSIC_CATEGORIES = process.env.NFT_MUSIC_CATEGORIES.split(',')
 
-const artPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/)')
-const musicPattern = new RegExp('^(audius.co/|www.audius.co/|http://audius.co/|https://audius.co/|http://www.audius.co/|https://www.audius.co/*/)')
+function genRegEx (arrOfURLs) {
+  return new RegExp(`^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`)
+}
+
+const artPattern = genRegEx(['rarible.com/*', 'app.rarible.com/*', 'opensea.io/assets/*', 'superrare.co/*', 'superrare.co/*', 'foundation.app/*/', 'zora.co/*', 'knownorigin.io/gallery/*'])
+const musicPattern = genRegEx(['audius.co/*', 'open.spotify.com/*', 'soundcloud.com/*', 'music.apple.com/us/(artist|album)/*'])
 
 class VoteComp extends Component {
   state = {

@@ -107,7 +107,6 @@ class PostController extends Component {
   render () {
     const { classes, dispatch, post, hideInteractions, renderObjects } = this.props
     if (!post) return null
-    console.log('post.caption :>> ', post.caption)
 
     const isTextPost = (post.imgHash == null || post.imgHash.trim() === '') && (post.videoHash == null || post.videoHash.trim() === '')
 
