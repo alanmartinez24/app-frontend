@@ -558,7 +558,7 @@ class User extends Component {
                 />
               </Hidden>
 
-              {showTabs ? <>
+              {showTabs && collections.length > 0 ? <>
                 <Grid item
                   xs={12}
                 >
@@ -697,49 +697,53 @@ class User extends Component {
                   spacing={2}
                   className={classes.collectionsHeader}
                 >
-                  <Grid item
-                    xs={12}
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <Typography variant='h4'
-                      style={{ marginRight: '10%' }}
-                    >
-                      Collections
-                    </Typography>
-                    {
-                      isLoggedIn &&
-                      <IconButton
-                        aria-label='more'
-                        aria-controls='long-menu'
-                        aria-haspopup='true'
-                        onClick={this.handleDialogOpen}
-                        className={classes.icons}
+                  {collections.length > 0 &&
+                    <>
+                      <Grid item
+                        xs={12}
+                        style={{ display: 'flex', alignItems: 'center' }}
                       >
-                        <AddIcon />
-                      </IconButton>
-                    }
-                  </Grid>
-                  <Grid item
-                    xs={12}
-                  >
-                    {
-                      collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
-                        return (
-                          <Collection classes={classes}
-                            collection={collection}
-                          />
-                        )
-                      })
-                    }
-                    {collections.length > LIMIT_COLLECTIONS &&
-                      <Button className={classes.collectionButton}
-                        size='medium'
-                        onClick={this.showAll}
+                        <Typography variant='h4'
+                          style={{ marginRight: '10%' }}
+                        >
+                          Collections
+                        </Typography>
+                        {
+                          isLoggedIn &&
+                          <IconButton
+                            aria-label='more'
+                            aria-controls='long-menu'
+                            aria-haspopup='true'
+                            onClick={this.handleDialogOpen}
+                            className={classes.icons}
+                          >
+                            <AddIcon />
+                          </IconButton>
+                        }
+                      </Grid>
+                      <Grid item
+                        xs={12}
                       >
-                        {showAll ? 'Show less' : 'Show all'}
-                      </Button>
-                    }
-                  </Grid>
+                        {
+                          collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
+                            return (
+                              <Collection classes={classes}
+                                collection={collection}
+                              />
+                            )
+                          })
+                        }
+                        {collections.length > LIMIT_COLLECTIONS &&
+                          <Button className={classes.collectionButton}
+                            size='medium'
+                            onClick={this.showAll}
+                          >
+                            {showAll ? 'Show less' : 'Show all'}
+                          </Button>
+                        }
+                      </Grid>
+                    </>
+                  }
                 </Grid>
               </>
               }
