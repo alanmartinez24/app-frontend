@@ -62,7 +62,8 @@ class VoteComp extends Component {
       <ErrorBoundary>
         <div style={{
             display: 'flex',
-            marginLeft: '8px'
+            marginLeft: '8px',
+            maxWidth: '100%'
           }}
           onMouseEnter={() => this.setState({ isShown: true })}
           onMouseLeave={() => this.setState({ isShown: false })}
