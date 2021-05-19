@@ -73,9 +73,7 @@ const styles = theme => ({
     height: '800px',
     minHeight: '800px',
     overflowY: 'auto',
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 40px'
-    },
+    marginLeft: '50px',
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
       margin: '0px'
