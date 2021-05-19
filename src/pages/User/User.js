@@ -67,7 +67,7 @@ const styles = theme => ({
       margin: '0px 0px 0px 50px'
     },
     [theme.breakpoints.down('xs')]: {
-      margin: '0px'
+      marginLeft: '15px'
     }
   },
   feedLoader: {
@@ -80,7 +80,7 @@ const styles = theme => ({
       margin: '0px 0px 0px 40px'
     },
     [theme.breakpoints.down('xs')]: {
-      maxWidth: '85vw',
+      maxWidth: '100vw',
       marginLeft: '15px'
     }
   },

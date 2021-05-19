@@ -860,7 +860,6 @@ const mapStateToProps = state => {
 Collections.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
-  // levels: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Collections))
