@@ -70,10 +70,7 @@ const styles = theme => ({
     overflowY: 'scroll'
   },
   feedPage: {
-    height: '800px',
-    minHeight: '800px',
-    overflowY: 'auto',
-    marginLeft: '50px',
+    marginLeft: '40px',
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
       margin: '0px'

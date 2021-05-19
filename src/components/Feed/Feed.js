@@ -24,9 +24,6 @@ const styles = theme => ({
     [theme.breakpoints.down('lg')]: {
       maxWidth: '600px'
     },
-    [theme.breakpoints.down('md')]: {
-      maxWidth: 'auto'
-    },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '0%'
     }

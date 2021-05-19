@@ -52,19 +52,17 @@ const styles = theme => ({
   },
   container: {
     background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
-    minHeight: '100vh',
+    height: '100vh',
     width: '100vw',
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
+    overflowY: 'scroll',
     [theme.breakpoints.down('xs')]: {
       background: '#2a2a2a'
     }
   },
   feedPage: {
-    height: '800px',
-    minHeight: '800px',
-    overflowY: 'auto',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 40px'
     },
