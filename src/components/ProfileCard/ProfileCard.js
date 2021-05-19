@@ -66,11 +66,7 @@ const styles = theme => ({
     maxWidth: '100vw',
     maxHeight: '225px',
     position: 'relative',
-    [theme.breakpoints.down('md')]: {
-      margin: '75px 0px 0px 50px'
-    },
     [theme.breakpoints.down('xs')]: {
-      margin: 'auto',
       marginTop: theme.spacing(10),
       height: '175px',
       width: '100vw'

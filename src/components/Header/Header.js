@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { SnackbarContent, Snackbar, Dialog, DialogContent, DialogContentText } from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 import PropTypes from 'prop-types'
 import TopBar from '../TopBar/TopBar'
 import { connect } from 'react-redux'
@@ -21,8 +23,7 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     alertDialogOpen: false,
-    notifications: [],
-    snackbarMsg: ''
+    notifications: []
   }
 
   handleAlertDialogOpen = (msg) => {
@@ -73,18 +74,11 @@ class Header extends Component {
     if (localStorage.getItem('CHECK_BRAVE')) return
     if (navigator.brave && await navigator.brave.isBrave()) {
       this.setState({
-        snackbarMsg: `You may experience some performance issues on Brave, please turn shields off for the best experience.`
+        alertDialogOpen: true,
+        alertDialogContent: `You may experience some performance issues on Brave, please turn shields off for the best experience.`
       })
       localStorage.setItem('CHECK_BRAVE', true)
     }
-  }
-
-  handleSnackbarOpen = snackbarMsg => {
-    this.setState({ snackbarMsg })
-  }
-
-  handleSnackbarClose = () => {
-    this.setState({ snackbarMsg: '' })
   }
 
   componentDidMount () {
@@ -101,7 +95,7 @@ class Header extends Component {
 
   render () {
     this.checkScatter()
-    const { notifications, snackbarMsg } = this.state
+    const { notifications } = this.state
     const { classes, isTourOpen } = this.props
     return (
       <ErrorBoundary>
@@ -110,13 +104,6 @@ class Header extends Component {
             notifications={notifications}
             isTourOpen={isTourOpen}
           />
-          <Snackbar
-            autoHideDuration={6000}
-            onClose={this.handleSnackbarClose}
-            open={!!snackbarMsg}
-          >
-            <SnackbarContent message={snackbarMsg} />
-          </Snackbar>
           <Dialog
             aria-describedby='alert-dialog-description'
             aria-labelledby='alert-dialog-title'

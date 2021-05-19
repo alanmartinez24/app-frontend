@@ -14,10 +14,8 @@ import {
   Icon,
   SnackbarContent,
   Snackbar,
-  Fade,
-  Tabs,
-  Tab,
-  Hidden
+  Hidden,
+  Fade
 } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -34,10 +32,7 @@ import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
 const BACKEND_API = process.env.BACKEND_API
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
-  Math.random() * 5
-) + 1}.png`
-const showTabs = window.innerWidth <= 960
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 
 const styles = theme => ({
   '@global': {
@@ -51,6 +46,14 @@ const styles = theme => ({
     fontWeight: '600',
     fontSize: '1.5rem',
     color: '#ffffff'
+  },
+  noPostsFound: {
+    paddingTop: '9%',
+    fontFamily: '"Gilroy", sans-serif',
+    fontWeight: '600',
+    fontSize: '1.5rem',
+    color: '#ffffff',
+    textAlign: 'center'
   },
   accountErrorSub: {
     paddingTop: '25px',
@@ -69,16 +72,13 @@ const styles = theme => ({
     color: '#fff',
     overflowY: 'scroll'
   },
-  feedPage: {
-    height: '800px',
-    minHeight: '800px',
-    overflowY: 'auto',
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 40px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '100vw',
-      margin: '0px'
+  feedContainer: {
+    width: '100%',
+    overflow: 'hidden',
+    maxWidth: '650px',
+    marginTop: 20,
+    [theme.breakpoints.down('sm')]: {
+      padding: '0px !important'
     }
   },
   feedLoader: {
@@ -98,9 +98,12 @@ const styles = theme => ({
     }
   },
   collectionContainer: {
-    [theme.breakpoints.down('xs')]: {
-      width: '100vw',
-      margin: '0px'
+    width: '100vw',
+    position: 'relative',
+    marginLeft: 0,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      padding: '0px !important'
     }
   },
   Mask: {
@@ -153,20 +156,15 @@ const styles = theme => ({
     }
   },
   recommended: {
-    display: 'inline-block',
     position: 'sticky',
     top: 200,
     margin: 0,
     opacity: 0.7,
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    },
     '&:hover': {
       opacity: 1
-    },
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px',
-      width: '500px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      margin: '0px 0px 0px 30px'
     }
   },
   headerImg: {
@@ -203,56 +201,8 @@ const styles = theme => ({
   },
   snack: {
     justifyContent: 'center'
-  },
-  recommendedContainer: {
-    borderRadius: 10,
-    '&:hover': {
-      background: '#fafafa05'
-    }
-  },
-  links: {
-    textDecoration: 'none',
-    color: '#fff',
-    margin: 'auto',
-    [theme.breakpoints.down('md')]: {
-      margin: '10px 0px',
-      width: '500px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '70%',
-      margin: '10px auto'
-    }
-  },
-  tabs: {
-    color: '#fff',
-    fontSize: '1.2rem',
-    marginLeft: '35px',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '15px'
-    }
   }
 })
-
-function TabPanel (props) {
-  const { children, value, index } = props
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-    >
-      {value === index && (
-        <div>{children}</div>
-      )}
-    </div>
-  )
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-}
 
 class Collections extends Component {
   state = {
@@ -264,8 +214,7 @@ class Collections extends Component {
     recommended: [],
     dialogOpen: false,
     isTourOpen: false,
-    socialLevelColor: '',
-    activeTab: 0
+    socialLevelColor: ''
   }
 
   async componentDidMount () {
@@ -287,7 +236,7 @@ class Collections extends Component {
       isLoading: false,
       collection,
       recommended,
-      posts: collection.posts.reverse()
+      posts: collection.posts
     })
   }
 
@@ -343,10 +292,6 @@ class Collections extends Component {
     this.setState({ isTourOpen: true })
   }
 
-  handleChange = (e, newTab) => {
-    this.setState({ activeTab: newTab })
-  }
-
   render () {
     const { classes, account } = this.props
     const {
@@ -357,8 +302,7 @@ class Collections extends Component {
       snackbarMsg,
       recommended,
       dialogOpen,
-      socialLevelColor,
-      activeTab
+      socialLevelColor
     } = this.state
 
     const hidden = isMinimize ? classes.hidden : null
@@ -366,10 +310,11 @@ class Collections extends Component {
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
     const isLoggedUserCollection =
       (account && account.name) === (collection && collection.ownerId)
-    const len = posts.length - 1
 
-    let headerImgSrc = posts &&
-      ((posts[len] && posts[len].previewData.img) || (posts[len - 1] && posts[len - 1].previewData.img))
+    let headerImgSrc =
+      posts &&
+      ((posts[0] && posts[0].previewData.img) ||
+        (posts[1] && posts[1].previewData.img))
 
     if (!isLoading && !collection) {
       return (
@@ -485,192 +430,144 @@ class Collections extends Component {
             >
               <Grid
                 item
-                lg={8}
-                xs={12}
-                className={[minimizeHeader, classes.collectionHeader]}
+                container
+                direction='row'
+                justify='flex-start'
+                alignItems='flex-start'
+                spacing={4}
+                className={classes.collectionContainer}
               >
                 <Grid
-                  container
-                  direction='row'
-                  justify='center'
-                  alignItems='center'
-                  spacing={3}
+                  item
+                  xl={9}
+                  lg={9}
+                  md={10}
+                  xs={12}
+                  className={[minimizeHeader, classes.collectionHeader]}
                 >
                   <Grid
-                    item
-                    xl={1}
-                    md={isMinimize ? 1 : 2}
-                    xs={2}
+                    container
+                    direction='row'
+                    justify='left'
+                    alignItems='center'
+                    spacing={3}
                   >
-                    <Fade in
-                      timeout={1000}
+                    <Grid
+                      item
+                      xl={1}
+                      md={isMinimize ? 1 : 2}
+                      xs={2}
                     >
-                      <Img
-                        src={[headerImgSrc, DEFAULT_IMG]}
-                        alt='thumbnail'
-                        loader={<div />}
-                        className={`${classes.headerImg} ${minimize}`}
-                      />
-                    </Fade>
-                  </Grid>
-                  <Grid item
-                    lg={8}
-                    md={isMinimize ? 7 : 6}
-                    sm={8}
-                    xs={6}
-                  >
-                    <Fade in
-                      timeout={400}
-                    >
-                      <Typography variant='h2'
-                        className={classes.headerText}
+                      <Fade in
+                        timeout={1000}
                       >
-                        {collection.name}
-                      </Typography>
-                    </Fade>
-                    <Fade in
-                      timeout={800}
+                        <Img
+                          src={[headerImgSrc, DEFAULT_IMG]}
+                          alt='thumbnail'
+                          loader={<div />}
+                          className={`${classes.headerImg} ${minimize}`}
+                        />
+                      </Fade>
+                    </Grid>
+                    <Grid item
+                      lg={8}
+                      md={7}
+                      sm={8}
+                      xs={6}
                     >
+                      <Fade in
+                        timeout={400}
+                      >
+                        <Typography variant='h2'
+                          className={classes.headerText}
+                        >
+                          {collection.name}
+                        </Typography>
+                      </Fade>
+                      <Fade in
+                        timeout={800}
+                      >
+                        <Typography
+                          variant='h5'
+                          className={[classes.headerText, hidden]}
+                        >
+                          Curated by{' '}
+                          <Link
+                            to={`/${collection.owner}`}
+                            style={{
+                              color: '#fff',
+                              textDecoration: socialLevelColor
+                                ? `1px solid underline ${socialLevelColor}`
+                                : 'none'
+                            }}
+                          >
+                            {collection.owner}
+                          </Link>
+                        </Typography>
+                      </Fade>
                       <Typography
-                        variant='h5'
+                        variant='subtitle2'
                         className={[classes.headerText, hidden]}
                       >
-                        Curated by{' '}
-                        <Link
-                          to={`/${collection.owner}`}
-                          style={{
-                            color: '#fff',
-                            textDecoration: socialLevelColor
-                              ? `1px solid underline ${socialLevelColor}`
-                              : 'none'
-                          }}
+                        {collection.description}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      container
+                      lg={2}
+                      sm={3}
+                      xs={4}
+                      justify='flex-end'
+                    >
+                      <Fade in
+                        timeout={1500}
+                      >
+                        <IconButton
+                          aria-label='more'
+                          aria-controls='long-menu'
+                          aria-haspopup='true'
+                          onClick={this.shareCollection}
                         >
-                          {collection.owner}
-                        </Link>
-                      </Typography>
-                    </Fade>
-                    <Typography
-                      variant='subtitle2'
-                      className={[classes.headerText, hidden]}
-                    >
-                      {collection.description}
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    container
-                    lg={2}
-                    sm={3}
-                    xs={4}
-                    justify='flex-end'
-                  >
-                    <Fade in
-                      timeout={1500}
-                    >
-                      <IconButton
-                        aria-label='more'
-                        aria-controls='long-menu'
-                        aria-haspopup='true'
-                        onClick={this.shareCollection}
-                      >
-                        <Icon
-                          className='fa fa-share'
-                          style={{ color: '#c0c0c0' }}
-                        />
-                      </IconButton>
-                    </Fade>
-                    {isLoggedUserCollection && (
-                      <IconButton
-                        aria-label='more'
-                        aria-controls='long-menu'
-                        aria-haspopup='true'
-                        onClick={this.handleDialogOpen}
-                        className={classes.icons}
-                      >
-                        <MenuIcon />
-                      </IconButton>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Hidden lgDown>
-                <Grid item
-                  lg={4}
-                />
-              </Hidden>
-
-              {showTabs ? <>
-                <Grid item
-                  xs={12}
-                >
-                  <Tabs value={activeTab}
-                    onChange={this.handleChange}
-                  >
-                    <Tab label='Feed'
-                      className={classes.tabs}
-                    />
-                    <Tab label='Recommended'
-                      className={classes.tabs}
-                    />
-                  </Tabs>
-                </Grid>
-
-                <TabPanel value={activeTab}
-                  index={0}
-                >
-                  <Grid item
-                    xs={12}
-                  >
-                    {posts.length === 0 ? (
-                      <Typography variant='subtitle2'>
-                        No posts found in this collection
-                      </Typography>
-                    ) : (
-                      <Feed
-                        isLoading={isLoading}
-                        hasMore
-                        classes={classes}
-                        posts={posts}
-                        hideInteractions
-                        renderObjects
-                        tourname='CollectionPosts'
-                      />
-                    )}
-                  </Grid>
-                </TabPanel>
-
-                <TabPanel value={activeTab}
-                  index={1}
-                >
-                  <Grid item
-                    container
-                    column
-                    spacing={4}
-                    tourname='RecommendedCollections'
-                    className={classes.recommended}
-                  >
-                    {recommended.map(rec => {
-                      if (rec.name !== collection.name) {
-                        return (
-                          <RecommendedCollections
-                            classes={classes}
-                            collection={rec}
+                          <Icon
+                            className='fa fa-share'
+                            style={{ color: '#c0c0c0' }}
                           />
-                        )
-                      }
-                    })}
+                        </IconButton>
+                      </Fade>
+                      {isLoggedUserCollection && (
+                        <IconButton
+                          aria-label='more'
+                          aria-controls='long-menu'
+                          aria-haspopup='true'
+                          onClick={this.handleDialogOpen}
+                          className={classes.icons}
+                        >
+                          <MenuIcon />
+                        </IconButton>
+                      )}
+                    </Grid>
                   </Grid>
-                </TabPanel>
-              </>
+                </Grid>
 
-              : <>
+                <Hidden smDown
+                  lgUp
+                >
+                  <Grid item
+                    xl={3}
+                    lg={3}
+                    md={2}
+                  />
+                </Hidden>
                 <Grid item
                   lg={6}
+                  md={10}
                   xs={12}
+                  className={classes.feedContainer}
+                  tourname='CollectionPosts'
                 >
-                  {posts.length === 0 ? (
-                    <Typography variant='subtitle2'>
+                  {(posts.length === 0) ? (
+                    <Typography className={classes.noPostsFound}>
                       No posts found in this collection
                     </Typography>
                   ) : (
@@ -681,42 +578,41 @@ class Collections extends Component {
                       posts={posts}
                       hideInteractions
                       renderObjects
-                      tourname='CollectionPosts'
                     />
                   )}
                 </Grid>
-
-                <Grid
-                  item
-                  container
-                  lg={3}
-                  sm={0}
-                  spacing={2}
-                  tourname='RecommendedCollections'
-                  className={classes.recommended}
-                >
-                  <Grid item
-                    xs={12}
+                <Hidden smDown>
+                  <Grid
+                    item
+                    container
+                    column
+                    lg={4}
+                    md={2}
+                    sm={0}
+                    spacing={2}
+                    tourname='RecommendedCollections'
+                    className={classes.recommended}
                   >
-                    <Typography variant='h4'>Recommended</Typography>
+                    <Grid item>
+                      <Typography variant='h4'>Recommended</Typography>
+                    </Grid>
+                    <Grid item
+                      xs={12}
+                    >
+                      {recommended.map(rec => {
+                        if (rec.name !== collection.name) {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        }
+                      })}
+                    </Grid>
                   </Grid>
-                  <Grid item
-                    xs={12}
-                  >
-                    {recommended.map(rec => {
-                      if (rec.name !== collection.name) {
-                        return (
-                          <RecommendedCollections
-                            classes={classes}
-                            collection={rec}
-                          />
-                        )
-                      }
-                    })}
-                  </Grid>
-                </Grid>
-              </>
-              }
+                </Hidden>
+              </Grid>
             </Grid>
 
             <Tour
