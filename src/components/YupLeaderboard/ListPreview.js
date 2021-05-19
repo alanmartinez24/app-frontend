@@ -12,10 +12,15 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Typography from '@material-ui/core/Typography'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ReactPlayer from 'react-player'
+import axios from 'axios'
 
 const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/)')
 const collectionPattern = new RegExp('^(app.yup.io/collections/|www.app.yup.io/collections/|http://app.yup.io/collections/|https://app.yup.io/collections/)')
-const { AUDIUS_EMBED } = process.env
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
+  Math.random() * 5
+) + 1}.png`
+
+const { AUDIUS_EMBED, BACKEND_API } = process.env
 
 const styles = theme => ({
   container: {
@@ -40,8 +45,8 @@ const styles = theme => ({
     }
   },
   nftArt: {
-    maxWidth: '80px',
-    maxHeight: '80px',
+    maxWidth: '75px',
+    maxHeight: '75px',
     width: '100%',
     aspectRatio: '1 / 1',
     borderRadius: '20%',
@@ -92,8 +97,10 @@ const theme = createMuiTheme({
 
 class ListPreview extends Component {
   state = {
-    faviconURL: null,
-    faviconURLFallback: null
+    faviconURL: DEFAULT_IMG,
+    faviconURLFallback: DEFAULT_IMG,
+    postBroken: false,
+    collectionImg: DEFAULT_IMG
   }
 
   componentDidMount () {
@@ -163,18 +170,36 @@ class ListPreview extends Component {
   addDefaultVid = (e) => {
     e.target.onerror = null
     this.setState({
-      vidBroken: true
+      postBroken: true
     })
   }
 
   addDefaultSrc = (e) => {
     e.target.onerror = null
     e.target.src = this.state.faviconURL || this.state.faviconURLFallback
-    e.target.style = { border: 'none !important' }
+    e.target.style = {
+      border: 'none !important',
+      maxWidth: '50px',
+      maxHeight: '50px'
+    }
+  }
+
+  addCollectionImg = async (url) => {
+    const collection = url.split('/')
+    const name = collection[4]
+    const id = collection[5]
+
+    const res = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
+    const collectionImg = res.posts[0] && res.posts[0].previewData.img
+    const collectionImgFallback = res.posts[1] && res.posts[1].previewData.img
+    this.setState({
+      collectionImg: collectionImg || collectionImgFallback
+    })
   }
 
   render () {
     const { previewData, url, image, title, classes, rank } = this.props
+    const { faviconURL, faviconURLFallback, postBroken, collectionImg } = this.state
 
     const AudiusComp = () => (
       <div className={classes.audiusPost}>
@@ -190,13 +215,16 @@ class ListPreview extends Component {
     // TODO: Adjust this for Yup lists, should only get quantile for category and website being compared
     const isNftArt = url && url.match(nftPattern)
     const isCollection = url && url.match(collectionPattern)
+    if (isCollection) {
+      this.addCollectionImg(url)
+    }
     const isAudiusPost = previewData && (previewData.trackId && previewData.ownerId)
 
     return (
       <ErrorBoundary>
         <MuiThemeProvider theme={theme}>
           <Fade in
-            timeout={100}
+            timeout={1000}
           >
             <Grid
               container
@@ -238,10 +266,10 @@ class ListPreview extends Component {
                       muted
                       loop
                       playsinline
-                      light={this.state.vidBroken ? (this.state.faviconURL || this.state.faviconURLFallback) : ''}
+                      light={postBroken ? (faviconURL || faviconURLFallback) : ''}
                       onError={this.addDefaultVid}
                       />
-                    : <img src={image || this.state.faviconURL || this.state.faviconURLFallback}
+                    : <img src={isCollection ? collectionImg : (image || faviconURL || faviconURLFallback)}
                       className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
                       onError={this.addDefaultSrc}
                       alt='favicon'
