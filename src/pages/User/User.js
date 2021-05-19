@@ -8,7 +8,7 @@ import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import Footer from '../../components/Footer/Footer'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import { withStyles } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
@@ -27,8 +27,6 @@ import '../../styles.css'
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
-const LIMIT_COLLECTIONS = 5
-const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
   '@global': {
@@ -65,11 +63,8 @@ const styles = theme => ({
     height: '800px',
     minHeight: '800px',
     overflowY: 'auto',
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 40px'
-    },
     [theme.breakpoints.down('xs')]: {
-      margin: '0px'
+      marginLeft: '-15px'
     }
   },
   feedLoader: {
@@ -78,12 +73,15 @@ const styles = theme => ({
     minWidth: '250px',
     minHeight: '800px',
     margin: 'auto',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '600px'
+    },
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 40px'
+      maxWidth: 'auto'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '85vw',
-      marginLeft: '15px'
+      marginleft: '0'
     }
   },
   hideOnMobile: {
@@ -93,11 +91,14 @@ const styles = theme => ({
     }
   },
   infiniteScroll: {
-    [theme.breakpoints.up('1700')]: {
-      width: '100%'
+    [theme.breakpoints.down('sm')]: {
+      width: '100vw'
     },
     [theme.breakpoints.down('md')]: {
-      width: '100vw'
+      width: 'auto'
+    },
+    [theme.breakpoints.up('1700')]: {
+      width: '100%'
     }
   },
   Mask: {
@@ -176,33 +177,9 @@ const styles = theme => ({
   },
   collectionContainer: {
     borderRadius: 10,
-    margin: '5px 0px',
     '&:hover': {
       background: '#fafafa05'
     }
-  },
-  tabs: {
-    color: '#fff',
-    fontSize: '1.2rem',
-    marginLeft: '35px',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '15px'
-    }
-  },
-  collections: {
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      margin: '0px 0px 0px 30px'
-    }
-  },
-  collectionButton: {
-    color: '#fff',
-    width: '100px',
-    float: 'right',
-    fontSize: '0.7rem',
-    fontWeight: '300'
   }
 })
 
@@ -236,7 +213,7 @@ const Collection = ({ classes, collection, username }) => {
           <Typography variant='h5'>
             {collection.name}
           </Typography>
-          <Typography variant='body2'>
+          <Typography variant='body1'>
             {collectionSubheader}
           </Typography>
         </Grid>
@@ -249,27 +226,6 @@ Collection.propTypes = {
   classes: PropTypes.object.isRequired,
   collection: PropTypes.array.isRequired,
   username: PropTypes.string
-}
-
-function TabPanel (props) {
-  const { children, value, index } = props
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-    >
-      {value === index && (
-        <div>{children}</div>
-      )}
-    </div>
-  )
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
 }
 
 class User extends Component {
@@ -286,9 +242,7 @@ class User extends Component {
     isTourOpen: false,
     isMinimize: false,
     showTour: true,
-    collections: [],
-    activeTab: 0,
-    showAll: false
+    collections: []
   }
 
   closeTour = () => {
@@ -455,19 +409,9 @@ class User extends Component {
     this.setState({ dialogOpen: false })
   }
 
-  handleChange = (e, newTab) => {
-    this.setState({ activeTab: newTab })
-  }
-
-  showAll = () => {
-    this.setState({
-      showAll: !this.state.showAll
-    })
-  }
-
   render () {
     const { classes, account } = this.props
-    const { posts, _id: eosname, dialogOpen, initialLoad, hasMore, isLoading, ratingCount, balance, isMinimize, hasError, username, collections, activeTab, showAll } = this.state
+    const { posts, _id: eosname, dialogOpen, initialLoad, hasMore, isLoading, ratingCount, balance, isMinimize, hasError, username, collections } = this.state
 
     const isLoggedIn = (account ? (account.name === eosname) : false)
 
@@ -481,7 +425,7 @@ class User extends Component {
                 <Typography
                   className={classes.accountErrorHeader}
                   color='#ffffff'
-                  variant='h3'
+                  variant='h2'
                 >
                   <strong>
                     Sorry this page is not available.
@@ -535,7 +479,7 @@ class User extends Component {
               direction='row'
               justify='flex-start'
               alignItems='flex-start'
-              spacing={showTabs ? 2 : 4}
+              spacing={isMinimize ? 2 : 4}
             >
               <Grid item
                 lg={6}
@@ -558,144 +502,47 @@ class User extends Component {
                 />
               </Hidden>
 
-              {showTabs ? <>
-                <Grid item
-                  xs={12}
+              <Grid item
+                lg={6}
+                xs={12}
+              >
+                <InfiniteScroll
+                  dataLength={posts.length}
+                  hasMore={hasMore}
+                  height={isMinimize ? 'calc(100vh - 160px)' : 'calc(100vh - 320px)'}
+                  className={classes.infiniteScroll}
+                  onScroll={this.handleScroll}
+                  loader={
+                    !initialLoad
+                       ? <div className={classes.feedLoader}>
+                         <FeedLoader />
+                       </div>
+                       : ''
+                  }
+                  next={this.fetchPosts}
                 >
-                  <Tabs value={activeTab}
-                    onChange={this.handleChange}
-                  >
-                    <Tab label='Feed'
-                      className={classes.tabs}
-                    />
-                    <Tab label='Collections'
-                      className={classes.tabs}
-                    />
-                  </Tabs>
-                </Grid>
-
-                <TabPanel value={activeTab}
-                  index={0}
-                >
-                  <Grid item
-                    xs={12}
-                  >
-                    <InfiniteScroll
-                      dataLength={posts.length}
-                      hasMore={hasMore}
-                      height={isMinimize ? 'calc(100vh - 160px)' : 'calc(100vh - 320px)'}
-                      className={classes.infiniteScroll}
-                      onScroll={this.handleScroll}
-                      loader={
-                        !initialLoad
-                           ? <div className={classes.feedLoader}>
-                             <FeedLoader />
-                           </div>
-                           : ''
-                      }
-                      next={this.fetchPosts}
-                    >
-                      <Feed isLoading={initialLoad}
-                        renderObjects
-                        hideInteractions={false}
-                        posts={posts}
-                        hasMore={hasMore}
-                        classes={classes}
-                      />
-                    </InfiniteScroll>
-                  </Grid>
-                </TabPanel>
-
-                <TabPanel value={activeTab}
-                  index={1}
-                >
-                  <Grid item
-                    container
-                    column
-                    spacing={4}
-                    tourname='Collections'
-                    className={classes.collections}
-                  >
-                    {
-                      isLoggedIn &&
-                        <Grid item
-                          xs={12}
-                          style={{ display: 'flex', alignItems: 'center' }}
-                        >
-                          <Typography variant='subtitle2'
-                            style={{ marginRight: '10%', color: '#fff' }}
-                            className={classes.collectionContainer}
-                          >
-                            Create new collection
-                          </Typography>
-                          <IconButton
-                            aria-label='more'
-                            aria-controls='long-menu'
-                            aria-haspopup='true'
-                            onClick={this.handleDialogOpen}
-                            className={classes.icons}
-                          >
-                            <AddIcon />
-                          </IconButton>
-                        </Grid>
-                    }
-                    <Grid item
-                      xs={12}
-                    >
-                      {collections.length > 0
-                        ? collections.map((collection) => {
-                          return (
-                            <Collection classes={classes}
-                              collection={collection}
-                            />
-                          )
-                        })
-                        : <Typography variant='subtitle2'
-                          style={{ color: '#fff', textAlign: 'center' }}
-                          >
-                          No collections found
-                        </Typography>
-                      }
-                    </Grid>
-                  </Grid>
-                </TabPanel>
-              </>
-
-              : <>
-                <Grid item
-                  lg={6}
-                  xs={12}
-                >
-                  <InfiniteScroll
-                    dataLength={posts.length}
+                  <Feed isLoading={initialLoad}
+                    renderObjects // Render object posts
+                    hideInteractions={false}
+                    posts={posts}
                     hasMore={hasMore}
-                    height={isMinimize ? 'calc(100vh - 160px)' : 'calc(100vh - 320px)'}
-                    className={classes.infiniteScroll}
-                    onScroll={this.handleScroll}
-                    loader={
-                      !initialLoad
-                         ? <div className={classes.feedLoader}>
-                           <FeedLoader />
-                         </div>
-                         : ''
-                    }
-                    next={this.fetchPosts}
-                  >
-                    <Feed isLoading={initialLoad}
-                      renderObjects
-                      hideInteractions={false}
-                      posts={posts}
-                      hasMore={hasMore}
-                      classes={classes}
-                    />
-                  </InfiniteScroll>
-                </Grid>
+                  />
+                </InfiniteScroll>
+              </Grid>
 
-                <Grid item
-                  lg={3}
-                  sm={0}
+              <Grid item
+                lg={4}
+                md={0}
+                sm={0}
+                spacing={2}
+                className={classes.collectionsHeader}
+              >
+                <Grid container
+                  direction='row'
+                  justify='flex-start'
+                  alignItems='flex-start'
                   spacing={2}
-                  className={classes.collectionsHeader}
+                  tourname='Collections'
                 >
                   <Grid item
                     xs={12}
@@ -723,26 +570,18 @@ class User extends Component {
                     xs={12}
                   >
                     {
-                      collections.slice(0, showAll ? collections.length : LIMIT_COLLECTIONS).map((collection) => {
+                      collections.map((collection) => {
                         return (
                           <Collection classes={classes}
                             collection={collection}
+                            username={username}
                           />
                         )
                       })
                     }
-                    {collections.length > LIMIT_COLLECTIONS &&
-                      <Button className={classes.collectionButton}
-                        size='medium'
-                        onClick={this.showAll}
-                      >
-                        {showAll ? 'Show less' : 'Show all'}
-                      </Button>
-                    }
                   </Grid>
                 </Grid>
-              </>
-              }
+              </Grid>
             </Grid>
 
             <Tour

@@ -6,7 +6,6 @@ import Fade from '@material-ui/core/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Grid from '@material-ui/core/Grid'
 import isEqual from 'lodash/isEqual'
-import { connect } from 'react-redux'
 
 const styles = theme => ({
   container: {
@@ -101,24 +100,6 @@ class ListHOC extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-
-  const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
-  const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
-
-  let account = twitterInfo || scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
-  return {
-    account
-  }
-}
-
 ListHOC.propTypes = {
   author: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
@@ -136,4 +117,4 @@ ListHOC.propTypes = {
   dispatch: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(ListHOC))
+export default withStyles(styles)(ListHOC)
