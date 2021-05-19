@@ -70,8 +70,7 @@ const styles = theme => ({
   text: {
     fontSize: '13px',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '12px',
-      display: 'flex'
+      fontSize: '12px'
     }
   }
 })
