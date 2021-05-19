@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
+const TITLE_LIMIT = 30
+const DESC_LIMIT = 140
 
 const styles = theme => ({
   dialog: {
@@ -155,7 +157,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
+            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
             InputProps={{
                         classes: {
                           root: classes.inputRoot,
@@ -177,7 +179,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             fullWidth
             id='description'
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
+            inputProps={{ maxLength: DESC_LIMIT }}
             InputProps={{
                         classes: {
                           root: classes.inputRoot,
