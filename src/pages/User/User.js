@@ -29,6 +29,7 @@ const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 const LIMIT_COLLECTIONS = 5
 const showTabs = window.innerWidth <= 960
+const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
   '@global': {
@@ -192,9 +193,6 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
       width: '500px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      margin: '0px 0px 0px 30px'
     }
   },
   collectionButton: {
@@ -222,7 +220,7 @@ const Collection = ({ classes, collection, username }) => {
         className={classes.collectionContainer}
       >
         <Grid item
-          xs={3}
+          xs={isMobile ? 2 : 3}
         >
           <Img
             src={[collection.imgSrcUrl, DEFAULT_IMG]}
@@ -231,7 +229,7 @@ const Collection = ({ classes, collection, username }) => {
           />
         </Grid>
         <Grid item
-          xs={9}
+          xs={isMobile ? 10 : 9}
         >
           <Typography variant='h5'>
             {collection.name}
@@ -646,7 +644,7 @@ class User extends Component {
                   <Grid item
                     container
                     column
-                    spacing={4}
+                    spacing={isMobile ? 0 : 4}
                     tourname='Collections'
                     className={classes.collections}
                   >

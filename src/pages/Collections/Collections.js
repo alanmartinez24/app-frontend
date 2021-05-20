@@ -63,7 +63,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
-      margin: '0px'
+      margin: 'auto'
     }
   },
   feedLoader: {
@@ -599,21 +599,15 @@ class Collections extends Component {
                   <Grid item
                     xs={12}
                   >
-                    {posts.length === 0 ? (
-                      <Typography variant='subtitle2'>
-                        No posts found in this collection
-                      </Typography>
-                    ) : (
-                      <Feed
-                        isLoading={isLoading}
-                        hasMore
-                        classes={classes}
-                        posts={posts}
-                        hideInteractions
-                        renderObjects
-                        tourname='CollectionPosts'
-                      />
-                    )}
+                    <Feed
+                      isLoading={isLoading}
+                      hasMore={false}
+                      classes={classes}
+                      posts={posts}
+                      hideInteractions
+                      renderObjects
+                      tourname='CollectionPosts'
+                    />
                   </Grid>
                 </TabPanel>
 
@@ -646,21 +640,15 @@ class Collections extends Component {
                   lg={6}
                   xs={12}
                 >
-                  {posts.length === 0 ? (
-                    <Typography variant='subtitle2'>
-                      No posts found in this collection
-                    </Typography>
-                  ) : (
-                    <Feed
-                      isLoading={isLoading}
-                      hasMore
-                      classes={classes}
-                      posts={posts}
-                      hideInteractions
-                      renderObjects
-                      tourname='CollectionPosts'
-                    />
-                  )}
+                  <Feed
+                    isLoading={isLoading}
+                    hasMore={false}
+                    classes={classes}
+                    posts={posts}
+                    hideInteractions
+                    renderObjects
+                    tourname='CollectionPosts'
+                  />
                 </Grid>
 
                 <Grid

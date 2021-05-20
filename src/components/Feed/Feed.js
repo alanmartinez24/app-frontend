@@ -69,9 +69,9 @@ function Feed (props) {
 
   if (!isLoading && !hasMore && posts.length === 0) {
     return (
-      <div align='center'>
+      <div className={classes.feedPage}>
         <Typography
-          style={{ color: '#ffffff' }}
+          style={{ color: '#ffffff', display: 'flex', justifyContent: 'center' }}
           variant='caption'
         >
           No posts found
