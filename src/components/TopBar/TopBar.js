@@ -421,7 +421,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
     const params = new URLSearchParams(search)
     const dialog = params.get('signupOpen')
     const collectionDialog = params.get('collectionDialogOpen')
-    setDialogOpen(dialog || false)
+    setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
     setAccount(authInfo.account)
   }, [authInfo])
@@ -724,14 +724,18 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                           </p>
                         }
                       >
-                        <Button
-                          fullWidth
-                          className={classes.signupBtn}
-                          onClick={handleDialogOpen}
-                          variant='outlined'
-                        >
-                          Sign Up/Login
-                        </Button>
+                        {isMobile ? (
+                          <div />
+                        ) : (
+                          <Button
+                            fullWidth
+                            className={classes.signupBtn}
+                            onClick={handleDialogOpen}
+                            variant='outlined'
+                          >
+                            Sign Up/Login
+                          </Button>
+                        )}
                       </Tooltip>
                     </ListItem>
                   )}
