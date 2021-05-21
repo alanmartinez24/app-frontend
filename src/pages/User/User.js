@@ -699,7 +699,6 @@ class User extends Component {
 
                 <Grid item
                   lg={3}
-                  sm={0}
                   spacing={2}
                   tourname='Collections'
                   className={classes.collections}

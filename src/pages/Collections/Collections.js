@@ -21,9 +21,7 @@ import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
 const BACKEND_API = process.env.BACKEND_API
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
-  Math.random() * 5
-) + 1}.png`
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
@@ -66,10 +64,6 @@ const styles = theme => ({
       margin: 'auto'
     }
   },
-  feedLoader: {
-    margin: '0px',
-    maxWidth: '650px'
-  },
   collectionHeader: {
     position: 'sticky',
     top: '60px',
@@ -93,19 +87,11 @@ const styles = theme => ({
   },
   page: {
     width: '100vw',
+    marginTop: '50px',
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100vw'
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 50
+      marginLeft: 0
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: '200px',
-      width: `calc(100vw - 200px)`,
-      marginTop: '50px'
-    },
-    [theme.breakpoints.up('lg')]: {
       marginLeft: '200px',
       width: `calc(100vw - 200px)`
     },
@@ -132,10 +118,7 @@ const styles = theme => ({
     }
   },
   headerText: {
-    marginBottom: '10px',
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '0px'
-    }
+    marginBottom: '10px'
   },
   recommended: {
     display: 'inline-block',
@@ -164,7 +147,7 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: '#fff'
+    color: '#c0c0c0'
   },
   hidden: {
     display: 'none'
@@ -173,8 +156,8 @@ const styles = theme => ({
     height: '50px',
     width: '50px',
     [theme.breakpoints.down('xs')]: {
-      height: '30px',
-      width: '30px'
+      height: '35px',
+      width: '35px'
     }
   },
   minimizeHeader: {
@@ -188,19 +171,6 @@ const styles = theme => ({
   },
   snack: {
     justifyContent: 'center'
-  },
-  links: {
-    textDecoration: 'none',
-    color: '#fff',
-    margin: 'auto',
-    [theme.breakpoints.down('md')]: {
-      margin: '10px 0px',
-      width: '500px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '70%',
-      margin: '10px auto'
-    }
   },
   tabs: {
     color: '#fff',
@@ -255,7 +225,7 @@ class Collections extends Component {
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
-      return
+      console.log(err)
     }
     this.getSocialLevel(collection.ownerId)
 
@@ -274,7 +244,7 @@ class Collections extends Component {
   }
 
   handleScroll = e => {
-    if (this.state.posts.length < 3) return
+    if (this.state.posts.length <= 2) return
     const { isMinimize } = this.state
     let element = e.target
 
@@ -342,8 +312,8 @@ class Collections extends Component {
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
     const isLoggedUserCollection =
       (account && account.name) === (collection && collection.ownerId)
-    const len = posts.length - 1
 
+    const len = posts.length - 1
     let headerImgSrc = posts &&
       ((posts[len] && posts[len].previewData.img) || (posts[len - 1] && posts[len - 1].previewData.img))
 
@@ -377,8 +347,7 @@ class Collections extends Component {
 
     if (isLoading) {
       return (
-        <div
-          style={{
+        <div style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -457,7 +426,7 @@ class Collections extends Component {
               direction='row'
               justify='flex-start'
               alignItems='flex-start'
-              spacing={4}
+              spacing={showTabs ? 2 : 4}
               className={classes.collectionContainer}
             >
               <Grid
@@ -541,21 +510,16 @@ class Collections extends Component {
                     xs={4}
                     justify='flex-end'
                   >
-                    <Fade in
-                      timeout={1500}
+                    <IconButton
+                      aria-label='more'
+                      aria-controls='long-menu'
+                      aria-haspopup='true'
+                      onClick={this.shareCollection}
                     >
-                      <IconButton
-                        aria-label='more'
-                        aria-controls='long-menu'
-                        aria-haspopup='true'
-                        onClick={this.shareCollection}
-                      >
-                        <Icon
-                          className='fa fa-share'
-                          style={{ color: '#c0c0c0' }}
-                        />
-                      </IconButton>
-                    </Fade>
+                      <Icon
+                        className={[classes.icons, 'fa fa-share']}
+                      />
+                    </IconButton>
                     {isLoggedUserCollection && (
                       <IconButton
                         aria-label='more'
@@ -655,7 +619,6 @@ class Collections extends Component {
                   item
                   container
                   lg={3}
-                  sm={0}
                   spacing={2}
                   tourname='RecommendedCollections'
                   className={classes.recommended}
