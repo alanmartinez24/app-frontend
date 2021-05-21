@@ -26,22 +26,37 @@ const styles = theme => ({
   }
 })
 
-const selectUserCollections = createSelector((state, accountName) => {
-  console.log(state, 'STATE!!')
-  const userCollections = state.userCollections
+const selectUserCollections = createSelector(
+    state => {
+    console.log(state, 'selectorState')
+    if (!state) return []
+    const { account: ethAccount } = state.ethAuth
+    const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+    let _account = scatterIdentity || state.ethAccount
+
+    console.log(_account, '_account')
+    if (!scatterIdentity && ethAccount) {
+      _account = { name: ethAccount._id, authority: 'active' }
+    }
+    if (_account) {
+      return state.userCollections[_account.name]
+    }
+    return []
+    },
+    state => state
+    )
+  /* const userCollections = state.userCollections
   const userCollData = userCollections[accountName]
   if (userCollData) {
     return userCollData.collections
   }
-  return []
-})
+  return [] */
 
 const CollectionPostMenu = ({ postid, classes }) => {
   if (!postid) return null
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [snackbarMsg, setSnackbarMsg] = useState('')
-
   const ethAuth = useSelector(state => state.ethAuth)
   const account = useSelector(state => {
     const { account: ethAccount } = state.ethAuth
@@ -56,22 +71,34 @@ const CollectionPostMenu = ({ postid, classes }) => {
   }, null)
 
   if (!account) { return }
-  const userCollections = useSelector(({ userCollections }) => userCollections[account.name] || [], [])
-  const userCollections2 = useSelector(state => selectUserCollections(state, account.name))
+  const userCollections = useSelector(state => (!state) || selectUserCollections(state))
 
+  console.log(userCollections, 'userCollections')
   const collectionsPageId = window.location.href.split('/').pop()
 
-  const selectAddedCollections = createSelector(({ userCollections }) => {
-    const userCollData = userCollections[account.name]
+  const selectAddedCollections = createSelector(state => {
+    console.log(postid, 'postid')
+    if (!state) return []
+    const { account: ethAccount } = state.ethAuth
+    const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+    let _account = scatterIdentity || state.ethAccount
+
+    console.log(_account, '_account')
+    if (!scatterIdentity && ethAccount) {
+      _account = { name: ethAccount._id, authority: 'active' }
+    }
+    if (_account) {
+    const userCollData = state.userCollections[_account.name]
     if (userCollData) {
       return userCollData.collections
     }
+  }
     return []
   }, collections =>
   collections.filter(collection => collection.postIds.includes(postid))
 )
-  const addedCollections = useSelector(state => selectAddedCollections(state))
-  console.log(userCollections2, addedCollections, 'COLL DATA')
+  const addedCollections = useSelector(state => (!state) || selectAddedCollections(state))
+  console.log(addedCollections, 'COLL DATA')
 
   /*
     collections.map((collection) => {
@@ -121,8 +148,7 @@ const CollectionPostMenu = ({ postid, classes }) => {
   //   console.log('menuCollections :>> ', menuCollections)
   //   }
   // }, [needsUpdate])
-  console.log('USER COLLECTIONS', userCollections)
-  const { collections } = userCollections
+  const collections = { ...userCollections }
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth
