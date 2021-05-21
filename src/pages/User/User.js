@@ -64,6 +64,7 @@ const styles = theme => ({
     }
   },
   feedPage: {
+    marginLeft: '110px',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px'
     },
@@ -76,28 +77,17 @@ const styles = theme => ({
     maxWidth: '625px',
     minWidth: '250px',
     minHeight: '800px',
-    margin: 'auto',
+    marginLeft: '110px',
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 40px'
+      margin: '0px 0px 0px 50px'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
       marginLeft: '15px'
     }
   },
-  hideOnMobile: {
-    display: 'inherit',
-    [theme.breakpoints.down('xs')]: {
-      display: 'none'
-    }
-  },
   infiniteScroll: {
-    [theme.breakpoints.up('1700')]: {
-      width: '100%'
-    },
-    [theme.breakpoints.down('md')]: {
       width: '100vw'
-    }
   },
   Mask: {
     outline: 'solid 0px #FAFAFA44'
@@ -106,14 +96,9 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
       width: '100%'
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100% - 200px)`
-    },
-    [theme.breakpoints.up('lg')]: {
       marginLeft: 200,
       width: `calc(100% - 200px)`
     },
@@ -149,12 +134,6 @@ const styles = theme => ({
       display: 'none'
     }
   },
-  collectionsHeader: {
-    color: '#fff',
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  },
   icons: {
     color: '#fff'
   },
@@ -170,7 +149,8 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       height: '40px',
-      width: '40px'
+      width: '40px',
+      marginTop: '5px'
     }
   },
   collectionContainer: {
@@ -195,7 +175,7 @@ const styles = theme => ({
       width: '500px'
     }
   },
-  collectionButton: {
+  showAll: {
     color: '#fff',
     width: '100px',
     float: 'right',
@@ -297,10 +277,12 @@ class User extends Component {
   componentDidMount () {
     const { dispatch } = this.props
     dispatch(pushAccount(false))
+
     this.loadUserData()
     this.showDialog()
     window.Intercom('update')
     window.analytics.page('User')
+
     setTimeout(() => {
       this.setState({
         showTour: false
@@ -352,7 +334,7 @@ class User extends Component {
   }
 
   handleScroll = (e) => {
-    if (this.state.ratingCount < 3) return
+    if (this.state.ratingCount <= 2) return
     const { isMinimize } = this.state
     let element = e.target
     if (element.scrollTop > this.prev && !isMinimize) {
@@ -440,14 +422,6 @@ class User extends Component {
         this.setState({ hasError: true, isLoading: false })
       }
     })()
-  }
-
-  handleDialogOpen = () => {
-    this.setState({ dialogOpen: true })
-  }
-
-  handleDialogClose = () => {
-    this.setState({ dialogOpen: false })
   }
 
   handleChange = (e, newTab) => {
@@ -580,13 +554,11 @@ class User extends Component {
                   isLoggedIn={isLoggedIn}
                   ratingCount={ratingCount}
                   isMinimize={isMinimize}
-                  className={classes.ProfileCard}
                 />
               </Grid>
-              <Hidden mdDown>
+              <Hidden lgDown>
                 <Grid item
                   lg={6}
-                  xs={0}
                 />
               </Hidden>
 
@@ -683,7 +655,7 @@ class User extends Component {
                         })
                       }
                       {collections.length > LIMIT_COLLECTIONS &&
-                        <Button className={classes.collectionButton}
+                        <Button className={classes.showAll}
                           size='medium'
                           onClick={this.handleShowAll}
                         >
@@ -769,7 +741,7 @@ class User extends Component {
                           })
                         }
                         {collections.length > LIMIT_COLLECTIONS &&
-                          <Button className={classes.collectionButton}
+                          <Button className={classes.showAll}
                             size='medium'
                             onClick={this.handleShowAll}
                           >
