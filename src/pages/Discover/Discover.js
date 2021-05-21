@@ -238,15 +238,8 @@ function FeedHeader ({
   isMinimize
 }) {
   return (
-    <div
-      className={classes.topicDiv}
-      style={
-        isMinimize
-          ? {
-              padding: '78px 0 15px 0'
-            }
-          : {}
-      }
+    <div className={classes.topicDiv}
+      style={{ paddingBottom: isMinimize ? '20px' : '' }}
     >
       <Tooltip
         placement='bottom'
@@ -269,7 +262,7 @@ function FeedHeader ({
         >
           <Grid
             item
-            style={isMinimize ? { height: '2.5rem' } : { height: '3.5rem' }}
+            style={{ height: isMinimize ? '3.5rem' : '4rem' }}
           >
             <img
               className={classes.topicImg}
@@ -280,7 +273,7 @@ function FeedHeader ({
           <Grid item>
             <Typography
               variant='h4'
-              style={isMinimize ? { fontSize: '1.375rem' } : {}}
+              style={isMinimize ? { fontSize: '1rem' } : {}}
             >
               {name}
             </Typography>
@@ -307,10 +300,10 @@ const StyledFeedHeader = withStyles(theme => ({
     width: '600px',
     margin: '0 auto',
     position: 'relative',
-    padding: '78px 0px 32px 0px',
+    padding: '80px 0px 35px 0px',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '0',
-      padding: '55px 0px 0px 15px',
+      padding: '70px 0px 25px 15px',
       width: '100vw'
     }
   },

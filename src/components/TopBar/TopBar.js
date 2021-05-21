@@ -907,7 +907,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
               <StyledYupProductNav account={account} />
 
               {/* First Menu: FEEDS */}
-              {isShown && (
+              {(isShown || isMobile) && (
                 <Grow in
                   timeout={500}
                 >
@@ -1029,7 +1029,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
               )}
 
               {/* Second Menu: LISTS */}
-              {isShown && (
+              {(isShown || isMobile) && (
                 <Grow in
                   timeout={1000}
                 >
