@@ -71,34 +71,22 @@ const CollectionPostMenu = ({ postid, classes }) => {
   }, null)
 
   if (!account) { return }
-  const userCollections = useSelector(state => (!state) || selectUserCollections(state))
+  const userCollections = useSelector(state => selectUserCollections(state))
 
   console.log(userCollections, 'userCollections')
   const collectionsPageId = window.location.href.split('/').pop()
-
-  const selectAddedCollections = createSelector(state => {
-    console.log(postid, 'postid')
-    if (!state) return []
-    const { account: ethAccount } = state.ethAuth
-    const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-    let _account = scatterIdentity || state.ethAccount
-
-    console.log(_account, '_account')
-    if (!scatterIdentity && ethAccount) {
-      _account = { name: ethAccount._id, authority: 'active' }
+/*
+  const selectAddedCollections = createSelector(state =>
+  state.userCollections[account.name]
+  , collections => {
+    if (collections && collections.length !== 0) {
+     collections.filter(collection => collection.postIds.includes(postid))
     }
-    if (_account) {
-    const userCollData = state.userCollections[_account.name]
-    if (userCollData) {
-      return userCollData.collections
-    }
+    return collections
   }
-    return []
-  }, collections =>
-  collections.filter(collection => collection.postIds.includes(postid))
 )
-  const addedCollections = useSelector(state => (!state) || selectAddedCollections(state))
-  console.log(addedCollections, 'COLL DATA')
+  const addedCollections = useSelector(state => selectAddedCollections(state))
+  console.log(addedCollections, 'COLL DATA') */
 
   /*
     collections.map((collection) => {
