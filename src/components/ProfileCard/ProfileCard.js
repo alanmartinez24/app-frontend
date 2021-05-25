@@ -24,21 +24,21 @@ const styles = theme => ({
     height: 100 - theme.spacing(),
     minHeight: 100 - theme.spacing(),
     minWidth: 100 - theme.spacing(),
-    fontSize: '70px',
+    fontSize: '60px',
     marginTop: '0px',
     marginBottom: '-4px',
     borderRadius: '100%',
     border: 'solid 3px #DADADA',
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '50px',
-      marginLeft: '25px',
+      fontSize: '45px',
+      marginLeft: '15px',
       marginBottom: '6vw',
       borderRadius: '100%',
-      width: '70px',
-      height: '70px',
-      minHeight: '70px',
-      minWidth: '70px'
+      width: '60px',
+      height: '60px',
+      minHeight: '60px',
+      minWidth: '60px'
     }
   },
   bio: {
@@ -144,7 +144,7 @@ const styles = theme => ({
     marginLeft: '100px',
     [theme.breakpoints.down('xs')]: {
       paddingTop: '10px',
-      marginLeft: '100px',
+      marginLeft: '90px',
       display: 'block',
       height: '100px'
     }
@@ -273,7 +273,7 @@ function ProfileCard (props) {
               direction='row'
               justify='space-between'
               align-center
-              spacing={4}
+              spacing={isMobile ? 0 : 4}
             >
               <Grid item
                 xs={8}
