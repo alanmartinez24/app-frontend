@@ -487,6 +487,7 @@ class SubscribeDialog extends Component {
         return
       }
       await axios.post(`${BACKEND_API}/auth/invite_mobile`, { email: this.state.email })
+      this.logSignup('Email Signup', this.state.email)
     } catch (err) {
       this.handleSnackbarOpen(ERROR_MSG, true)
     }
@@ -526,9 +527,22 @@ class SubscribeDialog extends Component {
   }
 
   logEthSignup (account) {
-    window.analytics.track('ETH Signup', {
+    const ethAccount = {
       userId: this.state.address,
-      username: this.state.username,
+      username: this.state.username
+    }
+    window.analytics.track('ETH Signup', {
+      userId: ethAccount.userId,
+      username: ethAccount.username,
+      application: 'Web App'
+    })
+    this.logSignup('ETH_SIGNUP', ethAccount)
+  }
+
+  logSignup (type, account) {
+    window.analytics.track('Signup', {
+      type,
+      account,
       application: 'Web App'
     })
   }
