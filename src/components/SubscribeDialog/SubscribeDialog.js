@@ -745,6 +745,7 @@ class SubscribeDialog extends Component {
                 </Typography>
               </DialogTitle>
               <DialogContent>
+                <DialogContentText>Please signup with address with an ETH amount.</DialogContentText>
                 <Stepper activeStep={this.state.activeStep}
                   orientation='vertical'
                   className={classes.stepper}
