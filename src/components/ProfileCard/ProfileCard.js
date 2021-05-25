@@ -303,9 +303,9 @@ function ProfileCard (props) {
                     />
                   </MuiThemeProvider>
                   : <FollowButton
-                    account={account}
-                    eosname={accountInfo.eosname}
-                    isLoggedIn={isLoggedIn}
+                      account={account}
+                      eosname={accountInfo.eosname}
+                      isLoggedIn={isLoggedIn}
                     />
               }
               </Grid>
@@ -335,8 +335,8 @@ function ProfileCard (props) {
                 <Grid item>
                   {(isMirror && !isAuthUser)
                     ? <Tooltip enterDelay={200}
-                      disableTouchListener
-                      title="This account is a mirror of this Twitter user's activity"
+                        disableTouchListener
+                        title="This account is a mirror of this Twitter user's activity"
                       >
                       <img
                         src='/images/icons/twitter.svg'
@@ -423,11 +423,11 @@ function ProfileCard (props) {
                   YUPBalanceError
                     ? ''
                     : <Typography
-                      className={classes.text2}
-                      color='inherit'
-                      style={{ display: 'inline-block', fontFamily: 'Gilroy' }}
-                      variant='caption'
-                      tourname='YUPBalance'
+                        className={classes.text2}
+                        color='inherit'
+                        style={{ display: 'inline-block', fontFamily: 'Gilroy' }}
+                        variant='caption'
+                        tourname='YUPBalance'
                       >
                       <Grid container
                         direction='row'

@@ -231,20 +231,20 @@ class ListPreview extends Component {
                   >
                     {(image && image.includes('nft.mp4'))
                     ? <ReactPlayer
-                      className={classes.nftArt}
-                      target='_blank'
-                      url={image}
-                      playing
-                      muted
-                      loop
-                      playsinline
-                      light={this.state.vidBroken ? (this.state.faviconURL || this.state.faviconURLFallback) : ''}
-                      onError={this.addDefaultVid}
+                        className={classes.nftArt}
+                        target='_blank'
+                        url={image}
+                        playing
+                        muted
+                        loop
+                        playsinline
+                        light={this.state.vidBroken ? (this.state.faviconURL || this.state.faviconURLFallback) : ''}
+                        onError={this.addDefaultVid}
                       />
                     : <img src={image || this.state.faviconURL || this.state.faviconURLFallback}
-                      className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
-                      onError={this.addDefaultSrc}
-                      alt='favicon'
+                        className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
+                        onError={this.addDefaultSrc}
+                        alt='favicon'
                       />
                   }
                   </Grid>

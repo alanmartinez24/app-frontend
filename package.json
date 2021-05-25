@@ -14,7 +14,9 @@
     "deploy-staging": "aws s3 sync build s3://staging.app.yup.io",
     "release": "yarn config set version-tag-prefix frontend@v &&  yarn config set version-git-message 'frontend@v%s' && yarn version",
     "lint": "eslint ./src",
-    "lint-fix": "eslint ./src --fix"
+    "lint-fix": "eslint ./src --fix",
+    "sitemap": "NODE_ENV=production babel-node scripts/sitemap.js",
+    "sitemap-dev": "NODE_ENV=development babel-node scripts/sitemap.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
