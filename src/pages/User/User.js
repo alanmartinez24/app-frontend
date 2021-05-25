@@ -66,7 +66,8 @@ const styles = theme => ({
   feedPage: {
     marginLeft: '110px',
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '50px'
+      marginLeft: '30px',
+      maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
@@ -79,7 +80,8 @@ const styles = theme => ({
     minHeight: '800px',
     marginLeft: '110px',
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '50px'
+      marginLeft: '30px',
+      maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
@@ -698,7 +700,7 @@ class User extends Component {
                 </Grid>
 
                 <Grid item
-                  lg={3}
+                  lg={4}
                   spacing={2}
                   tourname='Collections'
                   className={classes.collections}

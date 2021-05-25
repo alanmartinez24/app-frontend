@@ -618,7 +618,7 @@ class Collections extends Component {
                 <Grid
                   item
                   container
-                  lg={3}
+                  lg={4}
                   spacing={2}
                   tourname='RecommendedCollections'
                   className={classes.recommended}
