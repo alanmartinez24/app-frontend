@@ -65,8 +65,8 @@ const styles = theme => ({
   },
   feedPage: {
     marginLeft: '110px',
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px'
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: '50px'
     },
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
@@ -78,8 +78,8 @@ const styles = theme => ({
     minWidth: '250px',
     minHeight: '800px',
     marginLeft: '110px',
-    [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px'
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: '50px'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
@@ -556,7 +556,7 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
-              <Hidden lgDown>
+              <Hidden mdDown>
                 <Grid item
                   lg={6}
                 />
