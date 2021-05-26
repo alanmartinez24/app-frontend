@@ -16,7 +16,7 @@ const { NODE_ENV } = process.env
 let composeEnhancers
 let middleware
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === 'production') {
   const loggerMiddleware = createLogger()
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   middleware = applyMiddleware(
@@ -32,11 +32,13 @@ if (NODE_ENV === 'development') {
     thunkMiddleware
   )
 }
+const createRootReducer = (history) => combineReducers({
+  router: connectRouter(history),
+  ...reducers
+})
 
 const store = createStore(
-  combineReducers({
-    router: connectRouter(history),
-    ...reducers }),
+  createRootReducer(history),
   composeEnhancers(middleware)
 )
 
@@ -45,6 +47,6 @@ ReactDOM.render(
     context={reactReduxContext}
   >
     <StylesProvider injectFirst>
-      <Index />
+      <Index history={history} />
     </StylesProvider>
   </Provider>, document.getElementById('root'))

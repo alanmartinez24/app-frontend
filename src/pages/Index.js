@@ -6,7 +6,7 @@ import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { history, reactReduxContext } from '../utils/history'
+import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 // import wallet from '../eos/scatter/scatter.wallet'
 import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
@@ -59,7 +59,6 @@ class Index extends Component {
     alertDialogOpen: false,
     isLoading: isProtectedRoute // all protected routes require wallet to load first
   }
-
   handleAlertDialogOpen = (msg) => {
     this.setState({ alertDialogOpen: true, alertDialogContent: msg })
   }
@@ -122,6 +121,7 @@ class Index extends Component {
   // }
 
   render () {
+ const history = this.props.history
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -212,6 +212,7 @@ Index.propTypes = {
   fetchSocialLevels: PropTypes.func.isRequired,
   // checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
+  history: PropTypes.object,
   // scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired
   // getExtAuthToken: PropTypes.func.isRequired
