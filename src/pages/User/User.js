@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ProfileCard from '../../components/ProfileCard/ProfileCard'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
@@ -420,7 +419,6 @@ class User extends Component {
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header isTourOpen={this.state.isTourOpen} />
               <div align='center'>
                 <Typography
                   className={classes.accountErrorHeader}
@@ -473,7 +471,6 @@ class User extends Component {
         />
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <SideDrawer />
             <Grid container
               direction='row'

@@ -7,7 +7,7 @@ import { createLogger } from 'redux-logger'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import * as reducers from './redux/reducers'
-import { history, reactReduxContext } from './utils/history'
+import { history } from './utils/history'
 import { StylesProvider } from '@material-ui/core/styles'
 import './styles.css'
 
@@ -43,9 +43,8 @@ const store = createStore(
 )
 
 ReactDOM.render(
-  <Provider store={store}
-    context={reactReduxContext}
-  >
+
+  <Provider store={store}>
     <StylesProvider injectFirst>
       <Index history={history} />
     </StylesProvider>

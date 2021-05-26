@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import LineChart from '../../components/Charts/LineChart'
@@ -364,7 +363,6 @@ ratingPower = async () => {
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header />
               <div align='center'>
                 <Typography
                   className={classes.accountErrorHeader}
@@ -404,7 +402,6 @@ ratingPower = async () => {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <Grid container
               direction='row'
               alignItems='center'

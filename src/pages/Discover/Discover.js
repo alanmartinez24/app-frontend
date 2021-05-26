@@ -1,5 +1,4 @@
 import React, { Component, memo } from 'react'
-import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import HomeMenu from '../../components/Landing/HomeMenu'
 import PropTypes from 'prop-types'
@@ -379,7 +378,6 @@ class Discover extends Component {
     ) : (
       <div className={classes.container}>
         <div className={classes.page}>
-          <Header isTourOpen={this.state.isTourOpen} />
           <SideDrawer />
           <Grid container
             justify='center'

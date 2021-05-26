@@ -1,5 +1,4 @@
 import React, { Component, memo } from 'react'
-import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import PropTypes from 'prop-types'
 import YupLeaderboard from '../../components/YupLeaderboard/YupList'
@@ -128,7 +127,6 @@ class YupLists extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header isTourOpen={this.state.isTourOpen} />
             { !this.state.isLoading &&
             <Grid className={classes.gridContainer}
               container

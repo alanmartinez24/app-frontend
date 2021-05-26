@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Header from '../Header/Header'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Footer from '../Footer/Footer'
@@ -139,7 +138,6 @@ class Home extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
 
             <Grid
               className={classes.gridContainer}

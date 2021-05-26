@@ -1,4 +1,4 @@
-import React, { Fragment, Component, Suspense, lazy } from 'react'
+import React, { Fragment, Component } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
@@ -8,51 +8,28 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
+import Header from '../components/Header/Header'
 // import wallet from '../eos/scatter/scatter.wallet'
 import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
-import isEqual from 'lodash/isEqual'
 // import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
 
-const { BACKEND_API } = process.env
+import YupLists from './YupLists/YupLists'
+import Discover from './Discover/Discover'
+import User from './User/User'
+import PostPage from './PostPage/PostPage'
+import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
+import Collections from './Collections/Collections'
+import Analytics from './Analytics/Analytics'
 
-const YupLists = lazy(() => import('./YupLists/YupLists'))
-const Discover = lazy(() => import('./Discover/Discover'))
-const User = lazy(() => import('./User/User'))
-const Analytics = lazy(() => import('./Analytics/Analytics'))
-const Collections = lazy(() => import('./Collections/Collections'))
-const PostPage = lazy(() => import('./PostPage/PostPage'))
-const TwitterOAuth = lazy(() => import('./TwitterOAuth/TwitterOAuth'))
+const { BACKEND_API } = process.env
 
 const pathname = document.location.pathname
 const isProtectedRoute = (pathname !== '/leaderboard' && pathname !== '/analytics')
-
-class Fallback extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
-      return true
-    }
-    return false
-  }
-
-  render () {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh'
-      }}
-      >
-        <DotSpinner />
-      </div>
-    )
-  }
-}
 
 class Index extends Component {
   state = {
@@ -122,6 +99,7 @@ class Index extends Component {
 
   render () {
  const history = this.props.history
+ console.log(history, 'historyyy')
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -148,10 +126,12 @@ class Index extends Component {
               content={metaTitle}
             />
           </Helmet>
+
           <ConnectedRouter history={history}
             context={reactReduxContext}
           >
-            <Suspense fallback={<Fallback />}>
+            <div>
+              <Header isTourOpen={this.state.isTourOpen} />
               <Switch>
                 <Route component={Discover}
                   exact
@@ -188,7 +168,7 @@ class Index extends Component {
                   to='/leaderboard'
                 />
               </Switch>
-            </Suspense>
+            </div>
           </ConnectedRouter>
         </MuiThemeProvider>
         <Dialog
