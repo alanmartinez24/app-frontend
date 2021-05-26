@@ -56,8 +56,9 @@ const styles = theme => ({
   },
   feedPage: {
     marginLeft: '40px',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '50px'
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: '30px',
+      maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
@@ -71,7 +72,12 @@ const styles = theme => ({
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
+    paddingLeft: '60px !important',
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: '40px !important'
+    },
     [theme.breakpoints.down('xs')]: {
+      paddingLeft: '20px !important',
       top: 0,
       marginBottom: '0px'
     }
@@ -139,6 +145,7 @@ const styles = theme => ({
   },
   headerImg: {
     width: '100%',
+    maxWidth: '100px',
     aspectRatio: '1 / 1',
     objectFit: 'cover',
     borderRadius: '0.5rem',
@@ -165,8 +172,7 @@ const styles = theme => ({
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '60px',
-      padding: '5px !important'
+      maxHeight: '60px'
     }
   },
   snack: {
@@ -426,112 +432,110 @@ class Collections extends Component {
               direction='row'
               justify='flex-start'
               alignItems='flex-start'
-              spacing={showTabs ? 2 : 4}
+              spacing={2}
               className={classes.collectionContainer}
             >
               <Grid
                 item
+                container
+                direction='row'
+                justify='flex-start'
+                alignItems='center'
+                spacing={2}
                 lg={8}
                 xs={12}
                 className={[minimizeHeader, classes.collectionHeader]}
               >
                 <Grid
-                  container
-                  direction='row'
-                  justify='center'
-                  alignItems='center'
-                  spacing={3}
+                  item
+                  lg={isMinimize ? 1 : 2}
+                  md={isMinimize ? 1 : 2}
+                  sm={2}
+                  xs={2}
                 >
-                  <Grid
-                    item
-                    xl={1}
-                    md={isMinimize ? 1 : 2}
-                    xs={2}
+                  <Fade in
+                    timeout={1000}
                   >
-                    <Fade in
-                      timeout={1000}
-                    >
-                      <Img
-                        src={[headerImgSrc, DEFAULT_IMG]}
-                        alt='thumbnail'
-                        loader={<div />}
-                        className={`${classes.headerImg} ${minimize}`}
-                      />
-                    </Fade>
-                  </Grid>
-                  <Grid item
-                    lg={8}
-                    md={isMinimize ? 7 : 6}
-                    sm={8}
-                    xs={6}
+                    <Img
+                      src={[headerImgSrc, DEFAULT_IMG]}
+                      alt='thumbnail'
+                      loader={<div />}
+                      className={`${classes.headerImg} ${minimize}`}
+                    />
+                  </Fade>
+                </Grid>
+                <Grid item
+                  lg={isMinimize ? 7 : 6}
+                  md={isMinimize ? 7 : 6}
+                  sm={8}
+                  xs={6}
+                >
+                  <Fade in
+                    timeout={400}
                   >
-                    <Fade in
-                      timeout={400}
+                    <Typography variant='h2'
+                      className={classes.headerText}
                     >
-                      <Typography variant='h2'
-                        className={classes.headerText}
-                      >
-                        {collection.name}
-                      </Typography>
-                    </Fade>
-                    <Fade in
-                      timeout={800}
-                    >
-                      <Typography
-                        variant='h5'
-                        className={[classes.headerText, hidden]}
-                      >
-                        Curated by{' '}
-                        <Link
-                          to={`/${collection.owner}`}
-                          style={{
-                            color: '#fff',
-                            textDecoration: socialLevelColor
-                              ? `1px solid underline ${socialLevelColor}`
-                              : 'none'
-                          }}
-                        >
-                          {collection.owner}
-                        </Link>
-                      </Typography>
-                    </Fade>
+                      {collection.name}
+                    </Typography>
+                  </Fade>
+                  <Fade in
+                    timeout={800}
+                  >
                     <Typography
-                      variant='subtitle2'
+                      variant='h5'
                       className={[classes.headerText, hidden]}
                     >
-                      {collection.description}
+                      Curated by{' '}
+                      <Link
+                        to={`/${collection.owner}`}
+                        style={{
+                          color: '#fff',
+                          textDecoration: socialLevelColor
+                            ? `1px solid underline ${socialLevelColor}`
+                            : 'none'
+                        }}
+                      >
+                        {collection.owner}
+                      </Link>
                     </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    container
-                    lg={2}
-                    sm={3}
-                    xs={4}
-                    justify='flex-end'
+                  </Fade>
+                  <Typography
+                    variant='subtitle2'
+                    className={[classes.headerText, hidden]}
                   >
+                    {collection.description}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  container
+                  lg={4}
+                  sm={2}
+                  xs={4}
+                  justify='flex-end'
+                >
+                  <IconButton
+                    aria-label='more'
+                    aria-controls='long-menu'
+                    aria-haspopup='true'
+                    onClick={this.shareCollection}
+                  >
+                    <Icon
+                      className={[classes.icons, 'fa fa-share']}
+                    />
+                  </IconButton>
+                  {isLoggedUserCollection && (
                     <IconButton
                       aria-label='more'
                       aria-controls='long-menu'
                       aria-haspopup='true'
-                      onClick={this.shareCollection}
+                      onClick={this.handleDialogOpen}
+                      className={classes.icons}
                     >
-                      <Icon
-                        className={[classes.icons, 'fa fa-share']}
-                      />
+                      <MenuIcon />
                     </IconButton>
-                    {isLoggedUserCollection && (
-                      <IconButton
-                        aria-label='more'
-                        aria-controls='long-menu'
-                        aria-haspopup='true'
-                        onClick={this.handleDialogOpen}
-                        className={classes.icons}
-                      >
-                        <MenuIcon />
-                      </IconButton>
-                    )}
-                  </Grid>
+                  )}
                 </Grid>
               </Grid>
 
