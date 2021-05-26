@@ -265,21 +265,21 @@ class NFTPreview extends Component {
             >
               {((image && image.includes('nft.mp4')) || (mimeType && mimeType.includes('video')))
               ? <ReactPlayer
-                  className={classes.linkImg}
-                  style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                  url={image}
-                  height='auto'
-                  width='100%'
-                  playing
-                  muted
-                  loop
-                  playsinline
+                className={classes.linkImg}
+                style={{ overFlow: 'hidden', maxHeight: '1000px' }}
+                url={image}
+                height='auto'
+                width='100%'
+                playing
+                muted
+                loop
+                playsinline
                 />
             : <Img alt={title}
-                className={classes.linkImg}
-                src={[image, DEFAULT_POST_IMAGE]}
-                target='_blank'
-                loader={<img src={DEFAULT_POST_IMAGE} />}
+              className={classes.linkImg}
+              src={[image, DEFAULT_POST_IMAGE]}
+              target='_blank'
+              loader={<img src={DEFAULT_POST_IMAGE} />}
               />
             }
               <div className={classes.previewData}>

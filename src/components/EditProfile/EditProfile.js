@@ -534,13 +534,13 @@ class EditProfile extends Component {
                       >{
                           files.length > 0
                             ? <UserAvatar
-                                align='center'
-                                alt='Preview'
-                                className={classes.previewStyle}
-                                height='auto'
-                                key={filename}
-                                src={filePreview}
-                                width='100%'
+                              align='center'
+                              alt='Preview'
+                              className={classes.previewStyle}
+                              height='auto'
+                              key={filename}
+                              src={filePreview}
+                              width='100%'
                               />
                           : <div style={{ width: '250px', height: '250px' }}>
                             <UserAvatar
@@ -560,8 +560,8 @@ class EditProfile extends Component {
                       </Dropzone>
                     </div>
                     : <ReactCrop
-                        crop={crop}
-                        imageStyle={{
+                      crop={crop}
+                      imageStyle={{
                         width: '100%',
                         height: 'auto',
                         objectFit: 'contain',
@@ -569,9 +569,9 @@ class EditProfile extends Component {
                         maxWidth: '100%',
                         maxHeight: '400px'
                       }}
-                        onChange={this.onCropChange}
-                        onImageLoaded={this.onImageLoaded}
-                        src={filePreview}
+                      onChange={this.onCropChange}
+                      onImageLoaded={this.onImageLoaded}
+                      src={filePreview}
                       />
                   }
                     <CropIcon />

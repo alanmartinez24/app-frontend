@@ -168,12 +168,12 @@ class FollowingDialog extends Component {
                   <CircularProgress className={classes.progress} />
                 </div>
                 : <Grid container
-                    direction='column'
+                  direction='column'
                   > {
                     following.length === 0
                       ? <Typography
-                          color='white'
-                          style={{ textAlign: 'center' }}
+                        color='white'
+                        style={{ textAlign: 'center' }}
                         >
                         No users are being followed
                       </Typography>
