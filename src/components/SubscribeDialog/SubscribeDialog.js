@@ -642,11 +642,11 @@ class SubscribeDialog extends Component {
                       </Typography>
                       {this.state.EthIsLoading
                     ? <CircularProgress size={20}
-                      className={classes.loader}
+                        className={classes.loader}
                       />
                     : <img alt='wallet connect'
-                      src='/images/icons/wallet_connect.png'
-                      className={classes.walletConnectIcon}
+                        src='/images/icons/wallet_connect.png'
+                        className={classes.walletConnectIcon}
                       />
                   }
                     </Button>
@@ -667,11 +667,11 @@ class SubscribeDialog extends Component {
                       </Typography>
                       {this.state.OAuthIsLoading
                     ? <CircularProgress size={20}
-                      className={classes.loader}
+                        className={classes.loader}
                       />
                     : <img alt='twitter'
-                      src='/images/icons/twitter.svg'
-                      className={classes.twitterIcon}
+                        src='/images/icons/twitter.svg'
+                        className={classes.twitterIcon}
                       />
                   }
                     </Button>
@@ -731,6 +731,14 @@ class SubscribeDialog extends Component {
                 </Typography>
               </DialogTitle>
               <DialogContent>
+                <Typography
+                  align='left'
+                  className={classes.dialogTitleText}
+                  variant='subtitle2'
+                  style={{ color: '#fff', fontWeight: '300' }}
+                >
+                  Please signup with address with an ETH amount.
+                </Typography>
                 <Stepper activeStep={this.state.activeStep}
                   orientation='vertical'
                   className={classes.stepper}
@@ -777,11 +785,11 @@ class SubscribeDialog extends Component {
                                   >
                                     {this.state.EthIsLoading
                                     ? <CircularProgress size={20}
-                                      className={classes.loader}
+                                        className={classes.loader}
                                       />
                                     : <img alt='submit'
-                                      src='/images/icons/arrow.svg'
-                                      className={classes.arrowIcon}
+                                        src='/images/icons/arrow.svg'
+                                        className={classes.arrowIcon}
                                       />
                                     }
                                   </Button>
@@ -822,11 +830,11 @@ class SubscribeDialog extends Component {
                                   >
                                     {this.state.EthIsLoading
                                     ? <CircularProgress size={20}
-                                      className={classes.loader}
+                                        className={classes.loader}
                                       />
                                     : <img alt='submit'
-                                      src='/images/icons/arrow.svg'
-                                      className={classes.arrowIcon}
+                                        src='/images/icons/arrow.svg'
+                                        className={classes.arrowIcon}
                                       />
                                   }
                                   </Button>
