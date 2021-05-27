@@ -529,6 +529,7 @@ class User extends Component {
                 return (
                   <Collection classes={classes}
                     collection={collection}
+                    username={username}
                   />
                 )
               })
@@ -653,6 +654,7 @@ class User extends Component {
                           return (
                             <Collection classes={classes}
                               collection={collection}
+                              username={username}
                             />
                           )
                         })
@@ -738,6 +740,7 @@ class User extends Component {
                             return (
                               <Collection classes={classes}
                                 collection={collection}
+                                username={username}
                               />
                             )
                           })
