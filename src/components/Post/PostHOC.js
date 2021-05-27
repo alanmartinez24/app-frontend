@@ -23,15 +23,15 @@ const styles = theme => ({
     marginBottom: '1rem',
     minWidth: '0px',
     [theme.breakpoints.down('md')]: {
-      marginLeft: '0%',
-      marginRight: '0%'
+      margin: 'auto',
+      maxWidth: '640px'
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
       boxShadow: 'none'
     },
     [theme.breakpoints.up('1700')]: {
-      maxWidth: '600px',
+      maxWidth: '640px',
       maxHeight: '1500px'
     }
   },

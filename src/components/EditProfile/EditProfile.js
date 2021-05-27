@@ -135,14 +135,14 @@ const styles = theme => ({
     fontFamily: 'Gilroy',
     letterSpacing: '0.2em',
     width: '150px',
-    marginLeft: '-40px',
     flex: 1,
     fontSize: '10px',
     color: '#ffffff',
+    marginTop: '5px',
     [theme.breakpoints.down('xs')]: {
       width: '100px',
-      height: '30px',
-      fontSize: '7px'
+      fontSize: '8px',
+      marginLeft: '-30px'
     }
   },
   snackbar: {
