@@ -43,33 +43,6 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  inputImage: {
-    display: ''
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
-  },
   user: {
     display: 'flex',
     padding: '3% 0% 3% 0%',

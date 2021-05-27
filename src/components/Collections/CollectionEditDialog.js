@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, DialogContent, CircularProgress } from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -37,13 +38,7 @@ const styles = theme => ({
   },
   snack: {
     justifyContent: 'center'
-  },
-
-spinnerLoader: {
-  color: 'white',
-  position: 'absolute',
-  right: '3%'
-}
+  }
 })
 
 const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, ethAuth }) => {
@@ -155,28 +150,20 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCollection}
-            color='primary'
+          <LoaderButton onClick={handleDeleteCollection}
             fullWidth
-            style={{ backgroundColor: '#1a1a1a' }}
-          >
-            Delete
-            {isLoadingDelete && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
-            )}
-          </Button>
-          <Button onClick={handleEditCollection}
-            color='primary'
+            backgroundColor='#1a1a1a'
+            buttonText='Delete'
+            color='#fafafa'
+            isLoading={isLoadingDelete}
+          />
+          <LoaderButton onClick={handleEditCollection}
             fullWidth
-            style={{ backgroundColor: '#00eab7' }}
-          >
-            Update
-            {isLoadingUpdate && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
-            )}
-          </Button>
+            backgroundColor='#00eab7'
+            buttonText='Update'
+            color='#fafafa'
+            isLoading={isLoadingUpdate}
+          />
         </DialogActions>
       </Dialog>
     </>
