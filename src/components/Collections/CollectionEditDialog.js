@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, CircularProgress } from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, DialogContent, CircularProgress } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import YupInput from '../Miscellaneous/YupInput'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -33,30 +34,6 @@ const styles = theme => ({
       padding: theme.spacing(2),
       color: '#fafafa'
     }
-  },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
   },
   snack: {
     justifyContent: 'center'
@@ -157,49 +134,21 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
           id='form-dialog-title'
         >Update {collection.name}</DialogTitle>
         <DialogContent>
-          <TextField
-            className={classes.textField}
+          <YupInput
             fullWidth
             onChange={handleNameChange}
             id='name'
             defaultValue={collection.name}
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
             fullWidth
             id='description'
             defaultValue={collection.description}
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>
