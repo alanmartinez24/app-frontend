@@ -172,7 +172,7 @@ const styles = theme => ({
   },
   collections: {
     color: '#fff',
-    zIndex: '99999',
+    zIndex: '999',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
       width: '500px'
