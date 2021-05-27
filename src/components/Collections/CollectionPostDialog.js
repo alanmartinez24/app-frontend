@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, DialogContentText, CircularProgress, Link } from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, DialogContent, DialogContentText, CircularProgress, Link } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import YupInput from '../Miscellaneous/YupInput'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
@@ -147,47 +148,21 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
           <DialogContentText>
             Start here to make a new collection
           </DialogContentText>
-          <TextField
-            className={classes.textField}
+          <YupInput
+            maxLength={24}
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
+            maxLength={24}
             fullWidth
             id='description'
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>

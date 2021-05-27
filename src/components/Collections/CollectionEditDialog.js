@@ -136,6 +136,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         <DialogContent>
           <YupInput
             fullWidth
+            maxLength={24}
             onChange={handleNameChange}
             id='name'
             defaultValue={collection.name}
@@ -144,6 +145,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
           />
           <YupInput
             color='#fafafa'
+            maxLength={24}
             fullWidth
             id='description'
             defaultValue={collection.description}

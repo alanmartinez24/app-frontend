@@ -30,12 +30,12 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, ...restProps }) => {
+const YupInput = ({ classes, maxLength, ...restProps }) => {
   return (
     <TextField
       {...restProps}
       className={classes.textField}
-      inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
+      inputProps={{ maxLength, borderBottomColor: '#fafafa' }}
       InputProps={{
                 classes: {
                     root: classes.inputRoot,
@@ -53,7 +53,8 @@ const YupInput = ({ classes, ...restProps }) => {
 }
 
 YupInput.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    maxLength: PropTypes.number
   }
 
 export default (withStyles(styles)(YupInput))
