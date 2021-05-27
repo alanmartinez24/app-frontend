@@ -195,7 +195,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
           <Button onClick={handleCreateNewCollection}
             color='primary'
             fullWidth
-            style={{ backgroundColor: '#00eab7', textTransform: 'none' }}
+            style={{ backgroundColor: '#00eab7', color: '#fafafa', textTransform: 'none' }}
           >
             Create Collection
             {isLoading && (<CircularProgress size={20}

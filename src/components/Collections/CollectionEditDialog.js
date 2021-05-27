@@ -162,6 +162,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             fullWidth
             onChange={handleNameChange}
             id='name'
+            defaultValue={collection.name}
             inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
             InputProps={{
                         classes: {
@@ -183,6 +184,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             color='#fafafa'
             fullWidth
             id='description'
+            defaultValue={collection.description}
             onChange={handleDescriptionChange}
             inputProps={{ maxLength: 140 }}
             InputProps={{
