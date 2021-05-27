@@ -8,6 +8,8 @@ import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
+const TITLE_LIMIT = 30
+const DESC_LIMIT = 140
 
 const styles = theme => ({
   dialog: {
@@ -22,6 +24,7 @@ const styles = theme => ({
     padding: theme.spacing(1.5)
   },
   dialogTitleText: {
+    fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
     color: '#fafafa',
@@ -155,14 +158,16 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
-        >Update {collection.name}</DialogTitle>
+        >
+          Update {collection.name}
+        </DialogTitle>
         <DialogContent>
           <TextField
             className={classes.textField}
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
+            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
             InputProps={{
                         classes: {
                           root: classes.inputRoot,
@@ -184,7 +189,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             fullWidth
             id='description'
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
+            inputProps={{ maxLength: DESC_LIMIT }}
             InputProps={{
                         classes: {
                           root: classes.inputRoot,

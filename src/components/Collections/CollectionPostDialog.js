@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
+const TITLE_LIMIT = 30
+const DESC_LIMIT = 140
 
 const styles = theme => ({
   dialog: {
@@ -22,6 +24,7 @@ const styles = theme => ({
     padding: theme.spacing(1.5)
   },
   dialogTitleText: {
+    fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
     color: '#fafafa',
@@ -142,9 +145,11 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
-        >New Collection</DialogTitle>
+        >
+          New Collection
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{ color: '#fff' }}>
             Start here to make a new collection
           </DialogContentText>
           <TextField
@@ -152,7 +157,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
+            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
             InputProps={{
                         classes: {
                           root: classes.inputRoot,
@@ -174,7 +179,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             fullWidth
             id='description'
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
+            inputProps={{ maxLength: DESC_LIMIT }}
             InputProps={{
                         classes: {
                           root: classes.inputRoot,
