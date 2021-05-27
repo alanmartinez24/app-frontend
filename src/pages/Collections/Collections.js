@@ -97,9 +97,13 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       marginLeft: 0
     },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 50
+    },
     [theme.breakpoints.up('md')]: {
       marginLeft: '200px',
-      width: `calc(100vw - 200px)`
+      width: `calc(100vw - 200px)`,
+      marginTop: '50px'
     },
     [theme.breakpoints.down('xs')]: {
       background: '#1b1b1ba1',

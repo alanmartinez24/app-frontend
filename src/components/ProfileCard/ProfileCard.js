@@ -101,25 +101,25 @@ const styles = theme => ({
     height: '3px'
   },
   minimize: {
-    width: '42px',
-    height: '42px',
-    minWidth: '42px',
-    minHeight: '42px',
-    fontSize: '20px',
+    width: '45px',
+    height: '45px',
+    minWidth: '45px',
+    minHeight: '45px',
+    fontSize: '18px',
     [theme.breakpoints.down('xs')]: {
-      width: '30px',
-      height: '30px',
-      minWidth: '30px',
-      minHeight: '30px',
-      fontSize: '15px'
+      width: '35px',
+      height: '35px',
+      minWidth: '35px',
+      minHeight: '35px',
+      fontSize: '14px'
     }
   },
   minimizeCard: {
-    maxHeight: '50px',
+    maxHeight: '55px',
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '40px'
+      maxHeight: '45px'
     }
   },
   name: {
@@ -241,7 +241,7 @@ function ProfileCard (props) {
   const hidden = isMinimize ? classes.hidden : null
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
-  const isMobile = window.innerWidth <= 600
+  // const isMobile = window.innerWidth <= 600
 
   return (
     <ErrorBoundary>
@@ -261,19 +261,15 @@ function ProfileCard (props) {
           direction='row'
           justify='left'
         >
-          <Grid className={classes.profileDetails}
-            style={isMinimize
-              ? { paddingTop: isMobile ? '5px' : '10px' }
-              : { }
-            }
-            item
+          <Grid item
+            className={classes.profileDetails}
+            style={{ paddingTop: isMinimize ? '5px' : '' }}
           >
             <Grid alignItems='flex-start'
               container
               direction='row'
               justify='space-between'
-              align-center
-              spacing={isMobile ? 0 : 4}
+              spacing={0}
             >
               <Grid item
                 xs={8}
