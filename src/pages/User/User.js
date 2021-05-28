@@ -189,7 +189,8 @@ const styles = theme => ({
 
 const Collection = ({ classes, collection, username }) => {
   const fmtCollectionName = collection && (collection.name).replace(/\s+/g, '-').toLowerCase()
-  const collectionSubheader = username === collection.owner ? `${collection.postIds.length} posts` : collection.owner
+  const collectionLength = collection.postIds.length
+  const collectionSubheader = username === collection.owner ? (collectionLength === 1 ? `1 post` : `${collectionLength} posts`) : collection.owner
 
   return (
     <Link to={`/collections/${fmtCollectionName}/${collection._id}`}
