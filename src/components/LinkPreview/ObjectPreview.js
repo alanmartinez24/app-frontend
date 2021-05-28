@@ -20,7 +20,7 @@ const styles = theme => ({
     overflowY: 'hidden',
     height: '9rem',
     [theme.breakpoints.down('xs')]: {
-      height: '7rem'
+      height: '8rem'
     },
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px'

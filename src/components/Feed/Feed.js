@@ -51,7 +51,7 @@ const styles = theme => ({
     textAlign: 'center',
     textDecoration: 'none',
     fontWeight: '300',
-    maxWidtht: 550
+    maxWidth: 550
   }
 })
 
