@@ -737,7 +737,7 @@ class SubscribeDialog extends Component {
                   variant='subtitle2'
                   style={{ color: '#fff', fontWeight: '300' }}
                 >
-                  Please signup with address with an ETH amount.
+                  Please signup with an address that has ETH.
                 </Typography>
                 <Stepper activeStep={this.state.activeStep}
                   orientation='vertical'
