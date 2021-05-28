@@ -731,6 +731,14 @@ class SubscribeDialog extends Component {
                 </Typography>
               </DialogTitle>
               <DialogContent>
+                <Typography
+                  align='left'
+                  className={classes.dialogTitleText}
+                  variant='subtitle2'
+                  style={{ color: '#fff', fontWeight: '300' }}
+                >
+                  Please signup with an address that has ETH.
+                </Typography>
                 <Stepper activeStep={this.state.activeStep}
                   orientation='vertical'
                   className={classes.stepper}

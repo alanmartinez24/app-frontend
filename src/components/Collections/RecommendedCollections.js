@@ -25,6 +25,9 @@ const styles = theme => ({
       width: '40px'
     }
   },
+  recommendedItem: {
+    maxWidth: '18%'
+  },
   recommendedContainer: {
     borderRadius: 10,
     margin: '5px 0px',
@@ -47,13 +50,14 @@ const RecommendedCollections = ({ classes, collection }) => {
         direction='row'
         justify='flex-start'
         alignItems='center'
-        spacing={2}
+        spacing={1}
         className={classes.recommendedContainer}
       >
         <Grid item
           xs={2}
-          sm={3}
-          lg={2}
+          lg={3}
+          xl={2}
+          className={classes.recommendedItem}
         >
           <Img
             src={[collection.imgSrcUrl, getRandomGradientImg()]}
