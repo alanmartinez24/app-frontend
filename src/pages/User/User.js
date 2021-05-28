@@ -157,7 +157,7 @@ const styles = theme => ({
   },
   collectionContainer: {
     borderRadius: 10,
-    margin: '5px 0px',
+    margin: '5px 0px 5px 20px',
     '&:hover': {
       background: '#fafafa05'
     }
@@ -715,7 +715,7 @@ class User extends Component {
                         style={{ display: 'flex', alignItems: 'center' }}
                       >
                         <Typography variant='h4'
-                          style={{ marginRight: '10%' }}
+                          style={{ marginRight: '10%', marginLeft: '20px' }}
                         >
                           Collections
                         </Typography>
