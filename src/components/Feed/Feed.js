@@ -50,7 +50,8 @@ const styles = theme => ({
     color: '#FAFAFA',
     textAlign: 'center',
     textDecoration: 'none',
-    fontWeight: '300'
+    fontWeight: '300',
+    maxWidtht: 550
   }
 })
 
