@@ -18,9 +18,9 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     overflowY: 'hidden',
-    height: '7.5rem',
+    height: '9rem',
     [theme.breakpoints.down('xs')]: {
-      height: '6rem'
+      height: '7rem'
     },
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px'
