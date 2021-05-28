@@ -1,4 +1,4 @@
-import React, { Fragment, Component, Suspense, lazy } from 'react'
+import React, { Fragment, Component } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
@@ -13,46 +13,21 @@ import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, u
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
-import isEqual from 'lodash/isEqual'
 // import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
+import YupLists from './YupLists/YupLists'
+import Discover from './Discover/Discover'
+import User from './User/User'
+import Analytics from './Analytics/Analytics'
+import Collections from './Collections/Collections'
+import PostPage from './PostPage/PostPage'
+import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 
 const { BACKEND_API } = process.env
 
-const YupLists = lazy(() => import('./YupLists/YupLists'))
-const Discover = lazy(() => import('./Discover/Discover'))
-const User = lazy(() => import('./User/User'))
-const Analytics = lazy(() => import('./Analytics/Analytics'))
-const Collections = lazy(() => import('./Collections/Collections'))
-const PostPage = lazy(() => import('./PostPage/PostPage'))
-const TwitterOAuth = lazy(() => import('./TwitterOAuth/TwitterOAuth'))
-
 const pathname = document.location.pathname
 const isProtectedRoute = (pathname !== '/leaderboard' && pathname !== '/analytics')
-
-class Fallback extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
-      return true
-    }
-    return false
-  }
-
-  render () {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh'
-      }}
-      >
-        <DotSpinner />
-      </div>
-    )
-  }
-}
 
 class Index extends Component {
   state = {
@@ -151,44 +126,42 @@ class Index extends Component {
           <ConnectedRouter history={history}
             context={reactReduxContext}
           >
-            <Suspense fallback={<Fallback />}>
-              <Switch>
-                <Route component={Discover}
-                  exact
-                  path='/'
-                />
-                <Route component={YupLists}
-                  path='/leaderboard'
-                />
-                <Route component={Search}
-                  path='/search'
-                />
-                <Route component={TwitterOAuth}
-                  path='/twitter/:userid'
-                />
-                <Route component={PostPage}
-                  exact
-                  path='/p/:postid'
-                />
-                <Route component={Analytics}
-                  exact
-                  path='/:username/analytics'
-                />
-                <Route component={Collections}
-                  path='/collections/:name/:id'
-                />
-                <Route component={User}
-                  exact
-                  path='/:username'
-                />
-                <Redirect from='*'
-                  to='/'
-                />
-                <Redirect from='/lists'
-                  to='/leaderboard'
-                />
-              </Switch>
-            </Suspense>
+            <Switch>
+              <Route component={Discover}
+                exact
+                path='/'
+              />
+              <Route component={YupLists}
+                path='/leaderboard'
+              />
+              <Route component={Search}
+                path='/search'
+              />
+              <Route component={TwitterOAuth}
+                path='/twitter/:userid'
+              />
+              <Route component={PostPage}
+                exact
+                path='/p/:postid'
+              />
+              <Route component={Analytics}
+                exact
+                path='/:username/analytics'
+              />
+              <Route component={Collections}
+                path='/collections/:name/:id'
+              />
+              <Route component={User}
+                exact
+                path='/:username'
+              />
+              <Redirect from='*'
+                to='/'
+              />
+              <Redirect from='/lists'
+                to='/leaderboard'
+              />
+            </Switch>
           </ConnectedRouter>
         </MuiThemeProvider>
         <Dialog
