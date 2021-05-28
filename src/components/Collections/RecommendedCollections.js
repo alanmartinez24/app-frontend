@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles'
 
 const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map((_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`)
 const getRandomGradientImg = () => `${AWS_DEFAULT_COLLECTION_IMG_URLS[Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)]}`
-const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
   recommendedImg: {
@@ -25,9 +24,6 @@ const styles = theme => ({
       height: '40px',
       width: '40px'
     }
-  },
-  recommendedItem: {
-    maxWidth: '18%'
   },
   recommendedContainer: {
     borderRadius: 10,
@@ -51,12 +47,13 @@ const RecommendedCollections = ({ classes, collection }) => {
         direction='row'
         justify='flex-start'
         alignItems='center'
-        spacing={1}
+        spacing={2}
         className={classes.recommendedContainer}
       >
         <Grid item
-          xs={isMobile ? 2 : 3}
-          className={classes.recommendedItem}
+          xs={2}
+          lg={3}
+          xl={2}
         >
           <Img
             src={[collection.imgSrcUrl, getRandomGradientImg()]}
@@ -65,7 +62,10 @@ const RecommendedCollections = ({ classes, collection }) => {
           />
         </Grid>
         <Grid item
-          xs={isMobile ? 10 : 9}
+
+          xs={10}
+          lg={9}
+          xl={10}
         >
           <Typography variant='h5'>{collection.name}</Typography>
           <Typography variant='body2'>{collection.owner}</Typography>

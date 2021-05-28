@@ -204,7 +204,9 @@ const Collection = ({ classes, collection, username }) => {
         className={classes.collectionContainer}
       >
         <Grid item
-          xs={isMobile ? 2 : 3}
+          xs={2}
+          lg={3}
+          xl={2}
         >
           <Img
             src={[collection.imgSrcUrl, DEFAULT_IMG]}
@@ -213,7 +215,9 @@ const Collection = ({ classes, collection, username }) => {
           />
         </Grid>
         <Grid item
-          xs={isMobile ? 10 : 9}
+          xs={10}
+          lg={9}
+          xl={10}
         >
           <Typography variant='h5'>
             {collection.name}
