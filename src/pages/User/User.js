@@ -249,12 +249,11 @@ function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <Grid item
-      xs={12}
+    <div id='tabpanel'
       hidden={value !== index}
     >
       <div>{children}</div>
-    </Grid>
+    </div>
   )
 }
 
