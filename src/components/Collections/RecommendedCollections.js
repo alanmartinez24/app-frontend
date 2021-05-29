@@ -39,7 +39,7 @@ const RecommendedCollections = ({ classes, collection }) => {
 
   return (
     <Link
-      to={`/collections/${fmtCollectionName}/${collection._id}`}
+      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid

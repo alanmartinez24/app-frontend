@@ -197,7 +197,7 @@ const Collection = ({ classes, collection, username }) => {
   const collectionSubheader = username === collection.owner ? (collectionLength === 1 ? `1 post` : `${collectionLength} posts`) : collection.owner
 
   return (
-    <Link to={`/collections/${fmtCollectionName}/${collection._id}`}
+    <Link to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid container

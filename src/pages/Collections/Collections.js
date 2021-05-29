@@ -225,7 +225,6 @@ class Collections extends Component {
   }
 
   async componentDidMount () {
-    window.alert('wasssup')
     const url = window.location.href.split('/')
     const name = url[4]
     const id = url[5]
