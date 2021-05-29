@@ -174,8 +174,13 @@ class Index extends Component {
                   exact
                   path='/:username/analytics'
                 />
+
                 <Route component={Collections}
                   path='/collections/:name/:id'
+                />
+                {/* Handle collection routes with just name */}
+                <Route component={Collections}
+                  path='/collections/:name'
                 />
                 <Route component={User}
                   exact
