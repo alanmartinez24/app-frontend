@@ -30,7 +30,7 @@ const TwitterOAuth = lazy(() => import('./TwitterOAuth/TwitterOAuth'))
 
 const pathname = document.location.pathname
 const isProtectedRoute = (pathname !== '/leaderboard' && pathname !== '/analytics')
-// const isCollectionsRoute = pathname.startsWith('/collections')
+
 class Fallback extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
@@ -110,10 +110,6 @@ class Index extends Component {
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
-      } else if (pathname.startsWith('/collections')) {
-        console.log(document.location, escape(document.location.pathname + document.location.search))
-        // document.location.pathname + document.location.search
-       // useHistory.push(document.location.pathname + document.location.search)
       }
     this.setState({ isLoading: false })
     })()
