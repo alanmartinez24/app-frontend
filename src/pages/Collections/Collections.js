@@ -225,13 +225,13 @@ class Collections extends Component {
   }
 
   async componentDidMount () {
-    const url = window.location.href.split('/')
-    const name = url[4]
+    const decodedURL = decodeURI(window.location.href)
+    const url = decodedURL.split('/')
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
