@@ -134,7 +134,7 @@ const styles = theme => ({
     display: 'inline-block',
     position: 'sticky',
     top: 200,
-    margin: 0,
+    margin: '0 0 0 20px',
     opacity: 0.7,
     '&:hover': {
       opacity: 1
