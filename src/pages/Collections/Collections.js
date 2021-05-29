@@ -134,18 +134,17 @@ const styles = theme => ({
     display: 'inline-block',
     position: 'sticky',
     top: 200,
-    margin: 0,
-    marginLeft: 10,
+    margin: '0 0 0 20px',
     opacity: 0.7,
     '&:hover': {
       opacity: 1
     },
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 60px',
+      margin: '0px 0px 0px 50px',
       width: '500px'
     },
     [theme.breakpoints.down('xs')]: {
-      margin: '0px 0px 0px 40px'
+      margin: '0px 0px 0px 30px'
     }
   },
   headerImg: {
@@ -226,13 +225,13 @@ class Collections extends Component {
   }
 
   async componentDidMount () {
-    const url = window.location.href.split('/')
-    const name = url[4]
+    const decodedURL = decodeURI(window.location.href)
+    const url = decodedURL.split('/')
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })

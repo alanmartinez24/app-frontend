@@ -173,17 +173,24 @@ const styles = theme => ({
   collections: {
     color: '#fff',
     zIndex: '999',
+    marginLeft: '20px',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
-      width: '500px'
+      width: '100%'
     }
+  },
+  collection: {
+    flexBasis: 'unset',
+    padding: '8px 8px 8px 0px !important'
   },
   showAll: {
     color: '#fff',
     width: '100px',
-    float: 'right',
     fontSize: '0.8rem',
-    fontWeight: '400'
+    fontWeight: '400',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '-75px'
+    }
   }
 })
 
@@ -193,7 +200,7 @@ const Collection = ({ classes, collection, username }) => {
   const collectionSubheader = username === collection.owner ? (collectionLength === 1 ? `1 post` : `${collectionLength} posts`) : collection.owner
 
   return (
-    <Link to={`/collections/${fmtCollectionName}/${collection._id}`}
+    <Link to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid container
@@ -207,6 +214,7 @@ const Collection = ({ classes, collection, username }) => {
           xs={2}
           lg={3}
           xl={2}
+          className={classes.collection}
         >
           <Img
             src={[collection.imgSrcUrl, DEFAULT_IMG]}
@@ -241,11 +249,12 @@ function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <div role='tabpanel'
+    <Grid item
+      xs={12}
       hidden={value !== index}
     >
       <div>{children}</div>
-    </div>
+    </Grid>
   )
 }
 
@@ -665,12 +674,18 @@ class User extends Component {
                         })
                       }
                       {collections.length > LIMIT_COLLECTIONS &&
+                      <Grid container
+
+                        alignItems='center'
+                        justify='center'
+                      >
                         <Button className={classes.showAll}
                           size='medium'
                           onClick={this.handleShowAll}
                         >
                           Show all
                         </Button>
+                        </Grid>
                       }
                     </Grid>
                   </Grid>
@@ -751,12 +766,18 @@ class User extends Component {
                           })
                         }
                         {collections.length > LIMIT_COLLECTIONS &&
+                        <Grid container
+
+                          alignItems='center'
+                          justify='center'
+                        >
                           <Button className={classes.showAll}
                             size='medium'
                             onClick={this.handleShowAll}
                           >
                             Show all
                           </Button>
+                        </Grid>
                         }
                       </Grid>
                     </>

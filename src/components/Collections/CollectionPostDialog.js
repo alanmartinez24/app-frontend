@@ -115,7 +115,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
         onClose={handleSnackbarClose}
         open={!!snackbarMsg}
       >
-        <Link href={`${WEB_APP_URL}/collections/${newCollectionInfo.name}/${newCollectionInfo._id}`}>
+        <Link href={`${WEB_APP_URL}/collections/${encodeURIComponent(newCollectionInfo.name)}/${newCollectionInfo._id}`}>
           <SnackbarContent
             className={classes.snack}
             message={snackbarMsg}
