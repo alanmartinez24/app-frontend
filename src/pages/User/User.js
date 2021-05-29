@@ -187,7 +187,10 @@ const styles = theme => ({
     color: '#fff',
     width: '100px',
     fontSize: '0.8rem',
-    fontWeight: '400'
+    fontWeight: '400',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '-75px'
+    }
   }
 })
 
@@ -246,11 +249,12 @@ function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <div role='tabpanel'
+    <Grid item
+      xs={12}
       hidden={value !== index}
     >
       <div>{children}</div>
-    </div>
+    </Grid>
   )
 }
 
