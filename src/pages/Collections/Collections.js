@@ -135,16 +135,17 @@ const styles = theme => ({
     position: 'sticky',
     top: 200,
     margin: 0,
+    marginLeft: 10,
     opacity: 0.7,
     '&:hover': {
       opacity: 1
     },
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px',
+      margin: '0px 0px 0px 60px',
       width: '500px'
     },
     [theme.breakpoints.down('xs')]: {
-      margin: '0px 0px 0px 30px'
+      margin: '0px 0px 0px 40px'
     }
   },
   headerImg: {

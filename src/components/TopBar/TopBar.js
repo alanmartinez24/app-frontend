@@ -938,7 +938,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Your Daily Hits'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', fontWeight: '100' }}
+                          style={{ color: '#c0c0c0', fontWeight: '100', margin: 0 }}
                         />
                       </ListItem>
                     </PrivateListItem>
