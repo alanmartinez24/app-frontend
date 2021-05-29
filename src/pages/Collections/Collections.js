@@ -135,17 +135,16 @@ const styles = theme => ({
     position: 'sticky',
     top: 200,
     margin: 0,
-    marginLeft: 10,
     opacity: 0.7,
     '&:hover': {
       opacity: 1
     },
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 60px',
+      margin: '0px 0px 0px 50px',
       width: '500px'
     },
     [theme.breakpoints.down('xs')]: {
-      margin: '0px 0px 0px 40px'
+      margin: '0px 0px 0px 30px'
     }
   },
   headerImg: {
@@ -226,6 +225,7 @@ class Collections extends Component {
   }
 
   async componentDidMount () {
+    window.alert('wasssup')
     const url = window.location.href.split('/')
     const name = url[4]
     const id = url[5]

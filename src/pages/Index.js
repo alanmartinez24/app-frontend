@@ -110,8 +110,10 @@ class Index extends Component {
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
+      } else if (pathname.startsWith('/collections')) {
+        console.log(document.location)
       }
-     this.setState({ isLoading: false })
+    // this.setState({ isLoading: false })
     })()
   }
 
