@@ -113,7 +113,7 @@ class Index extends Component {
       } else if (pathname.startsWith('/collections')) {
         console.log(document.location)
       }
-    // this.setState({ isLoading: false })
+     this.setState({ isLoading: false })
     })()
   }
 

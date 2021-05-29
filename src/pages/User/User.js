@@ -173,15 +173,19 @@ const styles = theme => ({
   collections: {
     color: '#fff',
     zIndex: '999',
+    marginLeft: '20px',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
-      width: '500px'
+      width: '100%'
     }
+  },
+  collection: {
+    flexBasis: 'unset',
+    padding: '8px 8px 8px 0px !important'
   },
   showAll: {
     color: '#fff',
     width: '100px',
-    float: 'right',
     fontSize: '0.8rem',
     fontWeight: '400'
   }
@@ -207,6 +211,7 @@ const Collection = ({ classes, collection, username }) => {
           xs={2}
           lg={3}
           xl={2}
+          className={classes.collection}
         >
           <Img
             src={[collection.imgSrcUrl, DEFAULT_IMG]}
@@ -665,12 +670,18 @@ class User extends Component {
                         })
                       }
                       {collections.length > LIMIT_COLLECTIONS &&
+                      <Grid container
+
+                        alignItems='center'
+                        justify='center'
+                      >
                         <Button className={classes.showAll}
                           size='medium'
                           onClick={this.handleShowAll}
                         >
                           Show all
                         </Button>
+                        </Grid>
                       }
                     </Grid>
                   </Grid>
@@ -751,12 +762,18 @@ class User extends Component {
                           })
                         }
                         {collections.length > LIMIT_COLLECTIONS &&
+                        <Grid container
+
+                          alignItems='center'
+                          justify='center'
+                        >
                           <Button className={classes.showAll}
                             size='medium'
                             onClick={this.handleShowAll}
                           >
                             Show all
                           </Button>
+                        </Grid>
                         }
                       </Grid>
                     </>
