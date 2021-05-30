@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, DialogContentText, CircularProgress, Link } from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent, DialogContentText, Link } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import YupInput from '../Miscellaneous/YupInput'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
@@ -37,37 +39,8 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
-  },
   snack: {
     justifyContent: 'center'
-  },
-  spinnerLoader: {
-    color: 'white',
-    position: 'absolute',
-    left: 450
   }
 })
 
@@ -152,62 +125,32 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
           <DialogContentText style={{ color: '#fff' }}>
             Start here to make a new collection
           </DialogContentText>
-          <TextField
-            className={classes.textField}
+          <YupInput
+            maxLength={TITLE_LIMIT}
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
+            maxLength={DESC_LIMIT}
             fullWidth
             id='description'
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: DESC_LIMIT }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCreateNewCollection}
-            color='primary'
+          <LoaderButton onClick={handleCreateNewCollection}
             fullWidth
-            style={{ backgroundColor: '#00eab7', textTransform: 'none' }}
-          >
-            Create Collection
-            {isLoading && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                           />
-            )}
-          </Button>
+            buttonText='Create Collection'
+            isLoading={isLoading}
+            backgroundColor='#00eab7'
+            color='#0A0A0A'
+          />
         </DialogActions>
       </Dialog>
     </>

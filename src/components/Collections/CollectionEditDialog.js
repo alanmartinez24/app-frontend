@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, CircularProgress } from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import YupInput from '../Miscellaneous/YupInput'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
@@ -37,39 +39,9 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
-  },
   snack: {
     justifyContent: 'center'
-  },
-
-spinnerLoader: {
-  color: 'white',
-  position: 'absolute',
-  right: '3%'
-}
+  }
 })
 
 const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, ethAuth }) => {
@@ -162,11 +134,12 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
           Update {collection.name}
         </DialogTitle>
         <DialogContent>
-          <TextField
-            className={classes.textField}
+          <YupInput
             fullWidth
+            maxLength={24}
             onChange={handleNameChange}
             id='name'
+<<<<<<< HEAD
             inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
             InputProps={{
                         classes: {
@@ -180,15 +153,20 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
                           color: '#a0a0a0'
                         }
                       }}
+=======
+            defaultValue={collection.name}
+>>>>>>> eg-collection-bug-fixes
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
+            maxLength={24}
             fullWidth
             id='description'
+            defaultValue={collection.description}
             onChange={handleDescriptionChange}
+<<<<<<< HEAD
             inputProps={{ maxLength: DESC_LIMIT }}
             InputProps={{
                         classes: {
@@ -201,34 +179,27 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
                           color: '#a0a0a0'
                         }
                       }}
+=======
+>>>>>>> eg-collection-bug-fixes
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCollection}
-            color='primary'
+          <LoaderButton onClick={handleDeleteCollection}
             fullWidth
-            style={{ backgroundColor: '#1a1a1a' }}
-          >
-            Delete
-            {isLoadingDelete && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
-            )}
-          </Button>
-          <Button onClick={handleEditCollection}
-            color='primary'
+            backgroundColor='#1a1a1a'
+            buttonText='Delete'
+            color='#fafafa'
+            isLoading={isLoadingDelete}
+          />
+          <LoaderButton onClick={handleEditCollection}
             fullWidth
-            style={{ backgroundColor: '#00eab7' }}
-          >
-            Update
-            {isLoadingUpdate && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
-            )}
-          </Button>
+            backgroundColor='#00eab7'
+            buttonText='Update'
+            color='#fafafa'
+            isLoading={isLoadingUpdate}
+          />
         </DialogActions>
       </Dialog>
     </>
