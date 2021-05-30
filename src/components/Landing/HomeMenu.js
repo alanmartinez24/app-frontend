@@ -75,12 +75,7 @@ const styles = theme => ({
   },
   Title: {
     color: '#f0f0f0',
-    fontSize: '40px',
-    fontFamily: 'Gilroy',
-    fontWeight: '600',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '25px'
-    }
+    fontFamily: 'Gilroy'
   },
   SectionHeader: {
     color: '#fff',
@@ -101,12 +96,7 @@ const styles = theme => ({
   },
   ItemHeader: {
     color: '#afafaf',
-    fontSize: '18px',
-    fontFamily: 'Gilroy',
-    fontWeight: 400,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '14px'
-    }
+    fontFamily: 'Gilroy'
   },
   ItemSubHeader: {
     color: '#f0f0f0',
@@ -121,7 +111,7 @@ const styles = theme => ({
   ImageCard: {
     borderRadius: '0.5rem',
     width: '100%',
-    height: '100%',
+    objectFit: 'cover',
     '&:hover': {
       boxShadow: '0px 0px 40px #ffffff30'
     }
@@ -153,9 +143,11 @@ class Home extends Component {
                 <Fade in
                   timeout={200}
                 >
-                  <h1 className={classes.Title}>
+                  <Typography variant='h2'
+                    className={classes.Title}
+                  >
                     Welcome to Yup
-                  </h1>
+                  </Typography>
                 </Fade>
               </Grid>
 
@@ -168,62 +160,63 @@ class Home extends Component {
                   <Fade in
                     timeout={300}
                   >
-                    <h2 className={classes.SectionHeader}>
-                      Recommended
-                    </h2>
+                    <h2 className={classes.SectionHeader}>Recommended</h2>
                   </Fade>
                 </Grid>
-                <Grid item
+                <Grid
+                  item
                   container
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
                   {feedInfoRecommended.map((item, index) => {
-                        return (
-                          <Grid item
-                            className={classes.ItemContainer}
-                            key={index}
-                            xs={6}
-                            sm={3}
+                    return (
+                      <Grid
+                        item
+                        className={classes.ItemContainer}
+                        key={index}
+                        xs={6}
+                        sm={3}
+                      >
+                        <Link
+                          to={item.link}
+                          color='inherit'
+                          className={classes.Link}
+                        >
+                          <Grow in
+                            timeout={500}
                           >
-                            <Link to={item.link}
-                              color='inherit'
-                              className={classes.Link}
+                            <Grid
+                              container
+                              direction='column'
+                              spacing={1}
+                              style={{ display: 'block' }}
                             >
-                              <Grow in
-                                timeout={500}
-                              >
-                                <Grid container
-                                  direction='column'
-                                  spacing={1}
-                                  style={{ display: 'block' }}
+                              <Grid item>
+                                <Tilt
+                                  className={classes.Tilt}
+                                  options={{ max: 20 }}
                                 >
-
-                                  <Grid item>
-                                    <Tilt className={classes.Tilt}
-                                      options={{ max: 20 }}
-                                    >
-                                      <img
-                                        className={classes.ImageCard}
-                                        src={item.imgSrc}
-                                      />
-                                    </Tilt>
-                                  </Grid>
-                                  <Grid item>
-                                    <Typography
-                                      className={classes.ItemHeader}
-                                    >
-                                      {item.title}
-                                    </Typography>
-                                  </Grid>
-                                </Grid>
-
-                              </Grow>
-
-                            </Link>
-                          </Grid>
-                        )
-                      })}
+                                  <img
+                                    className={classes.ImageCard}
+                                    src={item.imgSrc}
+                                  />
+                                </Tilt>
+                              </Grid>
+                              <Grid item>
+                                <Typography
+                                  variant='h4'
+                                  className={classes.ItemHeader}
+                                >
+                                  {item.title}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grow>
+                        </Link>
+                      </Grid>
+                    )
+                  })}
                 </Grid>
               </Grid>
               <Grid item
@@ -232,58 +225,63 @@ class Home extends Component {
                 direction='column'
               >
                 <Grid item>
-                  <h2 className={classes.SectionHeader}>
-                    Browse
-                  </h2>
+                  <h2 className={classes.SectionHeader}>Browse</h2>
                 </Grid>
-                <Grid item
+                <Grid
+                  item
                   className={classes.ItemsContainer}
                   justifycontent='space-between'
                   container
                   spacing={3}
                 >
                   {feedInfoBrowse.map((item, index) => {
-                        return (
-                          <Grid item
-                            className={classes.ItemContainer}
-                            key={index}
-                            xs={6}
-                            sm={3}
+                    return (
+                      <Grid
+                        item
+                        className={classes.ItemContainer}
+                        key={index}
+                        xs={6}
+                        sm={3}
+                      >
+                        <Link
+                          to={item.link}
+                          color='inherit'
+                          className={classes.Link}
+                        >
+                          <Fade in
+                            timeout={800}
                           >
-                            <Link to={item.link}
-                              color='inherit'
-                              className={classes.Link}
+                            <Grid
+                              container
+                              direction='column'
+                              spacing={1}
+                              style={{ display: 'block' }}
                             >
-                              <Fade in
-                                timeout={800}
-                              >
-                                <Grid container
-                                  direction='column'
-                                  spacing={1}
-                                  style={{ display: 'block' }}
+                              <Grid item>
+                                <Tilt
+                                  className={classes.Tilt}
+                                  options={{ max: 20 }}
                                 >
-
-                                  <Grid item>
-                                    <Tilt className={classes.Tilt}
-                                      options={{ max: 20 }}
-                                    >
-                                      <img
-                                        className={classes.ImageCard}
-                                        src={item.imgSrc}
-                                      />
-                                    </Tilt>
-                                  </Grid>
-                                  <Grid item>
-                                    <Typography className={classes.ItemHeader}>
-                                      {item.title}
-                                    </Typography>
-                                  </Grid>
-                                </Grid>
-                              </Fade>
-                            </Link>
-                          </Grid>
-                        )
-                      })}
+                                  <img
+                                    className={classes.ImageCard}
+                                    src={item.imgSrc}
+                                  />
+                                </Tilt>
+                              </Grid>
+                              <Grid item>
+                                <Typography
+                                  variant='h4'
+                                  className={classes.ItemHeader}
+                                >
+                                  {item.title}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Fade>
+                        </Link>
+                      </Grid>
+                    )
+                  })}
                 </Grid>
               </Grid>
             </Grid>
