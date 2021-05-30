@@ -29,19 +29,6 @@ const styles = theme => ({
         minWidth: '70px'
       }
     },
-    bio: {
-      color: '#AAAAAA',
-      fontSize: '12px',
-      padding: '0px',
-      marginTop: theme.spacing(1),
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      display: 'inherit',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px',
-        display: 'none'
-      }
-    },
     card: {
       paddingTop: theme.spacing(-10),
       paddingBottom: theme.spacing(-10),
@@ -65,126 +52,17 @@ const styles = theme => ({
     },
 
     chart: {
-      margin: '0 0 3rem 0',
-      fontSize: '28px',
-      fontWeight: '500',
-      marginBottom: '10px',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '20px'
-      }
+      margin: '0 0 3rem 0'
     },
     chartheader: {
       padding: '20px 2rem 0rem 20px'
     },
-    content: {
-      color: 'black'
-    },
-    eos: {
-      display: 'none'
-    },
-    hidden: {
-      display: 'none'
-    },
-    largeStat: {
-      color: '#ffffff',
-      fontSize: '28px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '500',
-      marginRight: '5px',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '22px',
-        width: '2rem'
-      }
-    },
-    LinearProgress: {
-      height: '3px'
-    },
-    minimize: {
-      width: '42px',
-      height: '42px',
-      minWidth: '42px',
-      minHeight: '42px',
-      fontSize: '20px',
-      [theme.breakpoints.down('xs')]: {
-        width: '30px',
-        height: '30px',
-        minWidth: '30px',
-        minHeight: '30px',
-        fontSize: '15px'
-      }
-    },
-    minimizeCard: {
-      maxHeight: '50px',
-      transition: 'max-height 0.2s linear',
-      overflow: 'hidden'
-    },
     name: {
-      color: '#ffffff',
-      fontSize: '28px',
-      fontWeight: '500',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '20px'
-      }
-    },
-    profileDetails: {
-      ...theme.mixins.gutters(),
-      paddingBottom: theme.spacing(1),
-      boxShadow: 'none',
-      maxHeight: '250px',
-      height: '140px',
-      display: 'inline-grid',
-      width: '100%',
-      position: 'relative',
-      marginLeft: '100px',
-      [theme.breakpoints.down('xs')]: {
-        paddingTop: '10px',
-        marginLeft: '100px',
-        display: 'block',
-        height: '100px'
-      }
-    },
-    profileStats: {
-      marginLeft: '0px',
-      padding: '0px 0rem',
-      width: '100%',
-      flexWrap: 'nowrap',
-      [theme.breakpoints.down('xs')]: {
-        padding: '0px 2rem 0px calc(2rem - 12px)'
-      }
+      color: '#ffffff'
     },
     text: {
       color: '#ffffff',
-      fontSize: '12px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px'
-      },
-      lineHeight: '30px'
-    },
-    text2: {
-      color: '#ffffff',
-      fontSize: '18px',
-      fontWeight: '500',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '14px'
-      }
-    },
-    username: {
-      color: '#ffffff',
-      fontSize: '18px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px'
-      }
+      marginTop: '6px'
     }
   })
 
@@ -261,12 +139,14 @@ const BarChart = (props) => {
          <Typography align='left'
            className={classes.chart}
            style={{ color: color }}
+           variant='h4'
          >
            {chartData.toFixed(0) + (unit || '')}
          </Typography>
          <Typography align='left'
            className={classes.text}
            style={{ paddingLeft: '5px' }}
+           variant='subtitle2'
          >
            {chartTitle}
          </Typography>

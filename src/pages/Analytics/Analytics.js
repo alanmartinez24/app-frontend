@@ -264,10 +264,20 @@ class Analytics extends Component {
             }
           }
         })
+        dailyData = this.cleanupData(dailyData)
         this.setState({ isLoading: false, userEarnings: dailyData })
       } catch (e) {
         console.log(e)
       }
+  }
+  // Current data we get through eos api seems to be off by a bit.
+  // Until we have our own analytics we need to set the values to 0 if the earnings/holdings have negative values
+  // Breaks the chart styling otherwise ( and confuses the users)
+  cleanupData = (data) => {
+     data.forEach(entry => {
+      if (entry[1] < 0) entry[1] = 0
+    })
+    return data
   }
   getDistributions = async (account) => {
     try {
