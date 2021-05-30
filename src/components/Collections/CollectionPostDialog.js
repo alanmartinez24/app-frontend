@@ -1,6 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, DialogContentText, CircularProgress, Link } from '@material-ui/core'
+import {
+  DialogActions,
+  SnackbarContent,
+  Snackbar,
+  Dialog,
+  DialogTitle,
+  Button,
+  TextField,
+  DialogContent,
+  DialogContentText,
+  CircularProgress,
+  Link,
+  Typography
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
@@ -27,8 +40,7 @@ const styles = theme => ({
     fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa',
-    marginLeft: '2%'
+    color: '#fafafa'
   },
   dialogContent: {
     root: {
@@ -71,7 +83,13 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth }) => {
+const CollectionPostDialog = ({
+  postid,
+  classes,
+  dialogOpen,
+  handleDialogClose,
+  ethAuth
+}) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -80,7 +98,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
 
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
-  const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
+  const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
   const fetchAuthToken = async () => {
@@ -96,7 +114,9 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
       const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
       const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
       setNewCollectionInfo(data)
@@ -115,15 +135,18 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
         onClose={handleSnackbarClose}
         open={!!snackbarMsg}
       >
-        <Link href={`${WEB_APP_URL}/collections/${encodeURIComponent(newCollectionInfo.name)}/${newCollectionInfo._id}`}>
-          <SnackbarContent
-            className={classes.snack}
+        <Link
+          href={`${WEB_APP_URL}/collections/${encodeURIComponent(
+            newCollectionInfo.name
+          )}/${newCollectionInfo._id}`}
+        >
+          <SnackbarContent className={classes.snack}
             message={snackbarMsg}
           />
-
         </Link>
       </Snackbar>
-      <Dialog open={dialogOpen}
+      <Dialog
+        open={dialogOpen}
         onClose={handleDialogClose}
         aria-labelledby='form-dialog-title'
         PaperProps={{
@@ -146,7 +169,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
         >
-          New Collection
+          <Typography variant='h3'>New Collection</Typography>
         </DialogTitle>
         <DialogContent>
           <DialogContentText style={{ color: '#fff' }}>
@@ -157,19 +180,23 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
+            inputProps={{
+              maxLength: TITLE_LIMIT,
+              borderBottomColor: '#fafafa'
+            }}
             InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
+              classes: {
+                root: classes.inputRoot,
+                input: classes.inputInput,
+                underline: classes.inputUnderline
+              },
+              className: classes.input
+            }}
             InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+              style: {
+                color: '#a0a0a0'
+              }
+            }}
             label='Name'
             type='text'
           />
@@ -181,31 +208,34 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             onChange={handleDescriptionChange}
             inputProps={{ maxLength: DESC_LIMIT }}
             InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
+              classes: {
+                root: classes.inputRoot,
+                input: classes.inputInput
+              },
+              className: classes.input
+            }}
             InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+              style: {
+                color: '#a0a0a0'
+              }
+            }}
             label='Description'
             multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCreateNewCollection}
+          <Button
+            onClick={handleCreateNewCollection}
             color='primary'
             fullWidth
             style={{ backgroundColor: '#00eab7', textTransform: 'none' }}
           >
             Create Collection
-            {isLoading && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                           />
+            {isLoading && (
+              <CircularProgress size={20}
+                className={classes.spinnerLoader}
+              />
             )}
           </Button>
         </DialogActions>
@@ -229,4 +259,6 @@ CollectionPostDialog.propTypes = {
   ethAuth: PropTypes.object
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(CollectionPostDialog))
+export default connect(mapStateToProps)(
+  withStyles(styles)(CollectionPostDialog)
+)

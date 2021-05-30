@@ -428,15 +428,17 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
 
   useEffect(() => {
     if (authInfo && authInfo.account) {
-      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`).then(res => {
-        const levelInfo = res.data
-        setLevel({
-          isLoading: false,
-          error: false,
-          levelInfo
+      axios
+        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+        .then(res => {
+          const levelInfo = res.data
+          setLevel({
+            isLoading: false,
+            error: false,
+            levelInfo
+          })
         })
-      })
-      .catch(() => {})
+        .catch(() => {})
     }
   }, authInfo.account)
 
@@ -874,13 +876,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                 }}
               >
                 <DialogTitle style={{ paddingBottom: '10px' }}>
-                  <Typography
-                    align='left'
-                    className={classes.dialogTitleText}
-                    variant='h5'
-                  >
-                    Settings
-                  </Typography>
+                  <Typography variant='h3'>Settings</Typography>
                 </DialogTitle>
                 <DialogContent>
                   <List className={classes.root}>
@@ -938,12 +934,15 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Your Daily Hits'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', fontWeight: '100', margin: 0 }}
+                          style={{
+                            color: '#c0c0c0',
+                            fontWeight: '100',
+                            margin: 0
+                          }}
                         />
                       </ListItem>
                     </PrivateListItem>
-                    <ListItem
-                      button
+                    <ListItem button
                       dense
                       component={Link}
                       to='/?feed=crypto'

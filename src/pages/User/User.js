@@ -584,7 +584,8 @@ class User extends Component {
               width: '80%',
               padding: '1rem 0.5rem',
               maxWidth: '500px',
-              color: '#fafafa'
+              color: '#fafafa',
+              maxHeight: '50vh'
             }
           }}
           BackdropProps={{
@@ -593,7 +594,9 @@ class User extends Component {
             }
           }}
         >
-          <DialogTitle id='form-dialog-title'>Collections</DialogTitle>
+          <DialogTitle id='form-dialog-title'>
+            <Typography variant='h3'>Collections</Typography>
+          </DialogTitle>
           <DialogContent>
             {collections.map(collection => {
               return (

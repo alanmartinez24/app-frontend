@@ -51,8 +51,7 @@ const styles = theme => ({
   dialogTitleText: {
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa',
-    marginLeft: '2%'
+    color: '#fafafa'
   },
   dialogContent: {
     root: {
@@ -538,13 +537,7 @@ class EditProfile extends Component {
                 className={classes.dialogTitle}
                 id='form-dialog-title'
               >
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  color='#ffffff'
-                >
-                  Edit Profile
-                </Typography>
+                <Typography variant='h3'>Collections</Typography>
               </DialogTitle>
               <DialogContent style={{ margin: '20px' }}>
                 <Grid

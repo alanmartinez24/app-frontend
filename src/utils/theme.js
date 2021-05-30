@@ -25,6 +25,8 @@ const theme = createMuiTheme({
       },
       outlined: {
         borderRadius: '0.25rem',
+        border: 'none',
+        color: Colors.White,
         boxShadow:
           '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
         lineHeight: '23px',
@@ -35,6 +37,23 @@ const theme = createMuiTheme({
           boxShadow:
             '8px 8px 30px 0 rgba(0, 0, 0, 0.06), -8px -8px 15px 0 rgba(170, 170, 170, 0.03), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.06), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.03)',
           backgroundColor: 'inherit'
+        }
+      },
+      contained: {
+        borderRadius: '0.25rem',
+        border: 'none',
+        backgroundColor: Colors.Green,
+        color: Colors.Black,
+        boxShadow:
+          '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
+        lineHeight: '23px',
+        letterSpacing: '1%',
+        fontWeight: '500',
+        fontFamily: 'Gilroy',
+        '&:hover': {
+          boxShadow:
+            '8px 8px 30px 0 rgba(0, 0, 0, 0.06), -8px -8px 15px 0 rgba(170, 170, 170, 0.03), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.06), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.03)',
+          backgroundColor: Colors.Green
         }
       }
     },
@@ -53,6 +72,26 @@ const theme = createMuiTheme({
     MuiInputLabel: {
       shrink: {
         color: `${Colors.White} !important`
+      }
+    },
+    MuiInput: {
+      underline: {
+        '&:before': {
+          borderBottomColor: Colors.Grey
+        },
+        '&:hover': {
+          borderBottomColor: Colors.White
+        }
+      }
+    },
+    MuiTextField: {
+      root: {
+        color: Colors.White
+      }
+    },
+    MuiDialogActions: {
+      root: {
+        padding: '8px 24px'
       }
     }
   },
@@ -171,7 +210,7 @@ const theme = createMuiTheme({
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: Colors.Green,
+      color: Colors.Grey,
       letterSpacing: '0.25%',
       fontWeight: '100'
     },
