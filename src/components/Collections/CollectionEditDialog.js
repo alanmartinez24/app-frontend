@@ -1,6 +1,17 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, CircularProgress } from '@material-ui/core'
+import {
+  DialogActions,
+  SnackbarContent,
+  Snackbar,
+  Dialog,
+  DialogTitle,
+  Button,
+  TextField,
+  DialogContent,
+  CircularProgress,
+  Typography
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
@@ -27,8 +38,7 @@ const styles = theme => ({
     fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa',
-    marginLeft: '2%'
+    color: '#fafafa'
   },
   dialogContent: {
     root: {
@@ -65,14 +75,21 @@ const styles = theme => ({
     justifyContent: 'center'
   },
 
-spinnerLoader: {
-  color: 'white',
-  position: 'absolute',
-  right: '3%'
-}
+  spinnerLoader: {
+    color: 'white',
+    position: 'absolute',
+    right: '3%'
+  }
 })
 
-const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, ethAuth }) => {
+const CollectionEditDialog = ({
+  collection,
+  classes,
+  dialogOpen,
+  handleDialogClose,
+  history,
+  ethAuth
+}) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -81,7 +98,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
 
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
-  const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
+  const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
   const fetchAuthToken = async () => {
@@ -96,7 +113,9 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingUpdate(true)
       const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
       const params = { name, description, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoadingUpdate(false)
@@ -113,9 +132,13 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingDelete(true)
       const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
       const params = { ...authToken }
-      await axios.delete(`${BACKEND_API}/collections/${collection._id}`, { data: params })
+      await axios.delete(`${BACKEND_API}/collections/${collection._id}`, {
+        data: params
+      })
       history.push(`/${authToken.eosname}`)
     } catch (err) {
       handleSnackbarOpen('There was a problem deleting your collection')
@@ -131,12 +154,12 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         onClose={handleSnackbarClose}
         open={!!snackbarMsg}
       >
-        <SnackbarContent
-          className={classes.snack}
+        <SnackbarContent className={classes.snack}
           message={snackbarMsg}
         />
       </Snackbar>
-      <Dialog open={dialogOpen}
+      <Dialog
+        open={dialogOpen}
         onClose={handleDialogClose}
         aria-labelledby='form-dialog-title'
         PaperProps={{
@@ -159,7 +182,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
         >
-          Update {collection.name}
+          <Typography variant='h3'>Update {collection.name}</Typography>
         </DialogTitle>
         <DialogContent>
           <TextField
@@ -167,19 +190,23 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             fullWidth
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
+            inputProps={{
+              maxLength: TITLE_LIMIT,
+              borderBottomColor: '#fafafa'
+            }}
             InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
+              classes: {
+                root: classes.inputRoot,
+                input: classes.inputInput,
+                underline: classes.inputUnderline
+              },
+              className: classes.input
+            }}
             InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+              style: {
+                color: '#a0a0a0'
+              }
+            }}
             label='Name'
             type='text'
           />
@@ -191,42 +218,47 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             onChange={handleDescriptionChange}
             inputProps={{ maxLength: DESC_LIMIT }}
             InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
+              classes: {
+                root: classes.inputRoot,
+                input: classes.inputInput
+              },
+              className: classes.input
+            }}
             InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+              style: {
+                color: '#a0a0a0'
+              }
+            }}
             label='Description'
             multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCollection}
+          <Button
+            onClick={handleDeleteCollection}
             color='primary'
             fullWidth
             style={{ backgroundColor: '#1a1a1a' }}
           >
             Delete
-            {isLoadingDelete && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
+            {isLoadingDelete && (
+              <CircularProgress size={20}
+                className={classes.spinnerLoader}
+              />
             )}
           </Button>
-          <Button onClick={handleEditCollection}
+          <Button
+            onClick={handleEditCollection}
             color='primary'
             fullWidth
             style={{ backgroundColor: '#00eab7' }}
           >
             Update
-            {isLoadingUpdate && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
+            {isLoadingUpdate && (
+              <CircularProgress size={20}
+                className={classes.spinnerLoader}
+              />
             )}
           </Button>
         </DialogActions>
@@ -251,4 +283,6 @@ CollectionEditDialog.propTypes = {
   ethAuth: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))
+export default withRouter(
+  connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog))
+)
