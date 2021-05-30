@@ -5,7 +5,20 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import Img from 'react-image'
-import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden } from '@material-ui/core'
+import {
+  Fab,
+  Typography,
+  Grid,
+  Button,
+  IconButton,
+  Icon,
+  SnackbarContent,
+  Snackbar,
+  Fade,
+  Tabs,
+  Tab,
+  Hidden
+} from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -21,7 +34,9 @@ import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 
 const BACKEND_API = process.env.BACKEND_API
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
+  Math.random() * 5
+) + 1}.png`
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
@@ -231,8 +246,10 @@ class Collections extends Component {
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`))
+        .data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
+        .data
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
@@ -324,8 +341,10 @@ class Collections extends Component {
       (account && account.name) === (collection && collection.ownerId)
 
     const len = posts.length - 1
-    let headerImgSrc = posts &&
-      ((posts[len] && posts[len].previewData.img) || (posts[len - 1] && posts[len - 1].previewData.img))
+    let headerImgSrc =
+      posts &&
+      ((posts[len] && posts[len].previewData.img) ||
+        (posts[len - 1] && posts[len - 1].previewData.img))
 
     if (!isLoading && !collection) {
       return (
@@ -357,7 +376,8 @@ class Collections extends Component {
 
     if (isLoading) {
       return (
-        <div style={{
+        <div
+          style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -388,19 +408,18 @@ class Collections extends Component {
           <meta property='og:image'
             content={`${collection.coverImgSrc}`}
           />
-          <meta
-            property='twitter:card'
+          <meta property='twitter:card'
             content='summary_large_image'
           />
-          <meta
-            property='twitter:site'
+          <meta property='twitter:site'
             content='@yup_io'
           />
           <meta
             property='twitter:title'
             content={`${collection.name} | ${collection.owner}`}
           />
-          <meta property='twitter:image'
+          <meta
+            property='twitter:image'
             content={`${collection.coverImgSrc}`}
           />
           <meta
@@ -468,7 +487,8 @@ class Collections extends Component {
                     />
                   </Fade>
                 </Grid>
-                <Grid item
+                <Grid
+                  item
                   lg={isMinimize ? 7 : 6}
                   md={isMinimize ? 7 : 6}
                   sm={8}
@@ -511,8 +531,7 @@ class Collections extends Component {
                     {collection.description}
                   </Typography>
                 </Grid>
-                <Grid
-                  item
+                <Grid item
                   container
                   lg={4}
                   sm={2}
@@ -525,9 +544,7 @@ class Collections extends Component {
                     aria-haspopup='true'
                     onClick={this.shareCollection}
                   >
-                    <Icon
-                      className={[classes.icons, 'fa fa-share']}
-                    />
+                    <Icon className={[classes.icons, 'fa fa-share']} />
                   </IconButton>
                   {isLoggedUserCollection && (
                     <IconButton
@@ -549,26 +566,69 @@ class Collections extends Component {
                 />
               </Hidden>
 
-              {showTabs ? <>
-                <Grid item
-                  xs={12}
-                >
-                  <Tabs value={activeTab}
-                    onChange={this.handleChange}
-                  >
-                    <Tab label='Feed'
-                      className={classes.tabs}
-                    />
-                    <Tab label='Recommended'
-                      className={classes.tabs}
-                    />
-                  </Tabs>
-                </Grid>
-
-                <TabPanel value={activeTab}
-                  index={0}
-                >
+              {showTabs ? (
+                <>
                   <Grid item
+                    xs={12}
+                  >
+                    <Tabs value={activeTab}
+                      onChange={this.handleChange}
+                    >
+                      <Tab label='Feed'
+                        className={classes.tabs}
+                      />
+                      <Tab label='Recommended'
+                        className={classes.tabs}
+                      />
+                    </Tabs>
+                  </Grid>
+
+                  <TabPanel value={activeTab}
+                    index={0}
+                  >
+                    <Grid item
+                      xs={12}
+                    >
+                      <Feed
+                        isLoading={isLoading}
+                        hasMore={false}
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                        renderObjects
+                        tourname='CollectionPosts'
+                      />
+                    </Grid>
+                  </TabPanel>
+
+                  <TabPanel value={activeTab}
+                    index={1}
+                  >
+                    <Grid
+                      item
+                      container
+                      column
+                      spacing={4}
+                      tourname='RecommendedCollections'
+                      className={classes.recommended}
+                    >
+                      {recommended.map(rec => {
+                        if (rec.name !== collection.name) {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        }
+                      })}
+                    </Grid>
+                  </TabPanel>
+                </>
+              ) : (
+                <>
+                  <Grid item
+                    lg={6}
                     xs={12}
                   >
                     <Feed
@@ -581,78 +641,37 @@ class Collections extends Component {
                       tourname='CollectionPosts'
                     />
                   </Grid>
-                </TabPanel>
 
-                <TabPanel value={activeTab}
-                  index={1}
-                >
-                  <Grid item
+                  <Grid
+                    item
                     container
-                    column
-                    spacing={4}
+                    lg={4}
+                    spacing={2}
                     tourname='RecommendedCollections'
                     className={classes.recommended}
                   >
-                    {recommended.map(rec => {
-                      if (rec.name !== collection.name) {
-                        return (
-                          <RecommendedCollections
-                            classes={classes}
-                            collection={rec}
-                          />
-                        )
-                      }
-                    })}
+                    <Grid item
+                      xs={12}
+                    >
+                      <Typography variant='h4'>Recommended</Typography>
+                    </Grid>
+                    <Grid item
+                      xs={12}
+                    >
+                      {recommended.map(rec => {
+                        if (rec.name !== collection.name) {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        }
+                      })}
+                    </Grid>
                   </Grid>
-                </TabPanel>
-              </>
-
-              : <>
-                <Grid item
-                  lg={6}
-                  xs={12}
-                >
-                  <Feed
-                    isLoading={isLoading}
-                    hasMore={false}
-                    classes={classes}
-                    posts={posts}
-                    hideInteractions
-                    renderObjects
-                    tourname='CollectionPosts'
-                  />
-                </Grid>
-
-                <Grid
-                  item
-                  container
-                  lg={4}
-                  spacing={2}
-                  tourname='RecommendedCollections'
-                  className={classes.recommended}
-                >
-                  <Grid item
-                    xs={12}
-                  >
-                    <Typography variant='h4'>Recommended</Typography>
-                  </Grid>
-                  <Grid item
-                    xs={12}
-                  >
-                    {recommended.map(rec => {
-                      if (rec.name !== collection.name) {
-                        return (
-                          <RecommendedCollections
-                            classes={classes}
-                            collection={rec}
-                          />
-                        )
-                      }
-                    })}
-                  </Grid>
-                </Grid>
-              </>
-              }
+                </>
+              )}
             </Grid>
 
             <Tour

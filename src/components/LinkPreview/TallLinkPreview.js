@@ -57,7 +57,6 @@ const styles = theme => ({
     fontSize: '18px',
     fontWeight: 600,
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
-    width: '500px',
     [theme.breakpoints.down('xs')]: {
       width: '60vw',
       fontSize: '16px'
@@ -90,7 +89,8 @@ const styles = theme => ({
     bottom: '0',
     textAlign: 'left',
     zIndex: 5,
-    background: 'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
+    background:
+      'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
     padding: '0% 3%',
     width: '94.5%'
   }
@@ -154,7 +154,10 @@ class LinkPreview extends Component {
     let faviconURLFallback
 
     if (url != null) {
-      faviconURL = 'https://api.faviconkit.com/' + this.trimURLStart(this.trimURLEnd(url)) + '64'
+      faviconURL =
+        'https://api.faviconkit.com/' +
+        this.trimURLStart(this.trimURLEnd(url)) +
+        '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     } else {
       faviconURL = null
@@ -167,25 +170,27 @@ class LinkPreview extends Component {
           href={url}
           target='_blank'
         >
-          <a className={classes.link}
+          <a
+            className={classes.link}
             href={url}
             rel='noopener noreferrer'
             target='_blank'
           >
-            <div className={classes.previewContainer}
+            <div
+              className={classes.previewContainer}
               href={url}
               rel='noopener noreferrer'
               target='_blank'
             >
-              <Img alt={title}
+              <Img
+                alt={title}
                 className={classes.linkImg}
                 src={[image, DEFAULT_POST_IMAGE]}
                 target='_blank'
                 loader={<img src={DEFAULT_POST_IMAGE} />}
               />
               <div className={classes.previewData}>
-                <Grid
-                  alignItems='center'
+                <Grid alignItems='center'
                   container
                   direction='row'
                 >
@@ -194,7 +199,13 @@ class LinkPreview extends Component {
                       align='right'
                       href={url}
                       src={[faviconURL, faviconURLFallback]}
-                      style={{ height: 30, width: 30, marginRight: '0.5rem', border: 'none', borderRadius: '0.5rem' }}
+                      style={{
+                        height: 30,
+                        width: 30,
+                        marginRight: '0.5rem',
+                        border: 'none',
+                        borderRadius: '0.5rem'
+                      }}
                       target='_blank'
                     />
                   </Grid>
@@ -238,4 +249,4 @@ LinkPreview.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default (withStyles(styles)(LinkPreview))
+export default withStyles(styles)(LinkPreview)
