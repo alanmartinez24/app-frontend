@@ -136,51 +136,20 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         <DialogContent>
           <YupInput
             fullWidth
-            maxLength={24}
+            maxLength={TITLE_LIMIT}
             onChange={handleNameChange}
             id='name'
-<<<<<<< HEAD
-            inputProps={{ maxLength: TITLE_LIMIT, borderBottomColor: '#fafafa' }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
-=======
             defaultValue={collection.name}
->>>>>>> eg-collection-bug-fixes
             label='Name'
             type='text'
           />
           <YupInput
             color='#fafafa'
-            maxLength={24}
+            maxLength={DESC_LIMIT}
             fullWidth
             id='description'
             defaultValue={collection.description}
             onChange={handleDescriptionChange}
-<<<<<<< HEAD
-            inputProps={{ maxLength: DESC_LIMIT }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
-=======
->>>>>>> eg-collection-bug-fixes
             label='Description'
             type='text'
           />
