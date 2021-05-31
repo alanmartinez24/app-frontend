@@ -192,7 +192,7 @@ class ListPreview extends Component {
     const res = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
     const collectionImg = res.posts[0] && res.posts[0].previewData.img
     const collectionImgFallback = res.posts[1] && res.posts[1].previewData.img
-    this.setState({
+     this.setState({
       collectionImg: collectionImg || collectionImgFallback
     })
   }
@@ -215,7 +215,7 @@ class ListPreview extends Component {
     // TODO: Adjust this for Yup lists, should only get quantile for category and website being compared
     const isNftArt = url && url.match(nftPattern)
     const isCollection = url && url.match(collectionPattern)
-    if (isCollection) {
+    if (isCollection && collectionImg === DEFAULT_IMG) {
       this.addCollectionImg(url)
     }
     const isAudiusPost = previewData && (previewData.trackId && previewData.ownerId)
