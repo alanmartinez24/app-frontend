@@ -200,10 +200,14 @@ const User = (props) => {
           xs={9}
           style={{ marginBottom: '8px' }}
         >
-          <Typography variant='body1'>
+          <Typography variant='body1'
+            color='primary'
+          >
             <strong>{user.fullname || user._id || user.username}</strong>
           </Typography>
-          <Typography variant='body1'>
+          <Typography variant='body1'
+            color='primary'
+          >
             @{user.username || user.eosname}
           </Typography>
         </Grid>
