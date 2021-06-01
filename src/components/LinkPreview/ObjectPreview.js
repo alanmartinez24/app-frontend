@@ -18,9 +18,9 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     overflowY: 'hidden',
-    height: '9rem',
+    height: '8rem',
     [theme.breakpoints.down('xs')]: {
-      height: '8rem'
+      height: '9rem'
     },
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px'
@@ -34,15 +34,20 @@ const styles = theme => ({
     }
   },
   linkImg: {
+    width: '5rem',
+    height: '5rem',
     objectFit: 'cover',
     backgroundColor: '#4f4f4f',
-    width: '100%',
-    aspectRatio: '1 / 1',
     alignItems: 'center',
     borderRadius: '200px',
     [theme.breakpoints.up('1700')]: {
       maxHeight: '25rem',
+      width: '100%',
       maxWidth: '6rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '4.5rem',
+      height: '4.5rem'
     }
   },
   previewContainer: {
@@ -56,18 +61,18 @@ const styles = theme => ({
   },
   title: {
     position: 'relative',
-    fontSize: '22px',
+    fontSize: '1rem',
     fontWeight: 500,
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
+    width: '400px',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '18px'
+      width: '60vw'
     }
   },
   description: {
     position: 'relative',
-    fontSize: '14px',
+    fontSize: '0.7rem',
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
-
     fontWeight: 200,
     maxWidth: '400px',
     [theme.breakpoints.down('xs')]: {
@@ -95,15 +100,15 @@ const styles = theme => ({
     textAlign: 'left',
     zIndex: 5,
     background: '',
-    padding: '2% 5% 2% 5%',
-    width: '90%'
+    padding: '0% 2% 0% 2%',
+    width: '95%'
   }
 })
 
 class FallbackImage extends Component {
   state = { imgLink: '' }
   componentDidMount () {
-    ;(async () => {
+    (async () => {
       const imgL = await this.resetImgLink()
       this.setState({ imgLink: imgL })
     })()
@@ -111,21 +116,16 @@ class FallbackImage extends Component {
 
   async resetImgLink () {
     const { caption } = this.props
-    const res = await axios.post(`${BACKEND_API}/posts/linkpreview/`, {
-      url: caption
-    })
+    const res = await axios.post(`${BACKEND_API}/posts/linkpreview/`, { url: caption })
     return res.data.previewData.img
   }
 
   render () {
     const { classes, imageStyle } = this.props
-    return (
-      <img
-        className={classes.linkImg}
-        style={imageStyle}
-        src={this.state.imgLink || DEFAULT_POST_IMAGE}
-      />
-    )
+    return <img className={classes.linkImg}
+      style={imageStyle}
+      src={this.state.imgLink || DEFAULT_POST_IMAGE}
+           />
   }
 }
 
@@ -139,9 +139,7 @@ const StyledFallbackImage = withStyles(styles)(FallbackImage)
 
 class ObjectPreview extends Component {
   cutUrl (inUrl) {
-    if (inUrl == null) {
-      return ''
-    }
+    if (inUrl == null) { return '' }
     const protocol = 'https://'
     const pro2 = 'http://'
 
@@ -194,44 +192,28 @@ class ObjectPreview extends Component {
 
   async resetImgLink () {
     const { caption } = this.props
-    const res = await axios.post(`${BACKEND_API}/posts/linkpreview/`, {
-      url: caption
-    })
+    const res = await axios.post(`${BACKEND_API}/posts/linkpreview/`, { url: caption })
     return res.data.previewData.img
   }
 
   render () {
-    const {
-      image,
-      title,
-      description,
-      url,
-      caption,
-      classes,
-      quantiles,
-      rankCategory
-    } = this.props
+    const { image, title, description, url, caption, classes, quantiles, rankCategory } = this.props
     let faviconURL
     let faviconURLFallback
     if (url != null) {
-      faviconURL =
-        'https://api.faviconkit.com/' +
-        this.trimURLStart(this.trimURLEnd(url)) +
-        '64'
+      faviconURL = 'https://api.faviconkit.com/' + this.trimURLStart(this.trimURLEnd(url)) + '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     } else {
       faviconURL = null
       faviconURLFallback = null
     }
     // TODO: Adjust this for Yup lists, should only get quantile for category and website being compared
-    const overallQuantile = rankCategory
-      ? quantiles[rankCategory]
-      : quantiles.overall
+    const overallQuantile = rankCategory ? quantiles[rankCategory] : quantiles.overall
     const levelColor = overallQuantile ? levelColors[overallQuantile] : null
 
-    const imageStyle = {
-      border: levelColor ? `3px solid ${levelColor}` : 'none'
-    }
+    const imageStyle = { border: levelColor
+      ? `3px solid ${levelColor}`
+       : 'none' }
 
     return (
       <ErrorBoundary>
@@ -242,14 +224,12 @@ class ObjectPreview extends Component {
             href={url}
             target='_blank'
           >
-            <a
-              className={classes.link}
+            <a className={classes.link}
               href={url}
               rel='noopener noreferrer'
               target='_blank'
             >
-              <div
-                className={classes.previewContainer}
+              <div className={classes.previewContainer}
                 href={url}
                 rel='noopener noreferrer'
                 target='_blank'
@@ -260,28 +240,21 @@ class ObjectPreview extends Component {
                     container
                     direction='row'
                     justify='space-between'
-                    spacing='4'
                   >
-                    <Grid item
-                      xs={3}
-                    >
-                      <Img
-                        alt={title}
+                    <Grid item>
+                      <Img alt={title}
                         className={classes.linkImg}
                         src={[image]}
-                        unloader={
-                          <StyledFallbackImage
-                            className={classes.linkImg}
-                            caption={caption}
-                            imageStyle={imageStyle}
-                          />
-                        }
+                        unloader={<StyledFallbackImage className={classes.linkImg}
+                          caption={caption}
+                          imageStyle={imageStyle}
+                                  />
+                      }
                         target='_blank'
                         style={imageStyle}
                       />
                     </Grid>
                     <Grid item
-                      xs={8}
                       style={{ margin: 'auto 0px' }}
                     >
                       <div className={classes.title}>
@@ -289,7 +262,7 @@ class ObjectPreview extends Component {
                           basedOn='letters'
                           ellipsis='...'
                           maxLine='1'
-                          text={title.split('|', 1)}
+                          text={title}
                           trimRight
                         />
                       </div>
@@ -303,20 +276,12 @@ class ObjectPreview extends Component {
                         />
                       </div>
                     </Grid>
-                    <Grid item
-                      xs={1}
-                    >
+                    <Grid item>
                       <Img
                         align='right'
                         href={url}
                         src={[faviconURL, faviconURLFallback]}
-                        style={{
-                          height: 30,
-                          width: 30,
-                          marginRight: '0rem',
-                          border: 'none',
-                          borderRadius: '0.5rem'
-                        }}
+                        style={{ height: 30, width: 30, marginRight: '0rem', border: 'none', borderRadius: '0.5rem' }}
                         target='_blank'
                       />
                     </Grid>
@@ -343,4 +308,4 @@ ObjectPreview.propTypes = {
   rankCategory: PropTypes.string
 }
 
-export default withStyles(styles)(ObjectPreview)
+export default (withStyles(styles)(ObjectPreview))
