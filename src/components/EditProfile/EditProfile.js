@@ -13,7 +13,6 @@ import DoneIcon from '@material-ui/icons/Done'
 import IconButton from '@material-ui/core/IconButton'
 import {
   MuiThemeProvider,
-  createMuiTheme,
   withStyles
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
@@ -26,6 +25,7 @@ import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { Buffer } from 'buffer'
+import theme from '../../utils/theme'
 
 const IPFS = require('ipfs-http-client')
 const BACKEND_API = process.env.BACKEND_API
@@ -167,33 +167,6 @@ const styles = theme => ({
   snackUpper: {
     backgroundColor: 'transparent',
     paddingBottom: 0
-  }
-})
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#fff' },
-    secondary: { main: '#fff' },
-    third: { main: '#00eab7' }
-  },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    color: 'primary'
-  },
-  stats: {
-    fontFamily: 'Gilroy',
-    color: '#fff'
-  },
-  MuiInputBase: {
-    root: {
-      color: '#fafafa'
-    }
   }
 })
 
@@ -537,7 +510,7 @@ class EditProfile extends Component {
                 className={classes.dialogTitle}
                 id='form-dialog-title'
               >
-                <Typography variant='h3'>Collections</Typography>
+                <Typography variant='h3'>Edit Profile</Typography>
               </DialogTitle>
               <DialogContent style={{ margin: '20px' }}>
                 <Grid

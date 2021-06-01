@@ -168,7 +168,6 @@ const theme = createMuiTheme({
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
       ...responsiveTextSize
-
     },
     body1: {
       fontFamily: 'Gilroy',
@@ -176,6 +175,7 @@ const theme = createMuiTheme({
       fontWeight: 300,
       fontSize: '0.875rem',
       lineHeight: '1rem',
+      color: Colors.White,
       ...responsiveTextSize
     },
     display3: {
@@ -184,16 +184,14 @@ const theme = createMuiTheme({
       fontSize: '20px',
       lineHeight: '20px',
       color: Colors.Green,
-      fontWeight: '100',
-      ...responsiveTextSize
+      fontWeight: '100'
     },
     display2: {
       fontFamily: 'Gilroy',
       fontStyle: 'thin',
       fontSize: '34px',
       lineHeight: '59px',
-      color: Colors.Green,
-      ...responsiveTextSize
+      color: Colors.Green
     },
     display1: {
       fontFamily: 'Gilroy',
@@ -201,8 +199,7 @@ const theme = createMuiTheme({
       fontSize: '24px',
       lineHeight: '29px',
       color: Colors.Yellow,
-      fontWeight: '100',
-      ...responsiveTextSize
+      fontWeight: '100'
     },
     headline: {
       fontSize: '20px',
@@ -235,8 +232,7 @@ const theme = createMuiTheme({
       lineHeight: '21px',
       color: Colors.Grey,
       letterSpacing: '0.25%',
-      fontWeight: '100',
-      ...responsiveTextSize
+      fontWeight: '100'
     },
     colorError: {
       color: Colors.Red
