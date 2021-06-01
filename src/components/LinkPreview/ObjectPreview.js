@@ -34,9 +34,11 @@ const styles = theme => ({
     }
   },
   linkImg: {
+    width: '5rem',
+    height: '5rem',
     objectFit: 'cover',
     backgroundColor: '#4f4f4f',
-    width: '100%',
+    // width: '100%',
     aspectRatio: '1 / 1',
     alignItems: 'center',
     borderRadius: '200px',

@@ -1,15 +1,14 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import Colors from './colors'
 
-const responsiveTextSize = {
-  fontSize: '100%',
-  '@media (max-width: 960px)': {
-    fontSize: '90%'
-  },
-  '@media (max-width: 600px)': {
-    fontSize: '70%'
-  }
-}
+// const responsiveTextSize = {
+//   '@media (max-width: 960px)': {
+//     fontSize: '90%'
+//   },
+//   '@media (max-width: 600px)': {
+//     fontSize: '70%'
+//   }
+// }
 
 const theme = createMuiTheme({
   palette: {
@@ -111,63 +110,55 @@ const theme = createMuiTheme({
       fontWeight: 700,
       fontSize: '4rem',
       lineHeight: '3.25rem',
-      marginBottom: '0.2rem',
-      ...responsiveTextSize
+      marginBottom: '0.2rem'
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: '2.5rem',
-      ...responsiveTextSize
+      lineHeight: '2.5rem'
     },
     h3: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1.75rem',
-      lineHeight: '2.5rem',
-      ...responsiveTextSize
+      lineHeight: '2.5rem'
     },
     h4: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '1.375rem',
-      lineHeight: '2rem',
-      ...responsiveTextSize
+      lineHeight: '2rem'
     },
     h5: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '1.125rem',
-      lineHeight: '1.4rem',
-      ...responsiveTextSize
+      lineHeight: '1.4rem'
     },
     h6: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1rem',
-      lineHeight: '1.25rem',
-      ...responsiveTextSize
+      lineHeight: '1.25rem'
     },
     subtitle1: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.625rem',
-      lineHeight: '1.25rem',
-      ...responsiveTextSize
+      lineHeight: '1.25rem'
     },
     subtitle2: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 200,
       fontSize: '1.2rem',
-      lineHeight: '1.1875rem',
-      ...responsiveTextSize
+      lineHeight: '1.1875rem'
     },
     body1: {
       fontFamily: 'Gilroy',
@@ -175,8 +166,7 @@ const theme = createMuiTheme({
       fontWeight: 300,
       fontSize: '0.875rem',
       lineHeight: '1rem',
-      color: Colors.White,
-      ...responsiveTextSize
+      color: Colors.White
     },
     display3: {
       fontFamily: 'Gilroy',
