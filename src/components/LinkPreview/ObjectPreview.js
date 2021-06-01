@@ -66,8 +66,7 @@ const styles = theme => ({
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
     width: '400px',
     [theme.breakpoints.down('xs')]: {
-      width: '60vw',
-      fontSize: '18px'
+      width: '60vw'
     }
   },
   description: {
