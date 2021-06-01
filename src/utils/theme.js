@@ -1,6 +1,16 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import Colors from './colors'
 
+const responsiveTextSize = {
+  fontSize: '100%',
+  '@media (max-width: 960px)': {
+    fontSize: '90%'
+  },
+  '@media (max-width: 600px)': {
+    fontSize: '70%'
+  }
+}
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -101,62 +111,72 @@ const theme = createMuiTheme({
       fontWeight: 700,
       fontSize: '4rem',
       lineHeight: '3.25rem',
-      marginBottom: '0.2rem'
+      marginBottom: '0.2rem',
+      ...responsiveTextSize
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: '2.5rem'
+      lineHeight: '2.5rem',
+      ...responsiveTextSize
     },
     h3: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1.75rem',
-      lineHeight: '2.5rem'
+      lineHeight: '2.5rem',
+      ...responsiveTextSize
     },
     h4: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '1.375rem',
-      lineHeight: '2rem'
+      lineHeight: '2rem',
+      ...responsiveTextSize
     },
     h5: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '1.125rem',
-      lineHeight: '1.4rem'
+      lineHeight: '1.4rem',
+      ...responsiveTextSize
     },
     h6: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1rem',
-      lineHeight: '1.25rem'
+      lineHeight: '1.25rem',
+      ...responsiveTextSize
     },
     subtitle1: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.625rem',
-      lineHeight: '1.25rem'
+      lineHeight: '1.25rem',
+      ...responsiveTextSize
     },
     subtitle2: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 200,
       fontSize: '1.2rem',
-      lineHeight: '1.1875rem'
+      lineHeight: '1.1875rem',
+      ...responsiveTextSize
+
     },
     body1: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '0.875rem',
-      lineHeight: '1rem'
+      lineHeight: '1rem',
+      ...responsiveTextSize
     },
     display3: {
       fontFamily: 'Gilroy',
@@ -164,14 +184,16 @@ const theme = createMuiTheme({
       fontSize: '20px',
       lineHeight: '20px',
       color: Colors.Green,
-      fontWeight: '100'
+      fontWeight: '100',
+      ...responsiveTextSize
     },
     display2: {
       fontFamily: 'Gilroy',
       fontStyle: 'thin',
       fontSize: '34px',
       lineHeight: '59px',
-      color: Colors.Green
+      color: Colors.Green,
+      ...responsiveTextSize
     },
     display1: {
       fontFamily: 'Gilroy',
@@ -179,7 +201,8 @@ const theme = createMuiTheme({
       fontSize: '24px',
       lineHeight: '29px',
       color: Colors.Yellow,
-      fontWeight: '100'
+      fontWeight: '100',
+      ...responsiveTextSize
     },
     headline: {
       fontSize: '20px',
@@ -212,7 +235,8 @@ const theme = createMuiTheme({
       lineHeight: '21px',
       color: Colors.Grey,
       letterSpacing: '0.25%',
-      fontWeight: '100'
+      fontWeight: '100',
+      ...responsiveTextSize
     },
     colorError: {
       color: Colors.Red
