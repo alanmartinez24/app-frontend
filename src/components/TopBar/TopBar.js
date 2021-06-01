@@ -617,7 +617,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                           fullWidth
                           className={classes.signupBtn}
                           onClick={handleDialogOpen}
-                          variant='outlined'
+                          variant='contained'
                         >
                           Sign Up/Login
                         </Button>
@@ -733,7 +733,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                             fullWidth
                             className={classes.signupBtn}
                             onClick={handleDialogOpen}
-                            variant='outlined'
+                            variant='contained'
                           >
                             Sign Up/Login
                           </Button>
