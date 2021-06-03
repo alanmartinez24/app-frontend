@@ -23,3 +23,18 @@ export async function pushEthMirrorTx (ethAuth, txData) {
     address: ethAuth.address
   })
 }
+
+export async function pushTwitterMirrorTx (txData) {
+  const serializedTxData = await api.transact(txData, {
+    blocksBehind: 3,
+    expireSeconds: 60,
+    broadcast: false,
+    sign: false
+  })
+
+  const deserializedTx = api.deserializeTransaction(serializedTxData.serializedTransaction)
+  await axios.post(`${BACKEND_API}/transaction/twitter`, {
+    transaction: deserializedTx,
+    oauthToken: localStorage.getItem('YUP_TWITTER_AUTH')
+  })
+}

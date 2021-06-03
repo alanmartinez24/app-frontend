@@ -764,6 +764,9 @@ class VoteButton extends Component {
     }
 
     const signedInWithEth = !scatter.connected && !!ethAuth
+    const signedInWithTwitter = !!localStorage.getItem('YUP_TWITTER_AUTH')
+
+    console.log(signedInWithTwitter)
 
     // Converts 1-5 rating to like/dislike range
     const rating = ratingConversion[newRating]
@@ -777,12 +780,16 @@ class VoteButton extends Component {
       if (post.onchain === false) {
         if (signedInWithEth) {
           await postvotev3(account, { postid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
+        } else if (signedInWithTwitter) {
+          await postvotev3(account, { postid, caption, imgHash, videoHash, tag, like, category, rating })
         } else {
           await scatter.scatter.postvotev3({ data: { postid, caption, imgHash, videoHash, tag, like, category, rating } })
         }
       } else {
         if (signedInWithEth) {
           await createvote(account, { postid, like, category, rating }, ethAuth)
+        } else if (signedInWithTwitter) {
+          await createvote(account, { postid, like, category, rating })
         } else {
           const txStatus = await scatter.scatter.createVote({ data: { postid, like, category, rating } })
           if (txStatus === 'Action limit exceeded for create vote') {
@@ -803,6 +810,8 @@ class VoteButton extends Component {
       } else {
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
+        } else if (signedInWithTwitter) {
+          await deletevote(account, { voteid: vote._id.voteid })
         } else {
           await scatter.scatter.deleteVote({ data: { voteid: vote._id.voteid } })
         }
@@ -815,12 +824,16 @@ class VoteButton extends Component {
         if (vote.onchain === false) {
           if (signedInWithEth) {
             await postvotev4(account, { postid, voteid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
+          } else if (signedInWithTwitter) {
+            await postvotev4(account, { postid, voteid, caption, imgHash, videoHash, tag, like, category, rating })
           } else {
             await scatter.scatter.postvotev4({ data: { postid, voteid, caption, imgHash, videoHash, tag, like, category, rating } })
           }
         } else {
           if (signedInWithEth) {
             await postvotev3(account, { postid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
+          } else if (signedInWithTwitter) {
+            await postvotev3(account, { postid, caption, imgHash, videoHash, tag, like, category, rating })
           } else {
             await scatter.scatter.postvotev3({ data: { postid, caption, imgHash, videoHash, tag, like, category, rating } })
           }
@@ -829,12 +842,16 @@ class VoteButton extends Component {
         if (vote.onchain === false) {
           if (signedInWithEth) {
             await createvotev4(account, { postid, voteid, like, category, rating }, ethAuth)
+          } else if (signedInWithTwitter) {
+            await createvotev4(account, { postid, voteid, like, category, rating })
           } else {
             await scatter.scatter.createvotev4({ data: { postid, voteid, like, category, rating } })
           }
         } else {
           if (signedInWithEth) {
             await editvote(account, { voteid: vote._id.voteid, like, rating, category }, ethAuth)
+          } else if (signedInWithTwitter) {
+            await editvote(account, { voteid: vote._id.voteid, like, rating, category })
           } else {
             await scatter.scatter.editVote({ data: { voteid: vote._id.voteid, like, rating, category } })
           }

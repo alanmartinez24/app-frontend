@@ -85,6 +85,8 @@ class TwitterOAuth extends Component {
         const twitterInfo = { name: res.data.account.eosname, isMirror: true, seenTutorial: this.state.existingAcct }
         localStorage.setItem('twitterMirrorInfo', JSON.stringify(twitterInfo))
 
+        localStorage.setItem('YUP_TWITTER_AUTH', token)
+
         this.setState({ isLoading: false, username: res.data.account.username })
       } catch (err) {
         if (err.toString().includes('Error: Request failed with status code 429')) {
