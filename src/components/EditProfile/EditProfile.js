@@ -1,28 +1,16 @@
 import React, { Component, Fragment } from 'react'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
 import ReactCrop from 'react-image-crop'
 import './ReactCrop.css'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import DoneIcon from '@material-ui/icons/Done'
-import IconButton from '@material-ui/core/IconButton'
-import {
-  MuiThemeProvider,
-  withStyles
-} from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
 import Dropzone from 'react-dropzone'
-import Grid from '@material-ui/core/Grid'
 import { updateAccountInfo } from '../../redux/actions'
-import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import theme from '../../utils/theme'
@@ -59,33 +47,6 @@ const styles = theme => ({
       padding: theme.spacing(2),
       color: '#fafafa'
     }
-  },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  inputImage: {
-    display: ''
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
   },
   user: {
     display: 'flex',
@@ -576,76 +537,33 @@ class EditProfile extends Component {
                     container
                     alignItems='center'
                   >
-                    <TextField
-                      className={classes.textField}
+                    <YupInput
                       defaultValue={this.state.fullname}
                       fullWidth
                       id='name'
-                      inputProps={{
-                        maxLength: 17,
-                        borderBottomColor: '#fafafa'
-                      }}
-                      InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input
-                      }}
-                      InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+                      maxLength={17}
                       label='Name'
                       onChange={this.handleFullnameChange}
                       type='text'
                     />
-                    <TextField
-                      className={classes.textField}
+                    <YupInput
                       defaultValue={this.state.bio}
                       color='#fafafa'
                       fullWidth
                       id='bio'
-                      inputProps={{ maxLength: 140 }}
-                      InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input
-                      }}
-                      InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+                      maxLength={140}
                       label='Bio'
                       multiline
                       onChange={this.handleBioChange}
                       type='text'
                     />
-                    <TextField
+                    <YupInput
                       autoFocus
-                      className={classes.textField}
                       defaultValue={this.state.ethAddress}
                       fullWidth
                       disabled
                       id='name'
-                      inputProps={{ maxLength: 250 }}
-                      InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input
-                      }}
-                      InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+                      maxLength={250}
                       label='ETH Address'
                       multiline
                       type='text'

@@ -6,10 +6,7 @@ import {
   Snackbar,
   Dialog,
   DialogTitle,
-  Button,
-  TextField,
   DialogContent,
-  CircularProgress,
   Typography
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
@@ -17,6 +14,8 @@ import axios from 'axios'
 import { withRouter } from 'react-router'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import YupInput from '../Miscellaneous/YupInput'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
@@ -47,38 +46,8 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
-  },
   snack: {
     justifyContent: 'center'
-  },
-
-  spinnerLoader: {
-    color: 'white',
-    position: 'absolute',
-    right: '3%'
   }
 })
 
@@ -185,82 +154,41 @@ const CollectionEditDialog = ({
           <Typography variant='h3'>Update {collection.name}</Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
-            className={classes.textField}
+          <YupInput
             fullWidth
+            maxLength={TITLE_LIMIT}
             onChange={handleNameChange}
             id='name'
-            inputProps={{
-              maxLength: TITLE_LIMIT,
-              borderBottomColor: '#fafafa'
-            }}
-            InputProps={{
-              classes: {
-                root: classes.inputRoot,
-                input: classes.inputInput,
-                underline: classes.inputUnderline
-              },
-              className: classes.input
-            }}
-            InputLabelProps={{
-              style: {
-                color: '#a0a0a0'
-              }
-            }}
+            defaultValue={collection.name}
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
+            maxLength={DESC_LIMIT}
             fullWidth
             id='description'
+            defaultValue={collection.description}
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: DESC_LIMIT }}
-            InputProps={{
-              classes: {
-                root: classes.inputRoot,
-                input: classes.inputInput
-              },
-              className: classes.input
-            }}
-            InputLabelProps={{
-              style: {
-                color: '#a0a0a0'
-              }
-            }}
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={handleDeleteCollection}
-            color='primary'
+          <LoaderButton onClick={handleDeleteCollection}
             fullWidth
-            style={{ backgroundColor: '#1a1a1a' }}
-          >
-            Delete
-            {isLoadingDelete && (
-              <CircularProgress size={20}
-                className={classes.spinnerLoader}
-              />
-            )}
-          </Button>
-          <Button
-            onClick={handleEditCollection}
-            color='primary'
+            backgroundColor='#1a1a1a'
+            buttonText='Delete'
+            color='#fafafa'
+            isLoading={isLoadingDelete}
+          />
+          <LoaderButton onClick={handleEditCollection}
             fullWidth
-            style={{ backgroundColor: '#00eab7' }}
-          >
-            Update
-            {isLoadingUpdate && (
-              <CircularProgress size={20}
-                className={classes.spinnerLoader}
-              />
-            )}
-          </Button>
+            backgroundColor='#00eab7'
+            buttonText='Update'
+            color='#fafafa'
+            isLoading={isLoadingUpdate}
+          />
         </DialogActions>
       </Dialog>
     </>
