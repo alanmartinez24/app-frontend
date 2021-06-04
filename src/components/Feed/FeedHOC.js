@@ -176,6 +176,12 @@ class FeedHOC extends PureComponent {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.feed !== prevProps.feed) {
+      this.fetchPosts()
+    }
+  }
+
   fetchPosts = () => {
     const { dispatch, feed } = this.props
     try {
