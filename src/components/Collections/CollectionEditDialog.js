@@ -1,13 +1,25 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, CircularProgress } from '@material-ui/core'
+import {
+  DialogActions,
+  SnackbarContent,
+  Snackbar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import YupInput from '../Miscellaneous/YupInput'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 const BACKEND_API = process.env.BACKEND_API
+const TITLE_LIMIT = 30
+const DESC_LIMIT = 140
 
 const styles = theme => ({
   dialog: {
@@ -22,10 +34,10 @@ const styles = theme => ({
     padding: theme.spacing(1.5)
   },
   dialogTitleText: {
+    fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa',
-    marginLeft: '2%'
+    color: '#fafafa'
   },
   dialogContent: {
     root: {
@@ -34,42 +46,19 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
-  },
   snack: {
     justifyContent: 'center'
-  },
-
-spinnerLoader: {
-  color: 'white',
-  position: 'absolute',
-  right: '3%'
-}
+  }
 })
 
-const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, ethAuth }) => {
+const CollectionEditDialog = ({
+  collection,
+  classes,
+  dialogOpen,
+  handleDialogClose,
+  history,
+  ethAuth
+}) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -78,7 +67,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
 
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
-  const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
+  const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
   const fetchAuthToken = async () => {
@@ -93,7 +82,9 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingUpdate(true)
       const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
       const params = { name, description, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoadingUpdate(false)
@@ -110,9 +101,13 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
     try {
       setIsLoadingDelete(true)
       const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
       const params = { ...authToken }
-      await axios.delete(`${BACKEND_API}/collections/${collection._id}`, { data: params })
+      await axios.delete(`${BACKEND_API}/collections/${collection._id}`, {
+        data: params
+      })
       history.push(`/${authToken.eosname}`)
     } catch (err) {
       handleSnackbarOpen('There was a problem deleting your collection')
@@ -128,12 +123,12 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         onClose={handleSnackbarClose}
         open={!!snackbarMsg}
       >
-        <SnackbarContent
-          className={classes.snack}
+        <SnackbarContent className={classes.snack}
           message={snackbarMsg}
         />
       </Snackbar>
-      <Dialog open={dialogOpen}
+      <Dialog
+        open={dialogOpen}
         onClose={handleDialogClose}
         aria-labelledby='form-dialog-title'
         PaperProps={{
@@ -155,75 +150,45 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
-        >Update {collection.name}</DialogTitle>
+        >
+          <Typography variant='h3'>Update {collection.name}</Typography>
+        </DialogTitle>
         <DialogContent>
-          <TextField
-            className={classes.textField}
+          <YupInput
             fullWidth
+            maxLength={TITLE_LIMIT}
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+            defaultValue={collection.name}
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
+            maxLength={DESC_LIMIT}
             fullWidth
             id='description'
+            defaultValue={collection.description}
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCollection}
-            color='primary'
+          <LoaderButton onClick={handleDeleteCollection}
             fullWidth
-            style={{ backgroundColor: '#1a1a1a' }}
-          >
-            Delete
-            {isLoadingDelete && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
-            )}
-          </Button>
-          <Button onClick={handleEditCollection}
-            color='primary'
+            backgroundColor='#1a1a1a'
+            buttonText='Delete'
+            color='#fafafa'
+            isLoading={isLoadingDelete}
+          />
+          <LoaderButton onClick={handleEditCollection}
             fullWidth
-            style={{ backgroundColor: '#00eab7' }}
-          >
-            Update
-            {isLoadingUpdate && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                                 />
-            )}
-          </Button>
+            backgroundColor='#00eab7'
+            buttonText='Update'
+            color='#fafafa'
+            isLoading={isLoadingUpdate}
+          />
         </DialogActions>
       </Dialog>
     </>
@@ -246,4 +211,6 @@ CollectionEditDialog.propTypes = {
   ethAuth: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))
+export default withRouter(
+  connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog))
+)

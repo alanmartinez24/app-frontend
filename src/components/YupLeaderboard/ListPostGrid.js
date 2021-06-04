@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { levelColors } from '../../utils/colors'
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import CollectionPostMenu from '../Collections/CollectionPostMenu'
 
 const voteCompPadding = window.innerWidth >= 440 ? '0 0 3vh 3vh' : '0 0 3vh 1vh'
 const styles = theme => ({
@@ -69,6 +70,10 @@ function ListPostGrid ({ account,
             categories={categories}
             listType={listType}
             postType={postType}
+          />
+          <CollectionPostMenu
+            account={account}
+            postid={postid}
           />
           {
           rank

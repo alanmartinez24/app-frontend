@@ -8,13 +8,15 @@ const styles = theme => ({
   postContainer: {
     display: 'flex',
     padding: '0% 0% 2% 0%',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: '0.5rem 0.5rem 0px 0px',
+    overflowY: 'hidden'
   },
   reactPlayer: {
     width: '100%',
     height: '100%',
     maxHeight: '100%',
-    maxWidth: '600px',
+    maxWidth: '500px',
     minHeight: '250px',
     zIndex: 500,
     backgroundColor: '#000',
@@ -41,31 +43,30 @@ function getTwitchId (caption) {
   return caption.substr(startIndex)
 }
 function TwitchPost (props) {
-    const { classes, caption, postHOC: PostHOC } = props
+  const { classes, caption, postHOC: PostHOC } = props
 
-    const TwitchComp = (_props) => (
-      <div className={classes.postContainer}>
-        <ReactTwitchEmbedVideo
-          autoplay={false}
-          channel={getTwitchId(caption)}
-          className={classes.reactPlayer}
-          height='400px'
-          layout='video'
-          mute
-          replay={caption}
-          width='600px'
-        />
-      </div>
-    )
+  const TwitchComp = _props => (
+    <div className={classes.postContainer}>
+      <ReactTwitchEmbedVideo
+        autoplay={false}
+        channel={getTwitchId(caption)}
+        className={classes.reactPlayer}
+        height='400px'
+        layout='video'
+        mute
+        replay={caption}
+        width='550px'
+      />
+    </div>
+  )
 
-    return (
-      <ErrorBoundary>
-        <PostHOC
-          component={TwitchComp}
-          {...props}
-        />
-      </ErrorBoundary>
-    )
+  return (
+    <ErrorBoundary>
+      <PostHOC component={TwitchComp}
+        {...props}
+      />
+    </ErrorBoundary>
+  )
 }
 
 TwitchPost.propTypes = {

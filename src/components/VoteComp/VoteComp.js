@@ -83,7 +83,7 @@ class VoteComp extends Component {
               listType={listType}
               quantile={quantiles[cat]}
               voterWeight={voterWeight}
-              isShown={isMobile ? true : this.state.isShown}
+              isShown={isMobile ? false : this.state.isShown}
             />
           )
         })

@@ -421,22 +421,24 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
     const params = new URLSearchParams(search)
     const dialog = params.get('signupOpen')
     const collectionDialog = params.get('collectionDialogOpen')
-    setDialogOpen(dialog || false)
+    setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
     setAccount(authInfo.account)
   }, [authInfo])
 
   useEffect(() => {
     if (authInfo && authInfo.account) {
-      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`).then(res => {
-        const levelInfo = res.data
-        setLevel({
-          isLoading: false,
-          error: false,
-          levelInfo
+      axios
+        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+        .then(res => {
+          const levelInfo = res.data
+          setLevel({
+            isLoading: false,
+            error: false,
+            levelInfo
+          })
         })
-      })
-      .catch(() => {})
+        .catch(() => {})
     }
   }, authInfo.account)
 
@@ -615,7 +617,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                           fullWidth
                           className={classes.signupBtn}
                           onClick={handleDialogOpen}
-                          variant='outlined'
+                          variant='contained'
                         >
                           Sign Up/Login
                         </Button>
@@ -724,14 +726,18 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                           </p>
                         }
                       >
-                        <Button
-                          fullWidth
-                          className={classes.signupBtn}
-                          onClick={handleDialogOpen}
-                          variant='outlined'
-                        >
-                          Sign Up/Login
-                        </Button>
+                        {isMobile ? (
+                          <div />
+                        ) : (
+                          <Button
+                            fullWidth
+                            className={classes.signupBtn}
+                            onClick={handleDialogOpen}
+                            variant='contained'
+                          >
+                            Sign Up/Login
+                          </Button>
+                        )}
                       </Tooltip>
                     </ListItem>
                   )}
@@ -870,13 +876,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                 }}
               >
                 <DialogTitle style={{ paddingBottom: '10px' }}>
-                  <Typography
-                    align='left'
-                    className={classes.dialogTitleText}
-                    variant='h5'
-                  >
-                    Settings
-                  </Typography>
+                  <Typography variant='h3'>Settings</Typography>
                 </DialogTitle>
                 <DialogContent>
                   <List className={classes.root}>
@@ -903,7 +903,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
               <StyledYupProductNav account={account} />
 
               {/* First Menu: FEEDS */}
-              {isShown && (
+              {(isShown || isMobile) && (
                 <Grow in
                   timeout={500}
                 >
@@ -934,12 +934,15 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Your Daily Hits'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', fontWeight: '100' }}
+                          style={{
+                            color: '#c0c0c0',
+                            fontWeight: '100',
+                            margin: 0
+                          }}
                         />
                       </ListItem>
                     </PrivateListItem>
-                    <ListItem
-                      button
+                    <ListItem button
                       dense
                       component={Link}
                       to='/?feed=crypto'
@@ -1025,7 +1028,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
               )}
 
               {/* Second Menu: LISTS */}
-              {isShown && (
+              {(isShown || isMobile) && (
                 <Grow in
                   timeout={1000}
                 >

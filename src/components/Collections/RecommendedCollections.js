@@ -27,9 +27,13 @@ const styles = theme => ({
   },
   recommendedContainer: {
     borderRadius: 10,
+    margin: '5px 0px',
     '&:hover': {
       background: '#fafafa05'
     }
+  },
+  recommendedImgContainer: {
+    flexBasis: 'unset'
   }
 })
 
@@ -38,7 +42,7 @@ const RecommendedCollections = ({ classes, collection }) => {
 
   return (
     <Link
-      to={`/collections/${fmtCollectionName}/${collection._id}`}
+      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid
@@ -51,6 +55,10 @@ const RecommendedCollections = ({ classes, collection }) => {
       >
         <Grid item
           xs={2}
+          lg={3}
+          xl={2}
+
+          className={classes.recommendedImgContainer}
         >
           <Img
             src={[collection.imgSrcUrl, getRandomGradientImg()]}
@@ -59,7 +67,10 @@ const RecommendedCollections = ({ classes, collection }) => {
           />
         </Grid>
         <Grid item
+
           xs={10}
+          lg={9}
+          xl={10}
         >
           <Typography variant='h5'>{collection.name}</Typography>
           <Typography variant='body2'>{collection.owner}</Typography>

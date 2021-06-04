@@ -99,14 +99,20 @@ class FollowersDialog extends Component {
   render () {
     const { account, classes, followersInfo, levels } = this.props
     const { isLoading, followers } = followersInfo
-    const formattedFollowers = numeral(followers.length).format('0a').toUpperCase()
+    const formattedFollowers = numeral(followers.length)
+      .format('0a')
+      .toUpperCase()
     return (
       <ErrorBoundary>
-        <Fragment >
-          <Button color='secondary'
+        <Fragment>
+          <Button
+            color='secondary'
             disableRipple
             onClick={this.handleClickOpen}
-            style={{ backgroundColor: 'transparent', textTransform: 'capitalize' }}
+            style={{
+              backgroundColor: 'transparent',
+              textTransform: 'capitalize'
+            }}
           >
             <Typography
               align='left'
@@ -146,14 +152,7 @@ class FollowersDialog extends Component {
               id='customized-dialog-title'
               onClose={this.handleClose}
             >
-              <Typography
-                align='center'
-                color='#ffffff'
-                style={{ fontFamily: 'Gilroy', fontWeight: '500', color: '#ffffff' }}
-                variant='title'
-              >
-                Follow
-              </Typography>
+              <Typography variant='h3'>Followers</Typography>
               <IconButton
                 aria-label='Close'
                 className={classes.closeButton}
@@ -163,22 +162,25 @@ class FollowersDialog extends Component {
                 <CloseIcon style={{ marginTop: '4px', color: '#a0a0a0' }} />
               </IconButton>
             </DialogTitle>
-            <DialogContent>{
-            isLoading
-              ? <div align='center'>
-                <CircularProgress className={classes.progress} />
-              </div>
-              : <Grid container
-                direction='column'
-                > {
-                  followers.length === 0
-                    ? <Typography
+            <DialogContent>
+              {isLoading ? (
+                <div align='center'>
+                  <CircularProgress className={classes.progress} />
+                </div>
+              ) : (
+                <Grid container
+                  direction='column'
+                >
+                  {' '}
+                  {followers.length === 0 ? (
+                    <Typography
                       color='white'
                       style={{ textAlign: 'center', fontFamily: 'Gilroy' }}
-                      >
+                    >
                       No followers
                     </Typography>
-                    : followers.map((follower) => {
+                  ) : (
+                    followers.map(follower => {
                       const eosname = follower._id
                       const level = levels.levels[eosname]
                       const username = level && level.levelInfo.username
@@ -190,13 +192,15 @@ class FollowersDialog extends Component {
                           key={follower._id}
                         >
                           <div className={classes.user}>
-                            <Grid alignItems='center'
+                            <Grid
+                              alignItems='center'
                               container
                               direction='row'
                               justify='space-between'
                             >
                               <Grid item>
-                                <Grid alignItems='center'
+                                <Grid
+                                  alignItems='center'
                                   container
                                   direction='row'
                                   spacing='16'
@@ -211,15 +215,22 @@ class FollowersDialog extends Component {
                                   <Grid item>
                                     <Link
                                       onClick={this.handleClose}
-                                      style={{ textDecoration: 'none', color: 'inherit' }}
+                                      style={{
+                                        textDecoration: 'none',
+                                        color: 'inherit'
+                                      }}
                                       to={`/${follower._id}`}
                                     >
                                       <Typography
                                         color='inherit'
                                         style={{
-                                          textDecoration: socialLevelColor ? 'underline' : 'none',
+                                          textDecoration: socialLevelColor
+                                            ? 'underline'
+                                            : 'none',
                                           textDecorationColor: socialLevelColor,
-                                          textDecorationStyle: socialLevelColor ? 'solid' : 'none',
+                                          textDecorationStyle: socialLevelColor
+                                            ? 'solid'
+                                            : 'none',
                                           color: '#ffffff',
                                           marginLeft: '1rem',
                                           fontFamily: 'Gilroy'
@@ -237,7 +248,9 @@ class FollowersDialog extends Component {
                                   account={account}
                                   className={classes.followButton}
                                   eosname={eosname}
-                                  isLoggedIn={account && account.name === eosname}
+                                  isLoggedIn={
+                                    account && account.name === eosname
+                                  }
                                   style={{ fontFamily: 'Gilroy' }}
                                 />
                               </Grid>
@@ -246,9 +259,9 @@ class FollowersDialog extends Component {
                         </Grid>
                       )
                     })
-                }
-              </Grid>
-          }
+                  )}
+                </Grid>
+              )}
             </DialogContent>
           </Dialog>
         </Fragment>
