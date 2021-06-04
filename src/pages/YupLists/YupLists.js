@@ -197,7 +197,7 @@ class YupLists extends Component {
 YupLists.propTypes = {
   classes: PropTypes.object.isRequired,
   setListOpts: PropTypes.func.isRequired,
-  account: PropTypes.opbject.isRequired
+  account: PropTypes.object.isRequired
 }
 
 const steps = [
