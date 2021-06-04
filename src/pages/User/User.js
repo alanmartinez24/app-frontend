@@ -813,7 +813,7 @@ class User extends Component {
                                 style={{ opacity: 0.3 }}
                                 onClick={this.handleShowAll}
                               >
-                                <Typography variant='body'>25</Typography>
+                                <Typography variant='body'>{collections.length}</Typography>
                               </Fab>
                             )}
                           </Grid>
