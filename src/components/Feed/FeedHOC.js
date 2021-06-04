@@ -143,9 +143,8 @@ class FeedHOC extends PureComponent {
     limit: 15
   }
 
-  componentDidMount () {
-    this.fetchPosts()
-    switch (this.props.feed) {
+  logPageView (feed) {
+    switch (feed) {
       case 'dailyhits':
         window.analytics.page('Daily Hits')
         break
@@ -176,9 +175,15 @@ class FeedHOC extends PureComponent {
     }
   }
 
+  componentDidMount () {
+    this.fetchPosts()
+    this.logPageView()
+  }
+
   componentDidUpdate (prevProps) {
     if (this.props.feed !== prevProps.feed) {
       this.fetchPosts()
+      this.logPageView()
     }
   }
 
@@ -252,9 +257,7 @@ export const getFeedPosts = createSelector(
 
 const mapStateToProps = (state) => {
   return {
-    posts: getFeedPosts(state),
-    account: state.scatterRequest.account,
-    push: state.scatterInstallation.push
+    posts: getFeedPosts(state)
   }
 }
 
