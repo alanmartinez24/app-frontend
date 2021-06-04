@@ -764,7 +764,7 @@ class VoteButton extends Component {
     }
 
     const signedInWithEth = !scatter.connected && !!ethAuth
-    const signedInWithTwitter = !!localStorage.getItem('YUP_TWITTER_AUTH')
+    const signedInWithTwitter = !!localStorage.getItem('twitterMirrorInfo')
 
     console.log(signedInWithTwitter)
 
@@ -1214,14 +1214,14 @@ const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
 
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const twitterIdentity = localStorage.getItem('YUP_TWITTER_AUTH')
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   let account = scatterIdentity || state.ethAccount
 
   if (!scatterIdentity) {
     if (ethAccount) {
       account = { name: ethAccount._id, authority: 'active' }
     } else if (twitterIdentity) {
-      account = { name: JSON.parse(localStorage.getItem('twitterMirrorInfo')).name, authority: 'active' }
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
     }
   }
   const ethAuth = state.ethAuth.account ? state.ethAuth : null

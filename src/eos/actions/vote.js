@@ -35,7 +35,7 @@ export async function createvote (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('YUP_TWITTER_AUTH')) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -79,7 +79,7 @@ export async function postvotev3 (account, data, ethAuth) {
         }
       }]
   }
-  if (localStorage.getItem('YUP_TWITTER_AUTH')) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -124,7 +124,7 @@ export async function postvotev4 (account, data, ethAuth) {
         }
       }]
   }
-  if (localStorage.getItem('YUP_TWITTER_AUTH')) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -165,7 +165,7 @@ export async function createvotev4 (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('YUP_TWITTER_AUTH')) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -204,7 +204,7 @@ export async function editvote (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('YUP_TWITTER_AUTH')) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -240,7 +240,7 @@ export async function deletevote (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('YUP_TWITTER_AUTH')) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
