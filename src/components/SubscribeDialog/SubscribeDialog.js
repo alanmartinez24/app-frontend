@@ -543,7 +543,8 @@ class SubscribeDialog extends Component {
   logSignupAttempt (type, account) {
     window.analytics.track('Attempt Signup', {
       userId: account,
-      properties: { application: 'Web App', type }
+      application: 'Web App',
+      type
     })
   }
 
