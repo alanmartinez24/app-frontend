@@ -87,7 +87,26 @@ class Index extends Component {
       const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
       const ethAuthUpdate = { address, signature, account }
       updateEthAuth(ethAuthUpdate)
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async checkTwitterAuth () {
+    try {
+      const twitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
+
+      if (!twitterMirrorInfo) { return }
+
+      const { expiration } = JSON.parse(twitterMirrorInfo)
+
+      // if twitter oauth token expired, sign user out
+      if (expiration <= Date.now()) {
+        localStorage.removeItem('twitterMirrorInfo')
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // async fetchExtAuthInfo () {
@@ -107,6 +126,7 @@ class Index extends Component {
       const { fetchSocialLevels } = this.props
       fetchSocialLevels()
       this.checkEthAuth()
+      this.checkTwitterAuth()
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
