@@ -144,6 +144,10 @@ class FeedHOC extends PureComponent {
   }
 
   logPageView (feed) {
+    if (!window.analytics) {
+      return
+    }
+
     switch (feed) {
       case 'dailyhits':
         window.analytics.page('Daily Hits')
