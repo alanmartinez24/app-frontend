@@ -18,7 +18,7 @@ const styles = theme => ({
   }
 })
 
-const PageFabs = ({ classes, account }) => {
+const CreateCollectionFab = ({ classes, account }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => setDialogOpen(true)
   const handleDialogClose = () => setDialogOpen(false)
@@ -43,9 +43,9 @@ const PageFabs = ({ classes, account }) => {
   )
 }
 
-PageFabs.propTypes = {
+CreateCollectionFab.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
 }
 
-export default (withStyles(styles)(PageFabs))
+export default (withStyles(styles)(CreateCollectionFab))
