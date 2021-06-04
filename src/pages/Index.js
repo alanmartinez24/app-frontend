@@ -1,7 +1,9 @@
 import React, { Fragment, Component, Suspense, lazy } from 'react'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText
+} from '@material-ui/core'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
