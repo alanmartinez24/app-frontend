@@ -1214,10 +1214,15 @@ const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
 
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const twitterIdentity = localStorage.getItem('YUP_TWITTER_AUTH')
   let account = scatterIdentity || state.ethAccount
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(localStorage.getItem('twitterMirrorInfo')).name, authority: 'active' }
+    }
   }
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
 
