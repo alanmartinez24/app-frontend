@@ -120,7 +120,8 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
         PaperProps={{
           style: {
             width: '35ch',
-            backgroundColor: 'black'
+            backgroundColor: 'black',
+            maxHeight: '200px'
           }
         }}
         anchorOrigin={{

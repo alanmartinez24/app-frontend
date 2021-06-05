@@ -11,11 +11,26 @@ import axios from 'axios'
 const { DEFAULT_POST_IMAGE, RARIBLE_API } = process.env
 
 // TODO: Simplify regex, put in utils file
-const RARIBLE_URL = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com|www.rarible.com|http://rarible.com|https://rarible.com|http://www.rarible.com|https://www.rarible.com)', 'i')
-const SUPERRARE_URL = new RegExp('^(superrare.co|www.superrare.co|http://superrare.co|https://superrare.co|http://www.superrare.co|https://www.superrare.co)', 'i')
-const FOUNDATION_URL = new RegExp('^(foundation.app|www.foundation.app|http://foundation.app|https://foundation.app|http://www.foundation.app|https://www.foundation.app)', 'i')
-const ZORA_URL = new RegExp('^(zora.co|www.zora.co|http://zora.co|https://zora.co|http://www.zora.co|https://www.zora.co)', 'i')
-const KNOWN_ORIGIN_URL = new RegExp('^((http:|https:)([/][/]))?(www.)?knownorigin.io/gallery/[^/]*[/]?$', 'i')
+const RARIBLE_URL = new RegExp(
+  '^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com|www.rarible.com|http://rarible.com|https://rarible.com|http://www.rarible.com|https://www.rarible.com)',
+  'i'
+)
+const SUPERRARE_URL = new RegExp(
+  '^(superrare.co|www.superrare.co|http://superrare.co|https://superrare.co|http://www.superrare.co|https://www.superrare.co)',
+  'i'
+)
+const FOUNDATION_URL = new RegExp(
+  '^(foundation.app|www.foundation.app|http://foundation.app|https://foundation.app|http://www.foundation.app|https://www.foundation.app)',
+  'i'
+)
+const ZORA_URL = new RegExp(
+  '^(zora.co|www.zora.co|http://zora.co|https://zora.co|http://www.zora.co|https://www.zora.co)',
+  'i'
+)
+const KNOWN_ORIGIN_URL = new RegExp(
+  '^((http:|https:)([/][/]))?(www.)?knownorigin.io/gallery/[^/]*[/]?$',
+  'i'
+)
 
 const styles = theme => ({
   container: {
@@ -69,7 +84,6 @@ const styles = theme => ({
     fontSize: '20px',
     fontWeight: 500,
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
-    width: '500px',
     [theme.breakpoints.down('md')]: {
       width: 'auto'
     },
@@ -114,7 +128,8 @@ const styles = theme => ({
     textAlign: 'left',
     width: '96%',
     zIndex: 5,
-    background: 'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
+    background:
+      'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
     padding: '1% 3%'
   }
 })
@@ -150,7 +165,9 @@ class NFTPreview extends Component {
 
   trimURLEnd (link) {
     let count = 0
-    if (link == null) { return '' }
+    if (link == null) {
+      return ''
+    }
     for (let i = 0; i < link.length; i++) {
       if (link.charAt(i) === '/') {
         count++
@@ -162,7 +179,9 @@ class NFTPreview extends Component {
   }
 
   trimURLStart (link) {
-    if (link == null) { return '' }
+    if (link == null) {
+      return ''
+    }
     let count = 0
     for (let i = 0; i < link.length; i++) {
       if (link.charAt(i) === '/') {
@@ -192,7 +211,9 @@ class NFTPreview extends Component {
     const knownOriginNFT = previewData.url.match(KNOWN_ORIGIN_URL)
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
-      const res = await axios.get(`${RARIBLE_API}/${previewData[0].item.creator}`)
+      const res = await axios.get(
+        `${RARIBLE_API}/${previewData[0].item.creator}`
+      )
       this.setState({
         creator: res.data.username
       })
@@ -200,7 +221,10 @@ class NFTPreview extends Component {
       this.setState({
         creator: previewData.createdBy
       })
-    } else if ((foundationNFT || zoraNFT || knownOriginNFT) && previewData.creator) {
+    } else if (
+      (foundationNFT || zoraNFT || knownOriginNFT) &&
+      previewData.creator
+    ) {
       this.setState({
         creator: previewData.creator
       })
@@ -236,62 +260,75 @@ class NFTPreview extends Component {
   }
 
   render () {
-    const { image, title, description, url, classes, caption, mimeType } = this.props
+    const {
+      image,
+      title,
+      description,
+      url,
+      classes,
+      caption,
+      mimeType
+    } = this.props
 
     let faviconURL
     let faviconURLFallback
 
     if (url != null) {
-      faviconURL = 'https://api.faviconkit.com/' + this.trimURLStart(this.trimURLEnd(url)) + '64'
+      faviconURL =
+        'https://api.faviconkit.com/' +
+        this.trimURLStart(this.trimURLEnd(url)) +
+        '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     }
 
     return (
-
       <ErrorBoundary>
         <div className={classes.container}
           href={url}
           target='_blank'
         >
-          <a className={classes.link}
+          <a
+            className={classes.link}
             href={url}
             rel='noopener noreferrer'
             target='_blank'
           >
-            <div className={classes.previewContainer}
+            <div
+              className={classes.previewContainer}
               href={url}
               rel='noopener noreferrer'
               target='_blank'
             >
-              {((image && image.includes('nft.mp4')) || (mimeType && mimeType.includes('video')))
-              ? <ReactPlayer
-                className={classes.linkImg}
-                style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                url={image}
-                height='auto'
-                width='100%'
-                playing
-                muted
-                loop
-                playsinline
+              {(image && image.includes('nft.mp4')) ||
+              (mimeType && mimeType.includes('video')) ? (
+                <ReactPlayer
+                  className={classes.linkImg}
+                  style={{ overFlow: 'hidden', maxHeight: '1000px' }}
+                  url={image}
+                  height='auto'
+                  width='100%'
+                  playing
+                  muted
+                  loop
+                  playsinline
                 />
-            : <Img alt={title}
-              className={classes.linkImg}
-              src={[image, DEFAULT_POST_IMAGE]}
-              target='_blank'
-              loader={<img src={DEFAULT_POST_IMAGE} />}
-              />
-            }
+              ) : (
+                <Img
+                  alt={title}
+                  className={classes.linkImg}
+                  src={[image, DEFAULT_POST_IMAGE]}
+                  target='_blank'
+                  loader={<img src={DEFAULT_POST_IMAGE} />}
+                />
+              )}
               <div className={classes.previewData}>
-                <Grid
-                  container
+                <Grid container
                   direction='column'
                   spacing={1}
                   justify='center'
                 >
                   <Grid item>
-                    <Grid
-                      alignItems='center'
+                    <Grid alignItems='center'
                       container
                       direction='row'
                     >
@@ -300,7 +337,12 @@ class NFTPreview extends Component {
                           align='right'
                           href={url}
                           src={[faviconURL, faviconURLFallback]}
-                          style={{ height: 30, width: 30, marginRight: '0.5rem', border: 'none' }}
+                          style={{
+                            height: 30,
+                            width: 30,
+                            marginRight: '0.5rem',
+                            border: 'none'
+                          }}
                           target='_blank'
                         />
                       </Grid>
@@ -317,7 +359,7 @@ class NFTPreview extends Component {
                       </Grid>
                     </Grid>
                   </Grid>
-                  {(this.state.creator || this.state.owners.length > 0) &&
+                  {(this.state.creator || this.state.owners.length > 0) && (
                     <Grid item>
                       <Grid
                         justify='left'
@@ -327,51 +369,61 @@ class NFTPreview extends Component {
                         spacing={0}
                         style={{ height: '30px' }}
                       >
-                        {this.state.creator &&
-                        <Grid item
-                          xs={this.state.owners.length > 0 ? 3 : 6}
-                        >
-                          <Tooltip title='Creator'
-                            placement='top'
-                            arrow
-                            disableTouchListener
+                        {this.state.creator && (
+                          <Grid item
+                            xs={this.state.owners.length > 0 ? 3 : 6}
                           >
-                            <div className={classes.credits}>
-                              <LinesEllipsis
-                                basedOn='letters'
-                                ellipsis='...'
-                                maxLine='1'
-                                text={`🧑‍🎨` + `\u00A0` + ` ${this.state.creator}`}
-                                trimRight
-                              />
-                            </div>
-                          </Tooltip>
-                        </Grid>
-                        }
-                        {this.state.owners.length > 0 &&
-                        <Grid item
-                          xs={this.state.creator ? 6 : 4}
-                        >
-                          <Tooltip title='Owner'
-                            placement='top'
-                            arrow
-                            disableTouchListener
+                            <Tooltip
+                              title='Creator'
+                              placement='top'
+                              arrow
+                              disableTouchListener
+                            >
+                              <div className={classes.credits}>
+                                <LinesEllipsis
+                                  basedOn='letters'
+                                  ellipsis='...'
+                                  maxLine='1'
+                                  text={
+                                    `🧑‍🎨` +
+                                    `\u00A0` +
+                                    ` ${this.state.creator}`
+                                  }
+                                  trimRight
+                                />
+                              </div>
+                            </Tooltip>
+                          </Grid>
+                        )}
+                        {this.state.owners.length > 0 && (
+                          <Grid item
+                            xs={this.state.creator ? 6 : 4}
                           >
-                            <div className={classes.credits}>
-                              <LinesEllipsis
-                                basedOn='letters'
-                                ellipsis='...'
-                                maxLine='1'
-                                text={`🗝` + `\u00A0\u00A0` + `${this.state.owners.join(', ')}`}
-                                trimRight
-                              />
-                            </div>
-                          </Tooltip>
-                        </Grid>
-                    }
+                            <Tooltip
+                              title='Owner'
+                              placement='top'
+                              arrow
+                              disableTouchListener
+                            >
+                              <div className={classes.credits}>
+                                <LinesEllipsis
+                                  basedOn='letters'
+                                  ellipsis='...'
+                                  maxLine='1'
+                                  text={
+                                    `🗝` +
+                                    `\u00A0\u00A0` +
+                                    `${this.state.owners.join(', ')}`
+                                  }
+                                  trimRight
+                                />
+                              </div>
+                            </Tooltip>
+                          </Grid>
+                        )}
                       </Grid>
                     </Grid>
-                }
+                  )}
                   <Grid item>
                     <div className={classes.description}>
                       <LinesEllipsis
@@ -405,4 +457,4 @@ NFTPreview.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default (withStyles(styles)(NFTPreview))
+export default withStyles(styles)(NFTPreview)

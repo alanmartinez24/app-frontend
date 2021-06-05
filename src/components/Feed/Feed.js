@@ -24,9 +24,6 @@ const styles = theme => ({
     [theme.breakpoints.down('lg')]: {
       maxWidth: '600px'
     },
-    [theme.breakpoints.down('md')]: {
-      maxWidth: 'auto'
-    },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '0%'
     }
@@ -53,7 +50,8 @@ const styles = theme => ({
     color: '#FAFAFA',
     textAlign: 'center',
     textDecoration: 'none',
-    fontWeight: '300'
+    fontWeight: '300',
+    maxWidth: 550
   }
 })
 
@@ -72,9 +70,9 @@ function Feed (props) {
 
   if (!isLoading && !hasMore && posts.length === 0) {
     return (
-      <div align='center'>
+      <div className={classes.feedPage}>
         <Typography
-          style={{ color: '#ffffff' }}
+          style={{ color: '#ffffff', display: 'flex', justifyContent: 'center' }}
           variant='caption'
         >
           No posts found

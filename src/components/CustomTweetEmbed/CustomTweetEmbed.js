@@ -16,7 +16,7 @@ const styles = theme => ({
     borderTopRightRadius: '10px',
     textAlign: 'left',
     position: 'relative',
-    width: '100%'
+    width: '95%'
   },
   twitterTag: {
     color: 'white !important',
@@ -43,7 +43,6 @@ const styles = theme => ({
     }
   },
   header: {
-
     display: 'flex'
   },
   replyTextWithBar: {
@@ -70,7 +69,8 @@ const styles = theme => ({
     whiteSpace: 'pre-wrap',
     padding: '10px 4px',
     textAlign: 'left',
-    position: 'relative'
+    position: 'relative',
+    wordWrap: 'break-word'
   },
   twitterName: {
     color: 'white !important',
@@ -89,12 +89,11 @@ const styles = theme => ({
     }
   },
   userAvatarContainer: {
-
     paddingRight: '10px'
   },
   userAvatar: {
-      width: '50px',
-      borderRadius: '50%'
+    width: '50px',
+    borderRadius: '50%'
   },
   tweetImg: {
     width: '100%',
@@ -154,7 +153,6 @@ const styles = theme => ({
     position: 'absolute'
   },
   mainReplyContainer: {
-
     padding: '15px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
@@ -163,7 +161,6 @@ const styles = theme => ({
     width: '100%'
   },
   replyContainer: {
-
     padding: '15px',
     paddingTop: '0px',
     paddingLeft: '0px',
@@ -172,7 +169,6 @@ const styles = theme => ({
     textAlign: 'left'
   },
   replyOriginalContainer: {
-
     padding: '12px',
     paddingTop: '0px',
     paddingLeft: '0px',
@@ -195,7 +191,6 @@ const styles = theme => ({
     marginBottom: '5px'
   },
   replyImageContainer: {
-
     color: 'white !important',
     padding: '10px 0px',
     textAlign: 'left',

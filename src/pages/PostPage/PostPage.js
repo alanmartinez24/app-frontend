@@ -17,8 +17,7 @@ const styles = theme => ({
   container: {
     background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
-    minWidth: '100vw',
-    maxWidth: '100vw',
+    width: '100vw',
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '0px',
@@ -39,8 +38,22 @@ const styles = theme => ({
     width: '100%',
     objectFit: 'cover',
     margin: '0px 0px 0px 0px ',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 0,
+      width: '100vw'
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 50
+    },
+    [theme.breakpoints.up('md')]: {
+      marginLeft: '200px',
+      width: `calc(100vw - 200px)`,
+      marginTop: '50px'
+    },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
+      background: '#1b1b1ba1',
+      backgroundSize: 'contain',
+      overflowX: 'hidden'
     },
     flex: 1
   },

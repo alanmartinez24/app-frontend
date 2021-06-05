@@ -111,7 +111,7 @@ class Index extends Component {
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-     this.setState({ isLoading: false })
+    this.setState({ isLoading: false })
     })()
   }
 
@@ -174,8 +174,13 @@ class Index extends Component {
                   exact
                   path='/:username/analytics'
                 />
+
                 <Route component={Collections}
                   path='/collections/:name/:id'
+                />
+                {/* Handle collection routes with just name */}
+                <Route component={Collections}
+                  path='/collections/:name'
                 />
                 <Route component={User}
                   exact
