@@ -176,6 +176,7 @@ const styles = theme => ({
     color: '#fff',
     zIndex: '999',
     marginLeft: '20px',
+    maxWidth: '25%',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
       width: '100%'
