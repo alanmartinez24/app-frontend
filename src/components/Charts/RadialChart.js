@@ -78,7 +78,7 @@ const RadialChart = (props) => {
             color: 'white',
             formatter: function (w) {
                         // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                        return Number(w).toFixed(2) + `%(${chartData.total * w / 100})`
+                        return Number(w).toFixed(2) + `%(${Math.round(chartData.total * w / 100)})`
                       }
                     },
           total: {

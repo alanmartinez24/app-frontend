@@ -198,7 +198,7 @@ const LineChart = (props) => {
              color={color}
              variant='subtitle2'
            >
-             YUP  {chartTitle}
+             {chartTitle}
            </Typography>
          </div>
        </div>
@@ -219,6 +219,7 @@ const LineChart = (props) => {
            <Typography align='left'
              className={classes.chart}
              style={{ color: 'white' }}
+             variant='subtitle2'
            >
              {chartTitle}
            </Typography>

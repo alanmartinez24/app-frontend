@@ -171,6 +171,7 @@ const BarChart = (props) => {
           <Typography align='left'
             className={classes.chart}
             style={{ color: 'white' }}
+            variant='h4'
           >
             {chartTitle}
           </Typography>
