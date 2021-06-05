@@ -812,7 +812,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                 <ListItem
                   button
                   component={Link}
-                  to={`/${account.name}/analytics`}
+                  to={`/${username}/analytics`}
                   style={{ paddingLeft: '5px' }}
                   tourname='LeaderboardButton'
                 >

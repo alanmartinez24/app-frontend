@@ -7,41 +7,7 @@ import CircleLoader from 'react-spinners/CircleLoader'
 import { Card, Grid } from '@material-ui/core'
 
 const styles = theme => ({
-    avatarImage: {
-      width: 100 - theme.spacing(),
-      height: 100 - theme.spacing(),
-      minHeight: 100 - theme.spacing(),
-      minWidth: 100 - theme.spacing(),
-      fontSize: '70px',
-      marginTop: '0px',
-      marginBottom: '-4px',
-      borderRadius: '100%',
-      border: 'solid 3px #DADADA',
-      position: 'absolute',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '50px',
-        marginLeft: '25px',
-        marginBottom: '6vw',
-        borderRadius: '100%',
-        width: '70px',
-        height: '70px',
-        minHeight: '70px',
-        minWidth: '70px'
-      }
-    },
-    bio: {
-      color: '#AAAAAA',
-      fontSize: '12px',
-      padding: '0px',
-      marginTop: theme.spacing(1),
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      display: 'inherit',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px',
-        display: 'none'
-      }
-    },
+
     card: {
       paddingTop: theme.spacing(-10),
       paddingBottom: theme.spacing(-10),
@@ -63,126 +29,15 @@ const styles = theme => ({
         width: '100%'
       }
     },
-    content: {
-      color: 'black'
-    },
-    eos: {
-      display: 'none'
-    },
-    hidden: {
-      display: 'none'
-    },
-    largeStat: {
-      color: '#ffffff',
-      fontSize: '28px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '500',
-      marginRight: '5px',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '22px',
-        width: '2rem'
-      }
-    },
-    LinearProgress: {
-      height: '3px'
-    },
-    minimize: {
-      width: '42px',
-      height: '42px',
-      minWidth: '42px',
-      minHeight: '42px',
-      fontSize: '20px',
-      [theme.breakpoints.down('xs')]: {
-        width: '30px',
-        height: '30px',
-        minWidth: '30px',
-        minHeight: '30px',
-        fontSize: '15px'
-      }
-    },
-    minimizeCard: {
-      maxHeight: '50px',
-      transition: 'max-height 0.2s linear',
-      overflow: 'hidden'
-    },
-    name: {
-      color: '#ffffff',
-      fontSize: '28px',
-      fontWeight: '500',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '20px'
-      }
-    },
 
     chart: {
-      fontSize: '28px',
-      fontWeight: '500',
-      marginBottom: '10px',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '20px'
-      }
+      marginBottom: '10px'
     },
     chartheader: {
       padding: '2rem'
     },
-    profileDetails: {
-      ...theme.mixins.gutters(),
-      paddingBottom: theme.spacing(1),
-      boxShadow: 'none',
-      maxHeight: '250px',
-      height: '140px',
-      display: 'inline-grid',
-      width: '100%',
-      position: 'relative',
-      marginLeft: '100px',
-      [theme.breakpoints.down('xs')]: {
-        paddingTop: '10px',
-        marginLeft: '100px',
-        display: 'block',
-        height: '100px'
-      }
-    },
-    profileStats: {
-      marginLeft: '0px',
-      padding: '0px 0rem',
-      width: '100%',
-      flexWrap: 'nowrap',
-      [theme.breakpoints.down('xs')]: {
-        padding: '0px 2rem 0px calc(2rem - 12px)'
-      }
-    },
     text: {
-      color: '#ffffff',
-      fontSize: '12px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px'
-      }
-    },
-    text2: {
-      color: '#ffffff',
-      fontSize: '18px',
-      fontWeight: '500',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '14px'
-      }
-    },
-    username: {
-      color: '#ffffff',
-      fontSize: '18px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px'
-      }
+      color: '#ffffff'
     }
   })
 
@@ -223,7 +78,7 @@ const RadialChart = (props) => {
             color: 'white',
             formatter: function (w) {
                         // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                        return Number(w).toFixed(2) + `%(${chartData.total * w / 100})`
+                        return Number(w).toFixed(2) + `%(${Math.round(chartData.total * w / 100)})`
                       }
                     },
           total: {
@@ -250,6 +105,7 @@ const RadialChart = (props) => {
          <Typography align='left'
            className={classes.chart}
            style={{ color: 'white' }}
+           variant='subtitle2'
          >
            {chartTitle}
          </Typography>
@@ -270,6 +126,7 @@ const RadialChart = (props) => {
           <Typography align='left'
             className={classes.chart}
             style={{ color: 'white' }}
+            variant='subtitle2'
           >
             {chartTitle}
           </Typography>
