@@ -17,6 +17,7 @@ import './discover.scss'
 import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
@@ -365,7 +366,7 @@ class Discover extends Component {
   }
 
   render () {
-    const { classes, feed, query } = this.props
+    const { classes, feed, query, account } = this.props
     const search = document.location.search
     return !search.includes('feed=') ? (
       <HomeMenu />
@@ -436,6 +437,9 @@ class Discover extends Component {
               10-Second Tutorial
             </Fab>
           </Fade>
+          <CreateCollectionFab
+            account={account}
+          />
         </div>
 
         <Footer />
@@ -571,7 +575,7 @@ const steps = [
 const mapStateToProps = state => {
   const { router } = state
   return {
-    // account: state.scatterRequest.account,
+    account: state.scatterRequest.account,
     feed: router.location.query.feed || state.homeFeed.feed,
     query: router.location.query
   }
@@ -579,7 +583,7 @@ const mapStateToProps = state => {
 
 Discover.propTypes = {
   classes: PropTypes.object.isRequired,
-  // account: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired,
   feed: PropTypes.string,
   query: PropTypes.object.isRequired
 }

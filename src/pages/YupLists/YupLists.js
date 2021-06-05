@@ -14,6 +14,7 @@ import axios from 'axios'
 import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -123,19 +124,19 @@ class YupLists extends Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, account } = this.props
     return (
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
             <Header isTourOpen={this.state.isTourOpen} />
-            { !this.state.isLoading &&
-            <Grid className={classes.gridContainer}
-              container
-              justify='center'
-            >
-              <YupLeaderboard />
-            </Grid>
+            {!this.state.isLoading &&
+              <Grid className={classes.gridContainer}
+                container
+                justify='center'
+              >
+                <YupLeaderboard />
+              </Grid>
             }
             <Tour
               steps={steps}
@@ -182,17 +183,21 @@ class YupLists extends Component {
                 10-Second Tutorial
               </Fab>
             </Fade>
+            <CreateCollectionFab
+              account={account}
+            />
           </div>
           <Footer />
         </div>
       </ErrorBoundary>
-      )
+    )
   }
 }
 
 YupLists.propTypes = {
   classes: PropTypes.object.isRequired,
-  setListOpts: PropTypes.func.isRequired
+  setListOpts: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired
 }
 
 const steps = [
@@ -315,7 +320,12 @@ const steps = [
   }
 ]
 
-const mapStateToProps = null
+const mapStateToProps = state => {
+  return {
+    account: state.scatterRequest.account
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts))

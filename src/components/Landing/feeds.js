@@ -6,9 +6,9 @@ export const feedInfoRecommended = [
     link: '/?feed=dailyhits'
   },
   {
-    title: 'Popular',
-    imgSrc: 'images/popularcover.png',
-    link: '/?feed=latenightcool'
+    title: 'Collections',
+    imgSrc: 'images/collectionscover.png',
+    link: '/leaderboard?site=all&subject=collections&category=overall'
   },
   {
     title: 'Crypto',

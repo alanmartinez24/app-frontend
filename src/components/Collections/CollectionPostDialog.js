@@ -70,6 +70,9 @@ const CollectionPostDialog = ({
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !!name) handleCreateNewCollection()
+  }
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth
@@ -81,6 +84,7 @@ const CollectionPostDialog = ({
 
   const handleCreateNewCollection = async () => {
     try {
+      if (isLoading) return
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
       const authToken = await fetchAuthToken()
@@ -90,9 +94,9 @@ const CollectionPostDialog = ({
       const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
       setNewCollectionInfo(data)
-      setIsLoading(false)
       handleSnackbarOpen(`Succesfully created ${name}`)
       handleDialogClose()
+      setIsLoading(false)
     } catch (err) {
       console.error(err)
     }
@@ -118,6 +122,7 @@ const CollectionPostDialog = ({
       <Dialog
         open={dialogOpen}
         onClose={handleDialogClose}
+        onKeyDown={handleKeyDown}
         aria-labelledby='form-dialog-title'
         PaperProps={{
           style: {
@@ -148,6 +153,7 @@ const CollectionPostDialog = ({
           <YupInput
             maxLength={TITLE_LIMIT}
             fullWidth
+            autoFocus
             onChange={handleNameChange}
             id='name'
             label='Name'

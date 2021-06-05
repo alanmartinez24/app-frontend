@@ -33,6 +33,7 @@ import RecommendedCollections from '../../components/Collections/RecommendedColl
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 import theme from '../../utils/theme'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -133,7 +134,7 @@ const styles = theme => ({
   },
   tourFab: {
     position: 'absolute',
-    bottom: theme.spacing(7),
+    bottom: theme.spacing(3),
     right: theme.spacing(12),
     background: '#A0A0A0AA',
     color: '#FAFAFA',
@@ -725,11 +726,14 @@ class Collections extends Component {
             />
             <Fab
               className={classes.tourFab}
-              variant='ext fcomended'
+              variant='extended'
               onClick={this.openTour}
             >
               10-Second Tutorial
             </Fab>
+            <CreateCollectionFab
+              account={account}
+            />
           </div>
         </div>
       </ErrorBoundary>

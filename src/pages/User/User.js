@@ -176,6 +176,7 @@ const styles = theme => ({
     color: '#fff',
     zIndex: '999',
     marginLeft: '20px',
+    maxWidth: '25%',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
       width: '100%'
@@ -209,9 +210,8 @@ const Collection = ({ classes, collection, username }) => {
 
   return (
     <Link
-      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${
-        collection._id
-      }`}
+      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id
+        }`}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid
@@ -388,8 +388,7 @@ class User extends Component {
     try {
       postData = (
         await axios.get(
-          `${BACKEND_API}/feed/account/${eosname || this.state.eosname}?start=${
-            this.state.start
+          `${BACKEND_API}/feed/account/${eosname || this.state.eosname}?start=${this.state.start
           }&limit=${this.state.limit}`
         )
       ).data
@@ -434,7 +433,7 @@ class User extends Component {
   }
 
   loadUserData = () => {
-    ;(async () => {
+    ; (async () => {
       try {
         const { dispatch } = this.props
         const username = path.basename(this.props.location.pathname)
@@ -815,7 +814,7 @@ class User extends Component {
                                 style={{ opacity: 0.3 }}
                                 onClick={this.handleShowAll}
                               >
-                                <Typography variant='body'>25</Typography>
+                                <Typography variant='body'>{collections.length}</Typography>
                               </Fab>
                             )}
                           </Grid>
