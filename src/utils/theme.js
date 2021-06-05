@@ -1,6 +1,15 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import Colors from './colors'
 
+// const responsiveTextSize = {
+//   '@media (max-width: 960px)': {
+//     fontSize: '90%'
+//   },
+//   '@media (max-width: 600px)': {
+//     fontSize: '70%'
+//   }
+// }
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -156,7 +165,8 @@ const theme = createMuiTheme({
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '0.875rem',
-      lineHeight: '1rem'
+      lineHeight: '1rem',
+      color: Colors.White
     },
     display3: {
       fontFamily: 'Gilroy',
