@@ -8,10 +8,6 @@ import { loginScatter, signalConnection } from '../../redux/actions/scatter.acti
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
-import axios from 'axios'
-
-const BACKEND_API = process.env.BACKEND_API
-
 const styles = theme => ({
   root: {
     width: '100%'
@@ -21,7 +17,6 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     alertDialogOpen: false,
-    notifications: [],
     snackbarMsg: ''
   }
 
@@ -52,23 +47,6 @@ class Header extends Component {
     })()
   }
 
-  checkNotifications () {
-    const { account } = this.props
-    if (account) {
-      const req = `${BACKEND_API}/notifications/${account.name}`
-      axios.get(req)
-        .then(({ data }) => {
-          data.map((notif) => {
-            notif.votes = [...new Map(notif.votes.map(item => [item.voteid, item])).values()]
-          }) // get non duplicate voting notifs
-          this.setState({ notifications: data.reverse() })
-        })
-        .catch(err => {
-          console.error(err, 'ERROR FETCHING NOTIFICATIONS')
-        })
-    }
-  }
-
   async checkBrave () {
     if (localStorage.getItem('CHECK_BRAVE')) return
     if (navigator.brave && await navigator.brave.isBrave()) {
@@ -89,25 +67,17 @@ class Header extends Component {
 
   componentDidMount () {
     this.checkScatter()
-    this.checkNotifications()
     this.checkBrave()
-  }
-
-  componentDidUpdate (prevProps) {
-    if (this.props.account && (prevProps.account == null || this.props.account.name !== prevProps.account.name)) {
-      this.checkNotifications()
-    }
   }
 
   render () {
     this.checkScatter()
-    const { notifications, snackbarMsg } = this.state
+    const { snackbarMsg } = this.state
     const { classes, isTourOpen } = this.props
     return (
       <ErrorBoundary>
         <div className={classes.root}>
           <TopBar
-            notifications={notifications}
             isTourOpen={isTourOpen}
           />
           <Snackbar
