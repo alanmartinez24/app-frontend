@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+// import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -25,8 +26,8 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
-  if (!(account || ethAuth) || !postid) return null
+const CollectionPostMenu = ({ postid, accountName, classes, ethAuth }) => {
+  if (!(accountName || ethAuth) || !postid) return null
   const [anchorEl, setAnchorEl] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [userCollections, setUserCollections] = useState([])
@@ -42,19 +43,21 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
 
   const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
-  const accountName = (account && account.name) || ethAuth.account.eosname
 
-  useEffect(() => {
-        (async () => {
-          try {
-            if (userCollections.length > 0) return
-            const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
-            setUserCollections(userCollectionData)
-          } catch (err) {
-            console.error(err)
-          }
-        })()
-  }, [account, ethAuth])
+  console.log(setUserCollections, 'SET USER COLLECTIONS')
+  // const accountName = (account && account.name) || ethAuth.account.eosname
+
+  // useEffect(() => {
+  //       (async () => {
+  //         try {
+  //           if (userCollections.length > 0) return
+  //           const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
+  //           setUserCollections(userCollectionData)
+  //         } catch (err) {
+  //           console.error(err)
+  //         }
+  //       })()
+  // }, [account, ethAuth])
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth
@@ -166,7 +169,7 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
         )}
       </Menu>
       <CollectionPostDialog
-        account={account}
+        accountName={accountName}
         dialogOpen={dialogOpen}
         postid={postid}
         ethAuth={ethAuth}
@@ -178,10 +181,12 @@ const CollectionPostMenu = ({ postid, account, classes, ethAuth }) => {
 
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
-  account: PropTypes.object,
+  accountName: PropTypes.object,
   classes: PropTypes.object.isRequired,
   ethAuth: PropTypes.object
 }
+
+CollectionPostMenu.whyDidYouRender = true
 
 const mapStateToProps = (state, ownProps) => {
   const ethAuth = state.ethAuth.account ? state.ethAuth : null

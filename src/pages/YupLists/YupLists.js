@@ -106,9 +106,11 @@ class YupLists extends Component {
   };
 
   componentDidMount () {
-    window.Intercom('update')
-    window.analytics.page('Yup Lists')
-    // this.fetchListOptions()
+    if (window.analytics) {
+      window.analytics.page('Yup Lists')
+    }
+
+    this.fetchListOptions()
     setTimeout(() => {
       this.setState({
         showTour: false

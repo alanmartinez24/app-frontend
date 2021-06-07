@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { SnackbarContent, Snackbar, Dialog, DialogContent, DialogContentText } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import TopBar from '../TopBar/TopBar'
@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 })
 
-class Header extends Component {
+class Header extends PureComponent {
   state = {
     alertDialogOpen: false,
     snackbarMsg: ''
@@ -113,6 +113,8 @@ Header.propTypes = {
   account: PropTypes.object,
   isTourOpen: PropTypes.bool
 }
+
+Header.whyDidYouRender = true
 
 const mapStateToProps = (state) => {
   const { account: ethAccount } = state.ethAuth

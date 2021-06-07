@@ -196,6 +196,8 @@ Index.propTypes = {
   // getExtAuthToken: PropTypes.func.isRequired
 }
 
+Index.whyDidYouRender = true
+
 const mapActionToProps = (dispatch) => {
   return {
     checkScatter: (scatter, account, eos) => dispatch(loginScatter(scatter, account, eos)),

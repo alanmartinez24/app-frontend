@@ -7,9 +7,8 @@ import { createLogger } from 'redux-logger'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import * as reducers from './redux/reducers'
-import { history, reactReduxContext } from './utils/history'
-import { ThemeProvider, StylesProvider } from '@material-ui/core'
-import theme from './utils/theme'
+import { history } from './utils/history'
+import { StylesProvider } from '@material-ui/core/styles'
 import './styles.css'
 
 const { NODE_ENV } = process.env
@@ -33,22 +32,23 @@ if (NODE_ENV === 'development') {
     thunkMiddleware
   )
 }
+const createRootReducer = (history) => combineReducers({
+  router: connectRouter(history),
+  ...reducers
+})
 
 const store = createStore(
-  combineReducers({
-    router: connectRouter(history),
-    ...reducers }),
+  createRootReducer(history),
   composeEnhancers(middleware)
 )
 
-ReactDOM.render(
-  <Provider store={store}
-    context={reactReduxContext}
-  >
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <Index />
-      </ThemeProvider>
-    </StylesProvider>
+const whyDidYouRender = require('@welldone-software/why-did-you-render')
+whyDidYouRender(React, {})
 
+ReactDOM.render(
+
+  <Provider store={store}>
+    <StylesProvider injectFirst>
+      <Index history={history} />
+    </StylesProvider>
   </Provider>, document.getElementById('root'))
