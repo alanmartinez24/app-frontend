@@ -122,10 +122,15 @@ const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
 
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   let account = scatterIdentity || state.ethAccount
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+    }
   }
 
   let voterWeight = 0
