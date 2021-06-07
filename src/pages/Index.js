@@ -1,67 +1,40 @@
-import React, { Fragment, Component, Suspense, lazy } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core'
+import React, { Fragment, Component } from 'react'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { history, reactReduxContext } from '../utils/history'
+import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 // import wallet from '../eos/scatter/scatter.wallet'
 import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
-import isEqual from 'lodash/isEqual'
 // import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
 
-const { BACKEND_API } = process.env
+import YupLists from './YupLists/YupLists'
+import Discover from './Discover/Discover'
+import User from './User/User'
+import PostPage from './PostPage/PostPage'
+import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
+import Collections from './Collections/Collections'
+import Analytics from './Analytics/Analytics'
 
-const YupLists = lazy(() => import('./YupLists/YupLists'))
-const Discover = lazy(() => import('./Discover/Discover'))
-const User = lazy(() => import('./User/User'))
-const Analytics = lazy(() => import('./Analytics/Analytics'))
-const Collections = lazy(() => import('./Collections/Collections'))
-const PostPage = lazy(() => import('./PostPage/PostPage'))
-const TwitterOAuth = lazy(() => import('./TwitterOAuth/TwitterOAuth'))
+const { BACKEND_API } = process.env
 
 const pathname = document.location.pathname
 const isProtectedRoute = (pathname !== '/leaderboard' && pathname !== '/analytics')
-
-class Fallback extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
-      return true
-    }
-    return false
-  }
-
-  render () {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh'
-      }}
-      >
-        <DotSpinner />
-      </div>
-    )
-  }
-}
 
 class Index extends Component {
   state = {
     alertDialogOpen: false,
     isLoading: isProtectedRoute // all protected routes require wallet to load first
   }
-
   handleAlertDialogOpen = (msg) => {
     this.setState({ alertDialogOpen: true, alertDialogContent: msg })
   }
@@ -89,26 +62,7 @@ class Index extends Component {
       const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
       const ethAuthUpdate = { address, signature, account }
       updateEthAuth(ethAuthUpdate)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async checkTwitterAuth () {
-    try {
-      const twitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
-
-      if (!twitterMirrorInfo) { return }
-
-      const { expiration } = JSON.parse(twitterMirrorInfo)
-
-      // if twitter oauth token expired, sign user out
-      if (expiration <= Date.now()) {
-        localStorage.removeItem('twitterMirrorInfo')
-      }
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
 
   // async fetchExtAuthInfo () {
@@ -128,12 +82,11 @@ class Index extends Component {
       const { fetchSocialLevels } = this.props
       fetchSocialLevels()
       this.checkEthAuth()
-      this.checkTwitterAuth()
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-    this.setState({ isLoading: false })
+     this.setState({ isLoading: false })
     })()
   }
 
@@ -144,6 +97,8 @@ class Index extends Component {
   // }
 
   render () {
+ const history = this.props.history
+ console.log(history, 'historyyy')
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -170,10 +125,11 @@ class Index extends Component {
               content={metaTitle}
             />
           </Helmet>
+
           <ConnectedRouter history={history}
             context={reactReduxContext}
           >
-            <Suspense fallback={<Fallback />}>
+            <div>
               <Switch>
                 <Route component={Discover}
                   exact
@@ -196,13 +152,8 @@ class Index extends Component {
                   exact
                   path='/:username/analytics'
                 />
-
                 <Route component={Collections}
                   path='/collections/:name/:id'
-                />
-                {/* Handle collection routes with just name */}
-                <Route component={Collections}
-                  path='/collections/:name'
                 />
                 <Route component={User}
                   exact
@@ -215,7 +166,7 @@ class Index extends Component {
                   to='/leaderboard'
                 />
               </Switch>
-            </Suspense>
+            </div>
           </ConnectedRouter>
         </MuiThemeProvider>
         <Dialog
@@ -239,6 +190,7 @@ Index.propTypes = {
   fetchSocialLevels: PropTypes.func.isRequired,
   // checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
+  history: PropTypes.object,
   // scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired
   // getExtAuthToken: PropTypes.func.isRequired
@@ -255,11 +207,6 @@ const mapActionToProps = (dispatch) => {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    account: state.scatterRequest.account,
-    levels: (state.socialLevels && state.socialLevels.levels) || {}
-  }
-}
+const mapStateToProps = () => {}
 
 export default connect(mapStateToProps, mapActionToProps)(Index)
