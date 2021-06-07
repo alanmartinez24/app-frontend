@@ -1,4 +1,4 @@
-import { pushEthMirrorTx } from './push-transaction'
+import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
 
 const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER, YUP_CREATOR } = process.env
 
@@ -35,7 +35,11 @@ export async function createvote (account, data, ethAuth) {
       }
     ]
   }
-  await pushEthMirrorTx(ethAuth, txData)
+  if (localStorage.getItem('twitterMirrorInfo')) {
+    await pushTwitterMirrorTx(txData)
+  } else {
+    await pushEthMirrorTx(ethAuth, txData)
+  }
 }
 
 export async function postvotev3 (account, data, ethAuth) {
@@ -75,7 +79,11 @@ export async function postvotev3 (account, data, ethAuth) {
         }
       }]
   }
-  await pushEthMirrorTx(ethAuth, txData)
+  if (localStorage.getItem('twitterMirrorInfo')) {
+    await pushTwitterMirrorTx(txData)
+  } else {
+    await pushEthMirrorTx(ethAuth, txData)
+  }
 }
 
 export async function postvotev4 (account, data, ethAuth) {
@@ -116,7 +124,11 @@ export async function postvotev4 (account, data, ethAuth) {
         }
       }]
   }
-  await pushEthMirrorTx(ethAuth, txData)
+  if (localStorage.getItem('twitterMirrorInfo')) {
+    await pushTwitterMirrorTx(txData)
+  } else {
+    await pushEthMirrorTx(ethAuth, txData)
+  }
 }
 
 export async function createvotev4 (account, data, ethAuth) {
@@ -153,7 +165,11 @@ export async function createvotev4 (account, data, ethAuth) {
       }
     ]
   }
-  await pushEthMirrorTx(ethAuth, txData)
+  if (localStorage.getItem('twitterMirrorInfo')) {
+    await pushTwitterMirrorTx(txData)
+  } else {
+    await pushEthMirrorTx(ethAuth, txData)
+  }
 }
 
 export async function editvote (account, data, ethAuth) {
@@ -188,7 +204,11 @@ export async function editvote (account, data, ethAuth) {
       }
     ]
   }
-  await pushEthMirrorTx(ethAuth, txData)
+  if (localStorage.getItem('twitterMirrorInfo')) {
+    await pushTwitterMirrorTx(txData)
+  } else {
+    await pushEthMirrorTx(ethAuth, txData)
+  }
 }
 
 export async function deletevote (account, data, ethAuth) {
@@ -220,5 +240,9 @@ export async function deletevote (account, data, ethAuth) {
       }
     ]
   }
-  await pushEthMirrorTx(ethAuth, txData)
+  if (localStorage.getItem('twitterMirrorInfo')) {
+    await pushTwitterMirrorTx(txData)
+  } else {
+    await pushEthMirrorTx(ethAuth, txData)
+  }
 }

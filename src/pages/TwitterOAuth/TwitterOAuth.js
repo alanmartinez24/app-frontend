@@ -82,7 +82,8 @@ class TwitterOAuth extends Component {
           this.setState({ existingAcct: true })
         }
         const res = await axios.post(`${BACKEND_API}/accounts/twitter/mirror/create`, { token })
-        const twitterInfo = { name: res.data.account.eosname, isMirror: true, seenTutorial: this.state.existingAcct }
+
+        const twitterInfo = { name: res.data.account.eosname, isMirror: true, seenTutorial: this.state.existingAcct, token: token, expiration: res.data.expiration }
         localStorage.setItem('twitterMirrorInfo', JSON.stringify(twitterInfo))
 
         this.setState({ isLoading: false, username: res.data.account.username })

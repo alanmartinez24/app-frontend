@@ -440,7 +440,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
         })
         .catch(() => {})
     }
-  }, authInfo.account)
+  }, [authInfo])
 
   useEffect(() => {
     setIsShown(isTourOpen)
@@ -493,6 +493,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
     : 'permanent'
   const avatar = level && level.levelInfo.avatar
   const eosname = account && account.name
+
   const yupBalance =
     level &&
     level.levelInfo &&
