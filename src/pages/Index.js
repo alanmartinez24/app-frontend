@@ -1,12 +1,12 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
-import { Switch, Route, Redirect } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
-import { reactReduxContext } from '../utils/history'
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
+// import { ConnectedRouter } from 'connected-react-router'
+// import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 // import wallet from '../eos/scatter/scatter.wallet'
 import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
@@ -28,13 +28,15 @@ import Analytics from './Analytics/Analytics'
 const { BACKEND_API } = process.env
 
 const pathname = document.location.pathname
-const isProtectedRoute = (pathname !== '/leaderboard' && pathname !== '/analytics')
+// const isProtectedRoute = (pathname !== '/leaderboard' && pathname !== '/analytics')
 
 class Index extends Component {
-  state = {
-    alertDialogOpen: false,
-    isLoading: isProtectedRoute // all protected routes require wallet to load first
-  }
+  // state = {
+  //   // alertDialogOpen: false,
+  //   // isLoading: false // all protected routes require wallet to load first
+  // }
+
+  state = {}
   handleAlertDialogOpen = (msg) => {
     this.setState({ alertDialogOpen: true, alertDialogContent: msg })
   }
@@ -86,7 +88,7 @@ class Index extends Component {
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-     this.setState({ isLoading: false })
+    //  this.setState({ isLoading: false })
     })()
   }
 
@@ -116,72 +118,69 @@ class Index extends Component {
     const metaTitle = 'Yup • Social Layer for the Internet'
 
     return (
-      <Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Helmet>
-            <meta charSet='utf-8' />
-            <title> {metaTitle} </title>
-            <meta name='description'
-              content={metaTitle}
-            />
-          </Helmet>
+      <BrowserRouter forceRefresh={false} >
+        <div>
+          <MuiThemeProvider theme={theme}>
+            <Helmet>
+              <meta charSet='utf-8' />
+              <title> {metaTitle} </title>
+              <meta name='description'
+                content={metaTitle}
+              />
+            </Helmet>
 
-          <ConnectedRouter history={history}
-            context={reactReduxContext}
+            <Switch>
+              <Route component={Discover}
+                exact
+                path='/'
+              />
+              <Route component={YupLists}
+                path='/leaderboard'
+              />
+              <Route component={Search}
+                path='/search'
+              />
+              <Route component={TwitterOAuth}
+                path='/twitter/:userid'
+              />
+              <Route component={PostPage}
+                exact
+                path='/p/:postid'
+              />
+              <Route component={Analytics}
+                exact
+                path='/:username/analytics'
+              />
+              <Route component={Collections}
+                exact
+                path='/collections/:name/:id'
+              />
+              <Route component={User}
+                exact
+                path='/:username'
+              />
+              <Redirect from='*'
+                to='/'
+              />
+              <Redirect from='/lists'
+                to='/leaderboard'
+              />
+            </Switch>
+          </MuiThemeProvider>
+          <Dialog
+            aria-describedby='alert-dialog-description'
+            aria-labelledby='alert-dialog-title'
+            onClose={this.handleAlertDialogClose}
+            open={this.state.alertDialogOpen}
           >
-            <div>
-              <Switch>
-                <Route component={Discover}
-                  exact
-                  path='/'
-                />
-                <Route component={YupLists}
-                  path='/leaderboard'
-                />
-                <Route component={Search}
-                  path='/search'
-                />
-                <Route component={TwitterOAuth}
-                  path='/twitter/:userid'
-                />
-                <Route component={PostPage}
-                  exact
-                  path='/p/:postid'
-                />
-                <Route component={Analytics}
-                  exact
-                  path='/:username/analytics'
-                />
-                <Route component={Collections}
-                  path='/collections/:name/:id'
-                />
-                <Route component={User}
-                  exact
-                  path='/:username'
-                />
-                <Redirect from='*'
-                  to='/'
-                />
-                <Redirect from='/lists'
-                  to='/leaderboard'
-                />
-              </Switch>
-            </div>
-          </ConnectedRouter>
-        </MuiThemeProvider>
-        <Dialog
-          aria-describedby='alert-dialog-description'
-          aria-labelledby='alert-dialog-title'
-          onClose={this.handleAlertDialogClose}
-          open={this.state.alertDialogOpen}
-        >
-          <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
-              { this.state.alertDialogContent }
-            </DialogContentText>
-          </DialogContent>
-        </Dialog>
-      </Fragment>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>
+                { this.state.alertDialogContent }
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </BrowserRouter>
     )
   }
 }

@@ -95,7 +95,9 @@ class YupList extends Component {
   logPageView = () => {
     const { listTitle } = this.props
     if (listTitle && listTitle.length > 0){
-      window.analytics.page(listTitle)
+      // if (window.analytics) {
+      //   window.analytics.page(listTitle)
+      // }
     }
   }
 

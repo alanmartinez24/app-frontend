@@ -845,31 +845,29 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                   </span>
                 </ListItemText>
               </ListItem>
-              {account && account.name && (
-                <ListItem
-                  button
-                  component={Link}
-                  to={`/${username}/analytics`}
-                  style={{ paddingLeft: '5px' }}
-                  tourname='LeaderboardButton'
-                >
-                  <ListItemIcon style={{ textAlign: 'center' }}>
-                    <Icon
-                      fontSizeSmall
-                      className='fal fa-chart-bar'
-                      style={{ overflow: 'visible', width: '100%' }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <span
-                      className={classes.typography}
-                      style={{ color: '#c0c0c0', fontWeight: '100' }}
-                    >
-                      Analytics
-                    </span>
-                  </ListItemText>
-                </ListItem>
-              )}
+              <ListItem
+                button
+                component={Link}
+                to={`/${username}/analytics`}
+                style={{ paddingLeft: '5px' }}
+                tourname='LeaderboardButton'
+              >
+                <ListItemIcon style={{ textAlign: 'center' }}>
+                  <Icon
+                    fontSizeSmall
+                    className='fal fa-chart-bar'
+                    style={{ overflow: 'visible', width: '100%' }}
+                  />
+                </ListItemIcon>
+                <ListItemText>
+                  <span
+                    className={classes.typography}
+                    style={{ color: '#c0c0c0', fontWeight: '100' }}
+                  >
+                    Analytics
+                  </span>
+                </ListItemText>
+              </ListItem>
               <ListItem dense
                 style={{ bottom: 10, position: 'absolute' }}
               >

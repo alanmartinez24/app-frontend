@@ -107,7 +107,7 @@ class YupLists extends Component {
 
   componentDidMount () {
     if (window.analytics) {
-      window.analytics.page('Yup Lists')
+      // window.analytics.page('Yup Lists')
     }
 
     this.fetchListOptions()

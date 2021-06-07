@@ -42,13 +42,10 @@ const store = createStore(
   composeEnhancers(middleware)
 )
 
-const whyDidYouRender = require('@welldone-software/why-did-you-render')
-whyDidYouRender(React, {})
-
 ReactDOM.render(
 
   <Provider store={store}>
     <StylesProvider injectFirst>
-      <Index history={history} />
+      <Index />
     </StylesProvider>
   </Provider>, document.getElementById('root'))

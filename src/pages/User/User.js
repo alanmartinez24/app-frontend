@@ -17,7 +17,7 @@ import {
   fetchFollowing
 } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import path from 'path'
 import Tour from 'reactour'
 import Img from 'react-image'
@@ -1097,4 +1097,4 @@ User.propTypes = {
   dispatch: PropTypes.func.isRequired
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(User)))
+export default connect(mapStateToProps)(withStyles(styles)(User))
