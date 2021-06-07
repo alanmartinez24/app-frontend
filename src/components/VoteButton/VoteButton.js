@@ -764,9 +764,7 @@ class VoteButton extends Component {
     }
 
     const signedInWithEth = !scatter.connected && !!ethAuth
-    const signedInWithTwitter = !!localStorage.getItem('twitterMirrorInfo')
-
-    console.log(signedInWithTwitter)
+    const signedInWithTwitter = !scatter.connected && !!localStorage.getItem('twitterMirrorInfo')
 
     // Converts 1-5 rating to like/dislike range
     const rating = ratingConversion[newRating]
