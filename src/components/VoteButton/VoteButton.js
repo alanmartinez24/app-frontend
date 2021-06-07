@@ -776,6 +776,7 @@ class VoteButton extends Component {
     let stateUpdate = {}
     if (vote == null || vote._id == null) {
       if (post.onchain === false) {
+        account.authority = 'postvote'
         if (signedInWithEth) {
           await postvotev3(account, { postid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
         } else if (signedInWithTwitter) {
@@ -784,6 +785,7 @@ class VoteButton extends Component {
           await scatter.scatter.postvotev3({ data: { postid, caption, imgHash, videoHash, tag, like, category, rating } })
         }
       } else {
+        account.authority = 'createvotev2'
         if (signedInWithEth) {
           await createvote(account, { postid, like, category, rating }, ethAuth)
         } else if (signedInWithTwitter) {
@@ -801,11 +803,12 @@ class VoteButton extends Component {
       await this.fetchInitialVote()
       stateUpdate = { currTotalVoters: currTotalVoters + 1 }
     } else if (vote && prevRating === newRating) {
-      if (vote.onchain === false && !signedInWithEth) {
+      if (vote.onchain === false && !signedInWithEth && !signedInWithTwitter) {
           await this.deletevvote(vote._id.voteid)
           dispatch(updateInitialVote(postid, account.name, category, null))
           stateUpdate = { currTotalVoters: currTotalVoters - 1 }
       } else {
+        account.authority = 'deletevote'
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
@@ -855,6 +858,7 @@ class VoteButton extends Component {
           }
         }
       }
+      account.authority = 'active'
 
       const voteInfluence = Math.round(vote.influence)
       const updatedVoteInfluence = Math.round((rating / oldRating) * voteInfluence)
