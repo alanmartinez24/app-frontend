@@ -822,6 +822,7 @@ class VoteButton extends Component {
     } else {
       let voteid = vote._id.voteid
       if (post.onchain === false) {
+        account.authority = 'postvote'
         if (vote.onchain === false) {
           if (signedInWithEth) {
             await postvotev4(account, { postid, voteid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
@@ -841,6 +842,7 @@ class VoteButton extends Component {
         }
       } else {
         if (vote.onchain === false) {
+          account.authority = 'createvotev2'
           if (signedInWithEth) {
             await createvotev4(account, { postid, voteid, like, category, rating }, ethAuth)
           } else if (signedInWithTwitter) {
@@ -849,6 +851,7 @@ class VoteButton extends Component {
             await scatter.scatter.createvotev4({ data: { postid, voteid, like, category, rating } })
           }
         } else {
+          account.authority = 'editvotev2'
           if (signedInWithEth) {
             await editvote(account, { voteid: vote._id.voteid, like, rating, category }, ethAuth)
           } else if (signedInWithTwitter) {
@@ -1215,8 +1218,9 @@ const mapStateToProps = (state, ownProps) => {
   const { category, postid } = ownProps
   const { account: ethAccount } = state.ethAuth
 
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
 
   if (!scatterIdentity) {
