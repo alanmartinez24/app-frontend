@@ -304,8 +304,8 @@ class User extends Component {
 
     this.loadUserData()
     this.showDialog()
-    window.Intercom('update')
-    window.analytics.page('User')
+    // window.Intercom('update')
+    // window.analytics.page('User')
 
     setTimeout(() => {
       this.setState({

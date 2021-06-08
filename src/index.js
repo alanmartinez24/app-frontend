@@ -16,7 +16,7 @@ const { NODE_ENV } = process.env
 let composeEnhancers
 let middleware
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === 'production') {
   const loggerMiddleware = createLogger()
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   middleware = applyMiddleware(
@@ -42,10 +42,13 @@ const store = createStore(
   composeEnhancers(middleware)
 )
 
+const whyDidYouRender = require('@welldone-software/why-did-you-render')
+whyDidYouRender(React, {})
+
 ReactDOM.render(
 
   <Provider store={store}>
     <StylesProvider injectFirst>
-      <Index />
+      <Index history={history} />
     </StylesProvider>
   </Provider>, document.getElementById('root'))
