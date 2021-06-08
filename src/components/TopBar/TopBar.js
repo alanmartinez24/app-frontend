@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -403,18 +403,42 @@ const defaultLevelInfo = {
   levelInfo: {}
 }
 
-function TopBar ({ classes, notifications, history, width, isTourOpen }) {
+const ProfileAvatar = memo(({ username, avatar, classes, socialLevelColor }) => (
+  <ErrorBoundary>
+    <UserAvatar
+      alt={username}
+      username={username}
+      src={avatar}
+      className={classes.avatarImage}
+      style={{ border: `solid 2px ${socialLevelColor}`, aspectRatio: '1 / 1' }}
+    />
+  </ErrorBoundary>
+))
+
+ProfileAvatar.propTypes = {
+  avatar: PropTypes.string,
+  classes: PropTypes.object,
+  username: PropTypes.string,
+  socialLevelColor: PropTypes.string
+}
+
+const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
+
+function TopBar ({ classes, history, width, isTourOpen }) {
   const [open, setOpen] = React.useState(false)
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const [settingsOpen, setSettingsOpen] = React.useState(false)
   const [account, setAccount] = React.useState(null)
   const [isShown, setIsShown] = useState(isTourOpen || false)
+  const [notifications, setNotifications] = useState([])
 
   const [collectionDialogOpen, setCollectionDialogOpen] = React.useState(false)
 
   let authInfo = useSelector(getReduxState)
 
   const [level, setLevel] = React.useState(defaultLevelInfo)
+
+  const accountName = authInfo && authInfo.account && authInfo.account.name
 
   useEffect(() => {
     const search = window.location.search
@@ -424,7 +448,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
     setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
     setAccount(authInfo.account)
-  }, [authInfo])
+  }, [accountName])
 
   useEffect(() => {
     if (authInfo && authInfo.account) {
@@ -440,7 +464,23 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
         })
         .catch(() => {})
     }
-  }, [authInfo])
+  }, [accountName])
+
+  useEffect(() => {
+    fetchNotifs()
+  }, [accountName])
+
+  const fetchNotifs = async () => {
+    if (!accountName || notifications.length) return
+
+    try {
+      const notifs = (axios.get(`${BACKEND_API}/notifications/${accountName}`)).data
+      const fmtNotifs = notifs.map(notif => {
+        notif.votes = [...new Map(notif.votes.map(item => [item.voteid, item])).values()]
+      })
+      setNotifications(fmtNotifs)
+    } catch (err) {}
+  }
 
   useEffect(() => {
     setIsShown(isTourOpen)
@@ -510,16 +550,6 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
   const username = (level && level.levelInfo.username) || eosname
   const isMobile = window.innerWidth <= 480
 
-  const ProfileAvatar = props => (
-    <UserAvatar
-      alt={username}
-      username={username}
-      src={avatar}
-      className={classes.avatarImage}
-      style={{ border: `solid 2px ${socialLevelColor}`, aspectRatio: '1 / 1' }}
-    />
-  )
-
   return (
     <ErrorBoundary>
       <div>
@@ -547,8 +577,11 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                       onClick={handleDrawerOpen}
                       style={{ color: '#9a9a9a' }}
                     >
-                      {account && account.name ? (
-                        <ProfileAvatar />
+                      {accountName ? (
+                        <StyledProfileAvatar username={username}
+                          socialLevelColor={socialLevelColor}
+                          avatar={avatar}
+                        />
                       ) : (
                         <Grow in
                           timeout={400}
@@ -659,7 +692,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
             <MuiThemeProvider theme={theme}>
               <div className={classes.drawerHeader}>
                 <List style={{ width: '100%' }}>
-                  {account && account.name ? (
+                  {accountName ? (
                     <ListItem
                       button
                       component={Link}
@@ -685,7 +718,10 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                             }
                           }}
                         >
-                          <ProfileAvatar />
+                          <StyledProfileAvatar username={username}
+                            socialLevelColor={socialLevelColor}
+                            avatar={avatar}
+                          />
                         </Badge>
                       </ListItemAvatar>
                       <ListItemText
@@ -1109,7 +1145,6 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  notifications: PropTypes.array.isRequired,
   history: PropTypes.object,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   isTourOpen: PropTypes.bool
