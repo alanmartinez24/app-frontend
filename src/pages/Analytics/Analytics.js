@@ -158,9 +158,9 @@ class Analytics extends Component {
 
   componentDidMount () {
     this.loadUserData()
-    // if (window.analytics) {
-    //   window.analytics.page('User')
-    // }
+    if (window.analytics) {
+      window.analytics.page('User')
+    }
   }
 
  getAllActions = async (voter, start, limit, type, actions) => {

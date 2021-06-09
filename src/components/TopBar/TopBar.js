@@ -501,13 +501,17 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   }
 
   const logProfileClick = () => {
-    // const userId = account && account.name
-    // window.analytics.track('My Profile Click', { userId })
+    if (!window.analytics) {
+    const userId = account && account.name
+     window.analytics.track('My Profile Click', { userId })
+    }
   }
 
   const logNotifsClick = () => {
+    if (!window.analytics) {
     const userId = account && account.name
     window.analytics.track('My Notifications Click', { userId })
+    }
   }
 
   function handleDrawerClose () {
@@ -845,6 +849,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                   </span>
                 </ListItemText>
               </ListItem>
+              {account && account.name && (
               <ListItem
                 button
                 component={Link}
@@ -867,7 +872,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                     Analytics
                   </span>
                 </ListItemText>
-              </ListItem>
+              </ListItem>)}
               <ListItem dense
                 style={{ bottom: 10, position: 'absolute' }}
               >
