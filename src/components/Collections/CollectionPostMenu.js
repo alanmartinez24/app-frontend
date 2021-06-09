@@ -7,6 +7,7 @@ import wallet from '../../eos/scatter/scatter.wallet.js'
 import CollectionPostDialog from './CollectionPostDialog.js'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
+import { addPostToCollection, removePostFromCollection } from '../../redux/actions'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -49,11 +50,13 @@ class CollectionPostMenu extends Component {
 
   addToCollection = async (collection) => {
     try {
+      const { postid, addPostRedux, account } = this.props
       this.handleMenuClose()
       const authToken = await this.fetchAuthToken()
-      const params = { postId: this.props.postid, ...authToken }
+      const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully added to ${collection.name}`)
+      addPostRedux(account && account.name, collection, postid)
     } catch (err) {
       console.error(err)
       this.handleSnackbarOpen(`An error occured. Try again later.`)
@@ -62,11 +65,13 @@ class CollectionPostMenu extends Component {
 
   removeFromCollection = async (collection) => {
     try {
+      const { postid, removePostRedux, account } = this.props
       this.handleMenuClose()
       const authToken = await this.fetchAuthToken()
       const params = { postId: this.props.postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
+      removePostRedux(account && account.name, collection, postid)
     } catch (err) {
       console.error(err)
       this.handleSnackbarOpen(`An error occured. Try again later.`)
@@ -171,7 +176,9 @@ CollectionPostMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   ethAuth: PropTypes.object,
   account: PropTypes.object.isRequired,
-  collections: PropTypes.array.isRequired
+  collections: PropTypes.array.isRequired,
+  addPostRedux: PropTypes.func.isRequired,
+  removePostRedux: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -195,5 +202,11 @@ const mapStateToProps = (state, ownProps) => {
     collections
   }
 }
+const mapActionToProps = (dispatch) => {
+  return {
+    addPostRedux: (eosname, collection, postid) => dispatch(addPostToCollection(eosname, collection, postid)),
+    removePostRedux: (eosname, collection, postid) => dispatch(removePostFromCollection(eosname, collection, postid))
+    }
+}
 
-export default memo(connect(mapStateToProps)(withStyles(styles)(CollectionPostMenu)))
+export default memo(connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostMenu)))

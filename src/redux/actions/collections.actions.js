@@ -29,3 +29,11 @@ export function fetchUserCollections (eosname) {
 export function addUserCollection (eosname, collection) {
   return { type: constants.ADD_USER_COLLECTION, eosname, collection }
 }
+
+export function addPostToCollection (eosname, collection, postid) {
+  return { type: constants.ADD_POST_TO_COLLECTION, eosname, collection, postid }
+}
+
+export function removePostFromCollection (eosname, collection, postid) {
+  return { type: constants.REM_POST_FROM_COLLECTION, eosname, collection, postid }
+}

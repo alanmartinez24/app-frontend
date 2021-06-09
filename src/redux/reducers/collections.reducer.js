@@ -29,6 +29,14 @@ export function userCollections (state = {}, action) {
         const prevCollections = draft[action.eosname].collections
         prevCollections.push(action.collection)
         break
+      case constants.ADD_POST_TO_COLLECTION:
+        const targetCollAdd = draft[action.eosname].collections.find(({ _id }) => _id === action.collection._id)
+        targetCollAdd.postIds.push(action.postid)
+        break
+      case constants.REM_POST_FROM_COLLECTION:
+        const targetCollRem = draft[action.eosname].collections.find(({ _id }) => _id === action.collection._id)
+        targetCollRem.postIds.splice(targetCollRem.postIds.indexOf(action.postid), 1)
+        break
       default:
         return state
     }
