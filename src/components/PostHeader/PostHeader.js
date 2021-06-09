@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import moment from 'moment'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { fetchSocialLevel } from '../../redux/actions'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -110,7 +111,7 @@ class PostHeader extends Component {
 
   render () {
     const { isLoading, postInteractions } = this.state
-    const { levels, author, classes, hideInteractions } = this.props
+    const { levels, author, classes, hideInteractions, dispatch } = this.props
 
     if (!isLoading && !postInteractions.length) {
       return <div style={{ height: '25px' }} />
@@ -121,7 +122,11 @@ class PostHeader extends Component {
     }
 
     const vote = postInteractions[0]
-    if (!levels[vote.voter] || hideInteractions) {
+    if (!levels[vote.voter]) {
+       dispatch(fetchSocialLevel(vote.voter))
+       return <div />
+    }
+    if (levels[vote.voter].isLoading || hideInteractions) {
       return <div />
     }
     const formattedVoteTime = moment(vote.timestamp, 'x').fromNow(true)
@@ -294,7 +299,6 @@ class PostHeader extends Component {
     )
   }
 }
-
 const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
 
@@ -317,6 +321,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 PostHeader.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   levels: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired,
   hideInteractions: PropTypes.bool,
