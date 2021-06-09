@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import { addUserCollection } from '../../redux/actions'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
@@ -68,7 +69,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth }) => {
+const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth, addCollectionToRedux }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -96,6 +97,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
       if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
       const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
+      addCollectionToRedux(authToken.eosname, data)
       setNewCollectionInfo(data)
       setIsLoading(false)
       handleSnackbarOpen(`Succesfully created ${name}`)
@@ -216,12 +218,19 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
+const mapActionToProps = (dispatch) => {
+  return {
+    addCollectionToRedux: (eosname, collection) => dispatch(addUserCollection(eosname, collection))
+    }
+}
+
 CollectionPostDialog.propTypes = {
   postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
+  addCollectionToRedux: PropTypes.func.isRequired,
   ethAuth: PropTypes.object
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(CollectionPostDialog))
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostDialog))

@@ -26,12 +26,8 @@ export function userCollections (state = {}, action) {
         }
         break
       case constants.ADD_USER_COLLECTION:
-        if (draft[action.postid]) {
-          const prevCollections = draft[action.eosname].collections
-          prevCollections.push({
-            collection: action.collection
-          })
-        }
+        const prevCollections = draft[action.eosname].collections
+        prevCollections.push(action.collection)
         break
       default:
         return state
