@@ -30,6 +30,7 @@ import CollectionEditDialog from '../../components/Collections/CollectionEditDia
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
+import { fetchCollectionById } from '../../redux/actions'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
@@ -219,12 +220,13 @@ class Collections extends Component {
 
   async componentDidMount () {
     const url = window.location.href.split('/')
-    const name = url[4]
+    // const name = url[4]
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
+      collection = this.props.fetchCollById(id)
+      // collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
@@ -775,8 +777,14 @@ const mapStateToProps = state => {
 
 Collections.propTypes = {
   classes: PropTypes.object.isRequired,
-  account: PropTypes.object.isRequired
-  // levels: PropTypes.object.isRequired
+  account: PropTypes.object.isRequired,
+  fetchCollById: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Collections))
+const mapActionToProps = (dispatch) => {
+  return {
+    fetchCollById: (collectionId) => dispatch(fetchCollectionById(collectionId))
+    }
+}
+
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Collections))

@@ -37,3 +37,27 @@ export function addPostToCollection (eosname, collection, postid) {
 export function removePostFromCollection (eosname, collection, postid) {
   return { type: constants.REM_POST_FROM_COLLECTION, eosname, collection, postid }
 }
+
+export function fetchCollectionById (collectionId) {
+  return async dispatch => {
+    dispatch(request(collectionId))
+    try {
+      const collection = (await axios.get(`${BACKEND_API}/collections/${collectionId}`)).data
+      dispatch(success(collection.owner, collection))
+    } catch (err) {
+      dispatch(failure(collectionId, err))
+    }
+  }
+
+  function request (eosname) {
+    return { type: constants.FETCH_COLLECTION_ID, collectionId }
+  }
+
+  function success (eosname, collection) {
+    return { type: constants.FETCH_COLLECTION_ID_SUCCESS, eosname, collection }
+  }
+
+  function failure (collectionId, error) {
+    return { type: constants.FETCH_COLLECTION_ID_FAILURE, collectionId, error }
+  }
+}

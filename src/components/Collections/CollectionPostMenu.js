@@ -50,13 +50,13 @@ class CollectionPostMenu extends Component {
 
   addToCollection = async (collection) => {
     try {
-      const { postid, addPostRedux, account } = this.props
+      const { postid, addPostToColl, account } = this.props
       this.handleMenuClose()
       const authToken = await this.fetchAuthToken()
       const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully added to ${collection.name}`)
-      addPostRedux(account && account.name, collection, postid)
+      addPostToColl(account && account.name, collection, postid)
     } catch (err) {
       console.error(err)
       this.handleSnackbarOpen(`An error occured. Try again later.`)
@@ -65,13 +65,13 @@ class CollectionPostMenu extends Component {
 
   removeFromCollection = async (collection) => {
     try {
-      const { postid, removePostRedux, account } = this.props
+      const { postid, removePostFromColl, account } = this.props
       this.handleMenuClose()
       const authToken = await this.fetchAuthToken()
       const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
-      removePostRedux(account && account.name, collection, postid)
+      removePostFromColl(account && account.name, collection, postid)
     } catch (err) {
       console.error(err)
       this.handleSnackbarOpen(`An error occured. Try again later.`)
@@ -177,8 +177,8 @@ CollectionPostMenu.propTypes = {
   ethAuth: PropTypes.object,
   account: PropTypes.object.isRequired,
   collections: PropTypes.array.isRequired,
-  addPostRedux: PropTypes.func.isRequired,
-  removePostRedux: PropTypes.func.isRequired
+  addPostToColl: PropTypes.func.isRequired,
+  removePostFromColl: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -204,8 +204,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapActionToProps = (dispatch) => {
   return {
-    addPostRedux: (eosname, collection, postid) => dispatch(addPostToCollection(eosname, collection, postid)),
-    removePostRedux: (eosname, collection, postid) => dispatch(removePostFromCollection(eosname, collection, postid))
+    addPostToColl: (eosname, collection, postid) => dispatch(addPostToCollection(eosname, collection, postid)),
+    removePostFromColl: (eosname, collection, postid) => dispatch(removePostFromCollection(eosname, collection, postid))
     }
 }
 
