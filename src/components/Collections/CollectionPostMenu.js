@@ -68,7 +68,7 @@ class CollectionPostMenu extends Component {
       const { postid, removePostRedux, account } = this.props
       this.handleMenuClose()
       const authToken = await this.fetchAuthToken()
-      const params = { postId: this.props.postid, ...authToken }
+      const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
       removePostRedux(account && account.name, collection, postid)
