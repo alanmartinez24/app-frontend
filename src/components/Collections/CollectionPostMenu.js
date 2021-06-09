@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -176,13 +176,24 @@ CollectionPostMenu.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
-  console.log(state, 'THIS IS THE STATE')
-  const userCollections = state.userCollections
+  const { account: ethAccount } = state.ethAuth
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  let account = scatterIdentity || state.ethAccount
+  let collections = []
+
+  if (!scatterIdentity && ethAccount) {
+    account = { name: ethAccount._id, authority: 'active' }
+  }
+
+  if (account.name && state.userCollections[account.name]) {
+    collections = state.userCollections[account && account.name].collections
+  }
 
   return {
     ethAuth,
-    userCollections: userCollections || []
+    account,
+    collections
   }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(CollectionPostMenu))
+export default memo(connect(mapStateToProps)(withStyles(styles)(CollectionPostMenu)))

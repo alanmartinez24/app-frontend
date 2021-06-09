@@ -118,10 +118,8 @@ class Index extends Component {
   }
 
   componentDidUpdate ({ account, getLoggedUserCollections }) {
-    (async () => {
-      console.log('WE ARE IN HERE!!!')
-      if (account && account.name) await getLoggedUserCollections(account.name)
-    })()
+    if (!(account && account.name)) return
+    getLoggedUserCollections(account.name)
   }
 
   render () {
