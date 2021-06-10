@@ -1,7 +1,7 @@
 import { collectionsConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function userCollections (state = {}, action) {
+export function collectionsByUser (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_USER_COLLECTIONS:
@@ -36,6 +36,38 @@ export function userCollections (state = {}, action) {
       case constants.REM_POST_FROM_COLLECTION:
         const targetCollRem = draft[action.eosname].collections.find(({ _id }) => _id === action.collection._id)
         targetCollRem.postIds.splice(targetCollRem.postIds.indexOf(action.postid), 1)
+        break
+      default:
+        return state
+    }
+  })
+}
+
+export function collectionsById (state = {}, action) {
+  // if (!action.collectionId) return state
+  return produce(state, draft => {
+    switch (action.type) {
+      case constants.FETCH_COLLECTION_ID:
+        draft[action.collectionId] = {
+          isLoading: true,
+          collection: {},
+          error: null
+        }
+        break
+      case constants.FETCH_COLLECTION_ID_SUCCESS:
+        console.log('action.collection :>> ', action.collection)
+        draft[action.collectionId] = {
+          isLoading: false,
+          collection: action.collection,
+          error: null
+        }
+        break
+      case constants.FETCH_COLLECTION_ID_FAILURE:
+        draft[action.collectionId] = {
+          isLoading: false,
+          collection: null,
+          error: action.error
+        }
         break
       default:
         return state

@@ -5,18 +5,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import Img from 'react-image'
-import {
-  Fab,
-  Typography,
-  Grid,
-  Button,
-  IconButton,
-  Icon,
-  SnackbarContent,
-  Snackbar,
-  Hidden,
-  Fade
-} from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Hidden, Fade } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -207,38 +196,35 @@ const styles = theme => ({
 
 class Collections extends Component {
   state = {
-    collection: null,
-    posts: [],
     isLoading: true,
     isMinimize: false,
     snackbarMsg: '',
     recommended: [],
     dialogOpen: false,
     isTourOpen: false,
-    socialLevelColor: ''
+    socialLevelColor: '',
+    collectionId: ''
   }
 
   async componentDidMount () {
+    const { fetchCollById } = this.props
     const url = window.location.href.split('/')
-    // const name = url[4]
     const id = url[5]
 
-    let collection, recommended
+    let recommended
     try {
-      collection = this.props.fetchCollById(id)
-      // collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
+      console.log('is called with id: ', id)
+      await fetchCollById(id)
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       return
     }
-    this.getSocialLevel(collection.ownerId)
 
     this.setState({
       isLoading: false,
-      collection,
       recommended,
-      posts: collection.posts
+      collectionId: id
     })
   }
 
@@ -295,23 +281,16 @@ class Collections extends Component {
   }
 
   render () {
-    const { classes, account } = this.props
-    const {
-      collection,
-      posts,
-      isLoading,
-      isMinimize,
-      snackbarMsg,
-      recommended,
-      dialogOpen,
-      socialLevelColor
-    } = this.state
-
+    const { classes, account, collectionsById } = this.props
+    const { isLoading, isMinimize, snackbarMsg, recommended, dialogOpen, socialLevelColor, collectionId } = this.state
+    const collection = collectionsById && collectionsById[collectionId] && collectionsById[collectionId].collection
+    console.log('collection :>> ', collection)
+    const posts = collection && collection.posts
+    console.log('posts :>> ', posts)
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
-    const isLoggedUserCollection =
-      (account && account.name) === (collection && collection.ownerId)
+    const isLoggedUserCollection = (account && account.name) === (collection && collection.ownerId)
 
     let headerImgSrc =
       posts &&
@@ -757,7 +736,7 @@ const steps = [
   }
 ]
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
@@ -771,13 +750,14 @@ const mapStateToProps = state => {
     account,
     levels,
     push: state.scatterInstallation.push,
-    collections: state.collections
+    collectionsById: state.collectionsById
   }
 }
 
 Collections.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
+  collectionsById: PropTypes.object.isRequired,
   fetchCollById: PropTypes.func.isRequired
 }
 

@@ -42,19 +42,19 @@ export function fetchCollectionById (collectionId) {
   return async dispatch => {
     dispatch(request(collectionId))
     try {
-      const collection = (await axios.get(`${BACKEND_API}/collections/${collectionId}`)).data
-      dispatch(success(collection.owner, collection))
+      const collection = (await axios.get(`${BACKEND_API}/collections/placeholder_name/${collectionId}`)).data
+      dispatch(success(collection))
     } catch (err) {
       dispatch(failure(collectionId, err))
     }
   }
 
-  function request (eosname) {
+  function request (collectionId) {
     return { type: constants.FETCH_COLLECTION_ID, collectionId }
   }
 
-  function success (eosname, collection) {
-    return { type: constants.FETCH_COLLECTION_ID_SUCCESS, eosname, collection }
+  function success (collection) {
+    return { type: constants.FETCH_COLLECTION_ID_SUCCESS, collection }
   }
 
   function failure (collectionId, error) {
