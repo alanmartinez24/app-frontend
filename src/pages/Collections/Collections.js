@@ -202,8 +202,7 @@ class Collections extends Component {
     recommended: [],
     dialogOpen: false,
     isTourOpen: false,
-    socialLevelColor: '',
-    collectionId: ''
+    socialLevelColor: ''
   }
 
   async componentDidMount () {
@@ -222,8 +221,7 @@ class Collections extends Component {
 
     this.setState({
       isLoading: false,
-      recommended,
-      collectionId: id
+      recommended
     })
   }
 
@@ -233,19 +231,20 @@ class Collections extends Component {
     this.handleSnackbarOpen('Copied collection to clipboard')
   }
 
-  handleScroll = e => {
-    if (this.state.posts.length < 3) return
+  handleScroll = ({ target }) => {
+    const { collection } = this.props
     const { isMinimize } = this.state
-    let element = e.target
+    const collPostLength = collection && collection.posts.length
+    if (collPostLength < 3) return
 
-    if (element.scrollTop > this.prev && !isMinimize) {
+    if (target.scrollTop > this.prev && !isMinimize) {
       this.setState({ isMinimize: true })
     }
-    if (element.scrollTop === 0 && isMinimize) {
+    if (target.scrollTop === 0 && isMinimize) {
       this.setState({ isMinimize: false })
     }
 
-    this.prev = element.scrollTop
+    this.prev = target.scrollTop
   }
 
   handleSnackbarOpen = snackbarMsg => {
@@ -280,14 +279,15 @@ class Collections extends Component {
   }
 
   render () {
-    const { classes, account, collectionsById } = this.props
-    const { isLoading, isMinimize, snackbarMsg, recommended, dialogOpen, socialLevelColor, collectionId } = this.state
-    const collection = collectionsById && collectionsById[collectionId]
+    const { classes, account, collection } = this.props
+    const { isLoading, isMinimize, snackbarMsg, recommended, dialogOpen, socialLevelColor } = this.state
     const posts = collection && collection.posts
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
     const isLoggedUserCollection = (account && account.name) === (collection && collection.ownerId)
+
+    console.log('collection :>> ', collection)
 
     let headerImgSrc =
       posts &&
@@ -738,6 +738,7 @@ const mapStateToProps = (state, ownProps) => {
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
   const levels = state.socialLevels.levels
+  const id = ownProps.match.url.split('/')[3]
 
   if (!scatterIdentity && ethAccount) {
     account = { name: ethAccount._id, authority: 'active' }
@@ -747,14 +748,14 @@ const mapStateToProps = (state, ownProps) => {
     account,
     levels,
     push: state.scatterInstallation.push,
-    collectionsById: state.collectionsById
+    collection: state.collectionsById && state.collectionsById[id]
   }
 }
 
 Collections.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
-  collectionsById: PropTypes.object.isRequired,
+  collection: PropTypes.object.isRequired,
   fetchCollById: PropTypes.func.isRequired
 }
 
