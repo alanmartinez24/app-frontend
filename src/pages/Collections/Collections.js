@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -213,7 +213,6 @@ class Collections extends Component {
 
     let recommended
     try {
-      console.log('is called with id: ', id)
       await fetchCollById(id)
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
@@ -283,10 +282,8 @@ class Collections extends Component {
   render () {
     const { classes, account, collectionsById } = this.props
     const { isLoading, isMinimize, snackbarMsg, recommended, dialogOpen, socialLevelColor, collectionId } = this.state
-    const collection = collectionsById && collectionsById[collectionId] && collectionsById[collectionId].collection
-    console.log('collection :>> ', collection)
+    const collection = collectionsById && collectionsById[collectionId]
     const posts = collection && collection.posts
-    console.log('posts :>> ', posts)
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
@@ -767,4 +764,4 @@ const mapActionToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Collections))
+export default memo(connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Collections)))

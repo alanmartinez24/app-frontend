@@ -44,23 +44,13 @@ export function collectionsByUser (state = {}, action) {
 }
 
 export function collectionsById (state = {}, action) {
-  // if (!action.collectionId) return state
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_COLLECTION_ID:
-        draft[action.collectionId] = {
-          isLoading: true,
-          collection: {},
-          error: null
-        }
+        draft = { isLoading: true, error: null }
         break
       case constants.FETCH_COLLECTION_ID_SUCCESS:
-        console.log('action.collection :>> ', action.collection)
-        draft[action.collectionId] = {
-          isLoading: false,
-          collection: action.collection,
-          error: null
-        }
+        draft[action.collection._id] = action.collection
         break
       case constants.FETCH_COLLECTION_ID_FAILURE:
         draft[action.collectionId] = {
