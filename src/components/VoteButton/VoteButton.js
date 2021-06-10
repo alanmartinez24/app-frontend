@@ -773,10 +773,10 @@ class VoteButton extends Component {
 
     this.setState({ voteLoading: true })
     dispatch(updateVoteLoading(postid, account.name, category, true))
+    account.authority = 'yup'
     let stateUpdate = {}
     if (vote == null || vote._id == null) {
       if (post.onchain === false) {
-        account.authority = 'postvote'
         if (signedInWithEth) {
           await postvotev3(account, { postid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
         } else if (signedInWithTwitter) {
@@ -785,7 +785,6 @@ class VoteButton extends Component {
           await scatter.scatter.postvotev3({ data: { postid, caption, imgHash, videoHash, tag, like, category, rating } })
         }
       } else {
-        account.authority = 'createvotev2'
         if (signedInWithEth) {
           await createvote(account, { postid, like, category, rating }, ethAuth)
         } else if (signedInWithTwitter) {
@@ -808,7 +807,6 @@ class VoteButton extends Component {
           dispatch(updateInitialVote(postid, account.name, category, null))
           stateUpdate = { currTotalVoters: currTotalVoters - 1 }
       } else {
-        account.authority = 'deletevote'
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
@@ -822,7 +820,6 @@ class VoteButton extends Component {
     } else {
       let voteid = vote._id.voteid
       if (post.onchain === false) {
-        account.authority = 'postvote'
         if (vote.onchain === false) {
           if (signedInWithEth) {
             await postvotev4(account, { postid, voteid, caption, imgHash, videoHash, tag, like, category, rating }, ethAuth)
@@ -842,7 +839,6 @@ class VoteButton extends Component {
         }
       } else {
         if (vote.onchain === false) {
-          account.authority = 'createvotev2'
           if (signedInWithEth) {
             await createvotev4(account, { postid, voteid, like, category, rating }, ethAuth)
           } else if (signedInWithTwitter) {
@@ -851,7 +847,6 @@ class VoteButton extends Component {
             await scatter.scatter.createvotev4({ data: { postid, voteid, like, category, rating } })
           }
         } else {
-          account.authority = 'editvotev2'
           if (signedInWithEth) {
             await editvote(account, { voteid: vote._id.voteid, like, rating, category }, ethAuth)
           } else if (signedInWithTwitter) {
