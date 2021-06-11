@@ -172,7 +172,6 @@ class YupListsMenu extends Component {
 
     const siteText = preposition ? `${preposition} ${siteMeta}` : ''
     const customMetaTitle = `${catMeta} ${subjectMeta} ${siteText}| Yup`
-    console.log('customMetaTitle :>> ', customMetaTitle)
     // TODO: The title doesn't change
     const defaultMetaTitle = 'Yup • Rate the Web. Earn & Influence.'
     const metaTitle = site.length ? customMetaTitle : defaultMetaTitle
@@ -180,8 +179,7 @@ class YupListsMenu extends Component {
     const catTitleText = category.altName || cap(category.displayName)
     const subjTitleText = subject.altName || (subject.displayName.includes('NFT') ? subject.displayName : cap(subject.displayName))
     const siteTitleText = site.altName || cap(site.displayName)
-    console.log('siteTitleText :>> ', siteTitleText)
-    const prepTitleText = preposition ? `${preposition} ${siteTitleText}` : ''
+    const prepTitleText = preposition && siteTitleText !== 'All' ? `${preposition} ${siteTitleText}` : ''
     const dynamicListTitle = `${catTitleText} ${subjTitleText} ${prepTitleText}`
 
     const hidden = isMinimize ? classes.hidden : null
@@ -211,7 +209,7 @@ class YupListsMenu extends Component {
                 <Grid item>
                   <Typography
                     className={classes.subTitle}
-                    style={{ }}
+                    style={{}}
                   > LEADERBOARD
                   </Typography>
                   <Typography
@@ -270,7 +268,7 @@ class YupListsMenu extends Component {
           </div>
         </div>
       </Fade>
-  )
+    )
   }
 }
 
