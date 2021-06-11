@@ -24,6 +24,8 @@ import PostPage from './PostPage/PostPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
+import Footer from '../components/Footer/Footer'
+import Header from '../components/Header/Header'
 
 const { BACKEND_API } = process.env
 
@@ -99,7 +101,8 @@ class Index extends Component {
   // }
 
   render () {
- const history = this.props.history
+    console.log(this.props)
+  const history = this.props.history
  console.log(history, 'historyyy')
     if (this.state.isLoading) {
       return (
@@ -131,6 +134,7 @@ class Index extends Component {
             context={reactReduxContext}
           >
             <div>
+              <Header />
               <Switch>
                 <Route component={Discover}
                   exact
@@ -168,6 +172,7 @@ class Index extends Component {
                   to='/leaderboard'
                 />
               </Switch>
+              <Footer />
             </div>
           </ConnectedRouter>
         </MuiThemeProvider>

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
-import Footer from '../../components/Footer/Footer'
 import { withStyles } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, Tabs, Tab } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
@@ -315,7 +313,6 @@ class Search extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <SideDrawer />
             <Fade in
               timeout={1000}
@@ -487,7 +484,6 @@ class Search extends Component {
               </Fab>
             </Fade>
           </div>
-          <Footer />
         </div>
       </ErrorBoundary>
     )

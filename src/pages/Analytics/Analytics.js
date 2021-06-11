@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import Header from '../../components/Header/Header'
 import PropTypes from 'prop-types'
 import LineChart from '../../components/Charts/LineChart'
 import BarChart from '../../components/Charts/BarChart'
 import RadialChart from '../../components/Charts/RadialChart'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
-import Footer from '../../components/Footer/Footer'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
 import axios from 'axios'
@@ -348,7 +346,6 @@ ratingPower = async () => {
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header />
               <div align='center'>
                 <Typography
                   className={classes.accountErrorHeader}
@@ -388,7 +385,6 @@ ratingPower = async () => {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <Grid container
               direction='row'
               alignItems='center'
@@ -544,7 +540,6 @@ ratingPower = async () => {
               </Grid>
             </Grid>
           </div>
-          <Footer />
         </div>
       </ErrorBoundary>
     )

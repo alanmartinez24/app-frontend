@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
@@ -353,7 +352,6 @@ class Collections extends Component {
           <ThemeProvider theme={theme}>
             <div className={classes.container}>
               <div className={classes.page}>
-                <Header isTourOpen={this.state.isTourOpen} />
                 <Grid
                   container
                   direction='column'
@@ -468,7 +466,6 @@ class Collections extends Component {
           onScroll={this.handleScroll}
         >
           <div className={classes.page}>
-            <Header />
             <SideDrawer />
             <Grid
               container

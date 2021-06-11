@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import Header from '../Header/Header'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Footer from '../Footer/Footer'
 import { Grid, Typography, Fade, Grow } from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -127,7 +125,6 @@ class Home extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
 
             <Grid
               className={classes.gridContainer}
@@ -284,7 +281,6 @@ class Home extends Component {
               </Grid>
             </Grid>
           </div>
-          <Footer />
         </div>
       </ErrorBoundary>
     )
