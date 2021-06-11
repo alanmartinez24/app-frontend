@@ -14,7 +14,9 @@
     "deploy-staging": "aws s3 sync build s3://staging.app.yup.io",
     "release": "yarn config set version-tag-prefix frontend@v &&  yarn config set version-git-message 'frontend@v%s' && yarn version",
     "lint": "eslint ./src",
-    "lint-fix": "eslint ./src --fix"
+    "lint-fix": "eslint ./src --fix",
+    "sitemap": "NODE_ENV=production babel-node scripts/sitemap.js",
+    "sitemap-dev": "NODE_ENV=development babel-node scripts/sitemap.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -116,6 +118,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/node": "^7.14.5",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
@@ -144,6 +147,7 @@
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.5.0",
     "postcss-safe-parser": "4.0.1",
+    "react-router-sitemap": "^1.2.0",
     "sass-loader": "^7.1.0",
     "style-loader": "0.23.1",
     "terser-webpack-plugin": "^3.0.6",

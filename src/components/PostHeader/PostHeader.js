@@ -282,7 +282,6 @@ class PostHeader extends Component {
               </Grid>
             </Grid>
             <Grid
-
               className={classes.time}
             >
               {formattedVoteTime}
