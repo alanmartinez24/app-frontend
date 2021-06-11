@@ -192,7 +192,7 @@ const mapStateToProps = (state, ownProps) => {
     account = { name: ethAccount._id, authority: 'active' }
   }
 
-  if (account.name && state.userCollections[account.name]) {
+  if (account && account.name && state.userCollections[account.name]) {
     collections = state.userCollections[account && account.name].collections
   }
 
