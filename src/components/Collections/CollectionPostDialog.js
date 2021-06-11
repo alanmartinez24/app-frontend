@@ -54,7 +54,6 @@ const styles = theme => ({
   }
 })
 
-
 const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth, addCollectionToRedux }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
