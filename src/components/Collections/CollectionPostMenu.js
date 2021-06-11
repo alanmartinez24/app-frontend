@@ -1,4 +1,4 @@
-import React, { Component, memo } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -209,4 +209,4 @@ const mapActionToProps = (dispatch) => {
     }
 }
 
-export default memo(connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostMenu)))
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostMenu))
