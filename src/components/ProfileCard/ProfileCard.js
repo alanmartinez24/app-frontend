@@ -21,6 +21,7 @@ import { connect } from 'react-redux'
 import Tooltip from '@material-ui/core/Tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CountUp from 'react-countup'
+import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
   avatarImage: {
@@ -235,7 +236,8 @@ function ProfileCard (props) {
     isLoggedIn,
     ratingCount,
     isMinimize,
-    level
+    level,
+    dispatch
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
   const YUPBalanceError =
@@ -249,7 +251,18 @@ function ProfileCard (props) {
   const formattedRatings = numeral(ratingCount)
     .format('0a')
     .toUpperCase()
+    if (!level || !accountInfo) {
+      return <div />
+    }
+    console.log('account', level, accountInfo.eosname)
+  if (!level) {
+     dispatch(fetchSocialLevel(accountInfo.eosname))
+      return (<div />)
+   }
 
+   if (level.isLoading) {
+    return <div />
+  }
   const quantile = level && level.levelInfo.quantile
   const socialLevelColor = levelColors[quantile]
 
@@ -557,6 +570,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 ProfileCard.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   ratingCount: PropTypes.number.isRequired,
