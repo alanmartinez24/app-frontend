@@ -179,7 +179,7 @@ class YupListsMenu extends Component {
     const catTitleText = category.altName || cap(category.displayName)
     const subjTitleText = subject.altName || (subject.displayName.includes('NFT') ? subject.displayName : cap(subject.displayName))
     const siteTitleText = site.altName || cap(site.displayName)
-    const prepTitleText = preposition ? `${preposition} ${siteTitleText}` : ''
+    const prepTitleText = preposition && siteTitleText !== 'All' ? `${preposition} ${siteTitleText}` : ''
     const dynamicListTitle = `${catTitleText} ${subjTitleText} ${prepTitleText}`
 
     const hidden = isMinimize ? classes.hidden : null
@@ -209,7 +209,7 @@ class YupListsMenu extends Component {
                 <Grid item>
                   <Typography
                     className={classes.subTitle}
-                    style={{ }}
+                    style={{}}
                   > LEADERBOARD
                   </Typography>
                   <Typography
@@ -268,7 +268,7 @@ class YupListsMenu extends Component {
           </div>
         </div>
       </Fade>
-  )
+    )
   }
 }
 

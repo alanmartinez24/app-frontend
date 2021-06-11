@@ -10,8 +10,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-// import wallet from '../eos/scatter/scatter.wallet'
-import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
+import wallet from '../eos/scatter/scatter.wallet'
+import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -114,6 +114,7 @@ class Index extends Component {
   // async fetchExtAuthInfo () {
   //   try {
   //     const { checkScatter, scatterInstall, getExtAuthToken } = this.props
+
   //     await wallet.detect(checkScatter, scatterInstall)
   //     if (wallet.connected) {
   //       getExtAuthToken()
@@ -125,8 +126,9 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { fetchSocialLevels } = this.props
+      const { fetchSocialLevels, checkScatter, scatterInstall } = this.props
       fetchSocialLevels()
+      wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
       // this.fetchExtAuthInfo()
@@ -137,11 +139,10 @@ class Index extends Component {
     })()
   }
 
-  // componentDidUpdate (prevProps) {
-  //   if (!wallet.scatter && !wallet.connected) {
-  //     this.fetchExtAuthInfo()
-  //   }
-  // }
+  componentDidUpdate ({ account, getLoggedUserCollections }) {
+    if (!(account && account.name)) return
+    getLoggedUserCollections(account.name)
+  }
 
   render () {
     if (this.state.isLoading) {
@@ -237,11 +238,12 @@ class Index extends Component {
 
 Index.propTypes = {
   fetchSocialLevels: PropTypes.func.isRequired,
-  // checkScatter: PropTypes.func.isRequired,
+  checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
-  // scatterInstall: PropTypes.func.isRequired,
-  updateEthAuth: PropTypes.func.isRequired
-  // getExtAuthToken: PropTypes.func.isRequired
+  scatterInstall: PropTypes.func.isRequired,
+  updateEthAuth: PropTypes.func.isRequired,
+  getLoggedUserCollections: PropTypes.func.isRequired,
+  account: PropTypes.object
 }
 
 const mapActionToProps = (dispatch) => {
@@ -250,9 +252,9 @@ const mapActionToProps = (dispatch) => {
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
     fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
-    updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo))
-    // getExtAuthToken: throttle(() => dispatch(fetchExtAuthToken(), 5000))
-  }
+    updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
+    getLoggedUserCollections: (account) => dispatch(fetchUserCollections(account))
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
