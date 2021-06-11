@@ -773,7 +773,6 @@ class VoteButton extends Component {
 
     this.setState({ voteLoading: true })
     dispatch(updateVoteLoading(postid, account.name, category, true))
-    account.authority = 'yup'
     let stateUpdate = {}
     if (vote == null || vote._id == null) {
       if (post.onchain === false) {
@@ -810,6 +809,7 @@ class VoteButton extends Component {
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
+          console.log(vote)
           await deletevote(account, { voteid: vote._id.voteid })
         } else {
           await scatter.scatter.deleteVote({ data: { voteid: vote._id.voteid } })
@@ -856,7 +856,6 @@ class VoteButton extends Component {
           }
         }
       }
-      account.authority = 'active'
 
       const voteInfluence = Math.round(vote.influence)
       const updatedVoteInfluence = Math.round((rating / oldRating) * voteInfluence)
