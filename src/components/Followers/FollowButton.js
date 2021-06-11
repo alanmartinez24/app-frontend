@@ -21,7 +21,10 @@ const styles = theme => ({
   },
   followButton: {
     color: '#ffffff',
-    backgroundColor: '#2a2a2a90'
+    backgroundColor: '#2a2a2a90',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '12px'
+    }
   },
   snack: {
     backgroundColor: '#ff5252',

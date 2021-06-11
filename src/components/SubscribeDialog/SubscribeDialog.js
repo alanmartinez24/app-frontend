@@ -487,6 +487,7 @@ class SubscribeDialog extends Component {
         return
       }
       await axios.post(`${BACKEND_API}/auth/invite_mobile`, { email: this.state.email })
+      this.logSignupAttempt('email', this.state.email)
     } catch (err) {
       this.handleSnackbarOpen(ERROR_MSG, true)
     }
@@ -501,6 +502,7 @@ class SubscribeDialog extends Component {
       const { token, _id: id } = oauthRes.data
       const twitterRes = (await axios.post(`${BACKEND_API}/v1/auth/twitter`,
         { verificationToken: token, verificationId: id, oauthReferrer: 'website' }))
+      this.logSignupAttempt('twitter', id)
       window.location.href = twitterRes.data.redirectPath
       this.setState({ OAuthIsLoading: false })
     } catch (err) {
@@ -526,10 +528,23 @@ class SubscribeDialog extends Component {
   }
 
   logEthSignup (account) {
-    window.analytics.track('ETH Signup', {
+    const ethAccount = {
       userId: this.state.address,
-      username: this.state.username,
+      username: this.state.username
+    }
+    window.analytics.track('ETH Signup', {
+      userId: ethAccount.userId,
+      username: ethAccount.username,
       application: 'Web App'
+    })
+    this.logSignupAttempt('eth', ethAccount)
+  }
+
+  logSignupAttempt (type, account) {
+    window.analytics.track('Attempt Signup', {
+      userId: account,
+      application: 'Web App',
+      type
     })
   }
 
@@ -731,6 +746,7 @@ class SubscribeDialog extends Component {
                 </Typography>
               </DialogTitle>
               <DialogContent>
+                <DialogContentText>Please signup using an address with a positive ETH balance.</DialogContentText>
                 <Stepper activeStep={this.state.activeStep}
                   orientation='vertical'
                   className={classes.stepper}

@@ -86,11 +86,51 @@ class CollectionPostMenu extends Component {
     const collectionsPageId = window.location.href.split('/').pop()
     const menuOpen = Boolean(anchorEl)
     return (
-      <>
-        <Snackbar
-          autoHideDuration={4000}
-          onClose={this.handleSnackbarClose}
-          open={!!snackbarMsg}
+    <>
+      <Snackbar
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+        open={!!snackbarMsg}
+      >
+        <SnackbarContent
+          className={classes.snack}
+          message={snackbarMsg}
+        />
+      </Snackbar>
+      <IconButton
+        aria-label='more'
+        aria-controls='long-menu'
+        aria-haspopup='true'
+        onClick={handleMenuClick}
+        className={classes.button}
+      >
+        <MenuIcon />
+      </IconButton>
+      <Menu
+        id='long-menu'
+        anchorEl={anchorEl}
+        keepMounted
+        open={menuOpen}
+        onClose={handleMenuClose}
+        PaperProps={{
+          style: {
+            width: '35ch',
+            backgroundColor: 'black',
+            maxHeight: '200px'
+          }
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+      >
+        <MenuItem dense
+          onClick={handleDialogOpen}
+          className={classes.menuItem}
         >
           <SnackbarContent
             className={classes.snack}

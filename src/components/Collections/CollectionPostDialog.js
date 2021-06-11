@@ -1,14 +1,28 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, Button, TextField, DialogContent, DialogContentText, CircularProgress, Link } from '@material-ui/core'
+import {
+  DialogActions,
+  SnackbarContent,
+  Snackbar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  Link,
+  Typography
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 import { addUserCollection } from '../../redux/actions'
+import YupInput from '../Miscellaneous/YupInput'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
+const TITLE_LIMIT = 30
+const DESC_LIMIT = 140
 
 const styles = theme => ({
   dialog: {
@@ -23,10 +37,10 @@ const styles = theme => ({
     padding: theme.spacing(1.5)
   },
   dialogTitleText: {
+    fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa',
-    marginLeft: '2%'
+    color: '#fafafa'
   },
   dialogContent: {
     root: {
@@ -35,39 +49,11 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
-  },
   snack: {
     justifyContent: 'center'
-  },
-  spinnerLoader: {
-    color: 'white',
-    position: 'absolute',
-    left: 450
   }
 })
+
 
 const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth, addCollectionToRedux }) => {
   const [description, setDescription] = useState('')
@@ -78,8 +64,11 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
 
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
-  const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
+  const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !!name) handleCreateNewCollection()
+  }
 
   const fetchAuthToken = async () => {
     if (ethAuth) return ethAuth
@@ -91,17 +80,20 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
 
   const handleCreateNewCollection = async () => {
     try {
+      if (isLoading) return
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
       const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) authToken.eosname = authToken.account.eosname
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
       const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
       addCollectionToRedux(authToken.eosname, data)
       setNewCollectionInfo(data)
-      setIsLoading(false)
       handleSnackbarOpen(`Succesfully created ${name}`)
       handleDialogClose()
+      setIsLoading(false)
     } catch (err) {
       console.error(err)
     }
@@ -114,16 +106,20 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
         onClose={handleSnackbarClose}
         open={!!snackbarMsg}
       >
-        <Link href={`${WEB_APP_URL}/collections/${newCollectionInfo.name}/${newCollectionInfo._id}`}>
-          <SnackbarContent
-            className={classes.snack}
+        <Link
+          href={`${WEB_APP_URL}/collections/${encodeURIComponent(
+            newCollectionInfo.name
+          )}/${newCollectionInfo._id}`}
+        >
+          <SnackbarContent className={classes.snack}
             message={snackbarMsg}
           />
-
         </Link>
       </Snackbar>
-      <Dialog open={dialogOpen}
+      <Dialog
+        open={dialogOpen}
         onClose={handleDialogClose}
+        onKeyDown={handleKeyDown}
         aria-labelledby='form-dialog-title'
         PaperProps={{
           style: {
@@ -144,67 +140,40 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
-        >New Collection</DialogTitle>
+        >
+          <Typography variant='h3'>New Collection</Typography>
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{ color: '#fff' }}>
             Start here to make a new collection
           </DialogContentText>
-          <TextField
-            className={classes.textField}
+          <YupInput
+            maxLength={TITLE_LIMIT}
             fullWidth
+            autoFocus
             onChange={handleNameChange}
             id='name'
-            inputProps={{ maxLength: 24, borderBottomColor: '#fafafa' }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Name'
             type='text'
           />
-          <TextField
-            className={classes.textField}
+          <YupInput
             color='#fafafa'
+            maxLength={DESC_LIMIT}
             fullWidth
             id='description'
             onChange={handleDescriptionChange}
-            inputProps={{ maxLength: 140 }}
-            InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-            InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
             label='Description'
-            multiline
             type='text'
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCreateNewCollection}
-            color='primary'
+          <LoaderButton onClick={handleCreateNewCollection}
             fullWidth
-            style={{ backgroundColor: '#00eab7', textTransform: 'none' }}
-          >
-            Create Collection
-            {isLoading && (<CircularProgress size={20}
-              className={classes.spinnerLoader}
-                           />
-            )}
-          </Button>
+            buttonText='Create Collection'
+            isLoading={isLoading}
+            backgroundColor='#00eab7'
+            color='#0A0A0A'
+          />
         </DialogActions>
       </Dialog>
     </>

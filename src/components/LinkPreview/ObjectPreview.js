@@ -18,9 +18,9 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     overflowY: 'hidden',
-    height: '7.5rem',
+    height: '8rem',
     [theme.breakpoints.down('xs')]: {
-      height: '6rem'
+      height: '9rem'
     },
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px'
@@ -34,8 +34,8 @@ const styles = theme => ({
     }
   },
   linkImg: {
-    width: '6rem',
-    height: '6rem',
+    width: '5rem',
+    height: '5rem',
     objectFit: 'cover',
     backgroundColor: '#4f4f4f',
     alignItems: 'center',
@@ -46,8 +46,8 @@ const styles = theme => ({
       maxWidth: '6rem'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '3.5rem',
-      height: '3.5rem'
+      width: '4.5rem',
+      height: '4.5rem'
     }
   },
   previewContainer: {
@@ -61,20 +61,18 @@ const styles = theme => ({
   },
   title: {
     position: 'relative',
-    fontSize: '22px',
+    fontSize: '1rem',
     fontWeight: 500,
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
     width: '400px',
     [theme.breakpoints.down('xs')]: {
-      width: '60vw',
-      fontSize: '18px'
+      width: '60vw'
     }
   },
   description: {
     position: 'relative',
-    fontSize: '14px',
+    fontSize: '0.7rem',
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
-
     fontWeight: 200,
     maxWidth: '400px',
     [theme.breakpoints.down('xs')]: {

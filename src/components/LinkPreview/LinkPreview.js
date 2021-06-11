@@ -54,24 +54,16 @@ const styles = theme => ({
   },
   title: {
     position: 'relative',
-    fontSize: '18px',
+    fontSize: '1rem',
     fontWeight: 600,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
-    width: '500px',
-    [theme.breakpoints.down('xs')]: {
-      width: '60vw',
-      fontSize: '14px'
-    }
+    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)'
   },
   description: {
     position: 'relative',
-    fontSize: '14px',
+    fontSize: '0.8rem',
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
     margin: '0.5rem 0',
-    fontWeight: 300,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '12px'
-    }
+    fontWeight: 300
   },
   url: {
     position: 'relative',

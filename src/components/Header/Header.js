@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import { SnackbarContent, Snackbar, Dialog, DialogContent, DialogContentText } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import TopBar from '../TopBar/TopBar'
 import { connect } from 'react-redux'
@@ -9,10 +7,6 @@ import scatterWallet from '../../eos/scatter/scatter.wallet'
 import { loginScatter, signalConnection } from '../../redux/actions/scatter.actions'
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-
-import axios from 'axios'
-
-const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   root: {
@@ -23,7 +17,7 @@ const styles = theme => ({
 class Header extends Component {
   state = {
     alertDialogOpen: false,
-    notifications: []
+    snackbarMsg: ''
   }
 
   handleAlertDialogOpen = (msg) => {
@@ -53,57 +47,46 @@ class Header extends Component {
     })()
   }
 
-  checkNotifications () {
-    const { account } = this.props
-    if (account) {
-      const req = `${BACKEND_API}/notifications/${account.name}`
-      axios.get(req)
-        .then(({ data }) => {
-          data.map((notif) => {
-            notif.votes = [...new Map(notif.votes.map(item => [item.voteid, item])).values()]
-          }) // get non duplicate voting notifs
-          this.setState({ notifications: data.reverse() })
-        })
-        .catch(err => {
-          console.error(err, 'ERROR FETCHING NOTIFICATIONS')
-        })
-    }
-  }
-
   async checkBrave () {
     if (localStorage.getItem('CHECK_BRAVE')) return
     if (navigator.brave && await navigator.brave.isBrave()) {
       this.setState({
-        alertDialogOpen: true,
-        alertDialogContent: `You may experience some performance issues on Brave, please turn shields off for the best experience.`
+        snackbarMsg: `You may experience some performance issues on Brave, please turn shields off for the best experience.`
       })
       localStorage.setItem('CHECK_BRAVE', true)
     }
   }
 
-  componentDidMount () {
-    this.checkScatter()
-    this.checkNotifications()
-    this.checkBrave()
+  handleSnackbarOpen = snackbarMsg => {
+    this.setState({ snackbarMsg })
   }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.account && (prevProps.account == null || this.props.account.name !== prevProps.account.name)) {
-      this.checkNotifications()
-    }
+  handleSnackbarClose = () => {
+    this.setState({ snackbarMsg: '' })
+  }
+
+  componentDidMount () {
+    this.checkScatter()
+    this.checkBrave()
   }
 
   render () {
     this.checkScatter()
-    const { notifications } = this.state
+    const { snackbarMsg } = this.state
     const { classes, isTourOpen } = this.props
     return (
       <ErrorBoundary>
         <div className={classes.root}>
           <TopBar
-            notifications={notifications}
             isTourOpen={isTourOpen}
           />
+          <Snackbar
+            autoHideDuration={6000}
+            onClose={this.handleSnackbarClose}
+            open={!!snackbarMsg}
+          >
+            <SnackbarContent message={snackbarMsg} />
+          </Snackbar>
           <Dialog
             aria-describedby='alert-dialog-description'
             aria-labelledby='alert-dialog-title'

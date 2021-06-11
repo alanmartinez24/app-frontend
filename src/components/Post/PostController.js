@@ -32,65 +32,93 @@ const MAPS_POST_TYPE = 'maps.google.com'
 
 const US_PRES_ELECTIONS_TAG = 'politics'
 
-// TODO: Simplify regular expression patterns
+function genRegEx (arrOfURLs) {
+  return new RegExp(`^((http:|https:)([/][/]))?(www.)?(${arrOfURLs.join('|')})`)
+}
 
-function isAudiusTrackPost (caption) {
-  const audiusPattern = new RegExp('^(audius.co/|www.audius.co/|http://audius.co/|https://audius.co/)')
+function isAudiusPost (caption) {
+  const audiusPattern = genRegEx(['audius.co/*'])
   return audiusPattern.test(caption)
 }
 
-function isObjPost (caption) {
-  const objPattern = new RegExp('^(wikipedia.org/wiki/|en.wikipedia.org/wiki/|www.wikipedia.com/|http://wikipedia.com/*/|https://wikipedia.com/*/|http://www.wikipedia.com/*/|https://en.wikipedia.org/wiki/|www.amazon.com/|http://amazon.com|https://amazon.com/|http://twitter.com/[^/]*$|https://twitter.com/[^/]*$|http://www.twitter.com/[^/]*$|https://www.twitter.com/[^/]*$|https://www.reddit.com/r/[^/]*[/]?$|http://www.reddit.com/r/[^/]*[/]?$|www.reddit.com/r/[^/]*[/]?$|reddit.com/r/[^/]*[/]?$|https://www.youtube.com/channel/[^/]*[/]?$|http://www.youtube.com/channel/[^/]*[/]?$|www.youtube.com/channel/[^/]*[/]?$|youtube.com/user/[^/]*[/]?$|https://www.youtube.com/user/*|http://www.youtube.com/user/[^/]*[/]?$|www.youtube.com/user/*?$|youtube.com/user/[^/]*[/]?$)')
+function isObjectPost (caption) {
+  const objPattern = genRegEx([
+    'wikipedia.org/wiki/*',
+    'wikipedia.com/*',
+    'en.wikipedia.org/*',
+    'amazon.com/*',
+    'twitter.com/[^/]*$',
+    'reddit.com/r/[^/]*[/]?$',
+    'youtube.com/channel/[^/]*[/]?$',
+    'youtube.com/user/[^/]*[/]?$',
+    'rally.io/creator/[^/]*$'
+  ])
   return objPattern.test(caption)
 }
 
 function isYoutubePost (caption) {
-  const ytPattern = new RegExp('^(youtube.com/watch?|www.youtube.com/watch?|http://youtube.com/watch?|https://youtube.com/watch?|http://www.youtube.com/watch?|https://www.youtube.com/watch?)')
+  const ytPattern = genRegEx(['youtube.com/watch?'])
   return ytPattern.test(caption)
 }
 
-function isYoutubeChannelPost (caption) {
-  const ytPattern = new RegExp('^(youtube.com/c?|www.youtube.com/channel?|youtube.com/user?|youtube.com/users?|http://youtube.com/c?|https://youtube.com/channel?|http://www.youtube.com/c?|https://www.youtube.com/channel?)')
+function isChannelPost (caption) {
+  const ytPattern = genRegEx([
+    'youtube.com/c?',
+    'youtube.com/user?',
+    'youtube.com/channel?'
+  ])
   return ytPattern.test(caption)
 }
 
-function isSCPost (caption) {
-  const scPattern = new RegExp('^(soundcloud.com/*/|www.soundcloud.com/*/|http://soundcloud.com/*/|https://soundcloud.com/*/|http://www.soundcloud.com/*/|https://www.soundcloud.com/*/)')
+function isSoundPost (caption) {
+  const scPattern = genRegEx(['soundcloud.com/*'])
   return scPattern.test(caption)
 }
 
 function isSpotifyPost (caption) {
-  const spPattern = new RegExp('^(open.spotify.com/*/|www.open.spotify.com/*/|http://open.spotify.com/*/|https://open.spotify.com/*/|http://www.open.spotify.com/*/|https://www.open.spotify.com/*/)')
+  const spPattern = genRegEx(['open.spotify.com/*'])
   return spPattern.test(caption)
 }
 
 function isMusicPost (caption) {
-  const appleMusicRe = new RegExp(`^((http:|https:)([/][/]))?(www.)?(music.apple.com/us/(artist|album)/(.)*/(.)*?i=(.)*)$`)
+  const appleMusicRe = genRegEx(['music.apple.com/us/(artist|album)/*'])
   return appleMusicRe.test(caption)
 }
 
-function isTallPreviewPost (caption) {
-  const tallPattern = new RegExp('^(giphy.com/*/|www.giphy.com/*/|http://giphy.com/*/|https://giphy.com/*/|http://www.giphy.com/*/|https://www.giphy.com/*/|app.yup.io/collections*/|www.app.yup.io/collections/*/|http://app.yup.io/collections/*/|https://app.yup.io/collections/*/|http://www.app.yup.io/collections/*/|https://www.app.yup.io/collections/*/)')
+function isTallPost (caption) {
+  const tallPattern = genRegEx(['giphy.com/*', 'app.yup.io/collections/*'])
   return tallPattern.test(caption)
 }
 
-function isIGPost (caption) {
-  const igPattern = new RegExp('^(instagram.com/*/|www.instagram.com/*/|http://instagram.com/*/|https://instagram.com/*/|http://www.instagram.com/*/|https://www.instagram.com/*/)')
+function isInstagramPost (caption) {
+  const igPattern = genRegEx(['instagram.com/*'])
   return igPattern.test(caption)
 }
 
-function isTwitchChannelPost (caption) {
-  const twPattern = new RegExp('^(twitch.tv/*/|www.twitch.tv/*/|http://twitch.tv/*/|https://twitch.tv/*/|http://www.twitch.tv/*/|https://www.twitch.tv/*/)')
+function isTwitchPost (caption) {
+  const twPattern = genRegEx(['twitch.tv/*'])
   return twPattern.test(caption)
 }
 
-function isTwitterStatusPost (caption) {
-  const twitterPattern = new RegExp('^(twitter.com/.*/status/|www.twitter.com/.*/status/|http://twitter.com/.*/status/|https://twitter.com/.*/status/|http://www.twitter.com/.*/status/|https://www.twitter.com/.*/status/|http://mobile.twitter.com/.*/status/|https://mobile.twitter.com/.*/status/)')
+function isTwitterPost (caption) {
+  const twitterPattern = genRegEx([
+    'twitter.com/.*/status/',
+    'mobile.twitter.com/.*/status/'
+  ])
   return twitterPattern.test(caption)
 }
 
-function isNftPost (caption) {
-  const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/*|www.rarible.com/*|http://rarible.com/*|https://www.rarible.com/*|https://rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/|(^((http:|https:)([/][/]))?(www.)?knownorigin.io/gallery/[^/]*[/]?$))')
+function isNFTPost (caption) {
+  const nftPattern = genRegEx([
+    'rarible.com/*',
+    'app.rarible.com/*',
+    'opensea.io/assets/*',
+    'superrare.co/*',
+    'superrare.co/*',
+    'foundation.app/*/',
+    'zora.co/*',
+    'knownorigin.io/gallery/*'
+  ])
   return nftPattern.test(caption)
 }
 
@@ -103,24 +131,20 @@ class PostController extends Component {
   }
 
   render () {
-    const { classes, dispatch, post, hideInteractions, renderObjects } = this.props
+    const {
+      classes,
+      dispatch,
+      post,
+      hideInteractions,
+      renderObjects
+    } = this.props
     if (!post) return null
 
-    dispatch(setPostInfo(post._id.postid, post))
-    const isTextPost = (post.imgHash == null || post.imgHash.trim() === '') && (post.videoHash == null || post.videoHash.trim() === '')
-    const isVideoPost = isYoutubePost(post.caption)
-    const isChannelPost = isYoutubeChannelPost(post.caption)
-    const isObjectPost = isObjPost(post.caption)
-    const isNFTPost = isNftPost(post.caption)
-    const isSoundPost = isSCPost(post.caption)
-    const isSpotPost = isSpotifyPost(post.caption)
-    const isMusPost = isMusicPost(post.caption)
-    const isGiphPost = isTallPreviewPost(post.caption)
-    const isTwitchPost = isTwitchChannelPost(post.caption)
-    const isTwitterPost = isTwitterStatusPost(post.caption)
-    const isInstagramPost = isIGPost(post.caption)
-    const isAudiusPost = isAudiusTrackPost(post.caption)
+    const isTextPost =
+      (post.imgHash == null || post.imgHash.trim() === '') &&
+      (post.videoHash == null || post.videoHash.trim() === '')
 
+    dispatch(setPostInfo(post._id.postid, post))
     if (post.tag === COLUMBIA_PROF_TAG) {
       return (
         <ErrorBoundary>
@@ -139,7 +163,7 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
           />
         </ErrorBoundary>
-        )
+      )
     } else if (post.tag === COLUMBIA_COURSE_TAG) {
       return (
         <ErrorBoundary>
@@ -158,51 +182,53 @@ class PostController extends Component {
             hideInteractions={hideInteractions}
           />
         </ErrorBoundary>
-    )
-  } else if (post.tag === US_PRES_ELECTIONS_TAG) {
-    return (
-      <ErrorBoundary>
-        <TweetPost caption={post.caption}
-          comment={post.comment}
-          author={post.author}
-          postid={post._id.postid}
-          quantiles={post.quantiles}
-          previewData={post.previewData}
-          votes={post.upvotes - post.downvotes}
-          weights={post.weights}
-          postHOC={PostHOC}
-          tweetObject={post}
-          postType={US_PRES_ELECTIONS_TAG}
-          rating={post.rating}
-          hideInteractions={hideInteractions}
-          classes={classes}
-        />
-      </ErrorBoundary>
-
-    )
-  } else if (isTwitterPost) {
-       return (
-         <ErrorBoundary>
-           <TweetPost caption={post.caption}
-             comment={post.comment}
-             author={post.author}
-             postid={post._id.postid}
-             quantiles={post.quantiles}
-             previewData={post.previewData}
-             tweetObject={post}
-             votes={post.upvotes - post.downvotes}
-             weights={post.weights}
-             postHOC={PostHOC}
-             rating={post.rating}
-             hideInteractions={hideInteractions}
-             classes={classes}
-           />
-         </ErrorBoundary>
       )
-    } else if (isVideoPost) {
+    } else if (post.tag === US_PRES_ELECTIONS_TAG) {
       return (
         <ErrorBoundary>
-          <VideoPost caption={post.caption}
+          <TweetPost
+            caption={post.caption}
+            comment={post.comment}
+            author={post.author}
+            postid={post._id.postid}
+            quantiles={post.quantiles}
+            previewData={post.previewData}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            tweetObject={post}
+            postType={US_PRES_ELECTIONS_TAG}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      )
+    } else if (isTwitterPost(post.caption)) {
+      return (
+        <ErrorBoundary>
+          <TweetPost
+            caption={post.caption}
+            comment={post.comment}
+            author={post.author}
+            postid={post._id.postid}
+            quantiles={post.quantiles}
+            previewData={post.previewData}
+            tweetObject={post}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            rating={post.rating}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      )
+    } else if (isYoutubePost(post.caption)) {
+      return (
+        <ErrorBoundary>
+          <VideoPost
+            caption={post.caption}
             comment={post.comment}
             author={post.author}
             postid={post._id.postid}
@@ -216,10 +242,11 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isSoundPost) {
+    } else if (isSoundPost(post.caption)) {
       return (
         <ErrorBoundary>
-          <SoundPost caption={post.caption}
+          <SoundPost
+            caption={post.caption}
             comment={post.comment}
             author={post.author}
             postid={post._id.postid}
@@ -233,10 +260,11 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isSpotPost) {
+    } else if (isSpotifyPost(post.caption)) {
       return (
         <ErrorBoundary>
-          <SpotifyPost caption={post.caption}
+          <SpotifyPost
+            caption={post.caption}
             comment={post.comment}
             author={post.author}
             postid={post._id.postid}
@@ -249,10 +277,11 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isMusPost) {
+    } else if (isMusicPost(post.caption)) {
       return (
         <ErrorBoundary>
-          <MusicPost caption={post.caption}
+          <MusicPost
+            caption={post.caption}
             comment={post.comment}
             author={post.author}
             postid={post._id.postid}
@@ -265,10 +294,11 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isTwitchPost) {
+    } else if (isTwitchPost(post.caption)) {
       return (
         <ErrorBoundary>
-          <TwitchPost caption={post.caption}
+          <TwitchPost
+            caption={post.caption}
             comment={post.comment}
             author={post.author}
             postid={post._id.postid}
@@ -282,10 +312,11 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isInstagramPost) {
+    } else if (isInstagramPost(post.caption)) {
       return (
         <ErrorBoundary>
-          <InstagramPost caption={post.caption}
+          <InstagramPost
+            caption={post.caption}
             comment={post.comment}
             author={post.author}
             postid={post._id.postid}
@@ -300,7 +331,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isNFTPost) {
+    } else if (isNFTPost(post.caption)) {
       return (
         <ErrorBoundary>
           <NFTPost
@@ -319,7 +350,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isGiphPost) {
+    } else if (isTallPost(post.caption)) {
       return (
         <ErrorBoundary>
           <TallPreviewPost
@@ -338,7 +369,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isObjectPost || isChannelPost) {
+    } else if (isObjectPost(post.caption) || isChannelPost(post.caption)) {
       if (renderObjects) {
         return (
           <ErrorBoundary>
@@ -383,26 +414,26 @@ class PostController extends Component {
             />
           </ErrorBoundary>
         )
-      } else if (isAudiusPost) {
-          return (
-            <ErrorBoundary>
-              <AudiusPost
-                caption={post.caption}
-                comment={post.comment}
-                key={post._id.postid}
-                author={post.author}
-                postid={post._id.postid}
-                previewData={post.previewData}
-                quantiles={post.quantiles}
-                votes={post.upvotes - post.downvotes}
-                weights={post.weights}
-                postHOC={PostHOC}
-                rating={post.rating}
-                hideInteractions={hideInteractions}
-                classes={classes}
-              />
-            </ErrorBoundary>
-          )
+      } else if (isAudiusPost(post.caption)) {
+        return (
+          <ErrorBoundary>
+            <AudiusPost
+              caption={post.caption}
+              comment={post.comment}
+              key={post._id.postid}
+              author={post.author}
+              postid={post._id.postid}
+              previewData={post.previewData}
+              quantiles={post.quantiles}
+              votes={post.upvotes - post.downvotes}
+              weights={post.weights}
+              postHOC={PostHOC}
+              rating={post.rating}
+              hideInteractions={hideInteractions}
+              classes={classes}
+            />
+          </ErrorBoundary>
+        )
       } else {
         return (
           <ErrorBoundary>
@@ -425,26 +456,26 @@ class PostController extends Component {
         )
       }
     }
-      return (
-        <ErrorBoundary>
-          <Post
-            caption={post.caption}
-            comment={post.comment}
-            image={post.imgHash}
-            key={post._id.postid}
-            author={post.author}
-            postid={post._id.postid}
-            quantiles={post.quantiles}
-            video={post.videoHash}
-            votes={post.upvotes - post.downvotes}
-            weights={post.weights}
-            postHOC={PostHOC}
-            rating={post.rating}
-            hideInteractions={hideInteractions}
-            classes={classes}
-          />
-        </ErrorBoundary>
-      )
+    return (
+      <ErrorBoundary>
+        <Post
+          caption={post.caption}
+          comment={post.comment}
+          image={post.imgHash}
+          key={post._id.postid}
+          author={post.author}
+          postid={post._id.postid}
+          quantiles={post.quantiles}
+          video={post.videoHash}
+          votes={post.upvotes - post.downvotes}
+          weights={post.weights}
+          postHOC={PostHOC}
+          rating={post.rating}
+          hideInteractions={hideInteractions}
+          classes={classes}
+        />
+      </ErrorBoundary>
+    )
   }
 }
 
@@ -456,5 +487,7 @@ PostController.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-const mapStateToProps = () => { return {} }
+const mapStateToProps = () => {
+  return {}
+}
 export default memo(connect(mapStateToProps)(PostController))

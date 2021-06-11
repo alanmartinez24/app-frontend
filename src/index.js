@@ -8,7 +8,8 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import * as reducers from './redux/reducers'
 import { history, reactReduxContext } from './utils/history'
-import { StylesProvider } from '@material-ui/core/styles'
+import { ThemeProvider, StylesProvider } from '@material-ui/core'
+import theme from './utils/theme'
 import './styles.css'
 
 const { NODE_ENV } = process.env
@@ -45,6 +46,9 @@ ReactDOM.render(
     context={reactReduxContext}
   >
     <StylesProvider injectFirst>
-      <Index />
+      <ThemeProvider theme={theme}>
+        <Index />
+      </ThemeProvider>
     </StylesProvider>
+
   </Provider>, document.getElementById('root'))

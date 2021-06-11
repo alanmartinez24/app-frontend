@@ -1,31 +1,28 @@
 import React, { Component, Fragment } from 'react'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
 import ReactCrop from 'react-image-crop'
 import './ReactCrop.css'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import DoneIcon from '@material-ui/icons/Done'
-import IconButton from '@material-ui/core/IconButton'
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
 import Dropzone from 'react-dropzone'
-import Grid from '@material-ui/core/Grid'
 import { updateAccountInfo } from '../../redux/actions'
-import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
+import theme from '../../utils/theme'
 
 const IPFS = require('ipfs-http-client')
 const BACKEND_API = process.env.BACKEND_API
-const ipfsApi = new IPFS({ host: 'ipfs2.yup.io', port: '443', protocol: 'https', apiPath: '/api/v0' })
+const ipfsApi = new IPFS({
+  host: 'ipfs2.yup.io',
+  port: '443',
+  protocol: 'https',
+  apiPath: '/api/v0'
+})
 
 const styles = theme => ({
   dialog: {
@@ -42,8 +39,7 @@ const styles = theme => ({
   dialogTitleText: {
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa',
-    marginLeft: '2%'
+    color: '#fafafa'
   },
   dialogContent: {
     root: {
@@ -51,33 +47,6 @@ const styles = theme => ({
       padding: theme.spacing(2),
       color: '#fafafa'
     }
-  },
-  input: {
-    color: '#fafafa',
-    cssUnderline: {
-      '&:after': {
-        borderBottomColor: '#fafafa'
-      }
-    },
-    marginBottom: '20px',
-    fontFamily: 'Gilroy'
-  },
-  inputRoot: {
-    color: '#fafafa'
-  },
-  inputInput: {
-    color: '#fafafa'
-  },
-  inputUnderline: {
-    borderBottomColor: '#fafafa'
-  },
-  inputImage: {
-    display: ''
-  },
-  textField: {
-    color: '#fafafa',
-    flexWrap: 'none',
-    fontFamily: 'Gilroy'
   },
   user: {
     display: 'flex',
@@ -133,16 +102,12 @@ const styles = theme => ({
   },
   editButton: {
     fontFamily: 'Gilroy',
-    letterSpacing: '0.2em',
-    width: '150px',
-    marginLeft: '-40px',
     flex: 1,
     fontSize: '10px',
-    color: '#ffffff',
+    backgroundColor: 'transparent',
+    marginTop: '5px',
     [theme.breakpoints.down('xs')]: {
-      width: '100px',
-      height: '30px',
-      fontSize: '7px'
+      fontSize: '8px'
     }
   },
   snackbar: {
@@ -166,40 +131,15 @@ const styles = theme => ({
   }
 })
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#fff' },
-    secondary: { main: '#fff' },
-    third: { main: '#00eab7' }
-  },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    color: 'primary'
-  },
-  stats: {
-    fontFamily: 'Gilroy',
-    color: '#fff'
-  },
-  MuiInputBase: {
-    root: {
-      color: '#fafafa'
-    }
-  }
-})
-
 class EditProfile extends Component {
   state = {
     files: [],
     bio: this.props.accountInfo.bio,
     avatar: this.props.accountInfo.avatar,
     fullname: this.props.accountInfo.fullname,
-    ethAddress: this.props.accountInfo.ethInfo ? this.props.accountInfo.ethInfo.address : '',
+    ethAddress: this.props.accountInfo.ethInfo
+      ? this.props.accountInfo.ethInfo.address
+      : '',
     cropTime: false,
     crop: {
       unit: '%',
@@ -235,7 +175,9 @@ class EditProfile extends Component {
     try {
       if (files.length === 0) {
         // TODO: Add more specific error handling
-        this.handleSnackbarOpen('Photo is too large! Only files under 70 MB are accepted')
+        this.handleSnackbarOpen(
+          'Photo is too large! Only files under 70 MB are accepted'
+        )
         return
       }
 
@@ -256,10 +198,12 @@ class EditProfile extends Component {
     let file = files[0]['file']
     let img = await this.getCroppedImg(this.imageRef, pixelCrop, file['name'])
     this.setState({
-      files: [{
-        preview: URL.createObjectURL(img),
-        file: img
-      }],
+      files: [
+        {
+          preview: URL.createObjectURL(img),
+          file: img
+        }
+      ],
       cropTime: false
     })
   }
@@ -289,8 +233,10 @@ class EditProfile extends Component {
 
     return new Promise((resolve, reject) => {
       let bb = null
-      canvas.toBlob(async (blob) => {
-        if (blob == null) { return }
+      canvas.toBlob(async blob => {
+        if (blob == null) {
+          return
+        }
         blob.name = fileName
         bb = blob
         resolve(bb)
@@ -323,9 +269,9 @@ class EditProfile extends Component {
 
         reader.readAsArrayBuffer(files[0].file)
       } catch (err) {
-          console.log(err)
-          reject(err)
-        }
+        console.log(err)
+        reject(err)
+      }
     })
   }
 
@@ -333,35 +279,37 @@ class EditProfile extends Component {
     this.setState({ avatar: '' })
   }
 
-  handleSnackbarOpen = (msg) => {
-   this.setState({ snackbarOpen: true, snackbarContent: msg })
- }
+  handleSnackbarOpen = msg => {
+    this.setState({ snackbarOpen: true, snackbarContent: msg })
+  }
 
- handleSnackbarClose = () => {
-   this.setState({ snackbarOpen: false, snackbarContent: '' })
- }
+  handleSnackbarClose = () => {
+    this.setState({ snackbarOpen: false, snackbarContent: '' })
+  }
 
- handleAccountInfoChange = update => {
-   this.setState({ ...update })
- }
+  handleAccountInfoChange = update => {
+    this.setState({ ...update })
+  }
 
- handleBioChange = (e) => {
-   this.handleAccountInfoChange({ bio: e.target.value })
- }
+  handleBioChange = e => {
+    this.handleAccountInfoChange({ bio: e.target.value })
+  }
 
- handleFullnameChange = (e) => {
-   this.handleAccountInfoChange({ fullname: e.target.value })
- }
+  handleFullnameChange = e => {
+    this.handleAccountInfoChange({ fullname: e.target.value })
+  }
 
-//  handleEthAddresssChange = (e) => {
-//   this.handleAccountInfoChange({ ethAddress: e.target.value })
-// }
+  //  handleEthAddresssChange = (e) => {
+  //   this.handleAccountInfoChange({ ethAddress: e.target.value })
+  // }
 
   handleAccountInfoSubmit = async () => {
     try {
       const { account, accountInfo, dispatch, ethAuth } = this.props
       if (account == null) {
-        this.handleSnackbarOpen('Download the Yup extension to edit your profile')
+        this.handleSnackbarOpen(
+          'Download the Yup extension to edit your profile'
+        )
         return
       }
 
@@ -376,25 +324,40 @@ class EditProfile extends Component {
       if (files.length > 0) {
         avatarHash = await this.saveToIpfs() // Save avatar to ipfs and retrieve file hash
         if (avatarHash == null) {
-          this.handleSnackbarOpen(`Failed to edit your profile. Try again later. `)
+          this.handleSnackbarOpen(
+            `Failed to edit your profile. Try again later. `
+          )
           return
         }
 
         avatar = `https://ipfs2.yup.io/ipfs/${avatarHash}` // hashToUrl(avatarHash)
       }
 
-      if (bio.trim() === accountInfo.bio &&
+      if (
+        bio.trim() === accountInfo.bio &&
         fullname.trim() === accountInfo.fullname &&
-        avatar.trim() === accountInfo.avatar && ethAddress.trim() === accountInfo.ethAddress) {
-        this.handleSnackbarOpen(`Must specify different bio, fullname, or avatar to update`)
+        avatar.trim() === accountInfo.avatar &&
+        ethAddress.trim() === accountInfo.ethAddress
+      ) {
+        this.handleSnackbarOpen(
+          `Must specify different bio, fullname, or avatar to update`
+        )
         return
       }
 
       const update = {}
-      if (bio) { update.bio = bio }
-      if (avatar) { update.avatar = avatar || accountInfo.avatar }
-      if (fullname) { update.fullname = fullname }
-      if (ethAddress) { update.eth_address = ethAddress }
+      if (bio) {
+        update.bio = bio
+      }
+      if (avatar) {
+        update.avatar = avatar || accountInfo.avatar
+      }
+      if (fullname) {
+        update.fullname = fullname
+      }
+      if (ethAddress) {
+        update.eth_address = ethAddress
+      }
 
       await dispatch(updateAccountInfo(account, update, ethAuth))
       this.handleDialogClose()
@@ -417,7 +380,7 @@ class EditProfile extends Component {
     const { cropTime, files, crop } = this.state
     const { username, classes } = this.props
 
-    const Snack = (props) => (
+    const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         autoHideDuration={4000}
@@ -432,26 +395,27 @@ class EditProfile extends Component {
       </Snackbar>
     )
 
-    const EditButton = (props) => (
-      <Button className={classes.editButton}
+    const EditButton = props => (
+      <Button
+        className={classes.editButton}
         color='primary'
         onClick={this.handleDialogOpen}
         variant='outlined'
       >
-        edit profile
+        Edit
       </Button>
     )
 
     const filePreview = (files[0] && files[0].preview) || ''
     const filename = files[0] && files[0].name
 
-    const CropIcon = (props) => {
+    const CropIcon = props => {
       if (cropTime) {
         return (
           <Grid item>
             <IconButton onClick={this.cropComplete}>
               <DoneIcon style={{ color: 'white', marginRight: '8px' }} />
-              <Typography style={{ color: 'white' }} >Crop</Typography>
+              <Typography style={{ color: 'white' }}>Crop</Typography>
             </IconButton>
           </Grid>
         )
@@ -459,11 +423,8 @@ class EditProfile extends Component {
       return null
     }
 
-    const RemovePhoto = (props) => {
-      if (!cropTime &&
-        files.length === 0 &&
-        this.state.avatar !== ''
-      ) {
+    const RemovePhoto = props => {
+      if (!cropTime && files.length === 0 && this.state.avatar !== '') {
         return (
           <Button
             align='right'
@@ -506,16 +467,11 @@ class EditProfile extends Component {
             }}
           >
             <MuiThemeProvider theme={theme}>
-              <DialogTitle className={classes.dialogTitle}
+              <DialogTitle
+                className={classes.dialogTitle}
                 id='form-dialog-title'
               >
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  color='#ffffff'
-                >
-                  Edit Profile
-                </Typography>
+                <Typography variant='h3'>Edit Profile</Typography>
               </DialogTitle>
               <DialogContent style={{ margin: '20px' }}>
                 <Grid
@@ -524,16 +480,16 @@ class EditProfile extends Component {
                   style={{ justifyContent: 'space-evenly' }}
                 >
                   <Grid item>
-                    {!cropTime
-                    ? <div className={classes.dropzoneContainer}>
-                      <Dropzone
-                        accept='image/*'
-                        className={classes.dropzone}
-                        maxSize={70000000}
-                        onDrop={this.onDrop}
-                      >{
-                          files.length > 0
-                            ? <UserAvatar
+                    {!cropTime ? (
+                      <div className={classes.dropzoneContainer}>
+                        <Dropzone
+                          accept='image/*'
+                          className={classes.dropzone}
+                          maxSize={70000000}
+                          onDrop={this.onDrop}
+                        >
+                          {files.length > 0 ? (
+                            <UserAvatar
                               align='center'
                               alt='Preview'
                               className={classes.previewStyle}
@@ -541,39 +497,39 @@ class EditProfile extends Component {
                               key={filename}
                               src={filePreview}
                               width='100%'
-                              />
-                          : <div style={{ width: '250px', height: '250px' }}>
-                            <UserAvatar
-                              align='center'
-                              alt='Add'
-                              username={username}
-                              className={classes.dropzoneImg}
-                              style={{ fontSize: '100px' }}
-                              height='auto'
-                              src={this.state.avatar}
-                              width='100%'
                             />
-                          </div>
-
-                        }
-
-                      </Dropzone>
-                    </div>
-                    : <ReactCrop
-                      crop={crop}
-                      imageStyle={{
-                        width: '100%',
-                        height: 'auto',
-                        objectFit: 'contain',
-                        marginTop: 0,
-                        maxWidth: '100%',
-                        maxHeight: '400px'
-                      }}
-                      onChange={this.onCropChange}
-                      onImageLoaded={this.onImageLoaded}
-                      src={filePreview}
+                          ) : (
+                            <div style={{ width: '250px', height: '250px' }}>
+                              <UserAvatar
+                                align='center'
+                                alt='Add'
+                                username={username}
+                                className={classes.dropzoneImg}
+                                style={{ fontSize: '100px' }}
+                                height='auto'
+                                src={this.state.avatar}
+                                width='100%'
+                              />
+                            </div>
+                          )}
+                        </Dropzone>
+                      </div>
+                    ) : (
+                      <ReactCrop
+                        crop={crop}
+                        imageStyle={{
+                          width: '100%',
+                          height: 'auto',
+                          objectFit: 'contain',
+                          marginTop: 0,
+                          maxWidth: '100%',
+                          maxHeight: '400px'
+                        }}
+                        onChange={this.onCropChange}
+                        onImageLoaded={this.onImageLoaded}
+                        src={filePreview}
                       />
-                  }
+                    )}
                     <CropIcon />
                     <RemovePhoto />
                   </Grid>
@@ -581,70 +537,33 @@ class EditProfile extends Component {
                     container
                     alignItems='center'
                   >
-                    <TextField
-                      className={classes.textField}
+                    <YupInput
                       defaultValue={this.state.fullname}
                       fullWidth
                       id='name'
-                      inputProps={{ maxLength: 17, borderBottomColor: '#fafafa' }}
-                      InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                          underline: classes.inputUnderline
-                        },
-                        className: classes.input }}
-                      InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+                      maxLength={17}
                       label='Name'
                       onChange={this.handleFullnameChange}
                       type='text'
                     />
-                    <TextField
-                      className={classes.textField}
+                    <YupInput
                       defaultValue={this.state.bio}
                       color='#fafafa'
                       fullWidth
                       id='bio'
-                      inputProps={{ maxLength: 140 }}
-                      InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-                      InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+                      maxLength={140}
                       label='Bio'
                       multiline
                       onChange={this.handleBioChange}
                       type='text'
                     />
-                    <TextField
+                    <YupInput
                       autoFocus
-                      className={classes.textField}
                       defaultValue={this.state.ethAddress}
                       fullWidth
                       disabled
                       id='name'
-                      inputProps={{ maxLength: 250 }}
-                      InputProps={{
-                        classes: {
-                          root: classes.inputRoot,
-                          input: classes.inputInput
-                        },
-                        className: classes.input }}
-                      InputLabelProps={{
-                        style: {
-                          color: '#a0a0a0'
-                        }
-                      }}
+                      maxLength={250}
                       label='ETH Address'
                       multiline
                       type='text'
@@ -685,7 +604,8 @@ const mapStateToProps = (state, ownProps) => {
     account = { name: ethAccount._id, authority: 'active' }
   }
 
-  const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
+  const ethAuth =
+    !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
 
   return {
     account,

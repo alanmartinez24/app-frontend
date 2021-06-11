@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  withStyles
+} from '@material-ui/core/styles'
 import { Card } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import UserAvatar from '../UserAvatar/UserAvatar'
@@ -24,21 +28,21 @@ const styles = theme => ({
     height: 100 - theme.spacing(),
     minHeight: 100 - theme.spacing(),
     minWidth: 100 - theme.spacing(),
-    fontSize: '70px',
+    fontSize: '60px',
     marginTop: '0px',
     marginBottom: '-4px',
     borderRadius: '100%',
     border: 'solid 3px #DADADA',
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '50px',
-      marginLeft: '25px',
+      fontSize: '45px',
+      marginLeft: '15px',
       marginBottom: '6vw',
       borderRadius: '100%',
-      width: '70px',
-      height: '70px',
-      minHeight: '70px',
-      minWidth: '70px'
+      width: '60px',
+      height: '60px',
+      minHeight: '60px',
+      minWidth: '60px'
     }
   },
   bio: {
@@ -66,7 +70,11 @@ const styles = theme => ({
     maxWidth: '100vw',
     maxHeight: '225px',
     position: 'relative',
+    [theme.breakpoints.down('lg')]: {
+      margin: '75px 0px 0px 30px'
+    },
     [theme.breakpoints.down('xs')]: {
+      margin: 'auto',
       marginTop: theme.spacing(10),
       height: '175px',
       width: '100vw'
@@ -97,25 +105,25 @@ const styles = theme => ({
     height: '3px'
   },
   minimize: {
-    width: '42px',
-    height: '42px',
-    minWidth: '42px',
-    minHeight: '42px',
-    fontSize: '20px',
+    width: '45px',
+    height: '45px',
+    minWidth: '45px',
+    minHeight: '45px',
+    fontSize: '18px',
     [theme.breakpoints.down('xs')]: {
-      width: '30px',
-      height: '30px',
-      minWidth: '30px',
-      minHeight: '30px',
-      fontSize: '15px'
+      width: '35px',
+      height: '35px',
+      minWidth: '35px',
+      minHeight: '35px',
+      fontSize: '14px'
     }
   },
   minimizeCard: {
-    maxHeight: '50px',
+    maxHeight: '55px',
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '40px'
+      maxHeight: '45px'
     }
   },
   name: {
@@ -140,7 +148,7 @@ const styles = theme => ({
     marginLeft: '100px',
     [theme.breakpoints.down('xs')]: {
       paddingTop: '10px',
-      marginLeft: '100px',
+      marginLeft: '90px',
       display: 'block',
       height: '100px'
     }
@@ -209,7 +217,9 @@ const theme = createMuiTheme({
 })
 
 function formatBio (bio = '') {
-  if (!bio) { return '' }
+  if (!bio) {
+    return ''
+  }
   if (bio.length > 120) {
     return bio.slice(0, 120) + '...'
   }
@@ -217,31 +227,50 @@ function formatBio (bio = '') {
 }
 
 function ProfileCard (props) {
-  const { classes, balanceInfo, account, accountInfo, isLoggedIn, ratingCount, isMinimize, level } = props
+  const {
+    classes,
+    balanceInfo,
+    account,
+    accountInfo,
+    isLoggedIn,
+    ratingCount,
+    isMinimize,
+    level
+  } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
-  const YUPBalanceError = (balanceInfo && balanceInfo.YUP && balanceInfo.YUP.error) || null
+  const YUPBalanceError =
+    (balanceInfo && balanceInfo.YUP && balanceInfo.YUP.error) || null
 
-  const formattedYUPBalance = YUPBalance && numeral(Number(YUPBalance)).format('0,0.00')
-  const formattedWeight = numeral(Math.floor(Number(accountInfo.weight))).format('0,0')
-  const formattedRatings = numeral(ratingCount).format('0a').toUpperCase()
+  const formattedYUPBalance =
+    YUPBalance && numeral(Number(YUPBalance)).format('0,0.00')
+  const formattedWeight = numeral(
+    Math.floor(Number(accountInfo.weight))
+  ).format('0,0')
+  const formattedRatings = numeral(ratingCount)
+    .format('0a')
+    .toUpperCase()
 
   const quantile = level && level.levelInfo.quantile
   const socialLevelColor = levelColors[quantile]
 
-  const displayName = accountInfo.fullname || accountInfo.username || accountInfo._id
-  const isMirror = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isMirror
-  const isAuthUser = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isAuthUser
+  const displayName =
+    accountInfo.fullname || accountInfo.username || accountInfo._id
+  const isMirror =
+    accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isMirror
+  const isAuthUser =
+    accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isAuthUser
   const defaultUsername = accountInfo.username || accountInfo._id
   const username = isMirror ? accountInfo.twitterInfo.username : defaultUsername
 
   const hidden = isMinimize ? classes.hidden : null
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
-  const isMobile = window.innerWidth <= 600
+  // const isMobile = window.innerWidth <= 600
 
   return (
     <ErrorBoundary>
-      <Card className={`${classes.card} ${minimizeCard}`}
+      <Card
+        className={`${classes.card} ${minimizeCard}`}
         tourname='ProfileUsername'
       >
         <UserAvatar
@@ -251,30 +280,29 @@ function ProfileCard (props) {
           src={level.levelInfo.avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
         />
-        <Grid
-          alignItems='center'
+        <Grid alignItems='center'
           container
           direction='row'
           justify='left'
         >
-          <Grid className={classes.profileDetails}
-            style={isMinimize
-              ? { paddingTop: isMobile ? '5px' : '10px' }
-              : { }
-            }
+          <Grid
             item
+            className={classes.profileDetails}
+            style={{ paddingTop: isMinimize ? '5px' : '' }}
           >
-            <Grid alignItems='flex-start'
+            <Grid
+              alignItems='flex-start'
               container
               direction='row'
               justify='space-between'
-              align-center
-              spacing={4}
+              spacing={0}
             >
               <Grid item
-                xs={8}
+                sm={10}
+                xs={9}
               >
-                <Typography align='left'
+                <Typography
+                  align='left'
                   className={classes.name}
                   color='inherit'
                   display='inline'
@@ -290,10 +318,11 @@ function ProfileCard (props) {
                 </Typography>
               </Grid>
               <Grid item
-                xs={4}
+                sm={2}
+                xs={3}
               >
-                {isLoggedIn
-                  ? <MuiThemeProvider theme={theme}>
+                {isLoggedIn ? (
+                  <MuiThemeProvider theme={theme}>
                     <EditProfile
                       accountInfo={accountInfo}
                       className={classes.button}
@@ -302,16 +331,18 @@ function ProfileCard (props) {
                       variant='outlined'
                     />
                   </MuiThemeProvider>
-                  : <FollowButton
+                ) : (
+                  <FollowButton
                     account={account}
                     eosname={accountInfo.eosname}
                     isLoggedIn={isLoggedIn}
-                    />
-              }
+                  />
+                )}
               </Grid>
             </Grid>
 
-            <Typography align='left'
+            <Typography
+              align='left'
               variant='h5'
               className={`${classes.username} ${hidden}`}
             >
@@ -320,35 +351,41 @@ function ProfileCard (props) {
                 spacing={0}
               >
                 <Grid item>
-                  <span style={{
-                    textDecoration: socialLevelColor ? 'none' : 'none',
-                    textDecorationColor: socialLevelColor,
-                    textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                    fontWeight: isMirror ? '200' : '200',
-                    color: isMirror ? '#b1b1b1' : '#ffffff',
-                    padding: '0px'
-                  }}
+                  <span
+                    style={{
+                      textDecoration: socialLevelColor ? 'none' : 'none',
+                      textDecorationColor: socialLevelColor,
+                      textDecorationStyle: socialLevelColor ? 'solid' : 'none',
+                      fontWeight: isMirror ? '200' : '200',
+                      color: isMirror ? '#b1b1b1' : '#ffffff',
+                      padding: '0px'
+                    }}
                   >
                     @{username}
                   </span>
                 </Grid>
                 <Grid item>
-                  {(isMirror && !isAuthUser)
-                    ? <Tooltip enterDelay={200}
+                  {isMirror && !isAuthUser ? (
+                    <Tooltip
+                      enterDelay={200}
                       disableTouchListener
                       title="This account is a mirror of this Twitter user's activity"
-                      >
+                    >
                       <img
                         src='/images/icons/twitter.svg'
-                        style={{ height: '20px', paddingLeft: '15px', marginTop: '1px' }}
+                        style={{
+                          height: '20px',
+                          paddingLeft: '15px',
+                          marginTop: '1px'
+                        }}
                       />
                     </Tooltip>
-                    : null
-                  }
+                  ) : null}
                 </Grid>
               </Grid>
             </Typography>
-            <Typography align='left'
+            <Typography
+              align='left'
               className={classes.bio}
               color='inherit'
               nowrap
@@ -366,7 +403,8 @@ function ProfileCard (props) {
             </Typography>
           </Grid>
 
-          <Grid alignItems='baseline'
+          <Grid
+            alignItems='baseline'
             alignContent='center'
             container
             direction='row'
@@ -382,25 +420,39 @@ function ProfileCard (props) {
               <Tooltip
                 placement='bottom'
                 disableTouchListener
-                title={<h color='#fff'
-                  style={{ fontSize: '12px' }}
-                       >Influence Score: score out of 100 showing how influential you are. The higher the number, the more valuable your rating!</h>}
+                title={
+                  <h color='#fff'
+                    style={{ fontSize: '12px' }}
+                  >
+                    Influence Score: score out of 100 showing how influential
+                    you are. The higher the number, the more valuable your
+                    rating!
+                  </h>
+                }
               >
-                <div
-                  tourname='Influence'
-                >
+                <div tourname='Influence'>
                   <Typography
                     className={classes.largeStat}
-                    style={{ display: 'inline-block', fontFamily: 'Gilroy', color: socialLevelColor }}
+                    style={{
+                      display: 'inline-block',
+                      fontFamily: 'Gilroy',
+                      color: socialLevelColor
+                    }}
                     variant='caption'
                   >
-                    <CountUp end={`${formattedWeight}`}
+                    <CountUp
+                      end={`${formattedWeight}`}
                       duration={2}
                       useEasing={false}
                     />
                   </Typography>
-                  <Typography className={classes.text}
-                    style={{ display: 'inline-block', fontFamily: 'Gilroy', fontSize: '12px' }}
+                  <Typography
+                    className={classes.text}
+                    style={{
+                      display: 'inline-block',
+                      fontFamily: 'Gilroy',
+                      fontSize: '12px'
+                    }}
                   >
                     Influence
                   </Typography>
@@ -415,41 +467,48 @@ function ProfileCard (props) {
               <Tooltip
                 placement='bottom'
                 disableTouchListener
-                title={<h color='#fff'
-                  style={{ fontSize: '12px' }}
-                       > Amount of YUP held by user</h>}
-              >
-                {
-                  YUPBalanceError
-                    ? ''
-                    : <Typography
-                      className={classes.text2}
-                      color='inherit'
-                      style={{ display: 'inline-block', fontFamily: 'Gilroy' }}
-                      variant='caption'
-                      tourname='YUPBalance'
-                      >
-                      <Grid container
-                        direction='row'
-                        alignItems='flex-end'
-                        spacing={1}
-                      >
-                        <Grid item>
-                          <img
-                            src='/images/logos/logo_outline_w.svg'
-                            style={{ width: '15px', height: '15px' }}
-                          />
-                        </Grid>
-                        <Grid item>
-                          {YUPBalanceError ? 0 : formattedYUPBalance}
-                        </Grid>
-                      </Grid>
-                    </Typography>
+                title={
+                  <h color='#fff'
+                    style={{ fontSize: '12px' }}
+                  >
+                    {' '}
+                    Amount of YUP held by user
+                  </h>
                 }
+              >
+                {YUPBalanceError ? (
+                  ''
+                ) : (
+                  <Typography
+                    className={classes.text2}
+                    color='inherit'
+                    style={{ display: 'inline-block', fontFamily: 'Gilroy' }}
+                    variant='caption'
+                    tourname='YUPBalance'
+                  >
+                    <Grid
+                      container
+                      direction='row'
+                      alignItems='flex-end'
+                      spacing={1}
+                    >
+                      <Grid item>
+                        <img
+                          src='/images/logos/logo_outline_w.svg'
+                          style={{ width: '15px', height: '15px' }}
+                        />
+                      </Grid>
+                      <Grid item>
+                        {YUPBalanceError ? 0 : formattedYUPBalance}
+                      </Grid>
+                    </Grid>
+                  </Typography>
+                )}
               </Tooltip>
             </Grid>
           </Grid>
-          <Grid alignItems='center'
+          <Grid
+            alignItems='center'
             container
             direction='row'
             justify='start'
@@ -473,7 +532,8 @@ function ProfileCard (props) {
               />
             </Grid>
             <Grid item>
-              <FollowingDialog account={account}
+              <FollowingDialog
+                account={account}
                 className={classes.text}
                 isLoggedIn={isLoggedIn}
                 username={accountInfo._id}

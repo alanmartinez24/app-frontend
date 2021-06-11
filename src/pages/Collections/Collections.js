@@ -14,14 +14,16 @@ import {
   Icon,
   SnackbarContent,
   Snackbar,
+  Fade,
+  Tabs,
+  Tab,
   Hidden,
-  Fade
+  ThemeProvider
 } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
-import '../../styles.css'
 import axios from 'axios'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -30,9 +32,14 @@ import CollectionEditDialog from '../../components/Collections/CollectionEditDia
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
+import theme from '../../utils/theme'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const BACKEND_API = process.env.BACKEND_API
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
+  Math.random() * 5
+) + 1}.png`
+const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
   '@global': {
@@ -47,16 +54,7 @@ const styles = theme => ({
     fontSize: '1.5rem',
     color: '#ffffff'
   },
-  noPostsFound: {
-    paddingTop: '9%',
-    fontFamily: '"Gilroy", sans-serif',
-    fontWeight: '600',
-    fontSize: '1.5rem',
-    color: '#ffffff',
-    textAlign: 'center'
-  },
   accountErrorSub: {
-    paddingTop: '25px',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
     fontSize: '1rem',
@@ -72,18 +70,16 @@ const styles = theme => ({
     color: '#fff',
     overflowY: 'scroll'
   },
-  feedContainer: {
-    width: '100%',
-    overflow: 'hidden',
-    maxWidth: '650px',
-    marginTop: 20,
-    [theme.breakpoints.down('sm')]: {
-      padding: '0px !important'
+  feedPage: {
+    marginLeft: '40px',
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: '30px',
+      maxWidth: '550px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100vw',
+      margin: 'auto'
     }
-  },
-  feedLoader: {
-    margin: '0px',
-    maxWidth: '650px'
   },
   collectionHeader: {
     position: 'sticky',
@@ -92,18 +88,20 @@ const styles = theme => ({
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
+    paddingLeft: '60px !important',
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: '40px !important'
+    },
     [theme.breakpoints.down('xs')]: {
+      paddingLeft: '20px !important',
       top: 0,
       marginBottom: '0px'
     }
   },
   collectionContainer: {
-    width: '100vw',
-    position: 'relative',
-    marginLeft: 0,
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      padding: '0px !important'
+    [theme.breakpoints.down('xs')]: {
+      width: '100vw',
+      margin: '0px'
     }
   },
   Mask: {
@@ -111,9 +109,9 @@ const styles = theme => ({
   },
   page: {
     width: '100vw',
+    marginTop: '50px',
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100vw'
+      marginLeft: 0
     },
     [theme.breakpoints.down('sm')]: {
       marginTop: 50
@@ -122,10 +120,6 @@ const styles = theme => ({
       marginLeft: '200px',
       width: `calc(100vw - 200px)`,
       marginTop: '50px'
-    },
-    [theme.breakpoints.up('lg')]: {
-      marginLeft: '200px',
-      width: `calc(100vw - 200px)`
     },
     [theme.breakpoints.down('xs')]: {
       background: '#1b1b1ba1',
@@ -140,7 +134,7 @@ const styles = theme => ({
   },
   tourFab: {
     position: 'absolute',
-    bottom: theme.spacing(7),
+    bottom: theme.spacing(3),
     right: theme.spacing(12),
     background: '#A0A0A0AA',
     color: '#FAFAFA',
@@ -150,25 +144,28 @@ const styles = theme => ({
     }
   },
   headerText: {
-    marginBottom: '10px',
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '0px'
-    }
+    marginBottom: '10px'
   },
   recommended: {
+    display: 'inline-block',
     position: 'sticky',
     top: 200,
-    margin: 0,
+    margin: '0 0 0 20px',
     opacity: 0.7,
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    },
     '&:hover': {
       opacity: 1
+    },
+    [theme.breakpoints.down('md')]: {
+      margin: '0px 0px 0px 50px',
+      width: '500px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0px 0px 0px 30px'
     }
   },
   headerImg: {
     width: '100%',
+    maxWidth: '100px',
     aspectRatio: '1 / 1',
     objectFit: 'cover',
     borderRadius: '0.5rem',
@@ -177,7 +174,7 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: '#fff'
+    color: '#c0c0c0'
   },
   hidden: {
     display: 'none'
@@ -186,8 +183,8 @@ const styles = theme => ({
     height: '50px',
     width: '50px',
     [theme.breakpoints.down('xs')]: {
-      height: '30px',
-      width: '30px'
+      height: '35px',
+      width: '35px'
     }
   },
   minimizeHeader: {
@@ -195,14 +192,39 @@ const styles = theme => ({
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '60px',
-      padding: '5px !important'
+      maxHeight: '60px'
     }
   },
   snack: {
     justifyContent: 'center'
+  },
+  tabs: {
+    color: '#fff',
+    fontSize: '1.2rem',
+    marginLeft: '35px',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '15px'
+    }
   }
 })
+
+function TabPanel (props) {
+  const { children, value, index } = props
+
+  return (
+    <div role='tabpanel'
+      hidden={value !== index}
+    >
+      <div>{children}</div>
+    </div>
+  )
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
+}
 
 class Collections extends Component {
   state = {
@@ -214,21 +236,24 @@ class Collections extends Component {
     recommended: [],
     dialogOpen: false,
     isTourOpen: false,
-    socialLevelColor: ''
+    socialLevelColor: '',
+    activeTab: 0
   }
 
   async componentDidMount () {
-    const url = window.location.href.split('/')
-    const name = url[4]
+    const decodedURL = decodeURI(window.location.href)
+    const url = decodedURL.split('/')
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`))
+        .data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
+        .data
     } catch (err) {
       this.setState({ isLoading: false })
-      return
+      console.log(err)
     }
     this.getSocialLevel(collection.ownerId)
 
@@ -236,7 +261,7 @@ class Collections extends Component {
       isLoading: false,
       collection,
       recommended,
-      posts: collection.posts
+      posts: collection.posts.reverse()
     })
   }
 
@@ -247,7 +272,7 @@ class Collections extends Component {
   }
 
   handleScroll = e => {
-    if (this.state.posts.length < 3) return
+    if (this.state.posts.length <= 2) return
     const { isMinimize } = this.state
     let element = e.target
 
@@ -292,6 +317,10 @@ class Collections extends Component {
     this.setState({ isTourOpen: true })
   }
 
+  handleChange = (e, newTab) => {
+    this.setState({ activeTab: newTab })
+  }
+
   render () {
     const { classes, account } = this.props
     const {
@@ -302,7 +331,8 @@ class Collections extends Component {
       snackbarMsg,
       recommended,
       dialogOpen,
-      socialLevelColor
+      socialLevelColor,
+      activeTab
     } = this.state
 
     const hidden = isMinimize ? classes.hidden : null
@@ -311,35 +341,55 @@ class Collections extends Component {
     const isLoggedUserCollection =
       (account && account.name) === (collection && collection.ownerId)
 
+    const len = posts.length - 1
     let headerImgSrc =
       posts &&
-      ((posts[0] && posts[0].previewData.img) ||
-        (posts[1] && posts[1].previewData.img))
+      ((posts[len] && posts[len].previewData.img) ||
+        (posts[len - 1] && posts[len - 1].previewData.img))
 
     if (!isLoading && !collection) {
       return (
         <ErrorBoundary>
-          <div className={classes.container}>
-            <div className={classes.page}>
-              <Header isTourOpen={this.state.isTourOpen} />
-              <div align='center'>
-                <Typography
-                  className={classes.accountErrorHeader}
-                  color='#ffffff'
-                  variant='h3'
+          <ThemeProvider theme={theme}>
+            <div className={classes.container}>
+              <div className={classes.page}>
+                <Header isTourOpen={this.state.isTourOpen} />
+                <Grid
+                  container
+                  direction='column'
+                  spacing={5}
+                  style={{ width: '50%', margin: 'auto', alignItems: 'center' }}
                 >
-                  <strong>Sorry this page is not available.</strong>
-                </Typography>
-                <Typography
-                  className={classes.accountErrorSub}
-                  color='#ffffff'
-                  variant='h4'
-                >
-                  The page you're looking for does not exist.
-                </Typography>
+                  <Grid item>
+                    <Typography
+                      className={classes.accountErrorHeader}
+                      color='#ffffff'
+                      variant='h3'
+                    >
+                      <strong>Sorry this page is not available.</strong>
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography
+                      className={classes.accountErrorSub}
+                      color='#ffffff'
+                      variant='h4'
+                    >
+                      The page you're looking for does not exist.
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Button variant='contained'
+                      size='large'
+                      href='/'
+                    >
+                      Go Home
+                    </Button>
+                  </Grid>
+                </Grid>
               </div>
             </div>
-          </div>
+          </ThemeProvider>
         </ErrorBoundary>
       )
     }
@@ -378,27 +428,26 @@ class Collections extends Component {
           <meta property='og:image'
             content={`${collection.coverImgSrc}`}
           />
-          <meta
-            property='twitter:card'
+          <meta property='twitter:card'
             content='summary_large_image'
           />
-          <meta
-            property='twitter:site'
+          <meta property='twitter:site'
             content='@yup_io'
           />
           <meta
             property='twitter:title'
             content={`${collection.name} | ${collection.owner}`}
           />
-          <meta property='twitter:image'
+          <meta
+            property='twitter:image'
             content={`${collection.coverImgSrc}`}
           />
           <meta
             property='twitter:description'
             content={`${collection.description}`}
           />
-
         </Helmet>
+
         <Snackbar
           autoHideDuration={4000}
           onClose={this.handleSnackbarClose}
@@ -414,6 +463,7 @@ class Collections extends Component {
           dialogOpen={dialogOpen}
           handleDialogClose={this.handleDialogClose}
         />
+
         <div className={classes.container}
           onScroll={this.handleScroll}
         >
@@ -425,7 +475,7 @@ class Collections extends Component {
               direction='row'
               justify='flex-start'
               alignItems='flex-start'
-              spacing={4}
+              spacing={2}
               className={classes.collectionContainer}
             >
               <Grid
@@ -433,167 +483,196 @@ class Collections extends Component {
                 container
                 direction='row'
                 justify='flex-start'
-                alignItems='flex-start'
-                spacing={4}
-                className={classes.collectionContainer}
+                alignItems='center'
+                spacing={2}
+                lg={8}
+                xs={12}
+                className={[minimizeHeader, classes.collectionHeader]}
               >
                 <Grid
                   item
-                  xl={9}
-                  lg={9}
-                  md={10}
-                  xs={12}
-                  className={[minimizeHeader, classes.collectionHeader]}
+                  lg={isMinimize ? 1 : 2}
+                  md={isMinimize ? 1 : 2}
+                  sm={2}
+                  xs={2}
                 >
-                  <Grid
-                    container
-                    direction='row'
-                    justify='left'
-                    alignItems='center'
-                    spacing={3}
+                  <Fade in
+                    timeout={1000}
+                  >
+                    <Img
+                      src={[headerImgSrc, DEFAULT_IMG]}
+                      alt='thumbnail'
+                      loader={<div />}
+                      className={`${classes.headerImg} ${minimize}`}
+                    />
+                  </Fade>
+                </Grid>
+                <Grid
+                  item
+                  lg={isMinimize ? 7 : 6}
+                  md={isMinimize ? 7 : 6}
+                  sm={8}
+                  xs={6}
+                >
+                  <Fade in
+                    timeout={400}
+                  >
+                    <Typography variant='h2'
+                      className={classes.headerText}
+                    >
+                      {collection.name}
+                    </Typography>
+                  </Fade>
+                  <Fade in
+                    timeout={800}
+                  >
+                    <Typography
+                      variant='h5'
+                      className={[classes.headerText, hidden]}
+                    >
+                      Curated by{' '}
+                      <Link
+                        to={`/${collection.owner}`}
+                        style={{
+                          color: '#fff',
+                          textDecoration: socialLevelColor
+                            ? `1px solid underline ${socialLevelColor}`
+                            : 'none'
+                        }}
+                      >
+                        {collection.owner}
+                      </Link>
+                    </Typography>
+                  </Fade>
+                  <Typography
+                    variant='subtitle2'
+                    className={[classes.headerText, hidden]}
+                  >
+                    {collection.description}
+                  </Typography>
+                </Grid>
+                <Grid item
+                  container
+                  lg={4}
+                  sm={2}
+                  xs={4}
+                  justify='flex-end'
+                >
+                  <IconButton
+                    aria-label='more'
+                    aria-controls='long-menu'
+                    aria-haspopup='true'
+                    onClick={this.shareCollection}
+                  >
+                    <Icon className={[classes.icons, 'fa fa-share']} />
+                  </IconButton>
+                  {isLoggedUserCollection && (
+                    <IconButton
+                      aria-label='more'
+                      aria-controls='long-menu'
+                      aria-haspopup='true'
+                      onClick={this.handleDialogOpen}
+                      className={classes.icons}
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                  )}
+                </Grid>
+              </Grid>
+
+              <Hidden lgDown>
+                <Grid item
+                  lg={4}
+                />
+              </Hidden>
+
+              {showTabs ? (
+                <>
+                  <Grid item
+                    xs={12}
+                  >
+                    <Tabs value={activeTab}
+                      onChange={this.handleChange}
+                    >
+                      <Tab label='Feed'
+                        className={classes.tabs}
+                      />
+                      <Tab label='Recommended'
+                        className={classes.tabs}
+                      />
+                    </Tabs>
+                  </Grid>
+
+                  <TabPanel value={activeTab}
+                    index={0}
+                  >
+                    <Grid item
+                      xs={12}
+                    >
+                      <Feed
+                        isLoading={isLoading}
+                        hasMore={false}
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                        renderObjects
+                        tourname='CollectionPosts'
+                      />
+                    </Grid>
+                  </TabPanel>
+
+                  <TabPanel value={activeTab}
+                    index={1}
                   >
                     <Grid
                       item
-                      xl={1}
-                      md={isMinimize ? 1 : 2}
-                      xs={2}
-                    >
-                      <Fade in
-                        timeout={1000}
-                      >
-                        <Img
-                          src={[headerImgSrc, DEFAULT_IMG]}
-                          alt='thumbnail'
-                          loader={<div />}
-                          className={`${classes.headerImg} ${minimize}`}
-                        />
-                      </Fade>
-                    </Grid>
-                    <Grid item
-                      lg={8}
-                      md={7}
-                      sm={8}
-                      xs={6}
-                    >
-                      <Fade in
-                        timeout={400}
-                      >
-                        <Typography variant='h2'
-                          className={classes.headerText}
-                        >
-                          {collection.name}
-                        </Typography>
-                      </Fade>
-                      <Fade in
-                        timeout={800}
-                      >
-                        <Typography
-                          variant='h5'
-                          className={[classes.headerText, hidden]}
-                        >
-                          Curated by{' '}
-                          <Link
-                            to={`/${collection.owner}`}
-                            style={{
-                              color: '#fff',
-                              textDecoration: socialLevelColor
-                                ? `1px solid underline ${socialLevelColor}`
-                                : 'none'
-                            }}
-                          >
-                            {collection.owner}
-                          </Link>
-                        </Typography>
-                      </Fade>
-                      <Typography
-                        variant='subtitle2'
-                        className={[classes.headerText, hidden]}
-                      >
-                        {collection.description}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
                       container
-                      lg={2}
-                      sm={3}
-                      xs={4}
-                      justify='flex-end'
+                      column
+                      spacing={4}
+                      tourname='RecommendedCollections'
+                      className={classes.recommended}
                     >
-                      <Fade in
-                        timeout={1500}
-                      >
-                        <IconButton
-                          aria-label='more'
-                          aria-controls='long-menu'
-                          aria-haspopup='true'
-                          onClick={this.shareCollection}
-                        >
-                          <Icon
-                            className='fa fa-share'
-                            style={{ color: '#c0c0c0' }}
-                          />
-                        </IconButton>
-                      </Fade>
-                      {isLoggedUserCollection && (
-                        <IconButton
-                          aria-label='more'
-                          aria-controls='long-menu'
-                          aria-haspopup='true'
-                          onClick={this.handleDialogOpen}
-                          className={classes.icons}
-                        >
-                          <MenuIcon />
-                        </IconButton>
-                      )}
+                      {recommended.map(rec => {
+                        if (rec.name !== collection.name) {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                        }
+                      })}
                     </Grid>
-                  </Grid>
-                </Grid>
-
-                <Hidden smDown
-                  lgUp
-                >
+                  </TabPanel>
+                </>
+              ) : (
+                <>
                   <Grid item
-                    xl={3}
-                    lg={3}
-                    md={2}
-                  />
-                </Hidden>
-                <Grid item
-                  lg={6}
-                  md={10}
-                  xs={12}
-                  className={classes.feedContainer}
-                  tourname='CollectionPosts'
-                >
-                  {(posts.length === 0) ? (
-                    <Typography className={classes.noPostsFound}>
-                      No posts found in this collection
-                    </Typography>
-                  ) : (
+                    lg={6}
+                    xs={12}
+                  >
                     <Feed
                       isLoading={isLoading}
-                      hasMore
+                      hasMore={false}
                       classes={classes}
                       posts={posts}
                       hideInteractions
                       renderObjects
+                      tourname='CollectionPosts'
                     />
-                  )}
-                </Grid>
-                <Hidden smDown>
+                  </Grid>
+
                   <Grid
                     item
                     container
-                    column
                     lg={4}
-                    md={2}
-                    sm={0}
                     spacing={2}
                     tourname='RecommendedCollections'
                     className={classes.recommended}
                   >
-                    <Grid item>
+                    <Grid item
+                      xs={12}
+                    >
                       <Typography variant='h4'>Recommended</Typography>
                     </Grid>
                     <Grid item
@@ -611,8 +690,8 @@ class Collections extends Component {
                       })}
                     </Grid>
                   </Grid>
-                </Hidden>
-              </Grid>
+                </>
+              )}
             </Grid>
 
             <Tour
@@ -647,11 +726,14 @@ class Collections extends Component {
             />
             <Fab
               className={classes.tourFab}
-              variant='ext fcomended'
+              variant='extended'
               onClick={this.openTour}
             >
               10-Second Tutorial
             </Fab>
+            <CreateCollectionFab
+              account={account}
+            />
           </div>
         </div>
       </ErrorBoundary>
@@ -776,7 +858,6 @@ const mapStateToProps = state => {
 Collections.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
-  // levels: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Collections))

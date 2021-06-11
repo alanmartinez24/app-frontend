@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -403,12 +403,34 @@ const defaultLevelInfo = {
   levelInfo: {}
 }
 
-function TopBar ({ classes, notifications, history, width, isTourOpen }) {
+const ProfileAvatar = memo(({ username, avatar, classes, socialLevelColor }) => (
+  <ErrorBoundary>
+    <UserAvatar
+      alt={username}
+      username={username}
+      src={avatar}
+      className={classes.avatarImage}
+      style={{ border: `solid 2px ${socialLevelColor}`, aspectRatio: '1 / 1' }}
+    />
+  </ErrorBoundary>
+))
+
+ProfileAvatar.propTypes = {
+  avatar: PropTypes.string,
+  classes: PropTypes.object,
+  username: PropTypes.string,
+  socialLevelColor: PropTypes.string
+}
+
+const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
+
+function TopBar ({ classes, history, width, isTourOpen }) {
   const [open, setOpen] = React.useState(false)
   const [dialogOpen, setDialogOpen] = React.useState(false)
   const [settingsOpen, setSettingsOpen] = React.useState(false)
   const [account, setAccount] = React.useState(null)
   const [isShown, setIsShown] = useState(isTourOpen || false)
+  const [notifications, setNotifications] = useState([])
 
   const [collectionDialogOpen, setCollectionDialogOpen] = React.useState(false)
 
@@ -416,29 +438,49 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
 
   const [level, setLevel] = React.useState(defaultLevelInfo)
 
+  const accountName = authInfo && authInfo.account && authInfo.account.name
+
   useEffect(() => {
     const search = window.location.search
     const params = new URLSearchParams(search)
     const dialog = params.get('signupOpen')
     const collectionDialog = params.get('collectionDialogOpen')
-    setDialogOpen(dialog || false)
+    setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
     setAccount(authInfo.account)
-  }, [authInfo])
+  }, [accountName])
 
   useEffect(() => {
     if (authInfo && authInfo.account) {
-      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`).then(res => {
-        const levelInfo = res.data
-        setLevel({
-          isLoading: false,
-          error: false,
-          levelInfo
+      axios
+        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+        .then(res => {
+          const levelInfo = res.data
+          setLevel({
+            isLoading: false,
+            error: false,
+            levelInfo
+          })
         })
-      })
-      .catch(() => {})
+        .catch(() => {})
     }
-  }, authInfo.account)
+  }, [accountName])
+
+  useEffect(() => {
+    fetchNotifs()
+  }, [accountName])
+
+  const fetchNotifs = async () => {
+    if (!accountName || notifications.length) return
+
+    try {
+      const notifs = (axios.get(`${BACKEND_API}/notifications/${accountName}`)).data
+      const fmtNotifs = notifs.map(notif => {
+        notif.votes = [...new Map(notif.votes.map(item => [item.voteid, item])).values()]
+      })
+      setNotifications(fmtNotifs)
+    } catch (err) {}
+  }
 
   useEffect(() => {
     setIsShown(isTourOpen)
@@ -491,6 +533,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
     : 'permanent'
   const avatar = level && level.levelInfo.avatar
   const eosname = account && account.name
+
   const yupBalance =
     level &&
     level.levelInfo &&
@@ -506,16 +549,6 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
 
   const username = (level && level.levelInfo.username) || eosname
   const isMobile = window.innerWidth <= 480
-
-  const ProfileAvatar = props => (
-    <UserAvatar
-      alt={username}
-      username={username}
-      src={avatar}
-      className={classes.avatarImage}
-      style={{ border: `solid 2px ${socialLevelColor}`, aspectRatio: '1 / 1' }}
-    />
-  )
 
   return (
     <ErrorBoundary>
@@ -544,8 +577,11 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                       onClick={handleDrawerOpen}
                       style={{ color: '#9a9a9a' }}
                     >
-                      {account && account.name ? (
-                        <ProfileAvatar />
+                      {accountName ? (
+                        <StyledProfileAvatar username={username}
+                          socialLevelColor={socialLevelColor}
+                          avatar={avatar}
+                        />
                       ) : (
                         <Grow in
                           timeout={400}
@@ -615,7 +651,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                           fullWidth
                           className={classes.signupBtn}
                           onClick={handleDialogOpen}
-                          variant='outlined'
+                          variant='contained'
                         >
                           Sign Up/Login
                         </Button>
@@ -656,7 +692,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
             <MuiThemeProvider theme={theme}>
               <div className={classes.drawerHeader}>
                 <List style={{ width: '100%' }}>
-                  {account && account.name ? (
+                  {accountName ? (
                     <ListItem
                       button
                       component={Link}
@@ -682,7 +718,10 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                             }
                           }}
                         >
-                          <ProfileAvatar />
+                          <StyledProfileAvatar username={username}
+                            socialLevelColor={socialLevelColor}
+                            avatar={avatar}
+                          />
                         </Badge>
                       </ListItemAvatar>
                       <ListItemText
@@ -724,14 +763,18 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                           </p>
                         }
                       >
-                        <Button
-                          fullWidth
-                          className={classes.signupBtn}
-                          onClick={handleDialogOpen}
-                          variant='outlined'
-                        >
-                          Sign Up/Login
-                        </Button>
+                        {isMobile ? (
+                          <div />
+                        ) : (
+                          <Button
+                            fullWidth
+                            className={classes.signupBtn}
+                            onClick={handleDialogOpen}
+                            variant='contained'
+                          >
+                            Sign Up/Login
+                          </Button>
+                        )}
                       </Tooltip>
                     </ListItem>
                   )}
@@ -806,7 +849,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                 <ListItem
                   button
                   component={Link}
-                  to={`/${account.name}/analytics`}
+                  to={`/${username}/analytics`}
                   style={{ paddingLeft: '5px' }}
                   tourname='LeaderboardButton'
                 >
@@ -870,13 +913,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                 }}
               >
                 <DialogTitle style={{ paddingBottom: '10px' }}>
-                  <Typography
-                    align='left'
-                    className={classes.dialogTitleText}
-                    variant='h5'
-                  >
-                    Settings
-                  </Typography>
+                  <Typography variant='h3'>Settings</Typography>
                 </DialogTitle>
                 <DialogContent>
                   <List className={classes.root}>
@@ -903,7 +940,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
               <StyledYupProductNav account={account} />
 
               {/* First Menu: FEEDS */}
-              {isShown && (
+              {(isShown || isMobile) && (
                 <Grow in
                   timeout={500}
                 >
@@ -934,12 +971,15 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Your Daily Hits'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', fontWeight: '100' }}
+                          style={{
+                            color: '#c0c0c0',
+                            fontWeight: '100',
+                            margin: 0
+                          }}
                         />
                       </ListItem>
                     </PrivateListItem>
-                    <ListItem
-                      button
+                    <ListItem button
                       dense
                       component={Link}
                       to='/?feed=crypto'
@@ -1025,7 +1065,7 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
               )}
 
               {/* Second Menu: LISTS */}
-              {isShown && (
+              {(isShown || isMobile) && (
                 <Grow in
                   timeout={1000}
                 >
@@ -1105,7 +1145,6 @@ function TopBar ({ classes, notifications, history, width, isTourOpen }) {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  notifications: PropTypes.array.isRequired,
   history: PropTypes.object,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   isTourOpen: PropTypes.bool

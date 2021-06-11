@@ -1,7 +1,9 @@
 import React, { Fragment, Component, Suspense, lazy } from 'react'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText
+} from '@material-ui/core'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -87,7 +89,26 @@ class Index extends Component {
       const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
       const ethAuthUpdate = { address, signature, account }
       updateEthAuth(ethAuthUpdate)
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async checkTwitterAuth () {
+    try {
+      const twitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
+
+      if (!twitterMirrorInfo) { return }
+
+      const { expiration } = JSON.parse(twitterMirrorInfo)
+
+      // if twitter oauth token expired, sign user out
+      if (expiration <= Date.now()) {
+        localStorage.removeItem('twitterMirrorInfo')
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // async fetchExtAuthInfo () {
@@ -107,13 +128,14 @@ class Index extends Component {
     (async () => {
       const { fetchSocialLevels, checkScatter, scatterInstall } = this.props
       fetchSocialLevels()
-      // this.checkEthAuth()
       wallet.detect(checkScatter, scatterInstall)
+      this.checkEthAuth()
+      this.checkTwitterAuth()
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-     this.setState({ isLoading: false })
+    this.setState({ isLoading: false })
     })()
   }
 
@@ -175,8 +197,13 @@ class Index extends Component {
                   exact
                   path='/:username/analytics'
                 />
+
                 <Route component={Collections}
                   path='/collections/:name/:id'
+                />
+                {/* Handle collection routes with just name */}
+                <Route component={Collections}
+                  path='/collections/:name'
                 />
                 <Route component={User}
                   exact
