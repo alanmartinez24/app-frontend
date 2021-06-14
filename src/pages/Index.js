@@ -125,8 +125,6 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-    /*  const { fetchSocialLevels } = this.props
-      fetchSocialLevels() */
       this.checkEthAuth()
       this.checkTwitterAuth()
       // this.fetchExtAuthInfo()
@@ -236,7 +234,6 @@ class Index extends Component {
 }
 
 Index.propTypes = {
-  // fetchSocialLevels: PropTypes.func.isRequired,
   // checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
   // scatterInstall: PropTypes.func.isRequired,
@@ -248,7 +245,6 @@ const mapActionToProps = (dispatch) => {
   return {
     checkScatter: (scatter, account, eos) => dispatch(loginScatter(scatter, account, eos)),
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
-   // fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo))
     // getExtAuthToken: throttle(() => dispatch(fetchExtAuthToken(), 5000))
@@ -257,8 +253,7 @@ const mapActionToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    account: state.scatterRequest.account,
-    levels: (state.socialLevels && state.socialLevels.levels) || {}
+    account: state.scatterRequest.account
   }
 }
 

@@ -588,13 +588,7 @@ const mapStateToProps = (state, ownProps) => {
     account = { name: ethAccount._id, authority: 'active' }
   }
 
-  const eosname = account && account.name
   return {
-    level: state.socialLevels.levels[eosname] || {
-      isLoading: true,
-      error: false,
-      levelInfo: {}
-    },
     account,
     push: state.scatterInstallation.push
   }

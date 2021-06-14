@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import VoteButton from '../VoteButton/VoteButton'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchInitialVotes } from '../../redux/actions'
+import { fetchInitialVotes, fetchSocialLevel } from '../../redux/actions'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const VOTE_CATEGORIES = process.env.VOTE_CATEGORIES.split(',')
@@ -36,8 +36,18 @@ class VoteComp extends Component {
   }
 
   render () {
-    const { postid, caption, quantiles, voterWeight, weights, postType, rating, categories: _categories, listType } = this.props
+    const { account, dispatch, postid, caption, quantiles, levels, weights, postType, rating, categories: _categories, listType } = this.props
     const isMobile = window.innerWidth <= 600
+    let voterWeight = 0
+    if (account && account.name) {
+      if (!levels[account.name]) {
+        dispatch(fetchSocialLevel(account.name))
+     }
+     const level = levels[account.name]
+     if (level && !level.isLoading && level.levelInfo.weight) {
+       voterWeight = level.levelInfo.weight
+     }
+    }
 
     let categories
 
@@ -100,7 +110,7 @@ VoteComp.propTypes = {
   postid: PropTypes.string.isRequired,
   quantiles: PropTypes.object.isRequired,
   weights: PropTypes.object.isRequired,
-  voterWeight: PropTypes.number.isRequired,
+  levels: PropTypes.number.isRequired,
   rating: PropTypes.object.isRequired,
   postType: PropTypes.string,
   listType: PropTypes.string,
@@ -133,14 +143,8 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
-  let voterWeight = 0
   let initialVotes = { votes: {}, isLoading: false, error: null }
   if (account && account.name) {
-    const level = state.socialLevels.levels[account.name]
-    if (level && level.levelInfo.weight) {
-      voterWeight = level.levelInfo.weight
-    }
-
     const userVotes = state.initialVotes[account.name]
     const userVotesForPost = userVotes && userVotes[ownProps.postid]
     if (userVotesForPost) {
@@ -151,7 +155,10 @@ const mapStateToProps = (state, ownProps) => {
   // const ethAuth = state.ethAuth.account ? state.ethAuth : null
 
   return {
-    voterWeight,
+    levels: state.socialLevels.levels || {
+    isLoading: true,
+    levels: {}
+  },
     initialVotes,
     account
   }

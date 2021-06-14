@@ -236,7 +236,7 @@ function ProfileCard (props) {
     isLoggedIn,
     ratingCount,
     isMinimize,
-    level,
+    levels,
     dispatch
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
@@ -251,19 +251,19 @@ function ProfileCard (props) {
   const formattedRatings = numeral(ratingCount)
     .format('0a')
     .toUpperCase()
-    if (!level || !accountInfo) {
-      return <div />
-    }
-    console.log('account', level, accountInfo.eosname)
-  if (!level) {
+
+  if (!accountInfo.eosname) {
+    return <div />
+  }
+  if (!levels[accountInfo.eosname]) {
      dispatch(fetchSocialLevel(accountInfo.eosname))
       return (<div />)
    }
 
-   if (level.isLoading) {
+   if (levels[accountInfo.eosname].isLoading) {
     return <div />
   }
-  const quantile = level && level.levelInfo.quantile
+  const quantile = levels[accountInfo.eosname] && levels[accountInfo.eosname].levelInfo.quantile
   const socialLevelColor = levelColors[quantile]
 
   const displayName =
@@ -290,7 +290,7 @@ function ProfileCard (props) {
           alt={accountInfo._id}
           username={accountInfo.eosname}
           className={`${classes.avatarImage} ${minimize}`}
-          src={level.levelInfo.avatar}
+          src={levels[accountInfo.eosname].levelInfo.avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
         />
         <Grid alignItems='center'
@@ -559,12 +559,10 @@ function ProfileCard (props) {
   )
 }
 const mapStateToProps = (state, ownProps) => {
-  const eosname = ownProps.accountInfo && ownProps.accountInfo.eosname
   return {
-    level: state.socialLevels.levels[eosname] || {
+    levels: state.socialLevels.levels || {
       isLoading: true,
-      error: false,
-      levelInfo: {}
+      levels: {}
     }
   }
 }
@@ -577,7 +575,7 @@ ProfileCard.propTypes = {
   balanceInfo: PropTypes.object.isRequired,
   accountInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
-  level: PropTypes.object,
+  levels: PropTypes.object,
   account: PropTypes.object
 }
 

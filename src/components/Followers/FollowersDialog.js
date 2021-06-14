@@ -182,14 +182,14 @@ class FollowersDialog extends Component {
                     </Typography>
                   ) : (
                     followers.map(follower => {
-                      if (!levels[follower._id]) {
-                        dispatch(fetchSocialLevel(follower._id))
-                        return <div />
+                    if (!levels[follower._id]) {
+                      dispatch(fetchSocialLevel(follower._id))
+                      return <div />
                      } if (levels[follower._id].isLoading) {
                       return <div />
                     }
                       const eosname = follower._id
-                      const level = levels.levels[eosname]
+                      const level = levels[eosname]
                       const username = level && level.levelInfo.username
                       const quantile = level && level.levelInfo.quantile
                       let socialLevelColor = levelColors[quantile]
@@ -290,7 +290,10 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     account,
-    levels: state.socialLevels,
+    levels: state.socialLevels.levels || {
+      isLoading: true,
+      levels: {}
+    },
     followersInfo: state.followersByUser[username] || {
       isLoading: true,
       followers: [],

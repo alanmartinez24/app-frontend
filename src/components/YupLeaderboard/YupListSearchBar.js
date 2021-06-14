@@ -161,7 +161,6 @@ const mapStateToProps = (state, ownProps) => {
   const settings = parseSettings(config, listOptions)
   return {
     account: state.scatterRequest.account,
-    levels: state.socialLevels,
     settings,
     searchInfo: state.updateSearchListPosts
   }
