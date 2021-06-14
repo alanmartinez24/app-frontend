@@ -11,7 +11,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
+import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -135,13 +135,14 @@ class Index extends Component {
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-    this.setState({ isLoading: false })
+      this.setState({ isLoading: false })
     })()
   }
 
-  componentDidUpdate ({ account, getLoggedUserCollections }) {
+  componentDidUpdate ({ account, getLoggedUserCollections, fetchUserPerms }) {
     if (!(account && account.name)) return
     getLoggedUserCollections(account.name)
+    fetchUserPerms(account.name)
   }
 
   render () {
@@ -227,7 +228,7 @@ class Index extends Component {
         >
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              { this.state.alertDialogContent }
+              {this.state.alertDialogContent}
             </DialogContentText>
           </DialogContent>
         </Dialog>
@@ -243,6 +244,7 @@ Index.propTypes = {
   scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
+  fetchUserPerms: PropTypes.func.isRequired,
   account: PropTypes.object
 }
 
@@ -253,8 +255,9 @@ const mapActionToProps = (dispatch) => {
     fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
-    getLoggedUserCollections: (account) => dispatch(fetchUserCollections(account))
-    }
+    getLoggedUserCollections: (account) => dispatch(fetchUserCollections(account)),
+    fetchUserPerms: (account) => dispatch(fetchUserPermissions(account))
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {

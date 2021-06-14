@@ -17,13 +17,13 @@ const { NODE_ENV } = process.env
 let composeEnhancers
 let middleware
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === 'production') {
   const loggerMiddleware = createLogger()
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   middleware = applyMiddleware(
     routerMiddleware(history),
     thunkMiddleware,
-   loggerMiddleware
+    loggerMiddleware
   )
 } else if (NODE_ENV === 'production') {
   composeEnhancers = compose
@@ -37,7 +37,8 @@ if (NODE_ENV === 'development') {
 const store = createStore(
   combineReducers({
     router: connectRouter(history),
-    ...reducers }),
+    ...reducers
+  }),
   composeEnhancers(middleware)
 )
 
