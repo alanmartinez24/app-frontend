@@ -19,6 +19,8 @@
     "sitemap-dev": "NODE_ENV=development babel-node scripts/sitemap.js"
   },
   "dependencies": {
+    "@cloudinary/base": "^1.0.0-beta.3",
+    "@cloudinary/react": "^1.0.0-beta.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",

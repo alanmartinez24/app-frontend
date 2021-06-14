@@ -7,8 +7,22 @@ import { Grid, Tooltip } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
+import { AdvancedImage, lazyload, responsive } from '@cloudinary/react'
+import { Cloudinary } from '@cloudinary/base'
+// import { scale } from '@cloudinary/base/actions/resize'
+import { format } from '@cloudinary/base/actions/delivery'
+import { webp } from '@cloudinary/base/qualifiers/format'
+
+const { CLOUDINARY_NAME } = process.env
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: CLOUDINARY_NAME
+  }
+})
 
 const { DEFAULT_POST_IMAGE, RARIBLE_API } = process.env
+console.log(`DEFAULT_POST_IMAGE`, DEFAULT_POST_IMAGE)
 
 // TODO: Simplify regex, put in utils file
 const RARIBLE_URL = new RegExp(
@@ -272,6 +286,9 @@ class NFTPreview extends Component {
 
     let faviconURL
     let faviconURLFallback
+    const myImage = cld.image('3266')
+
+    myImage.delivery(format(webp()))
 
     if (url != null) {
       faviconURL =
@@ -313,12 +330,9 @@ class NFTPreview extends Component {
                   playsinline
                 />
               ) : (
-                <Img
-                  alt={title}
+                <AdvancedImage cldImg={myImage}
+                  plugins={[responsive(), lazyload()]}
                   className={classes.linkImg}
-                  src={[image, DEFAULT_POST_IMAGE]}
-                  target='_blank'
-                  loader={<img src={DEFAULT_POST_IMAGE} />}
                 />
               )}
               <div className={classes.previewData}>
