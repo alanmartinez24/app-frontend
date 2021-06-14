@@ -17,7 +17,7 @@ const { NODE_ENV } = process.env
 let composeEnhancers
 let middleware
 
-if (NODE_ENV === 'production') {
+if (NODE_ENV === 'development') {
   const loggerMiddleware = createLogger()
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   middleware = applyMiddleware(
