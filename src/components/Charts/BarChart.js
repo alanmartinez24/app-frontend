@@ -153,7 +153,6 @@ const BarChart = (props) => {
 
        </div>
        <Chart
-
          className={classes.chart}
          options={chart}
          series={chart.series}
