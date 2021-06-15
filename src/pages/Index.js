@@ -11,7 +11,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -126,8 +126,7 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { fetchSocialLevels, checkScatter, scatterInstall } = this.props
-      fetchSocialLevels()
+      const { checkScatter, scatterInstall } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
@@ -237,7 +236,6 @@ class Index extends Component {
 }
 
 Index.propTypes = {
-  fetchSocialLevels: PropTypes.func.isRequired,
   checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
   scatterInstall: PropTypes.func.isRequired,
@@ -250,7 +248,6 @@ const mapActionToProps = (dispatch) => {
   return {
     checkScatter: (scatter, account, eos) => dispatch(loginScatter(scatter, account, eos)),
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
-    fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
     getLoggedUserCollections: (account) => dispatch(fetchUserCollections(account))
@@ -259,8 +256,7 @@ const mapActionToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    account: state.scatterRequest.account,
-    levels: (state.socialLevels && state.socialLevels.levels) || {}
+    account: state.scatterRequest.account
   }
 }
 
