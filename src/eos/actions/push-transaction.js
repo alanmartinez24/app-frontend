@@ -31,7 +31,6 @@ export async function pushTwitterMirrorTx (txData) {
     broadcast: false,
     sign: false
   })
-
   const deserializedTx = api.deserializeTransaction(serializedTxData.serializedTransaction)
   await axios.post(`${BACKEND_API}/transaction/twitter`, {
     transaction: deserializedTx,

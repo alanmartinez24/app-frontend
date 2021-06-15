@@ -839,17 +839,23 @@ const steps = [
 
 const mapStateToProps = state => {
   const { account: ethAccount } = state.ethAuth
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-  const levels = state.socialLevels.levels
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  let account = scatterIdentity || ethAccount
+  account.authority = state.hasYupPerm ? 'yup' : 'active'
+
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+    }
   }
 
   return {
     account,
-    levels,
+    levels: state.socialLevels.levels,
     push: state.scatterInstallation.push,
     collections: state.collections
   }

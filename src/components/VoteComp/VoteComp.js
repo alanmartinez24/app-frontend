@@ -121,9 +121,10 @@ VoteComp.defaultProps = {
 const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
 
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
+  account.authority = state.hasYupPerm ? 'yup' : 'active'
 
   if (!scatterIdentity) {
     if (ethAccount) {

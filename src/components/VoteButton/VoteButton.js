@@ -801,7 +801,7 @@ class VoteButton extends Component {
       await this.fetchInitialVote()
       stateUpdate = { currTotalVoters: currTotalVoters + 1 }
     } else if (vote && prevRating === newRating) {
-      if (vote.onchain === false && !signedInWithEth) {
+      if (vote.onchain === false && !signedInWithEth && !signedInWithTwitter) {
           await this.deletevvote(vote._id.voteid)
           dispatch(updateInitialVote(postid, account.name, category, null))
           stateUpdate = { currTotalVoters: currTotalVoters - 1 }
@@ -809,6 +809,7 @@ class VoteButton extends Component {
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
+          console.log(vote)
           await deletevote(account, { voteid: vote._id.voteid })
         } else {
           await scatter.scatter.deleteVote({ data: { voteid: vote._id.voteid } })
@@ -1211,9 +1212,10 @@ const mapStateToProps = (state, ownProps) => {
   const { category, postid } = ownProps
   const { account: ethAccount } = state.ethAuth
 
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
+  account.authority = state.hasYupPerm ? 'yup' : 'active'
 
   if (!scatterIdentity) {
     if (ethAccount) {
