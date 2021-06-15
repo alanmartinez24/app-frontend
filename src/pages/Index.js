@@ -142,8 +142,8 @@ class Index extends Component {
   componentDidUpdate ({ account, getLoggedUserCollections, fetchUserPerms }) {
     if (!(account && account.name)) return
     getLoggedUserCollections(account.name)
-    if (wallet.connected) return
     fetchUserPerms(account.name)
+    // if (wallet.connected) return
   }
 
   render () {
