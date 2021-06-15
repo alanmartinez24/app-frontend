@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
-import Grid from '@material-ui/core/Grid'
+import { Grid, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { levelColors } from '../../utils/colors'
 import Fade from '@material-ui/core/Fade'
@@ -34,8 +34,8 @@ const styles = theme => ({
     }
   },
   linkImg: {
-    width: '5rem',
-    height: '5rem',
+    width: '100%',
+    aspectRatio: '1 / 1',
     objectFit: 'cover',
     backgroundColor: '#4f4f4f',
     alignItems: 'center',
@@ -95,13 +95,11 @@ const styles = theme => ({
     }
   },
   previewData: {
-    position: 'absolute',
-    bottom: '0',
+    position: 'relative',
     textAlign: 'left',
     zIndex: 5,
     background: '',
-    padding: '0% 2% 0% 2%',
-    width: '95%'
+    padding: '2%'
   }
 })
 
@@ -241,7 +239,10 @@ class ObjectPreview extends Component {
                     direction='row'
                     justify='space-between'
                   >
-                    <Grid item>
+                    <Grid item
+                      xs={1}
+                      sm={2}
+                    >
                       <Img alt={title}
                         className={classes.linkImg}
                         src={[image]}
@@ -255,18 +256,20 @@ class ObjectPreview extends Component {
                       />
                     </Grid>
                     <Grid item
+                      xs={6}
+                      sm={8}
                       style={{ margin: 'auto 0px' }}
                     >
-                      <div className={classes.title}>
+                      <Typography variant='h5'>
                         <LinesEllipsis
                           basedOn='letters'
                           ellipsis='...'
                           maxLine='1'
-                          text={title}
+                          text={title.split('|', 1)}
                           trimRight
                         />
-                      </div>
-                      <div className={classes.description}>
+                      </Typography>
+                      <Typography variant='body1'>
                         <LinesEllipsis
                           basedOn='letters'
                           ellipsis='...'
@@ -274,9 +277,11 @@ class ObjectPreview extends Component {
                           text={description || caption}
                           trimRight
                         />
-                      </div>
+                      </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item
+                      xs={1}
+                    >
                       <Img
                         align='right'
                         href={url}

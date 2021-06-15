@@ -69,12 +69,6 @@ const styles = theme => ({
   voterOpacity: {
     opacity: '80%'
   },
-  username: {
-    fontSize: '18px',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '16px'
-    }
-  },
   avatarImage: {
     fontSize: '14px',
     display: 'grid',
@@ -169,10 +163,7 @@ class PostHeader extends Component {
           to={`/${voterUsername || vote.voter}`}
         >
           <Typography
-            className={classes.username}
-            style={{
-                  fontFamily: '"Gilroy", sans-serif'
-                  }}
+            variant='body2'
           >
             {
               (voterIsMirror && voterInfo.twitterInfo.isTracked &&
@@ -187,7 +178,7 @@ class PostHeader extends Component {
         { (voterIsMirror && !voterIsAuth)
           ? <img
             src='/images/icons/twitter.svg'
-            style={{ height: '20px', paddingLeft: '8px', paddingRight: '8px', display: 'grid' }}
+            style={{ height: '0.5rem', paddingLeft: '8px', paddingRight: '8px', display: 'grid' }}
             />
         : null}
       </Grid>
@@ -266,7 +257,7 @@ class PostHeader extends Component {
             </Fragment>
           }
                 <Grid item
-                  style={{ color: 'white', zoom: '50%', opacity: '80%', marginBottom: '12px' }}
+                  style={{ color: 'white', zoom: '50%', opacity: '80%', marginBottom: '10px' }}
                 >
                   {
                 vote.like
@@ -275,9 +266,11 @@ class PostHeader extends Component {
               }
                 </Grid>
                 <Grid item>
-                  <span>
+                  <Typography variant='body2'
+                    style={{ zoom: 0.8 }}
+                  >
                     {CAT_ICONS[vote.category]}
-                  </span>
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>

@@ -64,7 +64,7 @@ const styles = theme => ({
     boxShadow: '0px 0px 0px #2a2a2a81',
     background: 'transparent',
     backgroundSize: 'cover',
-    width: '600px',
+    width: '550px',
     margin: 'auto',
     marginTop: '75px',
     maxWidth: '100vw',
@@ -127,14 +127,7 @@ const styles = theme => ({
     }
   },
   name: {
-    color: '#ffffff',
-    fontSize: '24px',
-    fontWeight: '500',
-    padding: '0px',
-    fontFamily: 'Gilroy',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '20px'
-    }
+    padding: '0px'
   },
   profileDetails: {
     ...theme.mixins.gutters(),
@@ -145,10 +138,8 @@ const styles = theme => ({
     display: 'inline-grid',
     width: '100%',
     position: 'relative',
-    marginLeft: '100px',
     [theme.breakpoints.down('xs')]: {
       paddingTop: '10px',
-      marginLeft: '90px',
       display: 'block',
       height: '100px'
     }
@@ -288,10 +279,10 @@ function ProfileCard (props) {
           <Grid
             item
             className={classes.profileDetails}
-            style={{ paddingTop: isMinimize ? '5px' : '' }}
+            style={{ paddingTop: isMinimize ? '5px' : '', marginLeft: isMinimize ? 50 : 100 }}
           >
             <Grid
-              alignItems='flex-start'
+              alignItems={isMinimize ? 'flex-start' : 'center'}
               container
               direction='row'
               justify='space-between'
@@ -351,18 +342,18 @@ function ProfileCard (props) {
                 spacing={0}
               >
                 <Grid item>
-                  <span
+                  <Typography
+                    variant='body2'
                     style={{
                       textDecoration: socialLevelColor ? 'none' : 'none',
                       textDecorationColor: socialLevelColor,
                       textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                      fontWeight: isMirror ? '200' : '200',
                       color: isMirror ? '#b1b1b1' : '#ffffff',
                       padding: '0px'
                     }}
                   >
                     @{username}
-                  </span>
+                  </Typography>
                 </Grid>
                 <Grid item>
                   {isMirror && !isAuthUser ? (

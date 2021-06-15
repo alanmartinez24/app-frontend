@@ -15,7 +15,7 @@ const styles = theme => ({
   },
   root: {
     position: 'relative',
-    borderRadius: '20px',
+    borderRadius: '0.65rem',
     border: '0px solid #fff',
     '&:hover': {
       backgroundColor: '#101010'

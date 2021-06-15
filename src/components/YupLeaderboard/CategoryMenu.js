@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
 import Select from '@material-ui/core/Select'
 import { MenuItem, InputLabel } from '@material-ui/core'
 import FormControl from '@material-ui/core/FormControl'
@@ -12,7 +12,6 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = (theme) => ({
   formControl: {
     minWidth: 100,
-    marginRight: '10px',
     [theme.breakpoints.down('xs')]: {
       minWidth: 20
     }
@@ -47,26 +46,35 @@ class CategoryMenu extends Component {
 
     return (
       <ErrorBoundary>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor='age-native-helper'
-            style={{ opacity: '0.5', fontSize: '12px' }}
-          >Category</InputLabel>
-          <Select
-            label='Age'
-            className={classes.textField}
-            inputProps={{
+        <MuiThemeProvider>
+          <FormControl className={classes.formControl}
+            variant='outlined'
+            size='small'
+            dark
+          >
+            <InputLabel
+              style={{ fontSize: '12px' }}
+              id='category-label'
+            >Category</InputLabel>
+            <Select
+              onChange={() => {}}
+              labelId='category-label'
+              label='Category'
+              id='select'
+              labelWidth='58'
+              className={classes.textField}
+              inputProps={{
               className: classes.textField
             }}
-            MenuProps={{
+              MenuProps={{
              getContentAnchorEl: null,
              anchorOrigin: {
                vertical: 'bottom'
              }
            }}
-            value={currCategory.name}
-            onChange={this.handleChange}
-            size='small'
-          > {
+              value={currCategory.name}
+              size='medium'
+            > {
             subjCats.map(cat => (
               <MenuItem
                 key={cat.name}
@@ -75,8 +83,9 @@ class CategoryMenu extends Component {
               > { cat.displayName } </MenuItem>
             ))
           }
-          </Select>
-        </FormControl>
+            </Select>
+          </FormControl>
+        </MuiThemeProvider>
       </ErrorBoundary>
     )
   }
