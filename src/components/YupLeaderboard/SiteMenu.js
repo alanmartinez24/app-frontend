@@ -47,13 +47,16 @@ class SiteMenu extends Component {
     const filteredOpts = uniqBy([{ location: { name: 'all', displayName: 'all' } }, ...listOptions], 'location.name')
     return (
       <ErrorBoundary>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor='age-native-helper'
-            style={{ opacity: '0.5', fontSize: '12px' }}
+        <FormControl className={classes.formControl}
+          variant='outlined'
+        >
+          <InputLabel
+            style={{ fontSize: '12px' }}
           >Platform</InputLabel>
           <Select
             type='dark'
             label='Where?'
+            labelWidth='52'
             className={classes.textField}
             inputProps={{
               className: classes.textField

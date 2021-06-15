@@ -10,12 +10,14 @@ export const levelColors = {
 
 export default {
   White: '#FAFAFA',
+  DarkWhite: '#EAEAEA',
+  Grey: '#DADADA',
+  DarkGrey: '#CACACA',
+  DarkerGrey: '#AAAAAA',
+  Black: '#0a0a0a',
   Purple: '#570c65',
   Orange: '#ea7148',
   Yellow: '#e1e137',
-  Grey: '#DADADA',
-  DarkGrey: '#C0C0C0',
   Red: '#FF6B52',
-  Green: '#00E08E',
-  Black: '#0a0a0a'
+  Green: '#00E08E'
 }

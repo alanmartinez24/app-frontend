@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { Grid } from '@material-ui/core'
 import CategoryMenu from './CategoryMenu'
@@ -60,15 +60,6 @@ const styles = theme => ({
   MuiTab: {
     minWidth: '60px'
   },
-  listTitle: {
-    fontSize: '32px',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '24px'
-    },
-    [theme.breakpoints.down('md')]: {
-      fontSize: '28px'
-    }
-  },
   hidden: {
     visibility: 'hidden'
   },
@@ -84,49 +75,9 @@ const styles = theme => ({
     marginTop: '15px'
   },
   search: {
-    height: '60px',
-    justify: 'flex-end',
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
-  },
-  subTitle: {
-    color: '#a0a0a0',
-    fontSize: '14px',
-    fontWeight: 100,
-    fontFamily: 'Gilroy',
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '12px'
-    }
-  }
-})
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#FAFAFA' },
-    secondary: { main: '#ffffff' },
-    third: { main: '#1A1A1A' },
-    type: 'dark'
-  },
-  overrides: {
-    MuiButton: {
-      raisedSecondary: {
-        color: '#2A2A2A'
-      }
-    }
-  },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5
-  },
-  icon: {
-    width: 25,
-    height: 25,
-    color: 'primary'
-  },
-  reactPlayer: {
-    width: '100%'
   }
 })
 
@@ -199,72 +150,70 @@ class YupListsMenu extends Component {
             />
           </Helmet>
           <div className={`${classes.infoContainer} ${minimizeCard}`}>
-            <MuiThemeProvider theme={theme}>
-              <Grid container
-                alignItems='flex-start'
-                direction='column'
-                spacing={24}
-                tourname='LeaderboardMenu'
-              >
-                <Grid item>
-                  <Typography
-                    className={classes.subTitle}
-                    style={{}}
-                  > LEADERBOARD
-                  </Typography>
-                  <Typography
-                    className={listTitle}
-                    style={{ color: '#fafafa', fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: '0.1rem' }}
-                  > {dynamicListTitle}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Grid container
-                    alignItems='center'
-                    direction='row'
-                    justify='space-between'
-                    spacing={1}
-                    className={`${classes.filters} ${hidden}`}
-                    tourname='ListsFilters'
+            <Grid container
+              alignItems='flex-start'
+              direction='column'
+              spacing={24}
+              tourname='LeaderboardMenu'
+            >
+              <Grid item>
+                <Typography
+                  variant='body2'
+                  style={{ opacity: 0.3 }}
+                > Leaderboard
+                </Typography>
+                <Typography
+                  variant='h2'
+                  className={listTitle}
+                > {dynamicListTitle}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Grid container
+                  alignItems='center'
+                  direction='row'
+                  justify='space-between'
+                  spacing={1}
+                  className={`${classes.filters} ${hidden}`}
+                  tourname='ListsFilters'
+                >
+                  <Grid item
+                    xs={12}
+                    sm={8}
+                    md={9}
+                    lg={8}
                   >
-                    <Grid item
-                      xs={12}
-                      sm={8}
-                      md={9}
-                      lg={8}
+                    <Grid container
+                      spacing={2}
                     >
-                      <Grid container
-                        spacing={2}
+                      <Grid
+                        item
                       >
-                        <Grid
-                          item
-                        >
-                          <CategoryMenu />
-                        </Grid>
-                        <Grid
-                          item
-                        >
-                          <SubjectMenu />
-                        </Grid>
-                        <Grid
-                          item
-                        >
-                          <SiteMenu />
-                        </Grid>
+                        <CategoryMenu />
+                      </Grid>
+                      <Grid
+                        item
+                      >
+                        <SubjectMenu />
+                      </Grid>
+                      <Grid
+                        item
+                      >
+                        <SiteMenu />
                       </Grid>
                     </Grid>
-                    <Grid
-                      item
-                      sm={3}
-                      md={3}
-                      className={classes.search}
-                    >
-                      <YupListSearchBar />
-                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    sm={3}
+                    md={3}
+                    className={classes.search}
+                  >
+                    <YupListSearchBar />
                   </Grid>
                 </Grid>
               </Grid>
-            </MuiThemeProvider>
+            </Grid>
           </div>
         </div>
       </Fade>

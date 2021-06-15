@@ -11,7 +11,6 @@ const styles = theme => ({
         borderBottomColor: '#fafafa'
       }
     },
-    marginBottom: '20px',
     fontFamily: 'Gilroy'
   },
   inputRoot: {

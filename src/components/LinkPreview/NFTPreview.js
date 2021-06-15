@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
-import { Grid, Tooltip } from '@material-ui/core'
+import { Grid, Tooltip, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
@@ -66,7 +66,7 @@ const styles = theme => ({
       maxHeight: '25rem',
       width: '100%'
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       borderRadius: '0px'
     }
   },
@@ -365,13 +365,13 @@ class NFTPreview extends Component {
                         justify='left'
                         container
                         direction='row'
-                        alignItems='left'
+                        alignItems='center'
                         spacing={0}
                         style={{ height: '30px' }}
                       >
                         {this.state.creator && (
                           <Grid item
-                            xs={this.state.owners.length > 0 ? 3 : 6}
+                            xs={this.state.owners.length > 0 ? 4 : 6}
                           >
                             <Tooltip
                               title='Creator'
@@ -379,7 +379,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <div className={classes.credits}>
+                              <Typography variant='body1'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'
@@ -391,13 +391,13 @@ class NFTPreview extends Component {
                                   }
                                   trimRight
                                 />
-                              </div>
+                              </Typography>
                             </Tooltip>
                           </Grid>
                         )}
                         {this.state.owners.length > 0 && (
                           <Grid item
-                            xs={this.state.creator ? 6 : 4}
+                            xs={this.state.creator ? 4 : 4}
                           >
                             <Tooltip
                               title='Owner'
@@ -405,7 +405,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <div className={classes.credits}>
+                              <Typography variant='body1'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'
@@ -417,7 +417,7 @@ class NFTPreview extends Component {
                                   }
                                   trimRight
                                 />
-                              </div>
+                              </Typography>
                             </Tooltip>
                           </Grid>
                         )}
@@ -425,7 +425,7 @@ class NFTPreview extends Component {
                     </Grid>
                   )}
                   <Grid item>
-                    <div className={classes.description}>
+                    <Typography variant='body2'>
                       <LinesEllipsis
                         basedOn='letters'
                         ellipsis='...'
@@ -433,8 +433,8 @@ class NFTPreview extends Component {
                         text={description || caption}
                         trimRight
                       />
-                    </div>
-                    <p className={classes.url}>{url && this.cutUrl(url)}</p>
+                    </Typography>
+                    <Typography className={classes.url}>{url && this.cutUrl(url)}</Typography>
                   </Grid>
                 </Grid>
               </div>

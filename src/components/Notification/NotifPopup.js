@@ -37,8 +37,7 @@ const styles = theme => ({
   },
   notifPaper: {
     background: '#1f1f1f',
-    overflow: 'hidden',
-    borderRadius: 3
+    overflow: 'hidden'
   },
   menuList: {
     padding: '0',

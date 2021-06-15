@@ -17,22 +17,18 @@ const BACKEND_API = process.env.BACKEND_API
 const styles = theme => ({
   root: {
     position: 'relative',
-    borderRadius: '20px',
+    borderRadius: '0.65rem',
     border: '0px solid #fff',
     backgroundColor: '#101010',
     '&:hover': {
       backgroundColor: '#242424'
     },
-    margin: '15px 0 15px 0',
     justifyContent: 'flex-start',
     width: '',
     fontFamily: 'Gilroy',
     fontWeight: '300',
     color: '#fff',
-    maxWidth: '80vw',
-    [theme.breakpoints.down('xs')]: {
-      margin: '15px 0 15px 0'
-    }
+    maxWidth: '80vw'
   },
   searchIcon: {
     width: '10vw',

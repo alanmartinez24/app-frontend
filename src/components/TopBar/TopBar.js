@@ -74,6 +74,7 @@ const styles = theme => ({
     fontFamily: 'Gilroy',
     width: '100%',
     height: '45px',
+    borderRadius: '0.65rem',
     '&:hover': {
       backgroundColor: '#00eab7'
     },
@@ -237,6 +238,13 @@ const theme = createMuiTheme({
     MuiButton: {
       raisedSecondary: {
         color: 'white'
+      },
+      root: {
+        textTransform: 'capitalize',
+        borderRadius: '0.65rem'
+      },
+      contained: {
+        borderRadius: '0.65rem'
       }
     },
     MuiListItemIcon: {
@@ -959,107 +967,109 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         letterSpacing: '0.02em'
                       }}
                     >
-                      FEEDS
+                      Feeds
                     </ListSubheader>
-                    <PrivateListItem>
-                      <ListItem
-                        button
-                        dense
-                        component={Link}
-                        to='/?feed=dailyhits'
-                      >
-                        <ListItemText
-                          primary='Your Daily Hits'
-                          className={classes.listButton}
-                          style={{
+                    <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
+                      <PrivateListItem>
+                        <ListItem
+                          button
+                          dense
+                          component={Link}
+                          to='/?feed=dailyhits'
+                        >
+                          <ListItemText
+                            primary='Your Daily Hits'
+                            className={classes.listButton}
+                            style={{
                             color: '#c0c0c0',
                             fontWeight: '100',
                             margin: 0
                           }}
+                          />
+                        </ListItem>
+                      </PrivateListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        to='/?feed=crypto'
+                      >
+                        <ListItemText
+                          primary='Crypto'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
                         />
                       </ListItem>
-                    </PrivateListItem>
-                    <ListItem button
-                      dense
-                      component={Link}
-                      to='/?feed=crypto'
-                    >
-                      <ListItemText
-                        primary='Crypto'
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                        className={classes.listButton}
-                      />
-                    </ListItem>
-                    <ListItem button
-                      dense
-                      component={Link}
-                      to='/?feed=nfts'
-                    >
-                      <ListItemText
-                        primary='NFTs'
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                        className={classes.listButton}
-                      />
-                    </ListItem>
-                    <ListItem
-                      button
-                      dense
-                      component={Link}
-                      to='/?feed=politics'
-                    >
-                      <ListItemText
-                        primary='Politics'
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                        className={classes.listButton}
-                      />
-                    </ListItem>
-                    <ListItem
-                      button
-                      dense
-                      component={Link}
-                      to='/?feed=non-corona'
-                    >
-                      <ListItemText
-                        primary='Safe Space'
-                        className={classes.listButton}
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                      />
-                    </ListItem>
-                    <ListItem
-                      button
-                      dense
-                      component={Link}
-                      to='/?feed=latenightcool'
-                    >
-                      <ListItemText
-                        primary='Popular'
-                        className={classes.listButton}
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                      />
-                    </ListItem>
-                    <ListItem button
-                      dense
-                      component={Link}
-                      to='/?feed=lol'
-                    >
-                      <ListItemText
-                        primary='Funny'
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                        className={classes.listButton}
-                      />
-                    </ListItem>
-                    <ListItem
-                      button
-                      dense
-                      component={Link}
-                      to='/?feed=brainfood'
-                    >
-                      <ListItemText
-                        primary='Smart'
-                        style={{ color: '#c0c0c0', margin: 0 }}
-                        className={classes.listButton}
-                      />
-                    </ListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        to='/?feed=nfts'
+                      >
+                        <ListItemText
+                          primary='NFTs'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        to='/?feed=politics'
+                      >
+                        <ListItemText
+                          primary='Politics'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        to='/?feed=non-corona'
+                      >
+                        <ListItemText
+                          primary='Safe Space'
+                          className={classes.listButton}
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        to='/?feed=latenightcool'
+                      >
+                        <ListItemText
+                          primary='Popular'
+                          className={classes.listButton}
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                        />
+                      </ListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        to='/?feed=lol'
+                      >
+                        <ListItemText
+                          primary='Funny'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        to='/?feed=brainfood'
+                      >
+                        <ListItemText
+                          primary='Smart'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                    </div>
                   </List>
                 </Grow>
               )}
