@@ -7,18 +7,8 @@ import Footer from '../../components/Footer/Footer'
 import Grid from '@material-ui/core/Grid'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import { AdvancedImage } from '@cloudinary/react'
-import { Cloudinary } from '@cloudinary/base'
 import path from 'path'
 import axios from 'axios'
-
-const { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME } = process.env
-
-const cld = new Cloudinary({
-  cloud_name: CLOUDINARY_NAME,
-  api_key: CLOUDINARY_API_KEY,
-  api_secret: CLOUDINARY_API_SECRET
-})
 
 const { BACKEND_API } = process.env
 
@@ -103,7 +93,7 @@ class PostPage extends Component {
   }
 
   render () {
-    const { classes, location } = this.props
+    const { classes } = this.props
     const { post, isLoading } = this.state
 
     return (
@@ -119,9 +109,6 @@ class PostPage extends Component {
               <PostDisplay isLoading={isLoading}
                 post={post}
               />
-              <div>
-                <AdvancedImage cldImg={cld.image(path.basename(location.pathname))} />
-              </div>
             </Grid>
           </div>
           <Footer />

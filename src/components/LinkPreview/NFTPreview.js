@@ -7,19 +7,7 @@ import { Grid, Tooltip } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import { AdvancedImage, lazyload, responsive } from '@cloudinary/react'
-import { Cloudinary } from '@cloudinary/base'
-// import { scale } from '@cloudinary/base/actions/resize'
-import { format } from '@cloudinary/base/actions/delivery'
-import { webp } from '@cloudinary/base/qualifiers/format'
-
-const { CLOUDINARY_NAME } = process.env
-
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: CLOUDINARY_NAME
-  }
-})
+import CldImg from '../../components/Miscellaneous/CldImg'
 
 const { DEFAULT_POST_IMAGE, RARIBLE_API } = process.env
 console.log(`DEFAULT_POST_IMAGE`, DEFAULT_POST_IMAGE)
@@ -281,14 +269,12 @@ class NFTPreview extends Component {
       url,
       classes,
       caption,
-      mimeType
+      mimeType,
+      postid
     } = this.props
 
     let faviconURL
     let faviconURLFallback
-    const myImage = cld.image('3266')
-
-    myImage.delivery(format(webp()))
 
     if (url != null) {
       faviconURL =
@@ -317,22 +303,23 @@ class NFTPreview extends Component {
               target='_blank'
             >
               {(image && image.includes('nft.mp4')) ||
-              (mimeType && mimeType.includes('video')) ? (
-                <ReactPlayer
-                  className={classes.linkImg}
-                  style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                  url={image}
-                  height='auto'
-                  width='100%'
-                  playing
-                  muted
-                  loop
-                  playsinline
-                />
+                (mimeType && mimeType.includes('video')) ? (
+                  <ReactPlayer
+                    className={classes.linkImg}
+                    style={{ overFlow: 'hidden', maxHeight: '1000px' }}
+                    url={image}
+                    height='auto'
+                    width='100%'
+                    playing
+                    muted
+                    loop
+                    playsinline
+                  />
               ) : (
-                <AdvancedImage cldImg={myImage}
-                  plugins={[responsive(), lazyload()]}
+                <CldImg
                   className={classes.linkImg}
+                  postid={postid}
+                  src={image}
                 />
               )}
               <div className={classes.previewData}>
@@ -468,6 +455,7 @@ NFTPreview.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 }
 
