@@ -6,7 +6,6 @@ export function fetchUserPermissions (eosname) {
   return async dispatch => {
     dispatch(request(eosname))
     try {
-      console.log(`eosname`, eosname)
       const { permissions } = (await axios.post(`${BACKEND_API}/v1/chain/get_account`, { account_name: eosname })).data
       if (permissions) {
         const allPermNames = permissions.map((perm) => perm.perm_name)

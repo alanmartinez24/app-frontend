@@ -171,6 +171,10 @@ const mapStateToProps = (state, ownProps) => {
     account = { name: ethAccount._id, authority: 'active' }
   }
 
+  if (account && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
+  }
+
   const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
   return {
     account,
