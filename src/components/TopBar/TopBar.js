@@ -478,15 +478,12 @@ function TopBar ({ classes, history, width, isTourOpen }) {
     fetchNotifs()
   }, [accountName])
 
-  const fetchNotifs = async () => {
+  const fetchNotifs = () => {
     if (!accountName || notifications.length) return
-
     try {
-      const notifs = (axios.get(`${BACKEND_API}/notifications/${accountName}`)).data
-      const fmtNotifs = notifs.map(notif => {
-        notif.votes = [...new Map(notif.votes.map(item => [item.voteid, item])).values()]
+      (axios.get(`${BACKEND_API}/notifications/${accountName}`)).then(({ data: notifs }) => {
+        setNotifications(notifs)
       })
-      setNotifications(fmtNotifs)
     } catch (err) {}
   }
 
