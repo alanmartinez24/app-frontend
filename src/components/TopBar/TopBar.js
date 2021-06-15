@@ -384,7 +384,6 @@ const getReduxState = state => {
   const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
-  account.authority = state.hasYupPerm ? 'yup' : 'active'
 
   if (!scatterIdentity) {
     if (ethAccount) {
@@ -392,6 +391,10 @@ const getReduxState = state => {
     } else if (twitterIdentity) {
       account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
     }
+  }
+
+  if (account && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
   }
 
   return {

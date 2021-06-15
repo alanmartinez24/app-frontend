@@ -107,7 +107,6 @@ const mapStateToProps = (state, ownProps) => {
   const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || ethAccount
-  account.authority = state.hasYupPerm ? 'yup' : 'active'
 
   if (!scatterIdentity) {
     if (ethAccount) {
@@ -115,6 +114,10 @@ const mapStateToProps = (state, ownProps) => {
     } else if (twitterIdentity) {
       account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
     }
+  }
+
+  if (account && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
   }
 
   return {
