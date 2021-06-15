@@ -1231,8 +1231,8 @@ const mapStateToProps = (state, ownProps) => {
   if (account) {
     const userVotes = state.initialVotes[account.name]
     userVotesForPost = userVotes && userVotes[postid]
-    if (state.userPermissions[account.name]) {
-      account.authority = state.userPermissions && state.userPermissions[account.name].perm
+    if (state.userPermissions && state.userPermissions[account.name]) {
+      account.authority = state.userPermissions[account.name].perm
     }
     if (userVotesForPost) {
       initialVote = userVotesForPost.votes[category]

@@ -1090,7 +1090,7 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
-  if (account && state.userPermissions[account.name]) {
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
     account.authority = state.userPermissions[account.name].perm
   }
 

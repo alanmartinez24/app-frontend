@@ -199,7 +199,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
 
-  if (account && state.userPermissions[account.name]) {
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
     account.authority = state.userPermissions[account.name].perm
   }
 
