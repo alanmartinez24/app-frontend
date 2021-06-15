@@ -80,8 +80,11 @@ class AddComment extends PureComponent {
         const txData = { postid, comment: com }
 
         const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
+        const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
         if (signedInWithEth) {
           await createcomv2(account, txData, ethAuth)
+        } else if (signedInWithTwitter) {
+          await createcomv2(account, txData)
         } else {
           await scatter.createcomv2({ data: txData })
         }
@@ -164,11 +167,17 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
 
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || ethAccount
+  account.authority = state.hasYupPerm ? 'yup' : 'active'
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+    }
   }
 
   const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
