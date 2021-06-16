@@ -12,7 +12,7 @@ const CldImg = ({ postid, src, ...restProps }) => {
     <ErrorBoundary>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_NAME}>
         <Image publicId={isUploadedToCloud ? postid : src}
-          type={isUploadedToCloud ? 'upload' : 'fetch'}
+          type={isUploadedToCloud ? undefined : 'fetch'}
           secure='true'
           loading='lazy'
           dpr='auto'
