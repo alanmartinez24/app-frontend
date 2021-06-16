@@ -1,9 +1,5 @@
 import React, { Fragment, Component, Suspense, lazy } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core'
+import { Dialog, DialogContent, DialogContentText } from '@material-ui/core'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -16,7 +12,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import isEqual from 'lodash/isEqual'
-// import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
 
