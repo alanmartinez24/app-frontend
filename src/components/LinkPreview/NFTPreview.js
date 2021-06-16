@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
 import { Grid, Tooltip } from '@material-ui/core'
@@ -8,6 +7,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import CldImg from '../../components/Miscellaneous/CldImg'
+import CldVid from '../../components/Miscellaneous/CldVid'
 
 const { RARIBLE_API } = process.env
 
@@ -282,7 +282,8 @@ class NFTPreview extends Component {
         '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     }
-    const isVideo = (image && image.includes('nft.mp4')) || (mimeType && mimeType.includes('video'))
+
+    const isVideo = (image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video'))
 
     return (
       <ErrorBoundary>
@@ -303,10 +304,11 @@ class NFTPreview extends Component {
               target='_blank'
             >
               {isVideo ? (
-                <ReactPlayer
+                <CldVid
                   className={classes.linkImg}
                   style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                  url={image}
+                  src={image}
+                  postid={postid}
                   height='auto'
                   width='100%'
                   playing

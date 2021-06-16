@@ -21,7 +21,6 @@ const CldImg = ({ postid, src, ...restProps }) => {
           {...restProps}
         >
           <Placeholder type='vectorize' />
-          <Transformation angle='10' />
           <Transformation quality='auto'
             fetchFormat='auto'
           />
