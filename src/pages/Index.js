@@ -8,6 +8,7 @@ import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
 import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
+import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -252,21 +253,7 @@ const mapActionToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const { account: ethAccount } = state.ethAuth
-  let account = scatterIdentity || state.ethAccount
-  try {
-    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-    if (!scatterIdentity) {
-      if (ethAccount) {
-        account = { name: ethAccount._id, authority: 'active' }
-      } else if (twitterIdentity) {
-        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-      }
-    }
-  } catch (err) {
-    console.log(err)
-  }
+  const account = accountInfoSelector(state)
   return {
     accountName: account && account.name ? account.name : null
   }
