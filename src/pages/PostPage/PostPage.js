@@ -7,7 +7,6 @@ import Footer from '../../components/Footer/Footer'
 import Grid from '@material-ui/core/Grid'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-
 import path from 'path'
 import axios from 'axios'
 

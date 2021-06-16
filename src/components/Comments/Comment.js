@@ -7,6 +7,8 @@ import { withStyles } from '@material-ui/core/styles'
 import { parseError } from '../../eos/error'
 import scatter from '../../eos/scatter/scatter.wallet'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { fetchSocialLevel } from '../../redux/actions'
+import { connect } from 'react-redux'
 
 const styles = theme => ({
   panelText: {
@@ -66,12 +68,18 @@ class Comment extends Component {
   }
 
   render () {
-    const { classes, levels, comment } = this.props
+    const { levels, classes, dispatch, comment } = this.props
     const { status } = this.state
 
     let authorLevelColor
-
-    const level = levels.levels[comment.author]
+    const level = levels[comment.author]
+    if (!level) {
+      dispatch(fetchSocialLevel(comment.author))
+      return <div />
+   }
+   if (levels[comment.author].isLoading) {
+    return <div />
+  }
     if (level) {
       const { quantile } = level.levelInfo
       authorLevelColor = levelColors[quantile]
@@ -149,12 +157,22 @@ class Comment extends Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    levels: state.socialLevels.levels || {
+      isLoading: true,
+      levels: {}
+    }
+  }
+}
 Comment.propTypes = {
+  levels: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  levels: PropTypes.object.isRequired,
   comment: PropTypes.object.isRequired,
   handleSnackbarOpen: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(memo(Comment))
+export default connect(mapStateToProps)(withStyles(styles)(memo(Comment)))

@@ -32,6 +32,7 @@
     "babel-plugin-emotion": "^10.0.33",
     "bfj": "6.1.1",
     "classnames": "^2.2.6",
+    "cloudinary-react": "^1.7.0",
     "connected-react-router": "^6.6.1",
     "css-loader": "1.0.0",
     "date-fns": "^2.19.0",

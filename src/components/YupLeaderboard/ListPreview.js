@@ -21,6 +21,7 @@ const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor
 ) + 1}.png`
 
 const { AUDIUS_EMBED, BACKEND_API } = process.env
+const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
   container: {
@@ -32,8 +33,8 @@ const styles = theme => ({
     }
   },
   image: {
-    width: '60px',
-    heigth: 'auto',
+    width: '100%',
+    height: 'auto',
     aspectRatio: '1 / 1',
     borderRadius: '50%',
     objectFit: 'cover',
@@ -45,8 +46,8 @@ const styles = theme => ({
     }
   },
   nftArt: {
-    maxWidth: '75px',
-    maxHeight: '75px',
+    maxWidth: '60px',
+    maxHeight: '60px',
     width: '100%',
     aspectRatio: '1 / 1',
     borderRadius: '20%',
@@ -232,7 +233,7 @@ class ListPreview extends Component {
               justify='flex-start'
               alignItems='center'
               className={classes.container}
-              spacing={3}
+              spacing={isMobile ? 2 : 3}
             >
               <Grid item
                 xs={1}

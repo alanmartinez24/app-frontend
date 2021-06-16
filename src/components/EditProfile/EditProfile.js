@@ -33,8 +33,7 @@ const styles = theme => ({
   },
   dialogTitle: {
     borderBottom: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing(1.5)
+    margin: 0
   },
   dialogTitleText: {
     fontFamily: 'Gilroy',
@@ -473,7 +472,7 @@ class EditProfile extends Component {
               >
                 <Typography variant='h3'>Edit Profile</Typography>
               </DialogTitle>
-              <DialogContent style={{ margin: '20px' }}>
+              <DialogContent>
                 <Grid
                   container
                   direction='row'
@@ -535,39 +534,50 @@ class EditProfile extends Component {
                   </Grid>
                   <Grid item
                     container
-                    alignItems='center'
+                    direction='column'
+                    alignItems='stretch'
+                    spacing={2}
                   >
-                    <YupInput
-                      defaultValue={this.state.fullname}
-                      fullWidth
-                      id='name'
-                      maxLength={17}
-                      label='Name'
-                      onChange={this.handleFullnameChange}
-                      type='text'
-                    />
-                    <YupInput
-                      defaultValue={this.state.bio}
-                      color='#fafafa'
-                      fullWidth
-                      id='bio'
-                      maxLength={140}
-                      label='Bio'
-                      multiline
-                      onChange={this.handleBioChange}
-                      type='text'
-                    />
-                    <YupInput
-                      autoFocus
-                      defaultValue={this.state.ethAddress}
-                      fullWidth
-                      disabled
-                      id='name'
-                      maxLength={250}
-                      label='ETH Address'
-                      multiline
-                      type='text'
-                    />
+                    <Grid item>
+                      <YupInput
+                        defaultValue={this.state.fullname}
+                        fullWidth
+                        id='name'
+                        maxLength={17}
+                        label='Name'
+                        onChange={this.handleFullnameChange}
+                        type='text'
+                        variant='outlined'
+                      />
+                    </Grid>
+                    <Grid item>
+                      <YupInput
+                        defaultValue={this.state.bio}
+                        color='#fafafa'
+                        fullWidth
+                        id='bio'
+                        maxLength={140}
+                        label='Bio'
+                        multiline
+                        onChange={this.handleBioChange}
+                        type='text'
+                        variant='outlined'
+                      />
+                    </Grid>
+                    <Grid item>
+                      <YupInput
+                        autoFocus
+                        defaultValue={this.state.ethAddress}
+                        fullWidth
+                        disabled
+                        id='name'
+                        maxLength={250}
+                        label='ETH Address'
+                        multiline
+                        type='text'
+                        variant='outlined'
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
               </DialogContent>

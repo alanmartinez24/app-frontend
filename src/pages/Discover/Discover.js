@@ -263,17 +263,16 @@ function FeedHeader ({
         >
           <Grid
             item
-            style={{ height: isMinimize ? '3.5rem' : '4rem' }}
+            xs={isMinimize ? 1 : 2}
           >
             <img
               className={classes.topicImg}
               src={image}
-              style={isMinimize ? { width: '2rem' } : {}}
             />
           </Grid>
           <Grid item>
             <Typography
-              variant='h4'
+              variant={isMinimize ? 'h2' : 'h3'}
               style={isMinimize ? { fontSize: '1rem' } : {}}
             >
               {name}
@@ -310,8 +309,10 @@ const StyledFeedHeader = withStyles(theme => ({
   },
   topicImg: {
     zIndex: 100,
-    width: '2.5rem',
-    borderRadius: '0.25rem'
+    width: '100%',
+    aspectRatio: '1 / 1',
+    borderRadius: '15%',
+    display: 'block'
   }
 }))(FeedHeader)
 

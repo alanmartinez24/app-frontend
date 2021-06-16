@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogContentText,
   Link,
-  Typography
+  Typography, Grid
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
@@ -47,6 +47,12 @@ const styles = theme => ({
       margin: 0,
       padding: theme.spacing(2),
       color: '#fafafa'
+    }
+  },
+  dialogContentText: {
+    root: {
+      paddingBottom: '2rem',
+      paddingTop: '2rem'
     }
   },
   snack: {
@@ -143,27 +149,43 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
           <Typography variant='h3'>New Collection</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText style={{ color: '#fff' }}>
-            Start here to make a new collection
+          <DialogContentText variant='body1'>
+            Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else.
           </DialogContentText>
-          <YupInput
-            maxLength={TITLE_LIMIT}
-            fullWidth
-            autoFocus
-            onChange={handleNameChange}
-            id='name'
-            label='Name'
-            type='text'
-          />
-          <YupInput
-            color='#fafafa'
-            maxLength={DESC_LIMIT}
-            fullWidth
-            id='description'
-            onChange={handleDescriptionChange}
-            label='Description'
-            type='text'
-          />
+          <Grid
+            container
+            direction='column'
+            alignItems='stretch'
+            spacing={3}
+          >
+            <Grid item>
+              <YupInput
+                fullWidth
+                id='name'
+                maxLength={TITLE_LIMIT}
+                multiline
+                label='Name'
+                onChange={handleDescriptionChange}
+                type='text'
+                variant='outlined'
+                size='small'
+              />
+            </Grid>
+            <Grid item>
+              <YupInput
+                color='#fafafa'
+                fullWidth
+                id='description'
+                maxLength={DESC_LIMIT}
+                label='Description'
+                multiline
+                onChange={handleNameChange}
+                type='text'
+                variant='outlined'
+                size='small'
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <LoaderButton onClick={handleCreateNewCollection}

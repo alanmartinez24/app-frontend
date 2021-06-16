@@ -11,7 +11,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -126,8 +126,7 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { fetchSocialLevels, checkScatter, scatterInstall } = this.props
-      fetchSocialLevels()
+      const { checkScatter, scatterInstall } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
@@ -139,11 +138,11 @@ class Index extends Component {
     })()
   }
 
-  componentDidUpdate ({ account, getLoggedUserCollections, fetchUserPerms }) {
-    if (!(account && account.name)) return
-    getLoggedUserCollections(account.name)
-    fetchUserPerms(account.name)
-    // if (wallet.connected) return
+  componentDidUpdate (prevProps) {
+    const { getLoggedUserCollections, accountName } = this.props
+    if (accountName && prevProps.accountName !== accountName) {
+      getLoggedUserCollections(accountName)
+    }
   }
 
   render () {
@@ -239,32 +238,44 @@ class Index extends Component {
 }
 
 Index.propTypes = {
-  fetchSocialLevels: PropTypes.func.isRequired,
   checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
   scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
   fetchUserPerms: PropTypes.func.isRequired,
-  account: PropTypes.object
+  accountName: PropTypes.string
 }
 
 const mapActionToProps = (dispatch) => {
   return {
     checkScatter: (scatter, account, eos) => dispatch(loginScatter(scatter, account, eos)),
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
-    fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
-    getLoggedUserCollections: (account) => dispatch(fetchUserCollections(account)),
-    fetchUserPerms: (account) => dispatch(fetchUserPermissions(account))
-  }
+    fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
+    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const { account: ethAccount } = state.ethAuth
+  let account = scatterIdentity || state.ethAccount
+  try {
+    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+    if (!scatterIdentity) {
+      if (ethAccount) {
+        account = { name: ethAccount._id, authority: 'active' }
+      } else if (twitterIdentity) {
+        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+      }
+    }
+  } catch (err) {
+    console.log(err)
+  }
   return {
-    account: state.scatterRequest.account,
-    levels: (state.socialLevels && state.socialLevels.levels) || {}
+    accountName: account && account.name ? account.name : null
   }
 }
 

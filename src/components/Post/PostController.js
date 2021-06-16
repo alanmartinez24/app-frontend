@@ -3,6 +3,7 @@ import Post from '../Post/Post'
 import PostHOC from './PostHOC'
 import TextPost from './TextPost'
 import LinkPreviewPost from './LinkPreviewPost'
+import ArticlePost from './ArticlePost'
 import CoursePost from '../Post/CoursePost'
 import ProfPost from '../Post/ProfPost'
 import TweetPost from './TweetPost'
@@ -98,6 +99,11 @@ function isInstagramPost (caption) {
 function isTwitchPost (caption) {
   const twPattern = genRegEx(['twitch.tv/*'])
   return twPattern.test(caption)
+}
+
+function isArticlePost (caption) {
+  const atPattern = genRegEx(['forum.yup.io/*/*', 'yup.canny.io/*/*', '(^|^[^:]+://|[^.]+.)mirror.xyz(/).*'])
+  return atPattern.test(caption)
 }
 
 function isTwitterPost (caption) {
@@ -354,6 +360,25 @@ class PostController extends Component {
       return (
         <ErrorBoundary>
           <TallPreviewPost
+            comment={post.comment}
+            key={post._id.postid}
+            postid={post._id.postid}
+            author={post.author}
+            caption={post.caption}
+            previewData={post.previewData}
+            quantiles={post.quantiles}
+            votes={post.upvotes - post.downvotes}
+            weights={post.weights}
+            postHOC={PostHOC}
+            hideInteractions={hideInteractions}
+            classes={classes}
+          />
+        </ErrorBoundary>
+      )
+    } else if (isArticlePost(post.caption)) {
+      return (
+        <ErrorBoundary>
+          <ArticlePost
             comment={post.comment}
             key={post._id.postid}
             postid={post._id.postid}

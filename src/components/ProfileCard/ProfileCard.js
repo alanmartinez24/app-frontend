@@ -21,6 +21,7 @@ import { connect } from 'react-redux'
 import Tooltip from '@material-ui/core/Tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CountUp from 'react-countup'
+import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
   avatarImage: {
@@ -64,7 +65,7 @@ const styles = theme => ({
     boxShadow: '0px 0px 0px #2a2a2a81',
     background: 'transparent',
     backgroundSize: 'cover',
-    width: '600px',
+    width: '550px',
     margin: 'auto',
     marginTop: '75px',
     maxWidth: '100vw',
@@ -127,14 +128,7 @@ const styles = theme => ({
     }
   },
   name: {
-    color: '#ffffff',
-    fontSize: '24px',
-    fontWeight: '500',
-    padding: '0px',
-    fontFamily: 'Gilroy',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '20px'
-    }
+    padding: '0px'
   },
   profileDetails: {
     ...theme.mixins.gutters(),
@@ -145,10 +139,8 @@ const styles = theme => ({
     display: 'inline-grid',
     width: '100%',
     position: 'relative',
-    marginLeft: '100px',
     [theme.breakpoints.down('xs')]: {
       paddingTop: '10px',
-      marginLeft: '90px',
       display: 'block',
       height: '100px'
     }
@@ -235,7 +227,8 @@ function ProfileCard (props) {
     isLoggedIn,
     ratingCount,
     isMinimize,
-    level
+    levels,
+    dispatch
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
   const YUPBalanceError =
@@ -250,7 +243,18 @@ function ProfileCard (props) {
     .format('0a')
     .toUpperCase()
 
-  const quantile = level && level.levelInfo.quantile
+  if (!accountInfo.eosname) {
+    return <div />
+  }
+  if (!levels[accountInfo.eosname]) {
+     dispatch(fetchSocialLevel(accountInfo.eosname))
+      return (<div />)
+   }
+
+   if (levels[accountInfo.eosname].isLoading) {
+    return <div />
+  }
+  const quantile = levels[accountInfo.eosname] && levels[accountInfo.eosname].levelInfo.quantile
   const socialLevelColor = levelColors[quantile]
 
   const displayName =
@@ -277,7 +281,7 @@ function ProfileCard (props) {
           alt={accountInfo._id}
           username={accountInfo.eosname}
           className={`${classes.avatarImage} ${minimize}`}
-          src={level.levelInfo.avatar}
+          src={levels[accountInfo.eosname].levelInfo.avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
         />
         <Grid alignItems='center'
@@ -288,10 +292,10 @@ function ProfileCard (props) {
           <Grid
             item
             className={classes.profileDetails}
-            style={{ paddingTop: isMinimize ? '5px' : '' }}
+            style={{ paddingTop: isMinimize ? '5px' : '', marginLeft: isMinimize ? 50 : 100 }}
           >
             <Grid
-              alignItems='flex-start'
+              alignItems={isMinimize ? 'flex-start' : 'center'}
               container
               direction='row'
               justify='space-between'
@@ -351,18 +355,18 @@ function ProfileCard (props) {
                 spacing={0}
               >
                 <Grid item>
-                  <span
+                  <Typography
+                    variant='body2'
                     style={{
                       textDecoration: socialLevelColor ? 'none' : 'none',
                       textDecorationColor: socialLevelColor,
                       textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                      fontWeight: isMirror ? '200' : '200',
                       color: isMirror ? '#b1b1b1' : '#ffffff',
                       padding: '0px'
                     }}
                   >
                     @{username}
-                  </span>
+                  </Typography>
                 </Grid>
                 <Grid item>
                   {isMirror && !isAuthUser ? (
@@ -546,24 +550,23 @@ function ProfileCard (props) {
   )
 }
 const mapStateToProps = (state, ownProps) => {
-  const eosname = ownProps.accountInfo && ownProps.accountInfo.eosname
   return {
-    level: state.socialLevels.levels[eosname] || {
+    levels: state.socialLevels.levels || {
       isLoading: true,
-      error: false,
-      levelInfo: {}
+      levels: {}
     }
   }
 }
 
 ProfileCard.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   ratingCount: PropTypes.number.isRequired,
   balanceInfo: PropTypes.object.isRequired,
   accountInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
-  level: PropTypes.object,
+  levels: PropTypes.object,
   account: PropTypes.object
 }
 
