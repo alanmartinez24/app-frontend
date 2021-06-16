@@ -1227,6 +1227,10 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
+  }
+
   let userVotesForPost = {}
 
   if (account) {

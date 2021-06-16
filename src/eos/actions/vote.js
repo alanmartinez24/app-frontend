@@ -16,7 +16,7 @@ export async function createvote (account, data, ethAuth) {
       },
       {
         account: YUP_CONTRACT_ACCOUNT,
-        name: 'createvotev3',
+        name: 'createvotev2',
         authorization: [{
           actor: YUP_CREATOR,
           permission: 'active'

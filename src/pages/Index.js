@@ -126,7 +126,7 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { checkScatter, scatterInstall } = this.props
+      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
@@ -135,13 +135,19 @@ class Index extends Component {
         await this.fetchListOptions()
       }
       this.setState({ isLoading: false })
+
+      if (accountName) {
+        getLoggedUserCollections(accountName)
+        fetchUserPerms(accountName)
+      }
     })()
   }
 
   componentDidUpdate (prevProps) {
-    const { getLoggedUserCollections, accountName } = this.props
+    const { getLoggedUserCollections, fetchUserPerms, accountName } = this.props
     if (accountName && prevProps.accountName !== accountName) {
       getLoggedUserCollections(accountName)
+      fetchUserPerms(accountName)
     }
   }
 
