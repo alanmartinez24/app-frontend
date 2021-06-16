@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, InputAdornment, OutlinedInput, FormControl, Icon, Grid } from '@material-ui/core'
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -13,6 +13,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { updateEthAuthInfo } from '../../redux/actions'
+import theme from '../../utils/theme'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
@@ -67,7 +68,7 @@ const styles = theme => ({
   },
   twitterIcon: {
     maxWidth: '4vw',
-    width: '18px',
+    width: '24px',
     height: 'auto',
     float: 'right'
   },
@@ -114,55 +115,8 @@ const styles = theme => ({
     width: '250px',
     padding: '5px',
     color: '#fff',
-    margin: 'auto',
-    right: '24px',
     [theme.breakpoints.down('sm')]: {
       width: '160px'
-    }
-  }
-})
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: '"Gilroy", sans-serif'
-  },
-  palette: {
-    primary: {
-      light: '#fafafa',
-      main: '#aaaaaa',
-      dark: '#cacaca'
-    },
-    type: 'dark'
-  },
-  overrides: {
-    MuiOutlinedInput: {
-      root: {
-        color: '#fff',
-        borderColor: '#fff !important',
-        lineHeight: '1.75'
-      },
-      input: {
-        fontFamily: '"Gilroy", sans-serif',
-        fontSize: '16px',
-        paddingLeft: '21px'
-      },
-      adornedEnd: {
-        cursor: 'pointer',
-        paddingRight: '21px'
-      }
-    },
-    MuiStepIcon: {
-      root: {
-        color: '#00EAB7 !important'
-      },
-      text: {
-        fill: '#000 !important'
-      }
-    },
-    MuiStepLabel: {
-      label: {
-        color: '#fff !important'
-      }
     }
   }
 })
@@ -628,17 +582,17 @@ class SubscribeDialog extends Component {
                 <Typography
                   align='left'
                   className={classes.dialogTitleText}
-                  variant='h5'
+                  variant='h3'
                 >
                   Sign Up / Login
                 </Typography>
               </DialogTitle>
               <DialogContent>
-                <DialogContentText>
+                <DialogContentText style={{ padding: '20px 0px' }}>
                   <Typography
                     align='left'
                     className={classes.dialogContentText}
-                    variant='subtitle1'
+                    variant='h5'
                   >
                     <span className={classes.desktop}>
                       Earn money & clout for rating content anywhere on the internet.<br />
@@ -652,7 +606,6 @@ class SubscribeDialog extends Component {
                 >
                   <Grid item>
                     <Button
-                      className={classes.buttons}
                       variant='outlined'
                       size='large'
                       onClick={this.initWalletConnect}
@@ -677,7 +630,6 @@ class SubscribeDialog extends Component {
                   </Grid>
                   <Grid item>
                     <Button
-                      className={classes.buttons}
                       variant='outlined'
                       size='large'
                       onClick={this.startTwitterOAuth}
@@ -755,7 +707,7 @@ class SubscribeDialog extends Component {
                 </Typography>
               </DialogTitle>
               <DialogContent>
-                <DialogContentText>Please signup using an address with a positive ETH balance.</DialogContentText>
+                <DialogContentText>Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved </DialogContentText>
                 <Stepper activeStep={this.state.activeStep}
                   orientation='vertical'
                   className={classes.stepper}

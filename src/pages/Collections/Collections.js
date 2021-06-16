@@ -33,6 +33,7 @@ import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 import theme from '../../utils/theme'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { fetchSocialLevel } from '../../redux/actions'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -254,7 +255,7 @@ class Collections extends Component {
       this.setState({ isLoading: false })
       console.log(err)
     }
-    this.getSocialLevel(collection.ownerId)
+    // this.getSocialLevel(collection.ownerId)
 
     this.setState({
       isLoading: false,
@@ -321,7 +322,7 @@ class Collections extends Component {
   }
 
   render () {
-    const { classes, account } = this.props
+    const { classes, account, levels, dispatch } = this.props
     const {
       collection,
       posts,
@@ -330,10 +331,18 @@ class Collections extends Component {
       snackbarMsg,
       recommended,
       dialogOpen,
-      socialLevelColor,
-      activeTab
+      activeTab,
+      socialLevelColor
     } = this.state
-
+    let color = socialLevelColor
+if (account && account.name) {
+  if (!levels[account.name]) {
+    dispatch(fetchSocialLevel(account.name))
+ }
+  if (levels[account.name] && !levels[account.name].isLoading) {
+   color = levelColors[levels[account.name].levelInfo.quantile]
+ }
+}
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
@@ -532,8 +541,8 @@ class Collections extends Component {
                         to={`/${collection.owner}`}
                         style={{
                           color: '#fff',
-                          textDecoration: socialLevelColor
-                            ? `1px solid underline ${socialLevelColor}`
+                          textDecoration: color
+                            ? `1px solid underline ${color}`
                             : 'none'
                         }}
                       >
@@ -838,7 +847,6 @@ const mapStateToProps = state => {
   const { account: ethAccount } = state.ethAuth
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
-  const levels = state.socialLevels.levels
 
   if (!scatterIdentity && ethAccount) {
     account = { name: ethAccount._id, authority: 'active' }
@@ -846,13 +854,18 @@ const mapStateToProps = state => {
 
   return {
     account,
-    levels,
+    levels: state.socialLevels.levels || {
+      isLoading: true,
+      levels: {}
+    },
     push: state.scatterInstallation.push,
     collections: state.collections
   }
 }
 
 Collections.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  levels: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
 }

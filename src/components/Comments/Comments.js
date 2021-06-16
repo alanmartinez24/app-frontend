@@ -72,7 +72,7 @@ class Comments extends Component {
   }
 
   render () {
-    const { classes, comments, levels, postid, account } = this.props
+    const { classes, comments, postid, account } = this.props
 
     const Snack = (props) => (
       <Portal>
@@ -131,7 +131,6 @@ class Comments extends Component {
                 <Comment
                   style={{ margin: '-20px 0px 0px -12px' }}
                   comment={firstComment}
-                  levels={levels}
                   account={account}
                   handleSnackbarOpen={this.handleSnackbarOpen}
                 />
@@ -141,7 +140,6 @@ class Comments extends Component {
               >
                 <BottomCommentPanel
                   comments={restOfComments}
-                  levels={levels}
                   account={account}
                   handleSnackbarOpen={this.handleSnackbarOpen}
                 />
@@ -181,16 +179,15 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     account,
-    comments: commentsSelector(state, ownProps.postid),
-    levels: state.socialLevels
+    comments: commentsSelector(state, ownProps.postid)
   }
 }
 
 Comments.propTypes = {
+
   classes: PropTypes.object.isRequired,
   comments: PropTypes.array,
   account: PropTypes.object.isRequired,
-  levels: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired
 }
 

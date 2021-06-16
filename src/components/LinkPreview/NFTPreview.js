@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
-import { Grid, Tooltip } from '@material-ui/core'
+import { Grid, Tooltip, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
+import CldImg from '../../components/Miscellaneous/CldImg'
+import CldVid from '../../components/Miscellaneous/CldVid'
 
-const { DEFAULT_POST_IMAGE, RARIBLE_API } = process.env
+const { RARIBLE_API } = process.env
 
 // TODO: Simplify regex, put in utils file
 const RARIBLE_URL = new RegExp(
@@ -66,7 +67,7 @@ const styles = theme => ({
       maxHeight: '25rem',
       width: '100%'
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       borderRadius: '0px'
     }
   },
@@ -267,7 +268,8 @@ class NFTPreview extends Component {
       url,
       classes,
       caption,
-      mimeType
+      mimeType,
+      postid
     } = this.props
 
     let faviconURL
@@ -280,6 +282,8 @@ class NFTPreview extends Component {
         '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     }
+
+    const isVideo = (image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video'))
 
     return (
       <ErrorBoundary>
@@ -299,12 +303,12 @@ class NFTPreview extends Component {
               rel='noopener noreferrer'
               target='_blank'
             >
-              {(image && image.includes('nft.mp4')) ||
-              (mimeType && mimeType.includes('video')) ? (
-                <ReactPlayer
+              {isVideo ? (
+                <CldVid
                   className={classes.linkImg}
                   style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                  url={image}
+                  src={image}
+                  postid={postid}
                   height='auto'
                   width='100%'
                   playing
@@ -313,12 +317,10 @@ class NFTPreview extends Component {
                   playsinline
                 />
               ) : (
-                <Img
-                  alt={title}
+                <CldImg
                   className={classes.linkImg}
-                  src={[image, DEFAULT_POST_IMAGE]}
-                  target='_blank'
-                  loader={<img src={DEFAULT_POST_IMAGE} />}
+                  postid={postid}
+                  src={image}
                 />
               )}
               <div className={classes.previewData}>
@@ -365,13 +367,13 @@ class NFTPreview extends Component {
                         justify='left'
                         container
                         direction='row'
-                        alignItems='left'
+                        alignItems='center'
                         spacing={0}
                         style={{ height: '30px' }}
                       >
                         {this.state.creator && (
                           <Grid item
-                            xs={this.state.owners.length > 0 ? 3 : 6}
+                            xs={this.state.owners.length > 0 ? 4 : 6}
                           >
                             <Tooltip
                               title='Creator'
@@ -379,7 +381,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <div className={classes.credits}>
+                              <Typography variant='body1'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'
@@ -391,13 +393,13 @@ class NFTPreview extends Component {
                                   }
                                   trimRight
                                 />
-                              </div>
+                              </Typography>
                             </Tooltip>
                           </Grid>
                         )}
                         {this.state.owners.length > 0 && (
                           <Grid item
-                            xs={this.state.creator ? 6 : 4}
+                            xs={this.state.creator ? 4 : 4}
                           >
                             <Tooltip
                               title='Owner'
@@ -405,7 +407,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <div className={classes.credits}>
+                              <Typography variant='body1'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'
@@ -417,7 +419,7 @@ class NFTPreview extends Component {
                                   }
                                   trimRight
                                 />
-                              </div>
+                              </Typography>
                             </Tooltip>
                           </Grid>
                         )}
@@ -425,7 +427,7 @@ class NFTPreview extends Component {
                     </Grid>
                   )}
                   <Grid item>
-                    <div className={classes.description}>
+                    <Typography variant='body2'>
                       <LinesEllipsis
                         basedOn='letters'
                         ellipsis='...'
@@ -433,8 +435,8 @@ class NFTPreview extends Component {
                         text={description || caption}
                         trimRight
                       />
-                    </div>
-                    <p className={classes.url}>{url && this.cutUrl(url)}</p>
+                    </Typography>
+                    <Typography className={classes.url}>{url && this.cutUrl(url)}</Typography>
                   </Grid>
                 </Grid>
               </div>
@@ -454,6 +456,7 @@ NFTPreview.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 }
 

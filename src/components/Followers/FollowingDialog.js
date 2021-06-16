@@ -17,6 +17,7 @@ import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { connect } from 'react-redux'
 import numeral from 'numeral'
+import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
   dialogTitle: {
@@ -91,7 +92,7 @@ class FollowingDialog extends Component {
   }
 
   render () {
-    const { classes, account, followingInfo, levels } = this.props
+    const { classes, account, followingInfo, levels, dispatch } = this.props
     const { following } = followingInfo
     const formattedFollowing = numeral(following.length).format('0a').toUpperCase()
 
@@ -107,9 +108,6 @@ class FollowingDialog extends Component {
           >
             <Typography
               align='left'
-              className={classes.text}
-              color='#ffffff'
-              style={{ color: '#ffffff', fontFamily: 'Gilroy' }}
             >
               <a style={{ fontWeight: 500 }}>{formattedFollowing} </a> following
             </Typography>
@@ -177,8 +175,14 @@ class FollowingDialog extends Component {
                         No users are being followed
                       </Typography>
                       : following.map((user) => {
+                        if (!levels[user._id]) {
+                          dispatch(fetchSocialLevel(user._id))
+                          return <div />
+                       } if (levels[user._id].isLoading) {
+                        return <div />
+                      }
                         const eosname = user._id
-                        const level = levels.levels[eosname]
+                        const level = levels[eosname]
                         const username = level && level.levelInfo.username
                         const quantile = level && level.levelInfo.quantile
                         let socialLevelColor = levelColors[quantile]
@@ -267,7 +271,10 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     account,
-    levels: state.socialLevels,
+    levels: state.socialLevels.levels || {
+      isLoading: true,
+      levels: {}
+    },
     followingInfo: state.followingByUser[username] || {
       isLoading: true,
       following: [],
@@ -277,6 +284,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 FollowingDialog.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   levels: PropTypes.object,
   followingInfo: PropTypes.object.isRequired,

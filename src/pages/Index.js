@@ -8,8 +8,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-// import wallet from '../eos/scatter/scatter.wallet'
-import { fetchAllSocialLevels, loginScatter, signalConnection, setListOptions, updateEthAuthInfo } from '../redux/actions'
+import wallet from '../eos/scatter/scatter.wallet'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -72,6 +72,7 @@ class Index extends Component {
   // async fetchExtAuthInfo () {
   //   try {
   //     const { checkScatter, scatterInstall, getExtAuthToken } = this.props
+
   //     await wallet.detect(checkScatter, scatterInstall)
   //     if (wallet.connected) {
   //       getExtAuthToken()
@@ -83,8 +84,13 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
+<<<<<<< HEAD
       // const { fetchSocialLevels } = this.props
       // fetchSocialLevels()
+=======
+      const { checkScatter, scatterInstall } = this.props
+      wallet.detect(checkScatter, scatterInstall)
+>>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
       this.checkEthAuth()
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
@@ -94,11 +100,12 @@ class Index extends Component {
     })()
   }
 
-  // componentDidUpdate (prevProps) {
-  //   if (!wallet.scatter && !wallet.connected) {
-  //     this.fetchExtAuthInfo()
-  //   }
-  // }
+  componentDidUpdate (prevProps) {
+    const { getLoggedUserCollections, accountName } = this.props
+    if (accountName && prevProps.accountName !== accountName) {
+      getLoggedUserCollections(accountName)
+    }
+  }
 
   render () {
     console.log(this.props)
@@ -194,6 +201,7 @@ class Index extends Component {
 }
 
 Index.propTypes = {
+<<<<<<< HEAD
   // fetchSocialLevels: PropTypes.func.isRequired,
   // checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
@@ -201,6 +209,14 @@ Index.propTypes = {
   // scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired
   // getExtAuthToken: PropTypes.func.isRequired
+=======
+  checkScatter: PropTypes.func.isRequired,
+  setListOpts: PropTypes.func.isRequired,
+  scatterInstall: PropTypes.func.isRequired,
+  updateEthAuth: PropTypes.func.isRequired,
+  getLoggedUserCollections: PropTypes.func.isRequired,
+  accountName: PropTypes.string
+>>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
 }
 
 Index.whyDidYouRender = true
@@ -209,13 +225,35 @@ const mapActionToProps = (dispatch) => {
   return {
     checkScatter: (scatter, account, eos) => dispatch(loginScatter(scatter, account, eos)),
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
-    fetchSocialLevels: () => dispatch(fetchAllSocialLevels()),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
-    updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo))
-    // getExtAuthToken: throttle(() => dispatch(fetchExtAuthToken(), 5000))
-  }
+    updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
+    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
+    }
 }
 
+<<<<<<< HEAD
 const mapStateToProps = () => {}
+=======
+const mapStateToProps = (state, ownProps) => {
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const { account: ethAccount } = state.ethAuth
+  let account = scatterIdentity || state.ethAccount
+  try {
+    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+    if (!scatterIdentity) {
+      if (ethAccount) {
+        account = { name: ethAccount._id, authority: 'active' }
+      } else if (twitterIdentity) {
+        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+      }
+    }
+  } catch (err) {
+    console.log(err)
+  }
+  return {
+    accountName: account && account.name ? account.name : null
+  }
+}
+>>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
 
 export default connect(mapStateToProps, mapActionToProps)(Index)
