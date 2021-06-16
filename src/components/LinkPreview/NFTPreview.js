@@ -238,7 +238,7 @@ class NFTPreview extends Component {
     const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
     const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
 
-    if (raribleNFT && previewData[0].item) {
+    if (raribleNFT && previewData[0] && previewData[0].item) {
       previewData[0].item.owners.forEach(async owner => {
         const res = await axios.get(`${RARIBLE_API}/${owner}`)
         if (res.data.username && res.data.username !== this.state.creator) {
