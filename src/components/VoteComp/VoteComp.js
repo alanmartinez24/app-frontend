@@ -114,13 +114,20 @@ VoteComp.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const { account: ethAccount } = state.ethAuth
   let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  try {
+    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+    if (!scatterIdentity) {
+      if (ethAccount) {
+        account = { name: ethAccount._id, authority: 'active' }
+      } else if (twitterIdentity) {
+        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+      }
+    }
+  } catch (err) {
+    console.log(err)
   }
 
   let voterWeight = 0

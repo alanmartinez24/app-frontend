@@ -1189,17 +1189,26 @@ const mapStateToProps = (state, ownProps) => {
   let initialVote = null
   let currRating = 0
   const { category, postid } = ownProps
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
 
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const { account: ethAccount } = state.ethAuth
+  let account = scatterIdentity || state.ethAccount
+  try {
+    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+    if (!scatterIdentity) {
+      if (ethAccount) {
+        account = { name: ethAccount._id, authority: 'active' }
+      } else if (twitterIdentity) {
+        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+      }
+    }
+  } catch (err) {
+    console.log(err)
+  }
+
   let userVotesForPost = {}
+
   if (account) {
     const userVotes = state.initialVotes[account.name]
     userVotesForPost = userVotes && userVotes[postid]
