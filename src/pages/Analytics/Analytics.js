@@ -17,6 +17,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import theme from '../../utils/theme'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
+import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -557,4 +558,4 @@ Analytics.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Analytics)
+export default connect(mapStateToProps)(withStyles(styles)(Analytics))

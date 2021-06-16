@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-// import React, { useEffect, useState } from 'react'
-import React, { useState } from 'react'
-=======
 import React, { Component } from 'react'
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
 import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -31,40 +26,6 @@ const styles = theme => ({
   }
 })
 
-<<<<<<< HEAD
-const CollectionPostMenu = ({ postid, accountName, classes, ethAuth }) => {
-  if (!(accountName || ethAuth) || !postid) return null
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [userCollections, setUserCollections] = useState([])
-  const [snackbarMsg, setSnackbarMsg] = useState('')
-
-  const menuOpen = Boolean(anchorEl)
-  const collectionsPageId = window.location.href.split('/').pop()
-
-  const handleMenuClick = ({ currentTarget }) => setAnchorEl(currentTarget)
-  const handleMenuClose = () => setAnchorEl(null)
-  const handleDialogOpen = () => setDialogOpen(true)
-  const handleDialogClose = () => setDialogOpen(false)
-
-  const handleSnackbarOpen = (msg) => setSnackbarMsg(msg)
-  const handleSnackbarClose = () => setSnackbarMsg('')
-
-  console.log(setUserCollections, 'SET USER COLLECTIONS')
-  // const accountName = (account && account.name) || ethAuth.account.eosname
-
-  // useEffect(() => {
-  //       (async () => {
-  //         try {
-  //           if (userCollections.length > 0) return
-  //           const userCollectionData = (await axios.get(`${BACKEND_API}/accounts/${accountName}/collections`)).data
-  //           setUserCollections(userCollectionData)
-  //         } catch (err) {
-  //           console.error(err)
-  //         }
-  //       })()
-  // }, [account, ethAuth])
-=======
 class CollectionPostMenu extends Component {
   state = {
     anchorEl: null,
@@ -78,7 +39,6 @@ class CollectionPostMenu extends Component {
   handleDialogClose = () => this.setState({ dialogOpen: false })
   handleSnackbarOpen = (msg) => this.setState({ snackbarMsg: msg })
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
 
   fetchAuthToken = async () => {
     if (this.props.ethAuth) return this.props.ethAuth
@@ -184,21 +144,6 @@ class CollectionPostMenu extends Component {
                 >
                   Add to {collection.name}
                 </MenuItem>
-<<<<<<< HEAD
-              )
-            }
-        })
-        )}
-      </Menu>
-      <CollectionPostDialog
-        accountName={accountName}
-        dialogOpen={dialogOpen}
-        postid={postid}
-        ethAuth={ethAuth}
-        handleDialogClose={handleDialogClose}
-      />
-    </>
-=======
             )
               } else {
                 return (
@@ -222,17 +167,12 @@ class CollectionPostMenu extends Component {
           handleDialogClose={this.handleDialogClose}
         />
       </>
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
   )
       }
 }
 
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
-<<<<<<< HEAD
-  accountName: PropTypes.object,
-=======
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
   classes: PropTypes.object.isRequired,
   ethAuth: PropTypes.object,
   account: PropTypes.object.isRequired,

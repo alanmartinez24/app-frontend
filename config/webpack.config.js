@@ -116,11 +116,7 @@ module.exports = function (webpackEnv) {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
-<<<<<<< HEAD
-    devtool: 'sourcemap',
-=======
     devtool: isEnvProduction ? false : 'inline-source-map',
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     entry: [

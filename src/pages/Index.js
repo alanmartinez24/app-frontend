@@ -84,13 +84,8 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-<<<<<<< HEAD
-      // const { fetchSocialLevels } = this.props
-      // fetchSocialLevels()
-=======
       const { checkScatter, scatterInstall } = this.props
       wallet.detect(checkScatter, scatterInstall)
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
       this.checkEthAuth()
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
@@ -201,22 +196,13 @@ class Index extends Component {
 }
 
 Index.propTypes = {
-<<<<<<< HEAD
-  // fetchSocialLevels: PropTypes.func.isRequired,
-  // checkScatter: PropTypes.func.isRequired,
-  setListOpts: PropTypes.func.isRequired,
-  history: PropTypes.object,
-  // scatterInstall: PropTypes.func.isRequired,
-  updateEthAuth: PropTypes.func.isRequired
-  // getExtAuthToken: PropTypes.func.isRequired
-=======
   checkScatter: PropTypes.func.isRequired,
   setListOpts: PropTypes.func.isRequired,
   scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
-  accountName: PropTypes.string
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
+  accountName: PropTypes.string,
+  history: PropTypes.object
 }
 
 Index.whyDidYouRender = true
@@ -231,9 +217,6 @@ const mapActionToProps = (dispatch) => {
     }
 }
 
-<<<<<<< HEAD
-const mapStateToProps = () => {}
-=======
 const mapStateToProps = (state, ownProps) => {
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const { account: ethAccount } = state.ethAuth
@@ -254,6 +237,5 @@ const mapStateToProps = (state, ownProps) => {
     accountName: account && account.name ? account.name : null
   }
 }
->>>>>>> 630a8a412f8b861b57f76bd7449e24f879eac1ab
 
 export default connect(mapStateToProps, mapActionToProps)(Index)
