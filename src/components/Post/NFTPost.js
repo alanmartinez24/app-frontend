@@ -4,7 +4,7 @@ import NFTPreview from '../LinkPreview/NFTPreview'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 function NFTPost (props) {
-  const { previewData, postHOC: PostHOC, quantiles, rankCategory, caption } = props
+  const { previewData, postHOC: PostHOC, quantiles, rankCategory, caption, postid } = props
 
   const ObjectComp = (_props) => (
     <NFTPreview previewData={previewData}
@@ -16,6 +16,7 @@ function NFTPost (props) {
       caption={caption}
       quantiles={quantiles}
       rankCategory={rankCategory}
+      postid={postid}
     />
   )
   return (
@@ -33,7 +34,8 @@ NFTPost.propTypes = {
   quantiles: PropTypes.object.isRequired,
   caption: PropTypes.string.isRequired,
   postHOC: PropTypes.element.isRequired,
-  rankCategory: PropTypes.string
+  rankCategory: PropTypes.string,
+  postid: PropTypes.string
 }
 
 export default memo(NFTPost)
