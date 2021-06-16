@@ -138,9 +138,11 @@ class Index extends Component {
     })()
   }
 
-  componentDidUpdate ({ account, getLoggedUserCollections }) {
-    if (!(account && account.name)) return
-    getLoggedUserCollections(account.name)
+  componentDidUpdate (prevProps) {
+    const { getLoggedUserCollections, accountName } = this.props
+    if (accountName && prevProps.accountName !== accountName) {
+      getLoggedUserCollections(accountName)
+    }
   }
 
   render () {
@@ -241,7 +243,7 @@ Index.propTypes = {
   scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
-  account: PropTypes.object
+  accountName: PropTypes.string
 }
 
 const mapActionToProps = (dispatch) => {
@@ -250,13 +252,28 @@ const mapActionToProps = (dispatch) => {
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
-    getLoggedUserCollections: (account) => dispatch(fetchUserCollections(account))
+    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const { account: ethAccount } = state.ethAuth
+  let account = scatterIdentity || state.ethAccount
+  try {
+    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+    if (!scatterIdentity) {
+      if (ethAccount) {
+        account = { name: ethAccount._id, authority: 'active' }
+      } else if (twitterIdentity) {
+        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+      }
+    }
+  } catch (err) {
+    console.log(err)
+  }
   return {
-    account: state.scatterRequest.account
+    accountName: account && account.name ? account.name : null
   }
 }
 
