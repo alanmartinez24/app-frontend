@@ -33,6 +33,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import scatter from '../../eos/scatter/scatter.wallet'
 import rollbar from '../../utils/rollbar'
 import isEqual from 'lodash/isEqual'
+import { accountInfoSelector } from '../../redux/selectors'
 import { deletevote, editvote, createvotev4, postvotev4, postvotev3, createvote } from '../../eos/actions/vote'
 
 const { BACKEND_API } = process.env
@@ -1209,19 +1210,7 @@ const mapStateToProps = (state, ownProps) => {
   let initialVote = null
   let currRating = 0
   const { category, postid } = ownProps
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity) {
-    if (ethAccount) {
-      account = { name: ethAccount._id, authority: 'active' }
-    } else if (twitterIdentity) {
-      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-    }
-  }
+  const account = accountInfoSelector(state)
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
 
   let userVotesForPost = {}

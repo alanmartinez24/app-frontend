@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchInitialVotes, fetchSocialLevel } from '../../redux/actions'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const VOTE_CATEGORIES = process.env.VOTE_CATEGORIES.split(',')
 const PROF_CATEGORIES = process.env.PROF_CATEGORIES.split(',')
@@ -129,19 +130,7 @@ VoteComp.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity) {
-    if (ethAccount) {
-      account = { name: ethAccount._id, authority: 'active' }
-    } else if (twitterIdentity) {
-      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-    }
-  }
+  const account = accountInfoSelector(state)
 
   let initialVotes = { votes: {}, isLoading: false, error: null }
   if (account && account.name) {

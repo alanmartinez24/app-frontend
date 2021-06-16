@@ -14,6 +14,7 @@ import UserAvatar from '../UserAvatar/UserAvatar'
 import moment from 'moment'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { fetchSocialLevel } from '../../redux/actions'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -292,15 +293,7 @@ class PostHeader extends Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     ...ownProps,
     account,

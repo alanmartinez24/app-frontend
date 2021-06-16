@@ -11,6 +11,7 @@ import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { createcomv2 } from '../../eos/actions/comment'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   addComment: {
@@ -162,16 +163,10 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
+  const account = accountInfoSelector(state)
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
   const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
+
   return {
     account,
     ethAuth,
