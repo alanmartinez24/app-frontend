@@ -205,11 +205,11 @@ class NFTPreview extends Component {
 
   async getCreator () {
     const { previewData } = this.props
-    const raribleNFT = previewData.url.match(RARIBLE_URL)
-    const superrareNFT = previewData.url.match(SUPERRARE_URL)
-    const foundationNFT = previewData.url.match(FOUNDATION_URL)
-    const zoraNFT = previewData.url.match(ZORA_URL)
-    const knownOriginNFT = previewData.url.match(KNOWN_ORIGIN_URL)
+    const raribleNFT = previewData.url && previewData.url.match(RARIBLE_URL)
+    const superrareNFT = previewData.url && previewData.url.match(SUPERRARE_URL)
+    const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
+    const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
+    const knownOriginNFT = previewData.url && previewData.url.match(KNOWN_ORIGIN_URL)
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
       const res = await axios.get(
@@ -234,9 +234,9 @@ class NFTPreview extends Component {
 
   async getOwners () {
     const { previewData } = this.props
-    const raribleNFT = previewData.url.match(RARIBLE_URL)
-    const foundationNFT = previewData.url.match(FOUNDATION_URL)
-    const zoraNFT = previewData.url.match(ZORA_URL)
+    const raribleNFT = previewData.url && previewData.url.match(RARIBLE_URL)
+    const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
+    const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
 
     if (raribleNFT && previewData[0].item) {
       previewData[0].item.owners.forEach(async owner => {
