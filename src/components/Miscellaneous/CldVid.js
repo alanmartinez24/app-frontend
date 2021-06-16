@@ -6,7 +6,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/video/upload/`
 
 const CldVid = ({ postid, src, ...restProps }) => {
-  const isUploadedToCloud = src.startsWith(ROOT_CLOUDINARY_URL)
+  const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL)
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_NAME}>
