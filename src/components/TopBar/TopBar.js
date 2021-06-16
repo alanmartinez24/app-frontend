@@ -45,6 +45,11 @@ import CollectionPostDialog from '../Collections/CollectionPostDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import numeral from 'numeral'
+import CommandLineModal from 'react-super-cmd'
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import OfflineBoltOutlined from '@material-ui/icons/OfflineBoltOutlined'
+import { configure, GlobalHotKeys } from 'react-hotkeys'
 
 const drawerWidth = 190
 
@@ -554,6 +559,43 @@ function TopBar ({ classes, history, width, isTourOpen }) {
 
   const username = (level && level.levelInfo.username) || eosname
   const isMobile = window.innerWidth <= 480
+
+  const [cmdLineModal, setCmdLineModal] = useState(false)
+
+  const commands = {
+    PROFILE: {
+      name: 'Go to Profile', logo: <SearchOutlinedIcon />, shortcut: 'S', callback: () => window.open('https://www.w3schools.com')
+    },
+    SEARCH_CONTACT: {
+      name: 'Search', logo: <SearchOutlinedIcon />, shortcut: 'S', callback: () => console.log('search')
+    },
+    CREATE_COLLECTION: {
+      name: 'Create Collection', logo: <SearchOutlinedIcon />, shortcut: 'S', callback: () => console.log('search')
+    },
+    ADD_CONTACT: {
+      name: 'Read Docs', logo: <AddCircleOutlineIcon />, shortcut: '⌘ A', callback: () => console.log('add')
+    }
+  }
+
+  function toggleIsOpen () {
+  setCmdLineModal(previousState => !previousState)
+  }
+
+  const keyMap = { TOGGLE_MODAL_K: 'cmd+k', TOGGLE_MODAL_SL: 'cmd+/' }
+  const handlers = {
+    TOGGLE_MODAL_K: () => {
+      toggleIsOpen()
+    },
+    TOGGLE_MODAL_SL: () => {
+      toggleIsOpen()
+    }
+  }
+
+  configure({
+    ignoreTags: ['input', 'select', 'textarea'],
+    ignoreEventsCondition: function () {
+    }
+  })
 
   return (
     <ErrorBoundary>
@@ -1144,6 +1186,17 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               )}
             </MuiThemeProvider>
           </Drawer>
+          <GlobalHotKeys keyMap={keyMap}
+            handlers={handlers}
+          >
+            <CommandLineModal commands={commands}
+              isOpen={cmdLineModal}
+              toggleIsModalOpen={toggleIsOpen}
+              title={'Command'}
+              logo={<OfflineBoltOutlined />}
+              noOptionsText='No results found. Try a different search term.'
+            />
+          </GlobalHotKeys>
         </MuiThemeProvider>
       </div>
     </ErrorBoundary>
