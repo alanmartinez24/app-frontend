@@ -6,8 +6,8 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/image/upload/`
 
 const CldImg = ({ postid, src, ...restProps }) => {
+  console.log(`src`, src)
   const isUploadedToCloud = src.startsWith(ROOT_CLOUDINARY_URL)
-  console.log(`isUploadedToCloud`, isUploadedToCloud)
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_NAME}>
