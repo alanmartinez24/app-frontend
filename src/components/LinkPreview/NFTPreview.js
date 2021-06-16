@@ -9,8 +9,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import CldImg from '../../components/Miscellaneous/CldImg'
 
-const { DEFAULT_POST_IMAGE, RARIBLE_API } = process.env
-console.log(`DEFAULT_POST_IMAGE`, DEFAULT_POST_IMAGE)
+const { RARIBLE_API } = process.env
 
 // TODO: Simplify regex, put in utils file
 const RARIBLE_URL = new RegExp(
@@ -283,6 +282,7 @@ class NFTPreview extends Component {
         '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     }
+    const isVideo = (image && image.includes('nft.mp4')) || (mimeType && mimeType.includes('video'))
 
     return (
       <ErrorBoundary>
@@ -302,19 +302,18 @@ class NFTPreview extends Component {
               rel='noopener noreferrer'
               target='_blank'
             >
-              {(image && image.includes('nft.mp4')) ||
-                (mimeType && mimeType.includes('video')) ? (
-                  <ReactPlayer
-                    className={classes.linkImg}
-                    style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                    url={image}
-                    height='auto'
-                    width='100%'
-                    playing
-                    muted
-                    loop
-                    playsinline
-                  />
+              {isVideo ? (
+                <ReactPlayer
+                  className={classes.linkImg}
+                  style={{ overFlow: 'hidden', maxHeight: '1000px' }}
+                  url={image}
+                  height='auto'
+                  width='100%'
+                  playing
+                  muted
+                  loop
+                  playsinline
+                />
               ) : (
                 <CldImg
                   className={classes.linkImg}

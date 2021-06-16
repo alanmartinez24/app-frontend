@@ -1,39 +1,39 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { Image, CloudinaryContext, Transformation, Placeholder } from 'cloudinary-react'
+import { CloudinaryContext, Transformation, Video } from 'cloudinary-react'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
-const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/image/upload/`
+const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/video/upload/`
 
-const CldImg = ({ postid, src, ...restProps }) => {
+const CldVid = ({ postid, src, ...restProps }) => {
   const isUploadedToCloud = src.startsWith(ROOT_CLOUDINARY_URL)
-  console.log(`isUploadedToCloud`, isUploadedToCloud)
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_NAME}>
-        <Image publicId={isUploadedToCloud ? postid : src}
-          type={isUploadedToCloud ? 'upload' : 'fetch'}
+        <Video publicId={isUploadedToCloud ? postid : src}
+          type={isUploadedToCloud ? undefined : 'fetch'}
           secure='true'
-          loading='lazy'
+          controls='false'
+          loop='true'
           dpr='auto'
           responsive
+          autoplay='true'
+          muted='true'
           width='auto'
           {...restProps}
         >
-          <Placeholder type='vectorize' />
-          <Transformation angle='10' />
           <Transformation quality='auto'
             fetchFormat='auto'
           />
-        </Image>
+        </Video>
       </CloudinaryContext>
     </ErrorBoundary>
   )
 }
 
-CldImg.propTypes = {
+CldVid.propTypes = {
   postid: PropTypes.string,
   src: PropTypes.string
 }
 
-export default memo(CldImg)
+export default memo(CldVid)
