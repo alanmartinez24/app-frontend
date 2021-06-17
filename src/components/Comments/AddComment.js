@@ -11,6 +11,7 @@ import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { createcomv2 } from '../../eos/actions/comment'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   addComment: {
@@ -165,25 +166,9 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
+  const account = accountInfoSelector(state)
+  const ethAuth = ethAuthSelector(state)
 
-  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity) {
-    if (ethAccount) {
-      account = { name: ethAccount._id, authority: 'active' }
-    } else if (twitterIdentity) {
-      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-    }
-  }
-
-  if (account && state.userPermissions && state.userPermissions[account.name]) {
-    account.authority = state.userPermissions[account.name].perm
-  }
-
-  const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
   return {
     account,
     ethAuth,

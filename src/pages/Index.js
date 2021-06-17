@@ -1,9 +1,5 @@
 import React, { Fragment, Component, Suspense, lazy } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core'
+import { Dialog, DialogContent, DialogContentText } from '@material-ui/core'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -12,11 +8,11 @@ import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
 import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
+import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import isEqual from 'lodash/isEqual'
-// import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
 
@@ -265,21 +261,7 @@ const mapActionToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const { account: ethAccount } = state.ethAuth
-  let account = scatterIdentity || state.ethAccount
-  try {
-    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-    if (!scatterIdentity) {
-      if (ethAccount) {
-        account = { name: ethAccount._id, authority: 'active' }
-      } else if (twitterIdentity) {
-        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-      }
-    }
-  } catch (err) {
-    console.log(err)
-  }
+  const account = accountInfoSelector(state)
   return {
     accountName: account && account.name ? account.name : null
   }

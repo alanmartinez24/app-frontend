@@ -11,6 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   button: {
@@ -184,24 +185,8 @@ class FollowButton extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
-  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity) {
-    if (ethAccount) {
-      account = { name: ethAccount._id, authority: 'active' }
-    } else if (twitterIdentity) {
-      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-    }
-  }
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
-
-  if (account && state.userPermissions && state.userPermissions[account.name]) {
-    account.authority = state.userPermissions[account.name].perm
-  }
+  const account = accountInfoSelector(state)
+  const ethAuth = ethAuthSelector(state)
 
   return {
     account,

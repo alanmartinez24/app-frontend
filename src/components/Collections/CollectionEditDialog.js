@@ -16,6 +16,7 @@ import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
+import { ethAuthSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
@@ -196,7 +197,7 @@ const CollectionEditDialog = ({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const ethAuth = ethAuthSelector(state)
   return {
     ethAuth
   }

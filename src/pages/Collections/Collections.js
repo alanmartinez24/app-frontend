@@ -35,6 +35,7 @@ import { levelColors } from '../../utils/colors'
 import theme from '../../utils/theme'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { fetchSocialLevel } from '../../redux/actions'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -847,23 +848,7 @@ const steps = [
 ]
 
 const mapStateToProps = state => {
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-
-  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-  if (!scatterIdentity) {
-    if (ethAccount) {
-      account = { name: ethAccount._id, authority: 'active' }
-    } else if (twitterIdentity) {
-      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-    }
-  }
-
-  if (account && state.userPermissions && state.userPermissions[account.name]) {
-    account.authority = state.userPermissions[account.name].perm
-  }
+  const account = accountInfoSelector(state)
 
   return {
     account,

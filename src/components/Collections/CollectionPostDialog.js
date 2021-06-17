@@ -16,6 +16,7 @@ import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 import { addUserCollection } from '../../redux/actions'
+import { ethAuthSelector } from '../../redux/selectors'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
 
@@ -202,7 +203,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const ethAuth = ethAuthSelector(state)
   return {
     ethAuth
   }

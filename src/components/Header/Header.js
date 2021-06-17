@@ -7,6 +7,7 @@ import scatterWallet from '../../eos/scatter/scatter.wallet'
 import { loginScatter, signalConnection } from '../../redux/actions/scatter.actions'
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   root: {
@@ -115,23 +116,7 @@ Header.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const { account: ethAccount } = state.ethAuth
-
-  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity) {
-    if (ethAccount) {
-      account = { name: ethAccount._id, authority: 'active' }
-    } else if (twitterIdentity) {
-      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-    }
-  }
-
-  if (account && state.userPermissions && state.userPermissions[account.name]) {
-    account.authority = state.userPermissions[account.name].perm
-  }
+  const account = accountInfoSelector(state)
 
   return {
     account,
