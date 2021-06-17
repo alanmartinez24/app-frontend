@@ -11,7 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { accountInfoSelector } from '../../redux/selectors'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   button: {
@@ -180,7 +180,7 @@ class FollowButton extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const ethAuth = ethAuthSelector(state)
 
   return {
     account,

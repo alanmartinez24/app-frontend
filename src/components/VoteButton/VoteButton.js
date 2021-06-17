@@ -33,7 +33,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import scatter from '../../eos/scatter/scatter.wallet'
 import rollbar from '../../utils/rollbar'
 import isEqual from 'lodash/isEqual'
-import { accountInfoSelector } from '../../redux/selectors'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 import { deletevote, editvote, createvotev4, postvotev4, postvotev3, createvote } from '../../eos/actions/vote'
 
 const { BACKEND_API } = process.env
@@ -1211,8 +1211,7 @@ const mapStateToProps = (state, ownProps) => {
   let currRating = 0
   const { category, postid } = ownProps
   const account = accountInfoSelector(state)
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
-
+  const ethAuth = ethAuthSelector(state)
   let userVotesForPost = {}
   if (account) {
     const userVotes = state.initialVotes[account.name]

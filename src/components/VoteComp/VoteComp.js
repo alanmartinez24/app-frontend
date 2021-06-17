@@ -141,8 +141,6 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
-  // const ethAuth = state.ethAuth.account ? state.ethAuth : null
-
   return {
     levels: state.socialLevels.levels || {
     isLoading: true,

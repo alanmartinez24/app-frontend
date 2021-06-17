@@ -1,16 +1,16 @@
 import { createSelector } from 'reselect'
 
 const scatterIdentitySelector = state => state.scatterRequest && state.scatterRequest.account
-const ethAuthSelector = state => state.ethAuth
+const ethSelector = state => state.ethAuth
 const userPermissionsSelector = state => state.userPermissions
 
 export const accountInfoSelector = createSelector(
-  [scatterIdentitySelector, ethAuthSelector, userPermissionsSelector],
+  [scatterIdentitySelector, ethSelector, userPermissionsSelector],
   (scatter, eth, persmissions) => {
     let account = scatter || eth
     const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
     if (account && persmissions && persmissions[account.name]) {
-      account.authority = persmissions[account.name].perm
+      account.authority = persmissions[account.name].userPerm
     }
     if (!scatter) {
       if (eth) {
@@ -20,4 +20,9 @@ export const accountInfoSelector = createSelector(
       }
     }
     return account
+})
+
+export const ethAuthSelector = createSelector([ethSelector], (ethAuth) => {
+  let ethAuthInfo = ethAuth.account ? ethAuth : null
+  return ethAuthInfo
 })
