@@ -186,6 +186,7 @@ const mapStateToProps = (state, ownProps) => {
   const ethAuth = ethAuthSelector(state)
   const account = accountInfoSelector(state)
   const { collections } = state.userCollections[account.name] || {}
+
   return {
     ethAuth,
     account,

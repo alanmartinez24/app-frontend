@@ -132,6 +132,10 @@ VoteComp.defaultProps = {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
 
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
+  }
+
   let initialVotes = { votes: {}, isLoading: false, error: null }
   if (account && account.name) {
     const userVotes = state.initialVotes[account.name]

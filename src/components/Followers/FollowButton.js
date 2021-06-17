@@ -63,8 +63,11 @@ class FollowButton extends Component {
 
       this.setState({ isLoading: true })
       const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
+      const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
       if (signedInWithEth) {
         await follow(account, { accountToFollow }, ethAuth)
+      } else if (signedInWithTwitter) {
+        await follow(account, { accountToFollow })
       } else {
         await scatter.scatter.follow({ data: { accountToFollow } })
       }
@@ -85,8 +88,11 @@ class FollowButton extends Component {
       }
       this.setState({ isLoading: true })
       const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
+      const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
       if (signedInWithEth) {
         await unfollow(account, { accountToUnfollow }, ethAuth)
+      } else if (signedInWithTwitter) {
+        await unfollow(account, { accountToUnfollow })
       } else {
       await scatter.scatter.unfollow({ data: { accountToUnfollow } })
       }

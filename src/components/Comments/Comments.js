@@ -171,6 +171,7 @@ const commentsSelector = createSelector(getCommentsInfo, getComments)
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
+
   return {
     account,
     comments: commentsSelector(state, ownProps.postid)

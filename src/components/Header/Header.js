@@ -116,13 +116,10 @@ Header.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const account = accountInfoSelector(state)
-  const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
 
   return {
     account,
-    ethAuth,
     scatter: state.scatterRequest.scatter
   }
 }

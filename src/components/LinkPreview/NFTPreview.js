@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
 import { Grid, Tooltip, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
+import CldImg from '../../components/Miscellaneous/CldImg'
+import CldVid from '../../components/Miscellaneous/CldVid'
 
-const { DEFAULT_POST_IMAGE, RARIBLE_API } = process.env
+const { RARIBLE_API } = process.env
 
 // TODO: Simplify regex, put in utils file
 const RARIBLE_URL = new RegExp(
@@ -204,11 +205,11 @@ class NFTPreview extends Component {
 
   async getCreator () {
     const { previewData } = this.props
-    const raribleNFT = previewData.url.match(RARIBLE_URL)
-    const superrareNFT = previewData.url.match(SUPERRARE_URL)
-    const foundationNFT = previewData.url.match(FOUNDATION_URL)
-    const zoraNFT = previewData.url.match(ZORA_URL)
-    const knownOriginNFT = previewData.url.match(KNOWN_ORIGIN_URL)
+    const raribleNFT = previewData.url && previewData.url.match(RARIBLE_URL)
+    const superrareNFT = previewData.url && previewData.url.match(SUPERRARE_URL)
+    const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
+    const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
+    const knownOriginNFT = previewData.url && previewData.url.match(KNOWN_ORIGIN_URL)
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
       const res = await axios.get(
@@ -233,11 +234,11 @@ class NFTPreview extends Component {
 
   async getOwners () {
     const { previewData } = this.props
-    const raribleNFT = previewData.url.match(RARIBLE_URL)
-    const foundationNFT = previewData.url.match(FOUNDATION_URL)
-    const zoraNFT = previewData.url.match(ZORA_URL)
+    const raribleNFT = previewData.url && previewData.url.match(RARIBLE_URL)
+    const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
+    const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
 
-    if (raribleNFT && previewData[0].item) {
+    if (raribleNFT && previewData[0] && previewData[0].item) {
       previewData[0].item.owners.forEach(async owner => {
         const res = await axios.get(`${RARIBLE_API}/${owner}`)
         if (res.data.username && res.data.username !== this.state.creator) {
@@ -267,7 +268,8 @@ class NFTPreview extends Component {
       url,
       classes,
       caption,
-      mimeType
+      mimeType,
+      postid
     } = this.props
 
     let faviconURL
@@ -280,6 +282,8 @@ class NFTPreview extends Component {
         '64'
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     }
+
+    const isVideo = (image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video'))
 
     return (
       <ErrorBoundary>
@@ -299,12 +303,12 @@ class NFTPreview extends Component {
               rel='noopener noreferrer'
               target='_blank'
             >
-              {(image && image.includes('nft.mp4')) ||
-              (mimeType && mimeType.includes('video')) ? (
-                <ReactPlayer
+              {isVideo ? (
+                <CldVid
                   className={classes.linkImg}
                   style={{ overFlow: 'hidden', maxHeight: '1000px' }}
-                  url={image}
+                  src={image}
+                  postid={postid}
                   height='auto'
                   width='100%'
                   playing
@@ -313,12 +317,10 @@ class NFTPreview extends Component {
                   playsinline
                 />
               ) : (
-                <Img
-                  alt={title}
+                <CldImg
                   className={classes.linkImg}
-                  src={[image, DEFAULT_POST_IMAGE]}
-                  target='_blank'
-                  loader={<img src={DEFAULT_POST_IMAGE} />}
+                  postid={postid}
+                  src={image}
                 />
               )}
               <div className={classes.previewData}>
@@ -454,6 +456,7 @@ NFTPreview.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 }
 

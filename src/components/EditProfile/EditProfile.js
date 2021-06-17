@@ -14,7 +14,7 @@ import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import theme from '../../utils/theme'
-import { accountInfoSelector } from '../../redux/selectors'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const IPFS = require('ipfs-http-client')
 const BACKEND_API = process.env.BACKEND_API
@@ -608,8 +608,7 @@ class EditProfile extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
+  const ethAuth = ethAuthSelector(state)
 
   return {
     account,

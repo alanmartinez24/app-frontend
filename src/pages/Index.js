@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { history, reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
 import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -122,7 +122,7 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { checkScatter, scatterInstall } = this.props
+      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
@@ -130,14 +130,20 @@ class Index extends Component {
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-    this.setState({ isLoading: false })
+      this.setState({ isLoading: false })
+
+      if (accountName) {
+        getLoggedUserCollections(accountName)
+        fetchUserPerms(accountName)
+      }
     })()
   }
 
   componentDidUpdate (prevProps) {
-    const { getLoggedUserCollections, accountName } = this.props
+    const { getLoggedUserCollections, fetchUserPerms, accountName } = this.props
     if (accountName && prevProps.accountName !== accountName) {
       getLoggedUserCollections(accountName)
+      fetchUserPerms(accountName)
     }
   }
 
@@ -224,7 +230,7 @@ class Index extends Component {
         >
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              { this.state.alertDialogContent }
+              {this.state.alertDialogContent}
             </DialogContentText>
           </DialogContent>
         </Dialog>
@@ -239,6 +245,7 @@ Index.propTypes = {
   scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
+  fetchUserPerms: PropTypes.func.isRequired,
   accountName: PropTypes.string
 }
 
@@ -248,6 +255,7 @@ const mapActionToProps = (dispatch) => {
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
+    fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
     getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
     }
 }

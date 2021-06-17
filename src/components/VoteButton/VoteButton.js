@@ -764,6 +764,8 @@ class VoteButton extends Component {
       return
     }
 
+    console.log(account)
+
     const signedInWithEth = !scatter.connected && !!ethAuth
     const signedInWithTwitter = !scatter.connected && !!localStorage.getItem('twitterMirrorInfo')
 
@@ -802,7 +804,7 @@ class VoteButton extends Component {
       await this.fetchInitialVote()
       stateUpdate = { currTotalVoters: currTotalVoters + 1 }
     } else if (vote && prevRating === newRating) {
-      if (vote.onchain === false && !signedInWithEth) {
+      if (vote.onchain === false && !signedInWithEth && !signedInWithTwitter) {
           await this.deletevvote(vote._id.voteid)
           dispatch(updateInitialVote(postid, account.name, category, null))
           stateUpdate = { currTotalVoters: currTotalVoters - 1 }
@@ -810,6 +812,7 @@ class VoteButton extends Component {
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
+          console.log(vote)
           await deletevote(account, { voteid: vote._id.voteid })
         } else {
           await scatter.scatter.deleteVote({ data: { voteid: vote._id.voteid } })
@@ -1212,10 +1215,15 @@ const mapStateToProps = (state, ownProps) => {
   const { category, postid } = ownProps
   const account = accountInfoSelector(state)
   const ethAuth = ethAuthSelector(state)
+
   let userVotesForPost = {}
+
   if (account) {
     const userVotes = state.initialVotes[account.name]
     userVotesForPost = userVotes && userVotes[postid]
+    if (state.userPermissions && state.userPermissions[account.name]) {
+      account.authority = state.userPermissions[account.name].perm
+    }
     if (userVotesForPost) {
       initialVote = userVotesForPost.votes[category]
       if (initialVote) {
