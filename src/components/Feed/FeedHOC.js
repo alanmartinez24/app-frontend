@@ -80,9 +80,7 @@ const styles = theme => ({
 class FeedHOC extends PureComponent {
   state = {
     initialLoad: true,
-    hasMore: true,
-    start: 0,
-    limit: 15
+    hasMore: true
   }
 
   static whyDidYouRender = true
@@ -135,24 +133,21 @@ class FeedHOC extends PureComponent {
     }
   }
 
+// Fetches initial posts, if there are none
   fetchPosts = () => {
-    const { dispatch, feed } = this.props
-    try {
-      dispatch(fetchFeed(feed, this.state.start, this.state.limit))
-      this.setState({
-        hasMore: true,
-        initialLoad: false,
-        start: this.state.start + this.state.limit + 1
-      })
-    } catch (err) {
-      this.setState({
-        hasMore: false,
-        initialLoad: false
-      })
-      console.error('Error fetching feed: ', err)
+    const { dispatch, feed, feedInfo } = this.props
+    if (feedInfo && feedInfo[feed]) {
+      if (feedInfo[feed].posts.length < feedInfo[feed].limit) {
+        dispatch(fetchFeed(feed, 0, feedInfo[feed].limit))
+       }
     }
   }
 
+// Increases start value, to fetch next posts
+  fetchPostsScroll = () => {
+    const { dispatch, feed, feedInfo } = this.props
+    dispatch(fetchFeed(feed, feedInfo[feed].start, feedInfo[feed].limit))
+  }
   render () {
     const { posts, classes } = this.props
     const { initialLoad, hasMore } = this.state
@@ -185,7 +180,7 @@ class FeedHOC extends PureComponent {
              </div>
              : ''
           }
-            next={this.fetchPosts}
+            next={this.fetchPostsScroll}
             onScroll={this.onScroll}
           >
             <div className={classes.container}
@@ -238,7 +233,8 @@ export const getFeedPosts = createSelector(
 
 const mapStateToProps = (state) => {
   return {
-    posts: getFeedPosts(state)
+    posts: getFeedPosts(state),
+    feedInfo: state.feedInfo.feeds
   }
 }
 
@@ -246,7 +242,8 @@ FeedHOC.propTypes = {
   classes: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   feed: PropTypes.string.isRequired,
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired,
+  feedInfo: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(FeedHOC))

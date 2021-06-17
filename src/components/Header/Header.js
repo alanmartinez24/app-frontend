@@ -114,8 +114,6 @@ Header.propTypes = {
   isTourOpen: PropTypes.bool
 }
 
-Header.whyDidYouRender = true
-
 const mapStateToProps = (state) => {
   const { account: ethAccount } = state.ethAuth
 

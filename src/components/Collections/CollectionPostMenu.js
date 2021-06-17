@@ -181,8 +181,6 @@ CollectionPostMenu.propTypes = {
   removePostRedux: PropTypes.func.isRequired
 }
 
-CollectionPostMenu.whyDidYouRender = true
-
 const mapStateToProps = (state, ownProps) => {
   const ethAuth = state.ethAuth.account ? state.ethAuth : null
   const { account: ethAccount } = state.ethAuth

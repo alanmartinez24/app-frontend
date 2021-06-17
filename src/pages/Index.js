@@ -205,8 +205,6 @@ Index.propTypes = {
   history: PropTypes.object
 }
 
-Index.whyDidYouRender = true
-
 const mapActionToProps = (dispatch) => {
   return {
     checkScatter: (scatter, account, eos) => dispatch(loginScatter(scatter, account, eos)),
