@@ -32,13 +32,8 @@ if (NODE_ENV === 'production') {
     thunkMiddleware
   )
 }
-const createRootReducer = (history) => combineReducers({
-  router: connectRouter(history),
-  ...reducers
-})
 
 const store = createStore(
-  createRootReducer(history),
   combineReducers({
     router: connectRouter(history),
     ...reducers
