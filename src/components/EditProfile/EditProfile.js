@@ -607,11 +607,21 @@ class EditProfile extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { account: ethAccount } = state.ethAuth
+
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || state.ethAccount
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+    }
+  }
+
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
   }
 
   const ethAuth =

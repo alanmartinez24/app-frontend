@@ -261,12 +261,21 @@ class FollowingDialog extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps
 
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const { account: ethAccount } = state.ethAuth
   let account = scatterIdentity || state.ethAccount
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+    }
+  }
+
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
   }
 
   return {

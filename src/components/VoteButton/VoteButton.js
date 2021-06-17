@@ -763,6 +763,8 @@ class VoteButton extends Component {
       return
     }
 
+    console.log(account)
+
     const signedInWithEth = !scatter.connected && !!ethAuth
     const signedInWithTwitter = !scatter.connected && !!localStorage.getItem('twitterMirrorInfo')
 
@@ -801,7 +803,7 @@ class VoteButton extends Component {
       await this.fetchInitialVote()
       stateUpdate = { currTotalVoters: currTotalVoters + 1 }
     } else if (vote && prevRating === newRating) {
-      if (vote.onchain === false && !signedInWithEth) {
+      if (vote.onchain === false && !signedInWithEth && !signedInWithTwitter) {
           await this.deletevvote(vote._id.voteid)
           dispatch(updateInitialVote(postid, account.name, category, null))
           stateUpdate = { currTotalVoters: currTotalVoters - 1 }
@@ -809,6 +811,7 @@ class VoteButton extends Component {
         if (signedInWithEth) {
           await deletevote(account, { voteid: vote._id.voteid }, ethAuth)
         } else if (signedInWithTwitter) {
+          console.log(vote)
           await deletevote(account, { voteid: vote._id.voteid })
         } else {
           await scatter.scatter.deleteVote({ data: { voteid: vote._id.voteid } })
@@ -1209,10 +1212,11 @@ const mapStateToProps = (state, ownProps) => {
   let initialVote = null
   let currRating = 0
   const { category, postid } = ownProps
-  const { account: ethAccount } = state.ethAuth
+  const ethAuth = state.ethAuth.account ? state.ethAuth : null
 
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
+  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
+  const { account: ethAccount } = state.ethAuth
   let account = scatterIdentity || state.ethAccount
 
   if (!scatterIdentity) {
@@ -1222,12 +1226,19 @@ const mapStateToProps = (state, ownProps) => {
       account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
     }
   }
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
+  }
 
   let userVotesForPost = {}
+
   if (account) {
     const userVotes = state.initialVotes[account.name]
     userVotesForPost = userVotes && userVotes[postid]
+    if (state.userPermissions && state.userPermissions[account.name]) {
+      account.authority = state.userPermissions[account.name].perm
+    }
     if (userVotesForPost) {
       initialVote = userVotesForPost.votes[category]
       if (initialVote) {

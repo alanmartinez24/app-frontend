@@ -117,17 +117,24 @@ Header.propTypes = {
 const mapStateToProps = (state) => {
   const { account: ethAccount } = state.ethAuth
 
+  const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
   const scatterIdentity = state.scatterRequest && state.scatterRequest.account
   let account = scatterIdentity || ethAccount
 
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
+  if (!scatterIdentity) {
+    if (ethAccount) {
+      account = { name: ethAccount._id, authority: 'active' }
+    } else if (twitterIdentity) {
+      account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+    }
   }
-  const ethAuth = !scatterIdentity && state.ethAuth.account ? state.ethAuth : null
+
+  if (account && state.userPermissions && state.userPermissions[account.name]) {
+    account.authority = state.userPermissions[account.name].perm
+  }
 
   return {
     account,
-    ethAuth,
     scatter: state.scatterRequest.scatter
   }
 }

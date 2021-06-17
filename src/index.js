@@ -23,7 +23,7 @@ if (NODE_ENV === 'development') {
   middleware = applyMiddleware(
     routerMiddleware(history),
     thunkMiddleware,
-   loggerMiddleware
+    loggerMiddleware
   )
 } else if (NODE_ENV === 'production') {
   composeEnhancers = compose
@@ -37,7 +37,8 @@ if (NODE_ENV === 'development') {
 const store = createStore(
   combineReducers({
     router: connectRouter(history),
-    ...reducers }),
+    ...reducers
+  }),
   composeEnhancers(middleware)
 )
 
