@@ -295,9 +295,8 @@ class SubscribeDialog extends Component {
         account,
         activeStep: 2,
         username: account.username
-      },
+      })
       this.signIn()
-      )
       } catch (err) {
         console.error(err)
         this.handleSnackbarOpen(ERROR_MSG, true)

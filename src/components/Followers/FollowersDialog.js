@@ -18,6 +18,7 @@ import UserAvatar from '../UserAvatar/UserAvatar'
 import numeral from 'numeral'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { fetchSocialLevel } from '../../redux/actions'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   dialogTitle: {
@@ -279,15 +280,7 @@ class FollowersDialog extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const { account: ethAccount } = state.ethAuth
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     account,
     levels: state.socialLevels.levels || {

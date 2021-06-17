@@ -9,6 +9,7 @@ import PostHeader from '../PostHeader/PostHeader'
 import Divider from '@material-ui/core/Divider'
 import Fade from '@material-ui/core/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   article: {
@@ -177,18 +178,7 @@ class PostHOC extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-
-  const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
-  const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
-
-  let account = twitterInfo || scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     account
   }

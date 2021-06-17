@@ -18,6 +18,7 @@ import theme from '../../utils/theme'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -538,15 +539,7 @@ ratingPower = async () => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-
-  const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
-  const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
-  let account = twitterInfo || scatterIdentity || state.ethAccount
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
+  const account = accountInfoSelector(state)
 
   return {
     account,

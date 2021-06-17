@@ -45,6 +45,7 @@ import CollectionPostDialog from '../Collections/CollectionPostDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import numeral from 'numeral'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const drawerWidth = 190
 
@@ -387,19 +388,7 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({
 })
 
 const getReduxState = state => {
-  // Retrieve item twitterMirrorInfo from localStorage
-  const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
-  const twitterInfo =
-    cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
-
-  const ethAccount = state.ethAuth.account
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || twitterInfo || ethAccount
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     account
   }

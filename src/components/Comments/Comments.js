@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import isEqual from 'lodash/isEqual'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   addComment: {
@@ -169,14 +170,8 @@ const getComments = (commentsInfo) => {
 const commentsSelector = createSelector(getCommentsInfo, getComments)
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
+  const account = accountInfoSelector(state)
 
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
   return {
     account,
     comments: commentsSelector(state, ownProps.postid)

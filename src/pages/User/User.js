@@ -27,6 +27,7 @@ import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add'
 import CollectionPostDialog from '../../components/Collections/CollectionPostDialog.js'
 import theme from '../../utils/theme'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -1081,14 +1082,7 @@ const steps = [
 ]
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     account,
     push: state.scatterInstallation.push

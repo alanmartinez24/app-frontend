@@ -9,6 +9,7 @@ import Downshift from 'downshift'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import NotifOutline from './NotifOutline'
+import { ethAuthSelector } from '../../redux/selectors'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const Notification = React.lazy(() => import('./Notification'))
 
@@ -213,7 +214,7 @@ class NotifPopup extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const ethAuth = ethAuthSelector(state)
   return {
     ethAuth
   }

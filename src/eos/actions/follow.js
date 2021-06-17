@@ -1,4 +1,4 @@
-import { pushEthMirrorTx } from './push-transaction'
+import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
 const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER, YUP_CREATOR } = process.env
 
 export async function follow (account, data, ethAuth) {
@@ -31,7 +31,11 @@ export async function follow (account, data, ethAuth) {
         }
       ]
     }
-    await pushEthMirrorTx(ethAuth, txData)
+    if (localStorage.getItem('twitterMirrorInfo')) {
+      await pushTwitterMirrorTx(txData)
+    } else {
+      await pushEthMirrorTx(ethAuth, txData)
+    }
   }
 
   export async function unfollow (account, data, ethAuth) {
@@ -64,5 +68,9 @@ export async function follow (account, data, ethAuth) {
         }
       ]
     }
-    await pushEthMirrorTx(ethAuth, txData)
+    if (localStorage.getItem('twitterMirrorInfo')) {
+      await pushTwitterMirrorTx(txData)
+    } else {
+      await pushEthMirrorTx(ethAuth, txData)
+    }
   }

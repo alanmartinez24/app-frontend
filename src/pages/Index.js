@@ -1,7 +1,5 @@
-import React, { Component, Fragment } from 'react'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
+import React, { Fragment, Component } from 'react'
+import { Dialog, DialogContent, DialogContentText } from '@material-ui/core'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -9,11 +7,11 @@ import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
+import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
-// import throttle from 'lodash/throttle'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
 
@@ -84,21 +82,27 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { checkScatter, scatterInstall } = this.props
+      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       // this.fetchExtAuthInfo()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
-    //  this.setState({ isLoading: false })
+      this.setState({ isLoading: false })
+
+      if (accountName) {
+        getLoggedUserCollections(accountName)
+        fetchUserPerms(accountName)
+      }
     })()
   }
 
   componentDidUpdate (prevProps) {
-    const { getLoggedUserCollections, accountName } = this.props
+    const { getLoggedUserCollections, fetchUserPerms, accountName } = this.props
     if (accountName && prevProps.accountName !== accountName) {
       getLoggedUserCollections(accountName)
+      fetchUserPerms(accountName)
     }
   }
 
@@ -186,7 +190,7 @@ class Index extends Component {
         >
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              { this.state.alertDialogContent }
+              {this.state.alertDialogContent}
             </DialogContentText>
           </DialogContent>
         </Dialog>
@@ -202,7 +206,8 @@ Index.propTypes = {
   updateEthAuth: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
   accountName: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
+  fetchUserPerms: PropTypes.func.isRequired
 }
 
 const mapActionToProps = (dispatch) => {
@@ -211,26 +216,13 @@ const mapActionToProps = (dispatch) => {
     scatterInstall: (bool) => dispatch(signalConnection(bool)),
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
+    fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
     getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const { account: ethAccount } = state.ethAuth
-  let account = scatterIdentity || state.ethAccount
-  try {
-    const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-    if (!scatterIdentity) {
-      if (ethAccount) {
-        account = { name: ethAccount._id, authority: 'active' }
-      } else if (twitterIdentity) {
-        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
-      }
-    }
-  } catch (err) {
-    console.log(err)
-  }
+  const account = accountInfoSelector(state)
   return {
     accountName: account && account.name ? account.name : null
   }

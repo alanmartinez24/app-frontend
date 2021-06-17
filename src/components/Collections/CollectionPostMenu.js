@@ -8,6 +8,7 @@ import CollectionPostDialog from './CollectionPostDialog.js'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { addPostToCollection, removePostFromCollection } from '../../redux/actions'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -182,19 +183,9 @@ CollectionPostMenu.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
-  const { account: ethAccount } = state.ethAuth
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-  let collections = []
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
-  if (account && account.name && state.userCollections[account.name]) {
-    collections = state.userCollections[account && account.name].collections
-  }
+  const ethAuth = ethAuthSelector(state)
+  const account = accountInfoSelector(state)
+  const { collections } = state.userCollections[account.name] || {}
 
   return {
     ethAuth,
