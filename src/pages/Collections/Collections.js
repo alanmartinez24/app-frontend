@@ -239,8 +239,9 @@ class Collections extends Component {
     activeTab: 0
   }
 
-  async componentDidMount () {
+  fetchCollectionInfo = async () => {
     const decodedURL = decodeURI(window.location.href)
+    console.log('DECODED URL', decodedURL)
     const url = decodedURL.split('/')
     const id = url[5]
 
@@ -262,6 +263,17 @@ class Collections extends Component {
       recommended,
       posts: collection.posts.reverse()
     })
+  }
+
+  componentDidMount () {
+    this.fetchCollectionInfo()
+  }
+
+  componentDidUpdate ({ location: prevLocation }) {
+    const currLocation = this.props.location
+    if (prevLocation.pathname !== currLocation.pathname) {
+      this.fetchCollectionInfo()
+    }
   }
 
   shareCollection = e => {
@@ -854,7 +866,8 @@ const mapStateToProps = state => {
 
 Collections.propTypes = {
   classes: PropTypes.object.isRequired,
-  account: PropTypes.object.isRequired
+  account: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Collections))
