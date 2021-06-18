@@ -715,9 +715,8 @@ if (account && account.name) {
               highlightedMaskClassName={classes.Mask}
               nextButton={
                 <Button
-                  size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400 }}
+                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                   small
                 >
                   Next
@@ -725,9 +724,9 @@ if (account && account.name) {
               }
               prevButton={
                 <Button
-                  size='small'
+                  small
                   variant='outlined'
-                  style={{ fontWeight: 400 }}
+                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                 >
                   Back
                 </Button>

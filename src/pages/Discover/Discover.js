@@ -408,9 +408,8 @@ class Discover extends Component {
             highlightedMaskClassName={classes.Mask}
             nextButton={
               <Button
-                size='small'
+                style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                 variant='outlined'
-                style={{ fontWeight: 400 }}
                 small
               >
                 Next
@@ -418,9 +417,9 @@ class Discover extends Component {
             }
             prevButton={
               <Button
-                size='small'
+                small
                 variant='outlined'
-                style={{ fontWeight: 400 }}
+                style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
               >
                 Back
               </Button>
