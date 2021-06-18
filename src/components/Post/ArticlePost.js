@@ -1,41 +1,38 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import NFTPreview from '../LinkPreview/NFTPreview'
+import ArticlePreview from '../LinkPreview/ArticlePreview'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
-function NFTPost (props) {
-  const { previewData, postHOC: PostHOC, quantiles, rankCategory, caption, postid } = props
+function ArticlePost (props) {
+  const { previewData, postHOC: PostHOC, quantiles, rankCategory, caption } = props
 
-  const ObjectComp = (_props) => (
-    <NFTPreview previewData={previewData}
+  const ArticleComp = (_props) => (
+    <ArticlePreview
       description={previewData && previewData.description}
       image={previewData && previewData.img}
       title={previewData && previewData.title}
-      mimeType={previewData && previewData.mimeType}
       url={previewData && previewData.url}
       caption={caption}
       quantiles={quantiles}
       rankCategory={rankCategory}
-      postid={postid}
     />
   )
   return (
     <ErrorBoundary>
       <PostHOC
-        component={ObjectComp}
+        component={ArticleComp}
         {...props}
       />
     </ErrorBoundary>
   )
 }
 
-NFTPost.propTypes = {
+ArticlePost.propTypes = {
   previewData: PropTypes.object,
   quantiles: PropTypes.object.isRequired,
   caption: PropTypes.string.isRequired,
   postHOC: PropTypes.element.isRequired,
-  rankCategory: PropTypes.string,
-  postid: PropTypes.string
+  rankCategory: PropTypes.string
 }
 
-export default memo(NFTPost)
+export default memo(ArticlePost)

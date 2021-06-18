@@ -5,9 +5,12 @@ import { Grid, Typography, Fade, Grow } from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Tilt from 'react-tilt'
-import { feedInfoRecommended, feedInfoBrowse } from './feeds'
 import { Link } from 'react-router-dom'
 import '../../pages/Discover/discover.scss'
+import axios from 'axios'
+import CldImg from '../Miscellaneous/CldImg'
+
+const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   container: {
@@ -118,8 +121,26 @@ const styles = theme => ({
 })
 
 class Home extends Component {
+  state = {
+    recommendedMenuItems: [],
+    browseMenuItems: []
+  }
+  componentDidMount () {
+    this.fetchHomeConfig()
+  }
+
+  fetchHomeConfig () {
+    axios.get(`${BACKEND_API}/home-config`)
+      .then(({ data }) => {
+        this.setState({ recommendedMenuItems: data.slice(0, 4), browseMenuItems: data.slice(4, 8) })
+      })
+      .catch(err => {
+        console.error(err, 'ERROR FETCHING HOME CONFIG')
+      })
+  }
   render () {
     const { classes } = this.props
+    const { recommendedMenuItems, browseMenuItems } = this.state
 
     return (
       <ErrorBoundary>
@@ -164,7 +185,7 @@ class Home extends Component {
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {feedInfoRecommended.map((item, index) => {
+                  {recommendedMenuItems.map((item, index) => {
                     return (
                       <Grid
                         item
@@ -174,7 +195,7 @@ class Home extends Component {
                         sm={3}
                       >
                         <Link
-                          to={item.link}
+                          to={item.relativeURL}
                           color='inherit'
                           className={classes.Link}
                         >
@@ -192,7 +213,7 @@ class Home extends Component {
                                   className={classes.Tilt}
                                   options={{ max: 20 }}
                                 >
-                                  <img
+                                  <CldImg
                                     className={classes.ImageCard}
                                     src={item.imgSrc}
                                   />
@@ -229,7 +250,7 @@ class Home extends Component {
                   container
                   spacing={3}
                 >
-                  {feedInfoBrowse.map((item, index) => {
+                  {browseMenuItems.map((item, index) => {
                     return (
                       <Grid
                         item
@@ -239,7 +260,7 @@ class Home extends Component {
                         sm={3}
                       >
                         <Link
-                          to={item.link}
+                          to={item.relativeURL}
                           color='inherit'
                           className={classes.Link}
                         >
@@ -257,7 +278,7 @@ class Home extends Component {
                                   className={classes.Tilt}
                                   options={{ max: 20 }}
                                 >
-                                  <img
+                                  <CldImg
                                     className={classes.ImageCard}
                                     src={item.imgSrc}
                                   />

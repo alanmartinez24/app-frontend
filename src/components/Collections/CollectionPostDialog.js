@@ -9,12 +9,14 @@ import {
   DialogContent,
   DialogContentText,
   Link,
-  Typography
+  Typography, Grid
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
+import { addUserCollection } from '../../redux/actions'
+import { ethAuthSelector } from '../../redux/selectors'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
 
@@ -48,18 +50,18 @@ const styles = theme => ({
       color: '#fafafa'
     }
   },
+  dialogContentText: {
+    root: {
+      paddingBottom: '2rem',
+      paddingTop: '2rem'
+    }
+  },
   snack: {
     justifyContent: 'center'
   }
 })
 
-const CollectionPostDialog = ({
-  postid,
-  classes,
-  dialogOpen,
-  handleDialogClose,
-  ethAuth
-}) => {
+const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth, addCollectionToRedux }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -93,6 +95,7 @@ const CollectionPostDialog = ({
       }
       const params = { name, description, postId, ...authToken }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
+      addCollectionToRedux(authToken.eosname, data)
       setNewCollectionInfo(data)
       handleSnackbarOpen(`Succesfully created ${name}`)
       handleDialogClose()
@@ -147,27 +150,43 @@ const CollectionPostDialog = ({
           <Typography variant='h3'>New Collection</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText style={{ color: '#fff' }}>
-            Start here to make a new collection
+          <DialogContentText variant='body1'>
+            Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else.
           </DialogContentText>
-          <YupInput
-            maxLength={TITLE_LIMIT}
-            fullWidth
-            autoFocus
-            onChange={handleNameChange}
-            id='name'
-            label='Name'
-            type='text'
-          />
-          <YupInput
-            color='#fafafa'
-            maxLength={DESC_LIMIT}
-            fullWidth
-            id='description'
-            onChange={handleDescriptionChange}
-            label='Description'
-            type='text'
-          />
+          <Grid
+            container
+            direction='column'
+            alignItems='stretch'
+            spacing={3}
+          >
+            <Grid item>
+              <YupInput
+                fullWidth
+                id='name'
+                maxLength={TITLE_LIMIT}
+                multiline
+                label='Name'
+                onChange={handleDescriptionChange}
+                type='text'
+                variant='outlined'
+                size='small'
+              />
+            </Grid>
+            <Grid item>
+              <YupInput
+                color='#fafafa'
+                fullWidth
+                id='description'
+                maxLength={DESC_LIMIT}
+                label='Description'
+                multiline
+                onChange={handleNameChange}
+                type='text'
+                variant='outlined'
+                size='small'
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <LoaderButton onClick={handleCreateNewCollection}
@@ -184,10 +203,16 @@ const CollectionPostDialog = ({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const ethAuth = ethAuthSelector(state)
   return {
     ethAuth
   }
+}
+
+const mapActionToProps = (dispatch) => {
+  return {
+    addCollectionToRedux: (eosname, collection) => dispatch(addUserCollection(eosname, collection))
+    }
 }
 
 CollectionPostDialog.propTypes = {
@@ -195,9 +220,8 @@ CollectionPostDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
+  addCollectionToRedux: PropTypes.func.isRequired,
   ethAuth: PropTypes.object
 }
 
-export default connect(mapStateToProps)(
-  withStyles(styles)(CollectionPostDialog)
-)
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostDialog))

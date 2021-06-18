@@ -72,3 +72,5 @@ virtualenv
 **/built
 
 **/zeus_boxes/**
+
+public/sitemap.xml

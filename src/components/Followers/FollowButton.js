@@ -11,6 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   button: {
@@ -62,8 +63,11 @@ class FollowButton extends Component {
 
       this.setState({ isLoading: true })
       const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
+      const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
       if (signedInWithEth) {
         await follow(account, { accountToFollow }, ethAuth)
+      } else if (signedInWithTwitter) {
+        await follow(account, { accountToFollow })
       } else {
         await scatter.scatter.follow({ data: { accountToFollow } })
       }
@@ -84,8 +88,11 @@ class FollowButton extends Component {
       }
       this.setState({ isLoading: true })
       const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
+      const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
       if (signedInWithEth) {
         await unfollow(account, { accountToUnfollow }, ethAuth)
+      } else if (signedInWithTwitter) {
+        await unfollow(account, { accountToUnfollow })
       } else {
       await scatter.scatter.unfollow({ data: { accountToUnfollow } })
       }
@@ -178,15 +185,8 @@ class FollowButton extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-  const ethAuth = state.ethAuth.account ? state.ethAuth : null
+  const account = accountInfoSelector(state)
+  const ethAuth = ethAuthSelector(state)
 
   return {
     account,

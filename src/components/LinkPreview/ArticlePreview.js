@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Img from 'react-image'
-import Grid from '@material-ui/core/Grid'
+import { Grid, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
@@ -13,10 +13,6 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     overflow: 'hidden',
-    height: '13rem',
-    [theme.breakpoints.down('xs')]: {
-      height: '18rem'
-    },
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px'
   },
@@ -37,7 +33,6 @@ const styles = theme => ({
     objectPosition: '50% 50%',
     alignItems: 'center',
     borderRadius: '0.5rem 0.5rem 0px 0px',
-    position: 'relative',
     [theme.breakpoints.up('1700')]: {
       maxHeight: '25rem',
       width: '100%'
@@ -60,10 +55,8 @@ const styles = theme => ({
   },
   description: {
     position: 'relative',
-    fontSize: '0.8rem',
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
-    margin: '0.5rem 0',
-    fontWeight: 300
+    margin: '0.5rem 0'
   },
   url: {
     position: 'relative',
@@ -78,18 +71,17 @@ const styles = theme => ({
     opacity: '0.5'
   },
   previewData: {
-    position: 'absolute',
     bottom: '0',
     textAlign: 'left',
     zIndex: 5,
     background:
       'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
-    padding: '2% 3% 0 3%',
+    padding: '4% 3% 2% 3%',
     width: '94.5%'
   }
 })
 
-class LinkPreview extends Component {
+class ArticlePreview extends Component {
   cutUrl (inUrl) {
     const protocol = 'https://'
     const pro2 = 'http://'
@@ -153,7 +145,7 @@ class LinkPreview extends Component {
   }
 
   render () {
-    const { image, title, description, url, classes, caption } = this.props
+    const { title, description, url, classes, caption } = this.props
     let faviconURL
     let faviconURLFallback
 
@@ -180,68 +172,56 @@ class LinkPreview extends Component {
             rel='noopener noreferrer'
             target='_blank'
           >
-            <div
-              className={classes.previewContainer}
-              href={url}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <img
-                alt={title}
-                className={classes.linkImg}
-                src={image || DEFAULT_POST_IMAGE}
-                target='_blank'
-                onError={this.addDefaultSrc}
-              />
-              <div className={classes.previewData}>
-                <Grid alignItems='center'
-                  container
-                  direction='row'
-                  spacing={2}
+            <div className={classes.previewData}>
+              <Grid alignItems='center'
+                container
+                direction='row'
+                spacing={2}
+              >
+                <Grid item
+                  xs={2}
+                  sm={1}
                 >
-                  <Grid item
-                    xs={2}
-                    sm={1}
-                  >
-                    <Img
-                      align='right'
-                      href={url}
-                      src={[faviconURL, faviconURLFallback]}
-                      style={{
+                  <Img
+                    align='right'
+                    href={url}
+                    src={[faviconURL, faviconURLFallback]}
+                    style={{
                         width: '100%',
                         aspectRatio: '1 / 1',
                         border: 'none',
                         borderRadius: '0.5rem'
                       }}
-                      target='_blank'
-                    />
-                  </Grid>
-                  <Grid item
-                    xs={10}
-                    sm={11}
-                  >
-                    <div className={classes.title}>
-                      <LinesEllipsis
-                        basedOn='letters'
-                        ellipsis='...'
-                        maxLine='2'
-                        text={title}
-                        trimRight
-                      />
-                    </div>
-                  </Grid>
-                </Grid>
-                <div className={classes.description}>
-                  <LinesEllipsis
-                    basedOn='letters'
-                    ellipsis='...'
-                    maxLine='5'
-                    text={description || caption}
-                    trimRight
+                    target='_blank'
                   />
-                </div>
-                <p className={classes.url}>{url && this.cutUrl(url)}</p>
-              </div>
+                </Grid>
+                <Grid item
+                  xs={10}
+                  sm={11}
+                >
+                  <Typography variant='h4'>
+                    <LinesEllipsis
+                      basedOn='letters'
+                      ellipsis='...'
+                      maxLine='2'
+                      text={title.split(/[|]|[—]+/g, 1)}
+                      trimRight
+                    />
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Typography variant='body1'
+                className={classes.description}
+              >
+                <LinesEllipsis
+                  basedOn='letters'
+                  ellipsis='...'
+                  maxLine='6'
+                  text={description || caption}
+                  trimRight
+                />
+              </Typography>
+              <p className={classes.url}>{url && this.cutUrl(url)}</p>
             </div>
           </a>
         </div>
@@ -250,8 +230,7 @@ class LinkPreview extends Component {
   }
 }
 
-LinkPreview.propTypes = {
-  image: PropTypes.string.isRequired,
+ArticlePreview.propTypes = {
   caption: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -259,4 +238,4 @@ LinkPreview.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(LinkPreview)
+export default withStyles(styles)(ArticlePreview)

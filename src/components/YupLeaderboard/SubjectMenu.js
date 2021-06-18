@@ -10,7 +10,6 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const styles = (theme) => ({
   formControl: {
-    marginRight: '7px',
     minWidth: 100,
     color: 'black',
     [theme.breakpoints.down('xs')]: {
@@ -23,9 +22,6 @@ const styles = (theme) => ({
   },
   menu: {
     fontFamily: 'Gilroy', fontSize: '11px'
-  },
-  InputLabel: {
-    opacity: '0.5'
   }
 })
 
@@ -48,17 +44,18 @@ class SubjectMenu extends Component {
 
     return (
       <ErrorBoundary>
-        <FormControl className={classes.formControl} >
+        <FormControl className={classes.formControl}
+          variant='outlined'
+        >
           <InputLabel htmlFor='age-native-helper'
-            style={{ opacity: '0.5', fontSize: '12px' }}
+            style={{ fontSize: '12px' }}
           >Subject</InputLabel>
           <Select
-            label=''
-            id='standard-basic'
             className={classes.textField}
             inputProps={{
               className: classes.textField
             }}
+            labelWidth='44'
             value={currSubject.name}
             onChange={this.handleChange}
             MenuProps={{

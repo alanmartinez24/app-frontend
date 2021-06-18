@@ -22,7 +22,7 @@ if (NODE_ENV === 'production') {
   middleware = applyMiddleware(
     routerMiddleware(history),
     thunkMiddleware,
-   loggerMiddleware
+    loggerMiddleware
   )
 } else if (NODE_ENV === 'production') {
   composeEnhancers = compose
@@ -32,18 +32,14 @@ if (NODE_ENV === 'production') {
     thunkMiddleware
   )
 }
-const createRootReducer = (history) => combineReducers({
-  router: connectRouter(history),
-  ...reducers
-})
 
 const store = createStore(
-  createRootReducer(history),
+  combineReducers({
+    router: connectRouter(history),
+    ...reducers
+  }),
   composeEnhancers(middleware)
 )
-
-const whyDidYouRender = require('@welldone-software/why-did-you-render')
-whyDidYouRender(React, {})
 
 ReactDOM.render(
 

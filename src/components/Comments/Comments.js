@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import isEqual from 'lodash/isEqual'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   addComment: {
@@ -72,7 +73,7 @@ class Comments extends Component {
   }
 
   render () {
-    const { classes, comments, levels, postid, account } = this.props
+    const { classes, comments, postid, account } = this.props
 
     const Snack = (props) => (
       <Portal>
@@ -131,7 +132,6 @@ class Comments extends Component {
                 <Comment
                   style={{ margin: '-20px 0px 0px -12px' }}
                   comment={firstComment}
-                  levels={levels}
                   account={account}
                   handleSnackbarOpen={this.handleSnackbarOpen}
                 />
@@ -141,7 +141,6 @@ class Comments extends Component {
               >
                 <BottomCommentPanel
                   comments={restOfComments}
-                  levels={levels}
                   account={account}
                   handleSnackbarOpen={this.handleSnackbarOpen}
                 />
@@ -171,26 +170,19 @@ const getComments = (commentsInfo) => {
 const commentsSelector = createSelector(getCommentsInfo, getComments)
 
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
+  const account = accountInfoSelector(state)
 
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
   return {
     account,
-    comments: commentsSelector(state, ownProps.postid),
-    levels: state.socialLevels
+    comments: commentsSelector(state, ownProps.postid)
   }
 }
 
 Comments.propTypes = {
+
   classes: PropTypes.object.isRequired,
   comments: PropTypes.array,
   account: PropTypes.object.isRequired,
-  levels: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired
 }
 

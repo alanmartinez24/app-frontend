@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import moment from 'moment'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { fetchSocialLevel } from '../../redux/actions'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -69,12 +71,6 @@ const styles = theme => ({
   voterOpacity: {
     opacity: '80%'
   },
-  username: {
-    fontSize: '18px',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '16px'
-    }
-  },
   avatarImage: {
     fontSize: '14px',
     display: 'grid',
@@ -110,7 +106,7 @@ class PostHeader extends Component {
 
   render () {
     const { isLoading, postInteractions } = this.state
-    const { levels, author, classes, hideInteractions } = this.props
+    const { levels, author, classes, hideInteractions, dispatch } = this.props
 
     if (!isLoading && !postInteractions.length) {
       return <div style={{ height: '25px' }} />
@@ -121,7 +117,11 @@ class PostHeader extends Component {
     }
 
     const vote = postInteractions[0]
-    if (!levels[vote.voter] || hideInteractions) {
+    if (!levels[vote.voter]) {
+       dispatch(fetchSocialLevel(vote.voter))
+       return <div />
+    }
+    if (levels[vote.voter].isLoading || hideInteractions) {
       return <div />
     }
     const formattedVoteTime = moment(vote.timestamp, 'x').fromNow(true)
@@ -169,10 +169,7 @@ class PostHeader extends Component {
           to={`/${voterUsername || vote.voter}`}
         >
           <Typography
-            className={classes.username}
-            style={{
-                  fontFamily: '"Gilroy", sans-serif'
-                  }}
+            variant='body2'
           >
             {
               (voterIsMirror && voterInfo.twitterInfo.isTracked &&
@@ -187,7 +184,7 @@ class PostHeader extends Component {
         { (voterIsMirror && !voterIsAuth)
           ? <img
             src='/images/icons/twitter.svg'
-            style={{ height: '20px', paddingLeft: '8px', paddingRight: '8px', display: 'grid' }}
+            style={{ height: '0.5rem', paddingLeft: '8px', paddingRight: '8px', display: 'grid' }}
             />
         : null}
       </Grid>
@@ -266,7 +263,7 @@ class PostHeader extends Component {
             </Fragment>
           }
                 <Grid item
-                  style={{ color: 'white', zoom: '50%', opacity: '80%', marginBottom: '12px' }}
+                  style={{ color: 'white', zoom: '50%', opacity: '80%', marginBottom: '10px' }}
                 >
                   {
                 vote.like
@@ -275,14 +272,15 @@ class PostHeader extends Component {
               }
                 </Grid>
                 <Grid item>
-                  <span>
+                  <Typography variant='body2'
+                    style={{ zoom: 0.8 }}
+                  >
                     {CAT_ICONS[vote.category]}
-                  </span>
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
             <Grid
-
               className={classes.time}
             >
               {formattedVoteTime}
@@ -294,17 +292,8 @@ class PostHeader extends Component {
     )
   }
 }
-
 const mapStateToProps = (state, ownProps) => {
-  const { account: ethAccount } = state.ethAuth
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     ...ownProps,
     account,
@@ -317,6 +306,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 PostHeader.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   levels: PropTypes.object.isRequired,
   postid: PropTypes.string.isRequired,
   hideInteractions: PropTypes.bool,

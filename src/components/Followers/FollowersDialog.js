@@ -17,6 +17,8 @@ import { levelColors } from '../../utils/colors'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import numeral from 'numeral'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { fetchSocialLevel } from '../../redux/actions'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   dialogTitle: {
@@ -97,7 +99,7 @@ class FollowersDialog extends Component {
   }
 
   render () {
-    const { account, classes, followersInfo, levels } = this.props
+    const { account, classes, followersInfo, levels, dispatch } = this.props
     const { isLoading, followers } = followersInfo
     const formattedFollowers = numeral(followers.length)
       .format('0a')
@@ -181,8 +183,14 @@ class FollowersDialog extends Component {
                     </Typography>
                   ) : (
                     followers.map(follower => {
+                    if (!levels[follower._id]) {
+                      dispatch(fetchSocialLevel(follower._id))
+                      return <div />
+                     } if (levels[follower._id].isLoading) {
+                      return <div />
+                    }
                       const eosname = follower._id
-                      const level = levels.levels[eosname]
+                      const level = levels[eosname]
                       const username = level && level.levelInfo.username
                       const quantile = level && level.levelInfo.quantile
                       let socialLevelColor = levelColors[quantile]
@@ -272,18 +280,13 @@ class FollowersDialog extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { username } = ownProps
-
-  const scatterIdentity = state.scatterRequest && state.scatterRequest.account
-  const { account: ethAccount } = state.ethAuth
-  let account = scatterIdentity || state.ethAccount
-
-  if (!scatterIdentity && ethAccount) {
-    account = { name: ethAccount._id, authority: 'active' }
-  }
-
+  const account = accountInfoSelector(state)
   return {
     account,
-    levels: state.socialLevels,
+    levels: state.socialLevels.levels || {
+      isLoading: true,
+      levels: {}
+    },
     followersInfo: state.followersByUser[username] || {
       isLoading: true,
       followers: [],
@@ -293,6 +296,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 FollowersDialog.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   account: PropTypes.object,
   levels: PropTypes.object,
   classes: PropTypes.object.isRequired,
