@@ -454,7 +454,7 @@ class Search extends Component {
                 <Button
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400 }}
+                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                   small
                 >
                   Next
@@ -464,7 +464,7 @@ class Search extends Component {
                 <Button
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400 }}
+                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                 >
                   Back
                 </Button>
