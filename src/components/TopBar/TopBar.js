@@ -495,13 +495,19 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   }
 
   const logProfileClick = () => {
+    if (!window.analytics) {
+      console.log('HI')
     const userId = account && account.name
-    window.analytics.track('My Profile Click', { userId })
+     window.analytics.track('My Profile Click', { userId })
+    }
   }
 
   const logNotifsClick = () => {
+    if (!window.analytics) {
+      console.log('HI')
     const userId = account && account.name
     window.analytics.track('My Notifications Click', { userId })
+    }
   }
 
   function handleDrawerClose () {
@@ -840,30 +846,29 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                 </ListItemText>
               </ListItem>
               {account && account.name && (
-                <ListItem
-                  button
-                  component={Link}
-                  to={`/${username}/analytics`}
-                  style={{ paddingLeft: '5px' }}
-                  tourname='LeaderboardButton'
-                >
-                  <ListItemIcon style={{ textAlign: 'center' }}>
-                    <Icon
-                      fontSizeSmall
-                      className='fal fa-chart-bar'
-                      style={{ overflow: 'visible', width: '100%' }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <span
-                      className={classes.typography}
-                      style={{ color: '#c0c0c0', fontWeight: '100' }}
-                    >
-                      Analytics
-                    </span>
-                  </ListItemText>
-                </ListItem>
-              )}
+              <ListItem
+                button
+                component={Link}
+                to={`/${username}/analytics`}
+                style={{ paddingLeft: '5px' }}
+                tourname='LeaderboardButton'
+              >
+                <ListItemIcon style={{ textAlign: 'center' }}>
+                  <Icon
+                    fontSizeSmall
+                    className='fal fa-chart-bar'
+                    style={{ overflow: 'visible', width: '100%' }}
+                  />
+                </ListItemIcon>
+                <ListItemText>
+                  <span
+                    className={classes.typography}
+                    style={{ color: '#c0c0c0', fontWeight: '100' }}
+                  >
+                    Analytics
+                  </span>
+                </ListItemText>
+              </ListItem>)}
               <ListItem dense
                 style={{ bottom: 10, position: 'absolute' }}
               >

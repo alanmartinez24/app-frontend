@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import ProfileCard from '../../components/ProfileCard/ProfileCard'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
-import Footer from '../../components/Footer/Footer'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
+import Footer from '../../components/Footer/Footer'
+import Header from '../../components/Header/Header'
 import { withStyles, ThemeProvider } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
@@ -17,7 +17,7 @@ import {
   fetchFollowing
 } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import path from 'path'
 import Tour from 'reactour'
 import Img from 'react-image'
@@ -308,7 +308,10 @@ class User extends Component {
     this.loadUserData()
     this.showDialog()
     window.Intercom('update')
-    window.analytics.page('User')
+
+    if (!window.analytics) {
+     window.analytics.page('User')
+    }
 
     setTimeout(() => {
       this.setState({
@@ -503,7 +506,6 @@ class User extends Component {
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header isTourOpen={this.state.isTourOpen} />
               <div align='center'>
                 <Typography
                   className={classes.accountErrorHeader}
@@ -1094,4 +1096,4 @@ User.propTypes = {
   dispatch: PropTypes.func.isRequired
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(User)))
+export default connect(mapStateToProps)(withStyles(styles)(User))

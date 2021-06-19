@@ -64,7 +64,7 @@ function PostGrid ({ account,
             postType={postType}
           />
           <CollectionPostMenu
-            account={account}
+            accounName={account && account.name}
             postid={postid}
           />
           {

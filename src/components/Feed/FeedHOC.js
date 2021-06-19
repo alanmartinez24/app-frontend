@@ -77,75 +77,20 @@ const styles = theme => ({
   }
 })
 
-const Feed = (props) => {
-  const { posts, classes, isLoading, hasMore } = props
-
-  if (isLoading) {
-    return (
-      <div className={classes.feedLoader}>
-        <FeedLoader />
-      </div>
-    )
-  }
-
-  if (!isLoading && !hasMore && posts.length === 0) {
-    return (
-      <div align='center' >
-        <Typography
-          style={{ color: '#ffffff' }}
-          variant='caption'
-        >
-          No posts found
-        </Typography>
-      </div>
-    )
-  }
-
-  return (
-    <ErrorBoundary>
-      <div className={classes.container}
-        style={{ marginBottom: !hasMore ? '10%' : '' }}
-      >
-        <div id='profilefeed'
-          align='center'
-          className={classes.page}
-          tourname='ProfileFeed'
-        >
-          {
-            posts.map((post) => (
-              <PostController key={post._id}
-                post={post}
-                renderObjects
-              />
-            ))
-          }
-        </div>
-        {!isLoading && !hasMore &&
-          <p className={classes.resetScroll}>end of feed</p>
-        }
-      </div>
-    </ErrorBoundary>
-  )
-}
-
-Feed.propTypes = {
-  posts: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  hasMore: PropTypes.bool.isRequired
-}
-
 class FeedHOC extends PureComponent {
   state = {
     initialLoad: true,
-    hasMore: true,
-    start: 0,
-    limit: 15
+    hasMore: true
   }
 
-  componentDidMount () {
-    this.fetchPosts()
-    switch (this.props.feed) {
+  static whyDidYouRender = true
+
+  logPageView (feed) {
+    if (!window.analytics) {
+      return
+    }
+
+    switch (feed) {
       case 'dailyhits':
         window.analytics.page('Daily Hits')
         break
@@ -176,54 +121,89 @@ class FeedHOC extends PureComponent {
     }
   }
 
-  fetchPosts = () => {
-    const { dispatch, feed } = this.props
-    try {
-      dispatch(fetchFeed(feed, this.state.start, this.state.limit))
-      this.setState({
-        hasMore: true,
-        initialLoad: false,
-        start: this.state.start + this.state.limit + 1
-      })
-    } catch (err) {
-      this.setState({
-        hasMore: false,
-        initialLoad: false
-      })
-      console.error('Error fetching feed: ', err)
+  componentDidMount () {
+    this.fetchPosts()
+    this.logPageView()
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.feed !== prevProps.feed) {
+      this.fetchPosts()
+      this.logPageView()
     }
   }
 
+// Fetches initial posts, if there are none
+  fetchPosts = () => {
+    const { dispatch, feed, feedInfo } = this.props
+    if (feedInfo && feedInfo[feed]) {
+      if (feedInfo[feed].posts.length < feedInfo[feed].limit) {
+        dispatch(fetchFeed(feed, 0, feedInfo[feed].limit))
+       }
+    }
+  }
+
+// Increases start value, to fetch next posts
+  fetchPostsScroll = () => {
+    const { dispatch, feed, feedInfo } = this.props
+    dispatch(fetchFeed(feed, feedInfo[feed].start, feedInfo[feed].limit))
+  }
   render () {
     const { posts, classes } = this.props
     const { initialLoad, hasMore } = this.state
+    console.log(initialLoad, 'initialLoad')
+    if (!initialLoad && !hasMore && posts.length === 0) {
+      return (
+        <div align='center' >
+          <Typography
+            style={{ color: '#ffffff' }}
+            variant='caption'
+          >
+            No posts found
+          </Typography>
+        </div>
+      )
+    }
 
     return (
       <ErrorBoundary>
         <div className={classes.scrollDiv}>
           <InfiniteScroll
-            dataLength={posts.posts.length}
+            dataLength={posts.length}
             hasMore={hasMore}
             height='100vh'
             className={classes.infiniteScroll}
             loader={
-           !initialLoad
+           initialLoad
              ? <div className={classes.feedLoader}>
                <FeedLoader />
              </div>
              : ''
           }
-            next={this.fetchPosts}
+            next={this.fetchPostsScroll}
             onScroll={this.onScroll}
           >
-            {posts && posts.posts &&
-              <Feed classes={classes}
-                isLoading={initialLoad}
-                posts={posts.posts}
-                hasMore={hasMore}
-                hideInteractions={false}
+            <div className={classes.container}
+              style={{ marginBottom: !hasMore ? '10%' : '' }}
+            >
+              <div id='profilefeed'
+                align='center'
+                className={classes.page}
+                tourname='ProfileFeed'
+              >
+                {
+            posts.map((post) => (
+              <PostController key={post._id}
+                post={post}
+                renderObjects
               />
-            }
+            ))
+          }
+              </div>
+              {!initialLoad && !hasMore &&
+              <p className={classes.resetScroll}>end of feed</p>
+        }
+            </div>
           </InfiniteScroll>
         </div>
       </ErrorBoundary>
@@ -241,14 +221,20 @@ const getAllFeeds = (state) => {
 
 export const getFeedPosts = createSelector(
   [getActiveFeedType, getAllFeeds],
-  (activeFeedType, allFeeds) => allFeeds[activeFeedType]
+  (activeFeedType, allFeeds) => {
+    const feedInfo = allFeeds[activeFeedType]
+    if (feedInfo) {
+      return feedInfo.posts
+    }
+
+    return []
+  }
 )
 
 const mapStateToProps = (state) => {
   return {
     posts: getFeedPosts(state),
-    account: state.scatterRequest.account,
-    push: state.scatterInstallation.push
+    feedInfo: state.feedInfo.feeds
   }
 }
 
@@ -256,7 +242,8 @@ FeedHOC.propTypes = {
   classes: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   feed: PropTypes.string.isRequired,
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired,
+  feedInfo: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(FeedHOC))

@@ -465,19 +465,23 @@ class SubscribeDialog extends Component {
   }
 
   logEthLogin (account) {
+    if (!window.analytics) {
     window.analytics.track('ETH Login', {
       userId: this.state.address,
       username: account.username,
       application: 'Web App'
     })
   }
+  }
 
   logEthWhitelist () {
+    if (!window.analytics) {
     window.analytics.track('ETH Application Submission', {
       userId: this.state.address,
       email: this.state.email,
       application: 'Web App'
     })
+  }
   }
 
   logEthSignup (account) {
@@ -485,20 +489,25 @@ class SubscribeDialog extends Component {
       userId: this.state.address,
       username: this.state.username
     }
+
+    if (!window.analytics) {
     window.analytics.track('ETH Signup', {
       userId: ethAccount.userId,
       username: ethAccount.username,
       application: 'Web App'
     })
+ }
     this.logSignupAttempt('eth', ethAccount)
   }
 
   logSignupAttempt (type, account) {
+    if (!window.analytics) {
     window.analytics.track('Attempt Signup', {
       userId: account,
       application: 'Web App',
       type
     })
+ }
   }
 
   handleSnackbarOpen = (msg, error) => {

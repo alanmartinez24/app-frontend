@@ -84,18 +84,18 @@ export function homeFeed (state = initialState, action) {
 
 export function feedInfo (state = initialState, action) {
   return produce(state, draft => {
+    let feedInfo = draft.feeds[action.feedType]
     switch (action.type) {
       case constants.FETCH_FEED:
-        let feedInfo = draft.feeds[action.feedType]
         feedInfo.isLoading = true
         feedInfo.error = null
         break
       case constants.FETCH_FEED_SUCCESS:
-        draft.feeds[action.feedType] = {
-          isLoading: false,
-          posts: state.feeds[action.feedType].posts.concat(action.posts),
-          error: null
-        }
+        feedInfo.isLoading = false
+        feedInfo.posts = state.feeds[action.feedType].posts.concat(action.posts)
+        feedInfo.start = action.newStart + action.newLimit
+        feedInfo.limit = action.newLimit
+        feedInfo.error = null
         break
       case constants.FETCH_FEED_FAILURE:
         feedInfo = draft.feeds[action.feedType]

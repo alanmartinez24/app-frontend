@@ -1,24 +1,23 @@
 import React, { Component } from 'react'
-import Header from '../../components/Header/Header'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import LineChart from '../../components/Charts/LineChart'
 import BarChart from '../../components/Charts/BarChart'
 import RadialChart from '../../components/Charts/RadialChart'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
-import Footer from '../../components/Footer/Footer'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography, MuiThemeProvider } from '@material-ui/core'
 import axios from 'axios'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import { withRouter } from 'react-router-dom'
-import path from 'path'
+// import path from 'path'
 import { isSameDay } from 'date-fns'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import { levelColors } from '../../utils/colors'
 import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
 import theme from '../../utils/theme'
+import Footer from '../../components/Footer/Footer'
+import Header from '../../components/Header/Header'
+import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
@@ -142,32 +141,8 @@ class Analytics extends Component {
 
   componentDidMount () {
     this.loadUserData()
-    window.Intercom('update')
-    window.analytics.page('User')
-  }
-
-  componentDidUpdate (prevProps) {
-    const prevUser = path.basename(prevProps.location.pathname)
-    const currUser = path.basename(this.props.location.pathname)
-    if (currUser !== prevUser) {
-      // eslint-disable-next-line
-      this.setState({
-        // eslint-disable-next-line
-        avatar: null,
-        // eslint-disable-next-line
-        eosname: null,
-        // eslint-disable-next-line
-        fullname: null,
-        // eslint-disable-next-line
-        quantile: null,
-        // eslint-disable-next-line
-        username: null,
-        // eslint-disable-next-line
-        bio: null,
-        isLoading: true,
-        hasError: false
-      })
-      this.loadUserData()
+    if (window.analytics) {
+      window.analytics.page('User')
     }
   }
 
@@ -313,7 +288,7 @@ ratingPower = async () => {
   loadUserData = () => {
     (async () => {
       try {
-        const { pathname } = this.props.location
+        const { pathname } = window.location
         const username = pathname.split('/')[1]
 
         const account = (await axios.get(`${BACKEND_API}/levels/user/${username}`)).data
@@ -573,8 +548,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 Analytics.propTypes = {
-  classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Analytics)))
+export default connect(mapStateToProps)(withStyles(styles)(Analytics))

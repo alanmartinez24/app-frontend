@@ -1,6 +1,4 @@
 import React, { Component, memo } from 'react'
-import Header from '../../components/Header/Header'
-import Footer from '../../components/Footer/Footer'
 import HomeMenu from '../../components/Landing/HomeMenu'
 import PropTypes from 'prop-types'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
@@ -358,7 +356,7 @@ class Discover extends Component {
   }
 
   componentDidMount () {
-    window.Intercom('update')
+    // window.Intercom('update')
     setTimeout(() => {
       this.setState({
         showTour: false
@@ -374,7 +372,6 @@ class Discover extends Component {
     ) : (
       <div className={classes.container}>
         <div className={classes.page}>
-          <Header isTourOpen={this.state.isTourOpen} />
           <SideDrawer />
           <Grid container
             justify='center'
@@ -442,7 +439,6 @@ class Discover extends Component {
           />
         </div>
 
-        <Footer />
       </div>
     )
   }

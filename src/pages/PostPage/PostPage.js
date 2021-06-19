@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import Header from '../../components/Header/Header'
 import PostDisplay from '../../components/Post/PostDisplay'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Footer from '../../components/Footer/Footer'
 import Grid from '@material-ui/core/Grid'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -76,7 +74,10 @@ class PostPage extends Component {
   componentDidMount () {
     this.loadPostData()
     window.Intercom('update')
+
+    if (!window.analytics) {
     window.analytics.page('Post Page')
+  }
   }
 
   loadPostData = () => {
@@ -100,7 +101,6 @@ class PostPage extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <Grid alignItems='flex-start'
               className={classes.gridContainer}
               container
@@ -111,7 +111,6 @@ class PostPage extends Component {
               />
             </Grid>
           </div>
-          <Footer />
         </div>
       </ErrorBoundary>
     )

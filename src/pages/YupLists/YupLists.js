@@ -1,6 +1,4 @@
 import React, { Component, memo } from 'react'
-import Header from '../../components/Header/Header'
-import Footer from '../../components/Footer/Footer'
 import PropTypes from 'prop-types'
 import YupLeaderboard from '../../components/YupLeaderboard/YupList'
 import { connect } from 'react-redux'
@@ -16,6 +14,8 @@ import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import theme from '../../utils/theme'
+import Footer from '../../components/Footer/Footer'
+import Header from '../../components/Header/Header'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -107,9 +107,11 @@ class YupLists extends Component {
   };
 
   componentDidMount () {
-    window.Intercom('update')
-    window.analytics.page('Yup Lists')
-    // this.fetchListOptions()
+    if (window.analytics) {
+      window.analytics.page('Yup Lists')
+    }
+
+    this.fetchListOptions()
     setTimeout(() => {
       this.setState({
         showTour: false
