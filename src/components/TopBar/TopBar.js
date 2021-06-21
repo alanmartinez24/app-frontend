@@ -496,7 +496,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
 
   const logProfileClick = () => {
     if (!window.analytics) {
-      console.log('HI')
     const userId = account && account.name
      window.analytics.track('My Profile Click', { userId })
     }
@@ -504,7 +503,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
 
   const logNotifsClick = () => {
     if (!window.analytics) {
-      console.log('HI')
     const userId = account && account.name
     window.analytics.track('My Notifications Click', { userId })
     }

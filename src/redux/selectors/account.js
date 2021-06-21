@@ -13,7 +13,7 @@ export const accountInfoSelector = createSelector(
       account.authority = persmissions[account.name].userPerm
     }
     if (!scatter) {
-      if (eth) {
+      if (eth && eth._id) {
         account = { name: eth._id, authority: 'active' }
       } else if (twitterIdentity) {
         account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
