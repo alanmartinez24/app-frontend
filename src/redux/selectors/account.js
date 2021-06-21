@@ -6,11 +6,11 @@ const userPermissionsSelector = state => state.userPermissions
 
 export const accountInfoSelector = createSelector(
   [scatterIdentitySelector, ethSelector, userPermissionsSelector],
-  (scatter, eth, persmissions) => {
+  (scatter, eth, permissions) => {
     let account = scatter || eth
     const twitterIdentity = localStorage.getItem('twitterMirrorInfo')
-    if (account && persmissions && persmissions[account.name]) {
-      account.authority = persmissions[account.name].userPerm
+    if (account && permissions && permissions[account.name]) {
+      account.authority = permissions[account.name].userPerm
     }
     if (!scatter) {
       if (eth) {

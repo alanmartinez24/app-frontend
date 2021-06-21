@@ -21,7 +21,7 @@ export function userPermissions (state = {}, action) {
       case constants.FETCH_PERMS_FAILURE:
         draft[action.eosname] = {
           isLoading: false,
-          permission: 'active',
+          permission: null,
           error: action.error
         }
         break

@@ -81,7 +81,7 @@ class CollectionPostMenu extends Component {
 
   render () {
     const { postid, classes, ethAuth, account, collections } = this.props
-    if (!postid) return null
+    if (!postid || !account.name) return null
     const { anchorEl, snackbarMsg, dialogOpen } = this.state
     const accountName = account && account.name
     const collectionsPageId = window.location.href.split('/').pop()
