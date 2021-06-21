@@ -67,25 +67,23 @@ class Index extends Component {
     } catch (err) {}
   }
 
-  // async fetchExtAuthInfo () {
-  //   try {
-  //     const { checkScatter, scatterInstall, getExtAuthToken } = this.props
-
-  //     await wallet.detect(checkScatter, scatterInstall)
-  //     if (wallet.connected) {
-  //       getExtAuthToken()
-  //     }
-  //   } catch (err) {
-  //     console.log('Failed to fetch auth info', err)
-  //   }
-  // }
+  async checkTwitterAuth () {
+    try {
+      const twitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
+      if (!twitterMirrorInfo) { return }
+      const { expiration } = JSON.parse(twitterMirrorInfo)
+      if (expiration <= Date.now()) { // if twitter oauth token expired, sign user out
+        localStorage.removeItem('twitterMirrorInfo')
+      }
+    } catch (err) {}
+  }
 
   componentDidMount () {
     (async () => {
       const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
-      // this.fetchExtAuthInfo()
+      this.checkTwitterAuth()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
@@ -107,9 +105,7 @@ class Index extends Component {
   }
 
   render () {
-    console.log(this.props)
   const history = this.props.history
- console.log(history, 'historyyy')
     if (this.state.isLoading) {
       return (
         <div style={{
