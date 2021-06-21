@@ -84,6 +84,7 @@ class Index extends Component {
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
+
       fetchAuthFromState()
 
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
@@ -99,8 +100,9 @@ class Index extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { getLoggedUserCollections, fetchUserPerms, accountName } = this.props
+    const { getLoggedUserCollections, fetchUserPerms, fetchAuthFromState, accountName } = this.props
     if (accountName && prevProps.accountName !== accountName) {
+      fetchAuthFromState()
       getLoggedUserCollections(accountName)
       fetchUserPerms(accountName)
     }

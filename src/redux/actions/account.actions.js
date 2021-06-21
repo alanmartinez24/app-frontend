@@ -64,32 +64,33 @@ export function updateWeight (username, update) {
 export function fetchAuthInfo () {
   return async dispatch => {
     dispatch(request())
-    let authInfo, error
-    const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
-    const twitterInfo = localStorage.getItem('twitterMirrorInfo')
     try {
-    if (ethAuthInfo) {
-      try {
-        const { address, signature } = JSON.parse(ethAuthInfo)
-        await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
-        const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
-        authInfo = { authType: 'eth', eosname: account.eosname, address: address, signature: signature }
-      } catch (err) {
-        localStorage.removeItem('YUP_ETH_AUTH')
-        error = err
-      }
-    } if (scatter.identity) {
+      let authInfo
+      const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
+      const twitterInfo = localStorage.getItem('twitterMirrorInfo')
+      if (scatter.connected) {
         const { eosname, signature } = await scatter.scatter.getAuthToken()
-        authInfo = { authType: 'extension', eosname: eosname, address: null, signature: signature }
-    } if (twitterInfo) {
+        authInfo = { authType: 'extension', eosname, address: null, signature: signature }
+      } else if (twitterInfo) {
         const { token, name } = JSON.parse(twitterInfo)
         authInfo = { authType: 'twitter', eosname: name, address: null, oauthToken: token }
+      } else if (ethAuthInfo) {
+        try {
+          const { address, signature } = JSON.parse(ethAuthInfo)
+          await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
+          const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
+          authInfo = { authType: 'eth', eosname: account.eosname, address: address, signature: signature }
+        } catch (err) {
+          localStorage.removeItem('YUP_ETH_AUTH')
+          throw err
+        }
       }
+
+      if (!authInfo) { throw new Error('No login detected') }
+      dispatch(success(authInfo))
     } catch (err) {
-        error = err
+      dispatch(failure(err))
     }
-    if (authInfo && !error) dispatch(success(authInfo))
-    else dispatch(failure(error))
   }
 
   function request () {
