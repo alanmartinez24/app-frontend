@@ -83,11 +83,11 @@ export function fetchAuthInfo () {
         authInfo = { authType: 'extension', eosname: eosname, address: null, signature: signature }
     } if (twitterInfo) {
         const { token, name } = JSON.parse(twitterInfo)
-        authInfo = { authType: 'twitter', eosname: name, address: null, signature: token }
+        authInfo = { authType: 'twitter', eosname: name, address: null, oauthToken: token }
       }
     } catch (err) {
         error = err
-      }
+    }
     if (authInfo && !error) dispatch(success(authInfo))
     else dispatch(failure(error))
   }

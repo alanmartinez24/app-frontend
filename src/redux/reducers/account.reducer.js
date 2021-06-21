@@ -177,6 +177,7 @@ export function authInfo (state = { signature: null, eosname: null, isLoading: f
         draft.signature = action.signature
         draft.eosname = action.eosname
         draft.address = action.address
+        draft.oauthToken = action.oauthToken
         draft.isLoading = false
         draft.error = null
         break
