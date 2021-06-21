@@ -335,7 +335,7 @@ class Collections extends Component {
   }
 
   render () {
-    const { classes, account, levels, dispatch } = this.props
+    const { classes, account, levels, dispatch, authToken } = this.props
     const {
       collection,
       posts,
@@ -480,6 +480,7 @@ if (account && account.name) {
         <CollectionEditDialog
           collection={collection}
           account={account}
+          authToken={authToken}
           dialogOpen={dialogOpen}
           handleDialogClose={this.handleDialogClose}
         />
@@ -857,6 +858,7 @@ const steps = [
 
 const mapStateToProps = state => {
   const account = accountInfoSelector(state)
+  const authToken = state.authInfo
 
   return {
     account,
@@ -865,7 +867,8 @@ const mapStateToProps = state => {
       levels: {}
     },
     push: state.scatterInstallation.push,
-    collections: state.collections
+    collections: state.collections,
+    authToken
   }
 }
 
@@ -874,7 +877,8 @@ Collections.propTypes = {
   levels: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  authToken: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(Collections))

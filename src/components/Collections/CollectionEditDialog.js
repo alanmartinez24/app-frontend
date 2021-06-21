@@ -12,11 +12,9 @@ import {
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
-import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
-import { ethAuthSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
@@ -58,7 +56,7 @@ const CollectionEditDialog = ({
   dialogOpen,
   handleDialogClose,
   history,
-  ethAuth
+  authToken
 }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
@@ -71,18 +69,9 @@ const CollectionEditDialog = ({
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
-  const fetchAuthToken = async () => {
-    if (ethAuth) return ethAuth
-    else {
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      return { eosname, signature }
-    }
-  }
-
   const handleEditCollection = async () => {
     try {
       setIsLoadingUpdate(true)
-      const authToken = await fetchAuthToken()
       if (authToken.account && authToken.account.eosname) {
         authToken.eosname = authToken.account.eosname
       }
@@ -101,7 +90,6 @@ const CollectionEditDialog = ({
   const handleDeleteCollection = async () => {
     try {
       setIsLoadingDelete(true)
-      const authToken = await fetchAuthToken()
       if (authToken.account && authToken.account.eosname) {
         authToken.eosname = authToken.account.eosname
       }
@@ -197,9 +185,9 @@ const CollectionEditDialog = ({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = ethAuthSelector(state)
+  const authToken = state.authInfo
   return {
-    ethAuth
+    authToken
   }
 }
 
@@ -209,7 +197,7 @@ CollectionEditDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  ethAuth: PropTypes.object
+  authToken: PropTypes.object
 }
 
 export default withRouter(

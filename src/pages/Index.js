@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions, fetchAuthInfo } from '../redux/actions'
 import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -67,25 +67,12 @@ class Index extends Component {
     } catch (err) {}
   }
 
-  // async fetchExtAuthInfo () {
-  //   try {
-  //     const { checkScatter, scatterInstall, getExtAuthToken } = this.props
-
-  //     await wallet.detect(checkScatter, scatterInstall)
-  //     if (wallet.connected) {
-  //       getExtAuthToken()
-  //     }
-  //   } catch (err) {
-  //     console.log('Failed to fetch auth info', err)
-  //   }
-  // }
-
   componentDidMount () {
     (async () => {
-      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName } = this.props
+      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName, fetchAuthFromState } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
-      // this.fetchExtAuthInfo()
+      fetchAuthFromState()
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
@@ -107,9 +94,7 @@ class Index extends Component {
   }
 
   render () {
-    console.log(this.props)
   const history = this.props.history
- console.log(history, 'historyyy')
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -207,7 +192,8 @@ Index.propTypes = {
   getLoggedUserCollections: PropTypes.func.isRequired,
   accountName: PropTypes.string,
   history: PropTypes.object,
-  fetchUserPerms: PropTypes.func.isRequired
+  fetchUserPerms: PropTypes.func.isRequired,
+  fetchAuthFromState: PropTypes.func.isRequired
 }
 
 const mapActionToProps = (dispatch) => {
@@ -217,7 +203,8 @@ const mapActionToProps = (dispatch) => {
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
     fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
-    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
+    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName)),
+    fetchAuthFromState: () => dispatch(fetchAuthInfo())
     }
 }
 

@@ -82,12 +82,8 @@ export function fetchAuthInfo () {
         const { eosname, signature } = await scatter.scatter.getAuthToken()
         authInfo = { authType: 'extension', eosname: eosname, address: null, signature: signature }
     } if (twitterInfo) {
-          const { expiration, token, name } = JSON.parse(twitterInfo)
-          if (new Date().getTime < expiration) {
-            authInfo = { authType: 'twitter', eosname: name, address: null, signature: token }
-          } else {
-          localStorage.removeItem('twitterMirrorInfo')
-          }
+        const { token, name } = JSON.parse(twitterInfo)
+        authInfo = { authType: 'twitter', eosname: name, address: null, signature: token }
       }
     } catch (err) {
         error = err

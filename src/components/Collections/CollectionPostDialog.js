@@ -13,10 +13,8 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
-import wallet from '../../eos/scatter/scatter.wallet.js'
 import { connect } from 'react-redux'
 import { addUserCollection } from '../../redux/actions'
-import { ethAuthSelector } from '../../redux/selectors'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
 
@@ -61,7 +59,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, ethAuth, addCollectionToRedux }) => {
+const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, addCollectionToRedux, authToken }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -76,20 +74,11 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
     if (e.key === 'Enter' && !!name) handleCreateNewCollection()
   }
 
-  const fetchAuthToken = async () => {
-    if (ethAuth) return ethAuth
-    else {
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      return { eosname, signature }
-    }
-  }
-
   const handleCreateNewCollection = async () => {
     try {
       if (isLoading) return
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
-      const authToken = await fetchAuthToken()
       if (authToken.account && authToken.account.eosname) {
         authToken.eosname = authToken.account.eosname
       }
@@ -203,9 +192,9 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = ethAuthSelector(state)
+  const authToken = state.authInfo
   return {
-    ethAuth
+    authToken
   }
 }
 
@@ -221,7 +210,7 @@ CollectionPostDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   addCollectionToRedux: PropTypes.func.isRequired,
-  ethAuth: PropTypes.object
+  authToken: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostDialog))

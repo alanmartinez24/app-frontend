@@ -173,8 +173,10 @@ export function authInfo (state = { signature: null, eosname: null, isLoading: f
         draft.error = null
         break
       case constants.FETCH_AUTH_TOKEN_SUCCESS:
+        draft.authType = action.authType
         draft.signature = action.signature
         draft.eosname = action.eosname
+        draft.address = action.address
         draft.isLoading = false
         draft.error = null
         break

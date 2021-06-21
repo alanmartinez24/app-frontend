@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import axios from 'axios'
-import wallet from '../../eos/scatter/scatter.wallet.js'
 import CollectionPostDialog from './CollectionPostDialog.js'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { addPostToCollection, removePostFromCollection } from '../../redux/actions'
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -41,19 +40,10 @@ class CollectionPostMenu extends Component {
   handleSnackbarOpen = (msg) => this.setState({ snackbarMsg: msg })
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
-  fetchAuthToken = async () => {
-    if (this.props.ethAuth) return this.props.ethAuth
-    else {
-      const { eosname, signature } = await wallet.scatter.getAuthToken()
-      return { eosname, signature }
-    }
-  }
-
   addToCollection = async (collection) => {
     try {
-      const { postid, addPostRedux, account } = this.props
+      const { postid, addPostRedux, account, authToken } = this.props
       this.handleMenuClose()
-      const authToken = await this.fetchAuthToken()
       const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully added to ${collection.name}`)
@@ -66,9 +56,8 @@ class CollectionPostMenu extends Component {
 
   removeFromCollection = async (collection) => {
     try {
-      const { postid, removePostRedux, account } = this.props
+      const { postid, removePostRedux, account, authToken } = this.props
       this.handleMenuClose()
-      const authToken = await this.fetchAuthToken()
       const params = { postId: postid, ...authToken }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
@@ -80,7 +69,7 @@ class CollectionPostMenu extends Component {
   }
 
   render () {
-    const { postid, classes, ethAuth, account, collections } = this.props
+    const { postid, classes, account, collections } = this.props
     if (!postid) return null
     const { anchorEl, snackbarMsg, dialogOpen } = this.state
     const accountName = account && account.name
@@ -164,7 +153,6 @@ class CollectionPostMenu extends Component {
           account={account}
           dialogOpen={dialogOpen}
           postid={postid}
-          ethAuth={ethAuth}
           handleDialogClose={this.handleDialogClose}
         />
       </>
@@ -175,7 +163,7 @@ class CollectionPostMenu extends Component {
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  ethAuth: PropTypes.object,
+  authToken: PropTypes.object,
   account: PropTypes.object.isRequired,
   collections: PropTypes.array.isRequired,
   addPostRedux: PropTypes.func.isRequired,
@@ -183,12 +171,12 @@ CollectionPostMenu.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const ethAuth = ethAuthSelector(state)
   const account = accountInfoSelector(state)
   const { collections } = state.userCollections[account.name] || {}
+  const authToken = state.authInfo
 
   return {
-    ethAuth,
+    authToken,
     account,
     collections
   }
