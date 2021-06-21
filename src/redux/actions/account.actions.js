@@ -61,6 +61,50 @@ export function updateWeight (username, update) {
   return { type: constants.UPDATE_WEIGHT, username, ...update }
 }
 
+export function fetchAuthInfo () {
+  return async dispatch => {
+    dispatch(request())
+    try {
+      let authInfo
+      const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
+      const twitterInfo = localStorage.getItem('twitterMirrorInfo')
+      if (scatter.connected) {
+        const { eosname, signature } = await scatter.scatter.getAuthToken()
+        authInfo = { authType: 'extension', eosname, address: null, signature: signature }
+      } else if (twitterInfo) {
+        const { token, name } = JSON.parse(twitterInfo)
+        authInfo = { authType: 'twitter', eosname: name, address: null, oauthToken: token }
+      } else if (ethAuthInfo) {
+        try {
+          const { address, signature } = JSON.parse(ethAuthInfo)
+          await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
+          const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
+          authInfo = { authType: 'eth', eosname: account.eosname, address: address, signature: signature }
+        } catch (err) {
+          localStorage.removeItem('YUP_ETH_AUTH')
+          throw err
+        }
+      }
+
+      if (!authInfo) { throw new Error('No login detected') }
+      dispatch(success(authInfo))
+    } catch (err) {
+      dispatch(failure(err))
+    }
+  }
+
+  function request () {
+    return { type: constants.FETCH_AUTH_TOKEN }
+  }
+
+  function success (authInfo) {
+    return { type: constants.FETCH_AUTH_TOKEN_SUCCESS, ...authInfo }
+  }
+
+  function failure (error) {
+    return { type: constants.FETCH_AUTH_TOKEN_FAILURE, error }
+  }
+}
 export function updateAccountInfo (account, update, ethAuth) {
   return async dispatch => {
     dispatch(request(account.name))

@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions, fetchAuthInfo } from '../redux/actions'
 import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -80,10 +80,13 @@ class Index extends Component {
 
   componentDidMount () {
     (async () => {
-      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName } = this.props
+      const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName, fetchAuthFromState } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
+
+      fetchAuthFromState()
+
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
@@ -97,8 +100,9 @@ class Index extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { getLoggedUserCollections, fetchUserPerms, accountName } = this.props
+    const { getLoggedUserCollections, fetchUserPerms, fetchAuthFromState, accountName } = this.props
     if (accountName && prevProps.accountName !== accountName) {
+      fetchAuthFromState()
       getLoggedUserCollections(accountName)
       fetchUserPerms(accountName)
     }
@@ -203,7 +207,8 @@ Index.propTypes = {
   getLoggedUserCollections: PropTypes.func.isRequired,
   accountName: PropTypes.string,
   history: PropTypes.object,
-  fetchUserPerms: PropTypes.func.isRequired
+  fetchUserPerms: PropTypes.func.isRequired,
+  fetchAuthFromState: PropTypes.func.isRequired
 }
 
 const mapActionToProps = (dispatch) => {
@@ -213,7 +218,8 @@ const mapActionToProps = (dispatch) => {
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
     fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
-    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName))
+    getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName)),
+    fetchAuthFromState: () => dispatch(fetchAuthInfo())
     }
 }
 
