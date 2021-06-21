@@ -67,12 +67,25 @@ class Index extends Component {
     } catch (err) {}
   }
 
+  async checkTwitterAuth () {
+    try {
+      const twitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
+      if (!twitterMirrorInfo) { return }
+      const { expiration } = JSON.parse(twitterMirrorInfo)
+      if (expiration <= Date.now()) { // if twitter oauth token expired, sign user out
+        localStorage.removeItem('twitterMirrorInfo')
+      }
+    } catch (err) {}
+  }
+
   componentDidMount () {
     (async () => {
       const { getLoggedUserCollections, fetchUserPerms, checkScatter, scatterInstall, accountName, fetchAuthFromState } = this.props
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
+      this.checkTwitterAuth()
       fetchAuthFromState()
+
       if (pathname.startsWith('/leaderboard') || pathname.startsWith('/lists')) {
         await this.fetchListOptions()
       }
