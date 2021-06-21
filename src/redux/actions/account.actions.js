@@ -61,6 +61,53 @@ export function updateWeight (username, update) {
   return { type: constants.UPDATE_WEIGHT, username, ...update }
 }
 
+export function fetchAuthInfo () {
+  return async dispatch => {
+    dispatch(request())
+    let authInfo, error
+    const ethAuthInfo = localStorage.getItem('YUP_ETH_AUTH')
+    const twitterInfo = localStorage.getItem('twitterMirrorInfo')
+    try {
+    if (ethAuthInfo) {
+      try {
+        const { address, signature } = JSON.parse(ethAuthInfo)
+        await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address, signature }) // Will throw if challenge is invalid
+        const account = (await axios.get(`${BACKEND_API}/accounts/eth?address=${address}`)).data
+        authInfo = { authType: 'eth', eosname: account.eosname, address: address, signature: signature }
+      } catch (err) {
+        localStorage.removeItem('YUP_ETH_AUTH')
+        error = err
+      }
+    } if (scatter.identity) {
+        const { eosname, signature } = await scatter.scatter.getAuthToken()
+        authInfo = { authType: 'extension', eosname: eosname, address: null, signature: signature }
+    } if (twitterInfo) {
+          const { expiration, token, name } = JSON.parse(twitterInfo)
+          if (new Date().getTime < expiration) {
+            authInfo = { authType: 'twitter', eosname: name, address: null, signature: token }
+          } else {
+          localStorage.removeItem('twitterMirrorInfo')
+          }
+      }
+    } catch (err) {
+        error = err
+      }
+    if (authInfo && !error) dispatch(success(authInfo))
+    else dispatch(failure(error))
+  }
+
+  function request () {
+    return { type: constants.FETCH_AUTH_TOKEN }
+  }
+
+  function success (authInfo) {
+    return { type: constants.FETCH_AUTH_TOKEN_SUCCESS, ...authInfo }
+  }
+
+  function failure (error) {
+    return { type: constants.FETCH_AUTH_TOKEN_FAILURE, error }
+  }
+}
 export function updateAccountInfo (account, update, ethAuth) {
   return async dispatch => {
     dispatch(request(account.name))
