@@ -82,9 +82,15 @@ const CollectionEditDialog = ({
   const handleEditCollection = async () => {
     try {
       setIsLoadingUpdate(true)
-      const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) {
-        authToken.eosname = authToken.account.eosname
+      let twitterInfo = JSON.parse(localStorage.getItem('twitterMirrorInfo'))
+      let authToken
+      if (twitterInfo) {
+        authToken = { eosname: twitterInfo.name, oAuthToken: twitterInfo.token }
+      } else {
+        authToken = await fetchAuthToken()
+        if (authToken.account && authToken.account.eosname) {
+          authToken.eosname = authToken.account.eosname
+        }
       }
       const params = { name, description, ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
@@ -101,9 +107,15 @@ const CollectionEditDialog = ({
   const handleDeleteCollection = async () => {
     try {
       setIsLoadingDelete(true)
-      const authToken = await fetchAuthToken()
-      if (authToken.account && authToken.account.eosname) {
-        authToken.eosname = authToken.account.eosname
+      let twitterInfo = JSON.parse(localStorage.getItem('twitterMirrorInfo'))
+      let authToken
+      if (twitterInfo) {
+        authToken = { eosname: twitterInfo.name, oAuthToken: twitterInfo.token }
+      } else {
+        authToken = await fetchAuthToken()
+        if (authToken.account && authToken.account.eosname) {
+          authToken.eosname = authToken.account.eosname
+        }
       }
       const params = { ...authToken }
       await axios.delete(`${BACKEND_API}/collections/${collection._id}`, {
