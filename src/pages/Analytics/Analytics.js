@@ -208,7 +208,7 @@ class Analytics extends Component {
       try {
         let sortedArray = []
         income.forEach(payment => {
-          if (payment.act.data.memo === 'Yup Curator Rewards') { sortedArray.push([new Date(payment.timestamp).getTime(), payment.act.data.amount]) }
+          if (payment.act.data.symbol === 'YUP') { sortedArray.push([new Date(payment.timestamp).getTime(), payment.act.data.amount]) }
         })
         sortedArray = sortedArray.sort((a, b) => b[0] - a[0])
         let dailyData = [[new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), account.total_claimed_rewards]]
