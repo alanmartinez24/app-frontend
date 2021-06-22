@@ -11,21 +11,9 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = (theme) => ({
   formControl: {
     minWidth: 100,
-    margin: 0,
     [theme.breakpoints.down('xs')]: {
       minWidth: 20
     }
-  },
-  textField: {
-    fontFamily: 'Gilroy',
-    color: 'white',
-    fontSize: '12px',
-    [theme.breakpoints.down('xs')]: {
-      padding: 4
-    }
-  },
-  menu: {
-    fontFamily: 'Gilroy', fontSize: '11px'
   }
 })
 
@@ -59,10 +47,6 @@ class SiteMenu extends Component {
             type='dark'
             label='Where?'
             labelWidth='52'
-            className={classes.textField}
-            inputProps={{
-              className: classes.textField
-            }}
             value={currSite.name}
             onChange={this.handleChange}
             MenuProps={{
@@ -74,7 +58,6 @@ class SiteMenu extends Component {
           >{
           filteredOpts.map((opt) => (
             <MenuItem
-              className={classes.menu}
               value={opt.location.name}
             >
               {opt.location.displayName}

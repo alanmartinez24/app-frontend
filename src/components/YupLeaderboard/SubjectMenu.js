@@ -11,17 +11,9 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = (theme) => ({
   formControl: {
     minWidth: 100,
-    color: 'black',
     [theme.breakpoints.down('xs')]: {
       minWidth: 20
     }
-  },
-  textField: {
-    fontFamily: 'Gilroy',
-    fontSize: '12px'
-  },
-  menu: {
-    fontFamily: 'Gilroy', fontSize: '11px'
   }
 })
 
@@ -51,10 +43,6 @@ class SubjectMenu extends Component {
             style={{ fontSize: '12px' }}
           >Subject</InputLabel>
           <Select
-            className={classes.textField}
-            inputProps={{
-              className: classes.textField
-            }}
             labelWidth='44'
             value={currSubject.name}
             onChange={this.handleChange}
@@ -68,7 +56,6 @@ class SubjectMenu extends Component {
           >
             { siteSubjs.map(subj => (
               <MenuItem
-                className={classes.menu}
                 value={subj.name}
                 color='third'
               > {subj.displayName} </MenuItem>))}

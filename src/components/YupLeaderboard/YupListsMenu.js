@@ -136,6 +136,7 @@ class YupListsMenu extends Component {
     const hidden = isMinimize ? classes.hidden : null
     const listTitle = isMinimize ? classes.minimizeTitle : classes.listTitle
     const minimizeCard = isMinimize ? classes.minimizeCard : null
+    const isMobile = window.innerWidth <= 600
 
     return (
       <Fade in
@@ -184,7 +185,7 @@ class YupListsMenu extends Component {
                     lg={8}
                   >
                     <Grid container
-                      spacing={2}
+                      spacing={isMobile ? 1 : 2}
                     >
                       <Grid
                         item
