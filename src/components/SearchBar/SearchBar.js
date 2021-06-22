@@ -148,7 +148,7 @@ class SearchBar extends Component {
     const { searchText } = this.state
     if (searchText == null || searchText === '') return // TODO: Remove this?
     const { searchPosts, searchUsers, history, account } = this.props
-    window.analytics.track('Search Query', {
+    window.analytics && window.analytics.track('Search Query', {
       userId: account.name || 'no-logged-user',
       query: searchText,
       application: 'Web App'
