@@ -328,4 +328,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default memo(connect(mapDispatchToProps)(withStyles(styles)(YupLists)))
+export default memo(connect(null, mapDispatchToProps)(withStyles(styles)(YupLists)))

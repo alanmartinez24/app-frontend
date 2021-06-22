@@ -903,9 +903,9 @@ class User extends Component {
                   10-Second Tutorial
                 </Fab>
               </Fade>
-              <CreateCollectionFab />
             </div>
             <Footer />
+            <CreateCollectionFab />
           </div>
         </ThemeProvider>
       </ErrorBoundary>

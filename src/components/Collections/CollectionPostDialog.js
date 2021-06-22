@@ -1,16 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  DialogActions,
-  SnackbarContent,
-  Snackbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  Link,
-  Typography, Grid
-} from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent, DialogContentText, Link, Typography, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -155,7 +145,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
                 maxLength={TITLE_LIMIT}
                 multiline
                 label='Name'
-                onChange={handleDescriptionChange}
+                onChange={handleNameChange}
                 type='text'
                 variant='outlined'
                 size='small'
@@ -169,7 +159,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
                 maxLength={DESC_LIMIT}
                 label='Description'
                 multiline
-                onChange={handleNameChange}
+                onChange={handleDescriptionChange}
                 type='text'
                 variant='outlined'
                 size='small'

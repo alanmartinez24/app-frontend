@@ -22,13 +22,14 @@ const styles = theme => ({
 })
 
 const CreateCollectionFab = ({ classes, account }) => {
+  if (!account) return null
   const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => setDialogOpen(true)
   const handleDialogClose = () => setDialogOpen(false)
 
   return (
     <>
-      {account.name ? (
+      {account && account.name ? (
         <CollectionPostDialog
           account={account}
           dialogOpen={dialogOpen}
@@ -66,4 +67,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps(withStyles(styles)(CreateCollectionFab)))
+export default connect(mapStateToProps)(withStyles(styles)(CreateCollectionFab))
