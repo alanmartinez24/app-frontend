@@ -356,7 +356,6 @@ class Discover extends Component {
   }
 
   componentDidMount () {
-    // window.Intercom('update')
     setTimeout(() => {
       this.setState({
         showTour: false
