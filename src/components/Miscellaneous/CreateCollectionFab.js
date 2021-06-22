@@ -4,6 +4,9 @@ import { IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { withStyles } from '@material-ui/core/styles'
 import CollectionPostDialog from '../Collections/CollectionPostDialog.js'
+import { connect } from 'react-redux'
+import { accountInfoSelector } from '../../redux/selectors'
+import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 
 const styles = theme => ({
   collectionFab: {
@@ -19,18 +22,25 @@ const styles = theme => ({
 })
 
 const CreateCollectionFab = ({ classes, account }) => {
-  if (!account) return null
   const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => setDialogOpen(true)
   const handleDialogClose = () => setDialogOpen(false)
 
   return (
     <>
-      <CollectionPostDialog
+      {account.name ? (
+        <CollectionPostDialog
+          account={account}
+          dialogOpen={dialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+    ) : (
+      <SubscribeDialog
         account={account}
         dialogOpen={dialogOpen}
         handleDialogClose={handleDialogClose}
       />
+    )}
       <IconButton
         aria-label='more'
         aria-controls='long-menu'
@@ -41,7 +51,7 @@ const CreateCollectionFab = ({ classes, account }) => {
         <AddIcon />
       </IconButton>
     </>
-  )
+    )
 }
 
 CreateCollectionFab.propTypes = {
@@ -49,4 +59,11 @@ CreateCollectionFab.propTypes = {
   account: PropTypes.object.isRequired
 }
 
-export default (withStyles(styles)(CreateCollectionFab))
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state)
+  return {
+    account
+  }
+}
+
+export default connect(mapStateToProps(withStyles(styles)(CreateCollectionFab)))

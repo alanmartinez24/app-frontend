@@ -19,6 +19,7 @@ import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -529,6 +530,7 @@ ratingPower = async () => {
                   />
                 </Grid>
               </Grid>
+              <CreateCollectionFab />
             </div>
             <Footer />
           </div>

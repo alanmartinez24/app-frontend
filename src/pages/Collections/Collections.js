@@ -750,9 +750,7 @@ if (account && account.name) {
             >
               10-Second Tutorial
             </Fab>
-            <CreateCollectionFab
-              account={account}
-            />
+            <CreateCollectionFab />
           </div>
         </div>
       </ErrorBoundary>

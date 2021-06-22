@@ -365,7 +365,7 @@ class Discover extends Component {
   }
 
   render () {
-    const { classes, feed, query, account } = this.props
+    const { classes, feed, query } = this.props
     const search = document.location.search
     return !search.includes('feed=') ? (
       <HomeMenu />
@@ -386,7 +386,6 @@ class Discover extends Component {
                 query={query}
                 headerWidth={classes.page.width}
                 feed={feed}
-                // account={account}
                 isMinimize={this.state.isMinimize}
               />
             </Grid>
@@ -434,11 +433,8 @@ class Discover extends Component {
               10-Second Tutorial
             </Fab>
           </Fade>
-          <CreateCollectionFab
-            account={account}
-          />
+          <CreateCollectionFab />
         </div>
-
       </div>
     )
   }
@@ -571,7 +567,6 @@ const steps = [
 const mapStateToProps = state => {
   const { router } = state
   return {
-    account: state.scatterRequest.account,
     feed: router.location.query.feed || state.homeFeed.feed,
     query: router.location.query
   }
@@ -579,7 +574,6 @@ const mapStateToProps = state => {
 
 Discover.propTypes = {
   classes: PropTypes.object.isRequired,
-  account: PropTypes.object.isRequired,
   feed: PropTypes.string,
   query: PropTypes.object.isRequired
 }

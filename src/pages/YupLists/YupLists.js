@@ -127,7 +127,7 @@ class YupLists extends Component {
   }
 
   render () {
-    const { classes, account } = this.props
+    const { classes } = this.props
     return (
       <ErrorBoundary>
         <ThemeProvider theme={theme}>
@@ -187,9 +187,7 @@ class YupLists extends Component {
                   10-Second Tutorial
                 </Fab>
               </Fade>
-              <CreateCollectionFab
-                account={account}
-              />
+              <CreateCollectionFab />
             </div>
             <Footer />
           </div>
@@ -201,8 +199,7 @@ class YupLists extends Component {
 
 YupLists.propTypes = {
   classes: PropTypes.object.isRequired,
-  setListOpts: PropTypes.func.isRequired,
-  account: PropTypes.object.isRequired
+  setListOpts: PropTypes.func.isRequired
 }
 
 const steps = [
@@ -325,16 +322,10 @@ const steps = [
   }
 ]
 
-const mapStateToProps = state => {
-  return {
-    account: state.scatterRequest.account
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     setListOpts: (listOpts) => dispatch(setListOptions(listOpts))
   }
 }
 
-export default memo(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(YupLists)))
+export default memo(connect(mapDispatchToProps)(withStyles(styles)(YupLists)))
