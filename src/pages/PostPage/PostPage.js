@@ -74,8 +74,6 @@ class PostPage extends Component {
 
   componentDidMount () {
     this.loadPostData()
-    window.Intercom('update')
-
     if (!window.analytics) {
     window.analytics.page('Post Page')
   }

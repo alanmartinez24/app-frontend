@@ -308,7 +308,6 @@ class User extends Component {
 
     this.loadUserData()
     this.showDialog()
-    window.Intercom('update')
 
     if (!window.analytics) {
      window.analytics.page('User')
