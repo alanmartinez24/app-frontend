@@ -155,7 +155,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
                 maxLength={TITLE_LIMIT}
                 multiline
                 label='Name'
-                onChange={handleDescriptionChange}
+                onChange={handleNameChange}
                 type='text'
                 variant='outlined'
                 size='small'
@@ -169,7 +169,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
                 maxLength={DESC_LIMIT}
                 label='Description'
                 multiline
-                onChange={handleNameChange}
+                onChange={handleDescriptionChange}
                 type='text'
                 variant='outlined'
                 size='small'
