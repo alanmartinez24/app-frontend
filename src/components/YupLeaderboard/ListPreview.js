@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import {
-  withStyles,
-  createMuiTheme,
-  MuiThemeProvider
-} from '@material-ui/core/styles'
+import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 // import LinesEllipsis from 'react-lines-ellipsis'
@@ -16,9 +12,7 @@ import axios from 'axios'
 
 const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/)')
 const collectionPattern = new RegExp('^(app.yup.io/collections/|www.app.yup.io/collections/|http://app.yup.io/collections/|https://app.yup.io/collections/)')
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
-  Math.random() * 5
-) + 1}.png`
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 
 const { AUDIUS_EMBED, BACKEND_API } = process.env
 const isMobile = window.innerWidth <= 600
@@ -66,10 +60,11 @@ const styles = theme => ({
   },
   rank: {
     [theme.breakpoints.down('md')]: {
-      fontSize: '1rem'
+      padding: ' 0px 10px 0px 5px',
+      fontSize: '1.2rem'
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: '0.8rem'
+      fontSize: '1.1rem'
     }
   },
   audiusPost: {

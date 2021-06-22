@@ -38,8 +38,8 @@ const styles = theme => ({
   },
   listPreview: {
     [theme.breakpoints.down('md')]: {
-      maxWidth: '100%',
-      flexBasis: '90%'
+      maxWidth: '80%',
+      flexBasis: '80%'
     }
   },
   voteComp: {

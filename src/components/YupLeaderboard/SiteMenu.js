@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Select, MenuItem, InputLabel } from '@material-ui/core'
-import FormControl from '@material-ui/core/FormControl'
+import { Select, MenuItem, InputLabel, FormControl } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -20,7 +19,10 @@ const styles = (theme) => ({
   textField: {
     fontFamily: 'Gilroy',
     color: 'white',
-    fontSize: '12px'
+    fontSize: '12px',
+    [theme.breakpoints.down('xs')]: {
+      padding: 4
+    }
   },
   menu: {
     fontFamily: 'Gilroy', fontSize: '11px'
