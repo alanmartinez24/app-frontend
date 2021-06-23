@@ -782,6 +782,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                 button
                 component={Link}
                 to='/'
+                onClick={handleDrawerClose}
                 style={{ paddingLeft: '5px' }}
               >
                 <ListItemIcon>
@@ -803,6 +804,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                 button
                 component={Link}
                 to='/leaderboard'
+                onClick={handleDrawerClose}
                 style={{ paddingLeft: '5px' }}
                 tourname='LeaderboardButton'
               >
@@ -825,6 +827,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               <ListItem
                 button
                 component={Link}
+                onClick={handleDrawerClose}
                 to='/leaderboard?site=all&subject=collections&category=overall'
                 style={{ paddingLeft: '5px' }}
               >
@@ -847,6 +850,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               <ListItem
                 button
                 component={Link}
+                onClick={handleDrawerClose}
                 to={`/${username}/analytics`}
                 style={{ paddingLeft: '5px' }}
                 tourname='LeaderboardButton'
@@ -964,6 +968,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           button
                           dense
                           component={Link}
+                          onClick={handleDrawerClose}
                           to='/?feed=dailyhits'
                         >
                           <ListItemText
@@ -980,6 +985,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       <ListItem button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=crypto'
                       >
                         <ListItemText
@@ -991,6 +997,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       <ListItem button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=nfts'
                       >
                         <ListItemText
@@ -1003,6 +1010,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=politics'
                       >
                         <ListItemText
@@ -1015,6 +1023,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=non-corona'
                       >
                         <ListItemText
@@ -1027,6 +1036,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=latenightcool'
                       >
                         <ListItemText
@@ -1038,6 +1048,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       <ListItem button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=lol'
                       >
                         <ListItemText
@@ -1050,6 +1061,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         button
                         dense
                         component={Link}
+                        onClick={handleDrawerClose}
                         to='/?feed=brainfood'
                       >
                         <ListItemText
