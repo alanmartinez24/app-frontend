@@ -78,8 +78,8 @@ const styles = theme => ({
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '100vw',
-      margin: 'auto'
+      width: '90vw',
+      marginLeft: '5vw'
     }
   },
   collectionHeader: {
@@ -96,7 +96,8 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       paddingLeft: '20px !important',
       top: 0,
-      marginBottom: '0px'
+      marginBottom: '0px',
+      marginLeft: '0px'
     }
   },
   collectionContainer: {

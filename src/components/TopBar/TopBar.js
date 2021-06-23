@@ -508,7 +508,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
     }
   }
 
-  function handleDrawerClose () {
+  function handleDrawerClose (e) {
     setOpen(false)
   }
 
@@ -681,7 +681,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               paper: classes.drawerPaper
             }}
             className={classes.drawer}
-            onClick={handleDrawerClose}
+            onBackdropClick={handleDrawerClose}
             open={open}
             variant={listVariant}
             onMouseEnter={() => setIsShown(true)}

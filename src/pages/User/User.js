@@ -181,6 +181,7 @@ const styles = theme => ({
     marginLeft: '20px',
     maxWidth: '25%',
     [theme.breakpoints.down('md')]: {
+      maxWidth: '100%',
       margin: '0px 0px 0px 50px',
       width: '100%'
     }
