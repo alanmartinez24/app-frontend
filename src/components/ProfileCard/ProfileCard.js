@@ -77,7 +77,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',
       marginTop: theme.spacing(10),
-      height: '185px',
+      height: '175px',
       width: '100vw'
     }
   },
@@ -269,7 +269,7 @@ function ProfileCard (props) {
   const hidden = isMinimize ? classes.hidden : null
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
-  // const isMobile = window.innerWidth <= 600
+  const isMobile = window.innerWidth <= 600
 
   return (
     <ErrorBoundary>
@@ -453,7 +453,7 @@ function ProfileCard (props) {
                   <Typography
                     className={classes.text}
                     style={{
-                      display: 'inline-block',
+                      display: isMobile ? 'block' : 'inline-block',
                       fontFamily: 'Gilroy',
                       fontSize: '12px'
                     }}
