@@ -151,7 +151,6 @@ class FeedHOC extends PureComponent {
   render () {
     const { posts, classes } = this.props
     const { initialLoad, hasMore } = this.state
-    console.log(initialLoad, 'initialLoad')
     if (!initialLoad && !hasMore && posts.length === 0) {
       return (
         <div align='center' >
