@@ -192,7 +192,7 @@ class FeedHOC extends PureComponent {
               >
                 {
             posts.map((post) => (
-              <PostController key={post._id}
+              <PostController key={post._id.postid}
                 post={post}
                 renderObjects
               />
