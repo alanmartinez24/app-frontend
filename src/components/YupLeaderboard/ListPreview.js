@@ -46,7 +46,12 @@ const styles = theme => ({
     aspectRatio: '1 / 1',
     borderRadius: '20%',
     objectFit: 'cover',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    [theme.breakpoints.down('md')]: {
+      maxHeight: '35px',
+      maxWidth: '35px'
+
+    }
   },
   caption: {
     textAlign: 'left',
@@ -216,7 +221,6 @@ class ListPreview extends Component {
                                >{children}</Link>
       : <a href={href}
         target='_blank'
-
         {...restProps}
         >
         {children}</a>
