@@ -767,7 +767,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           <Button
                             fullWidth
                             className={classes.signupBtn}
-                            onClick={handleDialogOpen}
+                            onClick={() => { handleDialogOpen(); handleDrawerClose() }}
                             variant='contained'
                           >
                             Sign Up/Login
