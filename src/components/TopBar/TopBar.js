@@ -785,7 +785,8 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                 style={{ paddingLeft: '5px' }}
               >
                 <ListItemIcon>
-                  <Icon fontSizeSmall
+                  <Icon
+                    fontSize='small'
                     className='fal fa-home'
                   />
                 </ListItemIcon>
@@ -808,7 +809,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               >
                 <ListItemIcon style={{ textAlign: 'center' }}>
                   <Icon
-                    fontSizeSmall
+                    fontSize='small'
                     className='fal fa-trophy'
                     style={{ overflow: 'visible', width: '100%' }}
                   />
@@ -829,7 +830,8 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                 style={{ paddingLeft: '5px' }}
               >
                 <ListItemIcon>
-                  <Icon fontSizeSmall
+                  <Icon
+                    fontSize='small'
                     className='fal fa-list'
                   />
                 </ListItemIcon>
@@ -853,7 +855,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               >
                 <ListItemIcon style={{ textAlign: 'center' }}>
                   <Icon
-                    fontSizeSmall
+                    fontSize='small'
                     className='fal fa-chart-bar'
                     style={{ overflow: 'visible', width: '100%' }}
                   />
