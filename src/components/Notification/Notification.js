@@ -37,7 +37,11 @@ const styles = theme => ({
     margin: 'auto',
     height: '100%',
     maxWidth: '100%',
-    borderRadius: '0.25rem'
+    borderRadius: '0.25rem',
+    [theme.breakpoints.down('xs')]: {
+      height: '50px',
+      objectFit: 'cover'
+    }
   },
   imgWrapper: {
     width: '100%',

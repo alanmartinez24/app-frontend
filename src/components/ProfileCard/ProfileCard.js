@@ -77,7 +77,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',
       marginTop: theme.spacing(10),
-      height: '175px',
+      height: '185px',
       width: '100vw'
     }
   },
