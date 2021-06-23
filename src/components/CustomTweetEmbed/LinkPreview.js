@@ -1,11 +1,5 @@
-/* eslint-disable */
-import React, { Component, useState, useEffect } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
-import Link from '@material-ui/core/Link'
-import axios from 'axios'
-import _ from 'lodash'
-
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const LinkPreview = ({ description, image, title, url, caption, classes, size }) => {
  const cutEnd = (str) => {
@@ -38,7 +32,7 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
   }
 
   const cutHttp = (str = '') => {
-    let parsed;
+    let parsed
     if (str && str.includes(`http:`)) {
         const re = /http:\/\//
         parsed = str.replace(re, '')
@@ -51,8 +45,8 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
   }
 
   const trimUrl = (str) => {
-    let first;
-    let second;
+    let first
+    let second
     if (str.length > 0) {
       first = cutEnd(str)
       second = cutHttp(first)
@@ -61,28 +55,14 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
     return second
   }
 
-  let LinkPreviewMain = classes.LinkPreviewMain
-  let LinkPreviewImageContainer = classes.LinkPreviewImageSmallContainer
-  let LinkPreviewImage = classes.LinkPreviewImageSmall
-  let LinkPreviewContent = classes.LinkPreviewContentSmall
-  let LinkPreviewTitle = classes.LinkPreviewTitle
-  let LinkPreviewText = classes.LinkPreviewText
-  let LinkPreviewURL = classes.LinkPreviewURL
-
-  if (size === 'large') {
-   LinkPreviewImage = classes.LinkPreviewImageLarge
-   LinkPreviewContent = classes.LinkPreviewContentLarge
-   LinkPreviewMain = classes.LinkPreviewMainLarge
-  }
-
   return (
-    <div className={LinkPreviewMain}>
+    <div className={size === 'large' ? classes.LinkPreviewMainLarge : classes.LinkPreviewMain}>
       <a className={classes.LinkPreviewAnchor}
         href={url}
         target='_blank'
       >
-        <div className={LinkPreviewImageContainer}>
-          <img className={LinkPreviewImage}
+        <div className={classes.LinkPreviewImageContainer}>
+          <img className={size === 'large' ? classes.LinkPreviewImageLarge : classes.LinkPreviewImage}
             src={image}
             alt=''
           />
@@ -92,14 +72,22 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
         href={url}
         target='_blank'
       >
-        <div className={LinkPreviewContent}>
-          <div className={LinkPreviewTitle}>{title}</div>
-          <div className={LinkPreviewText}>{`${description && description.substring(0, 50)}...` || `${caption && caption.substring(0, 50)}...`} </div>
-          <div className={LinkPreviewURL}>{url && trimUrl(url)}</div>
+        <div className={size === 'large' ? classes.LinkPreviewContentLarge : classes.LinkPreviewContent}>
+          <div className={classes.LinkPreviewTitle}>{title}</div>
+          <div className={classes.LinkPreviewText}>{`${description && description.substring(0, 50)}...` || `${caption && caption.substring(0, 50)}...`} </div>
+          <div className={classes.LinkPreviewURL}>{url && trimUrl(url)}</div>
         </div>
       </a>
     </div>
   )
+}
+
+LinkPreview.propTypes = {
+  classes: PropTypes.object.isRequired,
+  description: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  caption: PropTypes.string,
+  title: PropTypes.string
 }
 
 export default LinkPreview
