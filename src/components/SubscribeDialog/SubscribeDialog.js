@@ -58,7 +58,8 @@ const styles = theme => ({
   platforms: {
     width: '100%',
     fontSize: '16px',
-    textTransform: 'none'
+    textTransform: 'none',
+    margin: '5px 0'
   },
   walletConnectIcon: {
     maxWidth: '4vw',
@@ -640,7 +641,7 @@ class SubscribeDialog extends Component {
                         Twitter
                       </Typography>
                       {this.state.OAuthIsLoading
-                    ? <CircularProgress size={20}
+                    ? <CircularProgress size={13.5}
                       className={classes.loader}
                       />
                     : <img alt='twitter'
