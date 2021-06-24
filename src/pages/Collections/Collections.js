@@ -164,6 +164,9 @@ const styles = theme => ({
       margin: '0px 0px 0px 30px'
     }
   },
+  recommendedMobile: {
+    overflowY: 'hidden'
+  },
   headerImg: {
     width: '100%',
     maxWidth: '100px',
@@ -348,14 +351,14 @@ class Collections extends Component {
       socialLevelColor
     } = this.state
     let color = socialLevelColor
-if (account && account.name) {
-  if (!levels[account.name]) {
-    dispatch(fetchSocialLevel(account.name))
- }
-  if (levels[account.name] && !levels[account.name].isLoading) {
-   color = levelColors[levels[account.name].levelInfo.quantile]
- }
-}
+    if (account && account.name) {
+      if (!levels[account.name]) {
+        dispatch(fetchSocialLevel(account.name))
+      }
+      if (levels[account.name] && !levels[account.name].isLoading) {
+      color = levelColors[levels[account.name].levelInfo.quantile]
+      }
+    }
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
@@ -650,7 +653,7 @@ if (account && account.name) {
                       column
                       spacing={4}
                       tourname='RecommendedCollections'
-                      className={classes.recommended}
+                      className={[classes.recommended, classes.recommendedMobile]}
                     >
                       {recommended.map(rec => {
                         if (rec.name !== collection.name) {

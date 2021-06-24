@@ -89,7 +89,7 @@ const styles = theme => ({
       width: 'auto'
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: '14px'
+      fontSize: '1.2rem'
     }
   },
   description: {
