@@ -62,19 +62,18 @@ const styles = theme => ({
   },
   walletConnectIcon: {
     maxWidth: '4vw',
-    width: '24px',
+    width: '20px',
     height: 'auto',
     float: 'right'
   },
   twitterIcon: {
     maxWidth: '4vw',
-    width: '24px',
+    width: '20px',
     height: 'auto',
     float: 'right'
   },
   loader: {
-    float: 'right',
-    paddingTop: '1px'
+    float: 'right'
   },
   outline: {
     borderColor: '#AAAAAA'
