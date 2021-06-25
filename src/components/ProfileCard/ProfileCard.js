@@ -77,7 +77,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',
       marginTop: theme.spacing(10),
-      height: '185px',
+      height: '175px',
       width: '100vw'
     }
   },
@@ -453,7 +453,7 @@ function ProfileCard (props) {
                   <Typography
                     className={classes.text}
                     style={{
-                      display: isMobile ? 'inline-block' : 'block',
+                      display: 'inline-block',
                       fontFamily: 'Gilroy',
                       fontSize: '12px'
                     }}
@@ -486,7 +486,7 @@ function ProfileCard (props) {
                   <Typography
                     className={classes.text2}
                     color='inherit'
-                    style={{ display: 'inline-block', fontFamily: 'Gilroy' }}
+                    style={{ display: isMobile ? 'block' : 'inline-block', fontFamily: 'Gilroy' }}
                     variant='caption'
                     tourname='YUPBalance'
                   >
