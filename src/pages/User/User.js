@@ -37,11 +37,6 @@ const showTabs = window.innerWidth <= 960
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      display: 'none'
-    }
-  },
   accountErrorHeader: {
     paddingTop: '15%',
     fontFamily: '"Gilroy", sans-serif',

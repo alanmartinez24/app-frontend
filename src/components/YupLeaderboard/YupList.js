@@ -24,9 +24,6 @@ const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   '@global': {
-    '*::-webkit-scrollbar': {
-      display: 'none'
-    },
     '*::-webkit-scrollbar-track': {
       display: 'none'
     },
