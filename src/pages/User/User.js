@@ -11,11 +11,7 @@ import { withStyles, ThemeProvider } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
-import {
-  pushAccount,
-  fetchFollowers,
-  fetchFollowing
-} from '../../redux/actions'
+import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { Link } from 'react-router-dom'
 import path from 'path'
@@ -182,7 +178,8 @@ const styles = theme => ({
     maxWidth: '25%',
     [theme.breakpoints.down('md')]: {
       margin: '0px 0px 0px 50px',
-      width: '100%'
+      width: '100%',
+      maxWidth: '100%'
     }
   },
   collection: {

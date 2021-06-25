@@ -58,23 +58,23 @@ const styles = theme => ({
   platforms: {
     width: '100%',
     fontSize: '16px',
-    textTransform: 'none'
+    textTransform: 'none',
+    margin: '5px 0'
   },
   walletConnectIcon: {
     maxWidth: '4vw',
-    width: '24px',
+    width: '20px',
     height: 'auto',
     float: 'right'
   },
   twitterIcon: {
     maxWidth: '4vw',
-    width: '24px',
+    width: '20px',
     height: 'auto',
     float: 'right'
   },
   loader: {
-    float: 'right',
-    paddingTop: '1px'
+    float: 'right'
   },
   outline: {
     borderColor: '#AAAAAA'
@@ -641,7 +641,7 @@ class SubscribeDialog extends Component {
                         Twitter
                       </Typography>
                       {this.state.OAuthIsLoading
-                    ? <CircularProgress size={20}
+                    ? <CircularProgress size={13.5}
                       className={classes.loader}
                       />
                     : <img alt='twitter'

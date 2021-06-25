@@ -269,7 +269,7 @@ function ProfileCard (props) {
   const hidden = isMinimize ? classes.hidden : null
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
-  // const isMobile = window.innerWidth <= 600
+  const isMobile = window.innerWidth <= 600
 
   return (
     <ErrorBoundary>
@@ -486,7 +486,7 @@ function ProfileCard (props) {
                   <Typography
                     className={classes.text2}
                     color='inherit'
-                    style={{ display: 'inline-block', fontFamily: 'Gilroy' }}
+                    style={{ display: isMobile ? 'block' : 'inline-block', fontFamily: 'Gilroy' }}
                     variant='caption'
                     tourname='YUPBalance'
                   >

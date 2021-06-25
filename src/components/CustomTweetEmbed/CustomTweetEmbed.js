@@ -70,7 +70,8 @@ const styles = theme => ({
     padding: '10px 4px',
     textAlign: 'left',
     position: 'relative',
-    wordWrap: 'break-word'
+    wordWrap: 'break-word',
+    fontSize: '1.2rem'
   },
   twitterName: {
     color: 'white !important',
@@ -79,7 +80,7 @@ const styles = theme => ({
   },
   twitterHandle: {
     color: 'grey',
-    fontSize: '18px'
+    fontSize: '1.2rem'
   },
   twitterBirdIcon: {
     position: 'absolute',

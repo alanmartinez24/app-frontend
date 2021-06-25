@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Select, MenuItem, InputLabel } from '@material-ui/core'
-import FormControl from '@material-ui/core/FormControl'
+import { Select, MenuItem, InputLabel, FormControl } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -12,18 +11,9 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = (theme) => ({
   formControl: {
     minWidth: 100,
-    margin: 0,
     [theme.breakpoints.down('xs')]: {
       minWidth: 20
     }
-  },
-  textField: {
-    fontFamily: 'Gilroy',
-    color: 'white',
-    fontSize: '12px'
-  },
-  menu: {
-    fontFamily: 'Gilroy', fontSize: '11px'
   }
 })
 
@@ -57,10 +47,6 @@ class SiteMenu extends Component {
             type='dark'
             label='Where?'
             labelWidth='52'
-            className={classes.textField}
-            inputProps={{
-              className: classes.textField
-            }}
             value={currSite.name}
             onChange={this.handleChange}
             MenuProps={{
@@ -72,7 +58,6 @@ class SiteMenu extends Component {
           >{
           filteredOpts.map((opt) => (
             <MenuItem
-              className={classes.menu}
               value={opt.location.name}
             >
               {opt.location.displayName}

@@ -99,7 +99,18 @@ const styles = theme => ({
     textAlign: 'left',
     zIndex: 5,
     background: '',
-    padding: '2%'
+    padding: '6%'
+  },
+  favicon: {
+    height: 30,
+    width: 30,
+    marginRight: '0rem',
+    border: 'none',
+    borderRadius: '0.5rem',
+    [theme.breakpoints.down('xs')]: {
+      height: 18,
+      width: 18
+    }
   }
 })
 
@@ -260,7 +271,7 @@ class ObjectPreview extends Component {
                       sm={8}
                       style={{ margin: 'auto 0px' }}
                     >
-                      <Typography variant='h5'>
+                      <Typography variant='h4'>
                         <LinesEllipsis
                           basedOn='letters'
                           ellipsis='...'
@@ -276,6 +287,7 @@ class ObjectPreview extends Component {
                           maxLine='3'
                           text={description || caption}
                           trimRight
+                          style={{ paddingTop: '5px' }}
                         />
                       </Typography>
                     </Grid>
@@ -286,7 +298,7 @@ class ObjectPreview extends Component {
                         align='right'
                         href={url}
                         src={[faviconURL, faviconURLFallback]}
-                        style={{ height: 30, width: 30, marginRight: '0rem', border: 'none', borderRadius: '0.5rem' }}
+                        className={classes.favicon}
                         target='_blank'
                       />
                     </Grid>

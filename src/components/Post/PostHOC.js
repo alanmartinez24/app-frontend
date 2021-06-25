@@ -29,7 +29,8 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
-      boxShadow: 'none'
+      boxShadow: 'none',
+      padding: 4
     },
     [theme.breakpoints.up('1700')]: {
       maxWidth: '640px',

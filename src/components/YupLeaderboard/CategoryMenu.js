@@ -15,14 +15,6 @@ const styles = (theme) => ({
     [theme.breakpoints.down('xs')]: {
       minWidth: 20
     }
-  },
-  textField: {
-    fontFamily: 'Gilroy',
-    color: 'white',
-    fontSize: '12px'
-  },
-  menu: {
-    fontFamily: 'Gilroy', fontSize: '11px'
   }
 })
 
@@ -62,10 +54,6 @@ class CategoryMenu extends Component {
               label='Category'
               id='select'
               labelWidth='58'
-              className={classes.textField}
-              inputProps={{
-              className: classes.textField
-            }}
               MenuProps={{
              getContentAnchorEl: null,
              anchorOrigin: {
@@ -78,7 +66,6 @@ class CategoryMenu extends Component {
             subjCats.map(cat => (
               <MenuItem
                 key={cat.name}
-                className={classes.menu}
                 value={cat.name}
               > { cat.displayName } </MenuItem>
             ))

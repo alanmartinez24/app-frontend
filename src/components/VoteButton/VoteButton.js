@@ -465,6 +465,7 @@ class CatIcon extends Component {
     return (
       <h4 className={classes.catIcon}
         onClick={handleDefaultVote}
+        style={{ fontSize: window.innerWidth <= 600 ? '16px' : 'inherit' }}
       >
         {CAT_ICONS[category]}
       </h4>
