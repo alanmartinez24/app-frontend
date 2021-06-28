@@ -10,6 +10,7 @@ import * as reducers from './redux/reducers'
 import { history } from './utils/history'
 import { StylesProvider } from '@material-ui/core/styles'
 import './styles.css'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 const { NODE_ENV } = process.env
 
@@ -41,6 +42,7 @@ const store = createStore(
   composeEnhancers(middleware)
 )
 
+serviceWorkerRegistration.register()
 ReactDOM.render(
 
   <Provider store={store}>
