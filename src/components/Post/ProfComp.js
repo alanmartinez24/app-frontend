@@ -129,6 +129,7 @@ class ProfComp extends Component {
                   <img className={classes.icon}
                     style={{ marginRight: '10px' }}
                     src={`${ICON_ROOT_PATH}/knowledgeable.svg`}
+                    alt='knowledgeable'
                   />
                 </Grid>
                 <Grid item>
@@ -147,6 +148,7 @@ class ProfComp extends Component {
                 <Grid item>
                   <img className={classes.crownIcon}
                     src={`${ICON_ROOT_PATH}/crown.png`}
+                    alt='crown'
                   />
                 </Grid>
               </Grid>

@@ -382,6 +382,7 @@ function ProfileCard (props) {
                           paddingLeft: '15px',
                           marginTop: '1px'
                         }}
+                        alt='twitter'
                       />
                     </Tooltip>
                   ) : null}
@@ -500,6 +501,7 @@ function ProfileCard (props) {
                         <img
                           src='/images/logos/logo_outline_w.svg'
                           style={{ width: '15px', height: '15px' }}
+                          alt='yup logo'
                         />
                       </Grid>
                       <Grid item>

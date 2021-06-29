@@ -70,6 +70,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           <img
             src='/images/icons/twitter.svg'
             style={{ height: '24px', paddingLeft: '10px', paddingRight: '10px' }}
+            alt='twitter'
           />
         </Link>
       </span>

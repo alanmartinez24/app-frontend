@@ -134,6 +134,7 @@ class FallbackImage extends Component {
     return <img className={classes.linkImg}
       style={imageStyle}
       src={this.state.imgLink || DEFAULT_POST_IMAGE}
+      alt='fallback'
            />
   }
 }

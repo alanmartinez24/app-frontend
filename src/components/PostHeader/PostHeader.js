@@ -185,6 +185,7 @@ class PostHeader extends Component {
           ? <img
             src='/images/icons/twitter.svg'
             style={{ height: '0.5rem', paddingLeft: '8px', paddingRight: '8px', display: 'grid' }}
+            alt='twitter'
             />
         : null}
       </Grid>
