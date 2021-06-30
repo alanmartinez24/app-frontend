@@ -147,7 +147,12 @@ class SearchBar extends Component {
   handleSearch = async () => {
     const { searchText } = this.state
     if (searchText == null || searchText === '') return // TODO: Remove this?
-    const { searchPosts, searchUsers, history } = this.props
+    const { searchPosts, searchUsers, history, account } = this.props
+    window.analytics && window.analytics.track('Search Query', {
+      userId: (account && account.name) || 'no-logged-user',
+      query: searchText,
+      application: 'Web App'
+    })
     searchPosts(searchText, 5)
     searchUsers(searchText, 5)
 
@@ -208,7 +213,8 @@ SearchBar.propTypes = {
   searchPosts: PropTypes.func.isRequired,
   searchUsers: PropTypes.func.isRequired,
   userSearchResults: PropTypes.object.isRequired,
-  postSearchResults: PropTypes.object.isRequired
+  postSearchResults: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SearchBar)))

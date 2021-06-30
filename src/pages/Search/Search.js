@@ -608,18 +608,6 @@ const steps = [
   }
 ]
 
-// const getUserSearchInfo = state => {
-//   return state && state.searchResults.userSearchResults
-// }
-
-// const userSearchResultsSelector = createSelector(getUserSearchInfo)
-
-// const getPostSearchInfo = state => {
-//   return state && state.searchResults.postSearchResults
-// }
-
-// const postSearchResultsSelector = createSelector(getPostSearchInfo)
-
 const mapStateToProps = (state) => {
   return {
     userSearchResults: state.searchResults.userSearchResults, // userSearchResultsSelector(state),
