@@ -95,7 +95,7 @@ const Original = ({ tweetData, classes }) => {
           (previewData && !hasMedia && !mediaURL && !tweetData.excludeTweet) &&  (
           <div style={{ marginTop: 20 }}>
             <LinkPreview size={'large'}
-            description={previewData.description}
+            description={previewData.description || ''}
             image={previewData.img}
             title={previewData.title}
             url={previewDataURL}
