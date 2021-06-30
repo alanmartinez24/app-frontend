@@ -16,11 +16,6 @@ const DISPLAYED_USERS = 2
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      display: 'none'
-    }
-  },
   container: {
     margin: '75px 0px 0px 20px',
     background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',

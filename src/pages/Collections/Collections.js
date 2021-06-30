@@ -43,11 +43,6 @@ const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      display: 'none'
-    }
-  },
   accountErrorHeader: {
     paddingTop: '15%',
     fontFamily: '"Gilroy", sans-serif',
