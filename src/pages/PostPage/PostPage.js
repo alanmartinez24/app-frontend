@@ -7,6 +7,7 @@ import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import path from 'path'
 import axios from 'axios'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const { BACKEND_API } = process.env
 
@@ -73,8 +74,6 @@ class PostPage extends Component {
 
   componentDidMount () {
     this.loadPostData()
-    window.Intercom('update')
-
     if (!window.analytics) {
     window.analytics.page('Post Page')
   }
@@ -112,6 +111,7 @@ class PostPage extends Component {
             </Grid>
           </div>
         </div>
+        <CreateCollectionFab />
       </ErrorBoundary>
     )
   }

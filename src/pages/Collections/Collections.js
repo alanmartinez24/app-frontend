@@ -749,9 +749,7 @@ class Collections extends Component {
             >
               10-Second Tutorial
             </Fab>
-            <CreateCollectionFab
-              account={account}
-            />
+            <CreateCollectionFab />
           </div>
         </div>
       </ErrorBoundary>

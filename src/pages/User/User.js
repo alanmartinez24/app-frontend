@@ -24,6 +24,7 @@ import AddIcon from '@material-ui/icons/Add'
 import CollectionPostDialog from '../../components/Collections/CollectionPostDialog.js'
 import theme from '../../utils/theme'
 import { accountInfoSelector } from '../../redux/selectors'
+import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -299,7 +300,6 @@ class User extends Component {
 
     this.loadUserData()
     this.showDialog()
-    window.Intercom('update')
 
     if (!window.analytics) {
      window.analytics.page('User')
@@ -896,6 +896,7 @@ class User extends Component {
               </Fade>
             </div>
             <Footer />
+            <CreateCollectionFab />
           </div>
         </ThemeProvider>
       </ErrorBoundary>
