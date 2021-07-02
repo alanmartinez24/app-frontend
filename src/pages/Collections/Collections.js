@@ -208,6 +208,7 @@ const styles = theme => ({
     color: '#fff',
     fontSize: '1.2rem',
     marginLeft: '35px',
+    textTransform: 'capitalize',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
     }
@@ -618,6 +619,7 @@ class Collections extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
+                      TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}
