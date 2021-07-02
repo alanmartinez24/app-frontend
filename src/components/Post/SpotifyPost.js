@@ -24,6 +24,7 @@ const styles = theme => ({
 
 function SpotifyPost (props) {
     const { classes, caption, postHOC: PostHOC } = props
+    const isMobile = window.innerWidth <= 600
 
     const SpotifyComp = (_props) => (
       <div className={classes.postContainer}>
@@ -32,7 +33,7 @@ function SpotifyPost (props) {
           src={caption}
           style={{ margin: '0 0 0 0', borderRadius: '5px 5px 0px 0px!important' }}
           width={600}
-          aspect='7:2'
+          aspect={isMobile ? '5:3' : '7:2'}
           autoplay
         />
       </div>
