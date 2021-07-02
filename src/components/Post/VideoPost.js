@@ -37,7 +37,7 @@ const styles = theme => ({
       width: '100vw'
     },
     [theme.breakpoints.up('1700')]: {
-      maxWidth: '600px',
+      maxWidth: '650px',
       maxHeight: '900px'
     }
   }
