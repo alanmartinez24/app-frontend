@@ -40,7 +40,7 @@ const styles = theme => ({
     position: 'relative',
     [theme.breakpoints.up('1700')]: {
       maxHeight: '30rem',
-      width: '70%'
+      width: '100%'
     }
   },
   previewContainer: {
