@@ -143,6 +143,12 @@ const styles = theme => ({
   headerText: {
     marginBottom: '10px'
   },
+  headerTitle: {
+    [theme.breakpoints.down('xs')]: {
+      lineHeight: 1,
+      fontSize: '1.6rem'
+    }
+  },
   recommended: {
     display: 'inline-block',
     position: 'sticky',
@@ -537,7 +543,7 @@ class Collections extends Component {
                     timeout={400}
                   >
                     <Typography variant='h2'
-                      className={classes.headerText}
+                      className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
                     >
                       {collection.name}
                     </Typography>

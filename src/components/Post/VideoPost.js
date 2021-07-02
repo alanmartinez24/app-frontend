@@ -37,7 +37,7 @@ const styles = theme => ({
       width: '100vw'
     },
     [theme.breakpoints.up('1700')]: {
-      maxWidth: '650px',
+      maxWidth: '600px',
       maxHeight: '900px'
     }
   }
@@ -45,6 +45,8 @@ const styles = theme => ({
 
 function VideoPost (props) {
   const { classes, caption, postHOC: PostHOC } = props
+  const isMobile = window.innerWidth <= 600
+  const heightProp = isMobile ? { height: '0' } : {}
 
   const VideoComp = (_props) => (
     <div className={classes.postContainer}>
@@ -54,6 +56,7 @@ function VideoPost (props) {
         style={{ overFlow: 'hidden', maxHeight: '1000px' }}
         url={caption}
         width='100%'
+        {...heightProp}
       />
     </div>
   )
