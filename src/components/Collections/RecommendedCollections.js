@@ -54,9 +54,9 @@ const RecommendedCollections = ({ classes, collection }) => {
         className={classes.recommendedContainer}
       >
         <Grid item
-          xs={2}
-          lg={3}
-          xl={2}
+          xs={3}
+          lg={4}
+          xl={4}
 
           className={classes.recommendedImgContainer}
         >
@@ -68,9 +68,9 @@ const RecommendedCollections = ({ classes, collection }) => {
         </Grid>
         <Grid item
 
-          xs={10}
-          lg={9}
-          xl={10}
+          xs={9}
+          lg={8}
+          xl={8}
         >
           <Typography variant='h5'>{collection.name}</Typography>
           <Typography variant='body2'>{collection.owner}</Typography>
