@@ -249,16 +249,13 @@ class Collections extends Component {
 
   fetchCollectionInfo = async () => {
     const decodedURL = decodeURI(window.location.href)
-    console.log('DECODED URL', decodedURL)
     const url = decodedURL.split('/')
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`))
-        .data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
-        .data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
@@ -512,15 +509,12 @@ class Collections extends Component {
                 alignItems='center'
                 spacing={2}
                 lg={8}
+                xl={8}
                 xs={12}
                 className={[minimizeHeader, classes.collectionHeader]}
               >
                 <Grid
                   item
-                  lg={isMinimize ? 1 : 2}
-                  md={isMinimize ? 1 : 2}
-                  sm={2}
-                  xs={2}
                 >
                   <Fade in
                     timeout={1000}
