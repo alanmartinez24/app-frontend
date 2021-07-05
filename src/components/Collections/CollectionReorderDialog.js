@@ -94,7 +94,7 @@ const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return {
     authToken,
-    account
+    account,
     collections: state.collections
   }
 }

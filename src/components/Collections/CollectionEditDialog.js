@@ -192,6 +192,4 @@ CollectionEditDialog.propTypes = {
   authToken: PropTypes.object
 }
 
-export default withRouter(
-  connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog))
-)
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))
