@@ -105,7 +105,7 @@ const CollectionEditDialog = ({
     <>
       <CollectionReorderDialog
         dialogOpen={openReorderDialog}
-        collection={collection}
+        posts={collection.posts}
         handleReorderDialogClose={handleReorderDialogClose}
       />
       <Snackbar

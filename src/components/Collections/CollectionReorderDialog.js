@@ -4,6 +4,7 @@ import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/cor
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import CollectionPostItem from './CollectionPostItem'
+// import { DragDropContext, Droppable, OnDragEndResponder } from 'react-beautiful-dnd'
 
 // const BACKEND_API = process.env.BACKEND_API
 // const WEB_APP_URL = process.env.WEB_APP_URL
@@ -44,8 +45,8 @@ const styles = theme => ({
   }
 })
 
-const CollectionReorderDialog = ({ collection, dialogOpen, handleReorderDialogClose }) => {
-  if (!collection) return null
+const CollectionReorderDialog = ({ posts, dialogOpen, handleReorderDialogClose }) => {
+  if (!posts) return null
 
   return (
     <Dialog
@@ -71,24 +72,26 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleReorderDialogCl
           }}
     >
       <DialogTitle id='form-dialog-title'>
-        <Typography variant='h3'>Reorder Collections </Typography>
+        <Typography variant='h3'>Reorder Collection</Typography>
       </DialogTitle>
       <DialogContent>
-        {collection.posts.map(post => <CollectionPostItem previewData={post.previewData} />)}
+        {posts.map(({ previewData }) => {
+          return <CollectionPostItem previewData={previewData} />
+        })
+      }
       </DialogContent>
     </Dialog>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const authToken = state.authInfo
   return {
-    authToken
+    authToken: state.authInfo
   }
 }
 
 CollectionReorderDialog.propTypes = {
-  collection: PropTypes.object,
+  posts: PropTypes.array,
   dialogOpen: PropTypes.bool,
   handleReorderDialogClose: PropTypes.func.isRequired
 }

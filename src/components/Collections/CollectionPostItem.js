@@ -65,7 +65,7 @@ const CollectionPostItem = ({ classes, previewData }) => {
           lg={9}
           xl={10}
         >
-          <Typography variant='h3'>{title}</Typography>
+          <Typography variant='h4'>{title}</Typography>
         </Grid>
       </Grid>
     )
