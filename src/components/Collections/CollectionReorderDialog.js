@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import { accountInfoSelector } from '../../redux/selectors'
+import CollectionPostItem from './CollectionPostItem'
 
-const BACKEND_API = process.env.BACKEND_API
-const WEB_APP_URL = process.env.WEB_APP_URL
+// const BACKEND_API = process.env.BACKEND_API
+// const WEB_APP_URL = process.env.WEB_APP_URL
 
 const styles = theme => ({
   dialog: {
@@ -44,14 +44,13 @@ const styles = theme => ({
   }
 })
 
-const CollectionReorderDialog = ({ authToken, collections }) => {
-    const [openDialog, setOpenDialog] = useState(false)
-    const handleDialogClose = () => setOpenDialog(false)
+const CollectionReorderDialog = ({ collection, dialogOpen, handleReorderDialogClose }) => {
+  if (!collection) return null
 
   return (
     <Dialog
-      open={openDialog}
-      onClose={handleDialogClose}
+      open={dialogOpen}
+      onClose={handleReorderDialogClose}
       aria-labelledby='form-dialog-title'
       PaperProps={{
             style: {
@@ -75,15 +74,7 @@ const CollectionReorderDialog = ({ authToken, collections }) => {
         <Typography variant='h3'>Reorder Collections </Typography>
       </DialogTitle>
       <DialogContent>
-        {collections.map(collection => {
-              return (
-                <Collection
-                  classes={classes}
-                  collection={collection}
-                  username={username}
-                />
-              )
-            })}
+        {collection.posts.map(post => <CollectionPostItem previewData={post.previewData} />)}
       </DialogContent>
     </Dialog>
   )
@@ -91,17 +82,15 @@ const CollectionReorderDialog = ({ authToken, collections }) => {
 
 const mapStateToProps = (state, ownProps) => {
   const authToken = state.authInfo
-  const account = accountInfoSelector(state)
   return {
-    authToken,
-    account,
-    collections: state.collections
+    authToken
   }
 }
 
 CollectionReorderDialog.propTypes = {
-  authToken: PropTypes.object,
-  collections: PropTypes.object
+  collection: PropTypes.object,
+  dialogOpen: PropTypes.bool,
+  handleReorderDialogClose: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(CollectionReorderDialog))
+export default memo(connect(mapStateToProps)(withStyles(styles)(CollectionReorderDialog)))

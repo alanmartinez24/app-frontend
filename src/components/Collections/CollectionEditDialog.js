@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent, Typography, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
+import CollectionReorderDialog from './CollectionReorderDialog'
 
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
@@ -55,11 +56,14 @@ const CollectionEditDialog = ({
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+  const [openReorderDialog, setOpenReorderDialog] = useState(false)
 
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+  const handleReorderDialogOpen = () => setOpenReorderDialog(true)
+  const handleReorderDialogClose = () => setOpenReorderDialog(false)
 
   const handleEditCollection = async () => {
     try {
@@ -99,6 +103,11 @@ const CollectionEditDialog = ({
 
   return (
     <>
+      <CollectionReorderDialog
+        dialogOpen={openReorderDialog}
+        collection={collection}
+        handleReorderDialogClose={handleReorderDialogClose}
+      />
       <Snackbar
         autoHideDuration={4000}
         onClose={handleSnackbarClose}
@@ -163,6 +172,14 @@ const CollectionEditDialog = ({
             color='#fafafa'
             isLoading={isLoadingDelete}
           />
+          <Button
+            fullWidth
+            color='primary'
+            onClick={handleReorderDialogOpen}
+            style={{ fontFamily: 'Gilroy' }}
+          >
+            Reorder
+          </Button>
           <LoaderButton onClick={handleEditCollection}
             fullWidth
             backgroundColor='#00eab7'

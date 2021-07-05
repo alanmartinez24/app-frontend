@@ -23,6 +23,7 @@ import CollectionPostDialog from '../../components/Collections/CollectionPostDia
 import theme from '../../utils/theme'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import CollectionItem from '../../components/Collections/CollectionItem.js'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -133,28 +134,6 @@ const styles = theme => ({
   },
   icons: {
     color: '#fff'
-  },
-  collectionImg: {
-    height: '60px',
-    width: '60px',
-    objectFit: 'cover',
-    borderRadius: '5px',
-    [theme.breakpoints.down('md')]: {
-      height: '50px',
-      width: '50px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '40px',
-      width: '40px',
-      marginTop: '5px'
-    }
-  },
-  collectionContainer: {
-    borderRadius: 10,
-    margin: 0,
-    '&:hover': {
-      background: '#fafafa05'
-    }
   },
   tabs: {
     color: '#fff',
@@ -520,8 +499,7 @@ class User extends Component {
             <DialogContent>
               {collections.map(collection => {
               return (
-                <Collection
-                  classes={classes}
+                <CollectionItem
                   collection={collection}
                   username={username}
                 />
@@ -658,8 +636,7 @@ class User extends Component {
                           .slice(0, LIMIT_COLLECTIONS)
                           .map(collection => {
                             return (
-                              <Collection
-                                classes={classes}
+                              <CollectionItem
                                 collection={collection}
                                 username={username}
                               />
@@ -781,8 +758,7 @@ class User extends Component {
                             .slice(0, LIMIT_COLLECTIONS)
                             .map(collection => {
                               return (
-                                <Collection
-                                  classes={classes}
+                                <CollectionItem
                                   collection={collection}
                                   username={username}
                                 />
