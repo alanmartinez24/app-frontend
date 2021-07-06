@@ -59,6 +59,8 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
   }
 
   const onDragEnd = ({ destination, source }) => {
+    console.log(`destination`, destination)
+    console.log(`source`, source)
     if (!destination) return
     const newItems = reorder(posts, source.index, destination.index)
     setPosts(newItems)
@@ -74,22 +76,22 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
       onClose={handleDialogClose}
       aria-labelledby='form-dialog-title'
       PaperProps={{
-            style: {
-              backgroundColor: '#0A0A0A',
-              borderRadius: '25px',
-              boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-              width: '80%',
-              padding: '1rem 0.5rem',
-              maxWidth: '700px',
-              color: '#fafafa',
-              maxHeight: '80vh'
-            }
-          }}
+        style: {
+          backgroundColor: '#0A0A0A',
+          borderRadius: '25px',
+          boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
+          width: '80%',
+          padding: '1rem 0.5rem',
+          maxWidth: '700px',
+          color: '#fafafa',
+          maxHeight: '80vh'
+        }
+      }}
       BackdropProps={{
-            style: {
-              backdropFilter: 'blur(3px)'
-            }
-          }}
+        style: {
+          backdropFilter: 'blur(3px)'
+        }
+      }}
     >
       <DialogTitle id='form-dialog-title'>
         <Typography variant='h3'>Reorder Collection</Typography>
@@ -97,24 +99,25 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
       <DialogContent>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='droppable-list'>
-            {provided => (
+            {(provided) => (
               <div ref={provided.innerRef}
                 {...provided.droppableProps}
               >
                 {_posts.map((post, index) => {
-          return <DraggableCollectionPostItem post={post}
-            index={index}
-                 />
-        })
-      }
+                  return <DraggableCollectionPostItem post={post}
+                    index={index}
+                         />
+                })}
+                {provided.placeholder}
               </div>
-        )}
+            )}
           </Droppable>
         </DragDropContext>
       </DialogContent>
       <DialogActions>
-        <LoaderButton onClick={handleCollectionReorder}
-          halfWidth
+        <LoaderButton
+          onClick={handleCollectionReorder}
+          fullWidth
           backgroundColor='#1a1a1a'
           buttonText='Save'
           color='#00eab7'
