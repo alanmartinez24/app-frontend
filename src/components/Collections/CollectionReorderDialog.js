@@ -1,10 +1,11 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, Typography, DialogActions } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import DraggableCollectionPostItem from './DraggableCollectionPostItem'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import LoaderButton from '../Miscellaneous/LoaderButton'
 
 // const BACKEND_API = process.env.BACKEND_API
 // const WEB_APP_URL = process.env.WEB_APP_URL
@@ -48,6 +49,7 @@ const styles = theme => ({
 const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
   if (!posts) return null
   const [_posts, setPosts] = useState(posts)
+  const [isLoading, setIsLoading] = useState(false)
 
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list)
@@ -60,6 +62,10 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
     if (!destination) return
     const newItems = reorder(posts, source.index, destination.index)
     setPosts(newItems)
+  }
+  const handleCollectionReorder = () => {
+    setIsLoading(true)
+    console.log('setReorder')
   }
 
   return (
@@ -101,12 +107,20 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
                  />
         })
       }
-                {provided.placeholder}
               </div>
         )}
           </Droppable>
         </DragDropContext>
       </DialogContent>
+      <DialogActions>
+        <LoaderButton onClick={handleCollectionReorder}
+          halfWidth
+          backgroundColor='#1a1a1a'
+          buttonText='Save'
+          color='#00eab7'
+          isLoading={isLoading}
+        />
+      </DialogActions>
     </Dialog>
   )
 }

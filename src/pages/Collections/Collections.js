@@ -339,8 +339,10 @@ class Collections extends Component {
       openReorderDialog,
       editDialogOpen
     } = this.state
+
     let color = socialLevelColor
     const menuOpen = Boolean(anchorEl)
+
     if (account && account.name) {
       if (!levels[account.name]) {
         dispatch(fetchSocialLevel(account.name))
@@ -349,6 +351,7 @@ class Collections extends Component {
       color = levelColors[levels[account.name].levelInfo.quantile]
       }
     }
+
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
@@ -471,14 +474,14 @@ class Collections extends Component {
           />
         </Snackbar>
         <Menu
-          id='long-menu'
+          id='short-menu'
           anchorEl={anchorEl}
           keepMounted
           open={menuOpen}
           onClose={this.handleMenuClose}
           PaperProps={{
             style: {
-              width: '35ch',
+              width: '15ch',
               backgroundColor: 'black'
             }
           }}
@@ -624,7 +627,6 @@ class Collections extends Component {
                       aria-haspopup='true'
                       onClick={this.handleMenuOpen}
                       className={classes.icons}
-                      style={{ border: 'red 3px solid' }}
                     >
                       <MenuIcon />
                     </IconButton>
