@@ -1,10 +1,10 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import CollectionPostItem from './CollectionPostItem'
-// import { DragDropContext, Droppable, OnDragEndResponder } from 'react-beautiful-dnd'
+import DraggableCollectionPostItem from './DraggableCollectionPostItem'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 // const BACKEND_API = process.env.BACKEND_API
 // const WEB_APP_URL = process.env.WEB_APP_URL
@@ -45,13 +45,27 @@ const styles = theme => ({
   }
 })
 
-const CollectionReorderDialog = ({ posts, dialogOpen, handleReorderDialogClose }) => {
+const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
   if (!posts) return null
+  const [_posts, setPosts] = useState(posts)
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+    return result
+  }
+
+  const onDragEnd = ({ destination, source }) => {
+    if (!destination) return
+    const newItems = reorder(posts, source.index, destination.index)
+    setPosts(newItems)
+  }
 
   return (
     <Dialog
       open={dialogOpen}
-      onClose={handleReorderDialogClose}
+      onClose={handleDialogClose}
       aria-labelledby='form-dialog-title'
       PaperProps={{
             style: {
@@ -60,9 +74,9 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleReorderDialogClose }
               boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
               width: '80%',
               padding: '1rem 0.5rem',
-              maxWidth: '500px',
+              maxWidth: '700px',
               color: '#fafafa',
-              maxHeight: '50vh'
+              maxHeight: '80vh'
             }
           }}
       BackdropProps={{
@@ -75,10 +89,23 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleReorderDialogClose }
         <Typography variant='h3'>Reorder Collection</Typography>
       </DialogTitle>
       <DialogContent>
-        {posts.map(({ previewData }) => {
-          return <CollectionPostItem previewData={previewData} />
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId='droppable-list'>
+            {provided => (
+              <div ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {_posts.map((post, index) => {
+          return <DraggableCollectionPostItem post={post}
+            index={index}
+                 />
         })
       }
+                {provided.placeholder}
+              </div>
+        )}
+          </Droppable>
+        </DragDropContext>
       </DialogContent>
     </Dialog>
   )
@@ -93,7 +120,7 @@ const mapStateToProps = (state, ownProps) => {
 CollectionReorderDialog.propTypes = {
   posts: PropTypes.array,
   dialogOpen: PropTypes.bool,
-  handleReorderDialogClose: PropTypes.func.isRequired
+  handleDialogClose: PropTypes.func.isRequired
 }
 
 export default memo(connect(mapStateToProps)(withStyles(styles)(CollectionReorderDialog)))
