@@ -304,10 +304,10 @@ class Collections extends Component {
   handleMenuOpen = ({ currentTarget }) => this.setState({ anchorEl: currentTarget })
   handleMenuClose = () => this.setState({ anchorEl: null })
 
+  handleReorderDialogOpen = () => this.setState({ openReorderDialog: true, anchorEl: null })
   handleReorderDialogClose = () => this.setState({ openReorderDialog: false })
-  handleReorderDialogOpen = () => this.setState({ reorderDialogOpen: true } && this.handleMenuClose)
 
-  handleEditDialogOpen = () => this.setState({ editDialogOpen: true })
+  handleEditDialogOpen = () => this.setState({ editDialogOpen: true, anchorEl: null })
   handleEditDialogClose = () => this.setState({ editDialogOpen: false })
 
   closeTour = () => this.setState({ isTourOpen: false })
