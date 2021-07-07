@@ -243,7 +243,6 @@ class Collections extends Component {
 
   fetchCollectionInfo = async () => {
     const decodedURL = decodeURI(window.location.href)
-    console.log('DECODED URL', decodedURL)
     const url = decodedURL.split('/')
     const id = url[5]
 
@@ -500,12 +499,14 @@ class Collections extends Component {
           >
             Edit
           </MenuItem>
+          {!!collection.posts.length && (
           <MenuItem dense
             onClick={this.handleReorderDialogOpen}
             className={classes.menuItem}
           >
             Reorder
           </MenuItem>
+          )}
         </Menu>
         <CollectionEditDialog
           collection={collection}
@@ -516,7 +517,7 @@ class Collections extends Component {
         />
         <CollectionReorderDialog
           handleDialogClose={this.handleReorderDialogClose}
-          posts={collection.posts}
+          collection={collection}
           dialogOpen={openReorderDialog}
         />
         <div className={classes.container}

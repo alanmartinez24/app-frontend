@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 import DraggableCollectionPostItem from './DraggableCollectionPostItem'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import LoaderButton from '../Miscellaneous/LoaderButton'
+import axios from 'axios'
 
-// const BACKEND_API = process.env.BACKEND_API
-// const WEB_APP_URL = process.env.WEB_APP_URL
+const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   dialog: {
@@ -46,28 +46,31 @@ const styles = theme => ({
   }
 })
 
-const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
-  if (!posts) return null
-  const [_posts, setPosts] = useState(posts)
+const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, authToken }) => {
+  if (!collection.posts) return null
+  const [posts, setPosts] = useState(collection.posts)
   const [isLoading, setIsLoading] = useState(false)
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-    return result
+  const onDragEndHandler = ({ destination, source }) => {
+    if (!destination) return
+    const [removed] = posts.splice(source.index, 1)
+    posts.splice(destination.index, 0, removed)
+    setPosts(posts)
   }
 
-  const onDragEnd = ({ destination, source }) => {
-    console.log(`destination`, destination)
-    console.log(`source`, source)
-    if (!destination) return
-    const newItems = reorder(posts, source.index, destination.index)
-    setPosts(newItems)
-  }
-  const handleCollectionReorder = () => {
-    setIsLoading(true)
-    console.log('setReorder')
+  const handleCollectionReorder = async () => {
+    try {
+      setIsLoading(true)
+      if (authToken.account && authToken.account.eosname) {
+        authToken.eosname = authToken.account.eosname
+      }
+      const params = { postIds: posts.map(({ _id }) => _id.postid), ...authToken }
+      await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
+      setIsLoading(false)
+    } catch (err) {
+      console.error(err)
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -97,15 +100,16 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
         <Typography variant='h3'>Reorder Collection</Typography>
       </DialogTitle>
       <DialogContent>
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={onDragEndHandler}>
           <Droppable droppableId='droppable-list'>
             {(provided) => (
               <div ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {_posts.map((post, index) => {
+                {posts.map((post, index) => {
                   return <DraggableCollectionPostItem post={post}
                     index={index}
+                    key={post._id.postid}
                          />
                 })}
                 {provided.placeholder}
@@ -129,15 +133,17 @@ const CollectionReorderDialog = ({ posts, dialogOpen, handleDialogClose }) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(`state`, state)
   return {
     authToken: state.authInfo
   }
 }
 
 CollectionReorderDialog.propTypes = {
-  posts: PropTypes.array,
-  dialogOpen: PropTypes.bool,
-  handleDialogClose: PropTypes.func.isRequired
+  collection: PropTypes.object.isRequired,
+  dialogOpen: PropTypes.bool.isRequired,
+  handleDialogClose: PropTypes.func.isRequired,
+  authToken: PropTypes.object.isRequired
 }
 
 export default memo(connect(mapStateToProps)(withStyles(styles)(CollectionReorderDialog)))

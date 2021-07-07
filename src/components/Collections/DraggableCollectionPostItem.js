@@ -67,8 +67,6 @@ const DraggableCollectionPostItem = ({ classes, post, index }) => {
             >
               <Typography variant='h6'>
                 {`# ${index + 1}`}
-                {snapshot}
-                {provided}
               </Typography>
             </Grid>
             <Grid item
