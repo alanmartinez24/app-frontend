@@ -64,9 +64,10 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
       if (authToken.account && authToken.account.eosname) {
         authToken.eosname = authToken.account.eosname
       }
-      const params = { postIds: posts.map(({ _id }) => _id.postid), ...authToken }
+      const params = { postIds: (posts.map(({ _id }) => _id.postid).reverse()), ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoading(false)
+      handleDialogClose()
     } catch (err) {
       console.error(err)
       setIsLoading(false)
@@ -109,7 +110,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
                 {posts.map((post, index) => {
                   return <DraggableCollectionPostItem post={post}
                     index={index}
-                    key={post._id.postid}
+                    key={post && post._id.postid}
                          />
                 })}
                 {provided.placeholder}
@@ -133,7 +134,6 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(`state`, state)
   return {
     authToken: state.authInfo
   }

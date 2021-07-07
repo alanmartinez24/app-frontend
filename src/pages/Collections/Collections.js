@@ -249,8 +249,7 @@ class Collections extends Component {
     let collection, recommended
     try {
       collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
-        .data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
