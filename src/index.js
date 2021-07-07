@@ -42,7 +42,6 @@ const store = createStore(
   composeEnhancers(middleware)
 )
 
-serviceWorkerRegistration.register()
 ReactDOM.render(
 
   <Provider store={store}>
@@ -50,3 +49,4 @@ ReactDOM.render(
       <Index history={history} />
     </StylesProvider>
   </Provider>, document.getElementById('root'))
+serviceWorkerRegistration.register()

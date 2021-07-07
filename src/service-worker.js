@@ -10,9 +10,10 @@
 
 import { clientsClaim } from 'workbox-core'
 import { ExpirationPlugin } from 'workbox-expiration'
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate } from 'workbox-strategies'
+import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
 
 clientsClaim()
 
@@ -51,13 +52,13 @@ registerRoute(
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
-  ({ url }) => url.origin === self.location.origin && url.pathname.endsWith('.png'), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+  ({ url }) => url.origin === self.location.origin && url.pathname.split('.').pop().match(/^(png|css|svg|woff2)$/), // Customize this strategy as needed, e.g., by changing to CacheFirst.
   new StaleWhileRevalidate({
-    cacheName: 'images',
+    cacheName: 'static',
     plugins: [
       // Ensure that once this runtime cache reaches a maximum size the
       // least-recently used images are removed.
-      new ExpirationPlugin({ maxEntries: 50 })
+      new ExpirationPlugin({ maxEntries: 80 })
     ]
   })
 )
@@ -69,5 +70,95 @@ self.addEventListener('message', (event) => {
     self.skipWaiting()
   }
 })
+registerRoute(
+  ({ url }) => url.origin === 'https://res.cloudinary.com',
+  new CacheFirst({
+    cacheName: 'cloudinary_images',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 1,
+        maxEntries: 60
+      })
+    ]
+  })
+)
+registerRoute(
+  ({ url }) => url.origin === 'https://gilroy-web-fonts.s3.amazonaws.com' || url.origin === 'https://fonts.googleapis.com',
+  new CacheFirst({
+    cacheName: 'fonts',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 60
+      })
+    ]
+  })
+)
 
+registerRoute(
+  ({ url }) => url.origin === 'https://api.yup.io',
+  new CacheFirst({
+    cacheName: 'yup',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 1,
+        maxEntries: 500
+      })
+    ]
+  })
+)
+registerRoute(
+  ({ url }) => url.origin === 'https://www.googletagmanager.com' || url.origin === 'https://cdn.segment.com' || url.origin === 'http://cdn4.mxpnl.com',
+  new CacheFirst({
+    cacheName: 'scripts',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 60
+      })
+    ]
+  })
+)
+registerRoute(
+  ({ url }) => url.origin === 'https://www.youtube.com',
+  new CacheFirst({
+    cacheName: 'youtube',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 60
+      })
+    ]
+  })
+)
+registerRoute(
+  ({ url }) => url.origin === 'https://api.faviconkit.com',
+  new CacheFirst({
+    cacheName: 'faviconkit',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 60
+      })
+    ]
+  })
+)
 // Any other custom service worker logic can go here.
