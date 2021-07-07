@@ -131,7 +131,7 @@ const styles = theme => ({
     zIndex: 5,
     background:
       'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
-    padding: '1% 3%'
+    padding: '2% 3%'
   }
 })
 
