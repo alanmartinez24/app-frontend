@@ -38,9 +38,10 @@ const styles = theme => ({
     draggingListItem: {
       background: '#fafafa05'
     }
-  })
+})
 
 const DraggableCollectionPostItem = ({ classes, post, index }) => {
+  if (!post) return null
   const { _id, previewData } = post
 
     return (
@@ -65,16 +66,6 @@ const DraggableCollectionPostItem = ({ classes, post, index }) => {
               xl={2}
               className={classes.collection}
             >
-              <Typography variant='h6'>
-                {`# ${index + 1}`}
-              </Typography>
-            </Grid>
-            <Grid item
-              xs={2}
-              lg={3}
-              xl={2}
-              className={classes.collection}
-            >
               <Img
                 src={[previewData.img, DEFAULT_IMG]}
                 alt='thumbnail'
@@ -86,7 +77,9 @@ const DraggableCollectionPostItem = ({ classes, post, index }) => {
               lg={9}
               xl={10}
             >
-              <Typography variant='h5'>{previewData.title}</Typography>
+              <Typography
+                variant='h5'
+              >{previewData.title}</Typography>
             </Grid>
           </Grid>
       )}

@@ -67,7 +67,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
       const params = { postIds: (posts.map(({ _id }) => _id.postid).reverse()), ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoading(false)
-      handleDialogClose()
+      window.location.reload()
     } catch (err) {
       console.error(err)
       setIsLoading(false)
@@ -86,7 +86,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
           boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
           width: '80%',
           padding: '1rem 0.5rem',
-          maxWidth: '700px',
+          maxWidth: '600px',
           color: '#fafafa',
           maxHeight: '80vh'
         }
@@ -98,7 +98,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
       }}
     >
       <DialogTitle id='form-dialog-title'>
-        <Typography variant='h3'>Reorder Collection</Typography>
+        <Typography variant='h3'>Reorder</Typography>
       </DialogTitle>
       <DialogContent>
         <DragDropContext onDragEnd={onDragEndHandler}>
