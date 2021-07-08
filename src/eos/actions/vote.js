@@ -18,14 +18,14 @@ export async function createvote (account, data, ethAuth) {
         account: YUP_CONTRACT_ACCOUNT,
         name: 'createvotev2',
         authorization: [{
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }, {
           actor: account.name,
           permission: account.authority
         }],
         data: {
-          ram_payer: YUP_CREATOR,
+          ram_payer: YUP_ACCOUNT_MANAGER,
           voter: account.name,
           postid: data.postid,
           rating: data.rating,
@@ -58,7 +58,7 @@ export async function postvotev3 (account, data, ethAuth) {
         account: YUP_CONTRACT_ACCOUNT,
         name: 'postvotev3',
         authorization: [{
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }, {
           actor: account.name,
@@ -102,7 +102,7 @@ export async function postvotev4 (account, data, ethAuth) {
         account: YUP_CONTRACT_ACCOUNT,
         name: 'postvotev4',
         authorization: [{
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }, {
           actor: account.name,
@@ -147,7 +147,7 @@ export async function createvotev4 (account, data, ethAuth) {
         account: YUP_CONTRACT_ACCOUNT,
         name: 'createvotev4',
         authorization: [{
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }, {
           actor: account.name,
@@ -188,7 +188,7 @@ export async function editvote (account, data, ethAuth) {
         account: YUP_CONTRACT_ACCOUNT,
         name: 'editvotev2',
         authorization: [{
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }, {
           actor: account.name,
@@ -227,7 +227,7 @@ export async function deletevote (account, data, ethAuth) {
         account: YUP_CONTRACT_ACCOUNT,
         name: 'deletevote',
         authorization: [{
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }, {
           actor: account.name,
