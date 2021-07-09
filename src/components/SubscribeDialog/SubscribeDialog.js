@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, InputAdornment, OutlinedInput, FormControl, Icon, Grid } from '@material-ui/core'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -13,7 +13,6 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { updateEthAuthInfo } from '../../redux/actions'
-import theme from '../../utils/theme'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
@@ -535,30 +534,29 @@ class SubscribeDialog extends Component {
 
     return (
       <ErrorBoundary>
-        <MuiThemeProvider theme={theme}>
-          <Portal>
-            <Snackbar
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-              autoHideDuration={4000}
-              className={classes.snackUpper}
-              onClose={this.handleSnackbarClose}
-              open={this.state.snackbar.open}
-            >
-              <SnackbarContent
-                className={classes.snack}
-                message={this.state.snackbar.content}
-                style={{ backgroundColor: this.state.snackbar.error ? '#ff5252' : '#48B04C' }}
-              />
-            </Snackbar>
-          </Portal>
+        <Portal>
+          <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            autoHideDuration={4000}
+            className={classes.snackUpper}
+            onClose={this.handleSnackbarClose}
+            open={this.state.snackbar.open}
+          >
+            <SnackbarContent
+              className={classes.snack}
+              message={this.state.snackbar.content}
+              style={{ backgroundColor: this.state.snackbar.error ? '#ff5252' : '#48B04C' }}
+            />
+          </Snackbar>
+        </Portal>
 
-          <Dialog open={dialogOpen}
-            onClose={() => {
+        <Dialog open={dialogOpen}
+          onClose={() => {
             handleDialogClose()
           }}
-            aria-labelledby='form-dialog-title'
-            className={classes.dialog}
-            PaperProps={{
+          aria-labelledby='form-dialog-title'
+          className={classes.dialog}
+          PaperProps={{
               style: {
                 backgroundColor: '#0A0A0A',
                 borderRadius: '25px',
@@ -569,13 +567,13 @@ class SubscribeDialog extends Component {
                 color: '#fafafa'
               }
             }}
-            BackdropProps={{
+          BackdropProps={{
               style: {
                 backdropFilter: 'blur(3px)'
               }
             }}
-          >
-            {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
+        >
+          {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
                 <Typography
@@ -694,7 +692,7 @@ class SubscribeDialog extends Component {
             </>
           }
 
-            {this.state.connected &&
+          {this.state.connected &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
                 <Typography
@@ -818,9 +816,7 @@ class SubscribeDialog extends Component {
               </DialogContent>
             </>
           }
-
-          </Dialog>
-        </MuiThemeProvider>
+        </Dialog>
       </ErrorBoundary>
     )
   }

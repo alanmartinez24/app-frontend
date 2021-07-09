@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { Fab, Button } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import ReactPlayer from 'react-player'
@@ -52,22 +52,20 @@ class Tour extends Component {
     return (
       <ErrorBoundary>
         <div>
-          <MuiThemeProvider>
-            <Tour
-              steps={steps}
-              isOpen={this.state.isTourOpen}
-              onRequestClose={this.closeTour}
-              className={classes.Tour}
-              accentColor='#00eab7'
-            />
-            <Fab
-              className={classes.tourFab}
-              variant='extended'
-              onClick={this.openTour}
-            >
-              10-Second Tutorial
-            </Fab>
-          </MuiThemeProvider>
+          <Tour
+            steps={steps}
+            isOpen={this.state.isTourOpen}
+            onRequestClose={this.closeTour}
+            className={classes.Tour}
+            accentColor='#00eab7'
+          />
+          <Fab
+            className={classes.tourFab}
+            variant='extended'
+            onClick={this.openTour}
+          >
+            10-Second Tutorial
+          </Fab>
         </div>
       </ErrorBoundary>
   )

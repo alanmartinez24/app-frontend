@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Select from '@material-ui/core/Select'
 import { MenuItem, InputLabel } from '@material-ui/core'
 import FormControl from '@material-ui/core/FormControl'
@@ -38,31 +38,30 @@ class CategoryMenu extends Component {
 
     return (
       <ErrorBoundary>
-        <MuiThemeProvider>
-          <FormControl className={classes.formControl}
-            variant='outlined'
-            size='small'
-            dark
-          >
-            <InputLabel
-              style={{ fontSize: '12px' }}
-              id='category-label'
-            >Category</InputLabel>
-            <Select
-              onChange={() => {}}
-              labelId='category-label'
-              label='Category'
-              id='select'
-              labelWidth='58'
-              MenuProps={{
+        <FormControl className={classes.formControl}
+          variant='outlined'
+          size='small'
+          dark
+        >
+          <InputLabel
+            style={{ fontSize: '12px' }}
+            id='category-label'
+          >Category</InputLabel>
+          <Select
+            onChange={() => {}}
+            labelId='category-label'
+            label='Category'
+            id='select'
+            labelWidth='58'
+            MenuProps={{
              getContentAnchorEl: null,
              anchorOrigin: {
                vertical: 'bottom'
              }
            }}
-              value={currCategory.name}
-              size='medium'
-            > {
+            value={currCategory.name}
+            size='medium'
+          > {
             subjCats.map(cat => (
               <MenuItem
                 key={cat.name}
@@ -70,9 +69,8 @@ class CategoryMenu extends Component {
               > { cat.displayName } </MenuItem>
             ))
           }
-            </Select>
-          </FormControl>
-        </MuiThemeProvider>
+          </Select>
+        </FormControl>
       </ErrorBoundary>
     )
   }

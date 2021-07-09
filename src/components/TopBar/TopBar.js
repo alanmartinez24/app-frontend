@@ -22,11 +22,7 @@ import {
   Dialog,
   Badge
 } from '@material-ui/core'
-import {
-  MuiThemeProvider,
-  withStyles,
-  createMuiTheme
-} from '@material-ui/core/styles'
+import { MuiThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import wallet from '../../eos/scatter/scatter.wallet'
 import ListLink from '@material-ui/core/Link'
@@ -381,7 +377,6 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({
       className={classes.list1}
     >
       <StyledExtensionListLink />
-      {/* <StyledYupListLink /> */}
       <StyledAboutListLink />
     </List>
   )

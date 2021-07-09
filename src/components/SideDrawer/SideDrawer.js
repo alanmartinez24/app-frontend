@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles'
 import SquareIcon from '@material-ui/icons/Unarchive'
 import HelpOutlined from '@material-ui/icons/HelpOutlined'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-
 import { Link } from 'react-router-dom'
 
 const styles = theme => ({
