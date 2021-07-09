@@ -4,21 +4,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import Img from 'react-image'
-import {
-  Fab,
-  Typography,
-  Grid,
-  Button,
-  IconButton,
-  Icon,
-  SnackbarContent,
-  Snackbar,
-  Fade,
-  Tabs,
-  Tab,
-  Hidden,
-  ThemeProvider
-} from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, ThemeProvider, Menu, MenuItem } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -28,6 +14,7 @@ import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link } from 'react-router-dom'
 import CollectionEditDialog from '../../components/Collections/CollectionEditDialog.js'
+import CollectionReorderDialog from '../../components/Collections/CollectionReorderDialog'
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
@@ -95,6 +82,11 @@ const styles = theme => ({
       marginLeft: '0px'
     }
   },
+  menuItem: {
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '10px'
+    }
+  },
   collectionContainer: {
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
@@ -142,6 +134,12 @@ const styles = theme => ({
   },
   headerText: {
     marginBottom: '10px'
+  },
+  headerTitle: {
+    [theme.breakpoints.down('xs')]: {
+      lineHeight: 1,
+      fontSize: '1.6rem'
+    }
   },
   recommended: {
     display: 'inline-block',
@@ -202,6 +200,7 @@ const styles = theme => ({
     color: '#fff',
     fontSize: '1.2rem',
     marginLeft: '35px',
+    textTransform: 'capitalize',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
     }
@@ -234,24 +233,24 @@ class Collections extends Component {
     isMinimize: false,
     snackbarMsg: '',
     recommended: [],
-    dialogOpen: false,
     isTourOpen: false,
     socialLevelColor: '',
-    activeTab: 0
+    activeTab: 0,
+    anchorEl: null,
+    openReorderDialog: false,
+    editDialogOpen: false
   }
 
   fetchCollectionInfo = async () => {
     const decodedURL = decodeURI(window.location.href)
-    console.log('DECODED URL', decodedURL)
     const url = decodedURL.split('/')
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`))
-        .data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
-        .data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
+      const requQuery = `name=${collection.name}&description=${collection.description}`
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended?${requQuery}`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
@@ -298,35 +297,26 @@ class Collections extends Component {
     this.prev = element.scrollTop
   }
 
-  handleSnackbarOpen = snackbarMsg => {
-    this.setState({ snackbarMsg })
-  }
+  handleSnackbarOpen = snackbarMsg => this.setState({ snackbarMsg })
+  handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
-  handleSnackbarClose = () => {
-    this.setState({ snackbarMsg: '' })
-  }
+  handleMenuOpen = ({ currentTarget }) => this.setState({ anchorEl: currentTarget })
+  handleMenuClose = () => this.setState({ anchorEl: null })
 
-  handleDialogOpen = () => {
-    this.setState({ dialogOpen: true })
-  }
+  handleReorderDialogOpen = () => this.setState({ openReorderDialog: true, anchorEl: null })
+  handleReorderDialogClose = () => this.setState({ openReorderDialog: false })
 
-  handleDialogClose = () => {
-    this.setState({ dialogOpen: false })
-  }
+  handleEditDialogOpen = () => this.setState({ editDialogOpen: true, anchorEl: null })
+  handleEditDialogClose = () => this.setState({ editDialogOpen: false })
+
+  closeTour = () => this.setState({ isTourOpen: false })
+  openTour = () => this.setState({ isTourOpen: true })
 
   getSocialLevel = async id => {
     const res = (await axios.get(`${BACKEND_API}/levels/user/${id}`)).data
     this.setState({
       socialLevelColor: levelColors[res.quantile]
     })
-  }
-
-  closeTour = () => {
-    this.setState({ isTourOpen: false })
-  }
-
-  openTour = () => {
-    this.setState({ isTourOpen: true })
   }
 
   handleChange = (e, newTab) => {
@@ -342,11 +332,16 @@ class Collections extends Component {
       isMinimize,
       snackbarMsg,
       recommended,
-      dialogOpen,
       activeTab,
-      socialLevelColor
+      anchorEl,
+      socialLevelColor,
+      openReorderDialog,
+      editDialogOpen
     } = this.state
+
     let color = socialLevelColor
+    const menuOpen = Boolean(anchorEl)
+
     if (account && account.name) {
       if (!levels[account.name]) {
         dispatch(fetchSocialLevel(account.name))
@@ -355,6 +350,7 @@ class Collections extends Component {
       color = levelColors[levels[account.name].levelInfo.quantile]
       }
     }
+
     const hidden = isMinimize ? classes.hidden : null
     const minimize = isMinimize ? classes.minimize : null
     const minimizeHeader = isMinimize ? classes.minimizeHeader : null
@@ -476,14 +472,54 @@ class Collections extends Component {
             message={snackbarMsg}
           />
         </Snackbar>
+        <Menu
+          id='short-menu'
+          anchorEl={anchorEl}
+          keepMounted
+          open={menuOpen}
+          onClose={this.handleMenuClose}
+          PaperProps={{
+            style: {
+              width: '15ch',
+              backgroundColor: 'black'
+            }
+          }}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+        >
+          <MenuItem dense
+            onClick={this.handleEditDialogOpen}
+            className={classes.menuItem}
+          >
+            Edit
+          </MenuItem>
+          {!!collection.posts.length && (
+          <MenuItem dense
+            onClick={this.handleReorderDialogOpen}
+            className={classes.menuItem}
+          >
+            Reorder
+          </MenuItem>
+          )}
+        </Menu>
         <CollectionEditDialog
           collection={collection}
           account={account}
           authToken={authToken}
-          dialogOpen={dialogOpen}
-          handleDialogClose={this.handleDialogClose}
+          dialogOpen={editDialogOpen}
+          handleDialogClose={this.handleEditDialogClose}
         />
-
+        <CollectionReorderDialog
+          handleDialogClose={this.handleReorderDialogClose}
+          collection={collection}
+          dialogOpen={openReorderDialog}
+        />
         <div className={classes.container}
           onScroll={this.handleScroll}
         >
@@ -537,7 +573,7 @@ class Collections extends Component {
                     timeout={400}
                   >
                     <Typography variant='h2'
-                      className={classes.headerText}
+                      className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
                     >
                       {collection.name}
                     </Typography>
@@ -590,7 +626,7 @@ class Collections extends Component {
                       aria-label='more'
                       aria-controls='long-menu'
                       aria-haspopup='true'
-                      onClick={this.handleDialogOpen}
+                      onClick={this.handleMenuOpen}
                       className={classes.icons}
                     >
                       <MenuIcon />
@@ -612,6 +648,7 @@ class Collections extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
+                      TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}
