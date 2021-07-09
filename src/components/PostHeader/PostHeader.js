@@ -8,7 +8,6 @@ import { withRouter } from 'react-router'
 import { withStyles } from '@material-ui/core/styles'
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
-import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import moment from 'moment'
@@ -136,10 +135,6 @@ class PostHeader extends Component {
     const voterIsMirror = voterInfo && voterInfo.twitterInfo && voterInfo.twitterInfo.isMirror
     const voterIsAuth = voterInfo && voterInfo.twitterInfo && voterInfo.twitterInfo.isAuthUser
 
-    const voterTwitterUsername = voterInfo &&
-      voterInfo.twitterInfo
-      ? voterInfo.twitterInfo.username : ''
-
     const authorQuantile = levels[author] && levels[author].levelInfo.quantile
     const authorAvatar = levels[author] && levels[author].levelInfo.avatar
     const authorUsername = levels[author] && levels[author].levelInfo.username
@@ -152,7 +147,7 @@ class PostHeader extends Component {
       <Grid item
         className={classes.voterOpacity}
       >
-        <UserAvatar alt={vote.voter}
+        <UserAvatar alt={voterUsername}
           className={classes.avatarImage}
           src={voterAvatar}
           style={{
@@ -160,25 +155,6 @@ class PostHeader extends Component {
           }}
           username={voterUsername}
         />
-      </Grid>
-      <Grid className={classes.keyUser}
-        item
-      >
-        <Link
-          style={{ textDecoration: 'none', color: '#fff' }}
-          to={`/${voterUsername || vote.voter}`}
-        >
-          <Typography
-            variant='body2'
-          >
-            {
-              (voterIsMirror && voterInfo.twitterInfo.isTracked &&
-                voterInfo.twitterInfo.isMirror) ? voterTwitterUsername
-                : voterUsername || vote.voter
-            }
-          </Typography>
-        </Link>
-
       </Grid>
       <Grid item>
         { (voterIsMirror && !voterIsAuth)
@@ -197,7 +173,7 @@ class PostHeader extends Component {
         direction='row'
         >
         <Grid item>
-          <UserAvatar alt={author}
+          <UserAvatar alt={authorUsername}
             className={classes.avatarImage}
             src={authorAvatar}
             style={{

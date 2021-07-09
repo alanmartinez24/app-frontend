@@ -384,7 +384,7 @@ ratingPower = async () => {
               >
                 <Grid item>
                   <UserAvatar
-                    alt={account._id}
+                    alt={account.username}
                     username={account.username}
                     className={classes.avatarImage}
                     src={account.avatar}
