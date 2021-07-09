@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
 import ReactCrop from 'react-image-crop'
 import './ReactCrop.css'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import DoneIcon from '@material-ui/icons/Done'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Dropzone from 'react-dropzone'
 import { updateAccountInfo } from '../../redux/actions'
 import UserAvatar from '../UserAvatar/UserAvatar'
@@ -13,7 +13,6 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
-import theme from '../../utils/theme'
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 
 const IPFS = require('ipfs-http-client')
@@ -441,7 +440,7 @@ class EditProfile extends Component {
 
     return (
       <ErrorBoundary>
-        <Fragment>
+        <>
           <Snack />
           <EditButton />
           <Dialog
@@ -466,38 +465,37 @@ class EditProfile extends Component {
               }
             }}
           >
-            <MuiThemeProvider theme={theme}>
-              <DialogTitle
-                className={classes.dialogTitle}
-                id='form-dialog-title'
+            <DialogTitle
+              className={classes.dialogTitle}
+              id='form-dialog-title'
+            >
+              <Typography variant='h3'>Edit Profile</Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Grid
+                container
+                direction='row'
+                style={{ justifyContent: 'space-evenly' }}
               >
-                <Typography variant='h3'>Edit Profile</Typography>
-              </DialogTitle>
-              <DialogContent>
-                <Grid
-                  container
-                  direction='row'
-                  style={{ justifyContent: 'space-evenly' }}
-                >
-                  <Grid item>
-                    {!cropTime ? (
-                      <div className={classes.dropzoneContainer}>
-                        <Dropzone
-                          accept='image/*'
-                          className={classes.dropzone}
-                          maxSize={70000000}
-                          onDrop={this.onDrop}
-                        >
-                          {files.length > 0 ? (
-                            <UserAvatar
-                              align='center'
-                              alt='Preview'
-                              className={classes.previewStyle}
-                              height='auto'
-                              key={filename}
-                              src={filePreview}
-                              width='100%'
-                            />
+                <Grid item>
+                  {!cropTime ? (
+                    <div className={classes.dropzoneContainer}>
+                      <Dropzone
+                        accept='image/*'
+                        className={classes.dropzone}
+                        maxSize={70000000}
+                        onDrop={this.onDrop}
+                      >
+                        {files.length > 0 ? (
+                          <UserAvatar
+                            align='center'
+                            alt='Preview'
+                            className={classes.previewStyle}
+                            height='auto'
+                            key={filename}
+                            src={filePreview}
+                            width='100%'
+                          />
                           ) : (
                             <div style={{ width: '250px', height: '250px' }}>
                               <UserAvatar
@@ -512,8 +510,8 @@ class EditProfile extends Component {
                               />
                             </div>
                           )}
-                        </Dropzone>
-                      </div>
+                      </Dropzone>
+                    </div>
                     ) : (
                       <ReactCrop
                         crop={crop}
@@ -530,77 +528,76 @@ class EditProfile extends Component {
                         src={filePreview}
                       />
                     )}
-                    <CropIcon />
-                    <RemovePhoto />
+                  <CropIcon />
+                  <RemovePhoto />
+                </Grid>
+                <Grid item
+                  container
+                  direction='column'
+                  alignItems='stretch'
+                  spacing={2}
+                >
+                  <Grid item>
+                    <YupInput
+                      defaultValue={this.state.fullname}
+                      fullWidth
+                      id='name'
+                      maxLength={17}
+                      label='Name'
+                      onChange={this.handleFullnameChange}
+                      type='text'
+                      variant='outlined'
+                    />
                   </Grid>
-                  <Grid item
-                    container
-                    direction='column'
-                    alignItems='stretch'
-                    spacing={2}
-                  >
-                    <Grid item>
-                      <YupInput
-                        defaultValue={this.state.fullname}
-                        fullWidth
-                        id='name'
-                        maxLength={17}
-                        label='Name'
-                        onChange={this.handleFullnameChange}
-                        type='text'
-                        variant='outlined'
-                      />
-                    </Grid>
-                    <Grid item>
-                      <YupInput
-                        defaultValue={this.state.bio}
-                        color='#fafafa'
-                        fullWidth
-                        id='bio'
-                        maxLength={140}
-                        label='Bio'
-                        multiline
-                        onChange={this.handleBioChange}
-                        type='text'
-                        variant='outlined'
-                      />
-                    </Grid>
-                    <Grid item>
-                      <YupInput
-                        autoFocus
-                        defaultValue={this.state.ethAddress}
-                        fullWidth
-                        disabled
-                        id='name'
-                        maxLength={250}
-                        label='ETH Address'
-                        multiline
-                        type='text'
-                        variant='outlined'
-                      />
-                    </Grid>
+                  <Grid item>
+                    <YupInput
+                      defaultValue={this.state.bio}
+                      color='#fafafa'
+                      fullWidth
+                      id='bio'
+                      maxLength={140}
+                      label='Bio'
+                      multiline
+                      onChange={this.handleBioChange}
+                      type='text'
+                      variant='outlined'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <YupInput
+                      autoFocus
+                      defaultValue={this.state.ethAddress}
+                      fullWidth
+                      disabled
+                      id='name'
+                      maxLength={250}
+                      label='ETH Address'
+                      multiline
+                      type='text'
+                      variant='outlined'
+                    />
                   </Grid>
                 </Grid>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  color='primary'
-                  onClick={this.handleDialogClose}
-                  style={{ fontFamily: 'Gilroy' }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant='contained'
-                  onClick={this.handleAccountInfoSubmit}
-                  style={{ fontFamily: 'Gilroy', backgroundColor: '#00eab7' }}
-                >
-                  Update
-                </Button>
-              </DialogActions>
-            </MuiThemeProvider>
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                color='primary'
+                onClick={this.handleDialogClose}
+                style={{ fontFamily: 'Gilroy' }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant='contained'
+                onClick={this.handleAccountInfoSubmit}
+                style={{ fontFamily: 'Gilroy', backgroundColor: '#00eab7' }}
+              >
+                Update
+              </Button>
+            </DialogActions>
           </Dialog>
-        </Fragment>
+        </>
       </ErrorBoundary>
     )
   }

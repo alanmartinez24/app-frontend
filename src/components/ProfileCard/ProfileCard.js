@@ -1,15 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  MuiThemeProvider,
-  createMuiTheme,
-  withStyles
-} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { Card } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import Grid from '@material-ui/core/Grid'
-import lightBlue from '@material-ui/core/colors/lightBlue'
 import FollowButton from '../Followers/FollowButton'
 import EditProfile from '../EditProfile/EditProfile'
 import FollowersDialog from '../Followers/FollowersDialog'
@@ -185,28 +180,28 @@ const styles = theme => ({
   }
 })
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#ffffff' },
-    secondary: { main: '#ffffff' },
-    third: lightBlue
-  },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5,
-    color: '#ffffff'
-  },
-  icon: {
-    width: 25,
-    height: 25,
-    color: 'primary'
-  },
-  stats: {
-    fontFamily: 'Gilroy',
-    color: 'white'
-  }
-})
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: { main: '#ffffff' },
+//     secondary: { main: '#ffffff' },
+//     third: lightBlue
+//   },
+//   button: {
+//     width: 16,
+//     height: 16,
+//     padding: 5,
+//     color: '#ffffff'
+//   },
+//   icon: {
+//     width: 25,
+//     height: 25,
+//     color: 'primary'
+//   },
+//   stats: {
+//     fontFamily: 'Gilroy',
+//     color: 'white'
+//   }
+// })
 
 function formatBio (bio = '') {
   if (!bio) {
@@ -326,15 +321,13 @@ function ProfileCard (props) {
                 xs={3}
               >
                 {isLoggedIn ? (
-                  <MuiThemeProvider theme={theme}>
-                    <EditProfile
-                      accountInfo={accountInfo}
-                      className={classes.button}
-                      username={username}
-                      size='small'
-                      variant='outlined'
-                    />
-                  </MuiThemeProvider>
+                  <EditProfile
+                    accountInfo={accountInfo}
+                    className={classes.button}
+                    username={username}
+                    size='small'
+                    variant='outlined'
+                  />
                 ) : (
                   <FollowButton
                     account={account}

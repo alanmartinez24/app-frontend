@@ -1,10 +1,6 @@
-/* eslint-disable */
-import React, { Component, useState, useEffect } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Link from '@material-ui/core/Link'
-import axios from 'axios'
-import _ from 'lodash'
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
 
@@ -53,7 +49,8 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           underline='none'
         >
           <h4 className={twitterName}
-            style={{maxWidth: '300px'}}>
+            style={{ maxWidth: '300px' }}
+          >
             {user && user.name && user.name.substring(0, 80)}
           </h4>
         </Link>
@@ -75,6 +72,14 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
       </span>
     </div>
  )
+}
+
+HeaderSection.propTypes = {
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  tweetLink: PropTypes.string.isRequired,
+  tweetType: PropTypes.string.isRequired,
+  hideBird: PropTypes.bool.isRequired
 }
 
 export default HeaderSection

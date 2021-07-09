@@ -1,9 +1,8 @@
-/* eslint-disable */
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
+import { isEmpty } from 'lodash'
 import Fade from '@material-ui/core/Fade'
-
-//child componenents
+import PropTypes from 'prop-types'
 import Reply from './Reply'
 import Retweet from './Retweet'
 import Quoted from './Quoted'
@@ -177,9 +176,6 @@ const styles = theme => ({
     borderTopRightRadius: '10px',
     textAlign: 'left'
   },
-  replyContainer: {
-    display: 'flex'
-  },
   replyHeaderAndContent: {
     display: 'flex',
     flexDirection: 'column',
@@ -273,11 +269,11 @@ class CustomTweetEmbed extends Component {
   render () {
     const { tweetData, classes } = this.props
     if (!tweetData || !tweetData.tweetInfo) {
-      return <div/>
+      return <div />
     }
-    const retweet = tweetData.tweetInfo.retweeted_status ? !(_.isEmpty(tweetData.tweetInfo.retweeted_status)) : false
-    const quoted = tweetData.tweetInfo.quoted_status ? !(_.isEmpty(tweetData.tweetInfo.quoted_status)) : false
-    const reply = tweetData.tweetInfo.in_reply_to_status_id  ? !(_.isEmpty(tweetData.tweetInfo.reply_status)) : false
+    const retweet = tweetData.tweetInfo.retweeted_status ? !(isEmpty(tweetData.tweetInfo.retweeted_status)) : false
+    const quoted = tweetData.tweetInfo.quoted_status ? !(isEmpty(tweetData.tweetInfo.quoted_status)) : false
+    const reply = tweetData.tweetInfo.in_reply_to_status_id ? !(isEmpty(tweetData.tweetInfo.reply_status)) : false
 
     return (
       <Fade in
@@ -303,6 +299,11 @@ class CustomTweetEmbed extends Component {
       </Fade>
     )
   }
+}
+
+CustomTweetEmbed.propTypes = {
+  tweetData: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(CustomTweetEmbed)

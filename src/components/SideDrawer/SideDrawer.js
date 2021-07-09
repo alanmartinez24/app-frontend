@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import Drawer from '@material-ui/core/Drawer'
 import { List, ListItem, ListItemIcon, Fab } from '@material-ui/core'
 import ListItemText from '@material-ui/core/ListItemText'
-import Orange from '@material-ui/core/colors/orange'
-import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import SquareIcon from '@material-ui/icons/Unarchive'
 import HelpOutlined from '@material-ui/icons/HelpOutlined'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -78,23 +77,6 @@ const styles = theme => ({
   }
 })
 
-const theme = createMuiTheme({
-  primary: {
-    color: '#c0c0c0'
-  },
-  palette: {
-    primary: Orange,
-    secondary: Orange
-  },
-  typography: {
-    fontSize: 10, // In Japanese the characters are usually larger.
-    fontFamily: '"Gilroy", sans-serif',
-    textDecorationColor: 'white',
-    fontWeight: '100px',
-    color: '#ffb300'
-  }
-})
-
 function SideDrawer ({ classes }) {
   return (
     <ErrorBoundary>
@@ -109,47 +91,45 @@ function SideDrawer ({ classes }) {
           <div className={classes.toolbar}
             style={{ marginLeft: '10vw', fontWeight: 100 }}
           />
-          <MuiThemeProvider theme={theme}>
-            <List className={classes.list1}>
-              <ListItem button
-                component={Link}
-                to='/leaderboard'
-              >
+          <List className={classes.list1}>
+            <ListItem button
+              component={Link}
+              to='/leaderboard'
+            >
+              <ListItemIcon>
+                <SquareIcon style={{ color: '#c0c0c0' }} />
+              </ListItemIcon>
+              <ListItemText inset>
+                <span className={classes.typography}
+                  style={{ color: '#c0c0c0', fontWeight: 100 }}
+                > Lists
+                </span>
+              </ListItemText>
+            </ListItem>
+            <a href='https://docs.yup.io'
+              style={{ textDecoration: 'none' }}
+              target='_blank'
+            >
+              <ListItem button>
                 <ListItemIcon>
-                  <SquareIcon style={{ color: '#c0c0c0' }} />
+                  <HelpOutlined style={{ color: '#c0c0c0' }} />
                 </ListItemIcon>
                 <ListItemText inset>
                   <span className={classes.typography}
-                    style={{ color: '#c0c0c0', fontWeight: 100 }}
-                  > Lists
+                    style={{ color: '#c0c0c0' }}
+                  > Tutorial
                   </span>
                 </ListItemText>
               </ListItem>
-              <a href='https://docs.yup.io'
-                style={{ textDecoration: 'none' }}
-                target='_blank'
-              >
-                <ListItem button>
-                  <ListItemIcon>
-                    <HelpOutlined style={{ color: '#c0c0c0' }} />
-                  </ListItemIcon>
-                  <ListItemText inset>
-                    <span className={classes.typography}
-                      style={{ color: '#c0c0c0' }}
-                    > Tutorial
-                    </span>
-                  </ListItemText>
-                </ListItem>
-              </a>
-              <ListItem button>
-                <Fab
-                  className={classes.tourFab}
-                  variant='extended'
-                >10-Second Tutorial
-                </Fab>
-              </ListItem>
-            </List>
-          </MuiThemeProvider>
+            </a>
+            <ListItem button>
+              <Fab
+                className={classes.tourFab}
+                variant='extended'
+              >10-Second Tutorial
+              </Fab>
+            </ListItem>
+          </List>
         </Drawer>
       </div>
     </ErrorBoundary>
