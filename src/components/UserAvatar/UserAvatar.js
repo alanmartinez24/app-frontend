@@ -5,6 +5,7 @@ import { parseIpfsRef, hashToUrl } from '../../utils/ipfs.js'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Avatar from '@material-ui/core/Avatar'
 import Fade from '@material-ui/core/Fade'
+import { Link } from 'react-router-dom'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
@@ -25,25 +26,30 @@ function UserAvatar (props) {
       timeout={1000}
     >
       <ErrorBoundary>
-        <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
-          <img alt={alt}
-            className={className}
-            src={hashToUrl(src)}
-            style={{
-          ...style, objectFit: 'cover' }}
-            onError={setDefaultSrc}
-          />
-          <Avatar alt={alt}
-            className={className}
-            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
-          >{userLetter && userLetter}
-          </Avatar>
-          <Avatar alt={alt}
-            className={className}
-            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
-          >{userLetter && userLetter}
-          </Avatar>
-        </ImageLoader>
+        <Link style={{ textDecoration: 'none' }}
+          to={'/' + username}
+        >
+          <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
+
+            <img alt={alt}
+              className={className}
+              src={hashToUrl(src)}
+              style={{
+          ...style, objectFit: 'cover', boxShadow: 'inset 0px 0px 1px 10px rgb(0 224 142)' }}
+              onError={setDefaultSrc}
+            />
+            <Avatar alt={alt}
+              className={className}
+              style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+            >{userLetter && userLetter}
+            </Avatar>
+            <Avatar alt={alt}
+              className={className}
+              style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+            >{userLetter && userLetter}
+            </Avatar>
+          </ImageLoader>
+        </Link>
       </ErrorBoundary>
     </Fade>
   )

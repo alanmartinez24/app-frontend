@@ -143,6 +143,12 @@ const styles = theme => ({
   headerText: {
     marginBottom: '10px'
   },
+  headerTitle: {
+    [theme.breakpoints.down('xs')]: {
+      lineHeight: 1,
+      fontSize: '1.6rem'
+    }
+  },
   recommended: {
     display: 'inline-block',
     position: 'sticky',
@@ -189,7 +195,6 @@ const styles = theme => ({
   },
   minimizeHeader: {
     padding: '0px 16px',
-    transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
       maxHeight: '60px'
@@ -202,6 +207,7 @@ const styles = theme => ({
     color: '#fff',
     fontSize: '1.2rem',
     marginLeft: '35px',
+    textTransform: 'capitalize',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
     }
@@ -242,16 +248,13 @@ class Collections extends Component {
 
   fetchCollectionInfo = async () => {
     const decodedURL = decodeURI(window.location.href)
-    console.log('DECODED URL', decodedURL)
     const url = decodedURL.split('/')
     const id = url[5]
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`))
-        .data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`))
-        .data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
@@ -505,15 +508,12 @@ class Collections extends Component {
                 alignItems='center'
                 spacing={2}
                 lg={8}
+                xl={8}
                 xs={12}
                 className={[minimizeHeader, classes.collectionHeader]}
               >
                 <Grid
                   item
-                  lg={isMinimize ? 1 : 2}
-                  md={isMinimize ? 1 : 2}
-                  sm={2}
-                  xs={2}
                 >
                   <Fade in
                     timeout={1000}
@@ -537,7 +537,7 @@ class Collections extends Component {
                     timeout={400}
                   >
                     <Typography variant='h2'
-                      className={classes.headerText}
+                      className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
                     >
                       {collection.name}
                     </Typography>
@@ -612,6 +612,7 @@ class Collections extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
+                      TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}

@@ -684,8 +684,8 @@ function TopBar ({ classes, history, width, isTourOpen }) {
             onBackdropClick={handleDrawerClose}
             open={open}
             variant={listVariant}
-            onMouseEnter={() => setIsShown(true)}
-            onMouseLeave={() => setIsShown(false)}
+            onMouseEnter={() => setIsShown(true) && handleDrawerClose}
+            onMouseLeave={() => setIsShown(false) && handleDrawerOpen}
           >
             <MuiThemeProvider theme={theme}>
               <div className={classes.drawerHeader}>

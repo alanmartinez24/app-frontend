@@ -30,7 +30,7 @@ const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 const LIMIT_COLLECTIONS = 5
-const showTabs = window.innerWidth <= 960
+const showTabs = window.innerWidth <= 1400
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -59,6 +59,9 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       background: '#2a2a2a'
     }
+  },
+  dialogContent: {
+    padding: '8px 0px'
   },
   feedPage: {
     marginLeft: '110px',
@@ -163,6 +166,7 @@ const styles = theme => ({
     color: '#fff',
     fontSize: '1.2rem',
     marginLeft: '35px',
+    textTransform: 'capitalize',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
     }
@@ -180,7 +184,7 @@ const styles = theme => ({
   },
   collection: {
     flexBasis: 'unset',
-    padding: '8px 8px 8px 0px !important'
+    padding: '8px 8px 8px 16px !important'
   },
   showAll: {
     color: '#fff',
@@ -575,7 +579,7 @@ class User extends Component {
             <DialogTitle id='form-dialog-title'>
               <Typography variant='h3'>Collections</Typography>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent className={classes.dialogContent}>
               {collections.map(collection => {
               return (
                 <Collection
@@ -624,6 +628,7 @@ class User extends Component {
                     >
                       <Tabs value={activeTab}
                         onChange={this.handleChange}
+                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                       >
                         <Tab label='Feed'
                           className={classes.tabs}
