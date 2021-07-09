@@ -14,6 +14,7 @@ import moment from 'moment'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
+import { Link } from 'react-router-dom'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -139,7 +140,9 @@ class PostHeader extends Component {
     const authorAvatar = levels[author] && levels[author].levelInfo.avatar
     const authorUsername = levels[author] && levels[author].levelInfo.username
     const authorLevelColor = authorQuantile ? levelColors[authorQuantile] : levelColors.sixth
-
+    const voterTwitterUsername = voterInfo &&
+    voterInfo.twitterInfo
+    ? voterInfo.twitterInfo.username : ''
     const VoterHeader = (props) => (<Grid container
       direction='row'
       alignItems='center'
@@ -155,6 +158,25 @@ class PostHeader extends Component {
           }}
           username={voterUsername}
         />
+      </Grid>
+      <Grid className={classes.keyUser}
+        item
+      >
+        <Link
+          style={{ textDecoration: 'none', color: '#fff' }}
+          to={`/${voterUsername || vote.voter}`}
+        >
+          <Typography
+            variant='body2'
+          >
+            {
+              (voterIsMirror && voterInfo.twitterInfo.isTracked &&
+                voterInfo.twitterInfo.isMirror) ? voterTwitterUsername
+                : voterUsername || vote.voter
+            }
+          </Typography>
+        </Link>
+
       </Grid>
       <Grid item>
         { (voterIsMirror && !voterIsAuth)
