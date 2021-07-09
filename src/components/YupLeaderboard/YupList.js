@@ -84,7 +84,7 @@ class YupList extends Component {
     const { subjName, siteName, catName } = this.props
     const isLoading = !siteName && !subjName && !catName
     if (!isLoading) {
-      this.fetchYupListPosts()
+      this.fetchYupListPosts(true)
     }
     this.logPageView()
   }

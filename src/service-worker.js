@@ -13,7 +13,7 @@ import { ExpirationPlugin } from 'workbox-expiration'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
+import { CacheFirst } from 'workbox-strategies'
 
 clientsClaim()
 
@@ -53,12 +53,18 @@ registerRoute(
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
   ({ url }) => url.origin === self.location.origin && url.pathname.split('.').pop().match(/^(png|css|svg|woff2)$/), // Customize this strategy as needed, e.g., by changing to CacheFirst.
-  new StaleWhileRevalidate({
+  new CacheFirst({
     cacheName: 'static',
     plugins: [
+      new CacheableResponsePlugin({
+      statuses: [0, 200]
+    }),
       // Ensure that once this runtime cache reaches a maximum size the
       // least-recently used images are removed.
-      new ExpirationPlugin({ maxEntries: 80 })
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 1,
+        maxEntries: 80
+      })
     ]
   })
 )
@@ -110,7 +116,7 @@ registerRoute(
         statuses: [0, 200]
       }),
       new ExpirationPlugin({
-        maxAgeSeconds: 60 * 60 * 24 * 1,
+        maxAgeSeconds: 60 * 60, // 1hour
         maxEntries: 500
       })
     ]
