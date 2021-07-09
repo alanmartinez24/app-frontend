@@ -147,8 +147,6 @@ class FeedHOC extends PureComponent {
   fetchPostsScroll = () => {
     const { dispatch, feed, feedInfo } = this.props
     dispatch(fetchFeed(feed, feedInfo[feed].start, feedInfo[feed].limit))
-    /* eslint-disable */
-    alert(`start: ${feedInfo[feed].start}, limit: ${feedInfo[feed].limit}`) 
   }
   render () {
     const { posts, classes } = this.props
