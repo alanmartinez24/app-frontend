@@ -125,7 +125,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
           fullWidth
           backgroundColor='#1a1a1a'
           buttonText='Save'
-          color='#00eab7'
+          color='#fff'
           isLoading={isLoading}
         />
       </DialogActions>
