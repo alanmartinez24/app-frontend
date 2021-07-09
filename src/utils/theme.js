@@ -137,11 +137,6 @@ const theme = createMuiTheme({
       label: {
         color: '#fff !important'
       }
-    },
-    MuiGrid: {
-      item: {
-        transition: 'max-width 0.5s cubic-bezier(.53,-0.11,.55,1.22), flex-basis 0.5s cubic-bezier(.53,-0.11,.55,1.22), width 0.5s cubic-bezier(.53,-0.11,.55,1.22)'
-      }
     }
   },
   typography: {

@@ -195,7 +195,6 @@ const styles = theme => ({
   },
   minimizeHeader: {
     padding: '0px 16px',
-    transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
       maxHeight: '60px'
