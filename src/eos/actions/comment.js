@@ -1,5 +1,5 @@
 import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
-const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER, YUP_CREATOR } = process.env
+const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function createcomv2 (account, data, ethAuth) {
     const txData = {
@@ -17,14 +17,14 @@ export async function createcomv2 (account, data, ethAuth) {
           account: YUP_CONTRACT_ACCOUNT,
           name: 'createcomv2',
           authorization: [{
-            actor: YUP_CREATOR,
+            actor: YUP_ACCOUNT_MANAGER,
             permission: 'active'
           }, {
             actor: account.name,
             permission: account.authority
           } ],
           data: {
-            ram_payer: YUP_CREATOR,
+            ram_payer: YUP_ACCOUNT_MANAGER,
             postid: data.postid,
             author: account.name,
             timestamp: (new Date()).getTime(),
@@ -47,7 +47,7 @@ export async function createcomv2 (account, data, ethAuth) {
           account: YUP_CONTRACT_ACCOUNT,
           name: 'noop',
           authorization: [{
-            actor: YUP_CREATOR,
+            actor: YUP_ACCOUNT_MANAGER,
             permission: 'active'
           }],
           data: {}
@@ -56,14 +56,14 @@ export async function createcomv2 (account, data, ethAuth) {
           account: YUP_CONTRACT_ACCOUNT,
           name: 'editcom',
           authorization: [{
-            actor: YUP_CREATOR,
+            actor: YUP_ACCOUNT_MANAGER,
             permission: 'active'
           }, {
             actor: account.name,
             permission: account.authority
           }],
           data: {
-            ram_payer: YUP_CREATOR,
+            ram_payer: YUP_ACCOUNT_MANAGER,
             commentid: data.commentid,
             comment: data.comment,
             edit_timestamp: (new Date()).getTime()
@@ -94,7 +94,7 @@ export async function createcomv2 (account, data, ethAuth) {
           account: YUP_CONTRACT_ACCOUNT,
           name: 'deletecom',
           authorization: [{
-            actor: YUP_CREATOR,
+            actor: YUP_ACCOUNT_MANAGER,
             permission: 'active'
           }, {
             actor: YUP_ACCOUNT_MANAGER,
@@ -104,7 +104,7 @@ export async function createcomv2 (account, data, ethAuth) {
             permission: account.authority
           }],
           data: {
-            ram_payer: YUP_CREATOR,
+            ram_payer: YUP_ACCOUNT_MANAGER,
             commentid: data.commentid
           }
         }
