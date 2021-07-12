@@ -90,11 +90,6 @@ const theme = createMuiTheme({
         color: '#fafafa'
       }
     },
-    MuiTabs: {
-      inkBarStyle: {
-        background: 'red'
-      }
-    },
     MuiTab: {
       root: {
         textTransform: 'capitalize',
