@@ -85,6 +85,24 @@ const theme = createMuiTheme({
         }
       }
     },
+    DialogContent: {
+      root: {
+        color: '#fafafa'
+      }
+    },
+    MuiListItemIcon: {
+      root: {
+        color: '#c0c0c0',
+        overflow: 'visible',
+        textAlign: 'center',
+        justifyContent: 'center'
+      }
+    },
+    MuiBadge: {
+      colorSecondary: {
+        backgroundColor: '#fafafa'
+      }
+    },
     MuiInputLabel: {
       shrink: {
         color: `${Colors.Grey}50`
