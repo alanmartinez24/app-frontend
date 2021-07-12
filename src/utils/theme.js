@@ -85,7 +85,7 @@ const theme = createMuiTheme({
         }
       }
     },
-    DialogContent: {
+    MuiDialogContent: {
       root: {
         color: '#fafafa'
       }

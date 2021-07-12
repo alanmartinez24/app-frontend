@@ -44,7 +44,6 @@ import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 
 const drawerWidth = 190
-
 const { BACKEND_API } = process.env
 
 const styles = theme => ({
@@ -124,6 +123,11 @@ const styles = theme => ({
     background: 'transparent',
     border: '0px solid #e6e6e6',
     textColor: 'white'
+  },
+  listItemLink: {
+    '&:hover': {
+      backgroundColor: 'red'
+    }
   },
   bottomBar: {
     background: 'transparent',
@@ -608,7 +612,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               >
                 <ListItemAvatar>
                   <Badge
-                    color='secondary'
+                    color='primary'
                     overlap='circle'
                     badgeContent={formattedWeight}
                     anchorOrigin={{
