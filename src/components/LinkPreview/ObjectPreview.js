@@ -99,7 +99,7 @@ const styles = theme => ({
     textAlign: 'left',
     zIndex: 5,
     background: '',
-    padding: '6%'
+    padding: '4% 6%'
   },
   favicon: {
     height: 30,
