@@ -123,7 +123,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
         <LoaderButton
           onClick={handleCollectionReorder}
           fullWidth
-          backgroundColor='#1a1a1a'
+          backgroundColor='#00eab7'
           buttonText='Save'
           color='#fff'
           isLoading={isLoading}
