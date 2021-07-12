@@ -14,6 +14,7 @@ import moment from 'moment'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
+import { Link } from 'react-router-dom'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -105,7 +106,7 @@ class PostHeader extends Component {
 
   render () {
     const { isLoading, postInteractions } = this.state
-    const { levels, author, classes, hideInteractions, dispatch } = this.props
+    const { levels, author, classes, hideInteractions, dispatch, query } = this.props
 
     if (!isLoading && !postInteractions.length) {
       return <div style={{ height: '25px' }} />
@@ -139,32 +140,50 @@ class PostHeader extends Component {
     const authorAvatar = levels[author] && levels[author].levelInfo.avatar
     const authorUsername = levels[author] && levels[author].levelInfo.username
     const authorLevelColor = authorQuantile ? levelColors[authorQuantile] : levelColors.sixth
+    const voterTwitterUsername = voterInfo && voterInfo.twitterInfo ? voterInfo.twitterInfo.username : ''
+    const headerDisplayName = (voterIsMirror && voterInfo.twitterInfo.isTracked &&
+      voterInfo.twitterInfo.isMirror) ? voterTwitterUsername
+      : voterUsername || vote.voter
 
-    const VoterHeader = (props) => (<Grid container
-      direction='row'
-      alignItems='center'
-                                    >
-      <Grid item
-        className={classes.voterOpacity}
+    const VoterHeader = (props) => (
+      <Grid container
+        direction='row'
+        alignItems='center'
       >
-        <UserAvatar alt={voterUsername}
-          className={classes.avatarImage}
-          src={voterAvatar}
-          style={{
+        <Grid item
+          className={classes.voterOpacity}
+        >
+          <UserAvatar alt={voterUsername}
+            className={classes.avatarImage}
+            src={voterAvatar}
+            style={{
             borderColor: voterLevelColor
           }}
-          username={voterUsername}
-        />
-      </Grid>
-      <Grid item>
-        { (voterIsMirror && !voterIsAuth)
+            username={voterUsername}
+          />
+        </Grid>
+        <Grid className={classes.keyUser}
+          item
+        >
+          <Link
+            style={{ textDecoration: 'none', color: '#fff' }}
+            to={`/${voterUsername || vote.voter}`}
+          >
+            <Typography variant='body2'>
+              {query.feed && headerDisplayName}
+            </Typography>
+          </Link>
+
+        </Grid>
+        <Grid item>
+          { (voterIsMirror && !voterIsAuth)
           ? <img
             src='/images/icons/twitter.svg'
             style={{ height: '0.5rem', paddingLeft: '8px', paddingRight: '8px', display: 'grid' }}
             />
         : null}
-      </Grid>
-    </Grid>)
+        </Grid>
+      </Grid>)
 
     const AuthorHeader = (props) => (
       author === YUP_CREATOR
@@ -270,8 +289,10 @@ class PostHeader extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
+  const { query } = state.router.location
   return {
     ...ownProps,
+    query,
     account,
     username: account && account.name,
     levels: state.socialLevels.levels || {
@@ -289,7 +310,8 @@ PostHeader.propTypes = {
   author: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   username: PropTypes.string,
-  account: PropTypes.object
+  account: PropTypes.object,
+  query: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(withRouter(withStyles(styles)(PostHeader)))
