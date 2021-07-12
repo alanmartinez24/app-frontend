@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import throttle from './throttle'
@@ -38,15 +39,15 @@ export default class InfiniteScroll extends Component {
      * adding passive event listeners to reduce scroll-blocking
      */
     // Test via a getter in the options object to see if the passive property is accessed
-    this.supportsPassive = false
+    this.supportsPassive = false;
     try {
       var opts = Object.defineProperty({}, 'passive', {
-        get: function () {
-          this.supportsPassive = true
+        get: function() {
+          this.supportsPassive = true;
         }
-      })
-      window.addEventListener('testPassive', null, opts)
-      window.removeEventListener('testPassive', null, opts)
+      });
+      window.addEventListener("testPassive", null, opts);
+      window.removeEventListener("testPassive", null, opts);
     } catch (e) {}
 
     // Use our detect's results. passive applied if supported, capture will be false either way.
@@ -253,9 +254,7 @@ export default class InfiniteScroll extends Component {
         : {}
     return (
       <ErrorBoundary>
-        <div id='infinite-scroll-component-wrapper'
-          style={outerDivStyle}
-        >
+        <div id="infinite-scroll-component-wrapper" style={outerDivStyle}>
           <div
             className={`infinite-scroll-component ${this.props.className || ''}`}
             ref={infScroll => (this._infScroll = infScroll)}
@@ -319,5 +318,5 @@ InfiniteScroll.propTypes = {
   refreshFunction: PropTypes.func,
   onScroll: PropTypes.func,
   dataLength: PropTypes.number.isRequired,
-  initialScrollY: PropTypes.number.isRequired
+  feedKey: PropTypes.string
 }

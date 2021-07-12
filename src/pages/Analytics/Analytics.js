@@ -5,7 +5,7 @@ import BarChart from '../../components/Charts/BarChart'
 import RadialChart from '../../components/Charts/RadialChart'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, MuiThemeProvider } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import axios from 'axios'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 // import path from 'path'
@@ -14,7 +14,6 @@ import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import { levelColors } from '../../utils/colors'
 import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
-import theme from '../../utils/theme'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
@@ -330,31 +329,29 @@ ratingPower = async () => {
     if (!isLoading && hasError) {
       return (
         <ErrorBoundary>
-          <MuiThemeProvider theme={theme}>
-            <div className={classes.container}>
-              <div className={classes.page}>
-                <Header />
-                <div align='center'>
-                  <Typography
-                    className={classes.accountErrorHeader}
-                    color='#ffffff'
-                    variant='h1'
-                  >
-                    <strong>
-                      Sorry this page is not available.
-                    </strong>
-                  </Typography>
-                  <Typography
-                    className={classes.accountErrorSub}
-                    color='#ffffff'
-                    variant='h2'
-                  >
-                    The page you're looking for does not exist.
-                  </Typography>
-                </div>
+          <div className={classes.container}>
+            <div className={classes.page}>
+              <Header />
+              <div align='center'>
+                <Typography
+                  className={classes.accountErrorHeader}
+                  color='#ffffff'
+                  variant='h1'
+                >
+                  <strong>
+                    Sorry this page is not available.
+                  </strong>
+                </Typography>
+                <Typography
+                  className={classes.accountErrorSub}
+                  color='#ffffff'
+                  variant='h2'
+                >
+                  The page you're looking for does not exist.
+                </Typography>
               </div>
             </div>
-          </MuiThemeProvider>
+          </div>
         </ErrorBoundary>
       )
     } else if (isLoading) {
@@ -372,43 +369,42 @@ ratingPower = async () => {
     }
     return (
       <ErrorBoundary>
-        <MuiThemeProvider theme={theme}>
-          <div className={classes.container}>
-            <div className={classes.page}>
-              <Header />
-              <Grid container
-                direction='row'
-                alignItems='center'
-                justify='left'
-                className={classes.graphContainers}
-              >
-                <Grid item>
-                  <UserAvatar
-                    alt={account._id}
-                    username={account.username}
-                    className={classes.avatarImage}
-                    src={account.avatar}
-                    style={{ border: `solid 3px ${socialLevelColor}` }}
+        <div className={classes.container}>
+          <div className={classes.page}>
+            <Header />
+            <Grid container
+              direction='row'
+              alignItems='center'
+              justify='left'
+              className={classes.graphContainers}
+            >
+              <Grid item>
+                <UserAvatar
+                  alt={account._id}
+                  username={account.username}
+                  className={classes.avatarImage}
+                  src={account.avatar}
+                  style={{ border: `solid 3px ${socialLevelColor}` }}
+                />
+              </Grid>
+              <Grid item>
+                <Typography align='left'
+                  variant='h2'
+                  color='white'
+                >
+                  <LinesEllipsis
+                    basedOn='letters'
+                    ellipsis='...'
+                    maxLine='4'
+                    text={account.fullname || account.username || account._id}
+                    trimRight
                   />
-                </Grid>
-                <Grid item>
-                  <Typography align='left'
-                    variant='h2'
-                    color='white'
-                  >
-                    <LinesEllipsis
-                      basedOn='letters'
-                      ellipsis='...'
-                      maxLine='4'
-                      text={account.fullname || account.username || account._id}
-                      trimRight
-                    />
-                  </Typography>
-                  <Typography align='left'
-                    variant='subtitle2'
-                    className={`${classes.username}`}
-                  >
-                    <span style={{
+                </Typography>
+                <Typography align='left'
+                  variant='subtitle2'
+                  className={`${classes.username}`}
+                >
+                  <span style={{
                     textDecoration: socialLevelColor ? 'none' : 'none',
                     textDecorationColor: socialLevelColor,
                     textDecorationStyle: socialLevelColor ? 'solid' : 'none',
@@ -416,125 +412,124 @@ ratingPower = async () => {
                     color: isMirror ? '#b1b1b1' : '#ffffff',
                     padding: '0px'
                   }}
-                    >
-                      @{account.username}
-                    </span>
-                  </Typography>
-                </Grid>
-                <Grid item
-                  lg={3}
-                  md={2}
-                  xs={0}
-                />
+                  >
+                    @{account.username}
+                  </span>
+                </Typography>
               </Grid>
+              <Grid item
+                lg={3}
+                md={2}
+                xs={0}
+              />
+            </Grid>
 
-              <Grid container
-                direction='row'
-                alignItems='center'
-                justify='center'
+            <Grid container
+              direction='row'
+              alignItems='center'
+              justify='center'
+            >
+              <Grid item
+                lg={2}
+                md={1}
+                xs={0}
+              />
+              <Grid item
+                lg={4}
+                md={5}
+                xs={12}
               >
-                <Grid item
-                  lg={2}
-                  md={1}
-                  xs={0}
-                />
-                <Grid item
-                  lg={4}
-                  md={5}
-                  xs={12}
-                >
-                  <BarChart
-                    chartData={influence}
-                    chartTitle='Influence'
-                    color={socialLevelColor}
-                  />
-                </Grid>
-                <Grid item
-                  lg={4}
-                  md={5}
-                  xs={12}
-                >
-                  <BarChart
-                    chartData={ratingPower}
-                    chartTitle='Rating Power'
-                    color={'white'}
-                    unit='%'
-                  />
-                </Grid>
-                <Grid item
-                  lg={2}
-                  md={1}
-                  xs={0}
-                />
-
-                <Grid item
-                  lg={2}
-                  md={1}
-                  xs={0}
-                />
-                <Grid item
-                  lg={4}
-                  md={5}
-                  xs={12}
-                >
-                  <LineChart
-                    headerNumber={totalClaimedRewards}
-                    chartData={{ name: 'Earnings', data: userEarnings }}
-                    chartTitle='Earnings'
-                  />
-                </Grid>
-                <Grid item
-                  lg={4}
-                  md={5}
-                  xs={12}
-                >
-                  <LineChart
-                    headerNumber={account.balance.YUP}
-                    chartData={{ name: 'Holdings', data: userHoldings }}
-                    chartTitle='Holdings'
-                  />
-                </Grid>
-                <Grid item
-                  lg={2}
-                  md={1}
-                  xs={0}
+                <BarChart
+                  chartData={influence}
+                  chartTitle='Influence'
+                  color={socialLevelColor}
                 />
               </Grid>
-
-              <Grid container
-                direction='row'
-                alignItems='center'
-                justify='center'
+              <Grid item
+                lg={4}
+                md={5}
+                xs={12}
               >
-                <Grid item
-                  xs={6}
-                  md={5}
-                  lg={4}
-                >
-                  <RadialChart
-                    chartData={platformDistribution}
-                    colors={['#1DA1F2', '#FF0000', '#FF5700', '#00EAB7']}
-                    className={classes}
-                    chartTitle='Platform Distribution'
-                  />
-                </Grid>
-                <Grid item
-                  xs={6}
-                  md={5}
-                  lg={4}
-                >
-                  <RadialChart
-                    chartData={categoryDistribution}
-                    className={classes}
-                    chartTitle='Categories Distribution'
-                  />
-                </Grid>
+                <BarChart
+                  chartData={ratingPower}
+                  chartTitle='Rating Power'
+                  color={'white'}
+                  unit='%'
+                />
               </Grid>
-              <CreateCollectionFab />
-            </div>
-            <Footer />
+              <Grid item
+                lg={2}
+                md={1}
+                xs={0}
+              />
+
+              <Grid item
+                lg={2}
+                md={1}
+                xs={0}
+              />
+              <Grid item
+                lg={4}
+                md={5}
+                xs={12}
+              >
+                <LineChart
+                  headerNumber={totalClaimedRewards}
+                  chartData={{ name: 'Earnings', data: userEarnings }}
+                  chartTitle='Earnings'
+                />
+              </Grid>
+              <Grid item
+                lg={4}
+                md={5}
+                xs={12}
+              >
+                <LineChart
+                  headerNumber={account.balance.YUP}
+                  chartData={{ name: 'Holdings', data: userHoldings }}
+                  chartTitle='Holdings'
+                />
+              </Grid>
+              <Grid item
+                lg={2}
+                md={1}
+                xs={0}
+              />
+            </Grid>
+
+            <Grid container
+              direction='row'
+              alignItems='center'
+              justify='center'
+            >
+              <Grid item
+                xs={6}
+                md={5}
+                lg={4}
+              >
+                <RadialChart
+                  chartData={platformDistribution}
+                  colors={['#1DA1F2', '#FF0000', '#FF5700', '#00EAB7']}
+                  className={classes}
+                  chartTitle='Platform Distribution'
+                />
+              </Grid>
+              <Grid item
+                xs={6}
+                md={5}
+                lg={4}
+              >
+                <RadialChart
+                  chartData={categoryDistribution}
+                  className={classes}
+                  chartTitle='Categories Distribution'
+                />
+              </Grid>
+            </Grid>
+            <CreateCollectionFab />
           </div>
-        </MuiThemeProvider>
+          <Footer />
+        </div>
       </ErrorBoundary>
     )
   }

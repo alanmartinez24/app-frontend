@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, memo } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -263,20 +263,6 @@ const theme = createMuiTheme({
       }
     }
   },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5,
-    color: '#ffffff'
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    color: 'primary'
-  },
-  Divider: {
-    color: 'primary'
-  },
   ListItemText: {
     fontFamily: 'Gilroy, sans-serif',
     color: 'primary',
@@ -292,9 +278,8 @@ const theme = createMuiTheme({
 })
 
 function PrivateListItem ({ account, children }) {
-  const isLoggedIn =
-    account || (wallet.scatter && wallet.scatter.wallet === 'ScatterExtension')
-  return isLoggedIn ? <Fragment> {children} </Fragment> : null
+  const isLoggedIn = account || (wallet.scatter && wallet.scatter.wallet === 'ScatterExtension')
+  return isLoggedIn ? <> {children} </> : null
 }
 
 PrivateListItem.propTypes = {
@@ -302,9 +287,7 @@ PrivateListItem.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-const StyledAboutListLink = withStyles(styles)(function AboutListLink ({
-  classes
-}) {
+const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
   return (
     <ListLink
       href='https://yup.io'
@@ -700,15 +683,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'right'
-                          }}
-                          style={{
-                            overrides: {
-                              MuiBadge: {
-                                colorSecondary: {
-                                  backgroundColor: 'primary'
-                                }
-                              }
-                            }
                           }}
                         >
                           <StyledProfileAvatar username={username}

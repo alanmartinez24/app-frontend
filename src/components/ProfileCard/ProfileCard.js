@@ -180,29 +180,6 @@ const styles = theme => ({
   }
 })
 
-// const theme = createMuiTheme({
-//   palette: {
-//     primary: { main: '#ffffff' },
-//     secondary: { main: '#ffffff' },
-//     third: lightBlue
-//   },
-//   button: {
-//     width: 16,
-//     height: 16,
-//     padding: 5,
-//     color: '#ffffff'
-//   },
-//   icon: {
-//     width: 25,
-//     height: 25,
-//     color: 'primary'
-//   },
-//   stats: {
-//     fontFamily: 'Gilroy',
-//     color: 'white'
-//   }
-// })
-
 function formatBio (bio = '') {
   if (!bio) {
     return ''
