@@ -194,8 +194,7 @@ const styles = theme => ({
 })
 
 const Collection = ({ classes, collection, username }) => {
-  const fmtCollectionName =
-    collection && collection.name.replace(/\s+/g, '-').toLowerCase()
+  const fmtCollectionName = collection && collection.name.replace(/\s+/g, '-').toLowerCase()
   const collectionLength = collection.postIds.length
   const collectionSubheader =
     username === collection.owner
@@ -206,8 +205,7 @@ const Collection = ({ classes, collection, username }) => {
 
   return (
     <Link
-      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id
-        }`}
+      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid
@@ -249,9 +247,7 @@ Collection.propTypes = {
   username: PropTypes.string
 }
 
-function TabPanel (props) {
-  const { children, value, index } = props
-
+function TabPanel ({ children, value, index }) {
   return (
     <div id='tabpanel'
       hidden={value !== index}

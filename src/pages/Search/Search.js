@@ -156,9 +156,6 @@ const styles = theme => ({
   },
   article: {
     maxWidth: '600px'
-  },
-  tabs: {
-    fontSize: '1.2rem'
   }
 })
 
@@ -350,12 +347,8 @@ class Search extends Component {
                       <Tabs value={activeTab}
                         onChange={this.handleChange}
                       >
-                        <Tab label='Posts'
-                          className={classes.tabs}
-                        />
-                        <Tab label='People'
-                          className={classes.tabs}
-                        />
+                        <Tab label='Posts' />
+                        <Tab label='People' />
                       </Tabs>
                     </Grid>
 

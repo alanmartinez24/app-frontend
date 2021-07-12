@@ -90,6 +90,17 @@ const theme = createMuiTheme({
         color: '#fafafa'
       }
     },
+    MuiTabs: {
+      inkBarStyle: {
+        background: 'red'
+      }
+    },
+    MuiTab: {
+      root: {
+        textTransform: 'capitalize',
+        fontSize: '1.2rem'
+      }
+    },
     MuiListItemIcon: {
       root: {
         color: '#c0c0c0',
