@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import {
-  DialogActions,
-  SnackbarContent,
-  Snackbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Typography
-} from '@material-ui/core'
+import { DialogActions, SnackbarContent, Snackbar, Dialog, DialogTitle, DialogContent, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { withRouter } from 'react-router'
@@ -50,14 +42,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionEditDialog = ({
-  collection,
-  classes,
-  dialogOpen,
-  handleDialogClose,
-  history,
-  authToken
-}) => {
+const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, authToken }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -200,6 +185,4 @@ CollectionEditDialog.propTypes = {
   authToken: PropTypes.object
 }
 
-export default withRouter(
-  connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog))
-)
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))

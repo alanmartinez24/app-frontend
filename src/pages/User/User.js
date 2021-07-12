@@ -13,10 +13,8 @@ import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import { Link } from 'react-router-dom'
 import path from 'path'
 import Tour from 'reactour'
-import Img from 'react-image'
 import '../../components/Tour/tourstyles.css'
 import ReactPlayer from 'react-player'
 import { Helmet } from 'react-helmet'
@@ -25,10 +23,10 @@ import CollectionPostDialog from '../../components/Collections/CollectionPostDia
 import theme from '../../utils/theme'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import CollectionItem from '../../components/Collections/CollectionItem.js'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 const LIMIT_COLLECTIONS = 5
 const showTabs = window.innerWidth <= 1400
 const isMobile = window.innerWidth <= 600
@@ -140,28 +138,6 @@ const styles = theme => ({
   icons: {
     color: '#fff'
   },
-  collectionImg: {
-    height: '60px',
-    width: '60px',
-    objectFit: 'cover',
-    borderRadius: '5px',
-    [theme.breakpoints.down('md')]: {
-      height: '50px',
-      width: '50px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '40px',
-      width: '40px',
-      marginTop: '5px'
-    }
-  },
-  collectionContainer: {
-    borderRadius: 10,
-    margin: 0,
-    '&:hover': {
-      background: '#fafafa05'
-    }
-  },
   tabs: {
     color: '#fff',
     fontSize: '1.2rem',
@@ -196,62 +172,6 @@ const styles = theme => ({
     }
   }
 })
-
-const Collection = ({ classes, collection, username }) => {
-  const fmtCollectionName =
-    collection && collection.name.replace(/\s+/g, '-').toLowerCase()
-  const collectionLength = collection.postIds.length
-  const collectionSubheader =
-    username === collection.owner
-      ? collectionLength === 1
-        ? `1 post`
-        : `${collectionLength} posts`
-      : collection.owner
-
-  return (
-    <Link
-      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id
-        }`}
-      style={{ textDecoration: 'none', color: '#fff' }}
-    >
-      <Grid
-        container
-        direction='row'
-        justify='flex-start'
-        alignItems='center'
-        spacing={3}
-        className={classes.collectionContainer}
-      >
-        <Grid item
-          xs={2}
-          lg={3}
-          xl={2}
-          className={classes.collection}
-        >
-          <Img
-            src={[collection.imgSrcUrl, DEFAULT_IMG]}
-            alt='thumbnail'
-            className={classes.collectionImg}
-          />
-        </Grid>
-        <Grid item
-          xs={10}
-          lg={9}
-          xl={10}
-        >
-          <Typography variant='h5'>{collection.name}</Typography>
-          <Typography variant='body2'>{collectionSubheader}</Typography>
-        </Grid>
-      </Grid>
-    </Link>
-  )
-}
-
-Collection.propTypes = {
-  classes: PropTypes.object.isRequired,
-  collection: PropTypes.array.isRequired,
-  username: PropTypes.string
-}
 
 function TabPanel (props) {
   const { children, value, index } = props
@@ -582,8 +502,7 @@ class User extends Component {
             <DialogContent className={classes.dialogContent}>
               {collections.map(collection => {
               return (
-                <Collection
-                  classes={classes}
+                <CollectionItem
                   collection={collection}
                   username={username}
                 />
@@ -720,8 +639,7 @@ class User extends Component {
                           .slice(0, LIMIT_COLLECTIONS)
                           .map(collection => {
                             return (
-                              <Collection
-                                classes={classes}
+                              <CollectionItem
                                 collection={collection}
                                 username={username}
                               />
@@ -843,8 +761,7 @@ class User extends Component {
                             .slice(0, LIMIT_COLLECTIONS)
                             .map(collection => {
                               return (
-                                <Collection
-                                  classes={classes}
+                                <CollectionItem
                                   collection={collection}
                                   username={username}
                                 />
