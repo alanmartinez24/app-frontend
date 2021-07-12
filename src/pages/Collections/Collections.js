@@ -650,14 +650,12 @@ class Collections extends Component {
                       className={[classes.recommended, classes.recommendedMobile]}
                     >
                       {recommended.map(rec => {
-                        if (rec.name !== collection.name) {
                           return (
                             <RecommendedCollections
                               classes={classes}
                               collection={rec}
                             />
                           )
-                        }
                       })}
                     </Grid>
                   </TabPanel>
@@ -696,14 +694,12 @@ class Collections extends Component {
                       xs={12}
                     >
                       {recommended.map(rec => {
-                        if (rec.name !== collection.name) {
                           return (
                             <RecommendedCollections
                               classes={classes}
                               collection={rec}
                             />
                           )
-                        }
                       })}
                     </Grid>
                   </Grid>
