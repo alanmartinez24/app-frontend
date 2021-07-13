@@ -105,7 +105,6 @@ const styles = theme => ({
   },
   drawerPaper: {
     borderRight: '0px solid',
-    background: 'linear-gradient(90deg, #1b1b1b 80%, #232323 102%)',
     width: 190,
     boxShadow: '2px 0px 20px #0b0b0b40'
   },
@@ -610,7 +609,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               >
                 <ListItemAvatar>
                   <Badge
-                    color='primary'
+                    color='secondary'
                     overlap='circle'
                     badgeContent={formattedWeight}
                     anchorOrigin={{

@@ -16,8 +16,7 @@ import {
   Fade,
   Tabs,
   Tab,
-  Hidden,
-  ThemeProvider
+  Hidden
 } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -31,7 +30,6 @@ import CollectionEditDialog from '../../components/Collections/CollectionEditDia
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
-import theme from '../../utils/theme'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
@@ -369,45 +367,43 @@ class Collections extends Component {
     if (!isLoading && !collection) {
       return (
         <ErrorBoundary>
-          <ThemeProvider theme={theme}>
-            <div className={classes.container}>
-              <div className={classes.page}>
-                <Grid
-                  container
-                  direction='column'
-                  spacing={5}
-                  style={{ width: '50%', margin: 'auto', alignItems: 'center' }}
-                >
-                  <Grid item>
-                    <Typography
-                      className={classes.accountErrorHeader}
-                      color='#ffffff'
-                      variant='h3'
-                    >
-                      <strong>Sorry this page is not available.</strong>
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      className={classes.accountErrorSub}
-                      color='#ffffff'
-                      variant='h4'
-                    >
-                      The page you're looking for does not exist.
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button variant='contained'
-                      size='large'
-                      href='/'
-                    >
-                      Go Home
-                    </Button>
-                  </Grid>
+          <div className={classes.container}>
+            <div className={classes.page}>
+              <Grid
+                container
+                direction='column'
+                spacing={5}
+                style={{ width: '50%', margin: 'auto', alignItems: 'center' }}
+              >
+                <Grid item>
+                  <Typography
+                    className={classes.accountErrorHeader}
+                    color='#ffffff'
+                    variant='h3'
+                  >
+                    <strong>Sorry this page is not available.</strong>
+                  </Typography>
                 </Grid>
-              </div>
+                <Grid item>
+                  <Typography
+                    className={classes.accountErrorSub}
+                    color='#ffffff'
+                    variant='h4'
+                  >
+                    The page you're looking for does not exist.
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button variant='contained'
+                    size='large'
+                    href='/'
+                  >
+                    Go Home
+                  </Button>
+                </Grid>
+              </Grid>
             </div>
-          </ThemeProvider>
+          </div>
         </ErrorBoundary>
       )
     }

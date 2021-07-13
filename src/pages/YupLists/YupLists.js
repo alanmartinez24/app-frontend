@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import YupLeaderboard from '../../components/YupLeaderboard/YupList'
 import { connect } from 'react-redux'
 import { Grid, Fab, Button } from '@material-ui/core'
-import { withStyles, ThemeProvider } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { setListOptions } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -13,7 +13,6 @@ import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import theme from '../../utils/theme'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 
@@ -38,7 +37,6 @@ const styles = theme => ({
     paddingTop: '30px'
   },
   page: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     marginBottom: '0px',
     overflowX: 'hidden',
     [theme.breakpoints.down('xs')]: {
@@ -130,11 +128,10 @@ class YupLists extends Component {
     const { classes } = this.props
     return (
       <ErrorBoundary>
-        <ThemeProvider theme={theme}>
-          <div className={classes.container}>
-            <div className={classes.page}>
-              <Header isTourOpen={this.state.isTourOpen} />
-              {!this.state.isLoading &&
+        <div className={classes.container}>
+          <div className={classes.page}>
+            <Header isTourOpen={this.state.isTourOpen} />
+            {!this.state.isLoading &&
               <Grid className={classes.gridContainer}
                 container
                 justify='center'
@@ -142,56 +139,55 @@ class YupLists extends Component {
                 <YupLeaderboard />
               </Grid>
             }
-              <Tour
-                steps={steps}
-                isOpen={this.state.isTourOpen}
-                onRequestClose={this.closeTour}
-                className={classes.Tour}
-                accentColor='#00eab7'
-                rounded={10}
-                disableInteraction
-                highlightedMaskClassName={classes.Mask}
-                nextButton={
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
-                    small
-                  >
-                    Next
-                  </Button>
-              }
-                prevButton={
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
-                  >
-                    Back
-                  </Button>
-              }
-                lastStepNextButton={
-                  <div
-                    style={{ display: 'none' }}
-                  />
-              }
-              />
-              <Fade in={this.state.showTour}
-                timeout={1000}
-              >
-                <Fab
-                  className={classes.tourFab}
-                  variant='extended'
-                  onClick={this.openTour}
+            <Tour
+              steps={steps}
+              isOpen={this.state.isTourOpen}
+              onRequestClose={this.closeTour}
+              className={classes.Tour}
+              accentColor='#00eab7'
+              rounded={10}
+              disableInteraction
+              highlightedMaskClassName={classes.Mask}
+              nextButton={
+                <Button
+                  size='small'
+                  variant='outlined'
+                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
+                  small
                 >
-                  10-Second Tutorial
-                </Fab>
-              </Fade>
-              <CreateCollectionFab />
-            </div>
-            <Footer />
+                  Next
+                </Button>
+              }
+              prevButton={
+                <Button
+                  size='small'
+                  variant='outlined'
+                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
+                >
+                  Back
+                </Button>
+              }
+              lastStepNextButton={
+                <div
+                  style={{ display: 'none' }}
+                />
+              }
+            />
+            <Fade in={this.state.showTour}
+              timeout={1000}
+            >
+              <Fab
+                className={classes.tourFab}
+                variant='extended'
+                onClick={this.openTour}
+              >
+                10-Second Tutorial
+              </Fab>
+            </Fade>
+            <CreateCollectionFab />
           </div>
-        </ThemeProvider>
+          <Footer />
+        </div>
       </ErrorBoundary>
     )
   }

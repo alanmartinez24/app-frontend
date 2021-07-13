@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Dialog, DialogContent, DialogContentText, Paper } from '@material-ui/core'
-import theme from '../utils/theme.js'
+import { theme, lightPalette, darkPalette } from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -116,7 +116,7 @@ class Index extends Component {
   }
 
   render () {
-  const history = this.props.history
+    const { history, lightMode } = this.props
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -132,10 +132,11 @@ class Index extends Component {
     }
 
     const metaTitle = 'Yup • Social Layer for the Internet'
+    const themeWithPalette = { ...theme, ...(lightMode ? lightPalette : darkPalette) }
 
     return (
       <>
-        <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={themeWithPalette}>
           <Paper>
             <Helmet>
               <meta charSet='utf-8' />
@@ -217,7 +218,8 @@ Index.propTypes = {
   accountName: PropTypes.string,
   history: PropTypes.object,
   fetchUserPerms: PropTypes.func.isRequired,
-  fetchAuthFromState: PropTypes.func.isRequired
+  fetchAuthFromState: PropTypes.func.isRequired,
+  lightMode: PropTypes.bool.isRequired
 }
 
 const mapActionToProps = (dispatch) => {
@@ -235,7 +237,8 @@ const mapActionToProps = (dispatch) => {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return {
-    accountName: account && account.name ? account.name : null
+    accountName: account && account.name ? account.name : null,
+    lightMode: true
   }
 }
 

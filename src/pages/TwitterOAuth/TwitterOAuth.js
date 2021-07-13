@@ -7,11 +7,9 @@ import Typography from '@material-ui/core/Typography'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
- /* import MoonLoader from 'react-spinners/MoonLoader' */
 
 const styles = (theme) => ({
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
     minWidth: '100vw',
     maxWidth: '100vw',

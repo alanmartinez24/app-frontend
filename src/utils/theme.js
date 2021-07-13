@@ -1,20 +1,14 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import Colors from './colors'
 
-const ACTIVE = 'light'
-
-const darkPalette = {
+export const darkPalette = {
   palette: {
     primary: {
-      light: Colors.Black,
-      dark: Colors.Black,
-      main: Colors.White,
-      contrastText: Colors.Black
+      main: Colors.Black,
+      contrastText: Colors.White
     },
     secondary: {
-      light: Colors.White,
-      dark: Colors.Black,
-      main: Colors.Black
+      main: Colors.White
     },
     third: {
       main: '#00eab7'
@@ -22,34 +16,35 @@ const darkPalette = {
     background: {
       paper: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
     },
-    type: 'dark'
+    text: {
+      primary: 'red'
+    }
   }
 }
 
-const lightPalette = {
+export const lightPalette = {
   palette: {
     primary: {
-      light: Colors.Black,
-      dark: Colors.Black,
-      main: Colors.Black,
-      contrastText: Colors.White
+      main: Colors.White,
+      contrastText: Colors.Black
     },
     secondary: {
-      light: Colors.White,
-      dark: Colors.White,
-      main: Colors.White
+      main: Colors.Black
     },
     third: {
       main: '#00eab7'
     },
     background: {
       paper: '#fff'
+    },
+    text: {
+      primary: 'red'
     }
   }
 }
 
-const theme = createMuiTheme({
-  ...(ACTIVE === 'dark' ? darkPalette : lightPalette),
+export const theme = createMuiTheme({
+  // ...(ACTIVE === 'dark' ? darkPalette : lightPalette),
   overrides: {
     MuiButton: {
       root: {
@@ -188,23 +183,20 @@ const theme = createMuiTheme({
       fontWeight: 700,
       fontSize: '4rem',
       lineHeight: '3.25rem',
-      marginBottom: '0.2rem',
-      color: 'primary'
+      marginBottom: '0.2rem'
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: '2.5rem',
-      color: 'primary'
+      lineHeight: '2.5rem'
     },
     h3: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1.75rem',
-      lineHeight: '1.85rem',
-      color: 'primary'
+      lineHeight: '1.85rem'
     },
     h4: {
       fontFamily: 'Gilroy',
@@ -318,5 +310,3 @@ const theme = createMuiTheme({
     }
   }
 })
-
-export default theme

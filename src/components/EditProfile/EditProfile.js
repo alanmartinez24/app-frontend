@@ -397,7 +397,7 @@ class EditProfile extends Component {
     const EditButton = props => (
       <Button
         className={classes.editButton}
-        color='primary'
+        color='secondary'
         onClick={this.handleDialogOpen}
         variant='outlined'
       >
