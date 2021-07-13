@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
+import { toggleColorTheme } from '../../redux/actions'
 import {
   AppBar,
   ListItemAvatar,
@@ -20,14 +21,16 @@ import {
   Typography,
   DialogContent,
   Dialog,
-  Badge
+  Badge,
+  Switch,
+  FormControlLabel
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import wallet from '../../eos/scatter/scatter.wallet'
 import ListLink from '@material-ui/core/Link'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, connect } from 'react-redux'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import SearchBar from '../SearchBar/SearchBar'
 import YupListSearchBar from '../YupLeaderboard/YupListSearchBar'
@@ -123,7 +126,7 @@ const styles = theme => ({
   },
   listItemLink: {
     '&:hover': {
-      backgroundColor: 'red'
+      backgroundColor: 'secondary'
     }
   },
   bottomBar: {
@@ -340,7 +343,7 @@ ProfileAvatar.propTypes = {
 
 const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
 
-function TopBar ({ classes, history, width, isTourOpen }) {
+function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
   const [open, setOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -749,6 +752,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
             </span>
           </ListItemText>
         </ListItem>
+
         {account && account.name && (
           <ListItem
             button
@@ -774,6 +778,17 @@ function TopBar ({ classes, history, width, isTourOpen }) {
               </span>
             </ListItemText>
           </ListItem>)}
+        <ListItem>
+
+          <FormControlLabel
+            control={<Switch checked={lightMode}
+              onChange={toggleTheme}
+              name='checkedA'
+                     />}
+            label='Light Mode'
+          />
+
+        </ListItem>
         <ListItem dense
           style={{ bottom: 10, position: 'absolute' }}
         >
@@ -1054,11 +1069,25 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   )
 }
 
+const mapActionToProps = (dispatch) => {
+  return {
+    toggleTheme: () => dispatch(toggleColorTheme())
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    lightMode: state.lightMode
+  }
+}
+
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
-  isTourOpen: PropTypes.bool
+  isTourOpen: PropTypes.bool,
+  lightMode: PropTypes.bool,
+  toggleTheme: PropTypes.func.isRequired
 }
 
-export default withRouter(withStyles(styles)(withWidth()(TopBar)))
+export default connect(mapStateToProps, mapActionToProps)(withRouter(withStyles(styles)(withWidth()(TopBar))))

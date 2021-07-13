@@ -1,4 +1,3 @@
-import { createMuiTheme } from '@material-ui/core/styles'
 import Colors from './colors'
 
 export const darkPalette = {
@@ -15,9 +14,6 @@ export const darkPalette = {
     },
     background: {
       paper: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
-    },
-    text: {
-      primary: 'red'
     }
   }
 }
@@ -36,15 +32,11 @@ export const lightPalette = {
     },
     background: {
       paper: '#fff'
-    },
-    text: {
-      primary: 'red'
     }
   }
 }
 
-export const theme = createMuiTheme({
-  // ...(ACTIVE === 'dark' ? darkPalette : lightPalette),
+export const themeObject = {
   overrides: {
     MuiButton: {
       root: {
@@ -309,4 +301,4 @@ export const theme = createMuiTheme({
       initialWidth: 'lg'
     }
   }
-})
+}

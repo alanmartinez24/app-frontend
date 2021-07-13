@@ -728,8 +728,6 @@ class VoteButton extends Component {
       return
     }
 
-    console.log(account)
-
     const signedInWithEth = !scatter.connected && !!ethAuth
     const signedInWithTwitter = !scatter.connected && !!localStorage.getItem('twitterMirrorInfo')
 

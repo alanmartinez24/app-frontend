@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Dialog, DialogContent, DialogContentText, Paper } from '@material-ui/core'
-import { theme, lightPalette, darkPalette } from '../utils/theme.js'
+import { Dialog, DialogContent, DialogContentText, Paper, createMuiTheme } from '@material-ui/core'
+import { themeObject, lightPalette, darkPalette } from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -132,7 +132,7 @@ class Index extends Component {
     }
 
     const metaTitle = 'Yup • Social Layer for the Internet'
-    const themeWithPalette = { ...theme, ...(lightMode ? lightPalette : darkPalette) }
+    const themeWithPalette = createMuiTheme({ ...themeObject, ...(lightMode ? lightPalette : darkPalette) })
 
     return (
       <>
@@ -238,7 +238,7 @@ const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return {
     accountName: account && account.name ? account.name : null,
-    lightMode: true
+    lightMode: state.lightMode
   }
 }
 
