@@ -238,7 +238,7 @@ const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return {
     accountName: account && account.name ? account.name : null,
-    lightMode: state.lightMode
+    lightMode: state.lightMode.active
   }
 }
 
