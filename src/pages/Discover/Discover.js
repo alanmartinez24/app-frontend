@@ -21,7 +21,6 @@ const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
     maxWidth: '100vw',
     display: 'flex',

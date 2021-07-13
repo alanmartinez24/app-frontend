@@ -280,7 +280,6 @@ function ProfileCard (props) {
                 <Typography
                   align='left'
                   className={classes.name}
-                  color='inherit'
                   display='inline'
                   variant='h3'
                 >

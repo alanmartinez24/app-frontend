@@ -18,7 +18,6 @@ const showTabs = window.innerWidth <= 960
 const styles = theme => ({
   container: {
     margin: '75px 0px 0px 20px',
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: 'calc(100vh - 75px)',
     width: '100vw',
     overflowX: 'hidden',
@@ -91,7 +90,7 @@ const styles = theme => ({
     bottom: theme.spacing(3),
     right: theme.spacing(12),
     background: '#A0A0A0AA',
-    color: '#FAFAFA',
+    color: theme.palette.primary.dark,
     zIndex: 1000,
     [theme.breakpoints.down('md')]: {
       display: 'none'
@@ -159,9 +158,7 @@ const styles = theme => ({
   }
 })
 
-const User = (props) => {
-  const { classes, user } = props
-
+const User = ({ classes, user }) => {
   return (
     <Link className={classes.people}
       key={user._id}

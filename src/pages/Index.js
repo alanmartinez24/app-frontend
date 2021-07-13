@@ -1,5 +1,5 @@
-import React, { Fragment, Component } from 'react'
-import { Dialog, DialogContent, DialogContentText } from '@material-ui/core'
+import React, { Component } from 'react'
+import { Dialog, DialogContent, DialogContentText, Paper } from '@material-ui/core'
 import theme from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -134,60 +134,62 @@ class Index extends Component {
     const metaTitle = 'Yup • Social Layer for the Internet'
 
     return (
-      <Fragment>
+      <>
         <MuiThemeProvider theme={theme}>
-          <Helmet>
-            <meta charSet='utf-8' />
-            <title> {metaTitle} </title>
-            <meta name='description'
-              content={metaTitle}
-            />
-          </Helmet>
-          <ConnectedRouter history={history}
-            context={reactReduxContext}
-          >
-            <div>
-              <Header />
-              <Switch>
-                <Route component={Discover}
-                  exact
-                  path='/'
-                />
-                <Route component={YupLists}
-                  path='/leaderboard'
-                />
-                <Route component={Search}
-                  path='/search'
-                />
-                <Route component={TwitterOAuth}
-                  path='/twitter/:userid'
-                />
-                <Route component={PostPage}
-                  exact
-                  path='/p/:postid'
-                />
-                <Route component={Analytics}
-                  exact
-                  path='/:username/analytics'
-                />
-                <Route component={Collections}
-                  exact
-                  path='/collections/:name/:id'
-                />
-                <Route component={User}
-                  exact
-                  path='/:username'
-                />
-                <Redirect from='*'
-                  to='/'
-                />
-                <Redirect from='/lists'
-                  to='/leaderboard'
-                />
-              </Switch>
-              <Footer />
-            </div>
-          </ConnectedRouter>
+          <Paper>
+            <Helmet>
+              <meta charSet='utf-8' />
+              <title> {metaTitle} </title>
+              <meta name='description'
+                content={metaTitle}
+              />
+            </Helmet>
+            <ConnectedRouter history={history}
+              context={reactReduxContext}
+            >
+              <div>
+                <Header />
+                <Switch>
+                  <Route component={Discover}
+                    exact
+                    path='/'
+                  />
+                  <Route component={YupLists}
+                    path='/leaderboard'
+                  />
+                  <Route component={Search}
+                    path='/search'
+                  />
+                  <Route component={TwitterOAuth}
+                    path='/twitter/:userid'
+                  />
+                  <Route component={PostPage}
+                    exact
+                    path='/p/:postid'
+                  />
+                  <Route component={Analytics}
+                    exact
+                    path='/:username/analytics'
+                  />
+                  <Route component={Collections}
+                    exact
+                    path='/collections/:name/:id'
+                  />
+                  <Route component={User}
+                    exact
+                    path='/:username'
+                  />
+                  <Redirect from='*'
+                    to='/'
+                  />
+                  <Redirect from='/lists'
+                    to='/leaderboard'
+                  />
+                </Switch>
+                <Footer />
+              </div>
+            </ConnectedRouter>
+          </Paper>
         </MuiThemeProvider>
         <Dialog
           aria-describedby='alert-dialog-description'
@@ -201,7 +203,7 @@ class Index extends Component {
             </DialogContentText>
           </DialogContent>
         </Dialog>
-      </Fragment>
+      </>
     )
   }
 }

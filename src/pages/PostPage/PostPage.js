@@ -13,7 +13,6 @@ const { BACKEND_API } = process.env
 
 const styles = theme => ({
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
     width: '100vw',
     display: 'flex',

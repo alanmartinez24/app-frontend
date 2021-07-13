@@ -1,20 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import Colors from './colors'
 
-// const responsiveTextSize = {
-//   '@media (max-width: 960px)': {
-//     fontSize: '90%'
-//   },
-//   '@media (max-width: 600px)': {
-//     fontSize: '70%'
-//   }
-// }
+const ACTIVE = 'light'
 
-const theme = createMuiTheme({
+const darkPalette = {
   palette: {
     primary: {
       light: Colors.Black,
-      dark: Colors.White,
+      dark: Colors.Black,
       main: Colors.White,
       contrastText: Colors.Black
     },
@@ -27,10 +20,36 @@ const theme = createMuiTheme({
       main: '#00eab7'
     },
     background: {
-      default: Colors.Green
+      paper: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
     },
     type: 'dark'
-  },
+  }
+}
+
+const lightPalette = {
+  palette: {
+    primary: {
+      light: Colors.Black,
+      dark: Colors.Black,
+      main: Colors.Black,
+      contrastText: Colors.White
+    },
+    secondary: {
+      light: Colors.White,
+      dark: Colors.White,
+      main: Colors.White
+    },
+    third: {
+      main: '#00eab7'
+    },
+    background: {
+      paper: '#fff'
+    }
+  }
+}
+
+const theme = createMuiTheme({
+  ...(ACTIVE === 'dark' ? darkPalette : lightPalette),
   overrides: {
     MuiButton: {
       root: {
@@ -177,7 +196,7 @@ const theme = createMuiTheme({
       fontWeight: 700,
       fontSize: '2.25rem',
       lineHeight: '2.5rem',
-      color: Colors.White
+      color: 'primary'
     },
     h3: {
       fontFamily: 'Gilroy',
@@ -185,7 +204,7 @@ const theme = createMuiTheme({
       fontWeight: 800,
       fontSize: '1.75rem',
       lineHeight: '1.85rem',
-      color: Colors.White
+      color: 'primary'
     },
     h4: {
       fontFamily: 'Gilroy',

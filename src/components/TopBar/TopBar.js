@@ -51,11 +51,9 @@ const styles = theme => ({
     zIndex: theme.zIndex.drawer + 5,
     boxShadow: '0px 0px 0px white',
     borderBottom: '0px solid #1A1A1A',
-    background: '#1A1A1A',
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      background: '#1A1A1A'
+      marginLeft: drawerWidth
     }
   },
   topbuttons: {
