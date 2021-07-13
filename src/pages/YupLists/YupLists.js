@@ -14,8 +14,6 @@ import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import theme from '../../utils/theme'
-import Footer from '../../components/Footer/Footer'
-import Header from '../../components/Header/Header'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -133,7 +131,6 @@ class YupLists extends Component {
         <ThemeProvider theme={theme}>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header isTourOpen={this.state.isTourOpen} />
               {!this.state.isLoading &&
               <Grid className={classes.gridContainer}
                 container
@@ -189,7 +186,6 @@ class YupLists extends Component {
               </Fade>
               <CreateCollectionFab />
             </div>
-            <Footer />
           </div>
         </ThemeProvider>
       </ErrorBoundary>

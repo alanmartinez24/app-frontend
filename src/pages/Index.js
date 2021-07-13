@@ -147,7 +147,7 @@ class Index extends Component {
             context={reactReduxContext}
           >
             <div>
-              <Header />
+              <Header isTourOpen={this.state.isTourOpen} />
               <Switch>
                 <Route component={Discover}
                   exact

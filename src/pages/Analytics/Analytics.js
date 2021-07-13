@@ -15,8 +15,6 @@ import { levelColors } from '../../utils/colors'
 import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
 import theme from '../../utils/theme'
-import Footer from '../../components/Footer/Footer'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
@@ -333,7 +331,6 @@ ratingPower = async () => {
           <MuiThemeProvider theme={theme}>
             <div className={classes.container}>
               <div className={classes.page}>
-                <Header />
                 <div align='center'>
                   <Typography
                     className={classes.accountErrorHeader}
@@ -375,7 +372,6 @@ ratingPower = async () => {
         <MuiThemeProvider theme={theme}>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header />
               <Grid container
                 direction='row'
                 alignItems='center'
@@ -532,7 +528,6 @@ ratingPower = async () => {
               </Grid>
               <CreateCollectionFab />
             </div>
-            <Footer />
           </div>
         </MuiThemeProvider>
       </ErrorBoundary>
