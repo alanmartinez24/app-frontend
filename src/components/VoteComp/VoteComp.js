@@ -32,7 +32,7 @@ class VoteComp extends Component {
 
   async fetchInitialVotes () {
     const { postid, account, dispatch } = this.props
-    if (account == null) { return }
+    if (!account || !account.account) { return }
     await dispatch(fetchInitialVotes(account.name, postid))
   }
 

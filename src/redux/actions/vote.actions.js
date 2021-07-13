@@ -6,7 +6,7 @@ export function fetchInitialVotes (voter, postid) {
   return async dispatch => {
     dispatch(request(voter, postid))
     try {
-      const votes = (await axios.get(`${BACKEND_API}/votes/post/${postid}/voter/${voter}`)).data
+       const votes = (await axios.get(`${BACKEND_API}/votes/post/${postid}/voter/${voter}`)).data
       return dispatch(success(voter, postid, votes))
     } catch (err) {
       return dispatch(failure(voter, postid, err))
