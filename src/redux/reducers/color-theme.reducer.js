@@ -1,12 +1,13 @@
 import { collectionsConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function lightMode (state = {}, action) {
-  console.log(`state.lightMode`, state.lightMode)
+const initalState = { active: false }
+
+export function lightMode (state = initalState, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.TOGGLE_COLOR_THEME:
-        draft = !state.lightMode
+        draft[state.active] = !state.active
         break
       default:
         return state
