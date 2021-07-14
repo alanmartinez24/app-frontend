@@ -249,7 +249,7 @@ class Collections extends Component {
     let collection, recommended
     try {
       collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
-      const requQuery = `name=${collection.name}&description=${collection.description}`
+      const requQuery = `name=${collection.name}&description=${collection.description}&id=${id}`
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended?${requQuery}`)).data
     } catch (err) {
       this.setState({ isLoading: false })
