@@ -2,7 +2,7 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import YupLeaderboard from '../../components/YupLeaderboard/YupList'
 import { connect } from 'react-redux'
-import { Grid, Fab, Button } from '@material-ui/core'
+import { Grid, Fab, Button, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { setListOptions } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -200,10 +200,13 @@ const steps = [
   {
     selector: '[tourName="LeaderboardButton"]',
     content: (
-      <div>
-        <h4 className='tourHeader'>
+      <>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📈  Leaderboard
-        </h4>
+        </Typography>
         <p>
           Find content and users ranked by category and platform.
         </p>
@@ -211,16 +214,19 @@ const steps = [
           target='_blank'
           className='tourLink'
         >Learn more</a>
-      </div>
+      </>
     )
   },
   {
     selector: '[tourName="LeaderboardMenu"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           ‍📊  Leaderboard Menu
-        </h4>
+        </Typography>
         <p>
           Here you can edit and filter leaderboards.
         </p>
@@ -231,9 +237,12 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🤔  Rating
-        </h4>
+        </Typography>
         <p>
           You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
@@ -248,9 +257,12 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📡  Feeds
-        </h4>
+        </Typography>
         <p>
           These are your feeds.
         </p>
@@ -264,9 +276,11 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
+        <Typography className='tourHeader'
+          variant='h3'
+        >
           👏 That's it !
-        </h3>
+        </Typography>
         <p>
           That's all for now. Learn more with some of these resources:
         </p>

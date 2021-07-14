@@ -436,7 +436,10 @@ const steps = [
     selector: '[tourName="ProfileFeed"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📰 User Feed</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📰 User Feed</Typography>
         <p>
           This is the content across the web, aggregated into a feed just for
           you.
@@ -448,7 +451,10 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <h4 className='tourHeader'>🤔 Rating</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >🤔 Rating</Typography>
         <p>
           You can rate content out of 5 in different categories, such as like
           ♥️, smart 💡, funny 😂, etc.
@@ -467,7 +473,10 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>🔍 Search</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >🔍 Search</Typography>
         <p>Search for friends and influencers across the web.</p>
       </div>
     )
@@ -476,7 +485,10 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📈 Leaderboard</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📈 Leaderboard</Typography>
         <p>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
@@ -492,7 +504,10 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📡 Feeds</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📡 Feeds</Typography>
         <p>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
@@ -507,7 +522,9 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>👏 That's it !</h3>
+        <Typography variant='h3'
+          className='tourHeader'
+        >👏 That's it !</Typography>
         <p>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button

@@ -756,7 +756,10 @@ const steps = [
     selector: '[tourName="CollectionPosts"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📰 Collection Posts</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📰 Collection Posts</Typography>
         <p>These are the curated posts in this collection.</p>
       </div>
     )
@@ -765,7 +768,10 @@ const steps = [
     selector: '[tourName="RecommendedCollections"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📖 Recommended Collections</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📖 Recommended Collections</Typography>
         <p>These are some other collections you should check out!</p>
       </div>
     )
@@ -774,7 +780,10 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📡 Feeds</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📡 Feeds</Typography>
         <p>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
@@ -790,7 +799,10 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📈 Leaderboard</h4>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📈 Leaderboard</Typography>
         <p>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
@@ -805,7 +817,9 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>👏 That's it!</h3>
+        <Typography variant='h4'
+          className='tourHeader'
+        >👏 That's it!</Typography>
         <p>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button

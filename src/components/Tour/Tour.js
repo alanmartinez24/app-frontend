@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Fab, Button } from '@material-ui/core'
+import { Fab, Button, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import ReactPlayer from 'react-player'
 
@@ -77,9 +77,12 @@ const steps = [
     selector: '[tourName="ProfileUsername"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           👩‍🚀 User Profile
-        </h4>
+        </Typography>
         <p>
           Where you'll find important information on each user as well as yourself!
         </p>
@@ -94,9 +97,12 @@ const steps = [
     selector: '[tourName="Influence"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           💯  Influence Score
-        </h4>
+        </Typography>
         <p>
           A score out of 100 showing how influential a user is. The higher the number, the more powerful your opinions!
         </p>
@@ -111,9 +117,12 @@ const steps = [
     selector: '[tourName="YUPBalance"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           💰  YUP Balance
-        </h4>
+        </Typography>
         <p>
           The number of tokens you've earned. Rate any piece of content to earn more!
         </p>
@@ -128,9 +137,12 @@ const steps = [
     selector: '[tourName="ProfileFeed"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📰  User Feed
-        </h4>
+        </Typography>
         <p>
           This is the content you're rating, aggregated into a feed.
         </p>
@@ -141,9 +153,12 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🤔  Rating
-        </h4>
+        </Typography>
         <p>
           You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
@@ -158,9 +173,12 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🔍  Search
-        </h4>
+        </Typography>
         <p>
           Search for friends and influencers across the web.
         </p>
@@ -171,9 +189,12 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📈  Leaderboard
-        </h4>
+        </Typography>
         <p>
           Find content and users ranked by category and platform.
         </p>
@@ -188,9 +209,12 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📡  Feeds
-        </h4>
+        </Typography>
         <p>
           These are your feeds.
         </p>
@@ -204,9 +228,11 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
+        <Typography variant='h3'
+          className='tourHeader'
+        >
           👏 That's it !
-        </h3>
+        </Typography>
         <p>
           That's all for now. Learn more with some of these resources:
         </p>

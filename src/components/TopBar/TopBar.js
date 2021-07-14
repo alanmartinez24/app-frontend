@@ -203,11 +203,6 @@ const styles = theme => ({
       marginLeft: '5px',
       fontSize: '7px'
     },
-    '.MuiListItemText-secondary': {
-      Typography: {
-        color: '#fafafa'
-      }
-    },
     Toolbar: {
       [theme.breakpoints.down('xs')]: {
         padding: 0
@@ -476,6 +471,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     <ErrorBoundary>
       <AppBar className={classes.appBar}
         position='fixed'
+        color='black'
       >
         <Toolbar>
           <Grid
@@ -638,7 +634,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   primary={
                     <span
                       style={{
-                              color: '#fafafa',
+                              color: 'fourth',
                               fontSize: '15px',
                               fontWeight: 600
                             }}
@@ -649,7 +645,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   secondary={
                     <span
                       style={{
-                              color: '#c0c0c0',
+                              color: 'fourth',
                               fontWeight: 300,
                               fontSize: '10px'
                             }}
@@ -787,16 +783,14 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             </ListItemText>
           </ListItem>)}
         <ListItem>
-
           <FormControlLabel
             control={<Switch checked={lightMode}
               onChange={toggleTheme}
               name='lightMode'
                      />}
             label='Light Mode'
-            color='primary'
+            color='white'
           />
-
         </ListItem>
         <ListItem dense
           style={{ bottom: 10, position: 'absolute' }}

@@ -2,36 +2,53 @@ import Colors from './colors'
 
 export const darkPalette = {
   palette: {
+    type: 'dark',
+    common: {
+      black: Colors.Black,
+      white: Colors.White
+    },
     primary: {
-      main: Colors.Black,
-      contrastText: Colors.White
+      main: Colors.DarkGrey
     },
     secondary: {
-      main: Colors.White
+      main: Colors.YupGreen
     },
-    third: {
-      main: '#00eab7'
+    background: {
+      paper: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
+      default: 'red'
     },
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
+    text: {
+      primary: Colors.White,
+      secondary: Colors.OffWhite
+    }
   }
 }
 
 export const lightPalette = {
   palette: {
+    type: 'light',
+    common: {
+      black: Colors.White,
+      white: Colors.Black
+    },
     primary: {
-      main: Colors.White,
+      main: Colors.DarkGrey,
       contrastText: Colors.Black
     },
     secondary: {
       main: Colors.Black
     },
     third: {
-      main: '#00eab7'
+      main: Colors.YupGreen
     },
     background: {
-      paper: '#fff'
-    }
+      paper: Colors.White
+    },
+  text: {
+    primary: Colors.Black,
+    secondary: Colors.DarkGrey
   }
+}
 }
 
 export const themeObject = {
@@ -76,6 +93,11 @@ export const themeObject = {
         }
       }
     },
+    Paper: {
+      root: {
+        background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
+      }
+    },
     MuiIconButton: {
       root: {
         borderRadius: '100px',
@@ -91,7 +113,7 @@ export const themeObject = {
     },
     MuiDialogContent: {
       root: {
-        color: '#fafafa'
+        color: Colors.White
       }
     },
     MuiTab: {
@@ -110,7 +132,7 @@ export const themeObject = {
     },
     MuiBadge: {
       colorSecondary: {
-        backgroundColor: '#fafafa'
+        backgroundColor: Colors.White
       }
     },
     MuiInputLabel: {
@@ -155,7 +177,7 @@ export const themeObject = {
     },
     MuiStepIcon: {
       root: {
-        color: '#00EAB7 !important'
+        color: `${Colors.YupGreen} !important`
       },
       text: {
         fill: '#000 !important'

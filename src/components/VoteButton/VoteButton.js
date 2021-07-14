@@ -3,25 +3,18 @@ import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { Grid, Grow } from '@material-ui/core'
+import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import polly from 'polly-js'
 import numeral from 'numeral'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import Portal from '@material-ui/core/Portal'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import { parseError } from '../../eos/error'
 import { connect } from 'react-redux'
-import {
-  setPostInfo,
-  updateInitialVote,
-  updateVoteLoading
-} from '../../redux/actions'
+import { setPostInfo, updateInitialVote, updateVoteLoading } from '../../redux/actions'
 import { levelColors } from '../../utils/colors'
-import Tooltip from '@material-ui/core/Tooltip'
 import Rating from '@material-ui/lab/Rating'
 import equal from 'fast-deep-equal'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
@@ -426,12 +419,13 @@ class CatIcon extends Component {
     }
 
     return (
-      <h4 className={classes.catIcon}
+      <Typography className={classes.catIcon}
         onClick={handleDefaultVote}
+        variant='h4'
         style={{ fontSize: window.innerWidth <= 600 ? '16px' : 'inherit' }}
       >
         {CAT_ICONS[category]}
-      </h4>
+      </Typography>
     )
   }
 }

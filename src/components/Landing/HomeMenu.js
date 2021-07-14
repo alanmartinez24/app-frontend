@@ -71,11 +71,7 @@ const styles = theme => ({
       width: '100%'
     }
   },
-  Title: {
-    color: '#f0f0f0'
-  },
   SectionHeader: {
-    color: '#fff',
     fontSize: '25px',
     fontFamily: 'Gilroy',
     fontWeight: '500',
@@ -90,9 +86,6 @@ const styles = theme => ({
       },
       fontWeight: '500 !important'
     }
-  },
-  ItemHeader: {
-    color: '#afafaf'
   },
   ItemSubHeader: {
     color: '#f0f0f0',
@@ -158,6 +151,7 @@ class Home extends Component {
                 >
                   <Typography variant='h2'
                     className={classes.Title}
+                    color='white'
                   >
                     Welcome to Yup
                   </Typography>
@@ -173,7 +167,10 @@ class Home extends Component {
                   <Fade in
                     timeout={300}
                   >
-                    <h2 className={classes.SectionHeader}>Recommended</h2>
+                    <Typography variant='h2'
+                      color='white'
+                      className={classes.SectionHeader}
+                    >Recommended</Typography>
                   </Fade>
                 </Grid>
                 <Grid
@@ -219,7 +216,7 @@ class Home extends Component {
                               <Grid item>
                                 <Typography
                                   variant='h4'
-                                  className={classes.ItemHeader}
+                                  color='primary'
                                 >
                                   {item.title}
                                 </Typography>
@@ -238,7 +235,10 @@ class Home extends Component {
                 direction='column'
               >
                 <Grid item>
-                  <h2 className={classes.SectionHeader}>Browse</h2>
+                  <Typography variant='h2'
+                    color='white'
+                    className={classes.SectionHeader}
+                  >Browse</Typography>
                 </Grid>
                 <Grid
                   item
@@ -284,7 +284,7 @@ class Home extends Component {
                               <Grid item>
                                 <Typography
                                   variant='h4'
-                                  className={classes.ItemHeader}
+                                  color='primary'
                                 >
                                   {item.title}
                                 </Typography>

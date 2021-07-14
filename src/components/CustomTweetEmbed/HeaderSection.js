@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from '@material-ui/core/Link'
+import { Link, Typography } from '@material-ui/core'
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
 
@@ -48,11 +48,12 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           target='_blank'
           underline='none'
         >
-          <h4 className={twitterName}
+          <Typography className={twitterName}
             style={{ maxWidth: '300px' }}
+            variant='h4'
           >
             {user && user.name && user.name.substring(0, 80)}
-          </h4>
+          </Typography>
         </Link>
         <Link href={accountLink}
           target='_blank'

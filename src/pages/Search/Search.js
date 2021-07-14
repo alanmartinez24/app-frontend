@@ -479,9 +479,12 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🔍  Search
-        </h4>
+        </Typography>
         <p>
           Search for users and elevant posts across the web.
         </p>
@@ -492,9 +495,12 @@ const steps = [
     selector: '[tourName="SearchPosts"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📰  Posts
-        </h4>
+        </Typography>
         <p>
           These are your search results for posts.
         </p>
@@ -505,9 +511,12 @@ const steps = [
     selector: '[tourName="SearchUsers"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           👥  Users
-        </h4>
+        </Typography>
         <p>
           These are the search results for users.
         </p>
@@ -518,9 +527,12 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📡  Feeds
-        </h4>
+        </Typography>
         <p>
           These are your feeds.
         </p>
@@ -535,9 +547,12 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📈  Leaderboard
-        </h4>
+        </Typography>
         <p>
           Find content and users ranked by category and platform.
         </p>
@@ -551,9 +566,11 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
+        <Typography className='tourHeader'
+          variant='h3'
+        >
           👏 That's it !
-        </h3>
+        </Typography>
         <p>
           That's all for now. Learn more with some of these resources:
         </p>

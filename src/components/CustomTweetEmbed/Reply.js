@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactPlayer from 'react-player'
-import Link from '@material-ui/core/Link'
+import { Link, Typography } from '@material-ui/core'
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
 import LinkPreview from './LinkPreview'
 import HeaderSection from './HeaderSection'
@@ -144,7 +144,11 @@ const Reply = ({ tweetData, classes }) => {
               <Link href={accountLink}
                 target='_blank'
                 underline='none'
-              ><h4 className={twitterName}>{replyName}</h4></Link>
+              ><Typography variant='h4'
+                className={twitterName}
+               >
+                {replyName}
+              </Typography></Link>
               <Link href={accountLink}
                 target='_blank'
                 underline='none'
