@@ -24,7 +24,6 @@ const styles = theme => ({
       width: `calc(100vw - 190px)`
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain'
     },
     display: 'flex',
@@ -46,7 +45,6 @@ const styles = theme => ({
     marginLeft: 0,
     paddingTop: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden',
       paddingTop: theme.spacing(10),

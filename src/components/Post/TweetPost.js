@@ -22,7 +22,6 @@ const styles = theme => ({
     }
   },
   tweetEl: {
-    background: '#1b1b1ba1',
     color: 'white',
     width: 'max-content',
     fontFamily: 'Gilroy, sans-serif',

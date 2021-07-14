@@ -101,7 +101,6 @@ const styles = theme => ({
       width: `calc(100% - 200px)`
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden'
     },

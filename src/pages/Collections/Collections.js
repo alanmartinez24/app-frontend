@@ -116,7 +116,6 @@ const styles = theme => ({
       marginTop: '50px'
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden'
     },

@@ -16,7 +16,6 @@ const styles = theme => ({
     borderRadius: '0.5rem',
     boxShadow:
       '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f',
-    backgroundColor: '#1b1b1ba1',
     backgroundSize: 'cover',
     marginLeft: '0%',
     marginRight: '0%',

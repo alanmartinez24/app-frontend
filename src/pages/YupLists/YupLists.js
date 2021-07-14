@@ -39,9 +39,7 @@ const styles = theme => ({
   page: {
     marginBottom: '0px',
     overflowX: 'hidden',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
-    },
+
     [theme.breakpoints.down('md')]: {
       marginLeft: 0
     },

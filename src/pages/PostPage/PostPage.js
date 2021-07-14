@@ -18,9 +18,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '0px',
-    [theme.breakpoints.down('xs')]: {
-      backgroundColor: '#1b1b1ba1'
-    },
     paddingBottom: '20px'
   },
   mainFeed: {
@@ -48,7 +45,6 @@ const styles = theme => ({
       marginTop: '50px'
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden'
     },

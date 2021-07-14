@@ -35,12 +35,12 @@ function UserAvatar (props) {
           />
           <Avatar alt={alt}
             className={className}
-            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: 'secondary', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
           >{userLetter && userLetter}
           </Avatar>
           <Avatar alt={alt}
             className={className}
-            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: 'secondary', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
           >{userLetter && userLetter}
           </Avatar>
         </ImageLoader>

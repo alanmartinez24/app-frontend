@@ -412,6 +412,14 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const handleDialogClose = () => {
     setDialogOpen(false)
   }
+  // const handleToggleTheme = ({ target }) => {
+  //   toggleTheme()
+  //   clo
+  //   // event.target.checked
+  //   // const handleChange = (event) => {
+  //   //   setState({ ...state, [event.target.name]: event.target.checked })
+  //   // }
+  // }
 
   const logProfileClick = () => {
     if (!window.analytics) {
@@ -783,9 +791,10 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
           <FormControlLabel
             control={<Switch checked={lightMode}
               onChange={toggleTheme}
-              name='checkedA'
+              name='lightMode'
                      />}
             label='Light Mode'
+            color='primary'
           />
 
         </ListItem>
@@ -1077,7 +1086,7 @@ const mapActionToProps = (dispatch) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    lightMode: state.lightMode
+    lightMode: state.lightMode.active
   }
 }
 

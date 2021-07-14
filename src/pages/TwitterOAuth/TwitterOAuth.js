@@ -16,9 +16,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '0px',
-    [theme.breakpoints.down('xs')]: {
-      backgroundColor: '#1b1b1ba1'
-    },
     paddingBottom: '20px'
   },
   page: {
@@ -26,9 +23,6 @@ const styles = (theme) => ({
     width: '100%',
     objectFit: 'cover',
     margin: '0px 0px 0px 0px ',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
-    },
     flex: 1
   },
   gridContainer: {

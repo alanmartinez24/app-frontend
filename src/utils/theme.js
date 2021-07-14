@@ -12,9 +12,7 @@ export const darkPalette = {
     third: {
       main: '#00eab7'
     },
-    background: {
-      paper: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
-    }
+    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
   }
 }
 

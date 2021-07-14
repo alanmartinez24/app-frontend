@@ -25,10 +25,8 @@ const styles = theme => ({
     maxWidth: '100vw',
     display: 'flex',
     flexDirection: 'column',
-    overflowY: 'hidden',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
-    }
+    overflowY: 'hidden'
+
   },
   page: {
     width: '100%',
@@ -47,7 +45,6 @@ const styles = theme => ({
       marginLeft: 0
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain'
     },
     flex: 1
@@ -195,11 +192,7 @@ const StyledFeedContainer = withStyles(theme => ({
     margin: '0 auto',
     width: '100%',
     fontSize: '20px',
-    color: '#ffffff',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
-      width: '100%'
-    }
+    color: '#ffffff'
   }
 }))(FeedContainer)
 
