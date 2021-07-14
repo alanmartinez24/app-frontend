@@ -8,16 +8,14 @@ import Fade from '@material-ui/core/Fade'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
-function UserAvatar (props) {
-  const { className, src: _src, alt, style, username } = props
+function UserAvatar ({ className, src: _src, alt, style, username }) {
   const userLetter = username && username[0].toUpperCase()
-
   const src = _src === ANONYMOUS_DEFAULT_AVATAR ? '' : _src
 
-  const setDefaultSrc = (e) => {
-    e.target.onerror = null
-    e.target.src = ANONYMOUS_DEFAULT_AVATAR
-    e.target.style.visibility = 'hidden'
+  const setDefaultSrc = ({ target }) => {
+    target.onerror = null
+    target.src = ANONYMOUS_DEFAULT_AVATAR
+    target.style.visibility = 'hidden'
   }
 
   return (
@@ -35,12 +33,7 @@ function UserAvatar (props) {
           />
           <Avatar alt={alt}
             className={className}
-            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: 'secondary', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
-          >{userLetter && userLetter}
-          </Avatar>
-          <Avatar alt={alt}
-            className={className}
-            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: 'secondary', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+            style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
           >{userLetter && userLetter}
           </Avatar>
         </ImageLoader>

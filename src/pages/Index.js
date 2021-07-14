@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dialog, DialogContent, DialogContentText, Paper, createMuiTheme } from '@material-ui/core'
+import { Dialog, DialogContent, DialogContentText, Paper, createMuiTheme, CssBaseline } from '@material-ui/core'
 import { themeObject, lightPalette, darkPalette } from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -137,60 +137,62 @@ class Index extends Component {
     return (
       <>
         <MuiThemeProvider theme={themeWithPalette}>
-          <Paper>
-            <Helmet>
-              <meta charSet='utf-8' />
-              <title> {metaTitle} </title>
-              <meta name='description'
-                content={metaTitle}
-              />
-            </Helmet>
-            <ConnectedRouter history={history}
-              context={reactReduxContext}
-            >
-              <div>
-                <Header />
-                <Switch>
-                  <Route component={Discover}
-                    exact
-                    path='/'
-                  />
-                  <Route component={YupLists}
-                    path='/leaderboard'
-                  />
-                  <Route component={Search}
-                    path='/search'
-                  />
-                  <Route component={TwitterOAuth}
-                    path='/twitter/:userid'
-                  />
-                  <Route component={PostPage}
-                    exact
-                    path='/p/:postid'
-                  />
-                  <Route component={Analytics}
-                    exact
-                    path='/:username/analytics'
-                  />
-                  <Route component={Collections}
-                    exact
-                    path='/collections/:name/:id'
-                  />
-                  <Route component={User}
-                    exact
-                    path='/:username'
-                  />
-                  <Redirect from='*'
-                    to='/'
-                  />
-                  <Redirect from='/lists'
-                    to='/leaderboard'
-                  />
-                </Switch>
-                <Footer />
-              </div>
-            </ConnectedRouter>
-          </Paper>
+          <CssBaseline>
+            <Paper style={{ background: themeWithPalette.palette.primary.mainGradient }}>
+              <Helmet>
+                <meta charSet='utf-8' />
+                <title> {metaTitle} </title>
+                <meta name='description'
+                  content={metaTitle}
+                />
+              </Helmet>
+              <ConnectedRouter history={history}
+                context={reactReduxContext}
+              >
+                <div>
+                  <Header />
+                  <Switch>
+                    <Route component={Discover}
+                      exact
+                      path='/'
+                    />
+                    <Route component={YupLists}
+                      path='/leaderboard'
+                    />
+                    <Route component={Search}
+                      path='/search'
+                    />
+                    <Route component={TwitterOAuth}
+                      path='/twitter/:userid'
+                    />
+                    <Route component={PostPage}
+                      exact
+                      path='/p/:postid'
+                    />
+                    <Route component={Analytics}
+                      exact
+                      path='/:username/analytics'
+                    />
+                    <Route component={Collections}
+                      exact
+                      path='/collections/:name/:id'
+                    />
+                    <Route component={User}
+                      exact
+                      path='/:username'
+                    />
+                    <Redirect from='*'
+                      to='/'
+                    />
+                    <Redirect from='/lists'
+                      to='/leaderboard'
+                    />
+                  </Switch>
+                  <Footer />
+                </div>
+              </ConnectedRouter>
+            </Paper>
+          </CssBaseline>
         </MuiThemeProvider>
         <Dialog
           aria-describedby='alert-dialog-description'

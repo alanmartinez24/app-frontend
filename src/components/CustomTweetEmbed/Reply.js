@@ -95,11 +95,6 @@ const Reply = ({ tweetData, classes }) => {
   let text = parseText(replyStatusText)
   let replyTweetText = text.split(' ').map((string) => linkMentions(string))
 
-  // REPLY CUSTOM HEADER STYLING CONFIG
-  const userAvatar = classes.userAvatar
-  const twitterName = classes.replyTwitterName
-  const twitterBirdIcon = classes.twitterBirdIcon
-
   let replyScreenName, replyUserAvatar, replyName
   if (tweetData.tweetInfo.reply_status) {
     replyScreenName = tweetData.tweetInfo.reply_status.user.screen_name
@@ -108,7 +103,7 @@ const Reply = ({ tweetData, classes }) => {
   }
 
   const accountLink = `https://twitter.com/${replyScreenName}`
-  const BothHaveMedia = (hasMedia && replyHasMedia)
+  const bothHaveMedia = (hasMedia && replyHasMedia)
   const smallImage = { maxHeight: 200 }
   const bigImage = { maxHeight: 400 }
 
@@ -125,7 +120,7 @@ const Reply = ({ tweetData, classes }) => {
             style={{ paddingRight: 0 }}
           >
             {replyUserAvatar
-          ? <img className={userAvatar}
+          ? <img className={classes.userAvatar}
             src={replyUserAvatar}
             alt='user image'
             onError={addDefaultSrc}
@@ -145,7 +140,7 @@ const Reply = ({ tweetData, classes }) => {
                 target='_blank'
                 underline='none'
               ><Typography variant='h4'
-                className={twitterName}
+                className={classes.twitterName}
                >
                 {replyName}
               </Typography></Link>
@@ -154,7 +149,7 @@ const Reply = ({ tweetData, classes }) => {
                 underline='none'
               ><span className={classes.twitterHandle}>@{replyScreenName}</span></Link>
             </div>
-            <span className={twitterBirdIcon}>
+            <span className={classes.twitterBirdIcon}>
               <Link href={tweetLink}
                 target='_blank'
                 underline='none'
@@ -197,7 +192,7 @@ const Reply = ({ tweetData, classes }) => {
                (replyHasPhoto && replyMediaURL)
                ? <div className={classes.replyImageContainer}>
                  <img className={classes.tweetImg}
-                   style={BothHaveMedia ? smallImage : bigImage}
+                   style={bothHaveMedia ? smallImage : bigImage}
                    src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : replyMediaURL}
                    alt='tweet-image'
                  />
@@ -209,7 +204,6 @@ const Reply = ({ tweetData, classes }) => {
                    controls
                  />
              }
-
           </div>
         </div>
       </div>

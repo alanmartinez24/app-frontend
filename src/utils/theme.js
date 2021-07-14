@@ -8,18 +8,21 @@ export const darkPalette = {
       white: Colors.White
     },
     primary: {
-      main: Colors.DarkGrey
+      main: Colors.DarkGrey,
+      mainGradient: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
     },
     secondary: {
       main: Colors.YupGreen
     },
     background: {
-      paper: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
-      default: 'red'
+      paper: '#1B1B1B'
     },
     text: {
       primary: Colors.White,
       secondary: Colors.OffWhite
+    },
+    action: {
+      hover: 'green'
     }
   }
 }
@@ -33,6 +36,7 @@ export const lightPalette = {
     },
     primary: {
       main: Colors.DarkGrey,
+      mainGradient: 'linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%)',
       contrastText: Colors.Black
     },
     secondary: {
@@ -42,13 +46,13 @@ export const lightPalette = {
       main: Colors.YupGreen
     },
     background: {
-      paper: Colors.White
+      paper: '#d7e1ec'
     },
-  text: {
-    primary: Colors.Black,
-    secondary: Colors.DarkGrey
+    text: {
+      primary: Colors.Black,
+      secondary: Colors.DarkGrey
+    }
   }
-}
 }
 
 export const themeObject = {
