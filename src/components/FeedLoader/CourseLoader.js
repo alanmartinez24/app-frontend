@@ -1,17 +1,18 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { useTheme } from '@material-ui/core'
+import { useTheme } from '@material-ui/styles'
 
 const PostLoader = () => {
   const { palette } = useTheme()
+  console.log(`palette.common`, palette.common)
   return (
     <ErrorBoundary>
       <div>
         <ContentLoader
           height={16}
-          primaryColor={palette.second}
-          secondaryColor={palette.third}
+          primaryColor={palette.common.second}
+          secondaryColor='#2f2f2f'
           speed={2}
           width={400}
         >
@@ -41,7 +42,7 @@ const PostLoader = () => {
         <div style={{ minWidth: '600px', background: '#1a1a1a', borderRadius: '0.5rem', marginBottom: '10px' }} >
           <ContentLoader
             height={200}
-            primaryColor='#1f1f1f'
+            primaryColor={palette.common.first}
             secondaryColor='#2f2f2f'
             speed={2}
             width={600}
@@ -74,7 +75,7 @@ const PostLoader = () => {
           </ContentLoader>
           <ContentLoader
             height={20}
-            primaryColor='#1f1f1f'
+            primaryColor={palette.common.first}
             secondaryColor='#00FFA6'
             speed={2}
             width={600}
@@ -103,7 +104,7 @@ const PostLoader = () => {
           </ContentLoader>
           <ContentLoader
             height={16}
-            primaryColor='#1a1a1a'
+            primaryColor={palette.common.second}
             secondaryColor='#2f2f2f'
             speed={2}
             width={600}

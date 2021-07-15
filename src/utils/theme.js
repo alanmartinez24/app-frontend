@@ -115,6 +115,11 @@ export const theme = ({ palette }) => {
         color: Colors.White
       }
     },
+    MuiAvatar: {
+      colorDefault: {
+        color: palette.common.first
+      }
+    },
     MuiTab: {
       root: {
         textTransform: 'capitalize',
@@ -123,7 +128,7 @@ export const theme = ({ palette }) => {
     },
     MuiListItemIcon: {
       root: {
-        color: '#c0c0c0',
+        color: palette.common.third,
         overflow: 'visible',
         textAlign: 'center',
         justifyContent: 'center'
@@ -279,7 +284,7 @@ export const theme = ({ palette }) => {
       fontWeight: 300,
       fontSize: '0.875rem',
       lineHeight: '1rem',
-      color: Colors.White
+      color: palette.common.fifth
     },
     display3: {
       fontFamily: 'Gilroy',
