@@ -169,6 +169,16 @@ export const theme = ({ palette }) => {
         padding: '8px 24px'
       }
     },
+    MuiAppBar: {
+      root: {
+        background: palette.primary.gradient
+      }
+    },
+    MuiDrawer: {
+      paper: {
+        background: palette.primary.gradient
+      }
+    },
     MuiDialog: {
       paper: {
         backgroundColor: palette.common.fifth,

@@ -454,7 +454,6 @@ function ProfileCard (props) {
                 ) : (
                   <Typography
                     className={classes.text2}
-                    color='inherit'
                     style={{ display: isMobile ? 'block' : 'inline-block', fontFamily: 'Gilroy' }}
                     variant='caption'
                     tourname='YUPBalance'
@@ -491,7 +490,7 @@ function ProfileCard (props) {
             <Grid item>
               <Typography align='left'
                 className={classes.text}
-                color='inherit'
+                variant='h5'
               >
                 <a style={{ fontWeight: 500 }}>{formattedRatings}</a> Ratings
               </Typography>
