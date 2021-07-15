@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CircularProgress, Button } from '@material-ui/core'
 
-const LoaderButton = ({ isLoading, backgroundColor, color, buttonText, ...restProps }) => {
+const LoaderButton = ({ isLoading, buttonText, variant, ...restProps }) => {
   return (
     <Button
       {...restProps}
-      style={{ backgroundColor, color, textTransform: 'none' }}
+      variant={variant}
     >
       {buttonText}
       {isLoading &&
@@ -20,8 +20,7 @@ const LoaderButton = ({ isLoading, backgroundColor, color, buttonText, ...restPr
 
 LoaderButton.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    backgroundColor: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
+    variant: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired
   }
 

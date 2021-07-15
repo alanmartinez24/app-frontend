@@ -1,28 +1,29 @@
-import Colors from './colors'
+import Colors, { Gradients } from './colors'
+console.log(`Gradients`, Gradients)
 
 export const darkPalette = {
   palette: {
     type: 'dark',
     common: {
-      black: Colors.Black,
-      white: Colors.White
+      first: Colors.W1,
+      second: Colors.W2,
+      third: Colors.W3,
+      fourth: Colors.W4,
+      fifth: Colors.W5
     },
     primary: {
-      main: Colors.DarkGrey,
-      mainGradient: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
+      main: Colors.W1,
+      gradient: Gradients.background.dark
     },
     secondary: {
-      main: Colors.YupGreen
-    },
-    background: {
-      paper: '#1B1B1B'
+      main: Colors.Green
     },
     text: {
-      primary: Colors.White,
-      secondary: Colors.OffWhite
+      primary: Colors.W1,
+      secondary: Colors.W2
     },
     action: {
-      hover: 'green'
+      hover: '#AAAAAA'
     }
   }
 }
@@ -31,22 +32,21 @@ export const lightPalette = {
   palette: {
     type: 'light',
     common: {
-      black: Colors.White,
-      white: Colors.Black
+      first: Colors.B1,
+      second: Colors.B2,
+      third: Colors.B3,
+      fourth: Colors.B4,
+      fifth: Colors.B5
     },
     primary: {
       main: Colors.DarkGrey,
-      mainGradient: 'linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%)',
-      contrastText: Colors.Black
+      gradient: Gradients.background.light
     },
     secondary: {
       main: Colors.Black
     },
     third: {
-      main: Colors.YupGreen
-    },
-    background: {
-      paper: '#d7e1ec'
+      main: Colors.Green
     },
     text: {
       primary: Colors.Black,
@@ -55,8 +55,8 @@ export const lightPalette = {
   }
 }
 
-export const themeObject = {
-  overrides: {
+export const theme = ({ palette }) => {
+  return { overrides: {
     MuiButton: {
       root: {
         textTransform: 'capitalize',
@@ -95,11 +95,6 @@ export const themeObject = {
             '8px 8px 30px 0 rgba(0, 0, 0, 0.06), -8px -8px 15px 0 rgba(170, 170, 170, 0.03), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.06), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.03)',
           backgroundColor: Colors.Green
         }
-      }
-    },
-    Paper: {
-      root: {
-        background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)'
       }
     },
     MuiIconButton: {
@@ -161,7 +156,7 @@ export const themeObject = {
     },
     MuiTextField: {
       root: {
-        color: Colors.White
+        color: palette.common.first
       }
     },
     MuiSelect: {
@@ -172,6 +167,20 @@ export const themeObject = {
     MuiDialogActions: {
       root: {
         padding: '8px 24px'
+      }
+    },
+    MuiDialog: {
+      paper: {
+        backgroundColor: palette.common.fifth,
+        borderRadius: '25px',
+        boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
+        width: '80%',
+        padding: '1rem 0.5rem',
+        maxWidth: '500px'
+        // color: palette.common.first
+      },
+      backdrop: {
+        backdropFilter: 'blur(3px)'
       }
     },
     MuiPaper: {
@@ -199,27 +208,31 @@ export const themeObject = {
       fontWeight: 700,
       fontSize: '4rem',
       lineHeight: '3.25rem',
-      marginBottom: '0.2rem'
+      marginBottom: '0.2rem',
+      color: palette.common.first
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: '2.5rem'
+      lineHeight: '2.5rem',
+      color: palette.common.first
     },
     h3: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1.75rem',
-      lineHeight: '1.85rem'
+      lineHeight: '1.85rem',
+      color: palette.common.second
     },
     h4: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '1.375rem',
-      lineHeight: '1.6rem'
+      lineHeight: '1.6rem',
+      color: palette.common.third
     },
     h5: {
       fontFamily: 'Gilroy',
@@ -325,4 +338,5 @@ export const themeObject = {
       initialWidth: 'lg'
     }
   }
+}
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Dialog, DialogContent, DialogContentText, Paper, createMuiTheme, CssBaseline } from '@material-ui/core'
-import { themeObject, lightPalette, darkPalette } from '../utils/theme.js'
+import { theme, lightPalette, darkPalette } from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -132,13 +132,14 @@ class Index extends Component {
     }
 
     const metaTitle = 'Yup • Social Layer for the Internet'
-    const themeWithPalette = createMuiTheme({ ...themeObject, ...(lightMode ? lightPalette : darkPalette) })
+    const activePalette = lightMode ? lightPalette : darkPalette
+    const themeWithPalette = createMuiTheme({ ...theme(activePalette), ...activePalette })
 
     return (
       <>
         <MuiThemeProvider theme={themeWithPalette}>
           <CssBaseline>
-            <Paper style={{ background: themeWithPalette.palette.primary.mainGradient }}>
+            <Paper style={{ background: themeWithPalette.palette.primary.gradient }}>
               <Helmet>
                 <meta charSet='utf-8' />
                 <title> {metaTitle} </title>

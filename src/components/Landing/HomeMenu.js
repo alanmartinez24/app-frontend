@@ -151,7 +151,6 @@ class Home extends Component {
                 >
                   <Typography variant='h2'
                     className={classes.Title}
-                    color='white'
                   >
                     Welcome to Yup
                   </Typography>
@@ -168,7 +167,6 @@ class Home extends Component {
                     timeout={300}
                   >
                     <Typography variant='h2'
-                      color='white'
                       className={classes.SectionHeader}
                     >Recommended</Typography>
                   </Fade>
@@ -216,7 +214,6 @@ class Home extends Component {
                               <Grid item>
                                 <Typography
                                   variant='h4'
-                                  color='primary'
                                 >
                                   {item.title}
                                 </Typography>
@@ -236,7 +233,6 @@ class Home extends Component {
               >
                 <Grid item>
                   <Typography variant='h2'
-                    color='white'
                     className={classes.SectionHeader}
                   >Browse</Typography>
                 </Grid>
@@ -284,7 +280,6 @@ class Home extends Component {
                               <Grid item>
                                 <Typography
                                   variant='h4'
-                                  color='primary'
                                 >
                                   {item.title}
                                 </Typography>

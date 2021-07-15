@@ -556,22 +556,6 @@ class SubscribeDialog extends Component {
           }}
           aria-labelledby='form-dialog-title'
           className={classes.dialog}
-          PaperProps={{
-              style: {
-                backgroundColor: '#0A0A0A',
-                borderRadius: '25px',
-                boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-                width: '80%',
-                padding: '1rem 0.5rem',
-                maxWidth: '500px',
-                color: '#fafafa'
-              }
-            }}
-          BackdropProps={{
-              style: {
-                backdropFilter: 'blur(3px)'
-              }
-            }}
         >
           {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
             <>

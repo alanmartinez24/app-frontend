@@ -120,22 +120,6 @@ const CollectionEditDialog = ({
         open={dialogOpen}
         onClose={handleDialogClose}
         aria-labelledby='form-dialog-title'
-        PaperProps={{
-          style: {
-            backgroundColor: '#0A0A0A',
-            borderRadius: '25px',
-            boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-            width: '80%',
-            padding: '1rem 0.5rem',
-            maxWidth: '500px',
-            color: '#fafafa'
-          }
-        }}
-        BackdropProps={{
-          style: {
-            backdropFilter: 'blur(3px)'
-          }
-        }}
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
@@ -153,7 +137,6 @@ const CollectionEditDialog = ({
             type='text'
           />
           <YupInput
-            color='#fafafa'
             maxLength={DESC_LIMIT}
             fullWidth
             id='description'
@@ -166,17 +149,15 @@ const CollectionEditDialog = ({
         <DialogActions>
           <LoaderButton onClick={handleDeleteCollection}
             fullWidth
-            backgroundColor='#1a1a1a'
             buttonText='Delete'
-            color='#fafafa'
             isLoading={isLoadingDelete}
+            variant='outlined'
           />
           <LoaderButton onClick={handleEditCollection}
             fullWidth
-            backgroundColor='#00eab7'
             buttonText='Update'
-            color='#fafafa'
             isLoading={isLoadingUpdate}
+            variant='contained'
           />
         </DialogActions>
       </Dialog>

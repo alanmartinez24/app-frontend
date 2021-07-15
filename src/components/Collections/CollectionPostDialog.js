@@ -106,22 +106,6 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
         onClose={handleDialogClose}
         onKeyDown={handleKeyDown}
         aria-labelledby='form-dialog-title'
-        PaperProps={{
-          style: {
-            backgroundColor: '#0A0A0A',
-            borderRadius: '25px',
-            boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-            width: '80%',
-            padding: '1rem 0.5rem',
-            maxWidth: '500px',
-            color: '#fafafa'
-          }
-        }}
-        BackdropProps={{
-          style: {
-            backdropFilter: 'blur(3px)'
-          }
-        }}
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
@@ -153,7 +137,6 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             </Grid>
             <Grid item>
               <YupInput
-                color='#fafafa'
                 fullWidth
                 id='description'
                 maxLength={DESC_LIMIT}
@@ -172,8 +155,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
             fullWidth
             buttonText='Create Collection'
             isLoading={isLoading}
-            backgroundColor='#00eab7'
-            color='#0A0A0A'
+            variant='contained'
           />
         </DialogActions>
       </Dialog>

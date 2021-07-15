@@ -108,19 +108,14 @@ class FollowersDialog extends Component {
       <ErrorBoundary>
         <Fragment>
           <Button
-            color='secondary'
+            variant='outlined'
             disableRipple
             onClick={this.handleClickOpen}
-            style={{
-              backgroundColor: 'transparent',
-              textTransform: 'capitalize'
-            }}
           >
             <Typography
               align='left'
               className={classes.text}
-              color='inherit'
-              style={{ fontFamily: 'Gilroy', color: '#ffffff' }}
+              variant='h4'
             >
               <a style={{ fontWeight: 500 }}>{formattedFollowers} </a> followers
             </Typography>
@@ -131,22 +126,6 @@ class FollowersDialog extends Component {
             maxWidth='xs'
             onClose={this.handleClose}
             open={this.state.open}
-            PaperProps={{
-              style: {
-                backgroundColor: '#0A0A0A',
-                borderRadius: '25px',
-                boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-                width: '80%',
-                padding: '1rem 0.5rem',
-                maxWidth: '500px',
-                color: '#fafafa'
-              }
-            }}
-            BackdropProps={{
-              style: {
-                backdropFilter: 'blur(3px)'
-              }
-            }}
           >
             <DialogTitle
               className={classes.dialogTitle}
@@ -176,8 +155,7 @@ class FollowersDialog extends Component {
                   {' '}
                   {followers.length === 0 ? (
                     <Typography
-                      color='white'
-                      style={{ textAlign: 'center', fontFamily: 'Gilroy' }}
+                      variant='h6'
                     >
                       No followers
                     </Typography>
@@ -230,7 +208,6 @@ class FollowersDialog extends Component {
                                       to={`/${follower._id}`}
                                     >
                                       <Typography
-                                        color='inherit'
                                         style={{
                                           textDecoration: socialLevelColor
                                             ? 'underline'
@@ -239,9 +216,7 @@ class FollowersDialog extends Component {
                                           textDecorationStyle: socialLevelColor
                                             ? 'solid'
                                             : 'none',
-                                          color: '#ffffff',
-                                          marginLeft: '1rem',
-                                          fontFamily: 'Gilroy'
+                                          marginLeft: '1rem'
                                         }}
                                         variant='caption'
                                       >

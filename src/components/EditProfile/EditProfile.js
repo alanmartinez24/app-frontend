@@ -397,7 +397,6 @@ class EditProfile extends Component {
     const EditButton = props => (
       <Button
         className={classes.editButton}
-        color='secondary'
         onClick={this.handleDialogOpen}
         variant='outlined'
       >
@@ -427,7 +426,6 @@ class EditProfile extends Component {
         return (
           <Button
             align='right'
-            color='primary'
             onClick={this.handleRemoveCurrentPhoto}
             style={{ fontFamily: 'Gilroy' }}
           >
@@ -448,22 +446,6 @@ class EditProfile extends Component {
             onClose={this.handleDialogClose}
             open={this.state.open}
             className={classes.dialog}
-            PaperProps={{
-              style: {
-                backgroundColor: '#0A0A0A',
-                borderRadius: '25px',
-                boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-                width: '80%',
-                padding: '1rem 0.5rem',
-                maxWidth: '500px',
-                color: '#fafafa'
-              }
-            }}
-            BackdropProps={{
-              style: {
-                backdropFilter: 'blur(3px)'
-              }
-            }}
           >
             <DialogTitle
               className={classes.dialogTitle}
@@ -552,7 +534,6 @@ class EditProfile extends Component {
                   <Grid item>
                     <YupInput
                       defaultValue={this.state.bio}
-                      color='#fafafa'
                       fullWidth
                       id='bio'
                       maxLength={140}
@@ -582,16 +563,14 @@ class EditProfile extends Component {
             </DialogContent>
             <DialogActions>
               <Button
-                color='primary'
                 onClick={this.handleDialogClose}
-                style={{ fontFamily: 'Gilroy' }}
+                variant='outlined'
               >
                 Cancel
               </Button>
               <Button
                 variant='contained'
                 onClick={this.handleAccountInfoSubmit}
-                style={{ fontFamily: 'Gilroy', backgroundColor: '#00eab7' }}
               >
                 Update
               </Button>

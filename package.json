@@ -66,6 +66,7 @@
     "react": "^16.10.1",
     "react-apexcharts": "^1.3.7",
     "react-awesome-reveal": "^3.7.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-clamp": "^1.0.5",
     "react-content-loader": "^4.2.2",
     "react-countup": "^4.3.3",
