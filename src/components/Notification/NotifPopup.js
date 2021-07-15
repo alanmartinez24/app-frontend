@@ -168,7 +168,6 @@ class NotifPopup extends Component {
                       >
                         <Icon fontSize='small'
                           className='fal fa-bell'
-                          color='primary'
                         />
                       </Badge>
                     </IconButton>
@@ -182,7 +181,6 @@ class NotifPopup extends Component {
                       >
                       <Icon fontSize='small'
                         className='fal fa-bell'
-                        color='primary'
                       />
                     </IconButton>
                     }

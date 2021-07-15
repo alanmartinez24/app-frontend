@@ -127,8 +127,6 @@ class FollowingDialog extends Component {
             >
               <Typography
                 align='center'
-                color='inherit'
-                style={{ fontFamily: 'Gilroy', fontWeight: '500', color: '#ffffff' }}
                 variant='title'
               >
                 Following
@@ -153,7 +151,7 @@ class FollowingDialog extends Component {
                   > {
                     following.length === 0
                       ? <Typography
-                        color='white'
+                        variant='h5'
                         style={{ textAlign: 'center' }}
                         >
                         No users are being followed
@@ -201,14 +199,11 @@ class FollowingDialog extends Component {
                                         to={`/${eosname}`}
                                       >
                                         <Typography
-                                          color='white'
                                           style={{
                                             textDecoration: socialLevelColor ? 'underline' : 'none',
                                             textDecorationColor: socialLevelColor,
                                             textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                                            marginLeft: '1rem',
-                                            color: '#ffffff',
-                                            fontFamily: 'Gilroy'
+                                            marginLeft: '1rem'
                                           }}
                                           variant='caption'
                                         >

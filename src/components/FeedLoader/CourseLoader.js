@@ -5,7 +5,6 @@ import { useTheme } from '@material-ui/styles'
 
 const PostLoader = () => {
   const { palette } = useTheme()
-  console.log(`palette.common`, palette.common)
   return (
     <ErrorBoundary>
       <div>

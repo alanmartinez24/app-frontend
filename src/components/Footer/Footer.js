@@ -119,7 +119,6 @@ class Footer extends Component {
                       <Grid item >
                         <IconButton
                           className={classes.topbuttons}
-                          color='secondary'
                           component={Link}
                           style={{ 'maxWidth': '6vw', maxHeight: '6vw' }}
                           to='https://yup.io'

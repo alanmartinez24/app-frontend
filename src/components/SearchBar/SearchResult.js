@@ -98,7 +98,6 @@ class SearchResult extends Component {
                 >
                   <Typography
                     className={classes.text}
-                    color='inherit'
                     fontWeight='bold'
                     style={{
                       textDecoration: socialLevelColor ? 'underline' : 'none',

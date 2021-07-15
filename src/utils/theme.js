@@ -110,6 +110,11 @@ export const theme = ({ palette }) => {
         }
       }
     },
+    MuiIcon: {
+      root: {
+        color: palette.common.first
+      }
+    },
     MuiDialogContent: {
       root: {
         color: Colors.White

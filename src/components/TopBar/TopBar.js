@@ -23,9 +23,10 @@ import {
   Dialog,
   Badge,
   Switch,
-  FormControlLabel
+  FormControlLabel,
+  Grow
 } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import wallet from '../../eos/scatter/scatter.wallet'
 import ListLink from '@material-ui/core/Link'
@@ -38,7 +39,6 @@ import Orange from '@material-ui/core/colors/orange'
 import NotifPopup from '../Notification/NotifPopup'
 import { levelColors } from '../../utils/colors'
 import { withRouter } from 'react-router'
-import Grow from '@material-ui/core/Grow'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import CollectionPostDialog from '../Collections/CollectionPostDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -467,11 +467,12 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const username = (level && level.levelInfo.username) || eosname
   const isMobile = window.innerWidth <= 480
 
+  const { palette } = useTheme()
+
   return (
     <ErrorBoundary>
       <AppBar className={classes.appBar}
         position='fixed'
-        color='black'
       >
         <Toolbar>
           <Grid
@@ -662,7 +663,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         disableTouchListener
                         title={
                           <p
-                            color='#fff'
+                            color={palette.common.first}
                             style={{ fontSize: '12px', fontWeight: '300' }}
                           >
                             Create an account!
@@ -789,7 +790,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               name='lightMode'
                      />}
             label='Light Mode'
-            color='white'
+            color={palette.common.first}
           />
         </ListItem>
         <ListItem dense
@@ -833,7 +834,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   <Button
                     className={classes.logoutBtn}
                     onClick={handleLogout}
-                    color='secondary'
                     variant='outlined'
                   >
                     Log out

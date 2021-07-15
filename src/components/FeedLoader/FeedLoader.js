@@ -5,7 +5,6 @@ import { useTheme } from '@material-ui/styles'
 
 const FeedLoader = () => {
   const { palette } = useTheme()
-  console.log(`palette.common`, palette.common)
   return (
     <ErrorBoundary>
       <div>

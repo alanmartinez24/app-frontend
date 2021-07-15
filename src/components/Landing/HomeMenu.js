@@ -188,7 +188,6 @@ class Home extends Component {
                       >
                         <Link
                           to={item.relativeURL}
-                          color='inherit'
                           className={classes.Link}
                         >
                           <Grow in
@@ -254,7 +253,6 @@ class Home extends Component {
                       >
                         <Link
                           to={item.relativeURL}
-                          color='inherit'
                           className={classes.Link}
                         >
                           <Fade in
