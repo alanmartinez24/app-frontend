@@ -266,6 +266,7 @@ function FeedHeader ({
             <img
               className={classes.topicImg}
               src={image}
+              alt={name}
             />
           </Grid>
           <Grid item>

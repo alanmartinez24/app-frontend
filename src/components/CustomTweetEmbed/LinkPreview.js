@@ -17,7 +17,7 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
         <div className={classes.LinkPreviewImageContainer}>
           <img className={size === 'large' ? classes.LinkPreviewImageLarge : classes.LinkPreviewImage}
             src={image}
-            alt=''
+            alt={description}
           />
         </div>
       </a>

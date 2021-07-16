@@ -175,6 +175,7 @@ class Notification extends Component {
                   />
                 : <img className={classes.notifImg}
                   src={notif.image || defaultImage}
+                  alt='notification'
                   onError={(e) => { e.target.src = defaultImage }}
                   />
                 }
