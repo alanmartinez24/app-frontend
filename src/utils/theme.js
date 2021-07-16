@@ -11,6 +11,13 @@ export const darkPalette = {
       fourth: Colors.W4,
       fifth: Colors.W5
     },
+    alt: {
+      first: Colors.B1,
+      second: Colors.B2,
+      third: Colors.B3,
+      fourth: Colors.B4,
+      fifth: Colors.B5
+    },
     primary: {
       main: Colors.W1,
       gradient: Gradients.background.dark
@@ -23,7 +30,7 @@ export const darkPalette = {
       secondary: Colors.W2
     },
     action: {
-      hover: '#AAAAAA'
+      hover: Colors.W2
     }
   }
 }
@@ -37,6 +44,13 @@ export const lightPalette = {
       third: Colors.B3,
       fourth: Colors.B4,
       fifth: Colors.B5
+    },
+    alt: {
+      first: Colors.W1,
+      second: Colors.W2,
+      third: Colors.W3,
+      fourth: Colors.W4,
+      fifth: Colors.W5
     },
     primary: {
       main: Colors.B2,
@@ -138,6 +152,11 @@ export const theme = ({ palette }) => {
         justifyContent: 'center'
       }
     },
+    MuiListSubheader: {
+      root: {
+        color: palette.common.second
+      }
+    },
     MuiBadge: {
       colorSecondary: {
         backgroundColor: palette.common.second
@@ -192,7 +211,7 @@ export const theme = ({ palette }) => {
       paper: {
         backgroundColor: palette.common.fifth,
         borderRadius: '25px',
-        boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
+        boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
         width: '80%',
         padding: '1rem 0.5rem',
         maxWidth: '500px'
@@ -212,12 +231,12 @@ export const theme = ({ palette }) => {
         color: `${Colors.YupGreen} !important`
       },
       text: {
-        fill: '#000 !important'
+        fill: `${palette.alt.first} !important`
       }
     },
     MuiStepLabel: {
       label: {
-        color: '#fff !important'
+        color: `${palette.common.first} !important`
       }
     }
   },
@@ -348,7 +367,7 @@ export const theme = ({ palette }) => {
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: palette.common.third,
+      color: palette.common.second,
       letterSpacing: '0.25%',
       fontWeight: '100'
     },

@@ -18,7 +18,6 @@ const styles = theme => ({
     width: '95%'
   },
   twitterTag: {
-    color: 'white !important',
     textDecoration: 'none !important',
     fontWeight: 500
   },
@@ -45,7 +44,6 @@ const styles = theme => ({
     display: 'flex'
   },
   replyTextWithBar: {
-    color: 'white !important',
     padding: '10px 0px',
     fontSize: '0.9em',
     textAlign: 'left',
@@ -64,7 +62,6 @@ const styles = theme => ({
     position: 'relative'
   },
   tweetText: {
-    color: 'white !important',
     whiteSpace: 'pre-wrap',
     padding: '10px 4px',
     textAlign: 'left',
@@ -73,7 +70,6 @@ const styles = theme => ({
     fontSize: '1.2rem'
   },
   twitterName: {
-    color: 'white !important',
     padding: 0,
     margin: 0
   },
@@ -119,16 +115,14 @@ const styles = theme => ({
   },
   retweetTwitterName: {
     display: 'inline',
-    marginRight: '10px',
-    color: 'white !important'
+    marginRight: '10px'
   },
   retweetTwitterBirdIcon: {
     display: 'none'
   },
   replyTwitterName: {
     display: 'inline',
-    marginRight: '10px',
-    color: 'white !important'
+    marginRight: '10px'
   },
   barDiv: {
     border: '1.2px solid #AAAAAA',
@@ -188,7 +182,6 @@ const styles = theme => ({
     marginBottom: '5px'
   },
   replyImageContainer: {
-    color: 'white !important',
     padding: '10px 0px',
     textAlign: 'left',
     position: 'relative'
@@ -220,12 +213,10 @@ const styles = theme => ({
     color: 'gray'
   },
   LinkPreviewTitle: {
-    fontWeight: 400,
-    color: 'white !important'
+    fontWeight: 400
   },
   LinkPreviewText: {
-    padding: '10px 0px',
-    color: 'white !important'
+    padding: '10px 0px'
   },
   LinkPreviewImageLarge: {
     width: '100%',

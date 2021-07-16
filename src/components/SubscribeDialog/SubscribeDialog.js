@@ -42,12 +42,10 @@ const styles = theme => ({
     }
   },
   dialogTitleText: {
-    fontWeight: '500',
-    color: '#fff'
+    fontWeight: '500'
   },
   dialogContentText: {
-    fontWeight: '200',
-    color: '#fff'
+    fontWeight: '200'
   },
   buttons: {
     backgroundColor: 'transparent',
@@ -113,7 +111,6 @@ const styles = theme => ({
   stepperInput: {
     width: '250px',
     padding: '5px',
-    color: '#fff',
     [theme.breakpoints.down('sm')]: {
       width: '160px'
     }

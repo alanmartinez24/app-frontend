@@ -121,8 +121,7 @@ const styles = theme => ({
   },
   list1: {
     background: 'transparent',
-    border: '0px solid #e6e6e6',
-    textColor: 'white'
+    border: '0px solid #e6e6e6'
   },
   listItemLink: {
     '&:hover': {
@@ -800,7 +799,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 <Icon
                   fontSize='small'
                   className='fal fa-gear'
-                  style={{ color: '#c0c0c0' }}
+                  style={{ color: palette.common.second }}
                 />
               </IconButton>
             </Grid>
