@@ -4,13 +4,21 @@ import ImageLoader from 'react-load-image'
 import { parseIpfsRef, hashToUrl } from '../../utils/ipfs.js'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { Avatar, Fade } from '@material-ui/core'
-import { useTheme } from '@material-ui/styles'
+import { withStyles } from '@material-ui/styles'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
-function UserAvatar ({ className, src: _src, alt, style, username }) {
+const styles = theme => ({
+  avatar: {
+    backgroundColor: theme.palette.alt.first,
+    fontFamily: 'Gilroy',
+    fontWeight: '600',
+    boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10'
+  }
+})
+
+function UserAvatar ({ src: _src, alt, style, username, classes }) {
   const userLetter = username && username[0].toUpperCase()
-  const { palette } = useTheme()
   const src = _src === ANONYMOUS_DEFAULT_AVATAR ? '' : _src
 
   const setDefaultSrc = ({ target }) => {
@@ -26,15 +34,13 @@ function UserAvatar ({ className, src: _src, alt, style, username }) {
       <ErrorBoundary>
         <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
           <img alt={alt}
-            className={className}
             src={hashToUrl(src)}
-            style={{
-          ...style, objectFit: 'cover' }}
+            style={style}
             onError={setDefaultSrc}
           />
           <Avatar alt={alt}
-            className={className}
-            style={{ ...style, backgroundColor: palette.common.fifth, fontFamily: 'Gilroy', fontWeight: '600', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+            className={classes.avatar}
+            style={style}
           >{userLetter && userLetter}
           </Avatar>
         </ImageLoader>
@@ -46,9 +52,9 @@ function UserAvatar ({ className, src: _src, alt, style, username }) {
 UserAvatar.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  style: PropTypes.object,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
+  style: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-export default UserAvatar
+export default withStyles(styles)(UserAvatar)
