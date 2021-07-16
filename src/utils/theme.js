@@ -39,7 +39,7 @@ export const lightPalette = {
       fifth: Colors.B5
     },
     primary: {
-      main: Colors.DarkGrey,
+      main: Colors.B2,
       gradient: Gradients.background.light
     },
     secondary: {
@@ -65,8 +65,8 @@ export const theme = ({ palette }) => {
       outlined: {
         borderRadius: '0.65rem',
         borderWidth: '0.15rem',
-        borderColor: Colors.Grey,
-        color: Colors.White,
+        borderColor: palette.common.second,
+        color: palette.common.second,
         boxShadow:
           '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
         lineHeight: '23px',
@@ -101,8 +101,7 @@ export const theme = ({ palette }) => {
       root: {
         borderRadius: '100px',
         border: 'none',
-        boxShadow:
-          '8px 8px 30px 0 rgba(0, 0, 0, 0.04), -8px -8px 15px 0 rgba(170, 170, 170, 0.02), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.04), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.02)',
+        boxShadow: `8px 8px 30px 0 {palette.common.first}04, -8px -8px 15px 0 {palette.common.first}02, inset 8px 8px 30px 0 {palette.common.first}04, inset -8px -8px 15px 0 {palette.common.first}02`,
         '&:hover': {
           boxShadow:
             '-8px -8px 30px 0 rgba(0, 0, 0, 0.04), 8px 8px 15px 0 rgba(170, 170, 170, 0.02), inset -8px -8px 30px 0 rgba(0, 0, 0, 0.04), inset 8px 8px 15px 0 rgba(170, 170, 170, 0.02)',
@@ -117,7 +116,7 @@ export const theme = ({ palette }) => {
     },
     MuiDialogContent: {
       root: {
-        color: Colors.White
+        color: palette.common.first
       }
     },
     MuiAvatar: {
@@ -141,7 +140,7 @@ export const theme = ({ palette }) => {
     },
     MuiBadge: {
       colorSecondary: {
-        backgroundColor: Colors.White
+        backgroundColor: palette.common.second
       }
     },
     MuiInputLabel: {
@@ -259,21 +258,24 @@ export const theme = ({ palette }) => {
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '1.125rem',
-      lineHeight: '1.3rem'
+      lineHeight: '1.3rem',
+      color: palette.common.third
     },
     h6: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1rem',
-      lineHeight: '1.25rem'
+      lineHeight: '1.25rem',
+      color: palette.common.third
     },
     subtitle1: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.625rem',
-      lineHeight: '1.25rem'
+      lineHeight: '1.25rem',
+      color: palette.common.third
     },
     subtitle2: {
       fontFamily: 'Gilroy',
@@ -281,7 +283,7 @@ export const theme = ({ palette }) => {
       fontWeight: 200,
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
-      color: Colors.DarkerGrey
+      color: palette.common.fourth
     },
     body1: {
       fontFamily: 'Gilroy',
@@ -289,7 +291,7 @@ export const theme = ({ palette }) => {
       fontWeight: 300,
       fontSize: '0.875rem',
       lineHeight: '1rem',
-      color: palette.common.fifth
+      color: palette.common.second
     },
     display3: {
       fontFamily: 'Gilroy',
@@ -326,25 +328,27 @@ export const theme = ({ palette }) => {
       fontSize: '16px',
       lineHeight: '23px',
       letterSpacing: '0.75%',
-      fontStyle: 'thin'
+      fontStyle: 'thin',
+      color: palette.common.first
     },
     caption: {
       fontFamily: 'Gilroy',
       fontStyle: '600',
-      fontSize: '16px'
+      fontSize: '16px',
+      color: palette.common.third
     },
     subheader: {
       fontSize: '20px',
       lineHeight: '29px',
       fontFamily: 'Gilroy',
       letterSpacing: '0.15%',
-      color: Colors.DarkerGrey,
+      color: palette.common.fourth,
       fontStyle: 'thin'
     },
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: Colors.Grey,
+      color: palette.common.third,
       letterSpacing: '0.25%',
       fontWeight: '100'
     },

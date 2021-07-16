@@ -103,7 +103,6 @@ const styles = theme => ({
     fontFamily: 'Gilroy',
     flex: 1,
     fontSize: '10px',
-    backgroundColor: 'transparent',
     marginTop: '5px',
     [theme.breakpoints.down('xs')]: {
       fontSize: '8px'
@@ -398,7 +397,7 @@ class EditProfile extends Component {
       <Button
         className={classes.editButton}
         onClick={this.handleDialogOpen}
-        variant='outlined'
+        variant='contained'
       >
         Edit
       </Button>

@@ -196,7 +196,6 @@ const styles = theme => ({
     width: '100px',
     height: '35px',
     fontSize: '10px',
-    color: '#ffffff',
     [theme.breakpoints.down('xs')]: {
       width: '75px',
       height: '30px',
@@ -241,12 +240,11 @@ const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes
           <Icon className='fal fa-globe' />
         </ListItemIcon>
         <ListItemText>
-          <span
+          <Typography
             className={classes.typography}
-            style={{ color: '#c0c0c0', fontWeight: '100' }}
           >
             About
-          </span>
+          </Typography>
         </ListItemText>
       </ListItem>
     </ListLink>
@@ -268,13 +266,12 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
           <Icon className='fal fa-plug' />
         </ListItemIcon>
         <ListItemText>
-          <span
+          <Typography
             className={classes.typography}
-            style={{ color: '#c0c0c0', fontWeight: '100' }}
           >
             {' '}
             Extension
-          </span>
+          </Typography>
         </ListItemText>
       </ListItem>
     </ListLink>
@@ -703,7 +700,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
           <ListItemText>
             <span
               className={classes.typography}
-              style={{ color: '#c0c0c0', fontWeight: '100' }}
             >
               {' '}
               Home
@@ -726,12 +722,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             />
           </ListItemIcon>
           <ListItemText>
-            <span
+            <Typography
               className={classes.typography}
-              style={{ color: '#c0c0c0', fontWeight: '100' }}
             >
               Leaderboards
-            </span>
+            </Typography>
           </ListItemText>
         </ListItem>
         <ListItem
@@ -748,13 +743,12 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             />
           </ListItemIcon>
           <ListItemText>
-            <span
+            <Typography
               className={classes.typography}
-              style={{ color: '#c0c0c0', fontWeight: '100' }}
             >
               {' '}
               Collections
-            </span>
+            </Typography>
           </ListItemText>
         </ListItem>
 
@@ -775,12 +769,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               />
             </ListItemIcon>
             <ListItemText>
-              <span
+              <Typography
                 className={classes.typography}
-                style={{ color: '#c0c0c0', fontWeight: '100' }}
               >
                 Analytics
-              </span>
+              </Typography>
             </ListItemText>
           </ListItem>)}
         <ListItem>
@@ -860,7 +853,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
           >
             <ListSubheader
               style={{
-                        color: '#c0c0c0',
                         fontSize: '12px',
                         fontWeight: '500',
                         letterSpacing: '0.02em'

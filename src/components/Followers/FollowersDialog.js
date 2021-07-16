@@ -108,7 +108,6 @@ class FollowersDialog extends Component {
       <ErrorBoundary>
         <Fragment>
           <Button
-            variant='outlined'
             disableRipple
             onClick={this.handleClickOpen}
           >

@@ -27,15 +27,13 @@ const styles = theme => ({
     paddingTop: '10vh',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '600',
-    fontSize: '2vh',
-    color: '#ffffff'
+    fontSize: '2vh'
   },
   accountErrorSub: {
     paddingTop: '1.5vh',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '600',
-    fontSize: '1.7vh',
-    color: '#ffffff'
+    fontSize: '1.7vh'
   },
   avatarImage: {
     width: 100 - theme.spacing(),
@@ -333,7 +331,6 @@ ratingPower = async () => {
               <div align='center'>
                 <Typography
                   className={classes.accountErrorHeader}
-                  color='#ffffff'
                   variant='h1'
                 >
                   <strong>
@@ -342,7 +339,6 @@ ratingPower = async () => {
                 </Typography>
                 <Typography
                   className={classes.accountErrorSub}
-                  color='#ffffff'
                   variant='h2'
                 >
                   The page you're looking for does not exist.
@@ -388,7 +384,6 @@ ratingPower = async () => {
               <Grid item>
                 <Typography align='left'
                   variant='h2'
-                  color='white'
                 >
                   <LinesEllipsis
                     basedOn='letters'
@@ -407,7 +402,6 @@ ratingPower = async () => {
                     textDecorationColor: socialLevelColor,
                     textDecorationStyle: socialLevelColor ? 'solid' : 'none',
                     fontWeight: isMirror ? '200' : '200',
-                    color: isMirror ? '#b1b1b1' : '#ffffff',
                     padding: '0px'
                   }}
                   >
@@ -451,7 +445,7 @@ ratingPower = async () => {
                 <BarChart
                   chartData={ratingPower}
                   chartTitle='Rating Power'
-                  color={'white'}
+                  color=''
                   unit='%'
                 />
               </Grid>

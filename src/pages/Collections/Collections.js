@@ -51,8 +51,7 @@ const styles = theme => ({
   accountErrorSub: {
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
-    fontSize: '1rem',
-    color: '#ffffff'
+    fontSize: '1rem'
   },
   container: {
     height: '100vh',
@@ -60,7 +59,6 @@ const styles = theme => ({
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    color: '#fff',
     overflowY: 'scroll'
   },
   feedPage: {

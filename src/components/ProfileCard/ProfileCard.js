@@ -42,7 +42,6 @@ const styles = theme => ({
     }
   },
   bio: {
-    color: '#AAAAAA',
     fontSize: '12px',
     padding: '0px',
     marginTop: theme.spacing(1),
@@ -86,7 +85,6 @@ const styles = theme => ({
     display: 'none'
   },
   largeStat: {
-    color: '#ffffff',
     fontSize: '24px',
     padding: '0px',
     fontFamily: 'Gilroy',
@@ -150,7 +148,6 @@ const styles = theme => ({
     }
   },
   text: {
-    color: '#ffffff',
     fontSize: '12px',
     padding: '0px',
     fontFamily: 'Gilroy',
@@ -160,7 +157,6 @@ const styles = theme => ({
     }
   },
   text2: {
-    color: '#ffffff',
     fontSize: '18px',
     fontWeight: '500',
     fontFamily: 'Gilroy',
@@ -169,7 +165,6 @@ const styles = theme => ({
     }
   },
   username: {
-    color: '#ffffff',
     fontSize: '18px',
     padding: '0px',
     fontFamily: 'Gilroy',
@@ -302,7 +297,7 @@ function ProfileCard (props) {
                     className={classes.button}
                     username={username}
                     size='small'
-                    variant='outlined'
+                    variant='contained'
                   />
                 ) : (
                   <FollowButton
@@ -330,7 +325,6 @@ function ProfileCard (props) {
                       textDecoration: socialLevelColor ? 'none' : 'none',
                       textDecorationColor: socialLevelColor,
                       textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                      color: isMirror ? '#b1b1b1' : '#ffffff',
                       padding: '0px'
                     }}
                   >
@@ -394,13 +388,13 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <h color='#fff'
+                  <Typography
                     style={{ fontSize: '12px' }}
                   >
                     Influence Score: score out of 100 showing how influential
                     you are. The higher the number, the more valuable your
                     rating!
-                  </h>
+                  </Typography>
                 }
               >
                 <div tourname='Influence'>
@@ -441,12 +435,12 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <h color='#fff'
+                  <Typography
                     style={{ fontSize: '12px' }}
                   >
                     {' '}
                     Amount of YUP held by user
-                  </h>
+                  </Typography>
                 }
               >
                 {YUPBalanceError ? (
