@@ -23,7 +23,6 @@ const styles = theme => ({
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    color: '#fff',
     [theme.breakpoints.down('xs')]: {
       background: '#2a2a2a',
       margin: '0px'
@@ -88,8 +87,6 @@ const styles = theme => ({
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: theme.palette.primary.dark,
     zIndex: 1000,
     [theme.breakpoints.down('md')]: {
       display: 'none'

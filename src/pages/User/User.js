@@ -124,8 +124,6 @@ const styles = theme => ({
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: '#FAFAFA',
     zIndex: 1000,
     [theme.breakpoints.down('xs')]: {
       display: 'none'

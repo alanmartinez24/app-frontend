@@ -100,7 +100,7 @@ export const theme = ({ palette }) => {
         borderRadius: '0.55rem',
         border: 'none',
         backgroundColor: Colors.Green,
-        color: Colors.White,
+        color: Colors.Black,
         boxShadow:
           '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
         lineHeight: '23px',
@@ -174,12 +174,12 @@ export const theme = ({ palette }) => {
     },
     MuiMenu: {
       paper: {
-        backgroundColor: palette.common.second
+        backgroundColor: palette.alt.second
       }
     },
     MuiMenuItem: {
       dense: {
-        color: palette.alt.second
+        color: palette.common.first
       }
     },
     MuiOutlinedInput: {

@@ -14,7 +14,8 @@ const styles = theme => ({
     bottom: theme.spacing(3),
     right: theme.spacing(5),
     zIndex: '1000',
-    color: '#fff',
+    color: theme.palette.common.first,
+    backgroundColor: theme.palette.alt.second,
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
