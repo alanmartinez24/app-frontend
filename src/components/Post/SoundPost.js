@@ -29,7 +29,8 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       borderRadius: '0px',
-      maxWidth: '100vw'
+      maxWidth: '100vw',
+      height: '150px'
     }
   },
   divider: {

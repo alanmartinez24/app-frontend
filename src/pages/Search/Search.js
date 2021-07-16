@@ -158,7 +158,8 @@ const styles = theme => ({
     maxWidth: '600px'
   },
   tabs: {
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    textTransform: 'capitalize'
   }
 })
 
@@ -349,6 +350,7 @@ class Search extends Component {
                     >
                       <Tabs value={activeTab}
                         onChange={this.handleChange}
+                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                       >
                         <Tab label='Posts'
                           className={classes.tabs}

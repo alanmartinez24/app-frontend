@@ -62,7 +62,8 @@ function Post (props) {
         style={{
           overFlow: 'hidden',
           borderRadius: '0.5rem',
-          maxHeight: '1000px'
+          maxHeight: '1000px',
+          height: '0px'
         }}
         url={hashToUrl(video)}
         width='100%'

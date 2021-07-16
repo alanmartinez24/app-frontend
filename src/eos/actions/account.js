@@ -1,5 +1,5 @@
 import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
-const { YUPX_TOKEN_ACCOUNT, YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER, YUP_CREATOR } = process.env
+const { YUPX_TOKEN_ACCOUNT, YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function transfer (account, data, ethAuth) {
   const normalizedAmount = `${Number(data.amount).toFixed(4)} ${data.asset}`
@@ -97,11 +97,11 @@ export async function createacct (account, data, ethAuth) {
 //           actor: account.name,
 //           permission: account.authority
 //         }, {
-//           actor: YUP_CREATOR,
+//           actor: YUP_ACCOUNT_MANAGER,
 //           permission: 'active'
 //         }],
 //         data: {
-//           ram_payer: YUP_CREATOR,
+//           ram_payer: YUP_ACCOUNT_MANAGER,
 //           owner: account.name,
 //           fullname: data.fullname || '',
 //           bio: data.bio || '',
@@ -134,11 +134,11 @@ export async function editacct (account, data, ethAuth) {
           actor: account.name,
           permission: account.authority
         }, {
-          actor: YUP_CREATOR,
+          actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
         }],
         data: {
-          ram_payer: YUP_CREATOR,
+          ram_payer: YUP_ACCOUNT_MANAGER,
           owner: account.name,
           fullname: data.fullname || '',
           bio: data.bio || '',

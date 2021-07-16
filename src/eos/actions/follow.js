@@ -1,5 +1,5 @@
 import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
-const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER, YUP_CREATOR } = process.env
+const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function follow (account, data, ethAuth) {
     const txData = {
@@ -20,11 +20,11 @@ export async function follow (account, data, ethAuth) {
             actor: account.name,
             permission: account.authority
           }, {
-            actor: YUP_CREATOR,
+            actor: YUP_ACCOUNT_MANAGER,
             permission: 'active'
           }],
           data: {
-            ram_payer: YUP_CREATOR,
+            ram_payer: YUP_ACCOUNT_MANAGER,
             follower: account.name,
             account_to_follow: data.accountToFollow
           }
@@ -57,11 +57,11 @@ export async function follow (account, data, ethAuth) {
             actor: account.name,
             permission: account.authority
           }, {
-            actor: YUP_CREATOR,
+            actor: YUP_ACCOUNT_MANAGER,
             permission: 'active'
           }],
           data: {
-            ram_payer: YUP_CREATOR,
+            ram_payer: YUP_ACCOUNT_MANAGER,
             follower: account.name,
             account_to_unfollow: data.accountToUnfollow
           }

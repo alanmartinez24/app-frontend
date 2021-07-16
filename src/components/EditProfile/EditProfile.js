@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 import ReactCrop from 'react-image-crop'
 import './ReactCrop.css'
 import PropTypes from 'prop-types'
@@ -101,13 +102,11 @@ const styles = theme => ({
     borderRadius: '50%'
   },
   editButton: {
-    fontFamily: 'Gilroy',
-    flex: 1,
-    fontSize: '10px',
-    backgroundColor: 'transparent',
-    marginTop: '5px',
+    textTransform: 'capitalize',
+    color: '#ffffff',
+    backgroundColor: '#2a2a2a90',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '8px'
+      fontSize: '12px'
     }
   },
   snackbar: {
@@ -400,7 +399,6 @@ class EditProfile extends Component {
         className={classes.editButton}
         color='primary'
         onClick={this.handleDialogOpen}
-        variant='outlined'
       >
         Edit
       </Button>
