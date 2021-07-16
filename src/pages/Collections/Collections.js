@@ -248,12 +248,12 @@ class Collections extends Component {
     let collection, recommended
     try {
       collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
-      recommended = (await axios.get(`${BACKEND_API}/collections/recommended`)).data
+      const requQuery = `name=${collection.name}&description=${collection.description}&id=${id}`
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended?${requQuery}`)).data
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
     }
-    // this.getSocialLevel(collection.ownerId)
 
     this.setState({
       isLoading: false,
@@ -684,14 +684,12 @@ class Collections extends Component {
                       className={[classes.recommended, classes.recommendedMobile]}
                     >
                       {recommended.map(rec => {
-                        if (rec.name !== collection.name) {
                           return (
                             <RecommendedCollections
                               classes={classes}
                               collection={rec}
                             />
                           )
-                        }
                       })}
                     </Grid>
                   </TabPanel>
@@ -730,14 +728,12 @@ class Collections extends Component {
                       xs={12}
                     >
                       {recommended.map(rec => {
-                        if (rec.name !== collection.name) {
                           return (
                             <RecommendedCollections
                               classes={classes}
                               collection={rec}
                             />
                           )
-                        }
                       })}
                     </Grid>
                   </Grid>
