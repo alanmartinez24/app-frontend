@@ -28,7 +28,7 @@ import CollectionItem from '../../components/Collections/CollectionItem.js'
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const LIMIT_COLLECTIONS = 5
-const showTabs = window.innerWidth <= 1400
+const showTabs = window.innerWidth <= 1300
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -152,7 +152,7 @@ const styles = theme => ({
     zIndex: '999',
     marginLeft: '20px',
     maxWidth: '25%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       margin: '0px 0px 0px 50px',
       width: '100%',
       maxWidth: '100%'

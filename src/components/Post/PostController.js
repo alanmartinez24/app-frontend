@@ -119,6 +119,7 @@ function isNFTPost (caption) {
     'rarible.com/*',
     'app.rarible.com/*',
     'opensea.io/assets/*',
+    'opensea.io/collection/*',
     'superrare.co/*',
     'superrare.co/*',
     'foundation.app/*/',
