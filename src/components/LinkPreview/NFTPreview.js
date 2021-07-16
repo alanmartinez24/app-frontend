@@ -125,12 +125,11 @@ const styles = theme => ({
   },
   previewData: {
     position: 'absolute',
-    bottom: '0',
+    bottom: '4px',
     textAlign: 'left',
-    width: '96%',
+    width: '100%',
     zIndex: 5,
-    background:
-      'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
+    background: 'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
     padding: '2% 3%'
   }
 })

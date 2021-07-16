@@ -30,7 +30,7 @@ export const darkPalette = {
       secondary: Colors.W2
     },
     action: {
-      hover: Colors.W2
+      hover: Colors.B3
     }
   }
 }
@@ -65,6 +65,9 @@ export const lightPalette = {
     text: {
       primary: Colors.Black,
       secondary: Colors.DarkGrey
+    },
+    action: {
+      hover: Colors.W3
     }
   }
 }
@@ -97,7 +100,7 @@ export const theme = ({ palette }) => {
         borderRadius: '0.55rem',
         border: 'none',
         backgroundColor: Colors.Green,
-        color: Colors.Black,
+        color: Colors.White,
         boxShadow:
           '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
         lineHeight: '23px',
@@ -169,6 +172,16 @@ export const theme = ({ palette }) => {
       formControl: {
       }
     },
+    MuiMenu: {
+      paper: {
+        backgroundColor: palette.common.second
+      }
+    },
+    MuiMenuItem: {
+      dense: {
+        color: palette.alt.second
+      }
+    },
     MuiOutlinedInput: {
       root: {
         borderRadius: '0.625rem',
@@ -209,13 +222,12 @@ export const theme = ({ palette }) => {
     },
     MuiDialog: {
       paper: {
-        backgroundColor: palette.common.fifth,
+        backgroundColor: palette.alt.second,
         borderRadius: '25px',
         boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
         width: '80%',
         padding: '1rem 0.5rem',
         maxWidth: '500px'
-        // color: palette.common.first
       },
       backdrop: {
         backdropFilter: 'blur(3px)'
@@ -367,7 +379,7 @@ export const theme = ({ palette }) => {
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: palette.common.second,
+      color: Colors.White,
       letterSpacing: '0.25%',
       fontWeight: '100'
     },

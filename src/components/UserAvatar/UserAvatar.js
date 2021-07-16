@@ -17,7 +17,7 @@ const styles = theme => ({
   }
 })
 
-function UserAvatar ({ src: _src, alt, style, username, classes }) {
+function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
   const userLetter = username && username[0].toUpperCase()
   const src = _src === ANONYMOUS_DEFAULT_AVATAR ? '' : _src
 
@@ -37,9 +37,10 @@ function UserAvatar ({ src: _src, alt, style, username, classes }) {
             src={hashToUrl(src)}
             style={style}
             onError={setDefaultSrc}
+            className={className}
           />
           <Avatar alt={alt}
-            className={classes.avatar}
+            className={[classes.avatar, className]}
             style={style}
           >{userLetter && userLetter}
           </Avatar>
@@ -53,6 +54,7 @@ UserAvatar.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }

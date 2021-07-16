@@ -49,7 +49,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, addCollectionToRedux, authToken }) => {
+const CollectionDialog = ({ postid, classes, dialogOpen, handleDialogClose, addCollectionToRedux, authToken }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -106,6 +106,7 @@ const CollectionPostDialog = ({ postid, classes, dialogOpen, handleDialogClose, 
         onClose={handleDialogClose}
         onKeyDown={handleKeyDown}
         aria-labelledby='form-dialog-title'
+        maxWidth='xs'
       >
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
@@ -176,7 +177,7 @@ const mapActionToProps = (dispatch) => {
     }
 }
 
-CollectionPostDialog.propTypes = {
+CollectionDialog.propTypes = {
   postid: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
@@ -185,4 +186,4 @@ CollectionPostDialog.propTypes = {
   authToken: PropTypes.object
 }
 
-export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionPostDialog))
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionDialog))

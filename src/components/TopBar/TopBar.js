@@ -40,7 +40,7 @@ import NotifPopup from '../Notification/NotifPopup'
 import { levelColors } from '../../utils/colors'
 import { withRouter } from 'react-router'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
-import CollectionPostDialog from '../Collections/CollectionPostDialog'
+import CollectionDialog from '../Collections/CollectionDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import numeral from 'numeral'
@@ -583,7 +583,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
           dialogOpen={dialogOpen}
           handleDialogClose={handleDialogClose}
         />
-        <CollectionPostDialog
+        <CollectionDialog
           account={account}
           dialogOpen={collectionDialogOpen}
           postid={'routeFromUrl'}

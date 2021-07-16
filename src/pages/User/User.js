@@ -21,7 +21,7 @@ import '../../components/Tour/tourstyles.css'
 import ReactPlayer from 'react-player'
 import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add'
-import CollectionPostDialog from '../../components/Collections/CollectionPostDialog.js'
+import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
@@ -537,7 +537,7 @@ class User extends Component {
             content={`${username}'s profile page on Yup.`}
           />
         </Helmet>
-        <CollectionPostDialog
+        <CollectionDialog
           account={account}
           dialogOpen={dialogOpen}
           handleDialogClose={this.handleDialogClose}

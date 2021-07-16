@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { withStyles } from '@material-ui/core/styles'
-import CollectionPostDialog from '../Collections/CollectionPostDialog.js'
+import CollectionDialog from '../Collections/CollectionDialog.js'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
@@ -30,7 +30,7 @@ const CreateCollectionFab = ({ classes, account }) => {
   return (
     <>
       {account && account.name ? (
-        <CollectionPostDialog
+        <CollectionDialog
           account={account}
           dialogOpen={dialogOpen}
           handleDialogClose={handleDialogClose}

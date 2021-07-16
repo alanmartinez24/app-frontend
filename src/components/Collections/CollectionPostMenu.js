@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { IconButton, MenuItem, Menu, Snackbar, SnackbarContent } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import axios from 'axios'
-import CollectionPostDialog from './CollectionPostDialog.js'
+import CollectionDialog from './CollectionDialog.js'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { addPostToCollection, removePostFromCollection } from '../../redux/actions'
@@ -104,8 +104,7 @@ class CollectionPostMenu extends Component {
           onClose={this.handleMenuClose}
           PaperProps={{
             style: {
-              width: '35ch',
-              backgroundColor: 'black'
+              width: '35ch'
             }
           }}
           anchorOrigin={{
@@ -149,7 +148,7 @@ class CollectionPostMenu extends Component {
           })
           )}
         </Menu>
-        <CollectionPostDialog
+        <CollectionDialog
           account={account}
           dialogOpen={dialogOpen}
           postid={postid}
