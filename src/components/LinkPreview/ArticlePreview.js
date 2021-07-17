@@ -18,10 +18,10 @@ const styles = theme => ({
   },
   link: {
     textDecoration: 'none',
-    color: '#fff',
+    color: theme.palette.common.first,
     '&:visited': {
       textDecoration: 'none',
-      color: '#fff'
+      color: theme.palette.common.first
     }
   },
   linkImg: {
@@ -40,10 +40,10 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: '#fafafa',
+    color: theme.palette.common.first,
     '&:visited': {
       textDecoration: 'none',
-      color: '#fafafa'
+      color: theme.palette.common.first
     },
     maxHeight: '500px'
   },

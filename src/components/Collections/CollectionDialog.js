@@ -29,13 +29,13 @@ const styles = theme => ({
     fontSize: '1.3rem',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#fafafa'
+    color: theme.palette.common.first
   },
   dialogContent: {
     root: {
       margin: 0,
       padding: theme.spacing(2),
-      color: '#fafafa'
+      color: theme.palette.common.first
     }
   },
   dialogContentText: {

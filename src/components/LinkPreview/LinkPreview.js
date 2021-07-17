@@ -45,10 +45,10 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: '#fafafa',
+    color: theme.palette.common.first,
     '&:visited': {
       textDecoration: 'none',
-      color: '#fafafa'
+      color: theme.palette.common.first
     },
     maxHeight: '500px'
   },
@@ -56,12 +56,12 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 600,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)'
+    textShadow: `0px 0px 5px ${theme.palette.common.first}aa`
   },
   description: {
     position: 'relative',
     fontSize: '0.8rem',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.common.first}88`,
     margin: '0.5rem 0',
     fontWeight: 300
   },
