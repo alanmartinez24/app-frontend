@@ -85,7 +85,7 @@ export const theme = ({ palette }) => {
         borderColor: palette.common.second,
         color: palette.common.second,
         boxShadow:
-          '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
+          `5px 5px 30px 0 ${palette.alt.second}44, -5px -5px 30px 0 ${palette.common.third}44`,
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
@@ -99,18 +99,18 @@ export const theme = ({ palette }) => {
       contained: {
         borderRadius: '0.55rem',
         border: 'none',
-        backgroundColor: Colors.Green,
-        color: Colors.Black,
+        backgroundColor: palette.alt.third,
+        color: palette.common.second,
         boxShadow:
-          '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
+          `1px 1px 20px 0 ${palette.alt.second}02, -1px -1px 20px 0 ${palette.common.third}02`,
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
         fontFamily: 'Gilroy',
         '&:hover': {
           boxShadow:
-            '8px 8px 30px 0 rgba(0, 0, 0, 0.06), -8px -8px 15px 0 rgba(170, 170, 170, 0.03), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.06), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.03)',
-          backgroundColor: Colors.Green
+            `8px 8px 30px 0 ${palette.alt.second}07, -8px -8px 15px 0 ${palette.common.third}04, inset 8px 8px 30px 0  ${palette.alt.second}07, inset -8px -8px 15px 0 ${palette.common.third}04`,
+          backgroundColor: palette.alt.fourth
         }
       }
     },
@@ -118,7 +118,7 @@ export const theme = ({ palette }) => {
       root: {
         borderRadius: '100px',
         border: 'none',
-        boxShadow: `8px 8px 30px 0 {palette.common.first}04, -8px -8px 15px 0 {palette.common.first}02, inset 8px 8px 30px 0 {palette.common.first}04, inset -8px -8px 15px 0 {palette.common.first}02`,
+        boxShadow: `8px 8px 30px 0 ${palette.common.first}04, -8px -8px 15px 0 ${palette.common.first}02, inset 8px 8px 30px 0 ${palette.common.first}04, inset -8px -8px 15px 0 ${palette.common.first}02`,
         '&:hover': {
           boxShadow:
             '-8px -8px 30px 0 rgba(0, 0, 0, 0.04), 8px 8px 15px 0 rgba(170, 170, 170, 0.02), inset -8px -8px 30px 0 rgba(0, 0, 0, 0.04), inset 8px 8px 15px 0 rgba(170, 170, 170, 0.02)',
@@ -382,6 +382,13 @@ export const theme = ({ palette }) => {
       color: Colors.White,
       letterSpacing: '0.25%',
       fontWeight: '100'
+    },
+    body3: {
+      fontSize: '12px',
+      lineHeight: '18px',
+      color: Colors.White,
+      letterSpacing: '0.25%',
+      fontWeight: '200'
     },
     colorError: {
       color: Colors.Red

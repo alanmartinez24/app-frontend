@@ -52,8 +52,8 @@ const { BACKEND_API } = process.env
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 5,
-    boxShadow: '0px 0px 0px white',
-    borderBottom: '0px solid #1A1A1A',
+    boxShadow: `0px 0px 0px ${theme.palette.common.first}`,
+    borderBottom: `0px solid ${theme.palette.common.first}`,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
@@ -109,7 +109,7 @@ const styles = theme => ({
   drawerPaper: {
     borderRight: '0px solid',
     width: 190,
-    boxShadow: '2px 0px 20px #0b0b0b40'
+    boxShadow: `2px 0px 20px ${theme.palette.alt.first}40`
   },
   drawerHeader: {
     display: 'flex',

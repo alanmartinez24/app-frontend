@@ -101,6 +101,8 @@ const styles = theme => ({
   },
   editButton: {
     fontFamily: 'Gilroy',
+    backgroundColor: theme.palette.alt.third,
+    zIndex: 1000,
     flex: 1,
     fontSize: '10px',
     marginTop: '5px',

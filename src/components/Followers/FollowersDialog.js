@@ -74,12 +74,6 @@ const styles = theme => ({
   },
   Typography: {
     fontFamily: 'Gilroy'
-  },
-  text: {
-    fontSize: '13px',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '12px'
-    }
   }
 })
 
@@ -113,10 +107,9 @@ class FollowersDialog extends Component {
           >
             <Typography
               align='left'
-              className={classes.text}
-              variant='h4'
+              variant='body3'
             >
-              <a style={{ fontWeight: 500 }}>{formattedFollowers} </a> followers
+              <a style={{ fontWeight: 700 }}>{formattedFollowers} </a> followers
             </Typography>
           </Button>
           <Dialog

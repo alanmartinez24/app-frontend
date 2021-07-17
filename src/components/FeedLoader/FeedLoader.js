@@ -22,7 +22,7 @@ const FeedLoader = () => {
             width='117'
             x='3'
             y='6'
-            style={{ boxShadow: '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f' }}
+            style={{ boxShadow: `20px 20px 20px 0px ${palette.common.first}04, -2px -2px 20px  ${palette.alt.first}06, inset 12px 3px 20px 0px ${palette.common.first}04, inset -3px -7px 17px 0px ${palette.alt.second}4a, 5px 5px 9px 0px ${palette.common.first}24, -20px -20px 12px ${palette.alt.first}06, inset 1px 1px 6px 0px ${palette.common.first}05, inset -1px -1px 2px 0px ${palette.alt.second}0f` }}
           />
         </ContentLoader>
         <ContentLoader
@@ -39,7 +39,7 @@ const FeedLoader = () => {
             width='105'
             x='4'
             y='0'
-            style={{ boxShadow: '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f' }}
+            style={{ boxShadow: `20px 20px 20px 0px ${palette.common.first}04, -2px -2px 20px  ${palette.alt.first}06, inset 12px 3px 20px 0px ${palette.common.first}04, inset -3px -7px 17px 0px ${palette.alt.second}4a, 5px 5px 9px 0px ${palette.common.first}24, -20px -20px 12px ${palette.alt.first}06, inset 1px 1px 6px 0px ${palette.common.first}05, inset -1px -1px 2px 0px ${palette.alt.second}0f` }}
           />
         </ContentLoader>
         <div style={{ width: '100%', margin: 'auto', background: `${palette.alt.first}`, borderRadius: '0.5rem', marginBottom: '10px' }} >

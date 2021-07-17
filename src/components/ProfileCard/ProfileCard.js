@@ -28,7 +28,7 @@ const styles = theme => ({
     marginTop: '0px',
     marginBottom: '-4px',
     borderRadius: '100%',
-    border: 'solid 3px #DADADA',
+    border: `solid 3px ${theme.palette.common.third}`,
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
       fontSize: '45px',
@@ -56,7 +56,7 @@ const styles = theme => ({
   card: {
     paddingTop: theme.spacing(-10),
     paddingBottom: theme.spacing(-10),
-    boxShadow: '0px 0px 0px #2a2a2a81',
+    boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
     background: 'transparent',
     backgroundSize: 'cover',
     width: '550px',
@@ -145,15 +145,6 @@ const styles = theme => ({
     flexWrap: 'nowrap',
     [theme.breakpoints.down('xs')]: {
       padding: '0px 2rem 0px calc(2rem - 12px)'
-    }
-  },
-  text: {
-    fontSize: '12px',
-    padding: '0px',
-    fontFamily: 'Gilroy',
-    fontWeight: '100',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '12px'
     }
   },
   text2: {
@@ -328,7 +319,7 @@ function ProfileCard (props) {
                       padding: '0px'
                     }}
                   >
-                    @{username}
+                    {`@${username}`}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -357,7 +348,7 @@ function ProfileCard (props) {
               color='inherit'
               nowrap
               style={{ wordWrap: 'break-word' }}
-              variant='body2'
+              variant='body3'
             >
               <LinesEllipsis
                 basedOn='letters'
@@ -414,11 +405,9 @@ function ProfileCard (props) {
                     />
                   </Typography>
                   <Typography
-                    className={classes.text}
+                    variant='body2'
                     style={{
-                      display: 'inline-block',
-                      fontFamily: 'Gilroy',
-                      fontSize: '12px'
+                      display: 'inline-block'
                     }}
                   >
                     Influence
@@ -483,8 +472,7 @@ function ProfileCard (props) {
           >
             <Grid item>
               <Typography align='left'
-                className={classes.text}
-                variant='h5'
+                variant='body3'
               >
                 <a style={{ fontWeight: 500 }}>{formattedRatings}</a> Ratings
               </Typography>

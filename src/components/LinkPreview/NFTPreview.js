@@ -129,7 +129,7 @@ const styles = theme => ({
     textAlign: 'left',
     width: '100%',
     zIndex: 5,
-    background: 'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
+    background: `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}66, ${theme.palette.alt.second}99, ${theme.palette.alt.second}ad, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}fd, ${theme.palette.alt.second}fe, ${theme.palette.alt.second})`,
     padding: '2% 3%'
   }
 })
