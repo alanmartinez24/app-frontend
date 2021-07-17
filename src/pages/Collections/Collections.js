@@ -75,7 +75,7 @@ const styles = theme => ({
   collectionHeader: {
     position: 'sticky',
     top: '60px',
-    background: 'linear-gradient(0deg,#1a1a1a,#1b1b1b)',
+    background: `linear-gradient(${theme.palette.alt.second} 100%, ${theme.palette.alt.second}dd 10%)`,
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
