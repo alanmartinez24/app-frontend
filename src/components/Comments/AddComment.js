@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import Input from '@material-ui/core/Input'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import { addPostComment } from '../../redux/actions'
 import { parseError } from '../../eos/error'
 import { connect } from 'react-redux'
@@ -113,6 +113,7 @@ class AddComment extends PureComponent {
 
     const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
     const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
+    const { palette } = useTheme()
 
     return (
       <ErrorBoundary>
@@ -136,7 +137,7 @@ class AddComment extends PureComponent {
               inputProps={{ maxLength: 140 }}
               multiline
               rowsMax={5}
-              style={{ fontFamily: 'Gilroy', color: '#ffffff' }}
+              style={{ fontFamily: 'Gilroy', color: palette.common.first }}
             />
           </Grid>
           <Grid container

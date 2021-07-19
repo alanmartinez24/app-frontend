@@ -38,7 +38,7 @@ const PostLoader = () => {
             y='0'
           />
         </ContentLoader>
-        <div style={{ minWidth: '600px', background: '#1a1a1a', borderRadius: '0.5rem', marginBottom: '10px' }} >
+        <div style={{ minWidth: '600px', background: palette.common.second, borderRadius: '0.5rem', marginBottom: '10px' }} >
           <ContentLoader
             height={200}
             primaryColor={palette.common.first}

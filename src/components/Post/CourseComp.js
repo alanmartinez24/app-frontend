@@ -73,7 +73,7 @@ const styles = theme => ({
   previewData: {
     position: 'absolute',
     top: '0',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: theme.palette.alt.first,
     textAlign: 'left',
     zIndex: 5,
     padding: '0% 3%',
