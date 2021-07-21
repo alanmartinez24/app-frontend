@@ -471,7 +471,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
     if (!accountName || notifications.length) return
     try {
       (axios.get(`${BACKEND_API}/notifications/${accountName}`)).then(({ data: notifs }) => {
-        setNotifications(notifs)
+        setNotifications(notifs.reverse())
       })
     } catch (err) {}
   }
