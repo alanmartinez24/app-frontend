@@ -67,13 +67,13 @@ const styles = theme => ({
     }
   },
   signupBtn: {
-    backgroundColor: '#00eab7',
+    backgroundColor: '#00E08E',
     fontFamily: 'Gilroy',
     width: '100%',
     height: '45px',
     borderRadius: '0.65rem',
     '&:hover': {
-      backgroundColor: '#00eab7'
+      backgroundColor: '#00E08E'
     },
     [theme.breakpoints.down('sm')]: {
       height: '40px',
@@ -97,7 +97,6 @@ const styles = theme => ({
   drawer: {
     flexShrink: 4,
     background: 'transparent',
-    color: 'white',
     paperAnchorDockedLeft: {
       borderRight: '4px solid'
     },
@@ -109,7 +108,7 @@ const styles = theme => ({
   drawerPaper: {
     borderRight: '0px solid',
     width: 190,
-    boxShadow: `2px 0px 20px ${theme.palette.alt.first}40`
+    boxShadow: `inset -2px 0px 25px ${theme.palette.common.third}20`
   },
   drawerHeader: {
     display: 'flex',
@@ -163,7 +162,7 @@ const styles = theme => ({
   },
   listButton: {
     opacity: 0.6,
-    fontWeight: '100',
+    fontWeight: '300',
     '&:hover': {
       opacity: 1
     }
@@ -642,7 +641,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   secondary={
                     <span
                       style={{
-                              color: 'fourth',
+                              color: palette.common.fourth,
                               fontWeight: 300,
                               fontSize: '10px'
                             }}
@@ -872,8 +871,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     primary='Your Daily Hits'
                     className={classes.listButton}
                     style={{
-                            color: '#c0c0c0',
-                            fontWeight: '100',
+                            fontWeight: '300',
                             margin: 0
                           }}
                   />

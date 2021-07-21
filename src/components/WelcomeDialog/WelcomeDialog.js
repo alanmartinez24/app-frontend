@@ -22,9 +22,9 @@ const styles = theme => ({
     }
   },
   dialogTitleText: {
-    fontFamily: 'Bungee',
+    fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: '#ffffff',
+    color: theme.palette.common.first,
     fontSize: '20'
   },
   dialogContentText: {
@@ -35,7 +35,7 @@ const styles = theme => ({
   primaryBtn: {
     color: '#0a0a0a',
     fontWeight: '500',
-    backgroundColor: '#00eab7',
+    backgroundColor: '#00E08E',
     '&:hover': {
       backgroundColor: '#00bb92'
     }

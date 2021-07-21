@@ -57,7 +57,7 @@ class Tour extends Component {
             isOpen={this.state.isTourOpen}
             onRequestClose={this.closeTour}
             className={classes.Tour}
-            accentColor='#00eab7'
+            accentColor='#00E08E'
           />
           <Fab
             className={classes.tourFab}

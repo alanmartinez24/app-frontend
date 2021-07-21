@@ -38,7 +38,7 @@ const styles = theme => ({
   })
 
 const RadialChart = (props) => {
-  const color = '#00EAB7'
+  const color = '#00E08E'
   const { classes, chartData, chartTitle, colors } = props
 
   if (chartData) {

@@ -831,7 +831,7 @@ class User extends Component {
               isOpen={this.state.isTourOpen}
               onRequestClose={this.closeTour}
               className={classes.Tour}
-              accentColor='#00eab7'
+              accentColor='#00E08E'
               rounded={10}
               disableInteraction
               highlightedMaskClassName={classes.Mask}
@@ -839,7 +839,7 @@ class User extends Component {
                 <Button
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                   small
                 >
                   Next
@@ -849,7 +849,7 @@ class User extends Component {
                 <Button
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                 >
                   Back
                 </Button>

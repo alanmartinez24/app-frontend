@@ -85,7 +85,7 @@ export const theme = ({ palette }) => {
         borderColor: palette.common.second,
         color: palette.common.second,
         boxShadow:
-          `5px 5px 30px 0 ${palette.alt.second}44, -5px -5px 30px 0 ${palette.common.third}44`,
+          `2px 2px 12px 0 ${palette.alt.second}33, -2px -2px 15px 0 ${palette.common.third}33`,
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
@@ -259,14 +259,14 @@ export const theme = ({ palette }) => {
       fontSize: '4rem',
       lineHeight: '3.25rem',
       marginBottom: '0.2rem',
-      color: palette.common.first
+      color: `${palette.common.first}DD`
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
       lineHeight: '2.5rem',
-      color: palette.common.first
+      color: `${palette.common.first}DD`
     },
     h3: {
       fontFamily: 'Gilroy',
@@ -274,7 +274,7 @@ export const theme = ({ palette }) => {
       fontWeight: 800,
       fontSize: '1.75rem',
       lineHeight: '1.85rem',
-      color: palette.common.second
+      color: `${palette.common.second}DD`
     },
     h4: {
       fontFamily: 'Gilroy',
@@ -282,7 +282,7 @@ export const theme = ({ palette }) => {
       fontWeight: 600,
       fontSize: '1.375rem',
       lineHeight: '1.6rem',
-      color: palette.common.third
+      color: `${palette.common.third}DD`
     },
     h5: {
       fontFamily: 'Gilroy',
@@ -290,7 +290,7 @@ export const theme = ({ palette }) => {
       fontWeight: 500,
       fontSize: '1.125rem',
       lineHeight: '1.3rem',
-      color: palette.common.third
+      color: `${palette.common.third}DD`
     },
     h6: {
       fontFamily: 'Gilroy',
@@ -298,7 +298,7 @@ export const theme = ({ palette }) => {
       fontWeight: 800,
       fontSize: '1rem',
       lineHeight: '1.25rem',
-      color: palette.common.third
+      color: `${palette.common.third}DD`
     },
     subtitle1: {
       fontFamily: 'Gilroy',
@@ -306,7 +306,7 @@ export const theme = ({ palette }) => {
       fontWeight: 300,
       fontSize: '1.625rem',
       lineHeight: '1.25rem',
-      color: palette.common.third
+      color: `${palette.common.third}DD`
     },
     subtitle2: {
       fontFamily: 'Gilroy',
@@ -314,7 +314,7 @@ export const theme = ({ palette }) => {
       fontWeight: 200,
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
-      color: palette.common.fourth
+      color: `${palette.common.third}DD`
     },
     body1: {
       fontFamily: 'Gilroy',
@@ -322,7 +322,7 @@ export const theme = ({ palette }) => {
       fontWeight: 300,
       fontSize: '0.875rem',
       lineHeight: '1rem',
-      color: palette.common.second
+      color: `${palette.common.third}DD`
     },
     display3: {
       fontFamily: 'Gilroy',
@@ -360,33 +360,33 @@ export const theme = ({ palette }) => {
       lineHeight: '23px',
       letterSpacing: '0.75%',
       fontStyle: 'thin',
-      color: palette.common.first
+      color: `${palette.common.first}DD`
     },
     caption: {
       fontFamily: 'Gilroy',
       fontStyle: '600',
       fontSize: '16px',
-      color: palette.common.third
+      color: `${palette.common.third}DD`
     },
     subheader: {
       fontSize: '20px',
       lineHeight: '29px',
       fontFamily: 'Gilroy',
       letterSpacing: '0.15%',
-      color: palette.common.fourth,
+      color: `${palette.common.fourth}DD`,
       fontStyle: 'thin'
     },
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: Colors.White,
+      color: `${palette.common.first}DD`,
       letterSpacing: '0.25%',
-      fontWeight: '100'
+      fontWeight: '200'
     },
     body3: {
       fontSize: '12px',
       lineHeight: '18px',
-      color: Colors.White,
+      color: `${palette.common.first}DD`,
       letterSpacing: '0.25%',
       fontWeight: '200'
     },

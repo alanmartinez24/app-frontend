@@ -501,7 +501,7 @@ ratingPower = async () => {
               >
                 <RadialChart
                   chartData={platformDistribution}
-                  colors={['#1DA1F2', '#FF0000', '#FF5700', '#00EAB7']}
+                  colors={['#1DA1F2', '#FF0000', '#FF5700', '#00E08E']}
                   className={classes}
                   chartTitle='Platform Distribution'
                 />

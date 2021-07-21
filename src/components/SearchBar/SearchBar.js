@@ -14,23 +14,22 @@ const styles = theme => ({
     paddingRight: '200vw'
   },
   root: {
+    backgroundColor: 'transparent',
     position: 'relative',
     borderRadius: '0.65rem',
     border: '0px solid #fff',
     '&:hover': {
       backgroundColor: theme.palette.alt.third
     },
-    '&:active': {
+    '&:focus': {
       backgroundColor: theme.palette.alt.third
     },
     marginLeft: '1rem',
     justify: 'center',
-    width: '',
     fontFamily: 'Gilroy',
     fontWeight: '300',
     boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}02, -2px -2px 20px ${theme.palette.alt.first}04, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}a, 5px 5px 9px 0px ${theme.palette.common.first}04, -20px -20px 12px ${theme.palette.alt.first}02, inset 1px 1px 6px 0px ${theme.palette.common.first}02, inset -1px -1px 2px 0px ${theme.palette.alt.second}d`,
     color: '#fff',
-    maxWidth: '',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0px'
     },

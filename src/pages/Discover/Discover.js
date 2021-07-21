@@ -387,7 +387,7 @@ class Discover extends Component {
             }
             onRequestClose={this.closeTour}
             className={classes.Tour}
-            accentColor='#00eab7'
+            accentColor='#00E08E'
             rounded={10}
             disableInteraction
             highlightedMaskClassName={classes.Mask}

@@ -56,7 +56,7 @@ const styles = theme => ({
   })
 
 const DonutChart = (props) => {
-  const color = '#00EAB7'
+  const color = '#00E08E'
   const { classes, chartData, chartTitle } = props
 
   if (chartData && chartData.data) {

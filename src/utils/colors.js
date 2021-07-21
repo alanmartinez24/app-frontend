@@ -30,9 +30,11 @@ export default {
   W2: '#FAFAFA',
   W3: '#EAEAEA',
   W4: '#CACACA',
-  W5: '#AAAAAA',
+  W5: '#BABABA',
+  W6: '#AAAAAA',
   B1: '#0A0A0A',
-  B2: '#1A1A1A',
+  B2: '#161616',
+  B6: '#1A1A1A',
   B3: '#2A2A2A',
   B4: '#6A6A6A',
   B5: '#9A9A9A'

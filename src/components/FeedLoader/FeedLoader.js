@@ -10,7 +10,7 @@ const FeedLoader = () => {
       <div>
         <ContentLoader
           height={16}
-          primaryColor={palette.alt.first}
+          primaryColor={palette.alt.second}
           secondaryColor={palette.alt.third}
           speed={2}
           width={400}
@@ -42,7 +42,7 @@ const FeedLoader = () => {
             style={{ boxShadow: `20px 20px 20px 0px ${palette.common.first}04, -2px -2px 20px  ${palette.alt.first}06, inset 12px 3px 20px 0px ${palette.common.first}04, inset -3px -7px 17px 0px ${palette.alt.second}4a, 5px 5px 9px 0px ${palette.common.first}24, -20px -20px 12px ${palette.alt.first}06, inset 1px 1px 6px 0px ${palette.common.first}05, inset -1px -1px 2px 0px ${palette.alt.second}0f` }}
           />
         </ContentLoader>
-        <div style={{ width: '100%', margin: 'auto', background: `${palette.alt.first}`, borderRadius: '0.5rem', marginBottom: '10px' }} >
+        <div style={{ width: '100%', margin: 'auto', background: `${palette.alt.second}`, borderRadius: '0.5rem', marginBottom: '10px' }} >
           <ContentLoader
             height={200}
             primaryColor={palette.alt.second}
@@ -107,8 +107,8 @@ const FeedLoader = () => {
           </ContentLoader>
           <ContentLoader
             height={16}
-            primaryColor={palette.alt.first}
-            secondaryColor={palette.alt.second}
+            primaryColor={palette.alt.second}
+            secondaryColor={palette.alt.third}
             speed={2}
             width={600}
           >

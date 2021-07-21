@@ -61,7 +61,7 @@ const styles = theme => ({
   })
 
 const LineChart = (props) => {
-  const color = '#00EAB7'
+  const color = '#00E08E'
   const { classes, chartData, chartTitle, headerNumber } = props
         if (chartData && chartData.data && headerNumber) {
           const chart = {

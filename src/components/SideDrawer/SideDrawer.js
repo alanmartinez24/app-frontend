@@ -72,7 +72,7 @@ const styles = theme => ({
     }
   },
   tourFab: {
-    background: '#00eab7'
+    background: '#00E08E'
   }
 })
 
