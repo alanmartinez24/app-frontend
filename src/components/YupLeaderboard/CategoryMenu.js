@@ -31,7 +31,7 @@ class CategoryMenu extends Component {
   }
 
   render () {
-    const { classes, settings } = this.props
+    const { classes, settings, lightMode } = this.props
     const { category: currCategory, subjCats } = settings
 
     return (
@@ -39,7 +39,7 @@ class CategoryMenu extends Component {
         <FormControl className={classes.formControl}
           variant='outlined'
           size='small'
-          dark
+          type={lightMode ? 'dark' : 'light'}
         >
           <InputLabel
             style={{ fontSize: '12px' }}
@@ -83,7 +83,8 @@ const mapStateToProps = (state) => {
   }
   const { listOptions } = yupListSettings
   const settings = parseSettings(config, listOptions)
-  return { config, settings, listOptions }
+  const lightMode = state.lightMode.active
+  return { config, settings, listOptions, lightMode }
 }
 
 CategoryMenu.propTypes = {
@@ -91,7 +92,8 @@ CategoryMenu.propTypes = {
   config: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  listOptions: PropTypes.array.isRequired
+  listOptions: PropTypes.array.isRequired,
+  lightMode: PropTypes.array.isRequired
 }
 
 export default connect(mapStateToProps)(withRouter(withStyles(styles)(CategoryMenu)))
