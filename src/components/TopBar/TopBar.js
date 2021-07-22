@@ -165,6 +165,8 @@ const styles = theme => ({
   listButton: {
     opacity: 0.6,
     fontWeight: '100',
+    color: '#c0c0c0',
+    margin: 0,
     '&:hover': {
       opacity: 1
     }
@@ -448,9 +450,8 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   }, [accountName])
 
   useEffect(() => {
-    if (authInfo && authInfo.account) {
-      axios
-        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+    if (authInfo && authInfo.account && authInfo.account.name) {
+      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
         .then(res => {
           const levelInfo = res.data
           setLevel({
@@ -1008,6 +1009,18 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           className={classes.listButton}
                         />
                       </ListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=mirror'
+                      >
+                        <ListItemText
+                          primary='Mirror Articles'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
                       <ListItem
                         button
                         dense
@@ -1018,7 +1031,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Politics'
                           style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
                         />
                       </ListItem>
                       <ListItem
@@ -1031,7 +1043,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Safe Space'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', margin: 0 }}
                         />
                       </ListItem>
                       <ListItem
@@ -1044,7 +1055,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Popular'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', margin: 0 }}
                         />
                       </ListItem>
                       <ListItem button
@@ -1056,7 +1066,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Funny'
                           style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
                         />
                       </ListItem>
                       <ListItem
@@ -1068,7 +1077,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       >
                         <ListItemText
                           primary='Smart'
-                          style={{ color: '#c0c0c0', margin: 0 }}
                           className={classes.listButton}
                         />
                       </ListItem>

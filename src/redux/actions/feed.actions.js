@@ -12,6 +12,10 @@ export async function fetchNftFeed (start, limit) {
   return (await axios.get(`${BACKEND_API}/feed/nfts?start=${start}&limit=${limit}`)).data
 }
 
+export async function fetchMirrorFeed (start, limit) {
+  return (await axios.get(`${BACKEND_API}/feed/mirror?start=${start}&limit=${limit}`)).data
+}
+
 export async function fetchCryptoFeed (start, limit) {
   return (await axios.get(`${BACKEND_API}/feed/crypto/?start=${start}&limit=${limit}`)).data
 }
@@ -64,6 +68,8 @@ export function fetchFeed (feedType, start, limit) {
         res = await fetchHomeFeed(start, limit)
       } else if (feedType === 'new') {
         res = await fetchNewFeed(start, limit)
+      } else if (feedType === 'mirror') {
+        res = await fetchMirrorFeed(start, limit)
       } else if (feedType === 'politics') {
         res = await fetchPoliticsFeed(start, limit)
       } else if (feedType === 'non-corona') {

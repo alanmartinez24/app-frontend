@@ -111,6 +111,8 @@ function feedMetaTitle (feed) {
       return 'Yup • Crypto'
     case 'nfts':
       return 'Yup • NFTs'
+    case 'mirror':
+      return 'Yup • Mirror Articles'
     default:
       return 'Yup • Social Layer for the Internet'
   }
@@ -134,6 +136,8 @@ function feedDescription (feed) {
       return 'The top crypto content out there'
     case 'nfts':
       return 'Non-fungibility for days'
+    case 'mirror':
+      return 'The best articles on web3'
     default:
       return 'Yup • Social Layer for the Internet'
   }
@@ -213,7 +217,8 @@ const FEED_HEADERS = {
   'non-corona': 'safecover.png',
   crypto: 'cryptocover.png',
   nfts: 'nftcover.png',
-  new: 'dailyhitscover.png'
+  new: 'dailyhitscover.png',
+  mirror: 'mirrorcover.png'
 }
 
 const FEED_NAMES = {
@@ -225,7 +230,8 @@ const FEED_NAMES = {
   'non-corona': 'Safe Space',
   crypto: 'Crypto',
   nfts: 'NFT Gallery',
-  new: 'New'
+  new: 'New',
+  mirror: 'Mirror Articles'
 }
 
 function FeedHeader ({

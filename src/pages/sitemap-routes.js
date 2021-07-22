@@ -6,6 +6,7 @@ export default (
     <Route path='/' />
     <Route path='/?feed=nfts' />
     <Route path='/?feed=crypto' />
+    <Route path='/?feed=mirror' />
     <Route path='/?feed=dailyhits' />
     <Route path='/?feed=new' />
     <Route path='/?feed=politics' />

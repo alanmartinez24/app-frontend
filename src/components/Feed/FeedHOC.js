@@ -112,6 +112,9 @@ class FeedHOC extends PureComponent {
       case 'crypto':
         window.analytics.page('Crypto')
         break
+      case 'mirror':
+        window.analytics.page('Mirror')
+        break
       case 'nfts':
         window.analytics.page('NFTs')
         break
@@ -136,6 +139,8 @@ class FeedHOC extends PureComponent {
 // Fetches initial posts, if there are none
   fetchPosts = () => {
     const { dispatch, feed, feedInfo } = this.props
+    console.log(`feedInfo`, feedInfo)
+    console.log(`feedInfo[feed]`, feedInfo[feed])
     if (feedInfo && feedInfo[feed]) {
       if (feedInfo[feed].posts.length < feedInfo[feed].limit) {
         dispatch(fetchFeed(feed, 0, feedInfo[feed].limit))
