@@ -66,6 +66,13 @@ const initialState = {
       error: null,
       start: 0,
       limit: 10
+    },
+    'mirror': {
+      posts: [],
+      isLoading: false,
+      error: null,
+      start: 0,
+      limit: 10
     }
   }
 }
