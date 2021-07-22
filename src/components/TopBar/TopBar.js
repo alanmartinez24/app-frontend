@@ -1015,7 +1015,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         to='/?feed=mirror'
                       >
                         <ListItemText
-                          primary='Mirror'
+                          primary='Mirror Articles'
                           style={{ color: '#c0c0c0', margin: 0 }}
                           className={classes.listButton}
                         />
