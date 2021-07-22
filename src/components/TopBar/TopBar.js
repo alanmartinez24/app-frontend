@@ -450,9 +450,8 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   }, [accountName])
 
   useEffect(() => {
-    if (authInfo && authInfo.account) {
-      axios
-        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+    if (authInfo && authInfo.account && authInfo.account.name) {
+      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
         .then(res => {
           const levelInfo = res.data
           setLevel({

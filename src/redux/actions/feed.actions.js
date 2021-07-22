@@ -13,8 +13,10 @@ export async function fetchNftFeed (start, limit) {
 }
 
 export async function fetchMirrorFeed (start, limit) {
-  return (await axios.get(`${BACKEND_API}/feed/mirror?start=${start}&limit=${limit}`)).data
+  return (await axios.get(`http://localhost:4006/feed/mirror?start=${start}&limit=${limit}`)).data
 }
+//   return (await axios.get(`${BACKEND_API}/feed/mirror?start=${start}&limit=${limit}`)).data
+// }
 
 export async function fetchCryptoFeed (start, limit) {
   return (await axios.get(`${BACKEND_API}/feed/crypto/?start=${start}&limit=${limit}`)).data
