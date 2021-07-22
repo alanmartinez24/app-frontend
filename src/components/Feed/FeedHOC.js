@@ -112,6 +112,9 @@ class FeedHOC extends PureComponent {
       case 'crypto':
         window.analytics.page('Crypto')
         break
+      case 'mirror':
+        window.analytics.page('Mirror')
+        break
       case 'nfts':
         window.analytics.page('NFTs')
         break
