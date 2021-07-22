@@ -165,6 +165,8 @@ const styles = theme => ({
   listButton: {
     opacity: 0.6,
     fontWeight: '100',
+    color: '#c0c0c0',
+    margin: 0,
     '&:hover': {
       opacity: 1
     }
@@ -1030,7 +1032,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Politics'
                           style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
                         />
                       </ListItem>
                       <ListItem
@@ -1043,7 +1044,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Safe Space'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', margin: 0 }}
                         />
                       </ListItem>
                       <ListItem
@@ -1056,7 +1056,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Popular'
                           className={classes.listButton}
-                          style={{ color: '#c0c0c0', margin: 0 }}
                         />
                       </ListItem>
                       <ListItem button
@@ -1068,7 +1067,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                         <ListItemText
                           primary='Funny'
                           style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
                         />
                       </ListItem>
                       <ListItem
@@ -1080,7 +1078,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       >
                         <ListItemText
                           primary='Smart'
-                          style={{ color: '#c0c0c0', margin: 0 }}
                           className={classes.listButton}
                         />
                       </ListItem>
