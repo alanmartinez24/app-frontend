@@ -1,5 +1,4 @@
 import Colors, { Gradients } from './colors'
-console.log(`Gradients`, Gradients)
 
 export const darkPalette = {
   palette: {
