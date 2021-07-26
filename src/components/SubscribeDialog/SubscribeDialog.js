@@ -528,7 +528,6 @@ class SubscribeDialog extends Component {
 
   render () {
     const { handleDialogClose, dialogOpen, classes } = this.props
-
     return (
       <ErrorBoundary>
         <Portal>
@@ -658,13 +657,7 @@ class SubscribeDialog extends Component {
                         margin='dense'
                         error={!EMAIL_RE.test(this.state.email) && this.state.email.length}
                         onChange={this.handleEmailChange}
-                        InputProps={{
-                      classes: {
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                        notchedOutline: classes.outline
-                    },
-                    className: classes.input }}
+                        InputProps={{ classes: { notchedOutline: classes.outline }, className: classes.input }}
                       />
                     </FormControl>
                   </Grid>
@@ -720,8 +713,6 @@ class SubscribeDialog extends Component {
                               onChange={this.handleEmailChange}
                               InputProps={{
                                 classes: {
-                                  root: classes.inputRoot,
-                                  input: classes.inputInput,
                                   notchedOutline: classes.outline
                                 },
                                 className: classes.stepperInput,
@@ -763,12 +754,7 @@ class SubscribeDialog extends Component {
                               type='text'
                               fullWidth
                               onChange={this.handleUsernameChange}
-                              InputProps={{
-                                classes: {
-                                  root: classes.inputRoot,
-                                  input: classes.inputInput,
-                                  notchedOutline: classes.outline
-                                },
+                              InputProps={{ classes: { notchedOutline: classes.outline },
                                 className: classes.stepperInput,
                                 endAdornment: (
                                   <Button className={classes.button}

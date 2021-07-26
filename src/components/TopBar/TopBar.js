@@ -805,7 +805,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               >
                 <Icon
                   fontSize='small'
-                  className='fas fa-sun'
+                  className={`fas ${lightMode ? 'fa-moon' : 'fa-sun'}`}
                   style={{ color: palette.common.second }}
                 />
               </IconButton>
