@@ -249,6 +249,13 @@ export const theme = ({ palette }) => {
       label: {
         color: `${palette.common.first} !important`
       }
+    },
+    MuiFab: {
+      extended: {
+        textTransform: 'capitalize',
+        backgroundColor: palette.alt.third,
+        borderRadius: '0.65rem'
+      }
     }
   },
   typography: {

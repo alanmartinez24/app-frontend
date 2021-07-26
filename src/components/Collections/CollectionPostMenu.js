@@ -104,7 +104,8 @@ class CollectionPostMenu extends Component {
           onClose={this.handleMenuClose}
           PaperProps={{
             style: {
-              width: '35ch'
+              width: '35ch',
+              maxHeight: '30vh'
             }
           }}
           anchorOrigin={{

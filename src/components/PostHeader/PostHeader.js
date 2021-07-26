@@ -58,9 +58,8 @@ const styles = theme => ({
   },
   time: {
     paddingRight: '2px',
-    opacity: '0.5',
     marginLeft: 'auto',
-    color: 'white',
+    color: theme.palette.common.fifth,
     fontSize: '14px',
     lineHeight: '14px',
     paddingTop: '0px',
@@ -79,6 +78,9 @@ const styles = theme => ({
     width: '22px',
     marginRight: '7px',
     height: '22px'
+  },
+  arrow: {
+    color: theme.palette.common.first
   }
 })
 
@@ -263,7 +265,8 @@ class PostHeader extends Component {
             </Fragment>
           }
                 <Grid item
-                  style={{ color: 'white', zoom: '50%', opacity: '80%', marginBottom: '10px' }}
+                  className={classes.arrow}
+                  style={{ zoom: '50%', opacity: '80%' }}
                 >
                   {
                 vote.like

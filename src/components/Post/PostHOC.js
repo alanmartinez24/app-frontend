@@ -29,11 +29,12 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
       boxShadow: 'none',
-      padding: 4
+      padding: '0.25rem'
     },
     [theme.breakpoints.up('1700')]: {
       maxWidth: '640px',
-      maxHeight: '1500px'
+      maxHeight: '1500px',
+      padding: '0.25rem'
     }
   },
   user: {
@@ -139,7 +140,7 @@ class PostHOC extends PureComponent {
         >
           <div
             className={classes.article}
-            style={{ background: 'transparent', boxShadow: 'none' }}
+            style={{ background: 'transparent', boxShadow: 'none', paddingTop: '0.25rem' }}
           >
             <PostHeader
               postid={postid}

@@ -12,12 +12,8 @@ import { connect } from 'react-redux'
 
 const styles = theme => ({
   panelText: {
-    fontSize: '18px',
     fontFamily: '"Gilroy", sans-serif',
-    color: '#ffffff',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '14px'
-    }
+    color: `${theme.palette.common.third}`
   },
   menuItem: {
     fontSize: '20px',
@@ -25,12 +21,9 @@ const styles = theme => ({
     color: 'black'
   },
   comment: {
-    fontWeight: '400',
+    fontWeight: '500',
     textDecoration: 'none',
-    color: '#ffffff',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '14px'
-    }
+    color: `${theme.palette.common.third}`
   }
 })
 

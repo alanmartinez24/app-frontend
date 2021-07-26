@@ -22,8 +22,6 @@ import {
   DialogContent,
   Dialog,
   Badge,
-  Switch,
-  FormControlLabel,
   Grow
 } from '@material-ui/core'
 import { withStyles, useTheme } from '@material-ui/core/styles'
@@ -774,21 +772,15 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               </Typography>
             </ListItemText>
           </ListItem>)}
-        <ListItem>
-          <FormControlLabel
-            control={<Switch checked={lightMode}
-              onChange={toggleTheme}
-              name='lightMode'
-                     />}
-            label='Light Mode'
-            color={palette.common.first}
-          />
-        </ListItem>
         <ListItem dense
           style={{ bottom: 10, position: 'absolute' }}
         >
-          <Grid container>
-            <Grid item>
+          <Grid container
+            direction='row'
+          >
+            <Grid item
+              xs={3}
+            >
               <IconButton
                 aria-label='delete'
                 className={classes.margin}
@@ -798,6 +790,22 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 <Icon
                   fontSize='small'
                   className='fal fa-gear'
+                  style={{ color: palette.common.second }}
+                />
+              </IconButton>
+            </Grid>
+            <Grid item
+              xs={3}
+            >
+              <IconButton
+                aria-label='theme-mode'
+                className={classes.margin}
+                size='small'
+                onClick={toggleTheme}
+              >
+                <Icon
+                  fontSize='small'
+                  className='fas fa-sun'
                   style={{ color: palette.common.second }}
                 />
               </IconButton>

@@ -1,5 +1,5 @@
 .tourHeader {
-  text-transform: uppercase;
+  text-transform: capitalize;
   margin-top: 0;
   font-weight: 500;
 }
@@ -9,12 +9,12 @@
 .tourButton {
   margin: 10px 10px 0 0 !important;
   background-color: #00E08E !important;
-  color: #fff !important;
+  color: #aaa !important;
   font-weight: 400;
 }
 .Mask {
-  border: solid #fff;
-  outline: solid #fff;
+  border: solid #aaa;
+  outline: solid #aaa;
 }
 .tourResources {
   text-align: center;

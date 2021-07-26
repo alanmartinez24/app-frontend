@@ -56,12 +56,14 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 600,
-    textShadow: `0px 0px 5px ${theme.palette.common.first}aa`
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    color: theme.palette.common.first,
+    opacity: 0.9
   },
   description: {
     position: 'relative',
     fontSize: '0.8rem',
-    textShadow: `0px 0px 5px ${theme.palette.common.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     margin: '0.5rem 0',
     fontWeight: 300
   },

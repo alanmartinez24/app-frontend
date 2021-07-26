@@ -73,18 +73,20 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: '#fafafa',
+    color: theme.palette.common.first,
     '&:visited': {
       textDecoration: 'none',
-      color: '#fafafa'
+      color: theme.palette.common.first
     },
     maxHeight: '500px'
   },
   title: {
     position: 'relative',
     fontSize: '20px',
-    fontWeight: 500,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
+    fontWeight: 600,
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    color: theme.palette.common.first,
+    opacity: 0.9,
     [theme.breakpoints.down('md')]: {
       width: 'auto'
     },
@@ -95,7 +97,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '12px',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     fontWeight: 300,
     lineHeight: 1.3,
     [theme.breakpoints.down('xs')]: {
@@ -105,7 +107,7 @@ const styles = theme => ({
   credits: {
     position: 'relative',
     fontSize: '14px',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     fontWeight: 400,
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
@@ -125,12 +127,12 @@ const styles = theme => ({
   },
   previewData: {
     position: 'absolute',
-    bottom: '4px',
+    bottom: '0px',
     textAlign: 'left',
     width: '100%',
     zIndex: 5,
     background: `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}66, ${theme.palette.alt.second}99, ${theme.palette.alt.second}ad, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}fd, ${theme.palette.alt.second}fe, ${theme.palette.alt.second})`,
-    padding: '2% 3%'
+    padding: '2% 3% 3% 3%'
   }
 })
 
@@ -348,7 +350,9 @@ class NFTPreview extends Component {
                         />
                       </Grid>
                       <Grid item>
-                        <div className={classes.title}>
+                        <Typography variant='h3'
+                          className={classes.title}
+                        >
                           <LinesEllipsis
                             basedOn='letters'
                             ellipsis='...'
@@ -356,7 +360,7 @@ class NFTPreview extends Component {
                             text={title}
                             trimRight
                           />
-                        </div>
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Grid>

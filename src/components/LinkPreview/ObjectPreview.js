@@ -63,7 +63,9 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 500,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    color: theme.palette.common.first,
+    opacity: 0.9,
     width: '400px',
     [theme.breakpoints.down('xs')]: {
       width: '60vw'
@@ -72,7 +74,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '0.7rem',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     fontWeight: 200,
     maxWidth: '400px',
     [theme.breakpoints.down('xs')]: {

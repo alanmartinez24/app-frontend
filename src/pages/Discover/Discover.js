@@ -25,8 +25,8 @@ const styles = theme => ({
     maxWidth: '100vw',
     display: 'flex',
     flexDirection: 'column',
-    overflowY: 'hidden'
-
+    overflowY: 'hidden',
+    backgroundColor: theme.palette.alt.second
   },
   page: {
     width: '100%',
@@ -65,12 +65,14 @@ const styles = theme => ({
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
-    padding: '20px 40px 20px 30px !important'
+    padding: '20px 40px 20px 30px !important',
+    backgroundColor: `${theme.palette.alt.third} !important`
   },
   tourFab: {
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
+    color: theme.palette.common.third,
     zIndex: '1000',
     [theme.breakpoints.down('xs')]: {
       display: 'none'
@@ -190,7 +192,7 @@ const StyledFeedContainer = withStyles(theme => ({
     margin: '0 auto',
     width: '100%',
     fontSize: '20px',
-    color: '#ffffff'
+    color: theme.palette.common.first
   }
 }))(FeedContainer)
 
@@ -356,6 +358,7 @@ class Discover extends Component {
   render () {
     const { classes, feed, query } = this.props
     const search = document.location.search
+
     return !search.includes('feed=') ? (
       <HomeMenu />
     ) : (

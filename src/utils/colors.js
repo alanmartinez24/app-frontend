@@ -1,5 +1,5 @@
 export const levelColors = {
-  none: '#AAAAAA55',
+  none: '#AAAAAABB',
   first: '#00E08E',
   second: '#80B91C',
   third: '#FFB400',

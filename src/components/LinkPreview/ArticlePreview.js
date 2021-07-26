@@ -51,11 +51,13 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 600,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)'
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    color: theme.palette.common.first,
+    opacity: 0.9
   },
   description: {
     position: 'relative',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     margin: '0.5rem 0'
   },
   url: {
