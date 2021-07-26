@@ -28,13 +28,11 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
-      boxShadow: 'none',
-      padding: '0.25rem'
+      boxShadow: 'none'
     },
     [theme.breakpoints.up('1700')]: {
       maxWidth: '640px',
-      maxHeight: '1500px',
-      padding: '0.25rem'
+      maxHeight: '1500px'
     }
   },
   user: {
