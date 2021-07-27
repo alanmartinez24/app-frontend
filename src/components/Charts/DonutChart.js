@@ -7,7 +7,6 @@ import { Card, Grid, Typography } from '@material-ui/core'
 import CircleLoader from 'react-spinners/CircleLoader'
 
 const styles = theme => ({
-
     card: {
       paddingTop: theme.spacing(-10),
       paddingBottom: theme.spacing(-10),
@@ -29,7 +28,7 @@ const styles = theme => ({
     },
 
     name: {
-      color: '#ffffff',
+      color: theme.palette.common.third,
       fontSize: '28px',
       fontWeight: '500',
       padding: '0px',
@@ -43,7 +42,7 @@ const styles = theme => ({
       marginBottom: '10px'
     },
     text: {
-      color: '#ffffff',
+      color: theme.palette.common.third,
       fontSize: '12px',
       padding: '0px',
       fontFamily: 'Gilroy',

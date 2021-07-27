@@ -56,7 +56,7 @@ const styles = theme => ({
       padding: '2rem'
     },
     text: {
-      color: '#ffffff'
+      color: theme.palette.common.third
     }
   })
 

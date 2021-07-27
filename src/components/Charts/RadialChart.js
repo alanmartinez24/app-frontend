@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import CircleLoader from 'react-spinners/CircleLoader'
 import { Card, Grid } from '@material-ui/core'
@@ -27,19 +27,20 @@ const styles = theme => ({
       }
     },
     chart: {
-      marginBottom: '10px'
+      marginBottom: '10px',
+      color: theme.palette.common.first
     },
     chartheader: {
       padding: '2rem'
     },
     text: {
-      color: '#ffffff'
+      color: theme.palette.common.third
     }
   })
 
-const RadialChart = (props) => {
+const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
+  const { palette } = useTheme()
   const color = '#00E08E'
-  const { classes, chartData, chartTitle, colors } = props
 
   if (chartData) {
     let series = []
@@ -71,7 +72,7 @@ const RadialChart = (props) => {
           },
           value: {
             fontSize: '15px',
-            color: 'white',
+            color: palette.common.first,
             formatter: function (w) {
                         // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
                         return Number(w).toFixed(2) + `%(${Math.round(chartData.total * w / 100)})`
@@ -80,7 +81,7 @@ const RadialChart = (props) => {
           total: {
             show: true,
             label: 'Total Votes',
-            color: 'white',
+            color: palette.common.first,
             formatter: function (w) {
               // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
               return chartData.total
@@ -100,7 +101,6 @@ const RadialChart = (props) => {
        <div className={classes.chartheader} >
          <Typography align='left'
            className={classes.chart}
-           style={{ color: 'white' }}
            variant='subtitle2'
          >
            {chartTitle}
@@ -121,7 +121,6 @@ const RadialChart = (props) => {
         <div className={classes.chartheader} >
           <Typography align='left'
             className={classes.chart}
-            style={{ color: 'white' }}
             variant='subtitle2'
           >
             {chartTitle}
