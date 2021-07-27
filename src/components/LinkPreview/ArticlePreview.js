@@ -55,6 +55,7 @@ const styles = theme => ({
   },
   description: {
     position: 'relative',
+    lineHeight: '1.25rem',
     textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
     margin: '0.5rem 0'
   },
