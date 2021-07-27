@@ -23,6 +23,8 @@ import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import CollectionItem from '../../components/Collections/CollectionItem.js'
+import { Link } from 'react-router-dom'
+import Img from 'react-image'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -171,6 +173,7 @@ const styles = theme => ({
 const Collection = ({ classes, collection, username }) => {
   const fmtCollectionName = collection && collection.name.replace(/\s+/g, '-').toLowerCase()
   const collectionLength = collection.postIds.length
+  const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
   const collectionSubheader =
     username === collection.owner
       ? collectionLength === 1
@@ -592,10 +595,6 @@ class User extends Component {
                     <Grid item
                       xs={12}
                     >
-                      <InfiniteScroll
-                        dataLength={posts.length}
-                        hasMore={hasMore}
-                        height={
                       <Tabs value={activeTab}
                         onChange={this.handleChange}
                         TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
@@ -608,17 +607,18 @@ class User extends Component {
                         />
                       </Tabs>
                     </Grid>
+                  </TabPanel>
 
-                    <TabPanel value={activeTab}
-                      index={0}
+                  <TabPanel value={activeTab}
+                    index={0}
+                  >
+                    <Grid item
+                      xs={12}
                     >
-                      <Grid item
-                        xs={12}
-                      >
-                        <InfiniteScroll
-                          dataLength={posts.length}
-                          hasMore={hasMore}
-                          height={
+                      <InfiniteScroll
+                        dataLength={posts.length}
+                        hasMore={hasMore}
+                        height={
                           isMinimize
                             ? 'calc(100vh - 160px)'
                             : 'calc(100vh - 320px)'

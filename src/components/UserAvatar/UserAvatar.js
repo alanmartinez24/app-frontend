@@ -33,22 +33,22 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
       timeout={1000}
     >
       <ErrorBoundary>
-            <Link style={{ textDecoration: 'none' }}
+        <Link style={{ textDecoration: 'none' }}
           to={'/' + username}
         >
-        <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
-          <img alt={alt}
-            src={hashToUrl(src)}
-            style={style}
-            onError={setDefaultSrc}
-            className={className}
-          />
-          <Avatar alt={alt}
-            className={[classes.avatar, className]}
-            style={style}
-          >{userLetter && userLetter}
-          </Avatar>
-        </ImageLoader>
+          <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
+            <img alt={alt}
+              src={hashToUrl(src)}
+              style={style}
+              onError={setDefaultSrc}
+              className={className}
+            />
+            <Avatar alt={alt}
+              className={[classes.avatar, className]}
+              style={style}
+            >{userLetter && userLetter}
+            </Avatar>
+          </ImageLoader>
         </Link>
       </ErrorBoundary>
     </Fade>
