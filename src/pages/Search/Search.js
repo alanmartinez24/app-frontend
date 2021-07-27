@@ -480,7 +480,7 @@ const steps = [
         >
           🔍  Search
         </Typography>
-        <p>
+        <p className='tourText'>
           Search for users and elevant posts across the web.
         </p>
       </div>
@@ -496,7 +496,7 @@ const steps = [
         >
           📰  Posts
         </Typography>
-        <p>
+        <p className='tourText'>
           These are your search results for posts.
         </p>
       </div>
@@ -512,7 +512,7 @@ const steps = [
         >
           👥  Users
         </Typography>
-        <p>
+        <p className='tourText'>
           These are the search results for users.
         </p>
       </div>
@@ -528,7 +528,7 @@ const steps = [
         >
           📡  Feeds
         </Typography>
-        <p>
+        <p className='tourText'>
           These are your feeds.
         </p>
         <a href='https://docs.yup.io/products/app#feed'
@@ -548,7 +548,7 @@ const steps = [
         >
           📈  Leaderboard
         </Typography>
-        <p>
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a href='https://docs.yup.io/products/app#lists'
@@ -566,7 +566,7 @@ const steps = [
         >
           👏 That's it !
         </Typography>
-        <p>
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>

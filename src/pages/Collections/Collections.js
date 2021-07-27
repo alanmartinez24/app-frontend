@@ -123,6 +123,9 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     padding: '20px 40px 20px 30px !important'
   },
+  tourText: {
+    color: theme.palette.alt.second
+  },
   tourFab: {
     position: 'absolute',
     bottom: theme.spacing(3),
@@ -761,7 +764,10 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📰 Collection Posts</Typography>
-        <p>These are the curated posts in this collection.</p>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >These are the curated posts in this collection.</Typography>
       </div>
     )
   },
@@ -773,7 +779,10 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📖 Recommended Collections</Typography>
-        <p>These are some other collections you should check out!</p>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >These are some other collections you should check out!</Typography>
       </div>
     )
   },
@@ -785,7 +794,10 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📡 Feeds</Typography>
-        <p>These are your feeds.</p>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >These are your feeds.</Typography>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -804,7 +816,10 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📈 Leaderboard</Typography>
-        <p>Find content and users ranked by category and platform.</p>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >Find content and users ranked by category and platform.</Typography>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -821,7 +836,9 @@ const steps = [
         <Typography variant='h4'
           className='tourHeader'
         >👏 That's it!</Typography>
-        <p>That's all for now. Learn more with some of these resources:</p>
+        <Typography variant='body2'
+          className='tourText'
+        >That's all for now. Learn more with some of these resources:</Typography>
         <div className='tourResources'>
           <Button
             size='medium'

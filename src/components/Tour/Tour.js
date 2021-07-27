@@ -83,7 +83,9 @@ const steps = [
         >
           👩‍🚀 User Profile
         </Typography>
-        <p>
+        <p
+          className='tourText'
+        >
           Where you'll find important information on each user as well as yourself!
         </p>
         <a href='https://docs.yup.io'
@@ -103,7 +105,7 @@ const steps = [
         >
           💯  Influence Score
         </Typography>
-        <p>
+        <p className='tourText'>
           A score out of 100 showing how influential a user is. The higher the number, the more powerful your opinions!
         </p>
         <a href='https://docs.yup.io/basic/colors'
@@ -123,7 +125,7 @@ const steps = [
         >
           💰  YUP Balance
         </Typography>
-        <p>
+        <p className='tourText'>
           The number of tokens you've earned. Rate any piece of content to earn more!
         </p>
         <a href='https://docs.yup.io/protocol/yup-protocol#yup-token'
@@ -143,7 +145,7 @@ const steps = [
         >
           📰  User Feed
         </Typography>
-        <p>
+        <p className='tourText'>
           This is the content you're rating, aggregated into a feed.
         </p>
       </div>
@@ -159,7 +161,7 @@ const steps = [
         >
           🤔  Rating
         </Typography>
-        <p>
+        <p className='tourText'>
           You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
         <a href='https://docs.yup.io/basic/rating'
@@ -179,7 +181,7 @@ const steps = [
         >
           🔍  Search
         </Typography>
-        <p>
+        <p className='tourText'>
           Search for friends and influencers across the web.
         </p>
       </div>
@@ -195,7 +197,7 @@ const steps = [
         >
           📈  Leaderboard
         </Typography>
-        <p>
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a href='https://docs.yup.io/products/app#lists'
@@ -215,7 +217,7 @@ const steps = [
         >
           📡  Feeds
         </Typography>
-        <p>
+        <p className='tourText'>
           These are your feeds.
         </p>
         <a href='https://docs.yup.io/products/app#feed'
@@ -233,7 +235,7 @@ const steps = [
         >
           👏 That's it !
         </Typography>
-        <p>
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>

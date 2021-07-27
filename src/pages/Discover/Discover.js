@@ -439,7 +439,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📰 User Feed</Typography>
-        <p>
+        <p className='tourText'>
           This is the content across the web, aggregated into a feed just for
           you.
         </p>
@@ -454,7 +454,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >🤔 Rating</Typography>
-        <p>
+        <p className='tourText'>
           You can rate content out of 5 in different categories, such as like
           ♥️, smart 💡, funny 😂, etc.
         </p>
@@ -476,7 +476,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >🔍 Search</Typography>
-        <p>Search for friends and influencers across the web.</p>
+        <p className='tourText'>Search for friends and influencers across the web.</p>
       </div>
     )
   },
@@ -488,7 +488,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📈 Leaderboard</Typography>
-        <p>Find content and users ranked by category and platform.</p>
+        <p className='tourText'>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -507,7 +507,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📡 Feeds</Typography>
-        <p>These are your feeds.</p>
+        <p className='tourText'>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -524,7 +524,7 @@ const steps = [
         <Typography variant='h3'
           className='tourHeader'
         >👏 That's it !</Typography>
-        <p>That's all for now. Learn more with some of these resources:</p>
+        <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button
             size='medium'

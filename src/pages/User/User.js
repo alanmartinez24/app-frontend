@@ -885,7 +885,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >👩‍🚀 User Profile</Typography>
-        <p>
+        <p className='tourText'>
           Where you'll find important information on each user as well as
           yourself!
         </p>
@@ -906,7 +906,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >💯 Influence Score</Typography>
-        <p>
+        <p className='tourText'>
           A score out of 100 showing how influential a user is. The higher the
           number, the more powerful your opinions!
         </p>
@@ -928,7 +928,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >💰 YUP Balance</Typography>
-        <p>
+        <p className='tourText'>
           The amount of YUP tokens you've earned. Rate any piece of content to
           earn more!
         </p>
@@ -950,7 +950,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📰 User Feed</Typography>
-        <p>This is this user's rated content, aggregated into a feed.</p>
+        <p className='tourText'>This is this user's rated content, aggregated into a feed.</p>
       </div>
     )
   },
@@ -962,7 +962,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📚 Collections</Typography>
-        <p>
+        <p className='tourText'>
           These are curated, personal collections. Create your own, add your
           favorite pieces of content, and share with the world.
         </p>
@@ -977,7 +977,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📡 Feeds</Typography>
-        <p>These are your feeds.</p>
+        <p className='tourText'>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -996,7 +996,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >🔍 Search</Typography>
-        <p>Search for friends and influencers across the web.</p>
+        <p className='tourText'>Search for friends and influencers across the web.</p>
       </div>
     )
   },
@@ -1008,7 +1008,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >📈 Leaderboard</Typography>
-        <p>Find content and users ranked by category and platform.</p>
+        <p className='tourText'>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -1025,7 +1025,7 @@ const steps = [
         <Typography variant='h3'
           className='tourHeader'
         >👏 That's it !</Typography>
-        <p>That's all for now. Learn more with some of these resources:</p>
+        <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button
             size='medium'

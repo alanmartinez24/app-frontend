@@ -204,7 +204,7 @@ const steps = [
         >
           📈  Leaderboard
         </Typography>
-        <p>
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a href='https://docs.yup.io/products/app#lists'
@@ -224,7 +224,7 @@ const steps = [
         >
           ‍📊  Leaderboard Menu
         </Typography>
-        <p>
+        <p className='tourText'>
           Here you can edit and filter leaderboards.
         </p>
       </div>
@@ -240,7 +240,7 @@ const steps = [
         >
           🤔  Rating
         </Typography>
-        <p>
+        <p className='tourText'>
           You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
         <a href='https://docs.yup.io/basic/rating'
@@ -260,7 +260,7 @@ const steps = [
         >
           📡  Feeds
         </Typography>
-        <p>
+        <p className='tourText'>
           These are your feeds.
         </p>
         <a href='https://docs.yup.io/products/app#feed'
@@ -278,7 +278,7 @@ const steps = [
         >
           👏 That's it !
         </Typography>
-        <p>
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>
