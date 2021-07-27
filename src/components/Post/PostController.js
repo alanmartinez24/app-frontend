@@ -150,8 +150,6 @@ class PostController extends Component {
     const isTextPost =
       (post.imgHash == null || post.imgHash.trim() === '') &&
       (post.videoHash == null || post.videoHash.trim() === '')
-      console.log('ARTICLE:', isArticlePost(post.caption))
-      console.log('ARTICLE:', isArticlePost(post.caption))
 
     dispatch(setPostInfo(post._id.postid, post))
     if (post.tag === COLUMBIA_PROF_TAG) {
