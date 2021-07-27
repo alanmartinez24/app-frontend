@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
 import axios from 'axios'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-// import path from 'path'
 import { isSameDay } from 'date-fns'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import { levelColors } from '../../utils/colors'
@@ -39,7 +38,6 @@ const styles = theme => ({
     width: 100 - theme.spacing(),
     height: 100 - theme.spacing(),
     minHeight: 100 - theme.spacing(),
-    minWidth: 100 - theme.spacing(),
     fontSize: '70px',
     borderRadius: '100%',
     margin: '0 25px',

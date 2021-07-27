@@ -117,7 +117,20 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.1.1",
     "uuid": "^8.3.2",
-    "web3-utils": "^1.3.4"
+    "web3-utils": "^1.3.4",
+    "workbox-background-sync": "^5.1.3",
+    "workbox-broadcast-update": "^5.1.3",
+    "workbox-cacheable-response": "^6.1.5",
+    "workbox-core": "^5.1.3",
+    "workbox-expiration": "^6.1.5",
+    "workbox-google-analytics": "^5.1.3",
+    "workbox-navigation-preload": "^5.1.3",
+    "workbox-precaching": "^5.1.3",
+    "workbox-range-requests": "^5.1.3",
+    "workbox-routing": "^5.1.3",
+    "workbox-strategies": "^5.1.3",
+    "workbox-streams": "^5.1.3",
+    "workbox-webpack-plugin": "5.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -158,8 +171,7 @@
     "url-loader": "1.1.2",
     "webpack": "4.28.3",
     "webpack-dev-server": "3.1.14",
-    "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "3.6.3"
+    "webpack-manifest-plugin": "2.0.4"
   },
   "browserslist": {
     "production": [

@@ -120,6 +120,7 @@ function NotifText (props) {
           <img
             className={classes.icon}
             src={`images/icons/${CATEGORY_ICONS[notif.category]}`}
+            alt={notif.category}
           />
         &nbsp; on &nbsp;
           <em>

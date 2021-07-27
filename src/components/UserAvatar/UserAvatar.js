@@ -5,6 +5,7 @@ import { parseIpfsRef, hashToUrl } from '../../utils/ipfs.js'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { Avatar, Fade } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
+import { Link } from 'react-router-dom'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
@@ -32,6 +33,9 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
       timeout={1000}
     >
       <ErrorBoundary>
+            <Link style={{ textDecoration: 'none' }}
+          to={'/' + username}
+        >
         <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
           <img alt={alt}
             src={hashToUrl(src)}
@@ -45,6 +49,7 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
           >{userLetter && userLetter}
           </Avatar>
         </ImageLoader>
+        </Link>
       </ErrorBoundary>
     </Fade>
   )

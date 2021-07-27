@@ -87,7 +87,7 @@ class Notification extends Component {
 
   async setInvokerWeight () {
     const { invoker } = this.props.notif
-
+    console.log('boom 1')
     const res = await axios.get(`${BACKEND_API}/levels/user/${invoker.eosname || invoker}`)
     if (!res.error) {
       this.setUnderlineColor(res.data.quantile, res.data.weight)
@@ -175,6 +175,7 @@ class Notification extends Component {
                   />
                 : <img className={classes.notifImg}
                   src={notif.image || defaultImage}
+                  alt='notification'
                   onError={(e) => { e.target.src = defaultImage }}
                   />
                 }

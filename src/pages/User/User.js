@@ -13,10 +13,8 @@ import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import { Link } from 'react-router-dom'
 import path from 'path'
 import Tour from 'reactour'
-import Img from 'react-image'
 import '../../components/Tour/tourstyles.css'
 import ReactPlayer from 'react-player'
 import { Helmet } from 'react-helmet'
@@ -24,12 +22,12 @@ import AddIcon from '@material-ui/icons/Add'
 import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import CollectionItem from '../../components/Collections/CollectionItem.js'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 const LIMIT_COLLECTIONS = 5
-const showTabs = window.innerWidth <= 960
+const showTabs = window.innerWidth <= 1300
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -57,6 +55,9 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       background: '#2a2a2a'
     }
+  },
+  dialogContent: {
+    padding: '8px 0px'
   },
   feedPage: {
     marginLeft: '110px',
@@ -132,32 +133,11 @@ const styles = theme => ({
   icons: {
     color: '#fff'
   },
-  collectionImg: {
-    height: '60px',
-    width: '60px',
-    objectFit: 'cover',
-    borderRadius: '5px',
-    [theme.breakpoints.down('md')]: {
-      height: '50px',
-      width: '50px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '40px',
-      width: '40px',
-      marginTop: '5px'
-    }
-  },
-  collectionContainer: {
-    borderRadius: 10,
-    margin: 0,
-    '&:hover': {
-      background: '#fafafa05'
-    }
-  },
   tabs: {
     color: '#fff',
     fontSize: '1.2rem',
     marginLeft: '35px',
+    textTransform: 'capitalize',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '15px'
     }
@@ -167,7 +147,7 @@ const styles = theme => ({
     zIndex: '999',
     marginLeft: '20px',
     maxWidth: '25%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       margin: '0px 0px 0px 50px',
       width: '100%',
       maxWidth: '100%'
@@ -175,7 +155,7 @@ const styles = theme => ({
   },
   collection: {
     flexBasis: 'unset',
-    padding: '8px 8px 8px 0px !important'
+    padding: '8px 8px 8px 16px !important'
   },
   showAll: {
     color: '#fff',
@@ -551,8 +531,7 @@ class User extends Component {
           <DialogContent>
             {collections.map(collection => {
               return (
-                <Collection
-                  classes={classes}
+                <CollectionItem
                   collection={collection}
                   username={username}
                 />
@@ -617,6 +596,29 @@ class User extends Component {
                         dataLength={posts.length}
                         hasMore={hasMore}
                         height={
+                      <Tabs value={activeTab}
+                        onChange={this.handleChange}
+                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
+                      >
+                        <Tab label='Feed'
+                          className={classes.tabs}
+                        />
+                        <Tab label='Collections'
+                          className={classes.tabs}
+                        />
+                      </Tabs>
+                    </Grid>
+
+                    <TabPanel value={activeTab}
+                      index={0}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        <InfiniteScroll
+                          dataLength={posts.length}
+                          hasMore={hasMore}
+                          height={
                           isMinimize
                             ? 'calc(100vh - 160px)'
                             : 'calc(100vh - 320px)'
@@ -688,8 +690,7 @@ class User extends Component {
                           .slice(0, LIMIT_COLLECTIONS)
                           .map(collection => {
                             return (
-                              <Collection
-                                classes={classes}
+                              <CollectionItem
                                 collection={collection}
                                 username={username}
                               />
@@ -811,8 +812,7 @@ class User extends Component {
                             .slice(0, LIMIT_COLLECTIONS)
                             .map(collection => {
                               return (
-                                <Collection
-                                  classes={classes}
+                                <CollectionItem
                                   collection={collection}
                                   username={username}
                                 />

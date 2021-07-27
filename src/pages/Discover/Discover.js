@@ -92,23 +92,25 @@ const styles = theme => ({
 function feedMetaTitle (feed) {
   switch (feed) {
     case 'dailyhits':
-      return 'Yup • Daily Hits'
+      return 'Daily Hits • Yup'
     case 'lol':
-      return 'Yup • LOL'
+      return 'LOL • Yup'
     case 'brainfood':
-      return 'Yup • Smart'
+      return 'Smart • Yup'
     case 'latenightcool':
-      return 'Yup • Popular'
+      return 'Popular • Yup'
     case 'politics':
-      return 'Yup • The Race'
+      return 'The Race • Yup'
     case 'non-corona':
-      return 'Safe Space - A corona-free news feed'
+      return 'Safe Space • Yup'
     case 'crypto':
-      return 'Yup • Crypto'
+      return 'Crypto • Yup'
     case 'nfts':
-      return 'Yup • NFTs'
+      return 'NFTs • Yup'
+    case 'mirror':
+      return 'Mirror Feed'
     default:
-      return 'Yup • Social Layer for the Internet'
+      return 'Yup • Social Network for Curators'
   }
 }
 
@@ -130,14 +132,26 @@ function feedDescription (feed) {
       return 'The top crypto content out there'
     case 'nfts':
       return 'Non-fungibility for days'
+    case 'mirror':
+      return 'Live feed of the best articles across all Mirror publications'
     default:
       return 'Yup • Social Layer for the Internet'
+  }
+}
+
+function feedImg (feed) {
+  switch (feed) {
+    case 'mirror':
+      return 'images/metaImages/mirror-meta.jpg'
+    default:
+      return 'images/metaImages/main-meta.jpg'
   }
 }
 
 function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
   const metaTitle = feedMetaTitle(query.feed)
   const feedDesc = feedDescription(query.feed)
+  const metaImg = feedImg(query.feed)
 
   return (
     <ErrorBoundary>
@@ -147,8 +161,40 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
         <Helmet>
           <meta charSet='utf-8' />
           <title> {metaTitle} </title>
-          <meta name='description'
+          <meta property='description'
+            content={feedDesc}
+          />
+          <meta property='image'
+            content={metaImg}
+          />
+          <meta name='twitter:card'
+            content='summary_large_image'
+          />
+          <meta
+            name='twitter:title'
             content={metaTitle}
+          />
+          <meta name='twitter:site'
+            content='@yup_io'
+          />
+          <meta
+            name='twitter:description'
+            content={feedDesc}
+          />
+          <meta
+            name='twitter:image'
+            content={metaImg}
+          />
+          <meta
+            property='og:title'
+            content={metaTitle}
+          />
+          <meta
+            property='og:description'
+            content={feedDesc}
+          />
+          <meta property='og:image'
+            content={metaImg}
           />
         </Helmet>
         <Grid container
@@ -205,7 +251,8 @@ const FEED_HEADERS = {
   'non-corona': 'safecover.png',
   crypto: 'cryptocover.png',
   nfts: 'nftcover.png',
-  new: 'dailyhitscover.png'
+  new: 'dailyhitscover.png',
+  mirror: 'mirrorcover.png'
 }
 
 const FEED_NAMES = {
@@ -217,7 +264,8 @@ const FEED_NAMES = {
   'non-corona': 'Safe Space',
   crypto: 'Crypto',
   nfts: 'NFT Gallery',
-  new: 'New'
+  new: 'New',
+  mirror: 'Mirror Articles'
 }
 
 function FeedHeader ({
@@ -258,6 +306,7 @@ function FeedHeader ({
             <img
               className={classes.topicImg}
               src={image}
+              alt={name}
             />
           </Grid>
           <Grid item>

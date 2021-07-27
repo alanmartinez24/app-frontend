@@ -207,6 +207,7 @@ class Home extends Component {
                                   <CldImg
                                     className={classes.ImageCard}
                                     src={item.imgSrc}
+                                    alt={item.title}
                                   />
                                 </Tilt>
                               </Grid>
@@ -272,6 +273,7 @@ class Home extends Component {
                                   <CldImg
                                     className={classes.ImageCard}
                                     src={item.imgSrc}
+                                    alt={item.title}
                                   />
                                 </Tilt>
                               </Grid>

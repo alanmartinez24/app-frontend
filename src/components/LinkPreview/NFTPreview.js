@@ -294,7 +294,7 @@ class NFTPreview extends Component {
         >
           <a
             className={classes.link}
-            href={url}
+            href={url || window.location.href}
             rel='noopener noreferrer'
             target='_blank'
           >
@@ -310,6 +310,7 @@ class NFTPreview extends Component {
                   style={{ overFlow: 'hidden', maxHeight: '1000px' }}
                   src={image}
                   postid={postid}
+                  alt={description}
                   height='auto'
                   width='100%'
                   playing
@@ -322,6 +323,7 @@ class NFTPreview extends Component {
                   className={classes.linkImg}
                   postid={postid}
                   src={image}
+                  alt={description}
                 />
               )}
               <div className={classes.previewData}>
@@ -347,6 +349,7 @@ class NFTPreview extends Component {
                             border: 'none'
                           }}
                           target='_blank'
+                          alt={[faviconURL, faviconURLFallback]}
                         />
                       </Grid>
                       <Grid item>

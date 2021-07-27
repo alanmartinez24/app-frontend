@@ -356,9 +356,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   }, [accountName])
 
   useEffect(() => {
-    if (authInfo && authInfo.account) {
-      axios
-        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+    if (authInfo && authInfo.account && authInfo.account.name) {
+      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
         .then(res => {
           const levelInfo = res.data
           setLevel({
@@ -379,7 +378,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     if (!accountName || notifications.length) return
     try {
       (axios.get(`${BACKEND_API}/notifications/${accountName}`)).then(({ data: notifs }) => {
-        setNotifications(notifs)
+        setNotifications(notifs.reverse())
       })
     } catch (err) {}
   }
@@ -984,7 +983,176 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             </div>
           </List>
         </Grow>
-              )}
+                <DialogTitle style={{ paddingLeft: '40px', paddingBottom: '10px' }}>
+                  <Typography variant='h4'>Settings</Typography>
+                </DialogTitle>
+                <DialogContent>
+                  <List className={classes.root}>
+                    <ListItem>
+                      <ListItemText
+                        id='switch-list-label-wifi'
+                        primary='Log out of Yup'
+                      />
+                      <ListItemSecondaryAction>
+                        <Button
+                          className={classes.logoutBtn}
+                          onClick={handleLogout}
+                          color='secondary'
+                          variant='outlined'
+                        >
+                          Log out
+                        </Button>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </List>
+                </DialogContent>
+              </Dialog>
+
+              <StyledYupProductNav account={account} />
+
+              {/* First Menu: FEEDS */}
+              {(isShown || isMobile) && (
+                <Grow in
+                  timeout={500}
+                >
+                  <List
+                    component='nav'
+                    aria-label='secondary'
+                    className={classes.list1}
+                    tourname='FeedsDrawer'
+                    dense='true'
+                  >
+                    <ListSubheader
+                      style={{
+                        color: '#c0c0c0',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        letterSpacing: '0.02em'
+                      }}
+                    >
+                      Feeds
+                    </ListSubheader>
+                    <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
+                      <PrivateListItem>
+                        <ListItem
+                          button
+                          dense
+                          component={Link}
+                          onClick={handleDrawerClose}
+                          to='/?feed=dailyhits'
+                        >
+                          <ListItemText
+                            primary='Your Daily Hits'
+                            className={classes.listButton}
+                            style={{
+                            color: '#c0c0c0',
+                            fontWeight: '100',
+                            margin: 0
+                          }}
+                          />
+                        </ListItem>
+                      </PrivateListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=crypto'
+                      >
+                        <ListItemText
+                          primary='Crypto'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=nfts'
+                      >
+                        <ListItemText
+                          primary='NFTs'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      {/*
+                      <ListItem button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=mirror'
+                      >
+                        <ListItemText
+                          primary='Mirror Articles'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                  */}
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=politics'
+                      >
+                        <ListItemText
+                          primary='Politics'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=non-corona'
+                      >
+                        <ListItemText
+                          primary='Safe Space'
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=latenightcool'
+                      >
+                        <ListItemText
+                          primary='Popular'
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=lol'
+                      >
+                        <ListItemText
+                          primary='Funny'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=brainfood'
+                      >
+                        <ListItemText
+                          primary='Smart'
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                    </div>
+                  </List>
+                </Grow>
+)}
 
         {/* Second Menu: LISTS */}
         {(isShown || isMobile) && (

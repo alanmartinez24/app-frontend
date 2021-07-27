@@ -54,7 +54,7 @@ const styles = theme => ({
   },
   title: {
     position: 'relative',
-    fontSize: '1rem',
+    fontSize: '1.2rem',
     fontWeight: 600,
     textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
     color: theme.palette.common.first,

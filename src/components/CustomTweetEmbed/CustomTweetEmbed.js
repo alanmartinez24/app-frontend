@@ -75,7 +75,7 @@ const styles = theme => ({
   },
   twitterHandle: {
     color: 'grey',
-    fontSize: '1.2rem'
+    fontSize: '1rem'
   },
   twitterBirdIcon: {
     position: 'absolute',

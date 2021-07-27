@@ -101,7 +101,7 @@ const styles = theme => ({
     textAlign: 'left',
     zIndex: 5,
     background: '',
-    padding: '6%'
+    padding: '4% 6%'
   },
   favicon: {
     height: 30,
@@ -136,6 +136,7 @@ class FallbackImage extends Component {
     return <img className={classes.linkImg}
       style={imageStyle}
       src={this.state.imgLink || DEFAULT_POST_IMAGE}
+      alt='fallback'
            />
   }
 }

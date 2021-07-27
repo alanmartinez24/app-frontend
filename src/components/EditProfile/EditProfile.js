@@ -107,7 +107,7 @@ const styles = theme => ({
     fontSize: '10px',
     marginTop: '5px',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '8px'
+      fontSize: '12px'
     }
   },
   snackbar: {

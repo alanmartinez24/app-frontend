@@ -228,7 +228,6 @@ function ProfileCard (props) {
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
   const isMobile = window.innerWidth <= 600
-
   return (
     <ErrorBoundary>
       <Card
@@ -236,8 +235,8 @@ function ProfileCard (props) {
         tourname='ProfileUsername'
       >
         <UserAvatar
-          alt={accountInfo._id}
-          username={accountInfo.eosname}
+          alt={accountInfo.username}
+          username={accountInfo.username}
           className={`${classes.avatarImage} ${minimize}`}
           src={levels[accountInfo.eosname].levelInfo.avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
@@ -336,6 +335,7 @@ function ProfileCard (props) {
                           paddingLeft: '15px',
                           marginTop: '1px'
                         }}
+                        alt='twitter'
                       />
                     </Tooltip>
                   ) : null}
@@ -451,6 +451,7 @@ function ProfileCard (props) {
                         <img
                           src='/images/logos/logo_outline_w.svg'
                           style={{ width: '15px', height: '15px' }}
+                          alt='yup logo'
                         />
                       </Grid>
                       <Grid item>

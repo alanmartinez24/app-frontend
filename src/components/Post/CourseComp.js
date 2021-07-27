@@ -144,6 +144,7 @@ class CourseComp extends Component {
                   >
                     <img
                       src={`${ICON_ROOT_PATH}/book.svg`}
+                      alt={description}
                     />
                   </div>
                 </Grid>
@@ -167,6 +168,7 @@ class CourseComp extends Component {
                 <Grid item>
                   <img className={classes.crownIcon}
                     src={`${ICON_ROOT_PATH}/crown.png`}
+                    alt='crown'
                   />
                 </Grid>
               </Grid>

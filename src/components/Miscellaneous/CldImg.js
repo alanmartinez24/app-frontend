@@ -30,7 +30,8 @@ const CldImg = ({ postid, src, ...restProps }) => {
 
 CldImg.propTypes = {
   postid: PropTypes.string,
-  src: PropTypes.string
+  src: PropTypes.string,
+  alt: PropTypes.string
 }
 
 export default memo(CldImg)
