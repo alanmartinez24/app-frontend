@@ -166,7 +166,7 @@ export const theme = ({ palette }) => {
     },
     MuiInputLabel: {
       shrink: {
-        color: `${Colors.Grey}50`
+        color: `${palette.common.first}50`
       },
       formControl: {
       }
@@ -184,11 +184,11 @@ export const theme = ({ palette }) => {
     MuiOutlinedInput: {
       root: {
         borderRadius: '0.625rem',
-        color: Colors.DarkWhite
+        color: palette.common.first
       },
       notchedOutline: {
-        borderColor: Colors.DarkWhite,
-        color: Colors.DarkWhite
+        borderColor: palette.common.first,
+        color: palette.common.first
       },
       input: {
         padding: '10px 14px'
