@@ -61,7 +61,7 @@ const styles = theme => ({
   url: {
     position: 'relative',
     fontSize: '10px',
-    fontWeight: 100,
+    fontWeight: 300,
     overflowWrap: 'break-word',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -221,7 +221,9 @@ class ArticlePreview extends Component {
                   trimRight
                 />
               </Typography>
-              <p className={classes.url}>{url && this.cutUrl(url)}</p>
+              <Typography variant='body2'
+                className={classes.url}
+              >{url && this.cutUrl(url).split(/[/]+/g, 1)}</Typography>
             </div>
           </a>
         </div>
