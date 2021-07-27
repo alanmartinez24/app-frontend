@@ -969,7 +969,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               >
                 <ListItemText
                   primary='Funny'
-                  style={{ color: '#c0c0c0', margin: 0 }}
+                  className={classes.listButton}
                 />
               </ListItem>
               <ListItem
