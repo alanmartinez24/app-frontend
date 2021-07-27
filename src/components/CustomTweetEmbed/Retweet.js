@@ -87,7 +87,7 @@ const entitiesURLS = (entities ? (entities.urls && entities.urls.length > 0) : f
             tweetType={'retweet'}
           />
           <div className={classes.tweetText}
-            style={{ marginBottom: 20 }}
+            style={{ marginBottom: 10 }}
           >{tweetText}</div>
           {
                   (retweetHasPhoto && retweetMediaURL)

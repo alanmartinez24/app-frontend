@@ -265,14 +265,14 @@ export const theme = ({ palette }) => {
       fontSize: '4rem',
       lineHeight: '3.25rem',
       marginBottom: '0.2rem',
-      color: `${palette.common.first}DD`
+      color: `${palette.common.first}EE`
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
       lineHeight: '2.5rem',
-      color: `${palette.common.first}DD`
+      color: `${palette.common.first}EE`
     },
     h3: {
       fontFamily: 'Gilroy',
@@ -280,7 +280,7 @@ export const theme = ({ palette }) => {
       fontWeight: 800,
       fontSize: '1.75rem',
       lineHeight: '1.85rem',
-      color: `${palette.common.second}DD`
+      color: `${palette.common.second}EE`
     },
     h4: {
       fontFamily: 'Gilroy',
@@ -288,7 +288,7 @@ export const theme = ({ palette }) => {
       fontWeight: 600,
       fontSize: '1.375rem',
       lineHeight: '1.6rem',
-      color: `${palette.common.third}DD`
+      color: `${palette.common.third}EE`
     },
     h5: {
       fontFamily: 'Gilroy',
@@ -296,7 +296,7 @@ export const theme = ({ palette }) => {
       fontWeight: 500,
       fontSize: '1.125rem',
       lineHeight: '1.3rem',
-      color: `${palette.common.third}DD`
+      color: `${palette.common.third}EE`
     },
     h6: {
       fontFamily: 'Gilroy',
@@ -328,7 +328,7 @@ export const theme = ({ palette }) => {
       fontWeight: 300,
       fontSize: '0.875rem',
       lineHeight: '1rem',
-      color: `${palette.common.third}DD`
+      color: `${palette.common.third}EE`
     },
     display3: {
       fontFamily: 'Gilroy',
@@ -336,7 +336,7 @@ export const theme = ({ palette }) => {
       fontSize: '20px',
       lineHeight: '20px',
       color: Colors.Green,
-      fontWeight: '100'
+      fontWeight: '200'
     },
     display2: {
       fontFamily: 'Gilroy',
@@ -351,7 +351,7 @@ export const theme = ({ palette }) => {
       fontSize: '24px',
       lineHeight: '29px',
       color: Colors.Yellow,
-      fontWeight: '100'
+      fontWeight: '200'
     },
     headline: {
       fontSize: '20px',
@@ -366,26 +366,26 @@ export const theme = ({ palette }) => {
       lineHeight: '23px',
       letterSpacing: '0.75%',
       fontStyle: 'thin',
-      color: `${palette.common.first}DD`
+      color: `${palette.common.first}EF`
     },
     caption: {
       fontFamily: 'Gilroy',
       fontStyle: '600',
       fontSize: '16px',
-      color: `${palette.common.third}DD`
+      color: `${palette.common.third}DE`
     },
     subheader: {
       fontSize: '20px',
       lineHeight: '29px',
       fontFamily: 'Gilroy',
       letterSpacing: '0.15%',
-      color: `${palette.common.fourth}DD`,
+      color: `${palette.common.fourth}DE`,
       fontStyle: 'thin'
     },
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: `${palette.common.first}DD`,
+      color: `${palette.common.first}DE`,
       letterSpacing: '0.25%',
       fontWeight: '200'
     },
