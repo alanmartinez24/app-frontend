@@ -114,6 +114,16 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       width: '160px'
     }
+  },
+  inputText: {
+    fontSize: '16px',
+    padding: '0px',
+    fontFamily: '"Gilroy", sans-serif',
+    fontWeight: '200',
+    color: theme.palette.common.first,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px'
+    }
   }
 })
 
@@ -641,13 +651,12 @@ class SubscribeDialog extends Component {
                         helperText={EMAIL_RE.test(this.state.email) || !this.state.email.length ? '' : 'Please enter a valid email'}
                         id='outlined-basic'
                         fullWidth
-                        color='primary'
                         endAdornment={<InputAdornment position='end'
                           onClick={this.handleMobileSignup}
                                       >
                           <Icon fontSize='small'
                             className='fal fa-arrow-right'
-                            style={{ color: '#c0c0c0' }}
+                            style={{ marginRight: '20px' }}
                           /></InputAdornment>}
                         aria-describedby='filled-weight-helper-text'
                         variant='outlined'
@@ -657,7 +666,7 @@ class SubscribeDialog extends Component {
                         margin='dense'
                         error={!EMAIL_RE.test(this.state.email) && this.state.email.length}
                         onChange={this.handleEmailChange}
-                        InputProps={{ classes: { notchedOutline: classes.outline }, className: classes.input }}
+                        className={classes.inputText}
                       />
                     </FormControl>
                   </Grid>
