@@ -28,6 +28,9 @@ const styles = theme => ({
     marginTop: '5px',
     padding: '3%'
   },
+  bigContainer: {
+    width: '100vw'
+  },
   infoContainer: {
     margin: '10px auto',
     maxHeight: '200px',
@@ -141,80 +144,82 @@ class YupListsMenu extends Component {
       <Fade in
         timeout={2000}
       >
-        <div className={classes.rootContainer}>
-          <Helmet>
-            <meta charSet='utf-8' />
-            <title> {metaTitle} </title>
-            <meta name='description'
-              content={dynamicListTitle}
-            />
-          </Helmet>
-          <div className={`${classes.infoContainer} ${minimizeCard}`}>
-            <Grid container
-              alignItems='flex-start'
-              direction='column'
-              spacing={24}
-              tourname='LeaderboardMenu'
-            >
-              <Grid item>
-                <Typography
-                  variant='body2'
-                  style={{ opacity: 0.3 }}
-                > Leaderboard
-                </Typography>
-                <Typography
-                  variant='h2'
-                  className={listTitle}
-                > {dynamicListTitle}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Grid container
-                  alignItems='center'
-                  direction='row'
-                  justify='space-between'
-                  spacing={1}
-                  className={`${classes.filters} ${hidden}`}
-                  tourname='ListsFilters'
-                >
-                  <Grid item
-                    xs={12}
-                    sm={8}
-                    md={9}
-                    lg={8}
+        <div className={classes.bigContainer}>
+          <div className={classes.rootContainer}>
+            <Helmet>
+              <meta charSet='utf-8' />
+              <title> {metaTitle} </title>
+              <meta name='description'
+                content={dynamicListTitle}
+              />
+            </Helmet>
+            <div className={`${classes.infoContainer} ${minimizeCard}`}>
+              <Grid container
+                alignItems='flex-start'
+                direction='column'
+                spacing={24}
+                tourname='LeaderboardMenu'
+              >
+                <Grid item>
+                  <Typography
+                    variant='body2'
+                    style={{ opacity: 0.3 }}
+                  > Leaderboard
+                  </Typography>
+                  <Typography
+                    variant='h2'
+                    className={listTitle}
+                  > {dynamicListTitle}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Grid container
+                    alignItems='center'
+                    direction='row'
+                    justify='space-between'
+                    spacing={1}
+                    className={`${classes.filters} ${hidden}`}
+                    tourname='ListsFilters'
                   >
-                    <Grid container
-                      spacing={isMobile ? 1 : 2}
-                      wrap='nowrap'
+                    <Grid item
+                      xs={12}
+                      sm={8}
+                      md={9}
+                      lg={8}
                     >
-                      <Grid
-                        item
+                      <Grid container
+                        spacing={isMobile ? 1 : 2}
+                        wrap='nowrap'
                       >
-                        <CategoryMenu />
-                      </Grid>
-                      <Grid
-                        item
-                      >
-                        <SubjectMenu />
-                      </Grid>
-                      <Grid
-                        item
-                      >
-                        <SiteMenu />
+                        <Grid
+                          item
+                        >
+                          <CategoryMenu />
+                        </Grid>
+                        <Grid
+                          item
+                        >
+                          <SubjectMenu />
+                        </Grid>
+                        <Grid
+                          item
+                        >
+                          <SiteMenu />
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    sm={3}
-                    md={3}
-                    className={classes.search}
-                  >
-                    <YupListSearchBar />
+                    <Grid
+                      item
+                      sm={3}
+                      md={3}
+                      className={classes.search}
+                    >
+                      <YupListSearchBar />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            </div>
           </div>
         </div>
       </Fade>

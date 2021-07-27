@@ -27,7 +27,7 @@ const styles = theme => ({
     height: '70px',
     background: 'transparent',
     display: 'flex',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('1400')]: {
         display: 'none'
     }
   }
