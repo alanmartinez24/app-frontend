@@ -168,7 +168,10 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: '#c0c0c0'
+    color: `${theme.palette.common.first} !important`
+  },
+  curatedByName: {
+    color: theme.palette.common.first
   },
   hidden: {
     display: 'none'
@@ -545,11 +548,11 @@ class Collections extends Component {
                       <Link
                         to={`/${collection.owner}`}
                         style={{
-                          color: '#fff',
                           textDecoration: color
                             ? `1px solid underline ${color}`
                             : 'none'
                         }}
+                        className={classes.curatedByName}
                       >
                         {collection.owner}
                       </Link>
