@@ -26,16 +26,12 @@ const styles = theme => ({
   },
   linkImg: {
     width: '100%',
-    minHeight: '15rem',
-    maxHeight: '15rem',
-    objectFit: 'cover',
-    backgroundColor: '#4f4f4f',
-    objectPosition: '50% 50%',
-    alignItems: 'center',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
-    [theme.breakpoints.up('1700')]: {
-      maxHeight: '25rem',
-      width: '100%'
+    aspectRatio: '1 / 1',
+    border: 'none',
+    borderRadius: '0.5rem',
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: 20,
+      maxWidth: 20
     }
   },
   previewContainer: {
@@ -187,12 +183,7 @@ class ArticlePreview extends Component {
                     align='right'
                     href={url}
                     src={[faviconURL, faviconURLFallback]}
-                    style={{
-                        width: '100%',
-                        aspectRatio: '1 / 1',
-                        border: 'none',
-                        borderRadius: '0.5rem'
-                      }}
+                    className={classes.linkImg}
                     target='_blank'
                   />
                 </Grid>
