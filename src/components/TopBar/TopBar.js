@@ -43,6 +43,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
+import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 
 const drawerWidth = 190
 const { BACKEND_API } = process.env
@@ -790,7 +791,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 <Icon
                   fontSize='small'
                   className='fal fa-gear'
-                  style={{ color: palette.common.second }}
+                  style={{ color: palette.common.fourth }}
                 />
               </IconButton>
             </Grid>
@@ -803,11 +804,18 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 size='small'
                 onClick={toggleTheme}
               >
-                <Icon
+                {
+                lightMode ? <Icon
                   fontSize='small'
-                  className={`fas ${lightMode ? 'fa-moon' : 'fa-sun'}`}
-                  style={{ color: palette.common.second }}
-                />
+                  className='fal fa-moon'
+                  style={{ color: palette.common.fourth }}
+                            />
+                : <WbSunnyRoundedIcon
+                  style={{ color: palette.common.fourth }}
+                  fontSize='small'
+                  />
+              }
+
               </IconButton>
             </Grid>
           </Grid>

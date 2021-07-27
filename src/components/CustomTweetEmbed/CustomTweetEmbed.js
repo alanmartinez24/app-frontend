@@ -213,7 +213,7 @@ const styles = theme => ({
     color: 'gray'
   },
   LinkPreviewTitle: {
-    fontWeight: 400
+    fontWeight: 600
   },
   LinkPreviewText: {
     padding: '10px 0px'
