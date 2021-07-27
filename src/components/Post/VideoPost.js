@@ -7,7 +7,6 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = theme => ({
   postContainer: {
     display: 'flex',
-    background: '#1a1a1a',
     padding: '0% 0% 2% 0%',
     alignItems: 'center',
     borderTopLeftRadius: '10px',
@@ -23,7 +22,6 @@ const styles = theme => ({
     maxWidth: '600px',
     minHeight: '250px',
     zIndex: 50,
-    backgroundColor: '#000',
     overflow: 'hidden',
     borderRadius: '0.5rem 0.5rem 0px 0px',
     [theme.breakpoints.down('sm')]: {

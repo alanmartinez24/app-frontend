@@ -21,9 +21,7 @@ const styles = theme => ({
     if (!trackId || !ownerId) return null
 
     const AudiusComp = (_props) => (
-      <div className={classes.postContainer}
-        style={{ backgroundColor: '#1A1A1A' }}
-      >
+      <div className={classes.postContainer}>
         <iframe src={`${AUDIUS_EMBED}?id=${trackId}&ownerId=${ownerId}&flavor=compact`}
           allow='encrypted-media'
           width='100%'

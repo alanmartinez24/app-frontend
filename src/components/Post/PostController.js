@@ -102,7 +102,7 @@ function isTwitchPost (caption) {
 }
 
 function isArticlePost (caption) {
-  const atPattern = genRegEx(['forum.yup.io/*/*', 'yup.canny.io/*/*', '(^|^[^:]+://|[^.]+.)mirror.xyz(/).*'])
+  const atPattern = genRegEx(['forum.yup.io/*/*', 'yup.canny.io/*/*', '.mirror.xyz/*'])
   return atPattern.test(caption)
 }
 
