@@ -1009,7 +1009,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           className={classes.listButton}
                         />
                       </ListItem>
-                      {/*
                       <ListItem button
                         dense
                         component={Link}
@@ -1022,7 +1021,6 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           className={classes.listButton}
                         />
                       </ListItem>
-                  */}
                       <ListItem
                         button
                         dense
