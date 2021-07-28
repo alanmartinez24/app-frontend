@@ -4,7 +4,7 @@ import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon, Snackbar } from '@material-ui/core'
-import { withStyles, useTheme } from '@material-ui/core/styles'
+import { withStyles, useTheme, withTheme } from '@material-ui/core/styles'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import polly from 'polly-js'
 import numeral from 'numeral'
@@ -482,7 +482,8 @@ class PostStats extends Component {
   }
 
   render () {
-    const { classes, isShown, quantile } = this.props
+    const { classes, isShown, quantile, theme } = this.props
+    console.log(`theme`, theme)
     const { totalVoters, weight } = this.state
     return (
       <Grid container
@@ -493,7 +494,7 @@ class PostStats extends Component {
             disableTouchListener
           >
             <p className={classes.weight}
-              style={{ color: !isShown ? levelColors[quantile] : '#fff' }}
+              style={{ color: !isShown ? levelColors[quantile] : theme.palette.common.first }}
             >{weight}</p>
           </Tooltip>
         </Grid>
@@ -513,6 +514,7 @@ class PostStats extends Component {
 
 PostStats.propTypes = {
   classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   totalVoters: PropTypes.number.isRequired,
   weight: PropTypes.number.isRequired,
   isShown: PropTypes.bool.isRequired,
@@ -532,7 +534,7 @@ const postStatStyles = theme => ({
   }
 })
 
-const StyledPostStats = withStyles(postStatStyles)(PostStats)
+const StyledPostStats = withTheme(withStyles(postStatStyles)(PostStats))
 
 class VoteButton extends Component {
   state = {
