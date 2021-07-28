@@ -387,7 +387,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <Typography variant='body1'>
+                              <Typography variant='tooltip'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'
@@ -413,7 +413,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <Typography variant='body1'>
+                              <Typography variant='tooltip'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'

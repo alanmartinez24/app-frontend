@@ -424,7 +424,7 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <Typography>
+                  <Typography variant='tooltip'>
                     {' '}
                     Amount of YUP held by user
                   </Typography>

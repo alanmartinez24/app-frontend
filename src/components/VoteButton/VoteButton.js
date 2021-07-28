@@ -501,9 +501,11 @@ class PostStats extends Component {
           <Tooltip title='Number of Voters'
             disableTouchListener
           >
-            <p className={classes.totalVoters}>
+            <Typography className={classes.totalVoters}
+              variant='tooltip'
+            >
               {totalVoters}
-            </p>
+            </Typography>
           </Tooltip>
         </Grid>
       </Grid>

@@ -550,12 +550,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                       placement='bottom'
                       disableTouchListener
                       title={
-                        <p
-                          color={palette.common.first}
-                          style={{ fontSize: '12px', fontWeight: '300' }}
+                        <Typography
+                          variant='tooltip'
                         >
                           Create an account!
-                        </p>
+                        </Typography>
                       }
                     >
                       {isMobile ? (
@@ -656,12 +655,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         placement='bottom'
                         disableTouchListener
                         title={
-                          <p
-                            color={palette.common.first}
-                            style={{ fontSize: '12px', fontWeight: '300' }}
+                          <Typography
+                            variant='tooltip'
                           >
                             Create an account!
-                          </p>
+                          </Typography>
                         }
                       >
                         {isMobile ? (

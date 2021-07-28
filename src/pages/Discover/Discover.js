@@ -283,12 +283,10 @@ function FeedHeader ({
         placement='bottom'
         disableTouchListener
         title={
-          <p color='#fff'
-            style={{ fontSize: '12px' }}
-          >
+          <Typography variant='tooltip'>
             {' '}
             {description}{' '}
-          </p>
+          </Typography>
         }
       >
         <Grid
