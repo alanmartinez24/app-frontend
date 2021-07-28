@@ -141,12 +141,14 @@ class PolicyDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button color='primary'
+              <Button
+                variant='outlined'
                 onClick={this.handleClose}
               >
                 Cancel
               </Button>
-              <Button color='primary'
+              <Button
+                variant='contained'
                 onClick={this.handleClose}
               >
                 Subscribe

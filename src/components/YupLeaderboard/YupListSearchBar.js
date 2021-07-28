@@ -19,9 +19,9 @@ const styles = theme => ({
     position: 'relative',
     borderRadius: '0.65rem',
     border: '0px solid #fff',
-    backgroundColor: '#101010',
+    backgroundColor: theme.palette.alt.second,
     '&:hover': {
-      backgroundColor: '#242424'
+      backgroundColor: theme.palette.alt.third
     },
     justifyContent: 'flex-start',
     width: '',
@@ -37,7 +37,7 @@ const styles = theme => ({
     position: 'absolute',
     pointerEvents: 'none',
     display: 'flex',
-    color: '#f2f2f2',
+    color: theme.palette.common.first,
     maxWidth: '5vw',
     alignItems: 'center',
     justifyContent: 'flex-start'

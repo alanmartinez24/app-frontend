@@ -1,4 +1,5 @@
 import React from 'react'
+import { Typography } from '@material-ui/core'
 import './dotspinner.css'
 
 const tips = [
@@ -18,6 +19,8 @@ const randomTip = tips[Math.floor(Math.random() * tips.length)]
 
 export default function RandomTip () {
   return (
-    <h1 className='tip'>{randomTip}</h1>
+    <Typography variant='h1'
+      className='tip'
+    >{randomTip}</Typography>
   )
 }

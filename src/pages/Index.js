@@ -1,6 +1,6 @@
-import React, { Fragment, Component } from 'react'
-import { Dialog, DialogContent, DialogContentText } from '@material-ui/core'
-import theme from '../utils/theme.js'
+import React, { Component } from 'react'
+import { Dialog, DialogContent, DialogContentText, Paper, createMuiTheme, CssBaseline } from '@material-ui/core'
+import { theme, lightPalette, darkPalette } from '../utils/theme.js'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -116,7 +116,7 @@ class Index extends Component {
   }
 
   render () {
-  const history = this.props.history
+    const { history, lightMode } = this.props
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -132,62 +132,68 @@ class Index extends Component {
     }
 
     const metaTitle = 'Yup • Social Layer for the Internet'
+    const activePalette = lightMode ? lightPalette : darkPalette
+    const themeWithPalette = createMuiTheme({ ...theme(activePalette), ...activePalette })
 
     return (
-      <Fragment>
-        <MuiThemeProvider theme={theme}>
-          <Helmet>
-            <meta charSet='utf-8' />
-            <title> {metaTitle} </title>
-            <meta name='description'
-              content={metaTitle}
-            />
-          </Helmet>
-          <ConnectedRouter history={history}
-            context={reactReduxContext}
-          >
-            <div>
-              <Header />
-              <Switch>
-                <Route component={Discover}
-                  exact
-                  path='/'
+      <>
+        <MuiThemeProvider theme={themeWithPalette}>
+          <CssBaseline>
+            <Paper style={{ background: themeWithPalette.palette.alt.second }}>
+              <Helmet>
+                <meta charSet='utf-8' />
+                <title> {metaTitle} </title>
+                <meta name='description'
+                  content={metaTitle}
                 />
-                <Route component={YupLists}
-                  path='/leaderboard'
-                />
-                <Route component={Search}
-                  path='/search'
-                />
-                <Route component={TwitterOAuth}
-                  path='/twitter/:userid'
-                />
-                <Route component={PostPage}
-                  exact
-                  path='/p/:postid'
-                />
-                <Route component={Analytics}
-                  exact
-                  path='/:username/analytics'
-                />
-                <Route component={Collections}
-                  exact
-                  path='/collections/:name/:id'
-                />
-                <Route component={User}
-                  exact
-                  path='/:username'
-                />
-                <Redirect from='*'
-                  to='/'
-                />
-                <Redirect from='/lists'
-                  to='/leaderboard'
-                />
-              </Switch>
-              <Footer />
-            </div>
-          </ConnectedRouter>
+              </Helmet>
+              <ConnectedRouter history={history}
+                context={reactReduxContext}
+              >
+                <div>
+                  <Header />
+                  <Switch>
+                    <Route component={Discover}
+                      exact
+                      path='/'
+                    />
+                    <Route component={YupLists}
+                      path='/leaderboard'
+                    />
+                    <Route component={Search}
+                      path='/search'
+                    />
+                    <Route component={TwitterOAuth}
+                      path='/twitter/:userid'
+                    />
+                    <Route component={PostPage}
+                      exact
+                      path='/p/:postid'
+                    />
+                    <Route component={Analytics}
+                      exact
+                      path='/:username/analytics'
+                    />
+                    <Route component={Collections}
+                      exact
+                      path='/collections/:name/:id'
+                    />
+                    <Route component={User}
+                      exact
+                      path='/:username'
+                    />
+                    <Redirect from='*'
+                      to='/'
+                    />
+                    <Redirect from='/lists'
+                      to='/leaderboard'
+                    />
+                  </Switch>
+                  <Footer />
+                </div>
+              </ConnectedRouter>
+            </Paper>
+          </CssBaseline>
         </MuiThemeProvider>
         <Dialog
           aria-describedby='alert-dialog-description'
@@ -201,7 +207,7 @@ class Index extends Component {
             </DialogContentText>
           </DialogContent>
         </Dialog>
-      </Fragment>
+      </>
     )
   }
 }
@@ -215,7 +221,8 @@ Index.propTypes = {
   accountName: PropTypes.string,
   history: PropTypes.object,
   fetchUserPerms: PropTypes.func.isRequired,
-  fetchAuthFromState: PropTypes.func.isRequired
+  fetchAuthFromState: PropTypes.func.isRequired,
+  lightMode: PropTypes.bool.isRequired
 }
 
 const mapActionToProps = (dispatch) => {
@@ -233,7 +240,8 @@ const mapActionToProps = (dispatch) => {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return {
-    accountName: account && account.name ? account.name : null
+    accountName: account && account.name ? account.name : null,
+    lightMode: state.lightMode.active
   }
 }
 

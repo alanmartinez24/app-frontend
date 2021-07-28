@@ -14,23 +14,22 @@ const styles = theme => ({
     paddingRight: '200vw'
   },
   root: {
+    backgroundColor: 'transparent',
     position: 'relative',
     borderRadius: '0.65rem',
     border: '0px solid #fff',
     '&:hover': {
-      backgroundColor: '#101010'
+      backgroundColor: theme.palette.alt.third
     },
-    '&:active': {
-      backgroundColor: '#101010'
+    '&:focus': {
+      backgroundColor: theme.palette.alt.third
     },
     marginLeft: '1rem',
     justify: 'center',
-    width: '',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    boxShadow: '20px 20px 20px 0px rgb(255 255 255 / 1%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 2%), -20px -20px 12px rgb(0 0 0 / 1%), inset 1px 1px 6px 0px rgb(255 255 255 / 1%), inset -1px -1px 2px 0px #0404040d',
+    boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}02, -2px -2px 20px ${theme.palette.alt.first}04, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}a, 5px 5px 9px 0px ${theme.palette.common.first}04, -20px -20px 12px ${theme.palette.alt.first}02, inset 1px 1px 6px 0px ${theme.palette.common.first}02, inset -1px -1px 2px 0px ${theme.palette.alt.second}d`,
     color: '#fff',
-    maxWidth: '',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0px'
     },
@@ -39,7 +38,7 @@ const styles = theme => ({
     }
   },
   searchIcon: {
-    color: '#f2f2f2',
+    color: theme.palette.common.third,
     maxWidth: '5vw',
     height: '100%',
     position: 'absolute',
@@ -56,10 +55,10 @@ const styles = theme => ({
     fontWeight: 400,
     color: 'inherit',
     margin: '0%',
-    backgroundColor: '#2a2a2a',
+    backgroundColor: theme.palette.common.third,
     width: 'flex',
     '&:hover': {
-      background: '#C0C0C0'
+      background: theme.palette.common.fourth
     },
     [theme.breakpoints.down('xs')]: {
       padding: '5px 10px'
@@ -102,6 +101,7 @@ const styles = theme => ({
   },
   closeIcon: {
     float: 'right',
+    color: theme.palette.common.third,
     opacity: '0.7',
     width: '25px',
     height: 'auto',
@@ -110,6 +110,9 @@ const styles = theme => ({
     cursor: 'pointer',
     [theme.breakpoints.down('xs')]: {
       width: '20px'
+    },
+    '&:hover': {
+      color: theme.palette.common.second
     }
   }
 })

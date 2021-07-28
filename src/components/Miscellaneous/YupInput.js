@@ -1,40 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TextField } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 
 const styles = theme => ({
   input: {
-    color: '#fafafa',
+    color: theme.palette.common.fifth,
     cssUnderline: {
       '&:after': {
-        borderBottomColor: '#fafafa'
+        borderBottomColor: theme.palette.common.fifth
       }
     },
     fontFamily: 'Gilroy'
   },
   inputRoot: {
-    color: '#fafafa'
+    color: theme.palette.common.fifth
   },
   inputInput: {
-    color: '#fafafa'
+    color: theme.palette.common.fifth
   },
   inputUnderline: {
-    borderBottomColor: '#fafafa'
+    borderBottomColor: theme.palette.common.fifth
   },
   textField: {
-    color: '#fafafa',
+    color: theme.palette.common.fifth,
     flexWrap: 'none',
     fontFamily: 'Gilroy'
   }
 })
 
 const YupInput = ({ classes, maxLength, ...restProps }) => {
+  const theme = useTheme()
   return (
     <TextField
       {...restProps}
       className={classes.textField}
-      inputProps={{ maxLength, borderBottomColor: '#fafafa' }}
+      inputProps={{ maxLength, borderBottomColor: theme.palette.second }}
       InputProps={{
                 classes: {
                     root: classes.inputRoot,
@@ -44,7 +45,7 @@ const YupInput = ({ classes, maxLength, ...restProps }) => {
                 className: classes.input }}
       InputLabelProps={{
                 style: {
-                    color: '#a0a0a0'
+                    color: theme.palette.third
                 }
             }}
     />

@@ -3,22 +3,29 @@ import PropTypes from 'prop-types'
 import ImageLoader from 'react-load-image'
 import { parseIpfsRef, hashToUrl } from '../../utils/ipfs.js'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import Avatar from '@material-ui/core/Avatar'
-import Fade from '@material-ui/core/Fade'
+import { Avatar, Fade } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
 import { Link } from 'react-router-dom'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
-function UserAvatar (props) {
-  const { className, src: _src, alt, style, username } = props
-  const userLetter = username && username[0].toUpperCase()
+const styles = theme => ({
+  avatar: {
+    backgroundColor: theme.palette.alt.first,
+    fontFamily: 'Gilroy',
+    fontWeight: '600',
+    boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10'
+  }
+})
 
+function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
+  const userLetter = username && username[0].toUpperCase()
   const src = _src === ANONYMOUS_DEFAULT_AVATAR ? '' : _src
 
-  const setDefaultSrc = (e) => {
-    e.target.onerror = null
-    e.target.src = ANONYMOUS_DEFAULT_AVATAR
-    e.target.style.visibility = 'hidden'
+  const setDefaultSrc = ({ target }) => {
+    target.onerror = null
+    target.src = ANONYMOUS_DEFAULT_AVATAR
+    target.style.visibility = 'hidden'
   }
 
   return (
@@ -30,22 +37,15 @@ function UserAvatar (props) {
           to={'/' + username}
         >
           <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
-
             <img alt={alt}
-              className={className}
               src={hashToUrl(src)}
-              style={{
-          ...style, objectFit: 'cover', boxShadow: 'inset 0px 0px 1px 10px rgb(0 224 142)' }}
+              style={style}
               onError={setDefaultSrc}
+              className={className}
             />
             <Avatar alt={alt}
-              className={className}
-              style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
-            >{userLetter && userLetter}
-            </Avatar>
-            <Avatar alt={alt}
-              className={className}
-              style={{ ...style, backgroundColor: '#09090970', fontFamily: 'Gilroy', fontWeight: '600', color: '#DADADA', boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10' }}
+              className={[classes.avatar, className]}
+              style={style}
             >{userLetter && userLetter}
             </Avatar>
           </ImageLoader>
@@ -58,9 +58,10 @@ function UserAvatar (props) {
 UserAvatar.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
-  style: PropTypes.object,
-  username: PropTypes.string.isRequired
+  style: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-export default UserAvatar
+export default withStyles(styles)(UserAvatar)

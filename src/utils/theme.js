@@ -1,37 +1,78 @@
-import { createMuiTheme } from '@material-ui/core/styles'
-import Colors from './colors'
+import Colors, { Gradients } from './colors'
 
-// const responsiveTextSize = {
-//   '@media (max-width: 960px)': {
-//     fontSize: '90%'
-//   },
-//   '@media (max-width: 600px)': {
-//     fontSize: '70%'
-//   }
-// }
-
-const theme = createMuiTheme({
+export const darkPalette = {
   palette: {
+    type: 'dark',
+    common: {
+      first: Colors.W1,
+      second: Colors.W2,
+      third: Colors.W3,
+      fourth: Colors.W4,
+      fifth: Colors.W5
+    },
+    alt: {
+      first: Colors.B1,
+      second: Colors.B2,
+      third: Colors.B3,
+      fourth: Colors.B4,
+      fifth: Colors.B5
+    },
     primary: {
-      light: Colors.Black,
-      dark: Colors.White,
-      main: Colors.White,
-      contrastText: Colors.Black
+      main: Colors.W1,
+      gradient: Gradients.background.dark
     },
     secondary: {
-      light: Colors.White,
-      dark: Colors.Black,
+      main: Colors.Green
+    },
+    text: {
+      primary: Colors.W1,
+      secondary: Colors.W2
+    },
+    action: {
+      hover: Colors.B3
+    }
+  }
+}
+
+export const lightPalette = {
+  palette: {
+    type: 'light',
+    common: {
+      first: Colors.B1,
+      second: Colors.B2,
+      third: Colors.B3,
+      fourth: Colors.B4,
+      fifth: Colors.B5
+    },
+    alt: {
+      first: Colors.W1,
+      second: Colors.W2,
+      third: Colors.W3,
+      fourth: Colors.W4,
+      fifth: Colors.W5
+    },
+    primary: {
+      main: Colors.B2,
+      gradient: Gradients.background.light
+    },
+    secondary: {
       main: Colors.Black
     },
     third: {
-      main: '#00eab7'
+      main: Colors.Green
     },
-    background: {
-      default: Colors.Green
+    text: {
+      primary: Colors.Black,
+      secondary: Colors.DarkGrey
     },
-    type: 'dark'
-  },
-  overrides: {
+    action: {
+      hover: Colors.W3
+    }
+  }
+}
+
+export const theme = ({ palette }) => {
+  return { overrides: {
     MuiButton: {
       root: {
         textTransform: 'capitalize',
@@ -40,10 +81,10 @@ const theme = createMuiTheme({
       outlined: {
         borderRadius: '0.65rem',
         borderWidth: '0.15rem',
-        borderColor: Colors.Grey,
-        color: Colors.White,
+        borderColor: palette.common.second,
+        color: palette.common.second,
         boxShadow:
-          '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
+          `2px 2px 12px 0 ${palette.alt.second}33, -2px -2px 15px 0 ${palette.common.third}33`,
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
@@ -57,18 +98,18 @@ const theme = createMuiTheme({
       contained: {
         borderRadius: '0.55rem',
         border: 'none',
-        backgroundColor: Colors.Green,
-        color: Colors.Black,
+        backgroundColor: palette.alt.third,
+        color: palette.common.second,
         boxShadow:
-          '5px 5px 30px 0 rgba(10, 10, 10, 0.2), -5px -5px 30px 0 rgba(170, 170, 170, 0.1)',
+          `1px 1px 20px 0 ${palette.alt.second}02, -1px -1px 20px 0 ${palette.common.third}02`,
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
         fontFamily: 'Gilroy',
         '&:hover': {
           boxShadow:
-            '8px 8px 30px 0 rgba(0, 0, 0, 0.06), -8px -8px 15px 0 rgba(170, 170, 170, 0.03), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.06), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.03)',
-          backgroundColor: Colors.Green
+            `8px 8px 30px 0 ${palette.alt.second}07, -8px -8px 15px 0 ${palette.common.third}04, inset 8px 8px 30px 0  ${palette.alt.second}07, inset -8px -8px 15px 0 ${palette.common.third}04`,
+          backgroundColor: palette.alt.fourth
         }
       }
     },
@@ -76,8 +117,7 @@ const theme = createMuiTheme({
       root: {
         borderRadius: '100px',
         border: 'none',
-        boxShadow:
-          '8px 8px 30px 0 rgba(0, 0, 0, 0.04), -8px -8px 15px 0 rgba(170, 170, 170, 0.02), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.04), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.02)',
+        boxShadow: `8px 8px 30px 0 ${palette.common.first}04, -8px -8px 15px 0 ${palette.common.first}02, inset 8px 8px 30px 0 ${palette.common.first}04, inset -8px -8px 15px 0 ${palette.common.first}02`,
         '&:hover': {
           boxShadow:
             '-8px -8px 30px 0 rgba(0, 0, 0, 0.04), 8px 8px 15px 0 rgba(170, 170, 170, 0.02), inset -8px -8px 30px 0 rgba(0, 0, 0, 0.04), inset 8px 8px 15px 0 rgba(170, 170, 170, 0.02)',
@@ -85,21 +125,77 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiIcon: {
+      root: {
+        color: palette.common.first
+      }
+    },
+    MuiDialogContent: {
+      root: {
+        color: palette.common.first
+      }
+    },
+    MuiAvatar: {
+      colorDefault: {
+        color: palette.common.first
+      }
+    },
+    MuiTab: {
+      root: {
+        textTransform: 'capitalize',
+        fontSize: '1.2rem'
+      }
+    },
+    MuiTooltip: {
+      tooltip: {
+        color: '#fff',
+        // backgroundColor: palette.common.fifth,
+        fontSize: '12px'
+      }
+    },
+    MuiListItemIcon: {
+      root: {
+        color: palette.common.third,
+        overflow: 'visible',
+        textAlign: 'center',
+        justifyContent: 'center'
+      }
+    },
+    MuiListSubheader: {
+      root: {
+        color: palette.common.second
+      }
+    },
+    MuiBadge: {
+      colorSecondary: {
+        backgroundColor: palette.common.second
+      }
+    },
     MuiInputLabel: {
       shrink: {
-        color: `${Colors.Grey}50`
+        color: `${palette.common.first}50`
       },
       formControl: {
+      }
+    },
+    MuiMenu: {
+      paper: {
+        backgroundColor: palette.alt.second
+      }
+    },
+    MuiMenuItem: {
+      dense: {
+        color: palette.common.first
       }
     },
     MuiOutlinedInput: {
       root: {
         borderRadius: '0.625rem',
-        color: Colors.DarkWhite
+        color: palette.common.first
       },
       notchedOutline: {
-        borderColor: Colors.DarkWhite,
-        color: Colors.DarkWhite
+        borderColor: palette.common.first,
+        color: palette.common.first
       },
       input: {
         padding: '10px 14px'
@@ -107,7 +203,7 @@ const theme = createMuiTheme({
     },
     MuiTextField: {
       root: {
-        color: Colors.White
+        color: palette.common.first
       }
     },
     MuiSelect: {
@@ -120,6 +216,32 @@ const theme = createMuiTheme({
         padding: '8px 24px'
       }
     },
+    MuiAppBar: {
+      root: {
+        background: palette.alt.second
+      },
+      colorPrimary: {
+        backgroundColor: palette.alt.second
+      }
+    },
+    MuiDrawer: {
+      paper: {
+        background: palette.alt.second
+      }
+    },
+    MuiDialog: {
+      paper: {
+        backgroundColor: palette.alt.second,
+        borderRadius: '25px',
+        boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
+        width: '80%',
+        padding: '1rem 0.5rem',
+        maxWidth: '500px'
+      },
+      backdrop: {
+        backdropFilter: 'blur(3px)'
+      }
+    },
     MuiPaper: {
       rounded: {
         borderRadius: '0.65rem'
@@ -127,15 +249,22 @@ const theme = createMuiTheme({
     },
     MuiStepIcon: {
       root: {
-        color: '#00EAB7 !important'
+        color: `${Colors.YupGreen} !important`
       },
       text: {
-        fill: '#000 !important'
+        fill: `${palette.alt.first} !important`
       }
     },
     MuiStepLabel: {
       label: {
-        color: '#fff !important'
+        color: `${palette.common.first} !important`
+      }
+    },
+    MuiFab: {
+      extended: {
+        textTransform: 'capitalize',
+        backgroundColor: palette.alt.third,
+        borderRadius: '0.65rem'
       }
     }
   },
@@ -146,14 +275,14 @@ const theme = createMuiTheme({
       fontSize: '4rem',
       lineHeight: '3.25rem',
       marginBottom: '0.2rem',
-      color: 'primary'
+      color: `${palette.common.first}EE`
     },
     h2: {
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '2.25rem',
       lineHeight: '2.5rem',
-      color: Colors.White
+      color: `${palette.common.first}EE`
     },
     h3: {
       fontFamily: 'Gilroy',
@@ -161,35 +290,39 @@ const theme = createMuiTheme({
       fontWeight: 800,
       fontSize: '1.75rem',
       lineHeight: '1.85rem',
-      color: Colors.White
+      color: `${palette.common.second}EE`
     },
     h4: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '1.375rem',
-      lineHeight: '1.6rem'
+      lineHeight: '1.6rem',
+      color: `${palette.common.third}EE`
     },
     h5: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 500,
       fontSize: '1.125rem',
-      lineHeight: '1.3rem'
+      lineHeight: '1.3rem',
+      color: `${palette.common.third}EE`
     },
     h6: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '1rem',
-      lineHeight: '1.25rem'
+      lineHeight: '1.25rem',
+      color: `${palette.common.third}DD`
     },
     subtitle1: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.625rem',
-      lineHeight: '1.25rem'
+      lineHeight: '1.25rem',
+      color: `${palette.common.third}DD`
     },
     subtitle2: {
       fontFamily: 'Gilroy',
@@ -197,7 +330,7 @@ const theme = createMuiTheme({
       fontWeight: 200,
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
-      color: Colors.DarkerGrey
+      color: `${palette.common.third}DD`
     },
     body1: {
       fontFamily: 'Gilroy',
@@ -205,7 +338,7 @@ const theme = createMuiTheme({
       fontWeight: 300,
       fontSize: '0.9rem',
       lineHeight: '1rem',
-      color: Colors.White
+      color: `${palette.common.third}EE`
     },
     display3: {
       fontFamily: 'Gilroy',
@@ -213,7 +346,7 @@ const theme = createMuiTheme({
       fontSize: '1.2rem',
       lineHeight: '20px',
       color: Colors.Green,
-      fontWeight: '100'
+      fontWeight: '200'
     },
     display2: {
       fontFamily: 'Gilroy',
@@ -228,7 +361,7 @@ const theme = createMuiTheme({
       fontSize: '24px',
       lineHeight: '29px',
       color: Colors.Yellow,
-      fontWeight: '100'
+      fontWeight: '200'
     },
     headline: {
       fontSize: '20px',
@@ -242,27 +375,42 @@ const theme = createMuiTheme({
       fontSize: '16px',
       lineHeight: '23px',
       letterSpacing: '0.75%',
-      fontStyle: 'thin'
+      fontStyle: 'thin',
+      color: `${palette.common.first}EF`
     },
     caption: {
       fontFamily: 'Gilroy',
       fontStyle: '600',
-      fontSize: '16px'
+      fontSize: '16px',
+      color: `${palette.common.third}DE`
     },
     subheader: {
       fontSize: '20px',
       lineHeight: '29px',
       fontFamily: 'Gilroy',
       letterSpacing: '0.15%',
-      color: Colors.DarkerGrey,
+      color: `${palette.common.fourth}DE`,
       fontStyle: 'thin'
     },
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
-      color: Colors.Grey,
+      color: `${palette.common.first}DE`,
       letterSpacing: '0.25%',
-      fontWeight: '100'
+      fontWeight: '300'
+    },
+    body3: {
+      fontSize: '12px',
+      lineHeight: '18px',
+      color: `${palette.common.first}DD`,
+      letterSpacing: '0.25%',
+      fontWeight: '200'
+    },
+    tooltip: {
+      fontSize: '12px',
+      color: `#fff`,
+      letterSpacing: '0.25%',
+      fontWeight: '200'
     },
     colorError: {
       color: Colors.Red
@@ -274,6 +422,5 @@ const theme = createMuiTheme({
       initialWidth: 'lg'
     }
   }
-})
-
-export default theme
+}
+}

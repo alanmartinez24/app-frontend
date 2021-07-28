@@ -9,7 +9,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = theme => ({
   postContainer: {
     display: 'flex',
-    background: '#1a1a1a',
+    background: theme.palette.alt.second,
     padding: '3%',
     alignItems: 'center'
   },

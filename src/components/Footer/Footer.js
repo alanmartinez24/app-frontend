@@ -24,7 +24,7 @@ const styles = theme => ({
     height: '80px',
     position: 'absolute',
     bottom: 'auto',
-    borderTop: '1.5px solid #060606',
+    borderTop: `1.5px solid ${theme.palette.alt.first}`,
     zIndex: theme.zIndex.drawer + 5,
     [theme.breakpoints.down('xs')]: {
       display: 'none'
@@ -119,7 +119,6 @@ class Footer extends Component {
                       <Grid item >
                         <IconButton
                           className={classes.topbuttons}
-                          color='secondary'
                           component={Link}
                           style={{ 'maxWidth': '6vw', maxHeight: '6vw' }}
                           to='https://yup.io'

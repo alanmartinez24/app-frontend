@@ -7,7 +7,6 @@ import { Card, Grid, Typography } from '@material-ui/core'
 import CircleLoader from 'react-spinners/CircleLoader'
 
 const styles = theme => ({
-
     card: {
       paddingTop: theme.spacing(-10),
       paddingBottom: theme.spacing(-10),
@@ -20,8 +19,7 @@ const styles = theme => ({
       position: 'relative',
       borderRadius: '0.5rem',
       border: '0px solid #ffffff',
-      boxShadow: '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f',
-      backgroundColor: '#1b1b1ba1',
+      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
       [theme.breakpoints.down('xs')]: {
         marginTop: theme.spacing(10),
         marginBottom: '0px',
@@ -30,7 +28,7 @@ const styles = theme => ({
     },
 
     name: {
-      color: '#ffffff',
+      color: theme.palette.common.third,
       fontSize: '28px',
       fontWeight: '500',
       padding: '0px',
@@ -44,7 +42,7 @@ const styles = theme => ({
       marginBottom: '10px'
     },
     text: {
-      color: '#ffffff',
+      color: theme.palette.common.third,
       fontSize: '12px',
       padding: '0px',
       fontFamily: 'Gilroy',
@@ -57,7 +55,7 @@ const styles = theme => ({
   })
 
 const DonutChart = (props) => {
-  const color = '#00EAB7'
+  const color = '#00E08E'
   const { classes, chartData, chartTitle } = props
 
   if (chartData && chartData.data) {

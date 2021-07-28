@@ -1,31 +1,19 @@
-import React, { Component, Fragment, memo } from 'react'
+import React, { Component, memo } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { Grid, Grow } from '@material-ui/core'
-import {
-  MuiThemeProvider,
-  createMuiTheme,
-  withStyles
-} from '@material-ui/core/styles'
-import Snackbar from '@material-ui/core/Snackbar'
+import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon, Snackbar } from '@material-ui/core'
+import { withStyles, useTheme, withTheme } from '@material-ui/core/styles'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import polly from 'polly-js'
 import numeral from 'numeral'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import Portal from '@material-ui/core/Portal'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import { parseError } from '../../eos/error'
 import { connect } from 'react-redux'
-import {
-  setPostInfo,
-  updateInitialVote,
-  updateVoteLoading
-} from '../../redux/actions'
+import { setPostInfo, updateInitialVote, updateVoteLoading } from '../../redux/actions'
 import { levelColors } from '../../utils/colors'
-import Tooltip from '@material-ui/core/Tooltip'
 import Rating from '@material-ui/lab/Rating'
 import equal from 'fast-deep-equal'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
@@ -206,19 +194,20 @@ const styles = (theme) => ({
   }
 })
 
-const StyledRating = withStyles({
+const ratingStyles = ({ palette }) => ({
   iconFilled: {
     border: '3px',
-    borderColor: '#fff',
-    color: '#222222'
+    borderColor: palette.common.first,
+    color: palette.alt.first
   },
   iconHover: {
-    stroke: 'white'
+    stroke: palette.common.first
   },
   iconEmpty: {
-    color: '#222222'
+    color: palette.alt.first
   }
-})(Rating)
+})
+const StyledRating = withStyles(ratingStyles)(Rating)
 
 const labels = {
   1: '1',
@@ -305,14 +294,15 @@ IconWithRef.propTypes = {
 
 const IconContainer = memo((props) => {
   const { value, ratingAvg, quantile, vote, handleRatingChange, hoverValue } = props
+  const { palette } = useTheme()
   const quantileColor = levelColors[quantile]
   const convertedVoterRating = vote
     ? convertRating(vote.like, vote.rating)
     : null
 
   const ratingQuantile = quantileToRating[quantile]
-  const ratingQuantileStyle = (ratingQuantile >= value) ? { color: quantileColor } : { color: '#222222' }
-  const voteStyle = (convertedVoterRating >= value) ? { stroke: 'white' } : {}
+  const ratingQuantileStyle = (ratingQuantile >= value) ? { color: quantileColor } : { color: palette.alt.third }
+  const voteStyle = (convertedVoterRating >= value) ? { stroke: palette.common.third } : {}
   const marginStyle = (window.innerWidth <= 440)
       ? { marginTop: '-3px', marginRight: '-5px', marginLeft: '-6px' }
       : { marginTop: '-3px', marginRight: '-9px', marginLeft: '-1.5px' }
@@ -382,44 +372,11 @@ const VoteLoader = (props) => (
   />
 )
 
-const VoteBtnTheme = createMuiTheme({
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5,
-    borderRadius: 4,
-    background: 'third'
-  },
-  icon: {
-    width: 25,
-    height: 25,
-    color: 'primary'
-  },
-  catIcon: {
-    width: 25,
-    height: 25,
-    backgroundColor: 'primary',
-    margin: '-0.5rem 0px'
-  },
-  palette: {
-    primary: { main: '#fff' },
-    secondary: { main: '#fff' },
-    third: { main: '#00eab7' }
-  },
-  overrides: {
-    MuiButton: {
-      raisedSecondary: {
-        color: '#fff'
-      }
-    }
-  }
-})
-
 class CatIcon extends Component {
   state = {
     category: this.props.category,
     voteLoading: this.props.voteLoading
-  };
+  }
 
   componentDidUpdate (prevProps) {
     const { quantile, category, voteLoading } = this.props
@@ -463,12 +420,13 @@ class CatIcon extends Component {
     }
 
     return (
-      <h4 className={classes.catIcon}
+      <Typography className={classes.catIcon}
         onClick={handleDefaultVote}
+        variant='h4'
         style={{ fontSize: window.innerWidth <= 600 ? '16px' : 'inherit' }}
       >
         {CAT_ICONS[category]}
-      </h4>
+      </Typography>
     )
   }
 }
@@ -524,7 +482,7 @@ class PostStats extends Component {
   }
 
   render () {
-    const { classes, isShown, quantile } = this.props
+    const { classes, isShown, quantile, theme } = this.props
     const { totalVoters, weight } = this.state
     return (
       <Grid container
@@ -535,7 +493,7 @@ class PostStats extends Component {
             disableTouchListener
           >
             <p className={classes.weight}
-              style={{ color: !isShown ? levelColors[quantile] : '#fff' }}
+              style={{ color: !isShown ? levelColors[quantile] : theme.palette.common.first }}
             >{weight}</p>
           </Tooltip>
         </Grid>
@@ -543,9 +501,11 @@ class PostStats extends Component {
           <Tooltip title='Number of Voters'
             disableTouchListener
           >
-            <p className={classes.totalVoters}>
+            <Typography className={classes.totalVoters}
+              variant='tooltip'
+            >
               {totalVoters}
-            </p>
+            </Typography>
           </Tooltip>
         </Grid>
       </Grid>
@@ -555,24 +515,27 @@ class PostStats extends Component {
 
 PostStats.propTypes = {
   classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   totalVoters: PropTypes.number.isRequired,
   weight: PropTypes.number.isRequired,
   isShown: PropTypes.bool.isRequired,
   quantile: PropTypes.string.isRequired
 }
 
-const StyledPostStats = withStyles({
+const postStatStyles = theme => ({
   weight: {
     marginRight: '3px',
     fontSize: '16px'
   },
   totalVoters: {
     fontSize: '16px',
-    color: 'rgba(170, 170, 170, 0.333)',
+    color: theme.palette.common.third,
     opacity: 0.3,
     marginLeft: '7px'
   }
-})(PostStats)
+})
+
+const StyledPostStats = withTheme(withStyles(postStatStyles)(PostStats))
 
 class VoteButton extends Component {
   state = {
@@ -764,8 +727,6 @@ class VoteButton extends Component {
       this.handleDialogOpen()
       return
     }
-
-    console.log(account)
 
     const signedInWithEth = !scatter.connected && !!ethAuth
     const signedInWithTwitter = !scatter.connected && !!localStorage.getItem('twitterMirrorInfo')
@@ -1007,18 +968,16 @@ class VoteButton extends Component {
 
   onChangeActive = (e, value) => {
     this.setState({ hoverValue: value })
-  };
+  }
 
   fetchActionUsage = async (eosname) => {
     try {
-      const resData = (
-        await axios.get(`${BACKEND_API}/accounts/actionusage/${eosname}`)
-      ).data
+      const resData = (await axios.get(`${BACKEND_API}/accounts/actionusage/${eosname}`)).data
       return resData
     } catch (err) {
       console.error('Failed to fetch action usage', err)
     }
-  };
+  }
 
   otherVotesLoading = () => {
     const { votesForPost } = this.props
@@ -1029,7 +988,7 @@ class VoteButton extends Component {
       if (vote && vote.isLoading) return true
     }
     return false
-  };
+  }
 
   handleRatingChange = async (e, newRating) => {
     e.preventDefault()
@@ -1037,7 +996,7 @@ class VoteButton extends Component {
     const prevRating = currRating || this.props.currRating
     await this.handleVote(prevRating, newRating)
     this.setState({ currRating: newRating })
-  };
+  }
 
   render () {
     const { classes, category, postInfo, isShown } = this.props
@@ -1056,81 +1015,79 @@ class VoteButton extends Component {
         : 0
 
     const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
-    const twitterInfo =
-      cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
+    const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
 
     return (
-      <Fragment >
+      <>
         <div style={{ display: 'flex', direction: 'row' }}>
-          <MuiThemeProvider theme={VoteBtnTheme}>
-            <Grid
-              alignItems='flex-start'
-              container
-              spacing='12'
-              direction='row'
-              justify='space-around'
-              width='200px'
-              wrap='nowrap'
-            >
-              <Grid item>
-                <Tooltip title={CAT_DESC[category] || category}>
-                  <Grid
-                    alignItems='center'
-                    item
-                    direction='column'
-                    justify='space-around'
-                  >
-                    <Grid item>
-                      <StyledCatIcon
-                        category={category}
-                        handleDefaultVote={this.handleDefaultVote}
-                        voteLoading={voteLoading}
-                        quantile={currPostCatQuantile}
-                      />
-                    </Grid>
-                  </Grid>
-                </Tooltip>
-              </Grid>
-              <Grid
-                className={classes.postWeight}
-                item
-                style={{ textAlign: '-webkit-left', minWidth: '50px', minHeight: '56px' }}
-              >
-                <Grid container
+          <Grid
+            alignItems='flex-start'
+            container
+            spacing='12'
+            direction='row'
+            justify='space-around'
+            width='200px'
+            wrap='nowrap'
+          >
+            <Grid item>
+              <Tooltip title={CAT_DESC[category] || category}>
+                <Grid
+                  alignItems='center'
+                  item
                   direction='column'
-                  justify='space-between'
+                  justify='space-around'
                 >
-                  <Grid
-                    container
-                    alignItems='flex-start'
-                    direction='column'
-                    spacing={2}
-                  >
+                  <Grid item>
+                    <StyledCatIcon
+                      category={category}
+                      handleDefaultVote={this.handleDefaultVote}
+                      voteLoading={voteLoading}
+                      quantile={currPostCatQuantile}
+                    />
+                  </Grid>
+                </Grid>
+              </Tooltip>
+            </Grid>
+            <Grid
+              className={classes.postWeight}
+              item
+              style={{ textAlign: '-webkit-left', minWidth: '50px', minHeight: '56px' }}
+            >
+              <Grid container
+                direction='column'
+                justify='space-between'
+              >
+                <Grid
+                  container
+                  alignItems='flex-start'
+                  direction='column'
+                  spacing={2}
+                >
+                  <Grid item>
                     <Grid item>
-                      <Grid item>
-                        {isShown && (
-                          <Grow in
-                            timeout={300}
-                          >
-                            <StyledRating
-                              name='customized-color'
-                              max={5}
-                              precision={1}
-                              onChangeActive={this.onChangeActive}
-                              IconContainerComponent={(props) => (
-                                <IconContainer
-                                  {...props}
-                                  quantile={currPostCatQuantile}
-                                  ratingAvg={ratingAvg}
-                                  handleRatingChange={this.handleRatingChange}
-                                  hoverValue={hoverValue}
-                                  vote={this.props.vote}
-                                  currRating={
+                      {isShown && (
+                      <Grow in
+                        timeout={300}
+                      >
+                        <StyledRating
+                          name='customized-color'
+                          max={5}
+                          precision={1}
+                          onChangeActive={this.onChangeActive}
+                          IconContainerComponent={(props) => (
+                            <IconContainer
+                              {...props}
+                              quantile={currPostCatQuantile}
+                              ratingAvg={ratingAvg}
+                              handleRatingChange={this.handleRatingChange}
+                              hoverValue={hoverValue}
+                              vote={this.props.vote}
+                              currRating={
                                 this.state.currRating || this.props.currRating
                               }
-                                />
+                            />
                           )}
-                              icon={
+                          icon={
                             window.matchMedia('(max-width: 520px)') ? (
                               <SvgIcon className={classes.mobileBtn}>
                                 <circle cy='12'
@@ -1149,13 +1106,13 @@ class VoteButton extends Component {
                               </SvgIcon>
                             )
                           }
-                            />
-                          </Grow>
+                        />
+                      </Grow>
                         )}
-                      </Grid>
-                      <Grid
-                        item
-                        style={{
+                    </Grid>
+                    <Grid
+                      item
+                      style={{
                           marginTop: !isShown ? (window.innerWidth > 2000 ? '-8px' : '-12px') : '-20px',
                           marginLeft: '5px',
                           fontWeight: 400,
@@ -1163,21 +1120,20 @@ class VoteButton extends Component {
                           height: '50px',
                           marginRight: '12px'
                         }}
-                      >
-                        <StyledPostStats
-                          style={{ marginLeft: '15px' }}
-                          totalVoters={currTotalVoters}
-                          weight={formattedWeight}
-                          isShown={isShown}
-                          quantile={currPostCatQuantile}
-                        />
-                      </Grid>
+                    >
+                      <StyledPostStats
+                        style={{ marginLeft: '15px' }}
+                        totalVoters={currTotalVoters}
+                        weight={formattedWeight}
+                        isShown={isShown}
+                        quantile={currPostCatQuantile}
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </MuiThemeProvider>
+          </Grid>
         </div>
         <Portal>
           <Snackbar
@@ -1205,7 +1161,7 @@ class VoteButton extends Component {
             handleDialogClose={this.handleDialogClose}
           />
         )}
-      </Fragment>
+      </>
     )
   }
 }
@@ -1265,6 +1221,5 @@ VoteButton.propTypes = {
   isShown: PropTypes.bool
 }
 
-export default withRouter(
-  connect(mapStateToProps)(withStyles(styles)(VoteButton))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(VoteButton))
 )

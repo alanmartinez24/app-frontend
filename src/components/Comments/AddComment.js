@@ -26,7 +26,7 @@ const styles = theme => ({
     padding: '0px',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '200',
-    color: '#ffffff',
+    color: theme.palette.common.first,
     [theme.breakpoints.down('xs')]: {
       fontSize: '14px'
     }
@@ -136,7 +136,6 @@ class AddComment extends PureComponent {
               inputProps={{ maxLength: 140 }}
               multiline
               rowsMax={5}
-              style={{ fontFamily: 'Gilroy', color: '#ffffff' }}
             />
           </Grid>
           <Grid container

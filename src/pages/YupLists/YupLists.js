@@ -2,8 +2,8 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import YupLeaderboard from '../../components/YupLeaderboard/YupList'
 import { connect } from 'react-redux'
-import { Grid, Fab, Button } from '@material-ui/core'
-import { withStyles, ThemeProvider } from '@material-ui/core/styles'
+import { Grid, Fab, Button, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import { setListOptions } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -13,7 +13,6 @@ import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import theme from '../../utils/theme'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 
@@ -22,7 +21,6 @@ const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
   container: {
-    background: '#060606',
     [theme.breakpoints.down('xs')]: {
       backgroundColor: '#0f0f0f'
     },
@@ -38,12 +36,9 @@ const styles = theme => ({
     paddingTop: '30px'
   },
   page: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     marginBottom: '0px',
     overflowX: 'hidden',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
-    },
+
     [theme.breakpoints.down('md')]: {
       marginLeft: 0
     },
@@ -65,8 +60,6 @@ const styles = theme => ({
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: '#FAFAFA',
     zIndex: 1000,
     [theme.breakpoints.down('xs')]: {
       display: 'none'
@@ -130,11 +123,10 @@ class YupLists extends Component {
     const { classes } = this.props
     return (
       <ErrorBoundary>
-        <ThemeProvider theme={theme}>
-          <div className={classes.container}>
-            <div className={classes.page}>
-              <Header isTourOpen={this.state.isTourOpen} />
-              {!this.state.isLoading &&
+        <div className={classes.container}>
+          <div className={classes.page}>
+            <Header isTourOpen={this.state.isTourOpen} />
+            {!this.state.isLoading &&
               <Grid className={classes.gridContainer}
                 container
                 justify='center'
@@ -142,56 +134,55 @@ class YupLists extends Component {
                 <YupLeaderboard />
               </Grid>
             }
-              <Tour
-                steps={steps}
-                isOpen={this.state.isTourOpen}
-                onRequestClose={this.closeTour}
-                className={classes.Tour}
-                accentColor='#00eab7'
-                rounded={10}
-                disableInteraction
-                highlightedMaskClassName={classes.Mask}
-                nextButton={
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
-                    small
-                  >
-                    Next
-                  </Button>
-              }
-                prevButton={
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
-                  >
-                    Back
-                  </Button>
-              }
-                lastStepNextButton={
-                  <div
-                    style={{ display: 'none' }}
-                  />
-              }
-              />
-              <Fade in={this.state.showTour}
-                timeout={1000}
-              >
-                <Fab
-                  className={classes.tourFab}
-                  variant='extended'
-                  onClick={this.openTour}
+            <Tour
+              steps={steps}
+              isOpen={this.state.isTourOpen}
+              onRequestClose={this.closeTour}
+              className={classes.Tour}
+              accentColor='#00E08E'
+              rounded={10}
+              disableInteraction
+              highlightedMaskClassName={classes.Mask}
+              nextButton={
+                <Button
+                  size='small'
+                  variant='outlined'
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
+                  small
                 >
-                  10-Second Tutorial
-                </Fab>
-              </Fade>
-              <CreateCollectionFab />
-            </div>
-            <Footer />
+                  Next
+                </Button>
+              }
+              prevButton={
+                <Button
+                  size='small'
+                  variant='outlined'
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
+                >
+                  Back
+                </Button>
+              }
+              lastStepNextButton={
+                <div
+                  style={{ display: 'none' }}
+                />
+              }
+            />
+            <Fade in={this.state.showTour}
+              timeout={1000}
+            >
+              <Fab
+                className={classes.tourFab}
+                variant='extended'
+                onClick={this.openTour}
+              >
+                10-Second Tutorial
+              </Fab>
+            </Fade>
+            <CreateCollectionFab />
           </div>
-        </ThemeProvider>
+          <Footer />
+        </div>
       </ErrorBoundary>
     )
   }
@@ -206,28 +197,34 @@ const steps = [
   {
     selector: '[tourName="LeaderboardButton"]',
     content: (
-      <div>
-        <h4 className='tourHeader'>
+      <>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📈  Leaderboard
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a href='https://docs.yup.io/products/app#lists'
           target='_blank'
           className='tourLink'
         >Learn more</a>
-      </div>
+      </>
     )
   },
   {
     selector: '[tourName="LeaderboardMenu"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           ‍📊  Leaderboard Menu
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           Here you can edit and filter leaderboards.
         </p>
       </div>
@@ -237,10 +234,13 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🤔  Rating
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
         <a href='https://docs.yup.io/basic/rating'
@@ -254,10 +254,13 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📡  Feeds
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           These are your feeds.
         </p>
         <a href='https://docs.yup.io/products/app#feed'
@@ -270,10 +273,12 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
+        <Typography className='tourHeader'
+          variant='h3'
+        >
           👏 That's it !
-        </h3>
-        <p>
+        </Typography>
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>

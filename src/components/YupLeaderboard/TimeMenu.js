@@ -32,7 +32,7 @@ class TimeMenu extends Component {
 }
 
   render () {
-    const { classes, settings, listOptions } = this.props
+    const { classes, settings, listOptions, lightMode } = this.props
     const { site: currSite } = settings
 
     const filteredOpts = uniqBy([{ location: { name: 'all', displayName: 'all' } }, ...listOptions], 'location.name')
@@ -43,7 +43,7 @@ class TimeMenu extends Component {
             style={{ opacity: '0.5', fontSize: '11px' }}
           >Time</InputLabel>
           <Select
-            type='dark'
+            type={lightMode ? 'dark' : 'light'}
             label='Where?'
             value={currSite.name}
             onChange={this.handleChange}
@@ -78,7 +78,8 @@ const mapStateToProps = (state) => {
   }
   const { listOptions } = yupListSettings
   const settings = parseSettings(config, listOptions)
-  return { config, settings, listOptions }
+  const lightMode = state.lightMode.active
+  return { config, settings, listOptions, lightMode }
 }
 
 TimeMenu.propTypes = {
@@ -86,7 +87,8 @@ TimeMenu.propTypes = {
   config: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  listOptions: PropTypes.array.isRequired
+  listOptions: PropTypes.array.isRequired,
+  lightMode: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(withRouter(withStyles(styles)(TimeMenu)))

@@ -7,7 +7,7 @@ import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
-import { withStyles, ThemeProvider } from '@material-ui/core/styles'
+import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
@@ -19,11 +19,12 @@ import '../../components/Tour/tourstyles.css'
 import ReactPlayer from 'react-player'
 import { Helmet } from 'react-helmet'
 import AddIcon from '@material-ui/icons/Add'
-import CollectionPostDialog from '../../components/Collections/CollectionPostDialog.js'
-import theme from '../../utils/theme'
+import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import CollectionItem from '../../components/Collections/CollectionItem.js'
+import { Link } from 'react-router-dom'
+import Img from 'react-image'
 
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -37,17 +38,16 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '600',
     fontSize: '1.5rem',
-    color: '#ffffff'
+    color: theme.palette.common.first
   },
   accountErrorSub: {
     paddingTop: '25px',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
     fontSize: '1rem',
-    color: '#ffffff'
+    color: theme.palette.common.first
   },
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     height: '100vh',
     width: '100vw',
     overflowX: 'hidden',
@@ -104,21 +104,10 @@ const styles = theme => ({
       width: `calc(100% - 200px)`
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden'
     },
     flex: 1
-  },
-  progress: {
-    margin: theme.spacing(2),
-    color: 'white'
-  },
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh'
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
@@ -128,18 +117,16 @@ const styles = theme => ({
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: '#FAFAFA',
     zIndex: 1000,
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
   },
   icons: {
-    color: '#fff'
+    color: theme.palette.common.first
   },
   tabs: {
-    color: '#fff',
+    color: theme.palette.common.first,
     fontSize: '1.2rem',
     marginLeft: '35px',
     textTransform: 'capitalize',
@@ -148,7 +135,7 @@ const styles = theme => ({
     }
   },
   collections: {
-    color: '#fff',
+    color: theme.palette.common.first,
     zIndex: '999',
     marginLeft: '20px',
     maxWidth: '25%',
@@ -163,7 +150,7 @@ const styles = theme => ({
     padding: '8px 8px 8px 16px !important'
   },
   showAll: {
-    color: '#fff',
+    color: theme.palette.common.first,
     width: '100px',
     fontSize: '0.8rem',
     fontWeight: '400',
@@ -173,9 +160,62 @@ const styles = theme => ({
   }
 })
 
-function TabPanel (props) {
-  const { children, value, index } = props
+const Collection = ({ classes, collection, username }) => {
+  const fmtCollectionName = collection && collection.name.replace(/\s+/g, '-').toLowerCase()
+  const collectionLength = collection.postIds.length
+  const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
+  const collectionSubheader =
+    username === collection.owner
+      ? collectionLength === 1
+        ? `1 post`
+        : `${collectionLength} posts`
+      : collection.owner
 
+  return (
+    <Link
+      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
+      style={{ textDecoration: 'none', color: '#fff' }}
+    >
+      <Grid
+        container
+        direction='row'
+        justify='flex-start'
+        alignItems='center'
+        spacing={3}
+        className={classes.collectionContainer}
+      >
+        <Grid item
+          xs={2}
+          lg={3}
+          xl={2}
+          className={classes.collection}
+        >
+          <Img
+            src={[collection.imgSrcUrl, DEFAULT_IMG]}
+            alt='thumbnail'
+            className={classes.collectionImg}
+          />
+        </Grid>
+        <Grid item
+          xs={10}
+          lg={9}
+          xl={10}
+        >
+          <Typography variant='h5'>{collection.name}</Typography>
+          <Typography variant='body2'>{collectionSubheader}</Typography>
+        </Grid>
+      </Grid>
+    </Link>
+  )
+}
+
+Collection.propTypes = {
+  classes: PropTypes.object.isRequired,
+  collection: PropTypes.array.isRequired,
+  username: PropTypes.string
+}
+
+function TabPanel ({ children, value, index }) {
   return (
     <div id='tabpanel'
       hidden={value !== index}
@@ -397,7 +437,7 @@ class User extends Component {
   }
 
   render () {
-    const { classes, account } = this.props
+    const { classes, account, theme } = this.props
     const {
       posts,
       _id: eosname,
@@ -446,61 +486,43 @@ class User extends Component {
 
     return (
       <ErrorBoundary>
-        <ThemeProvider theme={theme}>
-          <Helmet>
-            <meta charSet='utf-8' />
-            <title>{`${username} | Yup`}</title>
-            <meta
-              name='description'
-              content={`${username}'s profile page on Yup.`}
-            />
-            <meta property='og:title'
-              content={`${username} | Yup`}
-            />
-            <meta
-              property='og:description'
-              content={`${username}'s profile page on Yup.`}
-            />
-            <meta property='twitter:title'
-              content={`${username} | Yup`}
-            />
-            <meta
-              property='twitter:description'
-              content={`${username}'s profile page on Yup.`}
-            />
-          </Helmet>
-          <CollectionPostDialog
-            account={account}
-            dialogOpen={dialogOpen}
-            handleDialogClose={this.handleDialogClose}
+        <Helmet>
+          <meta charSet='utf-8' />
+          <title>{`${username} | Yup`}</title>
+          <meta
+            name='description'
+            content={`${username}'s profile page on Yup.`}
           />
-          <Dialog
-            open={showAll}
-            onClose={this.handleShowAll}
-            aria-labelledby='form-dialog-title'
-            PaperProps={{
-            style: {
-              backgroundColor: '#0A0A0A',
-              borderRadius: '25px',
-              boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-              width: '80%',
-              padding: '1rem 0.5rem',
-              maxWidth: '500px',
-              color: '#fafafa',
-              maxHeight: '50vh'
-            }
-          }}
-            BackdropProps={{
-            style: {
-              backdropFilter: 'blur(3px)'
-            }
-          }}
-          >
-            <DialogTitle id='form-dialog-title'>
-              <Typography variant='h3'>Collections</Typography>
-            </DialogTitle>
-            <DialogContent className={classes.dialogContent}>
-              {collections.map(collection => {
+          <meta property='og:title'
+            content={`${username} | Yup`}
+          />
+          <meta
+            property='og:description'
+            content={`${username}'s profile page on Yup.`}
+          />
+          <meta property='twitter:title'
+            content={`${username} | Yup`}
+          />
+          <meta
+            property='twitter:description'
+            content={`${username}'s profile page on Yup.`}
+          />
+        </Helmet>
+        <CollectionDialog
+          account={account}
+          dialogOpen={dialogOpen}
+          handleDialogClose={this.handleDialogClose}
+        />
+        <Dialog
+          open={showAll}
+          onClose={this.handleShowAll}
+          aria-labelledby='form-dialog-title'
+        >
+          <DialogTitle id='form-dialog-title'>
+            <Typography variant='h3'>Collections</Typography>
+          </DialogTitle>
+          <DialogContent>
+            {collections.map(collection => {
               return (
                 <CollectionItem
                   collection={collection}
@@ -508,73 +530,73 @@ class User extends Component {
                 />
               )
             })}
-            </DialogContent>
-          </Dialog>
-          <div className={classes.container}>
-            <div className={classes.page}>
-              <Header />
-              <SideDrawer />
-              <Grid
-                container
-                direction='row'
-                justify='flex-start'
-                alignItems='flex-start'
-                spacing={showTabs ? 2 : 4}
+          </DialogContent>
+        </Dialog>
+        <div className={classes.container}>
+          <div className={classes.page}>
+            <Header />
+            <SideDrawer />
+            <Grid
+              container
+              direction='row'
+              justify='flex-start'
+              alignItems='flex-start'
+              spacing={showTabs ? 2 : 4}
+            >
+              <Grid item
+                lg={6}
+                xs={12}
               >
+                <ProfileCard
+                  account={account}
+                  accountInfo={this.state}
+                  balanceInfo={balance}
+                  isLoggedIn={isLoggedIn}
+                  ratingCount={ratingCount}
+                  isMinimize={isMinimize}
+                />
+              </Grid>
+              <Hidden mdDown>
                 <Grid item
                   lg={6}
-                  xs={12}
-                >
-                  <ProfileCard
-                    account={account}
-                    accountInfo={this.state}
-                    balanceInfo={balance}
-                    isLoggedIn={isLoggedIn}
-                    ratingCount={ratingCount}
-                    isMinimize={isMinimize}
-                  />
-                </Grid>
-                <Hidden mdDown>
-                  <Grid item
-                    lg={6}
-                  />
-                </Hidden>
+                />
+              </Hidden>
 
-                {showTabs && collections.length > 0 ? (
-                  <>
+              {showTabs && collections.length > 0 ? (
+                <>
+                  <Grid item
+                    xs={12}
+                  >
+                    <Tabs value={activeTab}
+                      onChange={this.handleChange}
+                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.common.first } }}
+                    >
+                      <Tab label='Feed'
+                        className={classes.tabs}
+                      />
+                      <Tab label='Collections'
+                        className={classes.tabs}
+                      />
+                    </Tabs>
+                  </Grid>
+
+                  <TabPanel value={activeTab}
+                    index={0}
+                  >
                     <Grid item
                       xs={12}
                     >
-                      <Tabs value={activeTab}
-                        onChange={this.handleChange}
-                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
-                      >
-                        <Tab label='Feed'
-                          className={classes.tabs}
-                        />
-                        <Tab label='Collections'
-                          className={classes.tabs}
-                        />
-                      </Tabs>
-                    </Grid>
-
-                    <TabPanel value={activeTab}
-                      index={0}
-                    >
-                      <Grid item
-                        xs={12}
-                      >
-                        <InfiniteScroll
-                          dataLength={posts.length}
-                          hasMore={hasMore}
-                          height={
+                      <InfiniteScroll
+                        dataLength={posts.length}
+                        hasMore={hasMore}
+                        height={
                           isMinimize
                             ? 'calc(100vh - 160px)'
                             : 'calc(100vh - 320px)'
                         }
-                          className={classes.infiniteScroll}
-                          onScroll={this.handleScroll}
-                          loader={
+                        className={classes.infiniteScroll}
+                        onScroll={this.handleScroll}
+                        loader={
                           !initialLoad ? (
                             <div className={classes.feedLoader}>
                               <FeedLoader />
@@ -583,32 +605,32 @@ class User extends Component {
                             ''
                           )
                         }
-                          next={this.fetchPosts}
-                        >
-                          <Feed
-                            isLoading={initialLoad}
-                            renderObjects
-                            hideInteractions={false}
-                            posts={posts}
-                            hasMore={hasMore}
-                            classes={classes}
-                          />
-                        </InfiniteScroll>
-                      </Grid>
-                    </TabPanel>
-
-                    <TabPanel value={activeTab}
-                      index={1}
-                    >
-                      <Grid
-                        item
-                        container
-                        column
-                        spacing={isMobile ? 0 : 4}
-                        tourname='Collections'
-                        className={classes.collections}
+                        next={this.fetchPosts}
                       >
-                        {isLoggedIn && (
+                        <Feed
+                          isLoading={initialLoad}
+                          renderObjects
+                          hideInteractions={false}
+                          posts={posts}
+                          hasMore={hasMore}
+                          classes={classes}
+                        />
+                      </InfiniteScroll>
+                    </Grid>
+                  </TabPanel>
+
+                  <TabPanel value={activeTab}
+                    index={1}
+                  >
+                    <Grid
+                      item
+                      container
+                      column
+                      spacing={isMobile ? 0 : 4}
+                      tourname='Collections'
+                      className={classes.collections}
+                    >
+                      {isLoggedIn && (
                         <Grid
                           item
                           xs={12}
@@ -616,7 +638,7 @@ class User extends Component {
                         >
                           <Typography
                             variant='subtitle2'
-                            style={{ marginRight: '10%', color: '#fff' }}
+                            style={{ marginRight: '10%', color: theme.palette.common.first }}
                             className={classes.collectionContainer}
                           >
                             Create new collection
@@ -632,10 +654,10 @@ class User extends Component {
                           </IconButton>
                         </Grid>
                       )}
-                        <Grid item
-                          xs={12}
-                        >
-                          {collections
+                      <Grid item
+                        xs={12}
+                      >
+                        {collections
                           .slice(0, LIMIT_COLLECTIONS)
                           .map(collection => {
                             return (
@@ -645,7 +667,7 @@ class User extends Component {
                               />
                             )
                           })}
-                          {collections.length > LIMIT_COLLECTIONS && (
+                        {collections.length > LIMIT_COLLECTIONS && (
                           <Grid
                             container
                             alignItems='center'
@@ -660,10 +682,10 @@ class User extends Component {
                             </Button>
                           </Grid>
                         )}
-                        </Grid>
                       </Grid>
-                    </TabPanel>
-                  </>
+                    </Grid>
+                  </TabPanel>
+                </>
               ) : (
                 <>
                   <Grid item
@@ -728,7 +750,7 @@ class User extends Component {
                                 aria-label='more'
                                 aria-controls='long-menu'
                                 aria-haspopup='true'
-                                color='primary'
+                                color={theme.palette.common.fifth}
                                 variant='extended'
                                 size='small'
                                 style={{ opacity: 0.3 }}
@@ -773,54 +795,53 @@ class User extends Component {
                   </Grid>
                 </>
               )}
-              </Grid>
+            </Grid>
 
-              <Tour
-                steps={steps}
-                isOpen={this.state.isTourOpen}
-                onRequestClose={this.closeTour}
-                className={classes.Tour}
-                accentColor='#00eab7'
-                rounded={10}
-                disableInteraction
-                highlightedMaskClassName={classes.Mask}
-                nextButton={
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
-                    small
-                  >
-                    Next
-                  </Button>
-              }
-                prevButton={
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
-                  >
-                    Back
-                  </Button>
-              }
-                lastStepNextButton={<div style={{ display: 'none' }} />}
-              />
-              <Fade in={this.state.showTour}
-                timeout={1000}
-              >
-                <Fab
-                  className={classes.tourFab}
-                  variant='extended'
-                  onClick={this.openTour}
+            <Tour
+              steps={steps}
+              isOpen={this.state.isTourOpen}
+              onRequestClose={this.closeTour}
+              className={classes.Tour}
+              accentColor='#00E08E'
+              rounded={10}
+              disableInteraction
+              highlightedMaskClassName={classes.Mask}
+              nextButton={
+                <Button
+                  size='small'
+                  variant='outlined'
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
+                  small
                 >
-                  10-Second Tutorial
-                </Fab>
-              </Fade>
-            </div>
-            <Footer />
-            <CreateCollectionFab />
+                  Next
+                </Button>
+              }
+              prevButton={
+                <Button
+                  size='small'
+                  variant='outlined'
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
+                >
+                  Back
+                </Button>
+              }
+              lastStepNextButton={<div style={{ display: 'none' }} />}
+            />
+            <Fade in={this.state.showTour}
+              timeout={1000}
+            >
+              <Fab
+                className={classes.tourFab}
+                variant='extended'
+                onClick={this.openTour}
+              >
+                10-Second Tutorial
+              </Fab>
+            </Fade>
           </div>
-        </ThemeProvider>
+          <Footer />
+          <CreateCollectionFab />
+        </div>
       </ErrorBoundary>
     )
   }
@@ -831,8 +852,11 @@ const steps = [
     selector: '[tourName="ProfileUsername"]',
     content: (
       <div>
-        <h4 className='tourHeader'>👩‍🚀 User Profile</h4>
-        <p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >👩‍🚀 User Profile</Typography>
+        <p className='tourText'>
           Where you'll find important information on each user as well as
           yourself!
         </p>
@@ -849,8 +873,11 @@ const steps = [
     selector: '[tourName="Influence"]',
     content: (
       <div>
-        <h4 className='tourHeader'>💯 Influence Score</h4>
-        <p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >💯 Influence Score</Typography>
+        <p className='tourText'>
           A score out of 100 showing how influential a user is. The higher the
           number, the more powerful your opinions!
         </p>
@@ -868,8 +895,11 @@ const steps = [
     selector: '[tourName="YUPBalance"]',
     content: (
       <div>
-        <h4 className='tourHeader'>💰 YUP Balance</h4>
-        <p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >💰 YUP Balance</Typography>
+        <p className='tourText'>
           The amount of YUP tokens you've earned. Rate any piece of content to
           earn more!
         </p>
@@ -887,8 +917,11 @@ const steps = [
     selector: '[tourName="ProfileFeed"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📰 User Feed</h4>
-        <p>This is this user's rated content, aggregated into a feed.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📰 User Feed</Typography>
+        <p className='tourText'>This is this user's rated content, aggregated into a feed.</p>
       </div>
     )
   },
@@ -896,8 +929,11 @@ const steps = [
     selector: '[tourName="Collections"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📚 Collections</h4>
-        <p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📚 Collections</Typography>
+        <p className='tourText'>
           These are curated, personal collections. Create your own, add your
           favorite pieces of content, and share with the world.
         </p>
@@ -908,8 +944,11 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📡 Feeds</h4>
-        <p>These are your feeds.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📡 Feeds</Typography>
+        <p className='tourText'>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -924,8 +963,11 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>🔍 Search</h4>
-        <p>Search for friends and influencers across the web.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >🔍 Search</Typography>
+        <p className='tourText'>Search for friends and influencers across the web.</p>
       </div>
     )
   },
@@ -933,8 +975,11 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📈 Leaderboard</h4>
-        <p>Find content and users ranked by category and platform.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📈 Leaderboard</Typography>
+        <p className='tourText'>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -948,8 +993,10 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>👏 That's it !</h3>
-        <p>That's all for now. Learn more with some of these resources:</p>
+        <Typography variant='h3'
+          className='tourHeader'
+        >👏 That's it !</Typography>
+        <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button
             size='medium'
@@ -1007,8 +1054,9 @@ const mapStateToProps = (state, ownProps) => {
 User.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(User))
+export default connect(mapStateToProps)(withStyles(styles)(withTheme(User)))

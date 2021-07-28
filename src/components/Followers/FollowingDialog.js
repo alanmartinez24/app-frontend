@@ -101,15 +101,14 @@ class FollowingDialog extends Component {
       <ErrorBoundary>
         <Fragment>
           <Button
-            color='white'
             disableRipple
             onClick={this.handleClickOpen}
-            style={{ backgroundColor: 'transparent', textTransform: 'capitalize' }}
           >
             <Typography
               align='left'
+              variant='body3'
             >
-              <a style={{ fontWeight: 500 }}>{formattedFollowing} </a> following
+              <a style={{ fontWeight: 700 }}>{formattedFollowing} </a> following
             </Typography>
           </Button>
           <Dialog
@@ -118,22 +117,6 @@ class FollowingDialog extends Component {
             maxWidth='xs'
             onClose={this.handleClose}
             open={this.state.open}
-            PaperProps={{
-              style: {
-                backgroundColor: '#0A0A0A',
-                borderRadius: '25px',
-                boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-                width: '80%',
-                padding: '1rem 0.5rem',
-                maxWidth: '500px',
-                color: '#fafafa'
-              }
-            }}
-            BackdropProps={{
-              style: {
-                backdropFilter: 'blur(3px)'
-              }
-            }}
           >
             <DialogTitle
               className={classes.dialogTitle}
@@ -143,8 +126,6 @@ class FollowingDialog extends Component {
             >
               <Typography
                 align='center'
-                color='inherit'
-                style={{ fontFamily: 'Gilroy', fontWeight: '500', color: '#ffffff' }}
                 variant='title'
               >
                 Following
@@ -169,7 +150,7 @@ class FollowingDialog extends Component {
                   > {
                     following.length === 0
                       ? <Typography
-                        color='white'
+                        variant='h5'
                         style={{ textAlign: 'center' }}
                         >
                         No users are being followed
@@ -217,14 +198,11 @@ class FollowingDialog extends Component {
                                         to={`/${eosname}`}
                                       >
                                         <Typography
-                                          color='white'
                                           style={{
                                             textDecoration: socialLevelColor ? 'underline' : 'none',
                                             textDecorationColor: socialLevelColor,
                                             textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                                            marginLeft: '1rem',
-                                            color: '#ffffff',
-                                            fontFamily: 'Gilroy'
+                                            marginLeft: '1rem'
                                           }}
                                           variant='caption'
                                         >

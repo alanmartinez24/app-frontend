@@ -7,20 +7,15 @@ import Typography from '@material-ui/core/Typography'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
- /* import MoonLoader from 'react-spinners/MoonLoader' */
 
 const styles = (theme) => ({
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
     minWidth: '100vw',
     maxWidth: '100vw',
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '0px',
-    [theme.breakpoints.down('xs')]: {
-      backgroundColor: '#1b1b1ba1'
-    },
     paddingBottom: '20px'
   },
   page: {
@@ -28,9 +23,6 @@ const styles = (theme) => ({
     width: '100%',
     objectFit: 'cover',
     margin: '0px 0px 0px 0px ',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
-    },
     flex: 1
   },
   gridContainer: {

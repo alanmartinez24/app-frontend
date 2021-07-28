@@ -21,15 +21,12 @@ const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
     maxWidth: '100vw',
     display: 'flex',
     flexDirection: 'column',
     overflowY: 'hidden',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1'
-    }
+    backgroundColor: theme.palette.alt.second
   },
   page: {
     width: '100%',
@@ -48,7 +45,6 @@ const styles = theme => ({
       marginLeft: 0
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain'
     },
     flex: 1
@@ -69,14 +65,14 @@ const styles = theme => ({
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
-    padding: '20px 40px 20px 30px !important'
+    padding: '20px 40px 20px 30px !important',
+    backgroundColor: `${theme.palette.alt.third} !important`
   },
   tourFab: {
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: '#FAFAFA',
+    color: theme.palette.common.third,
     zIndex: '1000',
     [theme.breakpoints.down('xs')]: {
       display: 'none'
@@ -237,15 +233,10 @@ const StyledFeedContainer = withStyles(theme => ({
     height: '100vh',
     overflowY: 'hidden',
     fontFamily: 'Gilroy',
-    fontWeight: 100,
     margin: '0 auto',
     width: '100%',
     fontSize: '20px',
-    color: '#ffffff',
-    [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
-      width: '100%'
-    }
+    color: theme.palette.common.first
   }
 }))(FeedContainer)
 
@@ -291,12 +282,10 @@ function FeedHeader ({
         placement='bottom'
         disableTouchListener
         title={
-          <p color='#fff'
-            style={{ fontSize: '12px' }}
-          >
+          <Typography variant='tooltip'>
             {' '}
             {description}{' '}
-          </p>
+          </Typography>
         }
       >
         <Grid
@@ -414,6 +403,7 @@ class Discover extends Component {
   render () {
     const { classes, feed, query } = this.props
     const search = document.location.search
+
     return !search.includes('feed=') ? (
       <HomeMenu />
     ) : (
@@ -445,13 +435,12 @@ class Discover extends Component {
             }
             onRequestClose={this.closeTour}
             className={classes.Tour}
-            accentColor='#00eab7'
+            accentColor='#00E08E'
             rounded={10}
             disableInteraction
             highlightedMaskClassName={classes.Mask}
             nextButton={
               <Button
-                style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                 variant='outlined'
                 small
               >
@@ -462,7 +451,6 @@ class Discover extends Component {
               <Button
                 small
                 variant='outlined'
-                style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
               >
                 Back
               </Button>
@@ -492,8 +480,11 @@ const steps = [
     selector: '[tourName="ProfileFeed"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📰 User Feed</h4>
-        <p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📰 User Feed</Typography>
+        <p className='tourText'>
           This is the content across the web, aggregated into a feed just for
           you.
         </p>
@@ -504,8 +495,11 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <h4 className='tourHeader'>🤔 Rating</h4>
-        <p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >🤔 Rating</Typography>
+        <p className='tourText'>
           You can rate content out of 5 in different categories, such as like
           ♥️, smart 💡, funny 😂, etc.
         </p>
@@ -523,8 +517,11 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>🔍 Search</h4>
-        <p>Search for friends and influencers across the web.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >🔍 Search</Typography>
+        <p className='tourText'>Search for friends and influencers across the web.</p>
       </div>
     )
   },
@@ -532,8 +529,11 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📈 Leaderboard</h4>
-        <p>Find content and users ranked by category and platform.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📈 Leaderboard</Typography>
+        <p className='tourText'>Find content and users ranked by category and platform.</p>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -548,8 +548,11 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📡 Feeds</h4>
-        <p>These are your feeds.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📡 Feeds</Typography>
+        <p className='tourText'>These are your feeds.</p>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -563,8 +566,10 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>👏 That's it !</h3>
-        <p>That's all for now. Learn more with some of these resources:</p>
+        <Typography variant='h3'
+          className='tourHeader'
+        >👏 That's it !</Typography>
+        <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
           <Button
             size='medium'

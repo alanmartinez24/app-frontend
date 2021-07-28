@@ -1,5 +1,6 @@
-import React, { Fragment, useState, useEffect, memo } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
+import { toggleColorTheme } from '../../redux/actions'
 import {
   AppBar,
   ListItemAvatar,
@@ -20,18 +21,15 @@ import {
   Typography,
   DialogContent,
   Dialog,
-  Badge
+  Badge,
+  Grow
 } from '@material-ui/core'
-import {
-  MuiThemeProvider,
-  withStyles,
-  createMuiTheme
-} from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import wallet from '../../eos/scatter/scatter.wallet'
 import ListLink from '@material-ui/core/Link'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, connect } from 'react-redux'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import SearchBar from '../SearchBar/SearchBar'
 import YupListSearchBar from '../YupLeaderboard/YupListSearchBar'
@@ -39,28 +37,25 @@ import Orange from '@material-ui/core/colors/orange'
 import NotifPopup from '../Notification/NotifPopup'
 import { levelColors } from '../../utils/colors'
 import { withRouter } from 'react-router'
-import Grow from '@material-ui/core/Grow'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
-import CollectionPostDialog from '../Collections/CollectionPostDialog'
+import CollectionDialog from '../Collections/CollectionDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
+import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 
 const drawerWidth = 190
-
 const { BACKEND_API } = process.env
 
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 5,
-    boxShadow: '0px 0px 0px white',
-    borderBottom: '0px solid #1A1A1A',
-    background: '#1A1A1A',
+    boxShadow: `0px 0px 0px ${theme.palette.common.first}`,
+    borderBottom: `0px solid ${theme.palette.common.first}`,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      background: '#1A1A1A'
+      marginLeft: drawerWidth
     }
   },
   topbuttons: {
@@ -71,13 +66,13 @@ const styles = theme => ({
     }
   },
   signupBtn: {
-    backgroundColor: '#00eab7',
+    backgroundColor: '#00E08E',
     fontFamily: 'Gilroy',
     width: '100%',
     height: '45px',
     borderRadius: '0.65rem',
     '&:hover': {
-      backgroundColor: '#00eab7'
+      backgroundColor: '#00E08E'
     },
     [theme.breakpoints.down('sm')]: {
       height: '40px',
@@ -101,7 +96,6 @@ const styles = theme => ({
   drawer: {
     flexShrink: 4,
     background: 'transparent',
-    color: 'white',
     paperAnchorDockedLeft: {
       borderRight: '4px solid'
     },
@@ -112,9 +106,8 @@ const styles = theme => ({
   },
   drawerPaper: {
     borderRight: '0px solid',
-    background: 'linear-gradient(90deg, #1b1b1b 80%, #232323 102%)',
     width: 190,
-    boxShadow: '2px 0px 20px #0b0b0b40'
+    boxShadow: `inset -2px 0px 25px ${theme.palette.common.third}20`
   },
   drawerHeader: {
     display: 'flex',
@@ -126,8 +119,12 @@ const styles = theme => ({
   },
   list1: {
     background: 'transparent',
-    border: '0px solid #e6e6e6',
-    textColor: 'white'
+    border: '0px solid #e6e6e6'
+  },
+  listItemLink: {
+    '&:hover': {
+      backgroundColor: 'secondary'
+    }
   },
   bottomBar: {
     background: 'transparent',
@@ -164,8 +161,7 @@ const styles = theme => ({
   },
   listButton: {
     opacity: 0.6,
-    fontWeight: '100',
-    color: '#c0c0c0',
+    fontWeight: '300',
     margin: 0,
     '&:hover': {
       opacity: 1
@@ -198,17 +194,11 @@ const styles = theme => ({
     width: '100px',
     height: '35px',
     fontSize: '10px',
-    color: '#ffffff',
     [theme.breakpoints.down('xs')]: {
       width: '75px',
       height: '30px',
       marginLeft: '5px',
       fontSize: '7px'
-    },
-    '.MuiListItemText-secondary': {
-      Typography: {
-        color: '#fafafa'
-      }
     },
     Toolbar: {
       [theme.breakpoints.down('xs')]: {
@@ -227,80 +217,9 @@ const styles = theme => ({
   }
 })
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#000000' },
-    secondary: { main: '#ffffff' },
-    third: { main: '#00eab7' }
-  },
-  typography: {
-    fontFamily: 'Gilroy',
-    fontWeight: '100'
-  },
-  overrides: {
-    MuiButton: {
-      raisedSecondary: {
-        color: 'white'
-      },
-      root: {
-        textTransform: 'capitalize',
-        borderRadius: '0.65rem'
-      },
-      contained: {
-        borderRadius: '0.65rem'
-      }
-    },
-    MuiListItemIcon: {
-      root: {
-        color: '#c0c0c0',
-        overflow: 'visible',
-        textAlign: 'center',
-        justifyContent: 'center'
-      }
-    },
-    DialogContent: {
-      root: {
-        color: '#fafafa'
-      }
-    },
-    MuiBadge: {
-      colorSecondary: {
-        backgroundColor: '#fafafa'
-      }
-    }
-  },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5,
-    color: '#ffffff'
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    color: 'primary'
-  },
-  Divider: {
-    color: 'primary'
-  },
-  ListItemText: {
-    fontFamily: 'Gilroy, sans-serif',
-    color: 'primary',
-    fontSize: 100
-  },
-  drawerPaper: {
-    backgroundColor: 'primary'
-  },
-  backDrop: {
-    backdropFilter: 'blur(3px)',
-    backgroundColor: 'rgba(0,0,30,0.4)'
-  }
-})
-
 function PrivateListItem ({ account, children }) {
-  const isLoggedIn =
-    account || (wallet.scatter && wallet.scatter.wallet === 'ScatterExtension')
-  return isLoggedIn ? <Fragment> {children} </Fragment> : null
+  const isLoggedIn = account || (wallet.scatter && wallet.scatter.wallet === 'ScatterExtension')
+  return isLoggedIn ? <> {children} </> : null
 }
 
 PrivateListItem.propTypes = {
@@ -308,9 +227,7 @@ PrivateListItem.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-const StyledAboutListLink = withStyles(styles)(function AboutListLink ({
-  classes
-}) {
+const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
   return (
     <ListLink
       href='https://yup.io'
@@ -321,12 +238,11 @@ const StyledAboutListLink = withStyles(styles)(function AboutListLink ({
           <Icon className='fal fa-globe' />
         </ListItemIcon>
         <ListItemText>
-          <span
+          <Typography
             className={classes.typography}
-            style={{ color: '#c0c0c0', fontWeight: '100' }}
           >
             About
-          </span>
+          </Typography>
         </ListItemText>
       </ListItem>
     </ListLink>
@@ -348,30 +264,25 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
           <Icon className='fal fa-plug' />
         </ListItemIcon>
         <ListItemText>
-          <span
+          <Typography
             className={classes.typography}
-            style={{ color: '#c0c0c0', fontWeight: '100' }}
           >
             {' '}
             Extension
-          </span>
+          </Typography>
         </ListItemText>
       </ListItem>
     </ListLink>
   )
 })
 
-const StyledYupProductNav = withStyles(styles)(function YupProductNav ({
-  account,
-  classes
-}) {
+const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes }) {
   if (account) {
     return (
       <List component='nav'
         aria-label='main'
         className={classes.list1}
       >
-        {/* <StyledYupListLink /> */}
         <StyledAboutListLink />
       </List>
     )
@@ -383,7 +294,6 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({
       className={classes.list1}
     >
       <StyledExtensionListLink />
-      {/* <StyledYupListLink /> */}
       <StyledAboutListLink />
     </List>
   )
@@ -423,20 +333,17 @@ ProfileAvatar.propTypes = {
 
 const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
 
-function TopBar ({ classes, history, width, isTourOpen }) {
-  const [open, setOpen] = React.useState(false)
-  const [dialogOpen, setDialogOpen] = React.useState(false)
-  const [settingsOpen, setSettingsOpen] = React.useState(false)
-  const [account, setAccount] = React.useState(null)
+function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
+  const [open, setOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [account, setAccount] = useState(null)
   const [isShown, setIsShown] = useState(isTourOpen || false)
   const [notifications, setNotifications] = useState([])
-
-  const [collectionDialogOpen, setCollectionDialogOpen] = React.useState(false)
+  const [level, setLevel] = useState(defaultLevelInfo)
+  const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
 
   let authInfo = useSelector(getReduxState)
-
-  const [level, setLevel] = React.useState(defaultLevelInfo)
-
   const accountName = authInfo && authInfo.account && authInfo.account.name
 
   useEffect(() => {
@@ -494,6 +401,14 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   const handleDialogClose = () => {
     setDialogOpen(false)
   }
+  // const handleToggleTheme = ({ target }) => {
+  //   toggleTheme()
+  //   clo
+  //   // event.target.checked
+  //   // const handleChange = (event) => {
+  //   //   setState({ ...state, [event.target.name]: event.target.checked })
+  //   // }
+  // }
 
   const logProfileClick = () => {
     if (!window.analytics) {
@@ -527,9 +442,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
     setAccount(null)
   }
 
-  const listVariant = !['xl', 'lg', 'md'].includes(width)
-    ? 'temporary'
-    : 'permanent'
+  const listVariant = !['xl', 'lg', 'md'].includes(width) ? 'temporary' : 'permanent'
   const avatar = level && level.levelInfo.avatar
   const eosname = account && account.name
 
@@ -539,8 +452,7 @@ function TopBar ({ classes, history, width, isTourOpen }) {
     level.levelInfo.balance &&
     level.levelInfo.balance.YUP
   const weight = level && level.levelInfo && level.levelInfo.weight
-  const formattedYupBalance =
-    yupBalance && numeral(Number(yupBalance)).format('0,0.00')
+  const formattedYupBalance = yupBalance && numeral(Number(yupBalance)).format('0,0.00')
   const formattedWeight = numeral(Math.floor(Number(weight))).format('0,0')
 
   const quantile = level && level.levelInfo.quantile
@@ -549,38 +461,39 @@ function TopBar ({ classes, history, width, isTourOpen }) {
   const username = (level && level.levelInfo.username) || eosname
   const isMobile = window.innerWidth <= 480
 
+  const { palette } = useTheme()
+
   return (
     <ErrorBoundary>
-      <div>
-        <AppBar className={classes.appBar}
-          position='fixed'
-        >
-          <Toolbar>
-            <Grid
-              alignItems='center'
-              className={classes.container1}
-              container
-              direction='row'
-              justify='space-between'
-            >
-              <Grid item>
-                <Grid alignItems='center'
-                  container
-                >
-                  <Grid item>
-                    <IconButton
-                      size='small'
-                      aria-label='open drawer'
-                      className={classes.menuButton}
-                      edge='start'
-                      onClick={handleDrawerOpen}
-                      style={{ color: '#9a9a9a' }}
-                    >
-                      {accountName ? (
-                        <StyledProfileAvatar username={username}
-                          socialLevelColor={socialLevelColor}
-                          avatar={avatar}
-                        />
+      <AppBar className={classes.appBar}
+        position='fixed'
+      >
+        <Toolbar>
+          <Grid
+            alignItems='center'
+            className={classes.container1}
+            container
+            direction='row'
+            justify='space-between'
+          >
+            <Grid item>
+              <Grid alignItems='center'
+                container
+              >
+                <Grid item>
+                  <IconButton
+                    size='small'
+                    aria-label='open drawer'
+                    className={classes.menuButton}
+                    edge='start'
+                    onClick={handleDrawerOpen}
+                    style={{ color: '#9a9a9a' }}
+                  >
+                    {accountName ? (
+                      <StyledProfileAvatar username={username}
+                        socialLevelColor={socialLevelColor}
+                        avatar={avatar}
+                      />
                       ) : (
                         <Grow in
                           timeout={400}
@@ -596,53 +509,52 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                           />
                         </Grow>
                       )}
-                    </IconButton>
-                  </Grid>
-                  <Grid className={classes.Search}
-                    item
-                    tourname='Search'
-                  >
-                    {!history.location.pathname.includes('leaderboard') ? (
-                      <SearchBar />
+                  </IconButton>
+                </Grid>
+                <Grid className={classes.Search}
+                  item
+                  tourname='Search'
+                >
+                  {!history.location.pathname.includes('leaderboard') ? (
+                    <SearchBar />
                     ) : null}
-                  </Grid>
                 </Grid>
               </Grid>
-              <Grid className={classes.SearchMobile}
-                item
-              >
-                {!history.location.pathname.includes('leaderboard') ? (
-                  <SearchBar />
+            </Grid>
+            <Grid className={classes.SearchMobile}
+              item
+            >
+              {!history.location.pathname.includes('leaderboard') ? (
+                <SearchBar />
                 ) : (
                   <YupListSearchBar />
                 )}
-              </Grid>
-              <Grow in
-                timeout={500}
+            </Grid>
+            <Grow in
+              timeout={500}
+            >
+              <Grid className={classes.icons}
+                item
               >
-                <Grid className={classes.icons}
-                  item
-                >
-                  {account && account.name ? (
-                    <div onClick={logNotifsClick}
-                      className={classes.notifWrap}
-                    >
-                      <NotifPopup
-                        className={classes.topbuttons}
-                        notifications={notifications}
-                      />
-                    </div>
+                {account && account.name ? (
+                  <div onClick={logNotifsClick}
+                    className={classes.notifWrap}
+                  >
+                    <NotifPopup
+                      className={classes.topbuttons}
+                      notifications={notifications}
+                    />
+                  </div>
                   ) : (
                     <Tooltip
                       placement='bottom'
                       disableTouchListener
                       title={
-                        <p
-                          color='#fff'
-                          style={{ fontSize: '12px', fontWeight: '300' }}
+                        <Typography
+                          variant='tooltip'
                         >
                           Create an account!
-                        </p>
+                        </Typography>
                       }
                     >
                       {isMobile ? (
@@ -659,107 +571,95 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       )}
                     </Tooltip>
                   )}
-                </Grid>
-              </Grow>
-            </Grid>
-          </Toolbar>
-          <SubscribeDialog
-            account={account}
-            dialogOpen={dialogOpen}
-            handleDialogClose={handleDialogClose}
-          />
-          <CollectionPostDialog
-            account={account}
-            dialogOpen={collectionDialogOpen}
-            postid={'routeFromUrl'}
-            handleDialogClose={handleCollectionDialogClose}
-          />
-        </AppBar>
-        <MuiThemeProvider theme={theme}>
-          <Drawer
-            anchor='left'
-            classes={{
+              </Grid>
+            </Grow>
+          </Grid>
+        </Toolbar>
+        <SubscribeDialog
+          account={account}
+          dialogOpen={dialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <CollectionDialog
+          account={account}
+          dialogOpen={collectionDialogOpen}
+          postid={'routeFromUrl'}
+          handleDialogClose={handleCollectionDialogClose}
+        />
+      </AppBar>
+      <Drawer
+        anchor='left'
+        classes={{
               paper: classes.drawerPaper
             }}
-            className={classes.drawer}
-            onBackdropClick={handleDrawerClose}
-            open={open}
-            variant={listVariant}
-            onMouseEnter={() => setIsShown(true) && handleDrawerClose}
-            onMouseLeave={() => setIsShown(false) && handleDrawerOpen}
-          >
-            <MuiThemeProvider theme={theme}>
-              <div className={classes.drawerHeader}>
-                <List style={{ width: '100%' }}>
-                  {accountName ? (
-                    <ListItem
-                      button
-                      component={Link}
-                      onClick={logProfileClick}
-                      to={`/${username}`}
-                    >
-                      <ListItemAvatar>
-                        <Badge
-                          color='secondary'
-                          overlap='circle'
-                          badgeContent={formattedWeight}
-                          anchorOrigin={{
+        className={classes.drawer}
+        onBackdropClick={handleDrawerClose}
+        open={open}
+        variant={listVariant}
+        onMouseEnter={() => setIsShown(true)}
+        onMouseLeave={() => setIsShown(false)}
+      >
+        <div className={classes.drawerHeader}>
+          <List style={{ width: '100%' }}>
+            {accountName ? (
+              <ListItem
+                button
+                component={Link}
+                onClick={logProfileClick}
+                to={`/${username}`}
+              >
+                <ListItemAvatar>
+                  <Badge
+                    color='secondary'
+                    overlap='circle'
+                    badgeContent={formattedWeight}
+                    anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'right'
                           }}
-                          style={{
-                            overrides: {
-                              MuiBadge: {
-                                colorSecondary: {
-                                  backgroundColor: 'primary'
-                                }
-                              }
-                            }
-                          }}
-                        >
-                          <StyledProfileAvatar username={username}
-                            socialLevelColor={socialLevelColor}
-                            avatar={avatar}
-                          />
-                        </Badge>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <span
-                            style={{
-                              color: '#fafafa',
+                  >
+                    <StyledProfileAvatar username={username}
+                      socialLevelColor={socialLevelColor}
+                      avatar={avatar}
+                    />
+                  </Badge>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <span
+                      style={{
+                              color: 'fourth',
                               fontSize: '15px',
                               fontWeight: 600
                             }}
-                          >
-                            {username}
-                          </span>
+                    >
+                      {username}
+                    </span>
                         }
-                        secondary={
-                          <span
-                            style={{
-                              color: '#c0c0c0',
+                  secondary={
+                    <span
+                      style={{
+                              color: palette.common.fourth,
                               fontWeight: 300,
                               fontSize: '10px'
                             }}
-                          >
-                            {formattedYupBalance} YUP
-                          </span>
+                    >
+                      {formattedYupBalance} YUP
+                    </span>
                         }
-                      />
-                    </ListItem>
+                />
+              </ListItem>
                   ) : (
                     <ListItem button>
                       <Tooltip
                         placement='bottom'
                         disableTouchListener
                         title={
-                          <p
-                            color='#fff'
-                            style={{ fontSize: '12px', fontWeight: '300' }}
+                          <Typography
+                            variant='tooltip'
                           >
                             Create an account!
-                          </p>
+                          </Typography>
                         }
                       >
                         {isMobile ? (
@@ -777,398 +677,410 @@ function TopBar ({ classes, history, width, isTourOpen }) {
                       </Tooltip>
                     </ListItem>
                   )}
-                </List>
-              </div>
-              <ListItem
-                button
-                component={Link}
-                to='/'
-                onClick={handleDrawerClose}
-                style={{ paddingLeft: '5px' }}
-              >
-                <ListItemIcon>
-                  <Icon
-                    fontSize='small'
-                    className='fal fa-home'
-                  />
-                </ListItemIcon>
-                <ListItemText>
-                  <span
-                    className={classes.typography}
-                    style={{ color: '#c0c0c0', fontWeight: '100' }}
-                  >
-                    {' '}
-                    Home
-                  </span>
-                </ListItemText>
-              </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to='/leaderboard'
-                onClick={handleDrawerClose}
-                style={{ paddingLeft: '5px' }}
-                tourname='LeaderboardButton'
-              >
-                <ListItemIcon style={{ textAlign: 'center' }}>
-                  <Icon
-                    fontSize='small'
-                    className='fal fa-trophy'
-                    style={{ overflow: 'visible', width: '100%' }}
-                  />
-                </ListItemIcon>
-                <ListItemText>
-                  <span
-                    className={classes.typography}
-                    style={{ color: '#c0c0c0', fontWeight: '100' }}
-                  >
-                    Leaderboards
-                  </span>
-                </ListItemText>
-              </ListItem>
-              <ListItem
-                button
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/leaderboard?site=all&subject=collections&category=overall'
-                style={{ paddingLeft: '5px' }}
-              >
-                <ListItemIcon>
-                  <Icon
-                    fontSize='small'
-                    className='fal fa-list'
-                  />
-                </ListItemIcon>
-                <ListItemText>
-                  <span
-                    className={classes.typography}
-                    style={{ color: '#c0c0c0', fontWeight: '100' }}
-                  >
-                    {' '}
-                    Collections
-                  </span>
-                </ListItemText>
-              </ListItem>
-              {account && account.name && (
-              <ListItem
-                button
-                component={Link}
-                onClick={handleDrawerClose}
-                to={`/${username}/analytics`}
-                style={{ paddingLeft: '5px' }}
-                tourname='LeaderboardButton'
-              >
-                <ListItemIcon style={{ textAlign: 'center' }}>
-                  <Icon
-                    fontSize='small'
-                    className='fal fa-chart-bar'
-                    style={{ overflow: 'visible', width: '100%' }}
-                  />
-                </ListItemIcon>
-                <ListItemText>
-                  <span
-                    className={classes.typography}
-                    style={{ color: '#c0c0c0', fontWeight: '100' }}
-                  >
-                    Analytics
-                  </span>
-                </ListItemText>
-              </ListItem>)}
-              <ListItem dense
-                style={{ bottom: 10, position: 'absolute' }}
-              >
-                <Grid container>
-                  <Grid item>
-                    <IconButton
-                      aria-label='delete'
-                      className={classes.margin}
-                      size='small'
-                      onClick={handleSettingsOpen}
-                    >
-                      <Icon
-                        fontSize='small'
-                        className='fal fa-gear'
-                        style={{ color: '#c0c0c0' }}
-                      />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </ListItem>
-              <Dialog
-                aria-labelledby='form-dialog-title'
-                onClose={handleSettingsClose}
-                open={settingsOpen}
-                className={classes.dialog}
-                PaperProps={{
-                  style: {
-                    backgroundColor: '#0A0A0A',
-                    borderRadius: '25px',
-                    boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-                    width: '80%',
-                    padding: '1rem 0.5rem',
-                    maxWidth: '500px',
-                    color: '#fafafa'
-                  }
-                }}
-                BackdropProps={{
-                  style: {
-                    backdropFilter: 'blur(3px)'
-                  }
-                }}
-              >
-                <DialogTitle style={{ paddingLeft: '40px', paddingBottom: '10px' }}>
-                  <Typography variant='h4'>Settings</Typography>
-                </DialogTitle>
-                <DialogContent>
-                  <List className={classes.root}>
-                    <ListItem>
-                      <ListItemText
-                        id='switch-list-label-wifi'
-                        primary='Log out of Yup'
-                      />
-                      <ListItemSecondaryAction>
-                        <Button
-                          className={classes.logoutBtn}
-                          onClick={handleLogout}
-                          color='secondary'
-                          variant='outlined'
-                        >
-                          Log out
-                        </Button>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </List>
-                </DialogContent>
-              </Dialog>
+          </List>
+        </div>
+        <ListItem
+          button
+          component={Link}
+          to='/'
+          onClick={handleDrawerClose}
+          style={{ paddingLeft: '5px' }}
+        >
+          <ListItemIcon>
+            <Icon
+              fontSize='small'
+              className='fal fa-home'
+            />
+          </ListItemIcon>
+          <ListItemText>
+            <span
+              className={classes.typography}
+            >
+              {' '}
+              Home
+            </span>
+          </ListItemText>
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          to='/leaderboard'
+          onClick={handleDrawerClose}
+          style={{ paddingLeft: '5px' }}
+          tourname='LeaderboardButton'
+        >
+          <ListItemIcon style={{ textAlign: 'center' }}>
+            <Icon
+              fontSize='small'
+              className='fal fa-trophy'
+              style={{ overflow: 'visible', width: '100%' }}
+            />
+          </ListItemIcon>
+          <ListItemText>
+            <Typography
+              className={classes.typography}
+            >
+              Leaderboards
+            </Typography>
+          </ListItemText>
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          onClick={handleDrawerClose}
+          to='/leaderboard?site=all&subject=collections&category=overall'
+          style={{ paddingLeft: '5px' }}
+        >
+          <ListItemIcon>
+            <Icon
+              fontSize='small'
+              className='fal fa-list'
+            />
+          </ListItemIcon>
+          <ListItemText>
+            <Typography
+              className={classes.typography}
+            >
+              {' '}
+              Collections
+            </Typography>
+          </ListItemText>
+        </ListItem>
 
-              <StyledYupProductNav account={account} />
+        {account && account.name && (
+          <ListItem
+            button
+            component={Link}
+            onClick={handleDrawerClose}
+            to={`/${username}/analytics`}
+            style={{ paddingLeft: '5px' }}
+            tourname='LeaderboardButton'
+          >
+            <ListItemIcon style={{ textAlign: 'center' }}>
+              <Icon
+                fontSize='small'
+                className='fal fa-chart-bar'
+                style={{ overflow: 'visible', width: '100%' }}
+              />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography
+                className={classes.typography}
+              >
+                Analytics
+              </Typography>
+            </ListItemText>
+          </ListItem>)}
+        <ListItem dense
+          style={{ bottom: 10, position: 'absolute' }}
+        >
+          <Grid container
+            direction='row'
+          >
+            <Grid item
+              xs={3}
+            >
+              <IconButton
+                aria-label='delete'
+                className={classes.margin}
+                size='small'
+                onClick={handleSettingsOpen}
+              >
+                <Icon
+                  fontSize='small'
+                  className='fal fa-gear'
+                  style={{ color: palette.common.fourth }}
+                />
+              </IconButton>
+            </Grid>
+            <Grid item
+              xs={3}
+            >
+              <IconButton
+                aria-label='theme-mode'
+                className={classes.margin}
+                size='small'
+                onClick={toggleTheme}
+              >
+                {
+                lightMode ? <Icon
+                  fontSize='small'
+                  className='fal fa-moon'
+                  style={{ color: palette.common.fourth }}
+                            />
+                : <WbSunnyRoundedIcon
+                  style={{ color: palette.common.fourth }}
+                  fontSize='small'
+                  />
+              }
 
-              {/* First Menu: FEEDS */}
-              {(isShown || isMobile) && (
-                <Grow in
-                  timeout={500}
-                >
-                  <List
-                    component='nav'
-                    aria-label='secondary'
-                    className={classes.list1}
-                    tourname='FeedsDrawer'
-                    dense='true'
+              </IconButton>
+            </Grid>
+          </Grid>
+        </ListItem>
+        <Dialog
+          aria-labelledby='form-dialog-title'
+          onClose={handleSettingsClose}
+          open={settingsOpen}
+          className={classes.dialog}
+
+        >
+          <DialogTitle style={{ paddingLeft: '40px', paddingBottom: '10px' }}>
+            <Typography variant='h4'>Settings</Typography>
+          </DialogTitle>
+          <DialogContent>
+            <List className={classes.root}>
+              <ListItem>
+                <ListItemText
+                  id='switch-list-label-wifi'
+                  primary='Log out of Yup'
+                />
+                <ListItemSecondaryAction>
+                  <Button
+                    className={classes.logoutBtn}
+                    onClick={handleLogout}
+                    variant='outlined'
                   >
-                    <ListSubheader
-                      style={{
+                    Log out
+                  </Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </List>
+          </DialogContent>
+        </Dialog>
+
+        <StyledYupProductNav account={account} />
+
+        {(isShown || isMobile) && (
+        <Grow in
+          timeout={500}
+        >
+          <List
+            component='nav'
+            aria-label='secondary'
+            className={classes.list1}
+            tourname='FeedsDrawer'
+            dense='true'
+          >
+            <ListSubheader
+              style={{
                         color: '#c0c0c0',
                         fontSize: '12px',
                         fontWeight: '500',
                         letterSpacing: '0.02em'
                       }}
-                    >
-                      Feeds
-                    </ListSubheader>
-                    <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
-                      <PrivateListItem>
-                        <ListItem
-                          button
-                          dense
-                          component={Link}
-                          onClick={handleDrawerClose}
-                          to='/?feed=dailyhits'
-                        >
-                          <ListItemText
-                            primary='Your Daily Hits'
-                            className={classes.listButton}
-                            style={{
-                            color: '#c0c0c0',
-                            fontWeight: '100',
-                            margin: 0
-                          }}
-                          />
-                        </ListItem>
-                      </PrivateListItem>
-                      <ListItem button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=crypto'
-                      >
-                        <ListItemText
-                          primary='Crypto'
-                          style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                      <ListItem button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=nfts'
-                      >
-                        <ListItemText
-                          primary='NFTs'
-                          style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                      <ListItem button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=mirror'
-                      >
-                        <ListItemText
-                          primary='Mirror Articles'
-                          style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=politics'
-                      >
-                        <ListItemText
-                          primary='Politics'
-                          style={{ color: '#c0c0c0', margin: 0 }}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=non-corona'
-                      >
-                        <ListItemText
-                          primary='Safe Space'
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=latenightcool'
-                      >
-                        <ListItemText
-                          primary='Popular'
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                      <ListItem button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=lol'
-                      >
-                        <ListItemText
-                          primary='Funny'
-                          style={{ color: '#c0c0c0', margin: 0 }}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=brainfood'
-                      >
-                        <ListItemText
-                          primary='Smart'
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                    </div>
-                  </List>
-                </Grow>
+            >
+              Feeds
+            </ListSubheader>
+            <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
+              <PrivateListItem>
+                <ListItem
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=dailyhits'
+                >
+                  <ListItemText
+                    primary='Your Daily Hits'
+                    className={classes.listButton}
+                  />
+                </ListItem>
+              </PrivateListItem>
+              <ListItem button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=crypto'
+              >
+                <ListItemText
+                  primary='Crypto'
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=nfts'
+              >
+                <ListItemText
+                  primary='NFTs'
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=mirror'
+              >
+                <ListItemText
+                  primary='Mirror Articles'
+                  style={{ color: '#c0c0c0', margin: 0 }}
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem
+                button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=politics'
+              >
+                <ListItemText
+                  primary='Politics'
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem
+                button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=non-corona'
+              >
+                <ListItemText
+                  primary='Safe Space'
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem
+                button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=latenightcool'
+              >
+                <ListItemText
+                  primary='Popular'
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=lol'
+              >
+                <ListItemText
+                  primary='Funny'
+                  className={classes.listButton}
+                />
+              </ListItem>
+              <ListItem
+                button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=brainfood'
+              >
+                <ListItemText
+                  primary='Smart'
+                  className={classes.listButton}
+                />
+              </ListItem>
+            </div>
+          </List>
+        </Grow>
+
               )}
 
-              {/* Second Menu: LISTS */}
-              {(isShown || isMobile) && (
-                <Grow in
-                  timeout={1000}
-                >
-                  <List
-                    component='nav'
-                    aria-label='secondary'
-                    className={classes.list1}
-                    tourname='InfoDrawer'
-                  >
-                    <ListItem
-                      button
-                      dense
-                      style={{ bottom: '0', marginTop: '6vh' }}
-                    >
-                      <ListItemText>
-                        <p
-                          className={classes.listInfoLinks}
-                          style={{
+        {/* Second Menu: LISTS */}
+        {(isShown || isMobile) && (
+        <Grow in
+          timeout={1000}
+        >
+          <List
+            component='nav'
+            aria-label='secondary'
+            className={classes.list1}
+            tourname='InfoDrawer'
+          >
+            <ListItem
+              button
+              dense
+              style={{ bottom: '0', marginTop: '6vh' }}
+            >
+              <ListItemText>
+                <p
+                  className={classes.listInfoLinks}
+                  style={{
                             display: 'flex',
                             flexWrap: 'wrap',
                             fontWeight: 300,
                             fontSize: '12px'
                           }}
-                        >
-                          <a
-                            href='https://yup.io'
-                            className={classes.listInfoLinks}
-                            target='_blank'
-                          >
-                            Main Site
-                          </a>
-                          ,&nbsp;
-                          <a
-                            href='https://yup.live'
-                            className={classes.listInfoLinks}
-                            target='_blank'
-                          >
-                            Explorer
-                          </a>
-                          ,&nbsp;
-                          <a
-                            href='https://blog.yup.io'
-                            className={classes.listInfoLinks}
-                            target='_blank'
-                          >
-                            Blog
-                          </a>
-                          ,&nbsp;
-                          <a
-                            href='https://docs.yup.io'
-                            className={classes.listInfoLinks}
-                            target='_blank'
-                          >
-                            Docs
-                          </a>
-                          ,&nbsp;
-                          <a
-                            href='https://docs.google.com/document/d/1LFrn0eeTfiy8lWAs8TPzWeydkRI-TRCDP0_NHCBOR0s/edit?usp=sharing'
-                            className={classes.listInfoLinks}
-                            target='_blank'
-                          >
-                            Privacy
-                          </a>
-                        </p>
-                      </ListItemText>
-                    </ListItem>
-                  </List>
-                </Grow>
+                >
+                  <a
+                    href='https://yup.io'
+                    className={classes.listInfoLinks}
+                    target='_blank'
+                  >
+                    Main Site
+                  </a>
+                  ,&nbsp;
+                  <a
+                    href='https://yup.live'
+                    className={classes.listInfoLinks}
+                    target='_blank'
+                  >
+                    Explorer
+                  </a>
+                  ,&nbsp;
+                  <a
+                    href='https://blog.yup.io'
+                    className={classes.listInfoLinks}
+                    target='_blank'
+                  >
+                    Blog
+                  </a>
+                  ,&nbsp;
+                  <a
+                    href='https://docs.yup.io'
+                    className={classes.listInfoLinks}
+                    target='_blank'
+                  >
+                    Docs
+                  </a>
+                  ,&nbsp;
+                  <a
+                    href='https://docs.google.com/document/d/1LFrn0eeTfiy8lWAs8TPzWeydkRI-TRCDP0_NHCBOR0s/edit?usp=sharing'
+                    className={classes.listInfoLinks}
+                    target='_blank'
+                  >
+                    Privacy
+                  </a>
+                </p>
+              </ListItemText>
+            </ListItem>
+          </List>
+        </Grow>
               )}
-            </MuiThemeProvider>
-          </Drawer>
-        </MuiThemeProvider>
-      </div>
+      </Drawer>
     </ErrorBoundary>
   )
+}
+
+const mapActionToProps = (dispatch) => {
+  return {
+    toggleTheme: () => dispatch(toggleColorTheme())
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    lightMode: state.lightMode.active
+  }
 }
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
-  isTourOpen: PropTypes.bool
+  isTourOpen: PropTypes.bool,
+  lightMode: PropTypes.bool,
+  toggleTheme: PropTypes.func.isRequired
 }
 
-export default withRouter(withStyles(styles)(withWidth()(TopBar)))
+export default connect(mapStateToProps, mapActionToProps)(withRouter(withStyles(styles)(withWidth()(TopBar))))

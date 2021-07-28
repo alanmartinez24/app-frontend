@@ -73,18 +73,20 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: '#fafafa',
+    color: theme.palette.common.first,
     '&:visited': {
       textDecoration: 'none',
-      color: '#fafafa'
+      color: theme.palette.common.first
     },
     maxHeight: '500px'
   },
   title: {
     position: 'relative',
     fontSize: '20px',
-    fontWeight: 500,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
+    fontWeight: 600,
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    color: theme.palette.common.first,
+    opacity: 0.9,
     [theme.breakpoints.down('md')]: {
       width: 'auto'
     },
@@ -95,7 +97,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '12px',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     fontWeight: 300,
     lineHeight: 1.3,
     [theme.breakpoints.down('xs')]: {
@@ -105,7 +107,7 @@ const styles = theme => ({
   credits: {
     position: 'relative',
     fontSize: '14px',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
     fontWeight: 400,
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
@@ -125,13 +127,12 @@ const styles = theme => ({
   },
   previewData: {
     position: 'absolute',
-    bottom: '0',
+    bottom: '0px',
     textAlign: 'left',
-    width: '96%',
+    width: '100%',
     zIndex: 5,
-    background:
-      'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
-    padding: '2% 3%'
+    background: `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
+    padding: '2% 3% 3% 3%'
   }
 })
 
@@ -352,7 +353,9 @@ class NFTPreview extends Component {
                         />
                       </Grid>
                       <Grid item>
-                        <div className={classes.title}>
+                        <Typography variant='h3'
+                          className={classes.title}
+                        >
                           <LinesEllipsis
                             basedOn='letters'
                             ellipsis='...'
@@ -360,7 +363,7 @@ class NFTPreview extends Component {
                             text={title}
                             trimRight
                           />
-                        </div>
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -384,7 +387,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <Typography variant='body1'>
+                              <Typography variant='tooltip'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'
@@ -410,7 +413,7 @@ class NFTPreview extends Component {
                               arrow
                               disableTouchListener
                             >
-                              <Typography variant='body1'>
+                              <Typography variant='tooltip'>
                                 <LinesEllipsis
                                   basedOn='letters'
                                   ellipsis='...'

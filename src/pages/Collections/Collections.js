@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import Img from 'react-image'
-import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, ThemeProvider, Menu, MenuItem } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, Menu, MenuItem } from '@material-ui/core'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
@@ -18,7 +18,6 @@ import CollectionReorderDialog from '../../components/Collections/CollectionReor
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
-import theme from '../../utils/theme'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
@@ -40,17 +39,14 @@ const styles = theme => ({
   accountErrorSub: {
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
-    fontSize: '1rem',
-    color: '#ffffff'
+    fontSize: '1rem'
   },
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     height: '100vh',
     width: '100vw',
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    color: '#fff',
     overflowY: 'scroll'
   },
   feedPage: {
@@ -67,7 +63,7 @@ const styles = theme => ({
   collectionHeader: {
     position: 'sticky',
     top: '60px',
-    background: 'linear-gradient(0deg,#1a1a1a,#1b1b1b)',
+    background: `linear-gradient(${theme.palette.alt.second} 100%, ${theme.palette.alt.second}dd 10%)`,
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
@@ -111,7 +107,6 @@ const styles = theme => ({
       marginTop: '50px'
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden'
     },
@@ -121,12 +116,15 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     padding: '20px 40px 20px 30px !important'
   },
+  tourText: {
+    color: theme.palette.alt.second
+  },
   tourFab: {
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: '#FAFAFA',
+    background: theme.palette.common.first,
+    color: theme.palette.alt.second,
     zIndex: 1000,
     [theme.breakpoints.down('md')]: {
       display: 'none'
@@ -172,7 +170,10 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: '#c0c0c0'
+    color: `${theme.palette.common.first} !important`
+  },
+  curatedByName: {
+    color: theme.palette.common.first
   },
   hidden: {
     display: 'none'
@@ -364,45 +365,43 @@ class Collections extends Component {
     if (!isLoading && !collection) {
       return (
         <ErrorBoundary>
-          <ThemeProvider theme={theme}>
-            <div className={classes.container}>
-              <div className={classes.page}>
-                <Grid
-                  container
-                  direction='column'
-                  spacing={5}
-                  style={{ width: '50%', margin: 'auto', alignItems: 'center' }}
-                >
-                  <Grid item>
-                    <Typography
-                      className={classes.accountErrorHeader}
-                      color='#ffffff'
-                      variant='h3'
-                    >
-                      <strong>Sorry this page is not available.</strong>
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography
-                      className={classes.accountErrorSub}
-                      color='#ffffff'
-                      variant='h4'
-                    >
-                      The page you're looking for does not exist.
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button variant='contained'
-                      size='large'
-                      href='/'
-                    >
-                      Go Home
-                    </Button>
-                  </Grid>
+          <div className={classes.container}>
+            <div className={classes.page}>
+              <Grid
+                container
+                direction='column'
+                spacing={5}
+                style={{ width: '50%', margin: 'auto', alignItems: 'center' }}
+              >
+                <Grid item>
+                  <Typography
+                    className={classes.accountErrorHeader}
+                    color='#ffffff'
+                    variant='h3'
+                  >
+                    <strong>Sorry this page is not available.</strong>
+                  </Typography>
                 </Grid>
-              </div>
+                <Grid item>
+                  <Typography
+                    className={classes.accountErrorSub}
+                    color='#ffffff'
+                    variant='h4'
+                  >
+                    The page you're looking for does not exist.
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button variant='contained'
+                    size='large'
+                    href='/'
+                  >
+                    Go Home
+                  </Button>
+                </Grid>
+              </Grid>
             </div>
-          </ThemeProvider>
+          </div>
         </ErrorBoundary>
       )
     }
@@ -584,11 +583,11 @@ class Collections extends Component {
                       <Link
                         to={`/${collection.owner}`}
                         style={{
-                          color: '#fff',
                           textDecoration: color
                             ? `1px solid underline ${color}`
                             : 'none'
                         }}
+                        className={classes.curatedByName}
                       >
                         {collection.owner}
                       </Link>
@@ -746,14 +745,14 @@ class Collections extends Component {
               isOpen={this.state.isTourOpen}
               onRequestClose={this.closeTour}
               className={classes.Tour}
-              accentColor='#00eab7'
+              accentColor='#00E08E'
               rounded={10}
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
                 <Button
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                   small
                 >
                   Next
@@ -763,7 +762,7 @@ class Collections extends Component {
                 <Button
                   small
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
+                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                 >
                   Back
                 </Button>
@@ -790,8 +789,14 @@ const steps = [
     selector: '[tourName="CollectionPosts"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📰 Collection Posts</h4>
-        <p>These are the curated posts in this collection.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📰 Collection Posts</Typography>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >These are the curated posts in this collection.</Typography>
       </div>
     )
   },
@@ -799,8 +804,14 @@ const steps = [
     selector: '[tourName="RecommendedCollections"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📖 Recommended Collections</h4>
-        <p>These are some other collections you should check out!</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📖 Recommended Collections</Typography>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >These are some other collections you should check out!</Typography>
       </div>
     )
   },
@@ -808,8 +819,14 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📡 Feeds</h4>
-        <p>These are your feeds.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📡 Feeds</Typography>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >These are your feeds.</Typography>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -824,8 +841,14 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>📈 Leaderboard</h4>
-        <p>Find content and users ranked by category and platform.</p>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >📈 Leaderboard</Typography>
+        <Typography
+          variant='body2'
+          className='tourText'
+        >Find content and users ranked by category and platform.</Typography>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -839,8 +862,12 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>👏 That's it!</h3>
-        <p>That's all for now. Learn more with some of these resources:</p>
+        <Typography variant='h4'
+          className='tourHeader'
+        >👏 That's it!</Typography>
+        <Typography variant='body2'
+          className='tourText'
+        >That's all for now. Learn more with some of these resources:</Typography>
         <div className='tourResources'>
           <Button
             size='medium'

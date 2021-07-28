@@ -15,7 +15,6 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     padding: '0',
-    backgroundColor: '#1A1A1A',
     [theme.breakpoints.down('xs')]: {
       padding: voteCompPadding
     },
@@ -27,7 +26,7 @@ const styles = theme => ({
     height: '70px',
     background: 'transparent',
     display: 'flex',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('1400')]: {
         display: 'none'
     }
   }

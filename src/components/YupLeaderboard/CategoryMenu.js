@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
-import Select from '@material-ui/core/Select'
-import { MenuItem, InputLabel } from '@material-ui/core'
-import FormControl from '@material-ui/core/FormControl'
+import { withStyles } from '@material-ui/core/styles'
+import { MenuItem, InputLabel, Select, FormControl } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { parseSettings } from '../../utils/yup-list'
@@ -33,36 +31,35 @@ class CategoryMenu extends Component {
   }
 
   render () {
-    const { classes, settings } = this.props
+    const { classes, settings, lightMode } = this.props
     const { category: currCategory, subjCats } = settings
 
     return (
       <ErrorBoundary>
-        <MuiThemeProvider>
-          <FormControl className={classes.formControl}
-            variant='outlined'
-            size='small'
-            dark
-          >
-            <InputLabel
-              style={{ fontSize: '12px' }}
-              id='category-label'
-            >Category</InputLabel>
-            <Select
-              onChange={() => {}}
-              labelId='category-label'
-              label='Category'
-              id='select'
-              labelWidth='58'
-              MenuProps={{
+        <FormControl className={classes.formControl}
+          variant='outlined'
+          size='small'
+          type={lightMode ? 'dark' : 'light'}
+        >
+          <InputLabel
+            style={{ fontSize: '12px' }}
+            id='category-label'
+          >Category</InputLabel>
+          <Select
+            onChange={() => {}}
+            labelId='category-label'
+            label='Category'
+            id='select'
+            labelWidth='58'
+            MenuProps={{
              getContentAnchorEl: null,
              anchorOrigin: {
                vertical: 'bottom'
              }
            }}
-              value={currCategory.name}
-              size='medium'
-            > {
+            value={currCategory.name}
+            size='medium'
+          > {
             subjCats.map(cat => (
               <MenuItem
                 key={cat.name}
@@ -70,9 +67,8 @@ class CategoryMenu extends Component {
               > { cat.displayName } </MenuItem>
             ))
           }
-            </Select>
-          </FormControl>
-        </MuiThemeProvider>
+          </Select>
+        </FormControl>
       </ErrorBoundary>
     )
   }
@@ -87,7 +83,8 @@ const mapStateToProps = (state) => {
   }
   const { listOptions } = yupListSettings
   const settings = parseSettings(config, listOptions)
-  return { config, settings, listOptions }
+  const lightMode = state.lightMode.active
+  return { config, settings, listOptions, lightMode }
 }
 
 CategoryMenu.propTypes = {
@@ -95,7 +92,8 @@ CategoryMenu.propTypes = {
   config: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired,
-  listOptions: PropTypes.array.isRequired
+  listOptions: PropTypes.array.isRequired,
+  lightMode: PropTypes.array.isRequired
 }
 
 export default connect(mapStateToProps)(withRouter(withStyles(styles)(CategoryMenu)))

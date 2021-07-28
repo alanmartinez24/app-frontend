@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import { Link } from 'react-router-dom'
@@ -75,23 +75,6 @@ const styles = theme => ({
   audiusPost: {
     [theme.breakpoints.down('xs')]: {
       borderRadius: '0px'
-    }
-  }
-})
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#FAFAFA' }
-  },
-  typography: {
-    useNextVariants: true,
-    fontFamily: `'Gilroy', 'Helvetica', sans-serif`,
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
-    subtitle1: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      fontSize: '1.1rem'
     }
   }
 })
@@ -236,42 +219,41 @@ class ListPreview extends Component {
 
     return (
       <ErrorBoundary>
-        <MuiThemeProvider theme={theme}>
-          <Fade in
-            timeout={1000}
+        <Fade in
+          timeout={1000}
+        >
+          <Grid
+            container
+            direction='row'
+            justify='flex-start'
+            alignItems='center'
+            className={classes.container}
+            spacing={isMobile ? 2 : 3}
           >
-            <Grid
-              container
-              direction='row'
-              justify='flex-start'
-              alignItems='center'
-              className={classes.container}
-              spacing={isMobile ? 2 : 3}
+            <Grid item
+              xs={1}
             >
-              <Grid item
-                xs={1}
+              <Typography
+                variant='subtitle1'
+                className={classes.rank}
+                color='primary'
               >
-                <Typography
-                  variant='subtitle1'
-                  className={classes.rank}
-                  color='primary'
-                >
-                  {rank}
-                </Typography>
-              </Grid>
-              {isAudiusPost &&
-                <Grid item
-                  sm={11}
-                >
-                  <AudiusComp />
-                </Grid>
+                {rank}
+              </Typography>
+            </Grid>
+            {isAudiusPost &&
+            <Grid item
+              sm={11}
+            >
+              <AudiusComp />
+            </Grid>
               }
-              {previewData && (previewData.url) && !isAudiusPost &&
-                <>
-                  <Grid item
-                    xs={2}
-                  >
-                    {(image && image.includes('nft.mp4'))
+            {previewData && (previewData.url) && !isAudiusPost &&
+            <>
+              <Grid item
+                xs={2}
+              >
+                {(image && image.includes('nft.mp4'))
                     ? <ReactPlayer
                       className={classes.nftArt}
                       target='_blank'
@@ -289,34 +271,33 @@ class ListPreview extends Component {
                       alt='favicon'
                       />
                   }
-                  </Grid>
-                  <Grid item
-                    xs={9}
-                    sm={9}
+              </Grid>
+              <Grid item
+                xs={9}
+                sm={9}
+              >
+                <ConditionalLinkWrapper
+                  href={previewData.url}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Typography variant='subtitle1'
+                    className={classes.caption}
+                    color='primary'
                   >
-                    <ConditionalLinkWrapper
-                      href={previewData.url}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Typography variant='subtitle1'
-                        className={classes.caption}
-                        color='primary'
-                      >
-                        <LinesEllipsis
-                          basedOn='letters'
-                          ellipsis='...'
-                          maxLine='1'
-                          text={title || previewData.url}
-                          trimRight
-                        />
-                      </Typography>
-                    </ConditionalLinkWrapper>
-                  </Grid>
-                </>
+                    <LinesEllipsis
+                      basedOn='letters'
+                      ellipsis='...'
+                      maxLine='1'
+                      text={title || previewData.url}
+                      trimRight
+                    />
+                  </Typography>
+                </ConditionalLinkWrapper>
+              </Grid>
+            </>
               }
-            </Grid>
-          </Fade>
-        </MuiThemeProvider>
+          </Grid>
+        </Fade>
       </ErrorBoundary>
     )
   }

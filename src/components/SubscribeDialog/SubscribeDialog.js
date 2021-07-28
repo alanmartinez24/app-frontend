@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, InputAdornment, OutlinedInput, FormControl, Icon, Grid } from '@material-ui/core'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -13,7 +13,6 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { updateEthAuthInfo } from '../../redux/actions'
-import theme from '../../utils/theme'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
@@ -43,12 +42,10 @@ const styles = theme => ({
     }
   },
   dialogTitleText: {
-    fontWeight: '500',
-    color: '#fff'
+    fontWeight: '500'
   },
   dialogContentText: {
-    fontWeight: '200',
-    color: '#fff'
+    fontWeight: '200'
   },
   buttons: {
     backgroundColor: 'transparent',
@@ -114,9 +111,18 @@ const styles = theme => ({
   stepperInput: {
     width: '250px',
     padding: '5px',
-    color: '#fff',
     [theme.breakpoints.down('sm')]: {
       width: '160px'
+    }
+  },
+  inputText: {
+    fontSize: '16px',
+    padding: '0px',
+    fontFamily: '"Gilroy", sans-serif',
+    fontWeight: '200',
+    color: theme.palette.common.first,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px'
     }
   }
 })
@@ -532,50 +538,32 @@ class SubscribeDialog extends Component {
 
   render () {
     const { handleDialogClose, dialogOpen, classes } = this.props
-
     return (
       <ErrorBoundary>
-        <MuiThemeProvider theme={theme}>
-          <Portal>
-            <Snackbar
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-              autoHideDuration={4000}
-              className={classes.snackUpper}
-              onClose={this.handleSnackbarClose}
-              open={this.state.snackbar.open}
-            >
-              <SnackbarContent
-                className={classes.snack}
-                message={this.state.snackbar.content}
-                style={{ backgroundColor: this.state.snackbar.error ? '#ff5252' : '#48B04C' }}
-              />
-            </Snackbar>
-          </Portal>
+        <Portal>
+          <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            autoHideDuration={4000}
+            className={classes.snackUpper}
+            onClose={this.handleSnackbarClose}
+            open={this.state.snackbar.open}
+          >
+            <SnackbarContent
+              className={classes.snack}
+              message={this.state.snackbar.content}
+              style={{ backgroundColor: this.state.snackbar.error ? '#ff5252' : '#48B04C' }}
+            />
+          </Snackbar>
+        </Portal>
 
-          <Dialog open={dialogOpen}
-            onClose={() => {
+        <Dialog open={dialogOpen}
+          onClose={() => {
             handleDialogClose()
           }}
-            aria-labelledby='form-dialog-title'
-            className={classes.dialog}
-            PaperProps={{
-              style: {
-                backgroundColor: '#0A0A0A',
-                borderRadius: '25px',
-                boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-                width: '80%',
-                padding: '1rem 0.5rem',
-                maxWidth: '500px',
-                color: '#fafafa'
-              }
-            }}
-            BackdropProps={{
-              style: {
-                backdropFilter: 'blur(3px)'
-              }
-            }}
-          >
-            {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
+          aria-labelledby='form-dialog-title'
+          className={classes.dialog}
+        >
+          {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
                 <Typography
@@ -663,13 +651,12 @@ class SubscribeDialog extends Component {
                         helperText={EMAIL_RE.test(this.state.email) || !this.state.email.length ? '' : 'Please enter a valid email'}
                         id='outlined-basic'
                         fullWidth
-                        color='primary'
                         endAdornment={<InputAdornment position='end'
                           onClick={this.handleMobileSignup}
                                       >
                           <Icon fontSize='small'
                             className='fal fa-arrow-right'
-                            style={{ color: '#c0c0c0' }}
+                            style={{ marginRight: '20px' }}
                           /></InputAdornment>}
                         aria-describedby='filled-weight-helper-text'
                         variant='outlined'
@@ -679,13 +666,7 @@ class SubscribeDialog extends Component {
                         margin='dense'
                         error={!EMAIL_RE.test(this.state.email) && this.state.email.length}
                         onChange={this.handleEmailChange}
-                        InputProps={{
-                      classes: {
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                        notchedOutline: classes.outline
-                    },
-                    className: classes.input }}
+                        className={classes.inputText}
                       />
                     </FormControl>
                   </Grid>
@@ -694,7 +675,7 @@ class SubscribeDialog extends Component {
             </>
           }
 
-            {this.state.connected &&
+          {this.state.connected &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
                 <Typography
@@ -741,8 +722,6 @@ class SubscribeDialog extends Component {
                               onChange={this.handleEmailChange}
                               InputProps={{
                                 classes: {
-                                  root: classes.inputRoot,
-                                  input: classes.inputInput,
                                   notchedOutline: classes.outline
                                 },
                                 className: classes.stepperInput,
@@ -784,12 +763,7 @@ class SubscribeDialog extends Component {
                               type='text'
                               fullWidth
                               onChange={this.handleUsernameChange}
-                              InputProps={{
-                                classes: {
-                                  root: classes.inputRoot,
-                                  input: classes.inputInput,
-                                  notchedOutline: classes.outline
-                                },
+                              InputProps={{ classes: { notchedOutline: classes.outline },
                                 className: classes.stepperInput,
                                 endAdornment: (
                                   <Button className={classes.button}
@@ -818,9 +792,7 @@ class SubscribeDialog extends Component {
               </DialogContent>
             </>
           }
-
-          </Dialog>
-        </MuiThemeProvider>
+        </Dialog>
       </ErrorBoundary>
     )
   }

@@ -1,7 +1,6 @@
 body, html {
   width: 100%;
   height: 100%;
-  background-color: #0a0a0a;
 }
 
 .container {
@@ -35,7 +34,7 @@ body, html {
 }
 
 .dot-2 {
-  background-color: #00eab7;
+  background-color: #00E08E;
   animation: dot-2-move 2s ease infinite, index 6s -4s ease infinite;
 }
 
@@ -52,6 +51,7 @@ body, html {
   color: #707B7C;
   padding: 0 25%;
   font-weight: 200;
+  line-height: 1rem;
 }
 
 

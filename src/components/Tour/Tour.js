@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
-import { Fab, Button } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { Fab, Button, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import ReactPlayer from 'react-player'
 
@@ -17,8 +17,8 @@ const styles = theme => ({
       position: 'absolute',
       bottom: theme.spacing(3),
       right: theme.spacing(12),
-      background: '#A0A0A0AA',
-      color: '#FAFAFA',
+      background: theme.palette.common.first,
+      color: theme.palette.alt.second,
       [theme.breakpoints.down('xs')]: {
         display: 'none'
       }
@@ -52,22 +52,20 @@ class Tour extends Component {
     return (
       <ErrorBoundary>
         <div>
-          <MuiThemeProvider>
-            <Tour
-              steps={steps}
-              isOpen={this.state.isTourOpen}
-              onRequestClose={this.closeTour}
-              className={classes.Tour}
-              accentColor='#00eab7'
-            />
-            <Fab
-              className={classes.tourFab}
-              variant='extended'
-              onClick={this.openTour}
-            >
-              10-Second Tutorial
-            </Fab>
-          </MuiThemeProvider>
+          <Tour
+            steps={steps}
+            isOpen={this.state.isTourOpen}
+            onRequestClose={this.closeTour}
+            className={classes.Tour}
+            accentColor='#00E08E'
+          />
+          <Fab
+            className={classes.tourFab}
+            variant='extended'
+            onClick={this.openTour}
+          >
+            10-Second Tutorial
+          </Fab>
         </div>
       </ErrorBoundary>
   )
@@ -79,10 +77,15 @@ const steps = [
     selector: '[tourName="ProfileUsername"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           👩‍🚀 User Profile
-        </h4>
-        <p>
+        </Typography>
+        <p
+          className='tourText'
+        >
           Where you'll find important information on each user as well as yourself!
         </p>
         <a href='https://docs.yup.io'
@@ -96,10 +99,13 @@ const steps = [
     selector: '[tourName="Influence"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           💯  Influence Score
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           A score out of 100 showing how influential a user is. The higher the number, the more powerful your opinions!
         </p>
         <a href='https://docs.yup.io/basic/colors'
@@ -113,10 +119,13 @@ const steps = [
     selector: '[tourName="YUPBalance"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           💰  YUP Balance
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           The number of tokens you've earned. Rate any piece of content to earn more!
         </p>
         <a href='https://docs.yup.io/protocol/yup-protocol#yup-token'
@@ -130,10 +139,13 @@ const steps = [
     selector: '[tourName="ProfileFeed"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📰  User Feed
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           This is the content you're rating, aggregated into a feed.
         </p>
       </div>
@@ -143,10 +155,13 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🤔  Rating
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
         </p>
         <a href='https://docs.yup.io/basic/rating'
@@ -160,10 +175,13 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🔍  Search
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           Search for friends and influencers across the web.
         </p>
       </div>
@@ -173,10 +191,13 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📈  Leaderboard
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a href='https://docs.yup.io/products/app#lists'
@@ -190,10 +211,13 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📡  Feeds
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           These are your feeds.
         </p>
         <a href='https://docs.yup.io/products/app#feed'
@@ -206,10 +230,12 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
+        <Typography variant='h3'
+          className='tourHeader'
+        >
           👏 That's it !
-        </h3>
-        <p>
+        </Typography>
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>

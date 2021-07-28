@@ -45,10 +45,10 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: '#fafafa',
+    color: theme.palette.common.first,
     '&:visited': {
       textDecoration: 'none',
-      color: '#fafafa'
+      color: theme.palette.common.first
     },
     maxHeight: '500px'
   },
@@ -56,7 +56,9 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '18px',
     fontWeight: 600,
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.5)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
+    color: theme.palette.common.first,
+    opacity: 0.9,
     [theme.breakpoints.down('xs')]: {
       width: '60vw',
       fontSize: '16px'
@@ -65,7 +67,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '14px',
-    textShadow: '0px 0px 5px rgba(20, 20, 20, 0.3)',
+    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
 
     display: 'none',
     fontWeight: 500,
@@ -90,9 +92,9 @@ const styles = theme => ({
     textAlign: 'left',
     zIndex: 5,
     background:
-      'linear-gradient(rgba(26, 26, 26,0), rgba(40, 26, 26,0.2), rgba(26, 26, 26, 0.55), rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95), rgba(26, 26, 26,0.99), rgb(26, 26, 26))',
+      `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
     padding: '0% 3%',
-    width: '94.5%'
+    width: '100%'
   }
 })
 

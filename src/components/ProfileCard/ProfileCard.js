@@ -1,15 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  MuiThemeProvider,
-  createMuiTheme,
-  withStyles
-} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { Card } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import Grid from '@material-ui/core/Grid'
-import lightBlue from '@material-ui/core/colors/lightBlue'
 import FollowButton from '../Followers/FollowButton'
 import EditProfile from '../EditProfile/EditProfile'
 import FollowersDialog from '../Followers/FollowersDialog'
@@ -33,7 +28,7 @@ const styles = theme => ({
     marginTop: '0px',
     marginBottom: '-4px',
     borderRadius: '100%',
-    border: 'solid 3px #DADADA',
+    border: `solid 3px ${theme.palette.common.third}`,
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
       fontSize: '45px',
@@ -47,7 +42,6 @@ const styles = theme => ({
     }
   },
   bio: {
-    color: '#AAAAAA',
     fontSize: '12px',
     padding: '0px',
     marginTop: theme.spacing(1),
@@ -62,7 +56,7 @@ const styles = theme => ({
   card: {
     paddingTop: theme.spacing(-10),
     paddingBottom: theme.spacing(-10),
-    boxShadow: '0px 0px 0px #2a2a2a81',
+    boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
     background: 'transparent',
     backgroundSize: 'cover',
     width: '550px',
@@ -91,7 +85,6 @@ const styles = theme => ({
     display: 'none'
   },
   largeStat: {
-    color: '#ffffff',
     fontSize: '24px',
     padding: '0px',
     fontFamily: 'Gilroy',
@@ -154,18 +147,7 @@ const styles = theme => ({
       padding: '0px 2rem 0px calc(2rem - 12px)'
     }
   },
-  text: {
-    color: '#ffffff',
-    fontSize: '12px',
-    padding: '0px',
-    fontFamily: 'Gilroy',
-    fontWeight: '100',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '12px'
-    }
-  },
   text2: {
-    color: '#ffffff',
     fontSize: '18px',
     fontWeight: '500',
     fontFamily: 'Gilroy',
@@ -174,7 +156,6 @@ const styles = theme => ({
     }
   },
   username: {
-    color: '#ffffff',
     fontSize: '18px',
     padding: '0px',
     fontFamily: 'Gilroy',
@@ -182,29 +163,6 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
     }
-  }
-})
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: '#ffffff' },
-    secondary: { main: '#ffffff' },
-    third: lightBlue
-  },
-  button: {
-    width: 16,
-    height: 16,
-    padding: 5,
-    color: '#ffffff'
-  },
-  icon: {
-    width: 25,
-    height: 25,
-    color: 'primary'
-  },
-  stats: {
-    fontFamily: 'Gilroy',
-    color: 'white'
   }
 })
 
@@ -307,7 +265,6 @@ function ProfileCard (props) {
                 <Typography
                   align='left'
                   className={classes.name}
-                  color='inherit'
                   display='inline'
                   variant='h3'
                 >
@@ -325,15 +282,13 @@ function ProfileCard (props) {
                 xs={3}
               >
                 {isLoggedIn ? (
-                  <MuiThemeProvider theme={theme}>
-                    <EditProfile
-                      accountInfo={accountInfo}
-                      className={classes.button}
-                      username={username}
-                      size='small'
-                      variant='outlined'
-                    />
-                  </MuiThemeProvider>
+                  <EditProfile
+                    accountInfo={accountInfo}
+                    className={classes.button}
+                    username={username}
+                    size='small'
+                    variant='contained'
+                  />
                 ) : (
                   <FollowButton
                     account={account}
@@ -360,11 +315,10 @@ function ProfileCard (props) {
                       textDecoration: socialLevelColor ? 'none' : 'none',
                       textDecorationColor: socialLevelColor,
                       textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                      color: isMirror ? '#b1b1b1' : '#ffffff',
                       padding: '0px'
                     }}
                   >
-                    @{username}
+                    {`@${username}`}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -394,7 +348,7 @@ function ProfileCard (props) {
               color='inherit'
               nowrap
               style={{ wordWrap: 'break-word' }}
-              variant='body2'
+              variant='body3'
             >
               <LinesEllipsis
                 basedOn='letters'
@@ -425,13 +379,13 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <h color='#fff'
-                    style={{ fontSize: '12px' }}
+                  <Typography
+                    variant='tooltip'
                   >
                     Influence Score: score out of 100 showing how influential
                     you are. The higher the number, the more valuable your
                     rating!
-                  </h>
+                  </Typography>
                 }
               >
                 <div tourname='Influence'>
@@ -451,11 +405,9 @@ function ProfileCard (props) {
                     />
                   </Typography>
                   <Typography
-                    className={classes.text}
+                    variant='body2'
                     style={{
-                      display: 'inline-block',
-                      fontFamily: 'Gilroy',
-                      fontSize: '12px'
+                      display: 'inline-block'
                     }}
                   >
                     Influence
@@ -472,12 +424,10 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <h color='#fff'
-                    style={{ fontSize: '12px' }}
-                  >
+                  <Typography variant='tooltip'>
                     {' '}
                     Amount of YUP held by user
-                  </h>
+                  </Typography>
                 }
               >
                 {YUPBalanceError ? (
@@ -485,7 +435,6 @@ function ProfileCard (props) {
                 ) : (
                   <Typography
                     className={classes.text2}
-                    color='inherit'
                     style={{ display: isMobile ? 'block' : 'inline-block', fontFamily: 'Gilroy' }}
                     variant='caption'
                     tourname='YUPBalance'
@@ -522,8 +471,7 @@ function ProfileCard (props) {
           >
             <Grid item>
               <Typography align='left'
-                className={classes.text}
-                color='inherit'
+                variant='body3'
               >
                 <a style={{ fontWeight: 500 }}>{formattedRatings}</a> Ratings
               </Typography>

@@ -41,8 +41,7 @@ const styles = theme => ({
       position: 'relative',
       borderRadius: '0.5rem',
       border: '0px solid #ffffff',
-      boxShadow: '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f',
-      backgroundColor: '#1b1b1ba1',
+      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
       [theme.breakpoints.down('xs')]: {
         marginTop: theme.spacing(2),
         marginLeft: '0px',
@@ -58,16 +57,15 @@ const styles = theme => ({
       padding: '20px 2rem 0rem 20px'
     },
     name: {
-      color: '#ffffff'
+      color: 'contrastText'
     },
     text: {
-      color: '#ffffff',
+      color: 'contrastText',
       marginTop: '6px'
     }
   })
 
-const BarChart = (props) => {
-  const { classes, chartData, chartTitle, color, unit } = props
+const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
         if (chartData) {
             const chart = {
                 series: [

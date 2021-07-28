@@ -15,8 +15,7 @@ const styles = theme => ({
   article: {
     borderRadius: '0.5rem',
     boxShadow:
-      '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f',
-    backgroundColor: '#1b1b1ba1',
+      `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
     backgroundSize: 'cover',
     marginLeft: '0%',
     marginRight: '0%',
@@ -29,8 +28,7 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100vw',
-      boxShadow: 'none',
-      padding: 4
+      boxShadow: 'none'
     },
     [theme.breakpoints.up('1700')]: {
       maxWidth: '640px',
@@ -140,7 +138,7 @@ class PostHOC extends PureComponent {
         >
           <div
             className={classes.article}
-            style={{ background: 'transparent', boxShadow: 'none' }}
+            style={{ background: 'transparent', boxShadow: 'none', paddingTop: '0.25rem' }}
           >
             <PostHeader
               postid={postid}

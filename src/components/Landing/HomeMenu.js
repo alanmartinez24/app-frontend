@@ -14,7 +14,6 @@ const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   container: {
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: '100vh',
     minWidth: '100vw',
     maxWidth: '100vw',
@@ -25,7 +24,6 @@ const styles = theme => ({
       width: `calc(100vw - 190px)`
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain'
     },
     display: 'flex',
@@ -47,7 +45,6 @@ const styles = theme => ({
     marginLeft: 0,
     paddingTop: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden',
       paddingTop: theme.spacing(10),
@@ -74,11 +71,7 @@ const styles = theme => ({
       width: '100%'
     }
   },
-  Title: {
-    color: '#f0f0f0'
-  },
   SectionHeader: {
-    color: '#fff',
     fontSize: '25px',
     fontFamily: 'Gilroy',
     fontWeight: '500',
@@ -93,9 +86,6 @@ const styles = theme => ({
       },
       fontWeight: '500 !important'
     }
-  },
-  ItemHeader: {
-    color: '#afafaf'
   },
   ItemSubHeader: {
     color: '#f0f0f0',
@@ -176,7 +166,9 @@ class Home extends Component {
                   <Fade in
                     timeout={300}
                   >
-                    <h2 className={classes.SectionHeader}>Recommended</h2>
+                    <Typography variant='h2'
+                      className={classes.SectionHeader}
+                    >Recommended</Typography>
                   </Fade>
                 </Grid>
                 <Grid
@@ -196,7 +188,6 @@ class Home extends Component {
                       >
                         <Link
                           to={item.relativeURL}
-                          color='inherit'
                           className={classes.Link}
                         >
                           <Grow in
@@ -223,7 +214,6 @@ class Home extends Component {
                               <Grid item>
                                 <Typography
                                   variant='h4'
-                                  className={classes.ItemHeader}
                                 >
                                   {item.title}
                                 </Typography>
@@ -242,7 +232,9 @@ class Home extends Component {
                 direction='column'
               >
                 <Grid item>
-                  <h2 className={classes.SectionHeader}>Browse</h2>
+                  <Typography variant='h2'
+                    className={classes.SectionHeader}
+                  >Browse</Typography>
                 </Grid>
                 <Grid
                   item
@@ -262,7 +254,6 @@ class Home extends Component {
                       >
                         <Link
                           to={item.relativeURL}
-                          color='inherit'
                           className={classes.Link}
                         >
                           <Fade in
@@ -289,7 +280,6 @@ class Home extends Component {
                               <Grid item>
                                 <Typography
                                   variant='h4'
-                                  className={classes.ItemHeader}
                                 >
                                   {item.title}
                                 </Typography>

@@ -1,17 +1,15 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import CircleLoader from 'react-spinners/CircleLoader'
 import { Card, Grid } from '@material-ui/core'
 
 const styles = theme => ({
-
     card: {
       paddingTop: theme.spacing(-10),
       paddingBottom: theme.spacing(-10),
-      background: 'white',
       backgroundSize: 'cover',
       margin: 'auto',
       marginBottom: '20px',
@@ -20,8 +18,7 @@ const styles = theme => ({
       position: 'relative',
       borderRadius: '0.5rem',
       border: '0px solid #ffffff',
-      boxShadow: '20px 20px 20px 0px rgb(255 255 255 / 2%), -2px -2px 20px rgb(0 0 0 / 3%), inset 12px 3px 20px 0px rgb(255 255 255 / 3%), inset -3px -7px 17px 0px #0404044a, 5px 5px 9px 0px rgb(255 255 255 / 5%), -20px -20px 12px rgb(0 0 0 / 3%), inset 1px 1px 6px 0px rgb(255 255 255 / 2%), inset -1px -1px 2px 0px #0404040f',
-      backgroundColor: '#1b1b1ba1',
+      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
       [theme.breakpoints.down('xs')]: {
         marginTop: theme.spacing(2),
         marginLeft: '0px',
@@ -29,21 +26,21 @@ const styles = theme => ({
         width: '100%'
       }
     },
-
     chart: {
-      marginBottom: '10px'
+      marginBottom: '10px',
+      color: theme.palette.common.first
     },
     chartheader: {
       padding: '2rem'
     },
     text: {
-      color: '#ffffff'
+      color: theme.palette.common.third
     }
   })
 
-const RadialChart = (props) => {
-  const color = '#00EAB7'
-  const { classes, chartData, chartTitle, colors } = props
+const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
+  const { palette } = useTheme()
+  const color = '#00E08E'
 
   if (chartData) {
     let series = []
@@ -75,7 +72,7 @@ const RadialChart = (props) => {
           },
           value: {
             fontSize: '15px',
-            color: 'white',
+            color: palette.common.first,
             formatter: function (w) {
                         // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
                         return Number(w).toFixed(2) + `%(${Math.round(chartData.total * w / 100)})`
@@ -84,7 +81,7 @@ const RadialChart = (props) => {
           total: {
             show: true,
             label: 'Total Votes',
-            color: 'white',
+            color: palette.common.first,
             formatter: function (w) {
               // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
               return chartData.total
@@ -104,7 +101,6 @@ const RadialChart = (props) => {
        <div className={classes.chartheader} >
          <Typography align='left'
            className={classes.chart}
-           style={{ color: 'white' }}
            variant='subtitle2'
          >
            {chartTitle}
@@ -125,7 +121,6 @@ const RadialChart = (props) => {
         <div className={classes.chartheader} >
           <Typography align='left'
             className={classes.chart}
-            style={{ color: 'white' }}
             variant='subtitle2'
           >
             {chartTitle}

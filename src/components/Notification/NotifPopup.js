@@ -37,13 +37,11 @@ const styles = theme => ({
     overflow: 'scroll'
   },
   notifPaper: {
-    background: '#1f1f1f',
     overflow: 'hidden'
   },
   menuList: {
     padding: '0',
-    margin: '0',
-    background: 'rgb(43, 43, 43)'
+    margin: '0'
   },
   menuItem: {
     padding: '0'
@@ -168,7 +166,6 @@ class NotifPopup extends Component {
                       >
                         <Icon fontSize='small'
                           className='fal fa-bell'
-                          color='primary'
                         />
                       </Badge>
                     </IconButton>
@@ -182,7 +179,6 @@ class NotifPopup extends Component {
                       >
                       <Icon fontSize='small'
                         className='fal fa-bell'
-                        color='primary'
                       />
                     </IconButton>
                     }

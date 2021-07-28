@@ -18,13 +18,11 @@ const showTabs = window.innerWidth <= 960
 const styles = theme => ({
   container: {
     margin: '75px 0px 0px 20px',
-    background: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
     minHeight: 'calc(100vh - 75px)',
     width: '100vw',
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    color: '#fff',
     [theme.breakpoints.down('xs')]: {
       background: '#2a2a2a',
       margin: '0px'
@@ -76,7 +74,6 @@ const styles = theme => ({
       width: `calc(100% - 200px)`
     },
     [theme.breakpoints.down('xs')]: {
-      background: '#1b1b1ba1',
       backgroundSize: 'contain',
       overflowX: 'hidden'
     },
@@ -90,8 +87,6 @@ const styles = theme => ({
     position: 'absolute',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: '#A0A0A0AA',
-    color: '#FAFAFA',
     zIndex: 1000,
     [theme.breakpoints.down('md')]: {
       display: 'none'
@@ -163,9 +158,7 @@ const styles = theme => ({
   }
 })
 
-const User = (props) => {
-  const { classes, user } = props
-
+const User = ({ classes, user }) => {
   return (
     <Link className={classes.people}
       key={user._id}
@@ -352,12 +345,8 @@ class Search extends Component {
                         onChange={this.handleChange}
                         TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                       >
-                        <Tab label='Posts'
-                          className={classes.tabs}
-                        />
-                        <Tab label='People'
-                          className={classes.tabs}
-                        />
+                        <Tab label='Posts' />
+                        <Tab label='People' />
                       </Tabs>
                     </Grid>
 
@@ -440,7 +429,7 @@ class Search extends Component {
               isOpen={this.state.isTourOpen}
               onRequestClose={this.closeTour}
               className={classes.Tour}
-              accentColor='#00eab7'
+              accentColor='#00E08E'
               rounded={10}
               disableInteraction
               highlightedMaskClassName={classes.Mask}
@@ -448,7 +437,6 @@ class Search extends Component {
                 <Button
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                   small
                 >
                   Next
@@ -458,7 +446,6 @@ class Search extends Component {
                 <Button
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00eab7' }}
                 >
                   Back
                 </Button>
@@ -492,10 +479,13 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           🔍  Search
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           Search for users and elevant posts across the web.
         </p>
       </div>
@@ -505,10 +495,13 @@ const steps = [
     selector: '[tourName="SearchPosts"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📰  Posts
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           These are your search results for posts.
         </p>
       </div>
@@ -518,10 +511,13 @@ const steps = [
     selector: '[tourName="SearchUsers"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           👥  Users
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           These are the search results for users.
         </p>
       </div>
@@ -531,10 +527,13 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📡  Feeds
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           These are your feeds.
         </p>
         <a href='https://docs.yup.io/products/app#feed'
@@ -548,10 +547,13 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <h4 className='tourHeader'>
+        <Typography
+          className='tourHeader'
+          variant='h4'
+        >
           📈  Leaderboard
-        </h4>
-        <p>
+        </Typography>
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a href='https://docs.yup.io/products/app#lists'
@@ -564,10 +566,12 @@ const steps = [
   {
     content: (
       <div>
-        <h3 className='tourHeader'>
+        <Typography className='tourHeader'
+          variant='h3'
+        >
           👏 That's it !
-        </h3>
-        <p>
+        </Typography>
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>
