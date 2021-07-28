@@ -7,7 +7,7 @@ import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
@@ -38,14 +38,14 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '600',
     fontSize: '1.5rem',
-    color: '#ffffff'
+    color: theme.palette.common.first
   },
   accountErrorSub: {
     paddingTop: '25px',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
     fontSize: '1rem',
-    color: '#ffffff'
+    color: theme.palette.common.first
   },
   container: {
     height: '100vh',
@@ -109,16 +109,6 @@ const styles = theme => ({
     },
     flex: 1
   },
-  progress: {
-    margin: theme.spacing(2),
-    color: 'white'
-  },
-  progressContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh'
-  },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
     padding: '20px 40px 20px 30px !important'
@@ -133,10 +123,10 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: '#fff'
+    color: theme.palette.common.first
   },
   tabs: {
-    color: '#fff',
+    color: theme.palette.common.first,
     fontSize: '1.2rem',
     marginLeft: '35px',
     textTransform: 'capitalize',
@@ -145,7 +135,7 @@ const styles = theme => ({
     }
   },
   collections: {
-    color: '#fff',
+    color: theme.palette.common.first,
     zIndex: '999',
     marginLeft: '20px',
     maxWidth: '25%',
@@ -160,7 +150,7 @@ const styles = theme => ({
     padding: '8px 8px 8px 16px !important'
   },
   showAll: {
-    color: '#fff',
+    color: theme.palette.common.first,
     width: '100px',
     fontSize: '0.8rem',
     fontWeight: '400',
@@ -447,7 +437,7 @@ class User extends Component {
   }
 
   render () {
-    const { classes, account } = this.props
+    const { classes, account, theme } = this.props
     const {
       posts,
       _id: eosname,
@@ -579,6 +569,7 @@ class User extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
+                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.common.first } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}
@@ -588,26 +579,6 @@ class User extends Component {
                       />
                     </Tabs>
                   </Grid>
-
-                  <TabPanel value={activeTab}
-                    index={0}
-                  >
-                    <Grid item
-                      xs={12}
-                    >
-                      <Tabs value={activeTab}
-                        onChange={this.handleChange}
-                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
-                      >
-                        <Tab label='Feed'
-                          className={classes.tabs}
-                        />
-                        <Tab label='Collections'
-                          className={classes.tabs}
-                        />
-                      </Tabs>
-                    </Grid>
-                  </TabPanel>
 
                   <TabPanel value={activeTab}
                     index={0}
@@ -667,7 +638,7 @@ class User extends Component {
                         >
                           <Typography
                             variant='subtitle2'
-                            style={{ marginRight: '10%', color: '#fff' }}
+                            style={{ marginRight: '10%', color: theme.palette.common.first }}
                             className={classes.collectionContainer}
                           >
                             Create new collection
@@ -779,7 +750,7 @@ class User extends Component {
                                 aria-label='more'
                                 aria-controls='long-menu'
                                 aria-haspopup='true'
-                                color='primary'
+                                color={theme.palette.common.fifth}
                                 variant='extended'
                                 size='small'
                                 style={{ opacity: 0.3 }}
@@ -1083,8 +1054,9 @@ const mapStateToProps = (state, ownProps) => {
 User.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(User))
+export default connect(mapStateToProps)(withStyles(styles)(withTheme(User)))

@@ -25,18 +25,13 @@ const styles = theme => ({
     }
   } })
 
-function PostImage (props) {
-  const { classes, src, alt } = props
+function PostImage ({ classes, src, alt }) {
   return (
     <ErrorBoundary>
       <ImageLoader src={src}>
         <img alt={alt}
           className={classes.postImage}
           src={src}
-        />
-        <img alt={alt}
-          className={classes.postImage}
-          src='/images/post_loading.jpg'
         />
         <img alt={alt}
           className={classes.postImage}

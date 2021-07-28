@@ -379,9 +379,7 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <Typography
-                    style={{ fontSize: '12px' }}
-                  >
+                  <Typography >
                     Influence Score: score out of 100 showing how influential
                     you are. The higher the number, the more valuable your
                     rating!
@@ -424,9 +422,7 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <Typography
-                    style={{ fontSize: '12px' }}
-                  >
+                  <Typography>
                     {' '}
                     Amount of YUP held by user
                   </Typography>

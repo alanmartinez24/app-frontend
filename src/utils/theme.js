@@ -146,6 +146,13 @@ export const theme = ({ palette }) => {
         fontSize: '1.2rem'
       }
     },
+    MuiTooltip: {
+      tooltip: {
+        // color: palette.common.first,
+        // backgroundColor: palette.common.fifth,
+        fontSize: '12px'
+      }
+    },
     MuiListItemIcon: {
       root: {
         color: palette.common.third,

@@ -483,7 +483,6 @@ class PostStats extends Component {
 
   render () {
     const { classes, isShown, quantile, theme } = this.props
-    console.log(`theme`, theme)
     const { totalVoters, weight } = this.state
     return (
       <Grid container

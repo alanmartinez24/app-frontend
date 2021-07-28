@@ -551,7 +551,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                       disableTouchListener
                       title={
                         <p
-                          color='#fff'
+                          color={palette.common.first}
                           style={{ fontSize: '12px', fontWeight: '300' }}
                         >
                           Create an account!
