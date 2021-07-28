@@ -401,14 +401,10 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const handleDialogClose = () => {
     setDialogOpen(false)
   }
-  // const handleToggleTheme = ({ target }) => {
-  //   toggleTheme()
-  //   clo
-  //   // event.target.checked
-  //   // const handleChange = (event) => {
-  //   //   setState({ ...state, [event.target.name]: event.target.checked })
-  //   // }
-  // }
+  const handleToggleTheme = () => {
+    localStorage.setItem('lightMode', !lightMode)
+    toggleTheme()
+  }
 
   const logProfileClick = () => {
     if (!window.analytics) {
@@ -800,7 +796,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 aria-label='theme-mode'
                 className={classes.margin}
                 size='small'
-                onClick={toggleTheme}
+                onClick={handleToggleTheme}
               >
                 {
                 lightMode ? <Icon
