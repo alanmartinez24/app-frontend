@@ -78,11 +78,6 @@ const styles = theme => ({
 })
 
 class FeedHOC extends PureComponent {
-  state = {
-    initialLoad: true,
-    hasMore: true
-  }
-
   static whyDidYouRender = true
 
   logPageView (feed) {
@@ -139,8 +134,6 @@ class FeedHOC extends PureComponent {
 // Fetches initial posts, if there are none
   fetchPosts = () => {
     const { dispatch, feed, feedInfo } = this.props
-    console.log(`feedInfo`, feedInfo)
-    console.log(`feedInfo[feed]`, feedInfo[feed])
     if (feedInfo && feedInfo[feed]) {
       if (feedInfo[feed].posts.length < feedInfo[feed].limit) {
         dispatch(fetchFeed(feed, 0, feedInfo[feed].limit))
@@ -154,9 +147,9 @@ class FeedHOC extends PureComponent {
     dispatch(fetchFeed(feed, feedInfo[feed].start, feedInfo[feed].limit))
   }
   render () {
-    const { posts, classes } = this.props
-    const { initialLoad, hasMore } = this.state
-    if (!initialLoad && !hasMore && posts.length === 0) {
+    const { posts, classes, hasMore } = this.props
+
+    if (!hasMore && posts.length === 0) {
       return (
         <div align='center' >
           <Typography
@@ -175,15 +168,11 @@ class FeedHOC extends PureComponent {
           <InfiniteScroll
             dataLength={posts.length}
             hasMore={hasMore}
-            height='100vh'
+            height={hasMore ? '100vh' : '90vh'}
             className={classes.infiniteScroll}
-            loader={
-           initialLoad
-             ? <div className={classes.feedLoader}>
-               <FeedLoader />
-             </div>
-             : ''
-          }
+            loader={<div className={classes.feedLoader}>
+              <FeedLoader />
+            </div>}
             next={this.fetchPostsScroll}
             onScroll={this.onScroll}
           >
@@ -204,7 +193,7 @@ class FeedHOC extends PureComponent {
             ))
           }
               </div>
-              {!initialLoad && !hasMore &&
+              {!hasMore &&
               <p className={classes.resetScroll}>end of feed</p>
         }
             </div>
@@ -230,15 +219,16 @@ export const getFeedPosts = createSelector(
     if (feedInfo) {
       return feedInfo.posts
     }
-
     return []
   }
 )
 
 const mapStateToProps = (state) => {
+  const feedType = getActiveFeedType(state)
   return {
     posts: getFeedPosts(state),
-    feedInfo: state.feedInfo.feeds
+    feedInfo: state.feedInfo.feeds,
+    hasMore: state.feedInfo.feeds[feedType].hasMore
   }
 }
 
@@ -247,7 +237,8 @@ FeedHOC.propTypes = {
   dispatch: PropTypes.func.isRequired,
   feed: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
-  feedInfo: PropTypes.object.isRequired
+  feedInfo: PropTypes.object.isRequired,
+  hasMore: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(FeedHOC))

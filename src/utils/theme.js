@@ -336,14 +336,14 @@ export const theme = ({ palette }) => {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
-      fontSize: '0.875rem',
+      fontSize: '0.9rem',
       lineHeight: '1rem',
       color: `${palette.common.third}EE`
     },
     display3: {
       fontFamily: 'Gilroy',
       fontStyle: 'thin',
-      fontSize: '20px',
+      fontSize: '1.2rem',
       lineHeight: '20px',
       color: Colors.Green,
       fontWeight: '200'

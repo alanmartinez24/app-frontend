@@ -26,16 +26,12 @@ const styles = theme => ({
   },
   linkImg: {
     width: '100%',
-    minHeight: '15rem',
-    maxHeight: '15rem',
-    objectFit: 'cover',
-    backgroundColor: '#4f4f4f',
-    objectPosition: '50% 50%',
-    alignItems: 'center',
-    borderRadius: '0.5rem 0.5rem 0px 0px',
-    [theme.breakpoints.up('1700')]: {
-      maxHeight: '25rem',
-      width: '100%'
+    aspectRatio: '1 / 1',
+    border: 'none',
+    borderRadius: '0.5rem',
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: 20,
+      maxWidth: 20
     }
   },
   previewContainer: {
@@ -58,12 +54,13 @@ const styles = theme => ({
   description: {
     position: 'relative',
     textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    lineHeight: '1.25rem',
     margin: '0.5rem 0'
   },
   url: {
     position: 'relative',
     fontSize: '10px',
-    fontWeight: 100,
+    fontWeight: 300,
     overflowWrap: 'break-word',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -188,12 +185,7 @@ class ArticlePreview extends Component {
                     align='right'
                     href={url}
                     src={[faviconURL, faviconURLFallback]}
-                    style={{
-                        width: '100%',
-                        aspectRatio: '1 / 1',
-                        border: 'none',
-                        borderRadius: '0.5rem'
-                      }}
+                    className={classes.linkImg}
                     target='_blank'
                   />
                 </Grid>
@@ -223,7 +215,9 @@ class ArticlePreview extends Component {
                   trimRight
                 />
               </Typography>
-              <p className={classes.url}>{url && this.cutUrl(url)}</p>
+              <Typography variant='body2'
+                className={classes.url}
+              >{url && this.cutUrl(url).split(/[/]+/g, 1)}</Typography>
             </div>
           </a>
         </div>

@@ -60,6 +60,7 @@ export function fetchFeed (feedType, start, limit) {
     dispatch(request(feedType))
     try {
       let res
+      start = start > 0 ? start + 1 : start
       if (feedType === 'nfts') {
         res = await fetchNftFeed(start, limit)
       } else if (feedType === 'crypto') {

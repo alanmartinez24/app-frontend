@@ -909,20 +909,18 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              {/*
-                      <ListItem button
-                        dense
-                        component={Link}
-                        onClick={handleDrawerClose}
-                        to='/?feed=mirror'
-                      >
-                        <ListItemText
-                          primary='Mirror Articles'
-                          style={{ color: '#c0c0c0', margin: 0 }}
-                          className={classes.listButton}
-                        />
-                      </ListItem>
-                  */}
+              <ListItem button
+                dense
+                component={Link}
+                onClick={handleDrawerClose}
+                to='/?feed=mirror'
+              >
+                <ListItemText
+                  primary='Mirror Articles'
+                  style={{ color: '#c0c0c0', margin: 0 }}
+                  className={classes.listButton}
+                />
+              </ListItem>
               <ListItem
                 button
                 dense
@@ -985,6 +983,69 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             </div>
           </List>
         </Grow>
+
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=politics'
+                      >
+                        <ListItemText
+                          primary='Politics'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=non-corona'
+                      >
+                        <ListItemText
+                          primary='Safe Space'
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=latenightcool'
+                      >
+                        <ListItemText
+                          primary='Popular'
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                      <ListItem button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=lol'
+                      >
+                        <ListItemText
+                          primary='Funny'
+                          style={{ color: '#c0c0c0', margin: 0 }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        dense
+                        component={Link}
+                        onClick={handleDrawerClose}
+                        to='/?feed=brainfood'
+                      >
+                        <ListItemText
+                          primary='Smart'
+                          className={classes.listButton}
+                        />
+                      </ListItem>
+                    </div>
+                  </List>
+                </Grow>
               )}
 
         {/* Second Menu: LISTS */}

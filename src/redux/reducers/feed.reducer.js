@@ -9,70 +9,80 @@ const initialState = {
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'crypto': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'dailyhits': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'new': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'politics': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'non-corona': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'latenightcool': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'lol': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'brainfood': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     },
     'mirror': {
       posts: [],
       isLoading: false,
       error: null,
       start: 0,
-      limit: 10
+      limit: 10,
+      hasMore: true
     }
   }
 }
@@ -102,6 +112,7 @@ export function feedInfo (state = initialState, action) {
         feedInfo.posts = state.feeds[action.feedType].posts.concat(action.posts)
         feedInfo.start = action.newStart + action.newLimit
         feedInfo.limit = action.newLimit
+        feedInfo.hasMore = !!action.posts.length
         feedInfo.error = null
         break
       case constants.FETCH_FEED_FAILURE:
