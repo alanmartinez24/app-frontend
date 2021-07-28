@@ -156,7 +156,6 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
   const metaTitle = feedMetaTitle(query.feed)
   const feedDesc = feedDescription(query.feed)
   const metaImg = feedImg(query.feed)
-  console.log('!!!!!!!', `${process.env.APP_META_IMAGES}/${metaImg}`)
   return (
     <ErrorBoundary>
       <div id='feedTitleContainer'
