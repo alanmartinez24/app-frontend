@@ -211,12 +211,15 @@ export const theme = ({ palette }) => {
     },
     MuiAppBar: {
       root: {
-        background: palette.primary.gradient
+        background: palette.alt.second
+      },
+      colorPrimary: {
+        backgroundColor: palette.alt.second
       }
     },
     MuiDrawer: {
       paper: {
-        background: palette.primary.gradient
+        background: palette.alt.second
       }
     },
     MuiDialog: {
@@ -387,7 +390,7 @@ export const theme = ({ palette }) => {
       lineHeight: '21px',
       color: `${palette.common.first}DE`,
       letterSpacing: '0.25%',
-      fontWeight: '200'
+      fontWeight: '300'
     },
     body3: {
       fontSize: '12px',

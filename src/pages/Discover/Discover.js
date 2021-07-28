@@ -234,7 +234,6 @@ const StyledFeedContainer = withStyles(theme => ({
     height: '100vh',
     overflowY: 'hidden',
     fontFamily: 'Gilroy',
-    fontWeight: 100,
     margin: '0 auto',
     width: '100%',
     fontSize: '20px',

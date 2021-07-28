@@ -9,7 +9,7 @@ export const levelColors = {
 }
 export const Gradients = {
   background: {
-    dark: 'linear-gradient(180deg, #1B1B1B 0%, #151515 100%)',
+    dark: 'linear-gradient(180deg, #2A2A2A 0%, #161616 100%)',
     light: 'linear-gradient(315deg, #fbfbfb 0%, #fdfdfd 74%)'
   }
 }
