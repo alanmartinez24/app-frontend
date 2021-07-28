@@ -146,9 +146,9 @@ function feedDescription (feed) {
 function feedImg (feed) {
   switch (feed) {
     case 'mirror':
-      return 'images/metaImages/mirror-meta.jpg'
+      return 'mirror-meta.jpg'
     default:
-      return 'images/metaImages/main-meta.jpg'
+      return 'main-meta.jpg'
   }
 }
 
@@ -156,7 +156,6 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
   const metaTitle = feedMetaTitle(query.feed)
   const feedDesc = feedDescription(query.feed)
   const metaImg = feedImg(query.feed)
-
   return (
     <ErrorBoundary>
       <div id='feedTitleContainer'
@@ -169,7 +168,7 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
             content={feedDesc}
           />
           <meta property='image'
-            content={metaImg}
+            content={`${process.env.APP_META_IMAGES}/${metaImg}`}
           />
           <meta name='twitter:card'
             content='summary_large_image'
@@ -187,7 +186,7 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
           />
           <meta
             name='twitter:image'
-            content={metaImg}
+            content={`${process.env.APP_META_IMAGES}/${metaImg}`}
           />
           <meta
             property='og:title'
