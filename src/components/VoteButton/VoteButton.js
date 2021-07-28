@@ -3,9 +3,8 @@ import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
-import Snackbar from '@material-ui/core/Snackbar'
+import { Grid, Grow, Typography, Portal, Tooltip, SvgIcon, Snackbar } from '@material-ui/core'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import polly from 'polly-js'
 import numeral from 'numeral'
@@ -195,19 +194,20 @@ const styles = (theme) => ({
   }
 })
 
-const StyledRating = withStyles({
+const ratingStyles = ({ palette }) => ({
   iconFilled: {
     border: '3px',
-    borderColor: '#fff',
-    color: '#222222'
+    borderColor: palette.common.first,
+    color: palette.alt.first
   },
   iconHover: {
-    stroke: 'white'
+    stroke: palette.common.first
   },
   iconEmpty: {
-    color: '#222222'
+    color: palette.alt.first
   }
-})(Rating)
+})
+const StyledRating = withStyles(ratingStyles)(Rating)
 
 const labels = {
   1: '1',
@@ -294,14 +294,15 @@ IconWithRef.propTypes = {
 
 const IconContainer = memo((props) => {
   const { value, ratingAvg, quantile, vote, handleRatingChange, hoverValue } = props
+  const { palette } = useTheme()
   const quantileColor = levelColors[quantile]
   const convertedVoterRating = vote
     ? convertRating(vote.like, vote.rating)
     : null
 
   const ratingQuantile = quantileToRating[quantile]
-  const ratingQuantileStyle = (ratingQuantile >= value) ? { color: quantileColor } : { color: '#222222' }
-  const voteStyle = (convertedVoterRating >= value) ? { stroke: 'white' } : {}
+  const ratingQuantileStyle = (ratingQuantile >= value) ? { color: quantileColor } : { color: palette.alt.third }
+  const voteStyle = (convertedVoterRating >= value) ? { stroke: palette.common.third } : {}
   const marginStyle = (window.innerWidth <= 440)
       ? { marginTop: '-3px', marginRight: '-5px', marginLeft: '-6px' }
       : { marginTop: '-3px', marginRight: '-9px', marginLeft: '-1.5px' }
@@ -518,18 +519,20 @@ PostStats.propTypes = {
   quantile: PropTypes.string.isRequired
 }
 
-const StyledPostStats = withStyles({
+const postStatStyles = theme => ({
   weight: {
     marginRight: '3px',
     fontSize: '16px'
   },
   totalVoters: {
     fontSize: '16px',
-    color: 'rgba(170, 170, 170, 0.333)',
+    color: theme.palette.common.third,
     opacity: 0.3,
     marginLeft: '7px'
   }
-})(PostStats)
+})
+
+const StyledPostStats = withStyles(postStatStyles)(PostStats)
 
 class VoteButton extends Component {
   state = {
