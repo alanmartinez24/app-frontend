@@ -30,8 +30,8 @@ const styles = theme => ({
     border: 'none',
     borderRadius: '0.5rem',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: 20,
-      maxWidth: 20
+      maxHeight: 30,
+      maxWidth: 30
     }
   },
   previewContainer: {
