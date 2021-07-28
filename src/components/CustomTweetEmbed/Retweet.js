@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable */
+import React, { Component, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
+import axios from 'axios'
+import _ from 'lodash'
+
+// util
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
+
+// components
 import LinkPreview from './LinkPreview'
 import HeaderSection from './HeaderSection'
 
 const Retweet = ({ tweetData, classes }) => {
-const { user, retweeted_status: retweetedStatus } = tweetData.tweetInfo
-const { user: retweetedUser } = retweetedStatus
-const retweetExtendedEntities = tweetData.tweetInfo.retweeted_status.extended_entities ? tweetData.tweetInfo.retweeted_status.extended_entities : false
+const { user, retweeted_status } = tweetData.tweetInfo
+const { user: retweetedUser } = retweeted_status
+const retweet_extended_entities = tweetData.tweetInfo.retweeted_status.extended_entities ? tweetData.tweetInfo.retweeted_status.extended_entities : false
 
 const [ previewData, setPreviewData ] = useState(null)
 const { caption } = tweetData
@@ -32,8 +39,8 @@ const entitiesURLS = (entities ? (entities.urls && entities.urls.length > 0) : f
   }, [])
 
   let retweetHasMedia
-  if (retweetExtendedEntities) {
-    retweetHasMedia = retweetExtendedEntities.media ? retweetExtendedEntities.media.length > 0 : false
+  if (retweet_extended_entities) {
+    retweetHasMedia = retweet_extended_entities.media ? retweet_extended_entities.media.length > 0 : false
   }
 
   let retweetMediaURL
@@ -42,12 +49,12 @@ const entitiesURLS = (entities ? (entities.urls && entities.urls.length > 0) : f
   let retweetHasVideo
 
   if (retweetHasMedia) {
-    retweetMediaURL = retweetExtendedEntities.media[0].media_url_https ? retweetExtendedEntities.media[0].media_url_https : false
-    retweetMediaType = retweetExtendedEntities.media[0].type
+    retweetMediaURL = retweet_extended_entities.media[0].media_url_https ? retweet_extended_entities.media[0].media_url_https : false
+    retweetMediaType = retweet_extended_entities.media[0].type
     retweetHasPhoto = Boolean(retweetMediaType === 'photo')
     retweetHasVideo = Boolean(retweetMediaType === 'video' || retweetMediaType === 'animated_gif')
 
-    if (retweetHasVideo) retweetMediaURL = retweetExtendedEntities.media[0].video_info.variants[0].url
+    if (retweetHasVideo) retweetMediaURL = retweet_extended_entities.media[0].video_info.variants[0].url
   }
 
   let tweetLink
@@ -81,19 +88,19 @@ const entitiesURLS = (entities ? (entities.urls && entities.urls.length > 0) : f
         target='_blank'
         underline='none'
       >
-        <div className={classes.retweetContainer}>
-          <HeaderSection classes={classes}
-            user={retweetedUser}
-            tweetType={'retweet'}
-          />
-          <div className={classes.tweetText}
-            style={{ marginBottom: 10 }}
-          >{tweetText}</div>
-          {
+      <div className={classes.retweetContainer}>
+        <HeaderSection classes={classes}
+          user={retweetedUser}
+          tweetType={'retweet'}
+        />
+        <div className={classes.tweetText}
+          style={{ marginBottom: 20 }}
+        >{tweetText}</div>
+        {
                   (retweetHasPhoto && retweetMediaURL)
                   ? <div className={classes.tweetText}>
                     <img className={classes.tweetImg}
-                      src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : retweetMediaURL}
+                      src={tweetData.excludeTweet?  'https://api.faviconkit.com/twitter.com/128': retweetMediaURL }
                       alt='tweet-image'
                     />
                   </div>
@@ -104,16 +111,10 @@ const entitiesURLS = (entities ? (entities.urls && entities.urls.length > 0) : f
                       controls
                     />
                 }
-        </div>
+      </div>
       </Link>
     </div>
     )
-}
-
-Retweet.propTypes = {
-  classes: PropTypes.object.isRequired,
-  tweetData: PropTypes.object.isRequired
-
 }
 
 export default Retweet

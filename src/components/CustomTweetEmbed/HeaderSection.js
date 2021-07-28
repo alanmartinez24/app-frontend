@@ -1,6 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link, Typography } from '@material-ui/core'
+/* eslint-disable */
+import React, { Component, useState, useEffect } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import ReactPlayer from 'react-player'
+import Link from '@material-ui/core/Link'
+import axios from 'axios'
+import _ from 'lodash'
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
 
@@ -48,12 +52,10 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           target='_blank'
           underline='none'
         >
-          <Typography className={twitterName}
-            style={{ maxWidth: '300px' }}
-            variant='h4'
-          >
+          <h4 className={twitterName}
+            style={{maxWidth: '300px'}}>
             {user && user.name && user.name.substring(0, 80)}
-          </Typography>
+          </h4>
         </Link>
         <Link href={accountLink}
           target='_blank'
@@ -74,14 +76,6 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
       </span>
     </div>
  )
-}
-
-HeaderSection.propTypes = {
-  classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  tweetLink: PropTypes.string.isRequired,
-  tweetType: PropTypes.string.isRequired,
-  hideBird: PropTypes.bool.isRequired
 }
 
 export default HeaderSection

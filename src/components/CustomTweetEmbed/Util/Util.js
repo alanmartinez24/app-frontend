@@ -1,5 +1,10 @@
-import React from 'react'
+/* eslint-disable */
+import React, { Component, useState, useEffect } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import ReactPlayer from 'react-player'
+import Link from '@material-ui/core/Link'
 import axios from 'axios'
+import _ from 'lodash'
 
 const { BACKEND_API } = process.env
 
@@ -12,38 +17,37 @@ const { BACKEND_API } = process.env
  */
 export const parseText = (str) => {
  const re = /http\S+/
- const parsed = str.replace(re, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+ const parsed = str.replace(re, "").replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
  return parsed
 }
 
 // Removes : and - after @tag (if someone types @myusername: it changes it to @myusername
 export const parseTags = (str) => {
  const re = /[:-]/
- const parsed = str.replace(re, '')
+ const parsed = str.replace(re, "");
  return parsed
 }
 
 // Converts http://www.example.com/page1/resource1 into --> example.com
 export const linkMentions = (word) => {
-     const re = /B@([w-]+)/gim
+     const re = /\B\@([\w\-]+)/gim
      const match = re.test(word)
      if (match) {
        word = parseTags(word)
        const userLink = `https://twitter.com/${word}`
-       return (
+       return(
          <>
            <a
-             style={
+            style={
               {
                 color: 'white',
                 textDecoration: 'none',
                 fontWeight: 500
               }
             }
-             href={userLink}
-             target='_blank'
-           >{word}</a>
-           <i> </i>
+            href={userLink}
+            target="_blank">{word}</a>
+            <i> </i>
          </>
        )
      } else {
@@ -53,6 +57,7 @@ export const linkMentions = (word) => {
      }
    }
 
+
  export const fetchLinkPreviewData = async (passedURL) => {
    try {
      const res = await axios.get(`${BACKEND_API}/posts/linkpreview`, {
@@ -60,7 +65,7 @@ export const linkMentions = (word) => {
          url: passedURL
        }
      })
-     const { previewData } = res.data
+     const {previewData} = res.data
      return previewData
    } catch (e) {
      console.log(e)

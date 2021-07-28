@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable */
+import React, { Component, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactPlayer from 'react-player'
-import { Link, Typography } from '@material-ui/core'
+import Link from '@material-ui/core/Link'
+import axios from 'axios'
+import _ from 'lodash'
+
+// util
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
+
+// components
 import LinkPreview from './LinkPreview'
 import HeaderSection from './HeaderSection'
 
@@ -23,7 +30,7 @@ const Reply = ({ tweetData, classes }) => {
   }
 
   // ORIGINAL
-  const extendedEntities = tweetData.tweetInfo.extended_entities ? tweetData.tweetInfo.extended_entities : false
+  const extended_entities = tweetData.tweetInfo.extended_entities ? tweetData.tweetInfo.extended_entities : false
 
   useEffect(() => {
     if (entitiesURLS) {
@@ -41,18 +48,18 @@ const Reply = ({ tweetData, classes }) => {
     }, [])
 
   let hasMedia
-  if (extendedEntities) {
-    hasMedia = extendedEntities.media ? extendedEntities.media.length > 0 : false
+  if (extended_entities) {
+    hasMedia = extended_entities.media ? extended_entities.media.length > 0 : false
   }
 
   let mediaURL, mediaType, hasPhoto, hasVideo
   if (hasMedia) {
-    mediaURL = extendedEntities.media[0].media_url_https ? extendedEntities.media[0].media_url_https : false
-    mediaType = extendedEntities.media[0].type
+    mediaURL = extended_entities.media[0].media_url_https ? extended_entities.media[0].media_url_https : false
+    mediaType = extended_entities.media[0].type
     hasPhoto = Boolean(mediaType === 'photo')
-    hasVideo = Boolean(mediaType === 'video' || mediaType === 'animated_gif')
+    hasVideo = Boolean(mediaType === 'video'|| mediaType === 'animated_gif')
 
-    if (hasVideo) mediaURL = extendedEntities.media[0].video_info.variants[0].url
+    if (hasVideo) mediaURL = extended_entities.media[0].video_info.variants[0].url
   }
 
   let initialText
@@ -66,21 +73,22 @@ const Reply = ({ tweetData, classes }) => {
 
   let tweetText = parseText(initialText)
 
+
   // REPLYS
-  let replyExtendedEntities = (tweetData.tweetInfo.reply_status && tweetData.tweetInfo.reply_status.extended_entities) ? tweetData.tweetInfo.reply_status.extended_entities : false
+  let reply_extended_entities = (tweetData.tweetInfo.reply_status && tweetData.tweetInfo.reply_status.extended_entities) ? tweetData.tweetInfo.reply_status.extended_entities : false
   let replyHasMedia
-  if (replyExtendedEntities) {
-    replyHasMedia = replyExtendedEntities.media ? replyExtendedEntities.media.length > 0 : false
+  if (reply_extended_entities) {
+    replyHasMedia = reply_extended_entities.media ? reply_extended_entities.media.length > 0 : false
   }
 
   let replyMediaURL, replyMediaType, replyHasPhoto, replyHasVideo
   if (replyHasMedia) {
-    replyMediaURL = replyExtendedEntities.media[0].media_url_https ? replyExtendedEntities.media[0].media_url_https : false
-    replyMediaType = replyExtendedEntities.media[0].type
+    replyMediaURL = reply_extended_entities.media[0].media_url_https ? reply_extended_entities.media[0].media_url_https : false
+    replyMediaType = reply_extended_entities.media[0].type
     replyHasPhoto = Boolean(replyMediaType === 'photo')
-    replyHasVideo = Boolean(replyMediaType === 'video' || replyMediaType === 'animated_gif')
+    replyHasVideo = Boolean(replyMediaType === 'video'|| replyMediaType === 'animated_gif')
 
-    if (replyHasVideo) replyMediaURL = replyExtendedEntities.media[0].video_info.variants[0].url
+    if (replyHasVideo) replyMediaURL = reply_extended_entities.media[0].video_info.variants[0].url
   }
 
   let replyStatusText
@@ -95,6 +103,11 @@ const Reply = ({ tweetData, classes }) => {
   let text = parseText(replyStatusText)
   let replyTweetText = text.split(' ').map((string) => linkMentions(string))
 
+  // REPLY CUSTOM HEADER STYLING CONFIG
+  const userAvatar = classes.userAvatar
+  const twitterName = classes.replyTwitterName
+  const twitterBirdIcon = classes.twitterBirdIcon
+
   let replyScreenName, replyUserAvatar, replyName
   if (tweetData.tweetInfo.reply_status) {
     replyScreenName = tweetData.tweetInfo.reply_status.user.screen_name
@@ -102,8 +115,9 @@ const Reply = ({ tweetData, classes }) => {
     replyName = tweetData.tweetInfo.reply_status.user.name
   }
 
+
   const accountLink = `https://twitter.com/${replyScreenName}`
-  const bothHaveMedia = (hasMedia && replyHasMedia)
+  const BothHaveMedia = (hasMedia && replyHasMedia)
   const smallImage = { maxHeight: 200 }
   const bigImage = { maxHeight: 400 }
 
@@ -119,13 +133,13 @@ const Reply = ({ tweetData, classes }) => {
           <div className={classes.userAvatarContainer}
             style={{ paddingRight: 0 }}
           >
-            {replyUserAvatar
-          ? <img className={classes.userAvatar}
-            src={replyUserAvatar}
-            alt='user image'
-            onError={addDefaultSrc}
-            />
-            : <span className={classes.letterAvatar}>
+          {replyUserAvatar ?
+          <img className={userAvatar}
+                src={replyUserAvatar}
+                alt='user image'
+                onError={addDefaultSrc}
+                /> :
+            <span className={classes.letterAvatar}>
               { replyName && replyName[0] && replyName[0].toUpperCase() }
             </span>
           }
@@ -139,17 +153,13 @@ const Reply = ({ tweetData, classes }) => {
               <Link href={accountLink}
                 target='_blank'
                 underline='none'
-              ><Typography variant='h4'
-                className={classes.twitterName}
-               >
-                {replyName}
-              </Typography></Link>
+              ><h4 className={twitterName}>{replyName}</h4></Link>
               <Link href={accountLink}
                 target='_blank'
                 underline='none'
               ><span className={classes.twitterHandle}>@{replyScreenName}</span></Link>
             </div>
-            <span className={classes.twitterBirdIcon}>
+            <span className={twitterBirdIcon}>
               <Link href={tweetLink}
                 target='_blank'
                 underline='none'
@@ -193,8 +203,8 @@ const Reply = ({ tweetData, classes }) => {
                (replyHasPhoto && replyMediaURL)
                ? <div className={classes.replyImageContainer}>
                  <img className={classes.tweetImg}
-                   style={bothHaveMedia ? smallImage : bigImage}
-                   src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : replyMediaURL}
+                   style={BothHaveMedia ? smallImage : bigImage}
+                   src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : replyMediaURL }
                    alt='tweet-image'
                  />
                </div>
@@ -205,6 +215,7 @@ const Reply = ({ tweetData, classes }) => {
                    controls
                  />
              }
+
           </div>
         </div>
       </div>
@@ -219,10 +230,8 @@ const Reply = ({ tweetData, classes }) => {
           target='_blank'
           underline='none'
         >
-          <div className={classes.tweetText}
-            style={{ marginLeft: '6px' }}
-          >
-            {tweetText.replace(/@\S+\s?/gm, '')}
+          <div className={classes.tweetText} style={{ marginLeft: '6px' }}>
+            {tweetText.replace(/@\S+\s?/gm,'')}
           </div>
         </Link>
 
@@ -244,7 +253,7 @@ const Reply = ({ tweetData, classes }) => {
           (hasPhoto && mediaURL)
           ? <div className={classes.tweetText}>
             <img className={classes.tweetImg}
-              src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : mediaURL}
+              src={tweetData.excludeTweet?  'https://api.faviconkit.com/twitter.com/128': mediaURL }
               alt='tweet-image'
             />
           </div>
@@ -260,11 +269,6 @@ const Reply = ({ tweetData, classes }) => {
 
     </div>
   )
-}
-
-Reply.propTypes = {
-  classes: PropTypes.object.isRequired,
-  tweetData: PropTypes.object.isRequired
 }
 
 export default Reply
