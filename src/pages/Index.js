@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { reactReduxContext } from '../utils/history'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import wallet from '../eos/scatter/scatter.wallet'
-import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions, fetchAuthInfo } from '../redux/actions'
+import { loginScatter, signalConnection, setListOptions, updateEthAuthInfo, fetchUserCollections, fetchUserPermissions, fetchAuthInfo, toggleColorTheme } from '../redux/actions'
 import { accountInfoSelector } from '../redux/selectors'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -84,6 +84,14 @@ class Index extends Component {
       }
     } catch (err) {}
   }
+  async setThemePreference () {
+    try {
+      const { toggleTheme } = this.props
+      const userPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+      const lightMode = JSON.parse(localStorage.getItem('lightMode'))
+      if (lightMode || userPrefersLight) toggleTheme()
+    } catch (err) {}
+  }
 
   componentDidMount () {
     (async () => {
@@ -91,6 +99,7 @@ class Index extends Component {
       wallet.detect(checkScatter, scatterInstall)
       this.checkEthAuth()
       this.checkTwitterAuth()
+      this.setThemePreference()
 
       fetchAuthFromState()
 
@@ -217,6 +226,7 @@ Index.propTypes = {
   setListOpts: PropTypes.func.isRequired,
   scatterInstall: PropTypes.func.isRequired,
   updateEthAuth: PropTypes.func.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
   getLoggedUserCollections: PropTypes.func.isRequired,
   accountName: PropTypes.string,
   history: PropTypes.object,
@@ -233,7 +243,8 @@ const mapActionToProps = (dispatch) => {
     updateEthAuth: (ethAuthInfo) => dispatch(updateEthAuthInfo(ethAuthInfo)),
     fetchUserPerms: (accountName) => dispatch(fetchUserPermissions(accountName)),
     getLoggedUserCollections: (accountName) => dispatch(fetchUserCollections(accountName)),
-    fetchAuthFromState: () => dispatch(fetchAuthInfo())
+    fetchAuthFromState: () => dispatch(fetchAuthInfo()),
+    toggleTheme: () => dispatch(toggleColorTheme())
     }
 }
 
