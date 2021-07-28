@@ -148,7 +148,7 @@ export const theme = ({ palette }) => {
     },
     MuiTooltip: {
       tooltip: {
-        // color: palette.common.first,
+        color: '#fff',
         // backgroundColor: palette.common.fifth,
         fontSize: '12px'
       }
@@ -403,6 +403,12 @@ export const theme = ({ palette }) => {
       fontSize: '12px',
       lineHeight: '18px',
       color: `${palette.common.first}DD`,
+      letterSpacing: '0.25%',
+      fontWeight: '200'
+    },
+    tooltip: {
+      fontSize: '12px',
+      color: `#fff`,
       letterSpacing: '0.25%',
       fontWeight: '200'
     },

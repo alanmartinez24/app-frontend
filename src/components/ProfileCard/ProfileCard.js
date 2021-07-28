@@ -379,7 +379,9 @@ function ProfileCard (props) {
                 placement='bottom'
                 disableTouchListener
                 title={
-                  <Typography >
+                  <Typography
+                    variant='tooltip'
+                  >
                     Influence Score: score out of 100 showing how influential
                     you are. The higher the number, the more valuable your
                     rating!
