@@ -27,8 +27,8 @@ const FeedLoader = () => {
         </ContentLoader>
         <ContentLoader
           height={8}
-          primaryColor='#00E4FF'
-          secondaryColor='#00FFA6'
+          primaryColor='#00E4FFcc'
+          secondaryColor='#00FFA6cc'
           speed={2}
           width={400}
           style={{ display: 'flex', margin: 'auto', width: '100%', paddingBottom: '10px' }}
@@ -124,8 +124,8 @@ const FeedLoader = () => {
 
         <ContentLoader
           height={17}
-          primaryColor={palette.alt.first}
-          secondaryColor={palette.alt.second}
+          primaryColor={palette.alt.second}
+          secondaryColor={palette.alt.third}
           speed={2}
           width={400}
           style={{ display: 'flex', margin: 'auto', width: '100%', paddingBottom: '10px' }}
@@ -140,8 +140,8 @@ const FeedLoader = () => {
         </ContentLoader>
         <ContentLoader
           height={10}
-          primaryColor='#FFFB00'
-          secondaryColor='#FFAE00'
+          primaryColor='#FFFB00cc'
+          secondaryColor='#FFAE00cc'
           speed={2}
           width={400}
           style={{ display: 'flex', margin: 'auto', width: '100%', paddingBottom: '10px' }}
@@ -154,7 +154,7 @@ const FeedLoader = () => {
             y='0'
           />
         </ContentLoader>
-        <div style={{ width: '100%', margin: 'auto', background: `${palette.alt.first}`, borderRadius: '0.5rem' }} >
+        <div style={{ width: '100%', margin: 'auto', background: `${palette.alt.second}`, borderRadius: '0.5rem' }} >
           <ContentLoader
             height={250}
             primaryColor={palette.alt.second}
@@ -219,7 +219,7 @@ const FeedLoader = () => {
           </ContentLoader>
           <ContentLoader
             height={16}
-            primaryColor={palette.alt.first}
+            primaryColor={palette.alt.second}
             secondaryColor={palette.alt.third}
             speed={2}
             width={600}
