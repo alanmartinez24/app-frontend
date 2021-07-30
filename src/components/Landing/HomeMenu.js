@@ -8,7 +8,6 @@ import Tilt from 'react-tilt'
 import { Link } from 'react-router-dom'
 import '../../pages/Discover/discover.scss'
 import axios from 'axios'
-import CldImg from '../Miscellaneous/CldImg'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -204,7 +203,7 @@ class Home extends Component {
                                   className={classes.Tilt}
                                   options={{ max: 20 }}
                                 >
-                                  <CldImg
+                                  <img
                                     className={classes.ImageCard}
                                     src={item.imgSrc}
                                     alt={item.title}
@@ -270,7 +269,7 @@ class Home extends Component {
                                   className={classes.Tilt}
                                   options={{ max: 20 }}
                                 >
-                                  <CldImg
+                                  <img
                                     className={classes.ImageCard}
                                     src={item.imgSrc}
                                     alt={item.title}

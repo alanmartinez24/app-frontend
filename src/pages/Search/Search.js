@@ -24,7 +24,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.down('xs')]: {
-      background: '#2a2a2a',
       margin: '0px'
     }
   },

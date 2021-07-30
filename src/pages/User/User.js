@@ -53,10 +53,7 @@ const styles = theme => ({
     overflowX: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    overflowY: 'scroll',
-    [theme.breakpoints.down('xs')]: {
-      background: '#2a2a2a'
-    }
+    overflowY: 'scroll'
   },
   dialogContent: {
     padding: '8px 0px'

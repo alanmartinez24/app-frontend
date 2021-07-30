@@ -33,7 +33,7 @@ const styles = theme => ({
     minHeight: '15rem',
     maxHeight: '15rem',
     objectFit: 'cover',
-    backgroundColor: '#4f4f4f',
+    backgroundColor: theme.palette.alt.fifth,
     objectPosition: '50% 50%',
     alignItems: 'center',
     borderRadius: '0.5rem 0.5rem 0px 0px',
