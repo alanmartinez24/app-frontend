@@ -21,9 +21,6 @@ const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
   container: {
-    [theme.breakpoints.down('xs')]: {
-      backgroundColor: '#0f0f0f'
-    },
     minHeight: '100vh',
     maxWidth: '100vw',
     paddingBottom: '0px',

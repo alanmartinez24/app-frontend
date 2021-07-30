@@ -19,8 +19,7 @@ const styles = theme => ({
     minHeight: '800px',
     margin: '0 auto',
     [theme.breakpoints.down('sm')]: {
-      maxWidth: '85vw',
-      marginleft: '0'
+      maxWidth: '85vw'
     }
   },
   scrollDiv: {

@@ -32,11 +32,11 @@ const styles = theme => ({
       borderRadius: 10,
       margin: 0,
       '&:hover': {
-        background: '#fafafa05'
+        background: `${theme.palette.common.second}05`
       }
     },
     draggingListItem: {
-      background: '#fafafa05'
+      background: `${theme.palette.common.second}05`
     }
 })
 

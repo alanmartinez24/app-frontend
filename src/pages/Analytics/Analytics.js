@@ -56,10 +56,7 @@ const styles = theme => ({
     width: '100vw',
     overflowX: 'hidden',
     display: 'flex',
-    flexDirection: 'column',
-    [theme.breakpoints.down('xs')]: {
-      background: '#2a2a2a'
-    }
+    flexDirection: 'column'
   },
   cardContainer: {
     [theme.breakpoints.down('xs')]: {

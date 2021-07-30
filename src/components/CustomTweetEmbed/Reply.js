@@ -179,9 +179,7 @@ const Reply = ({ tweetData, classes }) => {
               target='_blank'
               underline='none'
             >
-              <div className={classes.tweetText}
-                style={{ fontSize: '0.9em' }}
-              >
+              <div className={classes.tweetText}>
                 {replyTweetText}
               </div>
             </Link>

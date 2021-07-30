@@ -477,8 +477,7 @@ class Collections extends Component {
           onClose={this.handleMenuClose}
           PaperProps={{
             style: {
-              width: '15ch',
-              backgroundColor: 'black'
+              width: '15ch'
             }
           }}
           anchorOrigin={{
