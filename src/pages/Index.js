@@ -89,7 +89,7 @@ class Index extends Component {
       const { toggleTheme } = this.props
       const userPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
       const lightMode = JSON.parse(localStorage.getItem('lightMode'))
-      if (lightMode || userPrefersLight) toggleTheme()
+      if (lightMode || (userPrefersLight && lightMode === null)) { toggleTheme() }
     } catch (err) {}
   }
 
