@@ -22,12 +22,6 @@ const styles = theme => ({
     margin: 0,
     padding: theme.spacing(1.5)
   },
-  dialogTitleText: {
-    fontSize: '1.3rem',
-    fontFamily: 'Gilroy',
-    fontWeight: '300',
-    color: '#fafafa'
-  },
   dialogContent: {
     root: {
       margin: 0,
@@ -79,23 +73,6 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
       open={dialogOpen}
       onClose={handleDialogClose}
       aria-labelledby='form-dialog-title'
-      PaperProps={{
-        style: {
-          backgroundColor: '#0A0A0A',
-          borderRadius: '25px',
-          boxShadow: '0px 0px 20px 6px rgba(255, 255, 255, 0.1)',
-          width: '80%',
-          padding: '1rem 0.5rem',
-          maxWidth: '600px',
-          color: '#fafafa',
-          maxHeight: '80vh'
-        }
-      }}
-      BackdropProps={{
-        style: {
-          backdropFilter: 'blur(3px)'
-        }
-      }}
     >
       <DialogTitle id='form-dialog-title'>
         <Typography variant='h3'>Reorder</Typography>
@@ -123,7 +100,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
         <LoaderButton
           onClick={handleCollectionReorder}
           fullWidth
-          backgroundColor='#00eab7'
+          variant='contained'
           buttonText='Save'
           color='#fff'
           isLoading={isLoading}
