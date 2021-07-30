@@ -46,7 +46,6 @@ const styles = theme => ({
   },
   replyTextWithBar: {
     padding: '10px 0px',
-    fontSize: '0.9em',
     textAlign: 'left',
     '&::before': {
       border: '1.2px solid #AAAAAA',
@@ -103,7 +102,6 @@ const styles = theme => ({
     boxShadow: '0px 0px 5px #AAAAAAA0',
     padding: '12px',
     borderRadius: '20px',
-    fontSize: '0.9em',
     marginTop: '10px'
   },
   videoTweetContainer: {

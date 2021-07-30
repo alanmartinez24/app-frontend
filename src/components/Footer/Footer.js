@@ -16,7 +16,6 @@ import PolicyDialog from '../PrivacyPolicy/PolicyDialog'
 const styles = theme => ({
   container: {
     display: 'none',
-    backgroundColor: '#0f0f0f',
     background: 'transparent',
     marginTop: '10px',
     marginBottom: '-20px',
