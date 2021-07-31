@@ -137,16 +137,14 @@ class Analytics extends Component {
   }
 
  getAllActions = async (voter, start, limit, type, actions) => {
-  const delay = ms => new Promise((resolve, reject) => setTimeout(resolve, ms))
   try {
-    await delay(3000)
     let data = (await axios.get(`https://eos.hyperion.eosrio.io/v2/history/get_actions?&filter=token.yup&account=${voter}&skip=${start}&limit=${limit}&sort=desc&${type}=${voter}`, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })).data
     actions = actions.concat(data.actions)
-    if (actions.length >= data.total.value) return actions
+   // if (actions.length >= data.total.value) return actions
 
-    actions = await this.getAllActions(voter, start + limit, limit, type, actions)
+    // actions = await this.getAllActions(voter, start + limit, limit, type, actions)
     return actions
   } catch (e) {
     console.log(e)
@@ -283,6 +281,8 @@ ratingPower = async () => {
 
         const account = (await axios.get(`${BACKEND_API}/levels/user/${username}`)).data
         this.setState({ isLoading: false, account: account })
+        this.ratingPower()
+        this.getDistributions(account._id)
         let income = await getCache('income:' + account._id, 24 * 60 * 60000)
         let outgoing = await getCache('outgoing:' + account._id, 24 * 60 * 60000)
 
@@ -296,12 +296,8 @@ ratingPower = async () => {
         }
         this.setState({ totalClaimedRewards: account.total_claimed_rewards })
 
-        await Promise.all([
-          this.ratingPower(),
-          this.getEarningsUser(account, income),
-          this.getHoldingsUser(account, income, outgoing),
-          this.getDistributions(account._id)
-        ])
+        this.getEarningsUser(account, income)
+        this.getHoldingsUser(account, income, outgoing)
       } catch (err) {
         this.setState({ hasError: true, isLoading: false })
       }
