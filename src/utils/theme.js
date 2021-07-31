@@ -243,6 +243,9 @@ export const theme = ({ palette }) => {
       }
     },
     MuiPaper: {
+      root: {
+        backgroundColor: palette.alt.third
+      },
       rounded: {
         borderRadius: '0.65rem'
       }
@@ -327,7 +330,7 @@ export const theme = ({ palette }) => {
     subtitle2: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 200,
+      fontWeight: 300,
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
       color: `${palette.common.third}DD`
@@ -397,14 +400,14 @@ export const theme = ({ palette }) => {
       lineHeight: '21px',
       color: `${palette.common.first}DE`,
       letterSpacing: '0.25%',
-      fontWeight: '300'
+      fontWeight: '400'
     },
     body3: {
       fontSize: '12px',
       lineHeight: '18px',
       color: `${palette.common.first}DD`,
       letterSpacing: '0.25%',
-      fontWeight: '200'
+      fontWeight: '300'
     },
     tooltip: {
       fontSize: '12px',
