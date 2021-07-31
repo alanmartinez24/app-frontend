@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Card, Grid, Typography } from '@material-ui/core'
-import CircleLoader from 'react-spinners/CircleLoader'
+import ChartLoader from './ChartLoader'
 
 const styles = theme => ({
     card: {
@@ -55,7 +55,6 @@ const styles = theme => ({
   })
 
 const DonutChart = (props) => {
-  const color = '#00E08E'
   const { classes, chartData, chartTitle } = props
 
   if (chartData && chartData.data) {
@@ -120,11 +119,9 @@ const DonutChart = (props) => {
         </div>
         <Grid container
           justify='center'
-          style={{ margin: '70px 0 110px 0' }}
+          style={{ margin: '0 0 50px 0' }}
         >
-          <CircleLoader loading
-            color={color}
-          />
+          <ChartLoader />
         </Grid>
       </div>
     </Card>)

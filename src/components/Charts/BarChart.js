@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { Card, Grid } from '@material-ui/core'
-import CircleLoader from 'react-spinners/CircleLoader'
-
+import ChartLoader from './ChartLoader'
 const styles = theme => ({
     avatarImage: {
       width: 100 - theme.spacing(),
@@ -175,11 +174,9 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
         </div>
         <Grid container
           justify='center'
-          style={{ margin: '10px 0 20px 0' }}
+          style={{ margin: '0 0 50px 0' }}
         >
-          <CircleLoader loading
-            color={color}
-          />
+          <ChartLoader />
         </Grid>
       </div>
     </Card>)

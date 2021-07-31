@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
 import { withStyles, useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import CircleLoader from 'react-spinners/CircleLoader'
+import ChartLoader from './ChartLoader'
 import { Card, Grid } from '@material-ui/core'
 
 const styles = theme => ({
@@ -40,7 +40,6 @@ const styles = theme => ({
 
 const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
   const { palette } = useTheme()
-  const color = '#00E08E'
 
   if (chartData) {
     let series = []
@@ -128,11 +127,9 @@ const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
         </div>
         <Grid container
           justify='center'
-          style={{ margin: '70px 0 110px 0' }}
+          style={{ margin: '0 0 50px 0' }}
         >
-          <CircleLoader loading
-            color={color}
-          />
+          <ChartLoader />
         </Grid>
       </div>
     </Card>)

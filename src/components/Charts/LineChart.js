@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, Grid, Typography } from '@material-ui/core'
-import CircleLoader from 'react-spinners/CircleLoader'
+import ChartLoader from './ChartLoader'
 
 const styles = theme => ({
     avatarImage: {
@@ -217,7 +217,6 @@ const LineChart = (props) => {
          <div className={classes.chartheader} >
            <Typography align='left'
              className={classes.chart}
-             style={{ color: 'white' }}
              variant='subtitle2'
            >
              {chartTitle}
@@ -225,11 +224,9 @@ const LineChart = (props) => {
          </div>
          <Grid container
            justify='center'
-           style={{ margin: '70px 0 110px 0' }}
+           style={{ margin: '0 0 50px 0' }}
          >
-           <CircleLoader loading
-             color={color}
-           />
+           <ChartLoader />
          </Grid>
        </div>
      </Card>)
