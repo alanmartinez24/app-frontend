@@ -436,7 +436,6 @@ class EditProfile extends Component {
       }
       return null
     }
-
     return (
       <ErrorBoundary>
         <>
@@ -490,6 +489,7 @@ class EditProfile extends Component {
                                 height='auto'
                                 src={this.state.avatar}
                                 width='100%'
+                                noLink
                               />
                             </div>
                           )}
@@ -527,6 +527,7 @@ class EditProfile extends Component {
                       id='name'
                       maxLength={17}
                       label='Name'
+                      multiline
                       onChange={this.handleFullnameChange}
                       type='text'
                       variant='outlined'

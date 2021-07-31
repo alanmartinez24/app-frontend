@@ -18,7 +18,7 @@ const styles = theme => ({
   }
 })
 
-function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
+function UserAvatar ({ src: _src, alt, style, username, classes, className, noLink }) {
   const userLetter = username && username[0].toUpperCase()
   const src = _src === ANONYMOUS_DEFAULT_AVATAR ? '' : _src
 
@@ -27,16 +27,35 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
     target.src = ANONYMOUS_DEFAULT_AVATAR
     target.style.visibility = 'hidden'
   }
-
   return (
     <Fade in
       timeout={1000}
     >
       <ErrorBoundary>
-        <Link style={{ textDecoration: 'none' }}
-          to={'/' + username}
-        >
-          <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
+        {/* Having a Link elem breaks Dropzone onClick, so need to remove that if through noLink prop */}
+        {!noLink ? (
+          <Link style={{ textDecoration: 'none' }}
+            to={'/' + username}
+          >
+            <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
+              <img alt={alt}
+                src={hashToUrl(src)}
+                style={style}
+                onError={setDefaultSrc}
+                className={className}
+              />
+              <Avatar alt={alt}
+                className={[classes.avatar, className]}
+                style={style}
+              >{userLetter && userLetter}
+              </Avatar>
+              <Avatar alt={alt}
+                className={[classes.avatar, className]}
+                style={style}
+              >{userLetter && userLetter}
+              </Avatar>
+            </ImageLoader>
+          </Link>) : (<ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
             <img alt={alt}
               src={hashToUrl(src)}
               style={style}
@@ -48,8 +67,12 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
               style={style}
             >{userLetter && userLetter}
             </Avatar>
-          </ImageLoader>
-        </Link>
+            <Avatar alt={alt}
+              className={[classes.avatar, className]}
+              style={style}
+            >{userLetter && userLetter}
+            </Avatar>
+          </ImageLoader>)}
       </ErrorBoundary>
     </Fade>
   )
@@ -61,7 +84,8 @@ UserAvatar.propTypes = {
   username: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  noLink: PropTypes.bool
 }
 
 export default withStyles(styles)(UserAvatar)
