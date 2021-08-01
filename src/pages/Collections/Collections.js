@@ -68,6 +68,7 @@ const styles = theme => ({
     zIndex: 1000,
     marginBottom: '25px',
     paddingLeft: '60px !important',
+    boxShadow: `0px -60px 0px ${theme.palette.alt.second}`,
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '40px !important'
     },
@@ -601,10 +602,10 @@ class Collections extends Component {
                 </Grid>
                 <Grid item
                   container
-                  lg={4}
+                  lg={isMinimize ? 3 : 4}
                   sm={2}
                   xs={4}
-                  justify='flex-end'
+                  justify={isMinimize ? 'flex-end' : 'flex-start'}
                 >
                   <IconButton
                     aria-label='more'
