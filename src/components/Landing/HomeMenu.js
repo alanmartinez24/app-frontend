@@ -494,21 +494,21 @@ class Home extends Component {
                 </Grid>
               </Grid>
               <Grid item
-                xs={12}
-              >
-                <Fade in
-                  timeout={2000}
-                >
-                  <Typography variant='h4'>
-                    Your Collections
-                  </Typography>
-                </Fade>
-              </Grid>
-              <Grid item
                 container
                 direction='column'
                 xs={12}
               >
+                <Grid item
+                  xs={12}
+                >
+                  <Fade in
+                    timeout={2000}
+                  >
+                    <Typography variant='h4'>
+                      Your Collections
+                    </Typography>
+                  </Fade>
+                </Grid>
                 <Grid
                   item
                   container
@@ -563,29 +563,30 @@ class Home extends Component {
                   })}
                 </Grid>
               </Grid>
-              <Grid item
-                xs={12}
-              >
-                <Fade in
-                  timeout={2000}
-                >
-                  <Typography variant='h4'>
-                    Browse
-                  </Typography>
-                </Fade>
-              </Grid>
-              <Grid item
-                container
-                direction='column'
-                xs={12}
-              >
+              <Grid item>
                 <Grid
-                  item
                   container
-                  spacing={3}
-                  className={classes.ItemsContainer}
+                  direction='column'
+                  xs={12}
                 >
-                  {browseMenuItems.map((item, index) => {
+                  <Grid
+                    item
+                    container
+                    spacing={3}
+                    className={classes.ItemsContainer}
+                  >
+                    <Grid item
+                      xs={12}
+                    >
+                      <Fade in
+                        timeout={2000}
+                      >
+                        <Typography variant='h4'>
+                          Browse
+                        </Typography>
+                      </Fade>
+                    </Grid>
+                    {browseMenuItems.map((item, index) => {
                     return (
                       <Grid
                         item
@@ -631,6 +632,7 @@ class Home extends Component {
                       </Grid>
                     )
                   })}
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
