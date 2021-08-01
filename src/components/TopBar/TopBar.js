@@ -56,7 +56,8 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
-    }
+    },
+    background: 'transparent'
   },
   topbuttons: {
     container1: {

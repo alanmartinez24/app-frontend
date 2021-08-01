@@ -375,10 +375,10 @@ export const theme = ({ palette }) => {
       paragraphSpacing: '16px'
     },
     title: {
-      fontSize: '16px',
-      lineHeight: '23px',
+      fontSize: '48px',
+      lineHeight: '48px',
       letterSpacing: '0.75%',
-      fontStyle: 'thin',
+      fontStyle: 600,
       color: `${palette.common.first}EF`
     },
     caption: {

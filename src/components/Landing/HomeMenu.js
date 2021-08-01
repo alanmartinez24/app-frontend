@@ -10,6 +10,8 @@ import '../../pages/Discover/discover.scss'
 import axios from 'axios'
 import Colors from '../../utils/colors.js'
 import Img from 'react-image'
+import Lottie from 'react-lottie-player'
+import lottieJson from '../../animations/laugh1.json'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -29,7 +31,6 @@ const styles = theme => ({
     },
     display: 'flex',
     marginLeft: '0px',
-    paddingBottom: '20px',
     overflowX: 'hidden'
   },
   mainFeed: {
@@ -44,32 +45,35 @@ const styles = theme => ({
     width: '100%',
     overflowY: 'scroll',
     marginLeft: 0,
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(0),
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
       overflowX: 'hidden',
-      paddingTop: theme.spacing(10),
-      padding: '0px 2rem'
+      paddingTop: theme.spacing(0),
+      padding: '0px 1rem'
     },
     [theme.breakpoints.up('md')]: {
       marginLeft: 190,
       width: `calc(100% - 190px)`,
-      paddingTop: theme.spacing(10)
+      paddingTop: theme.spacing(0)
     },
     [theme.breakpoints.up('lg')]: {
       marginLeft: 190,
       width: `calc(100% - 190px)`,
       padding: '0px 17vw 0px 3vw',
-      paddingTop: theme.spacing(10)
+      paddingTop: theme.spacing(0)
     },
     flex: 1,
-    padding: '0px 2.5rem'
+    padding: '0px 2.5rem',
+    zIndex: 1
   },
   gridContainer: {
     height: 'calc(100vh - 100px)',
+    marginTop: '-180',
     [theme.breakpoints.down('xs')]: {
       height: 'calc(100vh - 100px)',
-      width: '100%'
+      width: '100%',
+      margin: 0
     }
   },
   SectionHeader: {
@@ -124,8 +128,8 @@ const styles = theme => ({
       width: '50px'
     },
     [theme.breakpoints.down('xs')]: {
-      height: '40px',
-      width: '40px'
+      height: '30px',
+      width: '30px'
     }
   },
   recommendedContainer: {
@@ -137,6 +141,51 @@ const styles = theme => ({
   },
   recommendedImgContainer: {
     flexBasis: 'unset'
+  },
+  banner: {
+    position: 'relative',
+    zIndex: -10,
+    width: 'calc(120vw - 180px)',
+    marginLeft: `-${theme.spacing(8)}px`,
+    marginBottom: `-${theme.spacing(42)}px`,
+    [theme.breakpoints.down('md')]: {
+      width: '150vw',
+      marginTop: `-${theme.spacing(6)}px`
+    }
+  },
+  bannerImg: {
+    width: '100%',
+    height: `${theme.spacing(48)}px`,
+    backgroundSize: 'cover',
+    backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.third}ee),
+url('https://images.unsplash.com/photo-1533135091724-62cc5402aa20?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmxhY2slMjBhbmQlMjB3aGl0ZSUyMGFic3RyYWN0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80')`
+  },
+  bannerCard: {
+    height: '100%',
+    background: `${theme.palette.alt.third}22`,
+    backdropFilter: 'blur(10px)',
+    border: `3px solid ${theme.palette.common.first}01`
+  },
+  Title: {
+    fontSize: '40px',
+    lineHeight: `${theme.spacing(8)}px`,
+    background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)',
+    '-webkit-background-clip': 'text',
+    '-webkit-text-fill-color': 'transparent',
+    position: 'absolute',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '28px'
+    }
+  },
+  titleShadow: {
+    paddingBottom: `${theme.spacing(1)}px`,
+    fontSize: '40px',
+    color: theme.palette.alt.first,
+    lineHeight: `${theme.spacing(8)}px`,
+    textShadow: `0px 0px 40px ${theme.palette.alt.first}`,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '28px'
+    }
   }
 })
 
@@ -166,7 +215,6 @@ class Home extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-
             <Grid
               className={classes.gridContainer}
               container
@@ -179,13 +227,39 @@ class Home extends Component {
               <Grid item
                 xs={12}
               >
+
+                <div className={classes.banner}>
+                  <div className={classes.bannerImg} />
+                  <Lottie
+                    loop
+                    animationData={lottieJson}
+                    play
+                    background='transparent'
+                    speed='1.01'
+                    style={{ width: 25, height: 25, position: 'absolute', top: '84px', right: '44px' }}
+                  />
+                </div>
+              </Grid>
+              <Grid item
+                xs={12}
+                style={{ position: 'relative' }}
+              >
                 <Fade in
                   timeout={200}
                 >
-                  <Typography variant='h2'
+                  <Typography variant='h1'
                     className={classes.Title}
                   >
-                    Welcome, username
+                    Welcome, kabessa
+                  </Typography>
+                </Fade>
+                <Fade in
+                  timeout={200}
+                >
+                  <Typography variant='h1'
+                    className={classes.titleShadow}
+                  >
+                    Welcome, kabessa
                   </Typography>
                 </Fade>
               </Grid>
@@ -199,7 +273,7 @@ class Home extends Component {
                   alignItems='stretch'
                 >
                   <Grid item
-                    md={6}
+                    md={12}
                     xs={12}
                   >
                     <Fade in
@@ -207,14 +281,15 @@ class Home extends Component {
                     >
                       <Card elevation={0}
                         style={{ height: '100%' }}
+                        className={classes.bannerCard}
                       >
                         <CardContent>
-                          <Typography variant='body2'>Yup is a social network for curators. Use it to curate the web and earn influence.</Typography>
+                          <Typography variant='subtitle2'>You have a Yup Score of <strong>60/100</strong> and have you've earned <strong>253 YUP</strong></Typography>
                         </CardContent>
                         <CardContent>
                           <Button size='large'
                             variant='contained'
-                            style={{ backgroundColor: Colors.Green }}
+                            style={{ backgroundColor: Colors.Green, color: Colors.B2 }}
                           >Go To Profile</Button>
                         </CardContent>
                       </Card>
@@ -222,7 +297,7 @@ class Home extends Component {
                   </Grid>
                   <Grid
                     item
-                    md={6}
+                    md={12}
                     xs={12}
                   >
                     <Grid
@@ -230,11 +305,11 @@ class Home extends Component {
                       direction='row'
                       spacing={3}
                       alignItems='stretch'
-                      style={{ height: 'calc(50% + 12px)' }}
                     >
                       <Grid
                         item
                         xs={6}
+                        md={3}
                         style={{ height: '100%', alignContent: 'center' }}
                       >
                         <Link
@@ -254,7 +329,7 @@ class Home extends Component {
                                 <Typography
                                   variant='body2'
                                 >
-                                  💐  Create Collection
+                                  💐  New Collection
                                 </Typography>
                               </Grid>
                             </Card>
@@ -264,6 +339,7 @@ class Home extends Component {
                       <Grid
                         item
                         xs={6}
+                        md={3}
                         style={{ height: '100%', alignContent: 'center' }}
                       >
                         <Link
@@ -293,6 +369,7 @@ class Home extends Component {
                       <Grid
                         item
                         xs={6}
+                        md={3}
                         style={{ height: '100%', alignContent: 'center' }}
                       >
                         <Link
@@ -322,6 +399,7 @@ class Home extends Component {
                       <Grid
                         item
                         xs={6}
+                        md={3}
                         style={{ height: '100%', alignContent: 'center' }}
                       >
                         <Link
@@ -459,7 +537,7 @@ class Home extends Component {
                             className={classes.recommendedContainer}
                           >
                             <Grid item
-                              xs={3}
+                              xs={4}
                               lg={4}
                               xl={4}
                               className={classes.recommendedImgContainer}
@@ -471,12 +549,12 @@ class Home extends Component {
                               />
                             </Grid>
                             <Grid item
-                              xs={9}
+                              xs={8}
                               lg={8}
                               xl={8}
                             >
                               <Typography variant='h5'>{item.title}</Typography>
-                              <Typography variant='body2'>{item.title}</Typography>
+                              <Typography variant='h5'>25 posts</Typography>
                             </Grid>
                           </Grid>
                         </Link>
@@ -529,7 +607,7 @@ class Home extends Component {
                             className={classes.recommendedContainer}
                           >
                             <Grid item
-                              xs={3}
+                              xs={4}
                               lg={4}
                               xl={4}
                               className={classes.recommendedImgContainer}
@@ -541,12 +619,12 @@ class Home extends Component {
                               />
                             </Grid>
                             <Grid item
-                              xs={9}
+                              xs={8}
                               lg={8}
                               xl={8}
                             >
                               <Typography variant='h5'>{item.title}</Typography>
-                              <Typography variant='body2'>{item.title}</Typography>
+                              <Typography variant='h5'>{item.title}</Typography>
                             </Grid>
                           </Grid>
                         </Link>
