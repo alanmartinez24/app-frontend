@@ -157,14 +157,14 @@ const styles = theme => ({
     width: '100%',
     height: `${theme.spacing(48)}px`,
     backgroundSize: 'cover',
-    backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.third}ee),
-url('https://images.unsplash.com/photo-1533135091724-62cc5402aa20?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmxhY2slMjBhbmQlMjB3aGl0ZSUyMGFic3RyYWN0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80')`
+    backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.third}dd),
+url('')`
   },
   bannerCard: {
     height: '100%',
-    background: `${theme.palette.alt.third}22`,
+    background: `${theme.palette.alt.third}66`,
     backdropFilter: 'blur(10px)',
-    border: `3px solid ${theme.palette.common.first}01`
+    border: `3px solid ${theme.palette.common.first}03`
   },
   Title: {
     fontSize: '40px',
@@ -175,12 +175,13 @@ url('https://images.unsplash.com/photo-1533135091724-62cc5402aa20?ixid=MnwxMjA3f
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
       fontSize: '28px'
-    }
+    },
+    display: 'none'
   },
   titleShadow: {
     paddingBottom: `${theme.spacing(1)}px`,
     fontSize: '40px',
-    color: theme.palette.alt.first,
+    color: theme.palette.common.second,
     lineHeight: `${theme.spacing(8)}px`,
     textShadow: `0px 0px 40px ${theme.palette.alt.first}`,
     [theme.breakpoints.down('xs')]: {
@@ -290,7 +291,7 @@ class Home extends Component {
                           <Button size='large'
                             variant='contained'
                             style={{ backgroundColor: Colors.Green, color: Colors.B2 }}
-                          >Go To Profile</Button>
+                          >Profile</Button>
                         </CardContent>
                       </Card>
                     </Fade>

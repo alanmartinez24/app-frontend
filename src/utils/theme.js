@@ -180,7 +180,8 @@ export const theme = ({ palette }) => {
     },
     MuiMenu: {
       paper: {
-        backgroundColor: palette.alt.second
+        backgroundColor: `${palette.alt.second}CC`,
+        backdropFilter: 'blur(20px)'
       }
     },
     MuiMenuItem: {
