@@ -219,24 +219,27 @@ url('images/feeds/rainbowbanner.svg')`
 const linkItemConfig = [
   {
     name: '💐  New Collection',
-    link: 'sdfs',
-    onlyVisibleToUser: true
+    link: 'NEW_COLLECTION_MODAL',
+    onlyVisibleToUser: true,
+    internalLink: true
   },
   {
     name: '🏆  Leaderboards',
-    link: 'sdfs',
-    onlyVisibleToUser: false
-
+    link: '/leaderboard',
+    onlyVisibleToUser: false,
+    internalLink: true
   },
   {
     name: ' 📔  Documents',
-    link: 'sdfs',
-    onlyVisibleToUser: false
+    link: 'https://docs.yup.io',
+    onlyVisibleToUser: false,
+    internalLink: false
   },
   {
     name: '📊  Analytics',
-    link: 'sdfs',
-    onlyVisibleToUser: true
+    link: '/USER_PLACEHOLDER/analytics',
+    onlyVisibleToUser: true,
+    internalLink: true
   }
 ]
 
@@ -254,7 +257,7 @@ class Home extends Component {
       .catch(err => {
         console.error(err, 'ERROR: FETCHING HOME CONFIG')
       })
-    axios.get(`${BACKEND_API}/collections/recommended`).then(({ data }) => { this.setState({ recommendedCollections: data }); console.log(data) })
+    axios.get(`${BACKEND_API}/collections/recommended`).then(({ data }) => { this.setState({ recommendedCollections: data }) })
       .catch(err => {
         console.error(err, 'ERROR: FETCHING reccomended collections CONFIG')
       })
@@ -354,7 +357,7 @@ class Home extends Component {
                     if (!isUser && onlyVisibleToUser) { return }
                     return <HomeMenuLinkItem
                       name={name}
-                      link={link}
+                      link={link.replace('USER_PLACEHOLDER', isUser)}
                            />
                   })}
                 </Grid>
@@ -456,7 +459,7 @@ class Home extends Component {
                         className={classes.linkItemContainer}
                       >
                         <Link
-                          to={`/collections/${encodeURIComponent(coll.title)}/${coll.title}`}
+                          to={`/collections/${encodeURIComponent(coll.name)}/${coll._id}`}
                           className={classes.Link}
                         >
                           <Grid
@@ -485,7 +488,7 @@ class Home extends Component {
                               xl={8}
                             >
                               <Typography variant='h5'>{coll.name}</Typography>
-                              <Typography variant='h5'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
+                              <Typography variant='body2'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
                             </Grid>
                           </Grid>
                         </Link>
@@ -556,7 +559,7 @@ class Home extends Component {
                               xl={8}
                             >
                               <Typography variant='h5'>{coll.name}</Typography>
-                              <Typography variant='h5'>{coll.owner}</Typography>
+                              <Typography variant='body2'>{coll.owner}</Typography>
                             </Grid>
                           </Grid>
                         </Link>

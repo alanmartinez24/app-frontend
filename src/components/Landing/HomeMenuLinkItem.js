@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { Grid, Typography, Grow, Card } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
+import ConditionalLinkWrapper from '../Miscellaneous/ConditionalLinkWrapper'
 
 const styles = theme => ({
   link: {
@@ -29,8 +29,8 @@ const HomeMenuLinkItem = ({ link, name, classes }) => {
       md={3}
       className={classes.gridContainer}
     >
-      <Link
-        to={link}
+      <ConditionalLinkWrapper
+        href={link}
         className={classes.link}
       >
         <Grow in
@@ -51,7 +51,7 @@ const HomeMenuLinkItem = ({ link, name, classes }) => {
             </Grid>
           </Card>
         </Grow>
-      </Link>
+      </ConditionalLinkWrapper>
     </Grid>
   )
 }
