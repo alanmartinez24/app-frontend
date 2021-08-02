@@ -7,7 +7,6 @@ const { WEB_APP_URL } = process.env
 const ConditionalLinkWrapper = ({ children, href, ...restProps }) => {
   if (!href) return null
   const isNativeYupPost = href.startsWith(WEB_APP_URL) || href.startsWith('/')
-  console.log(`isNativeYupPost`, isNativeYupPost, href)
   return isNativeYupPost ? <Link {...restProps}
     to={href.replace(WEB_APP_URL, '')}
                            >{children}</Link>

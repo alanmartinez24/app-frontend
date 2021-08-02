@@ -219,27 +219,23 @@ url('images/feeds/rainbowbanner.svg')`
 const linkItemConfig = [
   {
     name: '💐  New Collection',
-    link: 'NEW_COLLECTION_MODAL',
-    onlyVisibleToUser: true,
-    internalLink: true
+    link: '/USER_PLACEHOLDER/?collectionDialogOpen=open',
+    onlyVisibleToUser: true
   },
   {
     name: '🏆  Leaderboards',
     link: '/leaderboard',
-    onlyVisibleToUser: false,
-    internalLink: true
+    onlyVisibleToUser: false
   },
   {
     name: ' 📔  Documents',
     link: 'https://docs.yup.io',
-    onlyVisibleToUser: false,
-    internalLink: false
+    onlyVisibleToUser: false
   },
   {
     name: '📊  Analytics',
     link: '/USER_PLACEHOLDER/analytics',
-    onlyVisibleToUser: true,
-    internalLink: true
+    onlyVisibleToUser: true
   }
 ]
 
