@@ -13,7 +13,7 @@ import Img from 'react-image'
 import Lottie from 'react-lottie-player'
 
 const BACKEND_API = process.env.BACKEND_API
-var isUser = true
+var isUser = false
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -202,10 +202,10 @@ url('images/feeds/rainbowbanner.svg')`
   },
   cardButton: {
     padding: '16px',
+    justifyContent: 'center',
     '&:hover': {
       boxShadow: `0px 0px 0px 2px ${theme.palette.alt.third}`
-    },
-    justifyContent: 'center'
+    }
   },
   primaryButton: {
     backgroundColor: Colors.Green,
@@ -364,6 +364,7 @@ class Home extends Component {
                               <Grid container
                                 style={{ height: '100%' }}
                                 alignItems='stretch'
+                                justify='center'
                               >
                                 <Typography
                                   variant='body2'
@@ -395,6 +396,7 @@ class Home extends Component {
                               <Grid container
                                 style={{ alignContent: 'center', height: '100%' }}
                                 alignItems='stretch'
+                                justify='center'
                               >
                                 <Typography
                                   variant='body2'
@@ -426,6 +428,7 @@ class Home extends Component {
                               <Grid container
                                 style={{ alignContent: 'center', height: '100%' }}
                                 alignItems='stretch'
+                                justify='center'
                               >
                                 <Typography
                                   variant='body2'
@@ -457,6 +460,7 @@ class Home extends Component {
                               <Grid container
                                 style={{ alignContent: 'center', height: '100%' }}
                                 alignItems='stretch'
+                                justify='center'
                               >
                                 <Typography
                                   variant='body2'
