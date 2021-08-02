@@ -27,7 +27,8 @@ const styles = theme => ({
     }
   },
   image: {
-    width: '100%',
+    width: '60px',
+    maxWidth: '100%',
     height: 'auto',
     aspectRatio: '1 / 1',
     borderRadius: '50%',
@@ -55,7 +56,6 @@ const styles = theme => ({
   },
   caption: {
     textAlign: 'left',
-    fontSize: '18px',
     [theme.breakpoints.down('md')]: {
       fontSize: '16px'
     },
@@ -234,7 +234,7 @@ class ListPreview extends Component {
               xs={1}
             >
               <Typography
-                variant='subtitle1'
+                variant='body1'
                 className={classes.rank}
                 color='primary'
               >
@@ -280,7 +280,7 @@ class ListPreview extends Component {
                   href={previewData.url}
                   style={{ textDecoration: 'none' }}
                 >
-                  <Typography variant='subtitle1'
+                  <Typography variant='body1'
                     className={classes.caption}
                     color='primary'
                   >

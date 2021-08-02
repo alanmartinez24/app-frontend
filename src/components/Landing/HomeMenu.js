@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Fade, Grow, Card, CardContent, Button } from '@material-ui/core'
+import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Tilt from 'react-tilt'
@@ -11,9 +11,10 @@ import axios from 'axios'
 import Colors from '../../utils/colors.js'
 import Img from 'react-image'
 import Lottie from 'react-lottie-player'
-import lottieJson from '../../animations/laugh1.json'
 
 const BACKEND_API = process.env.BACKEND_API
+var isUser = false
+const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
   container: {
@@ -87,7 +88,7 @@ const styles = theme => ({
   ItemContainer: {
     '&:hover': {
       ImageCard: {
-        boxShadow: '0px 0px 30px #fff'
+        boxShadow: `0px 0px 30px ${theme.palette.common.first}`
       },
       fontWeight: '500 !important'
     }
@@ -136,7 +137,7 @@ const styles = theme => ({
     borderRadius: 10,
     margin: '5px 0px',
     '&:hover': {
-      background: '#fafafa05'
+      background: `${theme.palette.alt.fifth}10`
     }
   },
   recommendedImgContainer: {
@@ -153,39 +154,64 @@ const styles = theme => ({
       marginTop: `-${theme.spacing(6)}px`
     }
   },
-  bannerImg: {
+  bannerBg: {
     width: '100%',
     height: `${theme.spacing(48)}px`,
     backgroundSize: 'cover',
-    backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.third}dd),
-url('')`
+    backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.second}cc),
+url('images/feeds/rainbowbanner.svg')`
   },
   bannerCard: {
     height: '100%',
-    background: `${theme.palette.alt.third}66`,
+    backgroundImage: `${isUser === true ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')"}`,
+    backgroundSize: 'cover',
     backdropFilter: 'blur(10px)',
-    border: `3px solid ${theme.palette.common.first}03`
-  },
-  Title: {
-    fontSize: '40px',
-    lineHeight: `${theme.spacing(8)}px`,
-    background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)',
-    '-webkit-background-clip': 'text',
-    '-webkit-text-fill-color': 'transparent',
-    position: 'absolute',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '28px'
+    padding: `${theme.spacing(3)}px`,
+    [theme.breakpoints.down('md')]: {
+      padding: `${theme.spacing(0.5)}px`
     },
-    display: 'none'
+    overflow: 'visible'
   },
-  titleShadow: {
+  bannerMediaUser: {
+    maxWidth: '40%',
+    maxHeight: '130%',
+    bottom: '16px',
+    right: '16px',
+    position: 'absolute'
+  },
+  bannerMediaNews: {
+    maxWidth: '40%',
+    maxHeight: '130%',
+    top: '-40px',
+    right: 0,
+    position: 'absolute'
+  },
+  titlePlain: {
     paddingBottom: `${theme.spacing(1)}px`,
-    fontSize: '40px',
-    color: theme.palette.common.second,
+    fontSize: `${theme.spacing(8)}px`,
+    color: Colors.W2,
     lineHeight: `${theme.spacing(8)}px`,
-    textShadow: `0px 0px 40px ${theme.palette.alt.first}`,
+    textShadow: `0px 0px 40px ${theme.palette.alt.first}33`,
     [theme.breakpoints.down('xs')]: {
-      fontSize: '28px'
+      fontSize: `${theme.spacing(4)}px`,
+      lineHeight: `${theme.spacing(4)}px`
+    }
+  },
+  subtitle: {
+    color: Colors.W2
+  },
+  cardButton: {
+    padding: '16px',
+    '&:hover': {
+      boxShadow: `0px 0px 0px 2px ${theme.palette.alt.third}`
+    }
+  },
+  primaryButton: {
+    backgroundColor: Colors.Green,
+    color: Colors.B2,
+    '&:hover': {
+      backgroundColor: Colors.Green,
+      boxShadow: `0px 0px 0px 2px ${Colors.Green}`
     }
   }
 })
@@ -230,39 +256,8 @@ class Home extends Component {
               >
 
                 <div className={classes.banner}>
-                  <div className={classes.bannerImg} />
-                  <Lottie
-                    loop
-                    animationData={lottieJson}
-                    play
-                    background='transparent'
-                    speed='1.01'
-                    style={{ width: 25, height: 25, position: 'absolute', top: '84px', right: '44px' }}
-                  />
+                  <div className={classes.bannerBg} />
                 </div>
-              </Grid>
-              <Grid item
-                xs={12}
-                style={{ position: 'relative' }}
-              >
-                <Fade in
-                  timeout={200}
-                >
-                  <Typography variant='h1'
-                    className={classes.Title}
-                  >
-                    Welcome, kabessa
-                  </Typography>
-                </Fade>
-                <Fade in
-                  timeout={200}
-                >
-                  <Typography variant='h1'
-                    className={classes.titleShadow}
-                  >
-                    Welcome, kabessa
-                  </Typography>
-                </Fade>
               </Grid>
               <Grid item
                 xs={12}
@@ -281,18 +276,59 @@ class Home extends Component {
                       timeout={300}
                     >
                       <Card elevation={0}
-                        style={{ height: '100%' }}
                         className={classes.bannerCard}
                       >
                         <CardContent>
-                          <Typography variant='subtitle2'>You have a Yup Score of <strong>60/100</strong> and have you've earned <strong>253 YUP</strong></Typography>
+                          <Grid container
+                            direction='row'
+                            justify='space-between'
+                            alignItems='center'
+                          >
+                            <Grid item
+                              xs={isMobile ? 12 : 7}
+                            >
+                              <Typography variant='h1'
+                                className={classes.titlePlain}
+                              >
+                                {isUser === true ? `Mirror Feed` : `Social Network for Curators`}
+
+                              </Typography>
+                              <Typography variant='subtitle1'
+                                className={classes.subtitle}
+                              >
+                                {isUser === true ? `Explore Mirror articles from all publications, all in one feed` : `Curate and share content across the web. Earn money and clout for your taste`}
+                              </Typography>
+                            </Grid>
+                            <Grid item
+                              container
+                              justify='center'
+                              xs={5}
+                              style={{ display: isMobile ? 'none' : 'inherit' }}
+                            >
+                              <Lottie
+                                loop
+                                animationData={`https://assets8.lottiefiles.com/private_files/lf30_q6eivnpo.json`}
+                                play
+                                background='transparent'
+                                speed='1.01'
+                                style={{ width: 200, height: 200, top: '84px', right: '44px', background: '#0a0a0a23', display: 'none' }}
+                              />
+                              <Img className={isUser === true ? (classes.bannerMediaUser) : (classes.bannerMediaNews)}
+                                src={isUser === true ? 'images/graphics/mirrorgraphic.svg' : 'images/graphics/coingraphic.png'}
+                              />
+                            </Grid>
+                          </Grid>
                         </CardContent>
-                        <CardContent>
+                        <CardActions>
                           <Button size='large'
                             variant='contained'
-                            style={{ backgroundColor: Colors.Green, color: Colors.B2 }}
-                          >Profile</Button>
-                        </CardContent>
+                            className={classes.primaryButton}
+                          >{isUser === true ? `Enter` : `Start Now`}</Button>
+                          {isUser === true ? null
+                            : (<Button size='large'
+                              variant='contained'
+                               >Learn More</Button>)}
+                        </CardActions>
                       </Card>
                     </Fade>
                   </Grid>
@@ -322,9 +358,10 @@ class Home extends Component {
                           >
                             <Card elevation={0}
                               style={{ height: '100%' }}
+                              className={classes.cardButton}
                             >
                               <Grid container
-                                style={{ padding: '16px', alignContent: 'center', height: '100%' }}
+                                style={{ height: '100%' }}
                                 alignItems='stretch'
                               >
                                 <Typography
@@ -352,9 +389,10 @@ class Home extends Component {
                           >
                             <Card elevation={0}
                               style={{ height: '100%' }}
+                              className={classes.cardButton}
                             >
                               <Grid container
-                                style={{ padding: '16px', alignContent: 'center', height: '100%' }}
+                                style={{ alignContent: 'center', height: '100%' }}
                                 alignItems='stretch'
                               >
                                 <Typography
@@ -382,9 +420,10 @@ class Home extends Component {
                           >
                             <Card elevation={0}
                               style={{ height: '100%' }}
+                              className={classes.cardButton}
                             >
                               <Grid container
-                                style={{ padding: '16px', alignContent: 'center', height: '100%' }}
+                                style={{ alignContent: 'center', height: '100%' }}
                                 alignItems='stretch'
                               >
                                 <Typography
@@ -412,9 +451,10 @@ class Home extends Component {
                           >
                             <Card elevation={0}
                               style={{ height: '100%' }}
+                              className={classes.cardButton}
                             >
                               <Grid container
-                                style={{ padding: '16px', alignContent: 'center', height: '100%' }}
+                                style={{ alignContent: 'center', height: '100%' }}
                                 alignItems='stretch'
                               >
                                 <Typography
@@ -467,9 +507,10 @@ class Home extends Component {
                               <Grid item>
                                 <Tilt
                                   className={classes.Tilt}
-                                  options={{ max: 10 }}
+                                  options={{ max: 10, scale: 1.1, perspective: 2000 }}
                                 >
-                                  <Card style={{ backgroundImage: `url(${item.imgSrc})` }}
+                                  <Card elevation={0}
+                                    style={{ backgroundImage: `url(${item.imgSrc})` }}
                                     alt={item.title}
                                     className={classes.ImageCard}
                                   >
@@ -498,6 +539,7 @@ class Home extends Component {
                 container
                 direction='column'
                 xs={12}
+                style={{ display: isUser === true ? 'inherit' : 'none' }}
               >
                 <Grid item
                   xs={12}
