@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
 const isMobile = window.innerWidth <= 600
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 
 const styles = theme => ({
   container: {
@@ -88,6 +89,10 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: '20px'
     }
+  },
+  linkItemContainer: {
+    alignContent: 'center',
+    height: '100%'
   },
   ItemContainer: {
     '&:hover': {
@@ -220,13 +225,13 @@ const linkItemConfig = [
   {
     name: '🏆  Leaderboards',
     link: 'sdfs',
-    mustBeUser: false
+    onlyVisibleToUser: false
 
   },
   {
     name: ' 📔  Documents',
     link: 'sdfs',
-    mustBeUser: false
+    onlyVisibleToUser: false
   },
   {
     name: '📊  Analytics',
@@ -238,24 +243,26 @@ const linkItemConfig = [
 class Home extends Component {
   state = {
     recommendedMenuItems: [],
-    browseMenuItems: []
+    recommendedCollections: []
   }
   componentDidMount () {
-    this.fetchHomeConfig()
+   this.fetchHomeConfig()
   }
 
   fetchHomeConfig () {
-    axios.get(`${BACKEND_API}/home-config`)
-      .then(({ data }) => {
-        this.setState({ recommendedMenuItems: data.slice(0, 4), browseMenuItems: data.slice(0, 8) })
-      })
+    axios.get(`${BACKEND_API}/home-config`).then(({ data }) => { this.setState({ recommendedMenuItems: data.slice(0, 4) }) })
       .catch(err => {
-        console.error(err, 'ERROR FETCHING HOME CONFIG')
+        console.error(err, 'ERROR: FETCHING HOME CONFIG')
+      })
+    axios.get(`${BACKEND_API}/collections/recommended`).then(({ data }) => { this.setState({ recommendedCollections: data }); console.log(data) })
+      .catch(err => {
+        console.error(err, 'ERROR: FETCHING reccomended collections CONFIG')
       })
   }
+
   render () {
-    const { classes, isUser } = this.props
-    const { recommendedMenuItems, browseMenuItems } = this.state
+    const { classes, isUser, userCollections } = this.props
+    const { recommendedMenuItems, recommendedCollections } = this.state
 
     return (
       <ErrorBoundary>
@@ -439,18 +446,18 @@ class Home extends Component {
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {browseMenuItems.map((item, index) => {
+                  {userCollections && userCollections.map((coll) => {
                     return (
                       <Grid
                         item
                         xs={6}
                         sm={4}
                         md={3}
-                        style={{ height: '100%', alignContent: 'center' }}
+                        className={classes.linkItemContainer}
                       >
                         <Link
-                          to={`/collections/${encodeURIComponent(item.title)}/${item.title}`}
-                          style={{ textDecoration: 'none' }}
+                          to={`/collections/${encodeURIComponent(coll.title)}/${coll.title}`}
+                          className={classes.Link}
                         >
                           <Grid
                             container
@@ -467,7 +474,7 @@ class Home extends Component {
                               className={classes.recommendedImgContainer}
                             >
                               <Img
-                                src={item.imgSrc}
+                                src={coll.imgSrcUrl}
                                 alt='thumbnail'
                                 className={classes.recommendedImg}
                               />
@@ -477,8 +484,8 @@ class Home extends Component {
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{item.title}</Typography>
-                              <Typography variant='h5'>25 posts</Typography>
+                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='h5'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
                             </Grid>
                           </Grid>
                         </Link>
@@ -510,18 +517,18 @@ class Home extends Component {
                         </Typography>
                       </Fade>
                     </Grid>
-                    {browseMenuItems.map((item, index) => {
+                    {recommendedCollections.map((coll) => {
                     return (
                       <Grid
                         item
                         xs={6}
                         sm={4}
                         md={3}
-                        style={{ height: '100%', alignContent: 'center' }}
+                        className={classes.linkItemContainer}
                       >
                         <Link
-                          to={`/collections/${encodeURIComponent(item.title)}/${item.title}`}
-                          style={{ textDecoration: 'none' }}
+                          to={`/collections/${encodeURIComponent(coll.name)}/${coll._id}`}
+                          className={classes.Link}
                         >
                           <Grid
                             container
@@ -538,7 +545,7 @@ class Home extends Component {
                               className={classes.recommendedImgContainer}
                             >
                               <Img
-                                src={item.imgSrc}
+                                src={coll.imgSrcUrl || DEFAULT_IMG}
                                 alt='thumbnail'
                                 className={classes.recommendedImg}
                               />
@@ -548,8 +555,8 @@ class Home extends Component {
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{item.title}</Typography>
-                              <Typography variant='h5'>{item.title}</Typography>
+                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='h5'>{coll.owner}</Typography>
                             </Grid>
                           </Grid>
                         </Link>
@@ -567,17 +574,18 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const account = accountInfoSelector(state)
-  const { collections } = state.userCollections[account.name] || {}
+  const { collections: userCollections } = state.userCollections[account && account.name] || {}
   return {
     isUser: account && account.name,
-    collections
+    userCollections
   }
 }
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
+  userCollections: PropTypes.object.isRequired,
   isUser: PropTypes.bool.isRequired
 }
 
