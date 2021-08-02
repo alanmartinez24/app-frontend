@@ -13,7 +13,7 @@ import Img from 'react-image'
 import Lottie from 'react-lottie-player'
 
 const BACKEND_API = process.env.BACKEND_API
-var isUser = false
+var isUser = true
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -204,7 +204,8 @@ url('images/feeds/rainbowbanner.svg')`
     padding: '16px',
     '&:hover': {
       boxShadow: `0px 0px 0px 2px ${theme.palette.alt.third}`
-    }
+    },
+    justifyContent: 'center'
   },
   primaryButton: {
     backgroundColor: Colors.Green,
