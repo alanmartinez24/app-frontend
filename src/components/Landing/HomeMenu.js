@@ -10,10 +10,11 @@ import '../../pages/Discover/discover.scss'
 import axios from 'axios'
 import Colors from '../../utils/colors.js'
 import Img from 'react-image'
-import Lottie from 'react-lottie-player'
+import { accountInfoSelector } from '../../redux/selectors'
+import HomeMenuLinkItem from './HomeMenuLinkItem'
+import { connect } from 'react-redux'
 
 const BACKEND_API = process.env.BACKEND_API
-var isUser = false
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -40,6 +41,9 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       paddingRight: '0vw'
     }
+  },
+  Link: {
+    textDecoration: 'none'
   },
   page: {
     background: 'transparent',
@@ -115,9 +119,6 @@ const styles = theme => ({
       boxShadow: '0px 0px 40px #ffffff30'
     }
   },
-  Link: {
-    textDecoration: 'none'
-  },
   recommendedImg: {
     height: '60px',
     width: '60px',
@@ -163,7 +164,7 @@ url('images/feeds/rainbowbanner.svg')`
   },
   bannerCard: {
     height: '100%',
-    backgroundImage: `${isUser === true ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')"}`,
+    // backgroundImage: `${isUser === true ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')"}`,
     backgroundSize: 'cover',
     backdropFilter: 'blur(10px)',
     padding: `${theme.spacing(3)}px`,
@@ -200,12 +201,6 @@ url('images/feeds/rainbowbanner.svg')`
   subtitle: {
     color: Colors.W2
   },
-  cardButton: {
-    padding: '16px',
-    '&:hover': {
-      boxShadow: `0px 0px 0px 2px ${theme.palette.alt.third}`
-    }
-  },
   primaryButton: {
     backgroundColor: Colors.Green,
     color: Colors.B2,
@@ -215,6 +210,30 @@ url('images/feeds/rainbowbanner.svg')`
     }
   }
 })
+
+const linkItemConfig = [
+  {
+    name: '💐  New Collection',
+    link: 'sdfs',
+    onlyVisibleToUser: true
+  },
+  {
+    name: '🏆  Leaderboards',
+    link: 'sdfs',
+    mustBeUser: false
+
+  },
+  {
+    name: ' 📔  Documents',
+    link: 'sdfs',
+    mustBeUser: false
+  },
+  {
+    name: '📊  Analytics',
+    link: 'sdfs',
+    onlyVisibleToUser: true
+  }
+]
 
 class Home extends Component {
   state = {
@@ -235,7 +254,7 @@ class Home extends Component {
       })
   }
   render () {
-    const { classes } = this.props
+    const { classes, isUser } = this.props
     const { recommendedMenuItems, browseMenuItems } = this.state
 
     return (
@@ -254,7 +273,6 @@ class Home extends Component {
               <Grid item
                 xs={12}
               >
-
                 <div className={classes.banner}>
                   <div className={classes.bannerBg} />
                 </div>
@@ -290,13 +308,13 @@ class Home extends Component {
                               <Typography variant='h1'
                                 className={classes.titlePlain}
                               >
-                                {isUser === true ? `Mirror Feed` : `Social Network for Curators`}
+                                {isUser ? `Mirror Feed` : `Social Network for Curators`}
 
                               </Typography>
                               <Typography variant='subtitle1'
                                 className={classes.subtitle}
                               >
-                                {isUser === true ? `Explore Mirror articles from all publications, all in one feed` : `Curate and share content across the web. Earn money and clout for your taste`}
+                                {isUser ? `Explore Mirror articles from all publications, all in one feed` : `Curate and share content across the web. Earn money and clout for your taste`}
                               </Typography>
                             </Grid>
                             <Grid item
@@ -305,16 +323,9 @@ class Home extends Component {
                               xs={5}
                               style={{ display: isMobile ? 'none' : 'inherit' }}
                             >
-                              <Lottie
-                                loop
-                                animationData={`https://assets8.lottiefiles.com/private_files/lf30_q6eivnpo.json`}
-                                play
-                                background='transparent'
-                                speed='1.01'
-                                style={{ width: 200, height: 200, top: '84px', right: '44px', background: '#0a0a0a23', display: 'none' }}
-                              />
-                              <Img className={isUser === true ? (classes.bannerMediaUser) : (classes.bannerMediaNews)}
-                                src={isUser === true ? 'images/graphics/mirrorgraphic.svg' : 'images/graphics/coingraphic.png'}
+
+                              <Img className={isUser ? (classes.bannerMediaUser) : (classes.bannerMediaNews)}
+                                src={isUser ? 'images/graphics/mirrorgraphic.svg' : 'images/graphics/coingraphic.png'}
                               />
                             </Grid>
                           </Grid>
@@ -323,8 +334,8 @@ class Home extends Component {
                           <Button size='large'
                             variant='contained'
                             className={classes.primaryButton}
-                          >{isUser === true ? `Enter` : `Start Now`}</Button>
-                          {isUser === true ? null
+                          >{isUser ? `Enter` : `Start Now`}</Button>
+                          {isUser ? null
                             : (<Button size='large'
                               variant='contained'
                                >Learn More</Button>)}
@@ -332,143 +343,13 @@ class Home extends Component {
                       </Card>
                     </Fade>
                   </Grid>
-                  <Grid
-                    item
-                    md={12}
-                    xs={12}
-                  >
-                    <Grid
-                      container
-                      direction='row'
-                      spacing={3}
-                      alignItems='stretch'
-                    >
-                      <Grid
-                        item
-                        xs={6}
-                        md={3}
-                        style={{ height: '100%', alignContent: 'center' }}
-                      >
-                        <Link
-                          to={`/?feed=mirror`}
-                          className={classes.Link}
-                        >
-                          <Grow in
-                            timeout={500}
-                          >
-                            <Card elevation={0}
-                              style={{ height: '100%' }}
-                              className={classes.cardButton}
-                            >
-                              <Grid container
-                                style={{ height: '100%' }}
-                                alignItems='stretch'
-                              >
-                                <Typography
-                                  variant='body2'
-                                >
-                                  💐  New Collection
-                                </Typography>
-                              </Grid>
-                            </Card>
-                          </Grow>
-                        </Link>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={6}
-                        md={3}
-                        style={{ height: '100%', alignContent: 'center' }}
-                      >
-                        <Link
-                          to={`/?feed=mirror`}
-                          className={classes.Link}
-                        >
-                          <Grow in
-                            timeout={500}
-                          >
-                            <Card elevation={0}
-                              style={{ height: '100%' }}
-                              className={classes.cardButton}
-                            >
-                              <Grid container
-                                style={{ alignContent: 'center', height: '100%' }}
-                                alignItems='stretch'
-                              >
-                                <Typography
-                                  variant='body2'
-                                >
-                                  📊  Analytics
-                                </Typography>
-                              </Grid>
-                            </Card>
-                          </Grow>
-                        </Link>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={6}
-                        md={3}
-                        style={{ height: '100%', alignContent: 'center' }}
-                      >
-                        <Link
-                          to='/'
-                          className={classes.Link}
-                        >
-                          <Grow in
-                            timeout={500}
-                          >
-                            <Card elevation={0}
-                              style={{ height: '100%' }}
-                              className={classes.cardButton}
-                            >
-                              <Grid container
-                                style={{ alignContent: 'center', height: '100%' }}
-                                alignItems='stretch'
-                              >
-                                <Typography
-                                  variant='body2'
-                                >
-                                  📔  Tutorials
-                                </Typography>
-                              </Grid>
-                            </Card>
-                          </Grow>
-                        </Link>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={6}
-                        md={3}
-                        style={{ height: '100%', alignContent: 'center' }}
-                      >
-                        <Link
-                          to={`/?feed=mirror`}
-                          className={classes.Link}
-                        >
-                          <Grow in
-                            timeout={500}
-                          >
-                            <Card elevation={0}
-                              style={{ height: '100%' }}
-                              className={classes.cardButton}
-                            >
-                              <Grid container
-                                style={{ alignContent: 'center', height: '100%' }}
-                                alignItems='stretch'
-                              >
-                                <Typography
-                                  variant='body2'
-                                >
-                                  🏆  Leaderboards
-                                </Typography>
-                              </Grid>
-                            </Card>
-                          </Grow>
-                        </Link>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                  {linkItemConfig.map(({ name, link, onlyVisibleToUser }) => {
+                    if (!isUser && onlyVisibleToUser) { return }
+                    return <HomeMenuLinkItem
+                      name={name}
+                      link={link}
+                           />
+                  })}
                 </Grid>
               </Grid>
               <Grid item
@@ -539,7 +420,7 @@ class Home extends Component {
                 container
                 direction='column'
                 xs={12}
-                style={{ display: isUser === true ? 'inherit' : 'none' }}
+                style={{ display: isUser ? 'inherit' : 'none' }}
               >
                 <Grid item
                   xs={12}
@@ -686,8 +567,18 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
-  classes: PropTypes.object.isRequired
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state)
+  const { collections } = state.userCollections[account.name] || {}
+  return {
+    isUser: account && account.name,
+    collections
+  }
 }
 
-export default withStyles(styles)(Home)
+Home.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isUser: PropTypes.bool.isRequired
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Home))
