@@ -73,6 +73,9 @@ export const lightPalette = {
 
 export const theme = ({ palette }) => {
   return { overrides: {
+    body: {
+      backgroundColor: palette.common.fifth
+    },
     MuiButton: {
       root: {
         textTransform: 'capitalize',
@@ -259,6 +262,11 @@ export const theme = ({ palette }) => {
     MuiStepLabel: {
       label: {
         color: `${palette.common.first} !important`
+      }
+    },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: 'transparent'
       }
     },
     MuiFab: {
