@@ -118,6 +118,20 @@ const styles = theme => ({
     transition: 'max-width 3s',
     'transition-timing-function': 'ease-in'
   },
+  drawerPaperMini: {
+    height: `calc(100vh - ${theme.spacing(2)}px)`,
+    borderRight: '0px solid',
+    backdropFilter: 'blur(0px)',
+    overflowX: 'hidden',
+    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+    backgroundColor: `${theme.palette.alt.second}00`,
+    borderRadius: '0.65rem',
+    maxWidth: '200px',
+    zIndex: 1000,
+    padding: `0px ${theme.spacing(1)}px`,
+    transition: 'max-width 3s',
+    'transition-timing-function': 'ease-in'
+  },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
@@ -603,8 +617,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
       <Drawer
         anchor='left'
         classes={{
-              classes.drawerPaperOpen
-            }}
+          paper: isShown ? classes.drawerPaperOpen : classes.drawerPaperMini
+        }}
         className={classes.drawer}
         onBackdropClick={handleDrawerClose}
         open={open}

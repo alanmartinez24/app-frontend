@@ -93,14 +93,15 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      padding: '0px 17vw'
+      padding: '0px 10vw'
     },
     [theme.breakpoints.up('md')]: {
       padding: '0px 17vw'
     },
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      padding: 0
     },
     flex: 1
   },
@@ -537,7 +538,7 @@ class User extends Component {
               spacing={showTabs ? 2 : 4}
             >
               <Grid item
-                lg={12}
+                lg={8}
                 md={10}
                 sm={12}
                 xs={12}
@@ -551,6 +552,12 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
+              <Grid item
+                xs={0}
+                sm={0}
+                md={2}
+                lg={3}
+              />
 
               {showTabs && collections.length > 0 ? (
                 <>
