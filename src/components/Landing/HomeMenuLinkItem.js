@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 })
 
-const HomeMenuLinkItem = ({ link, name, classes }) => {
+const HomeMenuLinkItem = ({ link, title, classes }) => {
   return (
     <Grid
       item
@@ -46,7 +46,7 @@ const HomeMenuLinkItem = ({ link, name, classes }) => {
               <Typography
                 variant='body2'
               >
-                {name}
+                {title}
               </Typography>
             </Grid>
           </Card>
@@ -57,7 +57,7 @@ const HomeMenuLinkItem = ({ link, name, classes }) => {
 }
 
 HomeMenuLinkItem.propTypes = {
-  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 }

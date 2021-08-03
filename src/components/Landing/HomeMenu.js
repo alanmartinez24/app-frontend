@@ -216,32 +216,10 @@ url('images/feeds/rainbowbanner.svg')`
   }
 })
 
-const linkItemConfig = [
-  {
-    name: '💐  New Collection',
-    link: '/USER_PLACEHOLDER/?collectionDialogOpen=open',
-    onlyVisibleToUser: true
-  },
-  {
-    name: '🏆  Leaderboards',
-    link: '/leaderboard',
-    onlyVisibleToUser: false
-  },
-  {
-    name: ' 📔  Documents',
-    link: 'https://docs.yup.io',
-    onlyVisibleToUser: false
-  },
-  {
-    name: '📊  Analytics',
-    link: '/USER_PLACEHOLDER/analytics',
-    onlyVisibleToUser: true
-  }
-]
-
 class Home extends Component {
   state = {
-    recommendedMenuItems: [],
+    linkItems: [],
+    cardItems: [],
     recommendedCollections: []
   }
   componentDidMount () {
@@ -249,19 +227,17 @@ class Home extends Component {
   }
 
   fetchHomeConfig () {
-    axios.get(`${BACKEND_API}/home-config`).then(({ data }) => { this.setState({ recommendedMenuItems: data.slice(0, 4) }) })
-      .catch(err => {
-        console.error(err, 'ERROR: FETCHING HOME CONFIG')
-      })
-    axios.get(`${BACKEND_API}/collections/recommended`).then(({ data }) => { this.setState({ recommendedCollections: data }) })
-      .catch(err => {
-        console.error(err, 'ERROR: FETCHING reccomended collections CONFIG')
-      })
+    axios.get(`${BACKEND_API}/home-config`).then(({ data: { cardItems, linkItems } }) => {
+      this.setState({ linkItems, cardItems })
+    })
+    axios.get(`${BACKEND_API}/collections/recommended`).then(({ data: recommendedCollections }) => {
+      this.setState({ recommendedCollections })
+    })
   }
 
   render () {
     const { classes, isUser, userCollections } = this.props
-    const { recommendedMenuItems, recommendedCollections } = this.state
+    const { linkItems, cardItems, recommendedCollections } = this.state
 
     return (
       <ErrorBoundary>
@@ -349,10 +325,10 @@ class Home extends Component {
                       </Card>
                     </Fade>
                   </Grid>
-                  {linkItemConfig.map(({ name, link, onlyVisibleToUser }) => {
-                    if (!isUser && onlyVisibleToUser) { return }
+                  {linkItems && linkItems.map(({ title, link, onlyVisibleToLoggedUser }) => {
+                    if (!isUser && onlyVisibleToLoggedUser) { return }
                     return <HomeMenuLinkItem
-                      name={name}
+                      title={title}
                       link={link.replace('USER_PLACEHOLDER', isUser)}
                            />
                   })}
@@ -369,7 +345,7 @@ class Home extends Component {
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {recommendedMenuItems.map((item, index) => {
+                  {cardItems && cardItems.map((item, index) => {
                     return (
                       <Grid
                         item
@@ -379,7 +355,7 @@ class Home extends Component {
                         sm={3}
                       >
                         <Link
-                          to={item.relativeURL}
+                          to={item.link}
                           className={classes.Link}
                         >
                           <Grow in
