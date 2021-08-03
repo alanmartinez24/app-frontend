@@ -8,7 +8,7 @@ import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
@@ -59,9 +59,8 @@ const styles = theme => ({
     padding: '8px 0px'
   },
   feedPage: {
-    marginLeft: '110px',
+    marginLeft: 0,
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '30px',
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
@@ -85,7 +84,7 @@ const styles = theme => ({
     }
   },
   infiniteScroll: {
-    width: '100vw'
+    width: 'max-content'
   },
   Mask: {
     outline: 'solid 0px #FAFAFA44'
@@ -94,11 +93,10 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      width: '100%'
+      padding: '0px 17vw'
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100% - 200px)`
+      padding: '0px 17vw'
     },
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
@@ -134,10 +132,8 @@ const styles = theme => ({
   collections: {
     color: theme.palette.common.first,
     zIndex: '999',
-    marginLeft: '20px',
     maxWidth: '25%',
     [theme.breakpoints.down('lg')]: {
-      margin: '0px 0px 0px 50px',
       width: '100%',
       maxWidth: '100%'
     }
@@ -536,12 +532,14 @@ class User extends Component {
             <Grid
               container
               direction='row'
-              justify='flex-start'
+              justify='center'
               alignItems='flex-start'
               spacing={showTabs ? 2 : 4}
             >
               <Grid item
-                lg={6}
+                lg={12}
+                md={10}
+                sm={12}
                 xs={12}
               >
                 <ProfileCard
@@ -553,16 +551,12 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
-              <Hidden mdDown>
-                <Grid item
-                  lg={6}
-                />
-              </Hidden>
 
               {showTabs && collections.length > 0 ? (
                 <>
                   <Grid item
                     xs={12}
+                    spacing={showTabs ? 2 : 4}
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
@@ -686,7 +680,7 @@ class User extends Component {
               ) : (
                 <>
                   <Grid item
-                    lg={6}
+                    lg={8}
                     xs={12}
                   >
                     <InfiniteScroll

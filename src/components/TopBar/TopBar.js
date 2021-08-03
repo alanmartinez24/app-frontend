@@ -104,7 +104,7 @@ const styles = theme => ({
     },
     overflowX: 'hidden'
   },
-  drawerPaper: {
+  drawerPaperOpen: {
     height: `calc(100vh - ${theme.spacing(2)}px)`,
     borderRight: '0px solid',
     backdropFilter: 'blur(15px)',
@@ -603,7 +603,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
       <Drawer
         anchor='left'
         classes={{
-              paper: classes.drawerPaper
+              classes.drawerPaperOpen
             }}
         className={classes.drawer}
         onBackdropClick={handleDrawerClose}
