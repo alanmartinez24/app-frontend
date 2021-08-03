@@ -8,7 +8,7 @@ import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Tabs, Tab, Dialog, DialogTitle, DialogContent, Hidden } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
@@ -539,8 +539,8 @@ class User extends Component {
             >
               <Grid item
                 lg={8}
-                md={10}
-                sm={12}
+                md={9}
+                sm={10}
                 xs={12}
               >
                 <ProfileCard
@@ -552,17 +552,20 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
-              <Grid item
-                xs={0}
-                sm={0}
-                md={2}
-                lg={3}
-              />
+              <Hidden mdDown>
+                <Grid item
+                  xs={0}
+                  md={2}
+                  lg={4}
+                />
+              </Hidden>
 
               {showTabs && collections.length > 0 ? (
                 <>
                   <Grid item
                     xs={12}
+                    sm={10}
+                    md={9}
                     spacing={showTabs ? 2 : 4}
                   >
                     <Tabs value={activeTab}
