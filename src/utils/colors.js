@@ -25,6 +25,7 @@ export default {
   Orange: '#F08C27',
   Yellow: '#FFB400',
   Red: '#EB3650',
+  Blue: '#3ebdc8',
   Green: '#00E08E',
   Moss: '#80B91C',
   W1: '#FDFDFD',
@@ -34,9 +35,9 @@ export default {
   W5: '#BABABA',
   W6: '#AAAAAA',
   B1: '#0A0A0A',
-  B2: '#161616',
-  B3: '#2A2A2A',
-  B4: '#6A6A6A',
-  B5: '#9A9A9A',
-  B6: '#1A1A1A'
+  B2: '#171717',
+  B3: '#1A1A1A',
+  B4: '#2A2A2A',
+  B5: '#4A4A4A',
+  B6: '#5a5a5a'
 }

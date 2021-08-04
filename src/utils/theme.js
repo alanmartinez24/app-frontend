@@ -280,6 +280,11 @@ export const theme = ({ palette }) => {
       root: {
         opacity: 0.2
       }
+    },
+    MuiSkeleton: {
+      wave: {
+        background: palette.alt.second
+      }
     }
   },
   typography: {
