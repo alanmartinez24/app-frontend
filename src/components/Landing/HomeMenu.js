@@ -227,7 +227,7 @@ class Home extends Component {
   }
 
   fetchHomeConfig () {
-    axios.get(`${BACKEND_API}/home-config`).then(({ data: { cardItems, linkItems } }) => {
+    axios.get(`${BACKEND_API}/home-config?limit=6`).then(({ data: { cardItems, linkItems } }) => {
       this.setState({ linkItems, cardItems })
     })
     axios.get(`${BACKEND_API}/collections/recommended`).then(({ data: recommendedCollections }) => {
