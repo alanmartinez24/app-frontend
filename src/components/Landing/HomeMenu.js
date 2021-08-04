@@ -227,10 +227,10 @@ class Home extends Component {
   }
 
   fetchHomeConfig () {
-    axios.get(`${BACKEND_API}/home-config?limit=6`).then(({ data: { cardItems, linkItems } }) => {
+    axios.get(`${BACKEND_API}/home-config/v2`).then(({ data: { cardItems, linkItems } }) => {
       this.setState({ linkItems, cardItems })
     })
-    axios.get(`${BACKEND_API}/collections/recommended`).then(({ data: recommendedCollections }) => {
+    axios.get(`${BACKEND_API}/collections/recommended?limit=7`).then(({ data: recommendedCollections }) => {
       this.setState({ recommendedCollections })
     })
   }
@@ -492,7 +492,8 @@ class Home extends Component {
                         </Typography>
                       </Fade>
                     </Grid>
-                    {recommendedCollections.map((coll) => {
+                    {recommendedCollections && recommendedCollections.map((coll) => {
+                    if (!coll) return null
                     return (
                       <Grid
                         item
