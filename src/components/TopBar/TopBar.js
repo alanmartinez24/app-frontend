@@ -584,18 +584,14 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         </Typography>
                       }
                     >
-                      {isMobile ? (
-                        <Button
-                          fullWidth
-                          className={classes.signupBtn}
-                          onClick={handleDialogOpen}
-                          variant='contained'
-                        >
-                          Sign Up/Login
-                        </Button>
-                      ) : (
-                        <div />
-                      )}
+                      <Button
+                        fullWidth
+                        className={classes.signupBtn}
+                        onClick={handleDialogOpen}
+                        variant='contained'
+                      >
+                        Sign Up/Login
+                      </Button>
                     </Tooltip>
                   )}
               </Grid>
@@ -623,7 +619,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
         onBackdropClick={handleDrawerClose}
         open={open}
         variant={listVariant}
-        onMouseEnter={() => setIsShown(true)}
         onMouseOver={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
         style={{

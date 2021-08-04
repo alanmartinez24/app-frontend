@@ -28,6 +28,10 @@ export const darkPalette = {
       primary: Colors.W1,
       secondary: Colors.W2
     },
+    shadow: {
+      first: '#000000',
+      second: Colors.B1
+    },
     action: {
       hover: Colors.B3
     }
@@ -64,6 +68,10 @@ export const lightPalette = {
     text: {
       primary: Colors.Black,
       secondary: Colors.DarkGrey
+    },
+    shadow: {
+      first: Colors.W6,
+      second: Colors.W5
     },
     action: {
       hover: Colors.W3

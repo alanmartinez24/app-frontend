@@ -44,7 +44,8 @@ const styles = theme => ({
       padding: theme.spacing(2)
     },
     text: {
-      color: theme.palette.common.third
+      color: `${theme.palette.common.third}AA`,
+      fontWeight: 400
     },
     Skeleton: {
       background: theme.palette.alt.fourth
@@ -177,22 +178,27 @@ const LineChart = (props) => {
    >
      <div className='mixed-chart'>
        <div className={classes.chartheader} >
-         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-           <Typography align='left'
-             className={classes.chart}
-             style={{ color: color }}
-             variant='h4'
-           >
-             ☺ {headerNumber.toFixed(2)}
-           </Typography>
-           <Typography align='left'
-             className={classes.text}
-             color={color}
-             variant='subtitle2'
-           >
-             {chartTitle}
-           </Typography>
-         </div>
+         <Grid container
+           direction='column'
+         >
+           <Grid item>
+             <Typography align='left'
+               className={classes.text}
+               variant='body2'
+             >
+               {chartTitle}
+             </Typography>
+           </Grid>
+           <Grid item>
+             <Typography align='left'
+               className={classes.chart}
+               style={{ color: color }}
+               variant='h4'
+             >
+               ☺ {headerNumber.toFixed(2)}
+             </Typography>
+           </Grid>
+         </Grid>
        </div>
        <Chart
          options={chart}

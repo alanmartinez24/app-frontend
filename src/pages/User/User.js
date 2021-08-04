@@ -29,7 +29,7 @@ import Img from 'react-image'
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const LIMIT_COLLECTIONS = 5
-const showTabs = window.innerWidth <= 1300
+const showTabs = window.innerWidth <= 960
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -64,7 +64,7 @@ const styles = theme => ({
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
-      marginLeft: '15px',
+      marginLeft: '2%',
       maxWidth: '96%'
     }
   },
@@ -95,7 +95,7 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       padding: '0px 10vw'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       padding: '0px 17vw'
     },
     [theme.breakpoints.down('xs')]: {
@@ -539,7 +539,7 @@ class User extends Component {
             >
               <Grid item
                 lg={8}
-                md={9}
+                md={8}
                 sm={10}
                 xs={12}
               >
@@ -552,10 +552,11 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
-              <Hidden mdDown>
+              <Hidden smDown>
                 <Grid item
                   xs={0}
-                  md={2}
+                  sm={2}
+                  md={3}
                   lg={4}
                 />
               </Hidden>
@@ -690,7 +691,9 @@ class User extends Component {
               ) : (
                 <>
                   <Grid item
+                    xl={7}
                     lg={8}
+                    md={8}
                     xs={12}
                   >
                     <InfiniteScroll
@@ -730,7 +733,7 @@ class User extends Component {
                     container
                     justify='space-between'
                     alignItems='center'
-                    lg={4}
+                    md={4}
                     spacing={2}
                     tourname='Collections'
                     className={classes.collections}
@@ -741,6 +744,7 @@ class User extends Component {
                           container
                           spacing={2}
                           xs={10}
+                          alignItems='center'
                         >
                           <Grid item>
                             <Typography variant='h4'>Collections</Typography>
