@@ -17,7 +17,6 @@ const styles = theme => ({
     boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10'
   },
   Loader: {
-    aspectRatio: '1 / 1',
     overflow: 'hidden'
   }
 })
