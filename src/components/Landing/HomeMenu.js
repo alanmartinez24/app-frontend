@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -169,7 +169,6 @@ url('images/feeds/rainbowbanner.svg')`
   },
   bannerCard: {
     height: '100%',
-    // backgroundImage: `${isUser === true ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')"}`,
     backgroundSize: 'cover',
     backdropFilter: 'blur(10px)',
     padding: `${theme.spacing(3)}px`,
@@ -236,7 +235,7 @@ class Home extends Component {
   }
 
   render () {
-    const { classes, isUser, userCollections } = this.props
+    const { classes, isUser, userCollections, theme } = this.props
     const { linkItems, cardItems, recommendedCollections } = this.state
 
     return (
@@ -277,6 +276,7 @@ class Home extends Component {
                     >
                       <Card elevation={0}
                         className={classes.bannerCard}
+                        style={{ backgroundImage: isUser ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')" }}
                       >
                         <CardContent>
                           <Grid container
@@ -521,7 +521,7 @@ class Home extends Component {
                               className={classes.recommendedImgContainer}
                             >
                               <Img
-                                src={coll.imgSrcUrl || DEFAULT_IMG}
+                                src={[coll.imgSrcUrl, DEFAULT_IMG]}
                                 alt='thumbnail'
                                 className={classes.recommendedImg}
                               />
@@ -552,9 +552,24 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   const account = accountInfoSelector(state)
+  const accountName = account && account.name
+
+  const accountNotLoaded = state.authInfo.isLoading || (state.authInfo.error && !state.authInfo.isLoading)
+  const cachedUsername = localStorage.getItem('cachedUsername')
+
+  const isUser = accountNotLoaded ? cachedUsername : accountName
+  console.log(`accountNotLoaded`, accountNotLoaded)
+  console.log(`state.authInfo`, state.authInfo)
+  console.log(`cachedUsername`, cachedUsername)
+  console.log(`accountName`, accountName)
+  console.log(`isUser`, isUser)
+
+  if (!cachedUsername && account.name) {
+    localStorage.setItem('cachedUsername', JSON.stringify(account.name))
+  }
   const { collections: userCollections } = state.userCollections[account && account.name] || {}
   return {
-    isUser: account && account.name,
+    isUser,
     userCollections
   }
 }
@@ -562,7 +577,8 @@ const mapStateToProps = (state) => {
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   userCollections: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   isUser: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Home))
+export default connect(mapStateToProps)(withStyles(styles)(withTheme(Home)))
