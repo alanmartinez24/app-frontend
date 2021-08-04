@@ -1111,8 +1111,8 @@ class VoteButton extends Component {
                     <Grid
                       item
                       style={{
-                          marginTop: !isShown ? (window.innerWidth > 2000 ? '-8px' : '-12px') : '-20px',
-                          marginLeft: '5px',
+                        marginTop: !isShown ? (window.innerWidth > 2000 ? '-8px' : '-14px') : '-20px',
+                        marginLeft: '5px',
                           fontWeight: 400,
                           width: '70px',
                           height: '50px',
