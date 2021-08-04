@@ -234,7 +234,7 @@ class ListPreview extends Component {
               xs={1}
             >
               <Typography
-                variant='body1'
+                variant='h5'
                 className={classes.rank}
                 color='primary'
               >
@@ -280,7 +280,7 @@ class ListPreview extends Component {
                   href={previewData.url}
                   style={{ textDecoration: 'none' }}
                 >
-                  <Typography variant='body1'
+                  <Typography variant='h5'
                     className={classes.caption}
                     color='primary'
                   >

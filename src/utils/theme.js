@@ -283,7 +283,10 @@ export const theme = ({ palette }) => {
     },
     MuiSkeleton: {
       wave: {
-        background: palette.alt.second
+        background: `${palette.alt.fourth}AA`,
+        '&::after': {
+          background: `linear-gradient(90deg, transparent, ${palette.alt.second}, transparent)`
+        }
       }
     }
   },
