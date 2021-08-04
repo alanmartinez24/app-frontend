@@ -64,12 +64,13 @@ const styles = theme => ({
     }
   },
   rank: {
+    fontSize: '18px',
     [theme.breakpoints.down('md')]: {
       padding: ' 0px 10px 0px 5px',
-      fontSize: '1.2rem'
+      fontSize: '16px'
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: '1.1rem'
+      fontSize: '14px'
     }
   },
   audiusPost: {
@@ -236,7 +237,6 @@ class ListPreview extends Component {
               <Typography
                 variant='subtitle1'
                 className={classes.rank}
-                color='primary'
               >
                 {rank}
               </Typography>
@@ -282,7 +282,6 @@ class ListPreview extends Component {
                 >
                   <Typography variant='subtitle1'
                     className={classes.caption}
-                    color='primary'
                   >
                     <LinesEllipsis
                       basedOn='letters'
