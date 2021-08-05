@@ -97,7 +97,8 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
                       },
                       sparkline: {
                         enabled: true
-                      }
+                      },
+                      fontFamily: 'Gilroy, sans-serif'
                     },
                     colors: [color, `#AAAAAA88`],
                     plotOptions: {

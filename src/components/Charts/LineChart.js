@@ -62,6 +62,7 @@ const LineChart = (props) => {
                 ],
                 chart: {
                   redrawOnWindowResize: true,
+                  fontFamily: 'Gilroy, sans-serif',
                 dropShadow: {
                   enabled: true,
                   enabledOnSeries: undefined,

@@ -47,7 +47,8 @@ const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
       series: series,
       chart: {
       height: 350,
-      type: 'donut'
+      type: 'donut',
+      fontFamily: 'Gilroy, sans-serif'
     },
     colors: colors,
     stroke: {
