@@ -687,33 +687,26 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   ) : (
                     <ListItem className={classes.ListItem}
                       button
+                      component={Link}
+                      to='/'
+                      onClick={handleDrawerClose}
+                      style={{ paddingLeft: '0px', backgroundColor: 'transparent' }}
                     >
-                      <Tooltip
-                        placement='bottom'
-                        disableTouchListener
-                        title={
-                          <Typography
-                            variant='tooltip'
-                          >
-                            Create an account!
-                          </Typography>
-                        }
-                      >
-                        {isMobile ? (
-                          <div />
+                      {isMobile ? (
+                        <div />
                         ) : (
-                          <Button
-                            fullWidth
-                            className={classes.signupBtn}
-                            onClick={() => { handleDialogOpen(); handleDrawerClose() }}
-                            variant='contained'
-                          >
-                            Sign Up/Login
-                          </Button>
+                          <ListItemIcon>
+                            <IconButton size='small'
+                              style={{ backgroundColor: `${palette.alt.third}70` }}
+                            > <img style={{ width: '20px', aspectRatio: '1 / 1' }}
+                              src={lightMode
+                                  ? 'images/logos/logo.svg'
+                                : 'images/logos/logo_w.svg'}
+                              />
+                            </IconButton>
+                          </ListItemIcon>
                         )}
-                      </Tooltip>
-                    </ListItem>
-                  )}
+                    </ListItem>)}
           </List>
         </div>
         <ListItem className={classes.ListItem}

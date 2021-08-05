@@ -61,12 +61,12 @@ const styles = theme => ({
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
     height: 20,
-    borderRadius: 5
+    borderRadius: 30
   },
   colorPrimary: {
     backgroundColor: '#AAAAAA50' },
   bar: {
-    borderRadius: 5,
+    borderRadius: 0,
     background: 'linear-gradient(45deg,#00e08e75,#00E08E)'
   }
 }))(LinearProgress)

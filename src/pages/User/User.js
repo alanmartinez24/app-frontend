@@ -84,7 +84,8 @@ const styles = theme => ({
     }
   },
   infiniteScroll: {
-    width: 'max-content'
+    width: 'max-content',
+    minWidth: '500px'
   },
   Mask: {
     outline: 'solid 0px #FAFAFA44'
