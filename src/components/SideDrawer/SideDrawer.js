@@ -35,7 +35,6 @@ const styles = theme => ({
     maxWidth: '15%',
     minWidth: '0px',
     borderRight: '0px solid',
-    background: '#1a1a1a',
     overflow: 'hidden',
     marginLeft: '7%',
     [theme.breakpoints.down('xs')]: {

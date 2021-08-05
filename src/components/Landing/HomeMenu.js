@@ -63,7 +63,7 @@ const styles = theme => ({
       paddingTop: theme.spacing(0)
     },
     flex: 1,
-    padding: '0px 10vw',
+    padding: '0px 20vw',
     zIndex: 1
   },
   gridContainer: {
@@ -305,14 +305,34 @@ class Home extends Component {
                           </Grid>
                         </CardContent>
                         <CardActions>
-                          <Button size='large'
-                            variant='contained'
-                            className={classes.primaryButton}
-                          >{isUser ? `Enter` : `Start Now`}</Button>
-                          {isUser ? null
-                            : (<Button size='large'
-                              variant='contained'
-                               >Learn More</Button>)}
+                          {isUser
+                           ? <Link className={classes.Link}
+                             to={'/?feed=mirror'}
+                             >
+                             <Button size='large'
+                               variant='contained'
+                               className={classes.primaryButton}
+                             >
+                               Enter</Button></Link>
+                                : <>
+                                  <Link className={classes.Link}
+                                    to={'/?feed=mirror'}
+                                  >
+                                    <Button size='large'
+                                      variant='contained'
+                                      className={classes.primaryButton}
+                                    > Start Now
+                                    </Button>
+                                  </Link>
+                                  <Link className={classes.Link}
+                                    to={'/?feed=mirror'}
+                                  >
+                                    <Button size='large'
+                                      variant='contained'
+                                    >Learn More</Button>
+                                  </Link>
+                                </>
+                          }
                         </CardActions>
                       </Card>
                     </Fade>
@@ -544,21 +564,15 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   const account = accountInfoSelector(state)
-  const accountName = account && account.name
+  const isUser = account && account.name
+  // const accountNotLoaded = state.authInfo.isLoading || (state.authInfo.error && !state.authInfo.isLoading)
+  // const cachedUsername = localStorage.getItem('cachedUsername')
 
-  const accountNotLoaded = state.authInfo.isLoading || (state.authInfo.error && !state.authInfo.isLoading)
-  const cachedUsername = localStorage.getItem('cachedUsername')
+  // const isUser = accountNotLoaded ? cachedUsername : accountName
 
-  const isUser = accountNotLoaded ? cachedUsername : accountName
-  console.log(`accountNotLoaded`, accountNotLoaded)
-  console.log(`state.authInfo`, state.authInfo)
-  console.log(`cachedUsername`, cachedUsername)
-  console.log(`accountName`, accountName)
-  console.log(`isUser`, isUser)
-
-  if (!cachedUsername && account.name) {
-    localStorage.setItem('cachedUsername', JSON.stringify(account.name))
-  }
+  // if (!cachedUsername && account.name) {
+  //   localStorage.setItem('cachedUsername', JSON.stringify(account.name))
+  // }
   const { collections: userCollections } = state.userCollections[account && account.name] || {}
   return {
     isUser,

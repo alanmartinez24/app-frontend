@@ -94,7 +94,7 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      padding: '0px 10vw'
+      padding: '0px 20vw'
     },
     [theme.breakpoints.up('lg')]: {
       padding: '0px 17vw'

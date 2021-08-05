@@ -43,7 +43,7 @@ const styles = theme => ({
       padding: '0px 17vw 0px 17vw'
     },
     flex: 1,
-    padding: '0px 10vw'
+    padding: '0px 20vw'
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',

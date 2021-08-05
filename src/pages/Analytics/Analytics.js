@@ -85,7 +85,7 @@ const styles = theme => ({
   page: {
     width: '100%',
     [theme.breakpoints.down('md')]: {
-      padding: '0px 10vw'
+      padding: '0px 20vw'
     },
     [theme.breakpoints.up('md')]: {
       padding: '0px 17vw'

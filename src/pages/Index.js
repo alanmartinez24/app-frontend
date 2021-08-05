@@ -147,7 +147,7 @@ class Index extends Component {
     return (
       <>
         <MuiThemeProvider theme={themeWithPalette}>
-          <CssBaseline style={{ backgroundColor: themeWithPalette.palette.alt.second }}>
+          <CssBaseline>
             <Paper style={{ backgroundColor: themeWithPalette.palette.alt.second, borderRadius: 0 }}>
               <Helmet>
                 <meta charSet='utf-8' />
