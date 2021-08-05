@@ -274,7 +274,8 @@ export const theme = ({ palette }) => {
     },
     MuiBackdrop: {
       root: {
-        backgroundColor: 'transparent'
+        backgroundColor: `${palette.common.third}40`,
+        backdropFilter: 'blur(10px)'
       }
     },
     MuiFab: {
