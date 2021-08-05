@@ -28,6 +28,10 @@ export const darkPalette = {
       primary: Colors.W1,
       secondary: Colors.W2
     },
+    shadow: {
+      first: '#000000',
+      second: Colors.B1
+    },
     action: {
       hover: Colors.B3
     }
@@ -65,6 +69,10 @@ export const lightPalette = {
       primary: Colors.Black,
       secondary: Colors.DarkGrey
     },
+    shadow: {
+      first: Colors.W6,
+      second: Colors.W5
+    },
     action: {
       hover: Colors.W3
     }
@@ -73,6 +81,9 @@ export const lightPalette = {
 
 export const theme = ({ palette }) => {
   return { overrides: {
+    body: {
+      backgroundColor: palette.common.fifth
+    },
     MuiButton: {
       root: {
         textTransform: 'capitalize',
@@ -261,6 +272,11 @@ export const theme = ({ palette }) => {
         color: `${palette.common.first} !important`
       }
     },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: 'transparent'
+      }
+    },
     MuiFab: {
       extended: {
         textTransform: 'capitalize',
@@ -271,6 +287,14 @@ export const theme = ({ palette }) => {
     MuiTouchRipple: {
       root: {
         opacity: 0.2
+      }
+    },
+    MuiSkeleton: {
+      wave: {
+        background: `${palette.alt.fourth}AA`,
+        '&::after': {
+          background: `linear-gradient(90deg, transparent, ${palette.alt.second}, transparent)`
+        }
       }
     }
   },

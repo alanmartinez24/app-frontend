@@ -29,7 +29,7 @@ const styles = theme => ({
     padding: '3%'
   },
   bigContainer: {
-    width: '100vw'
+    width: '100%'
   },
   infoContainer: {
     margin: '10px auto',
@@ -38,7 +38,7 @@ const styles = theme => ({
   },
   rootContainer: {
     margin: '45px auto 0px auto',
-    width: '70%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,7 +48,7 @@ const styles = theme => ({
       marginTop: '30px'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '85%'
+      width: '100%'
     }
   },
   Tab: {

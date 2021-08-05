@@ -8,7 +8,7 @@ import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Tabs, Tab, Dialog, DialogTitle, DialogContent, Hidden } from '@material-ui/core'
 import axios from 'axios'
 import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
@@ -29,7 +29,7 @@ import Img from 'react-image'
 const BACKEND_API = process.env.BACKEND_API
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const LIMIT_COLLECTIONS = 5
-const showTabs = window.innerWidth <= 1300
+const showTabs = window.innerWidth <= 960
 const isMobile = window.innerWidth <= 600
 
 const styles = theme => ({
@@ -59,13 +59,12 @@ const styles = theme => ({
     padding: '8px 0px'
   },
   feedPage: {
-    marginLeft: '110px',
+    marginLeft: 0,
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '30px',
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
-      marginLeft: '15px',
+      marginLeft: '2%',
       maxWidth: '96%'
     }
   },
@@ -85,7 +84,8 @@ const styles = theme => ({
     }
   },
   infiniteScroll: {
-    width: '100vw'
+    width: 'max-content',
+    minWidth: '500px'
   },
   Mask: {
     outline: 'solid 0px #FAFAFA44'
@@ -94,15 +94,15 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      width: '100%'
+      padding: '0px 10vw'
     },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100% - 200px)`
+    [theme.breakpoints.up('lg')]: {
+      padding: '0px 17vw'
     },
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      padding: 0
     },
     flex: 1
   },
@@ -134,10 +134,8 @@ const styles = theme => ({
   collections: {
     color: theme.palette.common.first,
     zIndex: '999',
-    marginLeft: '20px',
     maxWidth: '25%',
     [theme.breakpoints.down('lg')]: {
-      margin: '0px 0px 0px 50px',
       width: '100%',
       maxWidth: '100%'
     }
@@ -536,12 +534,14 @@ class User extends Component {
             <Grid
               container
               direction='row'
-              justify='flex-start'
+              justify='center'
               alignItems='flex-start'
               spacing={showTabs ? 2 : 4}
             >
               <Grid item
-                lg={6}
+                lg={8}
+                md={8}
+                sm={10}
                 xs={12}
               >
                 <ProfileCard
@@ -553,9 +553,12 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
-              <Hidden mdDown>
+              <Hidden smDown>
                 <Grid item
-                  lg={6}
+                  xs={0}
+                  sm={2}
+                  md={3}
+                  lg={4}
                 />
               </Hidden>
 
@@ -563,6 +566,9 @@ class User extends Component {
                 <>
                   <Grid item
                     xs={12}
+                    sm={10}
+                    md={9}
+                    spacing={showTabs ? 2 : 4}
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
@@ -686,7 +692,9 @@ class User extends Component {
               ) : (
                 <>
                   <Grid item
-                    lg={6}
+                    xl={7}
+                    lg={8}
+                    md={8}
                     xs={12}
                   >
                     <InfiniteScroll
@@ -726,7 +734,7 @@ class User extends Component {
                     container
                     justify='space-between'
                     alignItems='center'
-                    lg={4}
+                    md={4}
                     spacing={2}
                     tourname='Collections'
                     className={classes.collections}
@@ -737,6 +745,7 @@ class User extends Component {
                           container
                           spacing={2}
                           xs={10}
+                          alignItems='center'
                         >
                           <Grid item>
                             <Typography variant='h4'>Collections</Typography>

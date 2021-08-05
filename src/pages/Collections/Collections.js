@@ -50,9 +50,10 @@ const styles = theme => ({
     overflowY: 'scroll'
   },
   feedPage: {
-    marginLeft: '40px',
+    marginLeft: '0px',
+    width: '550px',
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '30px',
+      marginLeft: '0px',
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {

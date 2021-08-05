@@ -45,7 +45,7 @@ import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 
-const drawerWidth = 190
+const drawerWidth = 200
 const { BACKEND_API } = process.env
 
 const styles = theme => ({
@@ -96,19 +96,41 @@ const styles = theme => ({
   },
   drawer: {
     flexShrink: 4,
-    background: 'transparent',
     paperAnchorDockedLeft: {
       borderRight: '4px solid'
     },
     [theme.breakpoints.up('sm')]: {
-      width: 190,
       flexShrink: 0
-    }
+    },
+    overflowX: 'hidden'
   },
-  drawerPaper: {
+  drawerPaperOpen: {
+    height: `calc(100vh - ${theme.spacing(2)}px)`,
     borderRight: '0px solid',
-    width: 190,
-    boxShadow: `inset -2px 0px 25px ${theme.palette.common.third}20`
+    backdropFilter: 'blur(15px)',
+    overflowX: 'hidden',
+    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+    backgroundColor: `${theme.palette.alt.second}88`,
+    borderRadius: '0.65rem',
+    maxWidth: '200px',
+    zIndex: 1000,
+    padding: `0px ${theme.spacing(1)}px`,
+    transition: 'max-width 3s',
+    'transition-timing-function': 'ease-in'
+  },
+  drawerPaperMini: {
+    height: `calc(100vh - ${theme.spacing(2)}px)`,
+    borderRight: '0px solid',
+    backdropFilter: 'blur(0px)',
+    overflowX: 'hidden',
+    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+    backgroundColor: `${theme.palette.alt.second}00`,
+    borderRadius: '0.65rem',
+    maxWidth: '200px',
+    zIndex: 1000,
+    padding: `0px ${theme.spacing(1)}px`,
+    transition: 'max-width 3s',
+    'transition-timing-function': 'ease-in'
   },
   drawerHeader: {
     display: 'flex',
@@ -123,8 +145,9 @@ const styles = theme => ({
     border: '0px solid #e6e6e6'
   },
   listItemLink: {
+    borderRadius: '0.65rem',
     '&:hover': {
-      backgroundColor: 'secondary'
+      backgroundColor: `${theme.palette.alt.second}40`
     }
   },
   bottomBar: {
@@ -142,6 +165,9 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       display: 'none'
     }
+  },
+  ListItem: {
+    borderRadius: '0.4rem'
   },
   menuButton: {
     [theme.breakpoints.up('md')]: {
@@ -234,12 +260,14 @@ const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes
       href='https://yup.io'
       style={{ textDecoration: 'none', display: 'none' }}
     >
-      <ListItem button>
+      <ListItem className={classes.ListItem}
+        button
+      >
         <ListItemIcon style={{ minWidth: '20px' }}>
           <Icon className='fal fa-globe' />
         </ListItemIcon>
         <ListItemText>
-          <Typography
+          <Typography variant='body2'
             className={classes.typography}
           >
             About
@@ -258,14 +286,15 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
       style={{ textDecoration: 'none' }}
       target='_blank'
     >
-      <ListItem button
+      <ListItem className={classes.ListItem}
+        button
         style={{ padding: '0px 16px 0px 5px' }}
       >
         <ListItemIcon>
           <Icon className='fal fa-plug' />
         </ListItemIcon>
         <ListItemText>
-          <Typography
+          <Typography variant='body2'
             className={classes.typography}
           >
             {' '}
@@ -464,6 +493,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     <ErrorBoundary>
       <AppBar className={classes.appBar}
         position='fixed'
+        onMouseEnter={isMobile ? 'handleDrawerOpen' : null}
+        onMouseLeave={isMobile ? 'handleDrawerClose' : null}
       >
         <Toolbar>
           <Grid
@@ -484,7 +515,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     className={classes.menuButton}
                     edge='start'
                     onClick={handleDrawerOpen}
-                    style={{ color: '#9a9a9a' }}
                   >
                     {accountName ? (
                       <StyledProfileAvatar username={username}
@@ -554,18 +584,14 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         </Typography>
                       }
                     >
-                      {isMobile ? (
-                        <Button
-                          fullWidth
-                          className={classes.signupBtn}
-                          onClick={handleDialogOpen}
-                          variant='contained'
-                        >
-                          Sign Up/Login
-                        </Button>
-                      ) : (
-                        <div />
-                      )}
+                      <Button
+                        fullWidth
+                        className={classes.signupBtn}
+                        onClick={handleDialogOpen}
+                        variant='contained'
+                      >
+                        Sign Up/Login
+                      </Button>
                     </Tooltip>
                   )}
               </Grid>
@@ -587,23 +613,29 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
       <Drawer
         anchor='left'
         classes={{
-              paper: classes.drawerPaper
-            }}
+          paper: isShown ? classes.drawerPaperOpen : classes.drawerPaperMini
+        }}
         className={classes.drawer}
         onBackdropClick={handleDrawerClose}
         open={open}
         variant={listVariant}
-        onMouseEnter={() => setIsShown(true)}
+        onMouseOver={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
+        style={{
+          width: isShown ? '200px' : 'inherit',
+          boxShadow: 'none'
+        }}
       >
         <div className={classes.drawerHeader}>
           <List style={{ width: '100%' }}>
             {accountName ? (
               <ListItem
+                className={classes.ListItem}
                 button
                 component={Link}
                 onClick={logProfileClick}
                 to={`/${username}`}
+                style={{ paddingLeft: '11px' }}
               >
                 <ListItemAvatar>
                   <Badge
@@ -621,67 +653,68 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     />
                   </Badge>
                 </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <span
-                      style={{
+                {isShown
+                ? <Grow in
+                  timeout={500}
+                  >
+                  <ListItemText
+                    style={{ margin: 0 }}
+                    primary={
+                      <span
+                        style={{
                               color: 'fourth',
                               fontSize: '15px',
                               fontWeight: 600
                             }}
-                    >
-                      {username}
-                    </span>
+                      >
+                        {username}
+                      </span>
                         }
-                  secondary={
-                    <span
-                      style={{
+                    secondary={
+                      <span
+                        style={{
                               color: palette.common.fourth,
                               fontWeight: 300,
                               fontSize: '10px'
                             }}
-                    >
-                      {formattedYupBalance} YUP
-                    </span>
+                      >
+                        {formattedYupBalance} YUP
+                      </span>
                         }
-                />
+                  />
+                </Grow> : null}
               </ListItem>
                   ) : (
-                    <ListItem button>
-                      <Tooltip
-                        placement='bottom'
-                        disableTouchListener
-                        title={
-                          <Typography
-                            variant='tooltip'
-                          >
-                            Create an account!
-                          </Typography>
-                        }
-                      >
-                        {isMobile ? (
-                          <div />
+                    <ListItem className={classes.ListItem}
+                      button
+                      component={Link}
+                      to='/'
+                      onClick={handleDrawerClose}
+                      style={{ paddingLeft: '0px', backgroundColor: 'transparent' }}
+                    >
+                      {isMobile ? (
+                        <div />
                         ) : (
-                          <Button
-                            fullWidth
-                            className={classes.signupBtn}
-                            onClick={() => { handleDialogOpen(); handleDrawerClose() }}
-                            variant='contained'
-                          >
-                            Sign Up/Login
-                          </Button>
+                          <ListItemIcon>
+                            <IconButton size='small'
+                              style={{ backgroundColor: `${palette.alt.third}70` }}
+                            > <img style={{ width: '20px', aspectRatio: '1 / 1' }}
+                              src={lightMode
+                                  ? 'images/logos/logo.svg'
+                                : 'images/logos/logo_w.svg'}
+                              />
+                            </IconButton>
+                          </ListItemIcon>
                         )}
-                      </Tooltip>
-                    </ListItem>
-                  )}
+                    </ListItem>)}
           </List>
         </div>
-        <ListItem
+        <ListItem className={classes.ListItem}
           button
           component={Link}
           to='/'
           onClick={handleDrawerClose}
-          style={{ paddingLeft: '5px' }}
+          style={{ paddingLeft: '0px' }}
         >
           <ListItemIcon>
             <Icon
@@ -689,21 +722,26 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               className='fal fa-home'
             />
           </ListItemIcon>
-          <ListItemText>
-            <span
-              className={classes.typography}
+          {isShown
+          ? <Grow in
+            timeout={600}
             >
-              {' '}
-              Home
-            </span>
-          </ListItemText>
+            <ListItemText >
+              <Typography variant='body2'
+                className={classes.typography}
+              >
+                {' '}
+                Home
+              </Typography>
+            </ListItemText>
+          </Grow> : null }
         </ListItem>
-        <ListItem
+        <ListItem className={classes.ListItem}
           button
           component={Link}
           to='/leaderboard'
           onClick={handleDrawerClose}
-          style={{ paddingLeft: '5px' }}
+          style={{ paddingLeft: '0px' }}
           tourname='LeaderboardButton'
         >
           <ListItemIcon style={{ textAlign: 'center' }}>
@@ -713,20 +751,25 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               style={{ overflow: 'visible', width: '100%' }}
             />
           </ListItemIcon>
-          <ListItemText>
-            <Typography
-              className={classes.typography}
+          {isShown
+          ? <Grow in
+            timeout={700}
             >
-              Leaderboards
-            </Typography>
-          </ListItemText>
+            <ListItemText >
+              <Typography variant='body2'
+                className={classes.typography}
+              >
+                Leaderboards
+              </Typography>
+            </ListItemText>
+          </Grow> : null }
         </ListItem>
-        <ListItem
+        <ListItem className={classes.ListItem}
           button
           component={Link}
           onClick={handleDrawerClose}
           to='/leaderboard?site=all&subject=collections&category=overall'
-          style={{ paddingLeft: '5px' }}
+          style={{ paddingLeft: '0px' }}
         >
           <ListItemIcon>
             <Icon
@@ -734,23 +777,28 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               className='fal fa-list'
             />
           </ListItemIcon>
-          <ListItemText>
-            <Typography
-              className={classes.typography}
+          {isShown
+          ? <Grow in
+            timeout={800}
             >
-              {' '}
-              Collections
-            </Typography>
-          </ListItemText>
+            <ListItemText >
+              <Typography variant='body2'
+                className={classes.typography}
+              >
+                {' '}
+                Collections
+              </Typography>
+            </ListItemText>
+          </Grow> : null }
         </ListItem>
 
         {account && account.name && (
-          <ListItem
+          <ListItem className={classes.ListItem}
             button
             component={Link}
             onClick={handleDrawerClose}
             to={`/${username}/analytics`}
-            style={{ paddingLeft: '5px' }}
+            style={{ paddingLeft: '0px' }}
             tourname='LeaderboardButton'
           >
             <ListItemIcon style={{ textAlign: 'center' }}>
@@ -760,13 +808,18 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 style={{ overflow: 'visible', width: '100%' }}
               />
             </ListItemIcon>
-            <ListItemText>
-              <Typography
-                className={classes.typography}
+            {isShown
+            ? <Grow in
+              timeout={800}
               >
-                Analytics
-              </Typography>
-            </ListItemText>
+              <ListItemText >
+                <Typography variant='body2'
+                  className={classes.typography}
+                >
+                  Analytics
+                </Typography>
+              </ListItemText>
+            </Grow> : null }
           </ListItem>)}
         <ListItem dense
           style={{ bottom: 10, position: 'absolute' }}
@@ -790,16 +843,21 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 />
               </IconButton>
             </Grid>
-            <Grid item
-              xs={3}
-            >
-              <IconButton
-                aria-label='theme-mode'
-                className={classes.margin}
-                size='small'
-                onClick={handleToggleTheme}
+            {isShown
+            ? <Grow in
+              timeout={500}
               >
-                {
+
+              <Grid item
+                xs={3}
+              >
+                <IconButton
+                  aria-label='theme-mode'
+                  className={classes.margin}
+                  size='small'
+                  onClick={handleToggleTheme}
+                >
+                  {
                 lightMode ? <Icon
                   fontSize='small'
                   className='fal fa-moon'
@@ -811,8 +869,10 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   />
               }
 
-              </IconButton>
-            </Grid>
+                </IconButton>
+              </Grid>
+            </Grow>
+          : null }
           </Grid>
         </ListItem>
         <Dialog
@@ -861,17 +921,15 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
           >
             <ListSubheader
               style={{
-                        color: '#c0c0c0',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        letterSpacing: '0.02em'
+                        color: palette.common.fifth,
+                        fontWeight: '500'
                       }}
             >
               Feeds
             </ListSubheader>
             <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
               <PrivateListItem>
-                <ListItem
+                <ListItem className={classes.ListItem}
                   button
                   dense
                   component={Link}
@@ -884,7 +942,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   />
                 </ListItem>
               </PrivateListItem>
-              <ListItem button
+              <ListItem className={classes.ListItem}
+                button
                 dense
                 component={Link}
                 onClick={handleDrawerClose}
@@ -895,7 +954,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem button
+              <ListItem className={classes.ListItem}
+                button
                 dense
                 component={Link}
                 onClick={handleDrawerClose}
@@ -906,7 +966,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem button
+              <ListItem className={classes.ListItem}
+                button
                 dense
                 component={Link}
                 onClick={handleDrawerClose}
@@ -914,11 +975,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
               >
                 <ListItemText
                   primary='Mirror Articles'
-                  style={{ color: '#c0c0c0', margin: 0 }}
+                  style={{ margin: 0 }}
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem
+              <ListItem className={classes.ListItem}
                 button
                 dense
                 component={Link}
@@ -930,7 +991,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem
+              <ListItem className={classes.ListItem}
                 button
                 dense
                 component={Link}
@@ -942,7 +1003,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem
+              <ListItem className={classes.ListItem}
                 button
                 dense
                 component={Link}
@@ -954,7 +1015,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem button
+              <ListItem className={classes.ListItem}
+                button
                 dense
                 component={Link}
                 onClick={handleDrawerClose}
@@ -965,7 +1027,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   className={classes.listButton}
                 />
               </ListItem>
-              <ListItem
+              <ListItem className={classes.ListItem}
                 button
                 dense
                 component={Link}
@@ -994,7 +1056,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             className={classes.list1}
             tourname='InfoDrawer'
           >
-            <ListItem
+            <ListItem className={classes.ListItem}
               button
               dense
               style={{ bottom: '0', marginTop: '6vh' }}

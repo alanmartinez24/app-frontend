@@ -15,6 +15,9 @@ const styles = theme => ({
     fontFamily: 'Gilroy',
     fontWeight: '600',
     boxShadow: 'inset 2px 2px 0px 10px #AAAAAAA10'
+  },
+  Loader: {
+    overflow: 'hidden'
   }
 })
 
@@ -36,7 +39,9 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
         <Link style={{ textDecoration: 'none' }}
           to={'/' + username}
         >
-          <ImageLoader src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}>
+          <ImageLoader className={classes.Loader}
+            src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}
+          >
             <img alt={alt}
               src={hashToUrl(src)}
               style={style}

@@ -2,45 +2,36 @@ import React from 'react'
 import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
 import { withStyles, useTheme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import CircleLoader from 'react-spinners/CircleLoader'
-import { Card, Grid } from '@material-ui/core'
+import { Typography, Card, Grid } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const styles = theme => ({
     card: {
-      paddingTop: theme.spacing(-10),
-      paddingBottom: theme.spacing(-10),
+      background: `${theme.palette.alt.third}`,
       backgroundSize: 'cover',
-      margin: 'auto',
-      marginBottom: '20px',
-      marginLeft: '1rem',
+      padding: theme.spacing(2),
       maxWidth: '100%',
       position: 'relative',
       borderRadius: '0.5rem',
-      border: '0px solid #ffffff',
-      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
+      border: `0px solid ${theme.palette.common.fourth}10`,
+      boxShadow: `0px 0px 40px ${theme.palette.alt.first}02`,
       [theme.breakpoints.down('xs')]: {
-        marginTop: theme.spacing(2),
-        marginLeft: '0px',
-        marginBottom: '0px',
         width: '100%'
       }
     },
     chart: {
-      marginBottom: '10px',
       color: theme.palette.common.first
-    },
-    chartheader: {
-      padding: '2rem'
     },
     text: {
       color: theme.palette.common.third
+    },
+    Skeleton: {
+      background: `${theme.palette.alt.fourth}AA`
     }
   })
 
 const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
   const { palette } = useTheme()
-  const color = '#00E08E'
 
   if (chartData) {
     let series = []
@@ -61,7 +52,7 @@ const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
     plotOptions: {
       radialBar: {
         track: {
-          background: '#2b2b2b'
+          background: '#AAAAAA44'
         },
           hollow: {
             size: '45%'
@@ -98,41 +89,67 @@ const RadialChart = ({ classes, chartData, chartTitle, colors }) => {
  return (
    <Card className={`${classes.card}`}>
      <div className='mixed-chart'>
-       <div className={classes.chartheader} >
-         <Typography align='left'
-           className={classes.chart}
-           variant='subtitle2'
+       <Grid container
+         justify='start'
+         direction='column'
+         spacing={3}
+       >
+         <Grid item
+           xs={12}
+           spacing={3}
          >
-           {chartTitle}
-         </Typography>
-       </div>
-       <Chart
-         options={chart}
-         series={chart.series}
-         type='radialBar'
-         width='100%'
-       />
+           <Typography align='left'
+             className={classes.chart}
+             variant='h5'
+           >
+             {chartTitle}
+           </Typography>
+         </Grid>
+         <Grid item
+           xs={12}
+         >
+           <Chart
+             options={chart}
+             series={chart.series}
+             type='radialBar'
+             width='100%'
+           />
+         </Grid>
+       </Grid>
      </div>
    </Card>)
 } else {
     return (<Card className={`${classes.card}`}>
-
       <div className='mixed-chart'>
-        <div className={classes.chartheader} >
-          <Typography align='left'
-            className={classes.chart}
-            variant='subtitle2'
-          >
-            {chartTitle}
-          </Typography>
-        </div>
         <Grid container
-          justify='center'
-          style={{ margin: '70px 0 110px 0' }}
+          justify='start'
+          direction='column'
+          spacing={3}
         >
-          <CircleLoader loading
-            color={color}
-          />
+          <Grid item
+            xs={12}
+            spacing={3}
+          >
+            <Typography align='left'
+              className={classes.chart}
+              variant='h4'
+            >
+              <Skeleton variant='text'
+                animation='wave'
+                className={classes.Skeleton}
+              />
+            </Typography>
+          </Grid>
+          <Grid item
+            xs={12}
+          >
+            <Skeleton variant='rect'
+              animation='wave'
+              className={classes.Skeleton}
+              width={'100%'}
+              height={150}
+            />
+          </Grid>
         </Grid>
       </div>
     </Card>)

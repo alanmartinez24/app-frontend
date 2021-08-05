@@ -140,15 +140,15 @@ class Index extends Component {
       )
     }
 
-    const metaTitle = 'Yup • Social Layer for the Internet'
+    const metaTitle = 'Yup • Social Network for Curators in Web3'
     const activePalette = lightMode ? lightPalette : darkPalette
     const themeWithPalette = createMuiTheme({ ...theme(activePalette), ...activePalette })
 
     return (
       <>
         <MuiThemeProvider theme={themeWithPalette}>
-          <CssBaseline>
-            <Paper style={{ background: themeWithPalette.palette.alt.second }}>
+          <CssBaseline style={{ backgroundColor: themeWithPalette.palette.alt.second }}>
+            <Paper style={{ backgroundColor: themeWithPalette.palette.alt.second, borderRadius: 0 }}>
               <Helmet>
                 <meta charSet='utf-8' />
                 <title> {metaTitle} </title>

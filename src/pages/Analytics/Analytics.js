@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LineChart from '../../components/Charts/LineChart'
 import BarChart from '../../components/Charts/BarChart'
-import RadialChart from '../../components/Charts/RadialChart'
+// import RadialChart from '../../components/Charts/RadialChart'
+import DonutChart from '../../components/Charts/DonutChart'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
@@ -10,7 +11,7 @@ import axios from 'axios'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { isSameDay } from 'date-fns'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
-import { levelColors } from '../../utils/colors'
+import Colors, { levelColors } from '../../utils/colors'
 import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
 import Footer from '../../components/Footer/Footer'
@@ -34,16 +35,14 @@ const styles = theme => ({
     fontSize: '1.7vh'
   },
   avatarImage: {
-    width: 100 - theme.spacing(),
-    height: 100 - theme.spacing(),
-    minHeight: 100 - theme.spacing(),
+    width: 100 - theme.spacing(3),
+    height: 100 - theme.spacing(3),
+    minHeight: 100 - theme.spacing(3),
     fontSize: '70px',
     borderRadius: '100%',
-    margin: '0 25px',
-    border: 'solid 3px #DADADA',
+    border: `solid 3px ${theme.palette.common.third}`,
     [theme.breakpoints.down('xs')]: {
       fontSize: '50px',
-      marginBottom: '6vw',
       borderRadius: '100%',
       width: '70px',
       height: '70px',
@@ -76,7 +75,6 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       width: '100vw'
     },
-    width: 'calc(100vw - 190px)',
     [theme.breakpoints.up('1700')]: {
       width: '100vw'
     }
@@ -86,35 +84,16 @@ const styles = theme => ({
   },
   page: {
     width: '100%',
-    marginLeft: 0,
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100%'
+      padding: '0px 10vw'
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100% - 190px)`
-    },
-    [theme.breakpoints.down('xs')]: {
-      backgroundSize: 'contain',
-      overflowX: 'hidden'
+      padding: '0px 17vw'
     },
     flex: 1
   },
   graphContainers: {
-    marginTop: '90px',
-    marginBottom: '40px',
-    [theme.breakpoints.up('xs')]: {
-      marginTop: '90px'
-    },
-    [theme.breakpoints.up('960')]: {
-      paddingLeft: '7%',
-      marginTop: '90px'
-    },
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: '15%',
-      marginTop: '90px'
-    }
+    padding: '90px 0px 20px 0px'
   }
 })
 
@@ -365,6 +344,7 @@ ratingPower = async () => {
               alignItems='center'
               justify='left'
               className={classes.graphContainers}
+              spacing={3}
             >
               <Grid item>
                 <UserAvatar
@@ -403,26 +383,16 @@ ratingPower = async () => {
                   </span>
                 </Typography>
               </Grid>
-              <Grid item
-                lg={3}
-                md={2}
-                xs={0}
-              />
             </Grid>
 
             <Grid container
               direction='row'
               alignItems='center'
               justify='center'
+              spacing={3}
             >
               <Grid item
-                lg={2}
-                md={1}
-                xs={0}
-              />
-              <Grid item
-                lg={4}
-                md={5}
+                sm={6}
                 xs={12}
               >
                 <BarChart
@@ -432,8 +402,7 @@ ratingPower = async () => {
                 />
               </Grid>
               <Grid item
-                lg={4}
-                md={5}
+                sm={6}
                 xs={12}
               >
                 <BarChart
@@ -444,19 +413,7 @@ ratingPower = async () => {
                 />
               </Grid>
               <Grid item
-                lg={2}
-                md={1}
-                xs={0}
-              />
-
-              <Grid item
-                lg={2}
-                md={1}
-                xs={0}
-              />
-              <Grid item
-                lg={4}
-                md={5}
+                sm={6}
                 xs={12}
               >
                 <LineChart
@@ -466,8 +423,7 @@ ratingPower = async () => {
                 />
               </Grid>
               <Grid item
-                lg={4}
-                md={5}
+                sm={6}
                 xs={12}
               >
                 <LineChart
@@ -476,40 +432,59 @@ ratingPower = async () => {
                   chartTitle='Holdings'
                 />
               </Grid>
-              <Grid item
-                lg={2}
-                md={1}
-                xs={0}
-              />
-            </Grid>
-
-            <Grid container
-              direction='row'
-              alignItems='center'
-              justify='center'
-            >
-              <Grid item
-                xs={6}
-                md={5}
-                lg={4}
+              {/* <Grid item
+                xs={12}
+                sm={6}
               >
                 <RadialChart
                   chartData={platformDistribution}
-                  colors={['#1DA1F2', '#FF0000', '#FF5700', '#00E08E']}
+                  colors={[Colors.Blue, Colors.Green, Colors.Orange, Colors.Red]}
                   className={classes}
                   chartTitle='Platform Distribution'
                 />
               </Grid>
               <Grid item
-                xs={6}
-                md={5}
-                lg={4}
+                xs={12}
+                sm={6}
               >
                 <RadialChart
                   chartData={categoryDistribution}
                   className={classes}
                   chartTitle='Categories Distribution'
+                  colors={[Colors.Blue, Colors.Green, Colors.Orange, Colors.Red]}
                 />
+              </Grid> */}
+              <Grid item
+                xs={12}
+              >
+                <Grid container
+                  direction='row'
+                  spacing={3}
+                  alignItems='stretch'
+                >
+                  <Grid item
+                    xs={12}
+                    sm={6}
+                  >
+                    <DonutChart
+                      chartData={platformDistribution}
+                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green]}
+                      className={classes}
+                      chartTitle='Platform Distribution'
+                    />
+                  </Grid>
+                  <Grid item
+                    xs={12}
+                    sm={6}
+                  >
+                    <DonutChart
+                      chartData={categoryDistribution}
+                      className={classes}
+                      chartTitle='Categories Distribution'
+                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green]}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </div>

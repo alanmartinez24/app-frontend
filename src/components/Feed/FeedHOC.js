@@ -44,13 +44,7 @@ const styles = theme => ({
     }
   },
   container: {
-    width: 'calc(100vw - 190px)',
-    [theme.breakpoints.down('sm')]: {
-      width: '100vw'
-    },
-    [theme.breakpoints.up('1700')]: {
-      width: '100vw'
-    }
+    width: '100vw'
   },
   page: {
     overflowY: 'none',

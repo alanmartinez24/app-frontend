@@ -51,26 +51,19 @@ const styles = theme => ({
     width: '100%',
     overflowY: 'scroll',
     marginLeft: 0,
-    paddingTop: theme.spacing(0),
+    overflowX: 'hidden',
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
-      overflowX: 'hidden',
       paddingTop: theme.spacing(0),
       padding: '0px 1rem'
     },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 190,
-      width: `calc(100% - 190px)`,
-      paddingTop: theme.spacing(0)
-    },
     [theme.breakpoints.up('lg')]: {
-      marginLeft: 190,
-      width: `calc(100% - 190px)`,
-      padding: '0px 17vw 0px 3vw',
+      marginLeft: 0,
+      padding: '0px 17vw 0px 17vw',
       paddingTop: theme.spacing(0)
     },
     flex: 1,
-    padding: '0px 2.5rem',
+    padding: '0px 10vw',
     zIndex: 1
   },
   gridContainer: {
@@ -152,12 +145,11 @@ const styles = theme => ({
   banner: {
     position: 'relative',
     zIndex: -10,
-    width: 'calc(120vw - 180px)',
-    marginLeft: `-${theme.spacing(8)}px`,
+    width: '150vw',
+    marginLeft: `-25vw`,
     marginBottom: `-${theme.spacing(42)}px`,
-    [theme.breakpoints.down('md')]: {
-      width: '150vw',
-      marginTop: `-${theme.spacing(6)}px`
+    [theme.breakpoints.down('xs')]: {
+      marginTop: `-${theme.spacing(7)}px`
     }
   },
   bannerBg: {
