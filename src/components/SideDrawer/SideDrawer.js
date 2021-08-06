@@ -75,7 +75,7 @@ const styles = theme => ({
   }
 })
 
-function SideDrawer ({ classes }) {
+const SideDrawer = ({ classes }) => {
   return (
     <ErrorBoundary>
       <div className='w3-hide-small'>

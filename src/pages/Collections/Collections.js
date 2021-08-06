@@ -68,13 +68,8 @@ const styles = theme => ({
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
-    paddingLeft: '60px !important',
     boxShadow: `0px -60px 0px ${theme.palette.alt.second}`,
-    [theme.breakpoints.down('lg')]: {
-      paddingLeft: '40px !important'
-    },
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: '20px !important',
       top: 0,
       marginBottom: '0px',
       marginLeft: '0px'
@@ -104,6 +99,8 @@ const styles = theme => ({
       marginTop: 50
     },
     [theme.breakpoints.up('md')]: {
+      marginLeft: '200px',
+      width: `calc(100vw - 200px)`,
       marginTop: '50px'
     },
     [theme.breakpoints.down('xs')]: {

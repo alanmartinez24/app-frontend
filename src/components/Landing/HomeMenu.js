@@ -14,7 +14,7 @@ import { accountInfoSelector } from '../../redux/selectors'
 import HomeMenuLinkItem from './HomeMenuLinkItem'
 import { connect } from 'react-redux'
 
-const BACKEND_API = process.env.BACKEND_API
+const { BACKEND_API, YUP_LANDING, WEB_APP_URL } = process.env
 const isMobile = window.innerWidth <= 600
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
 
@@ -171,7 +171,7 @@ url('images/feeds/rainbowbanner.svg')`
   },
   bannerMediaUser: {
     maxWidth: '40%',
-    maxHeight: '130%',
+    maxHeight: 190,
     bottom: '16px',
     right: '16px',
     position: 'absolute'
@@ -298,8 +298,8 @@ class Home extends Component {
                               style={{ display: isMobile ? 'none' : 'inherit' }}
                             >
 
-                              <Img className={isUser ? (classes.bannerMediaUser) : (classes.bannerMediaNews)}
-                                src={isUser ? 'images/graphics/mirrorgraphic.svg' : 'images/graphics/coingraphic.png'}
+                              <Img className={isUser ? classes.bannerMediaUser : classes.bannerMediaNews}
+                                src={isUser ? 'images/graphics/mirrorgraphic.png' : 'images/graphics/coingraphic.png'}
                               />
                             </Grid>
                           </Grid>
@@ -315,22 +315,25 @@ class Home extends Component {
                              >
                                Enter</Button></Link>
                                 : <>
-                                  <Link className={classes.Link}
-                                    to={'/?feed=mirror'}
+                                  <a className={classes.Link}
+                                    href={`${WEB_APP_URL}/?signupOpen=true`}
                                   >
                                     <Button size='large'
                                       variant='contained'
                                       className={classes.primaryButton}
                                     > Start Now
                                     </Button>
-                                  </Link>
-                                  <Link className={classes.Link}
-                                    to={'/?feed=mirror'}
+                                  </a>
+                                  <Button size='large'
+                                    variant='contained'
                                   >
-                                    <Button size='large'
-                                      variant='contained'
-                                    >Learn More</Button>
-                                  </Link>
+                                    <a className={classes.Link}
+                                      href={YUP_LANDING}
+                                      target='_blank'
+                                    >
+                                      Learn More
+                                    </a>
+                                  </Button>
                                 </>
                           }
                         </CardActions>
