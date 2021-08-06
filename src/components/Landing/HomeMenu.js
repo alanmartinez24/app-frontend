@@ -467,6 +467,7 @@ class Home extends Component {
                               <Img
                                 src={coll.imgSrcUrl}
                                 alt='thumbnail'
+                                loader={<div />}
                                 className={classes.recommendedImg}
                               />
                             </Grid>
@@ -539,6 +540,9 @@ class Home extends Component {
                               <Img
                                 src={[coll.imgSrcUrl, DEFAULT_IMG]}
                                 alt='thumbnail'
+                                loader={<img src={DEFAULT_IMG}
+                                  className={classes.recommendedImg}
+                                        />}
                                 className={classes.recommendedImg}
                               />
                             </Grid>
