@@ -81,6 +81,7 @@ const styles = theme => ({
     }
   },
   collectionContainer: {
+    marginLeft: 20,
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
       margin: '0px'

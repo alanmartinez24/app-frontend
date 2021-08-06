@@ -13,6 +13,7 @@ import Img from 'react-image'
 import { accountInfoSelector } from '../../redux/selectors'
 import HomeMenuLinkItem from './HomeMenuLinkItem'
 import { connect } from 'react-redux'
+// import { Skeleton } from '@material-ui/lab'
 
 const { BACKEND_API, YUP_LANDING, WEB_APP_URL } = process.env
 const isMobile = window.innerWidth <= 600

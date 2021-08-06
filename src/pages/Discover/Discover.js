@@ -1,7 +1,6 @@
 import React, { Component, memo } from 'react'
 import HomeMenu from '../../components/Landing/HomeMenu'
 import PropTypes from 'prop-types'
-import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Fab, Button, Typography, Fade } from '@material-ui/core'
@@ -404,7 +403,6 @@ class Discover extends Component {
     ) : (
       <div className={classes.container}>
         <div className={classes.page}>
-          <SideDrawer />
           <Grid container
             justify='center'
           >

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LineChart from '../../components/Charts/LineChart'
 import BarChart from '../../components/Charts/BarChart'
-// import RadialChart from '../../components/Charts/RadialChart'
+import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import DonutChart from '../../components/Charts/DonutChart'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import { withStyles } from '@material-ui/core/styles'
@@ -339,6 +339,7 @@ ratingPower = async () => {
         <div className={classes.container}>
           <div className={classes.page}>
             <Header />
+            <SideDrawer />
             <Grid container
               direction='row'
               alignItems='center'
@@ -409,7 +410,6 @@ ratingPower = async () => {
                   chartData={ratingPower}
                   chartTitle='Rating Power'
                   color=''
-                  unit='%'
                 />
               </Grid>
               <Grid item
