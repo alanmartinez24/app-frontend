@@ -364,11 +364,12 @@ ProfileAvatar.propTypes = {
 const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
 
 function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
+  const isMobile = window.innerWidth <= 480
   const [open, setOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [account, setAccount] = useState(null)
-  const [isShown, setIsShown] = useState(isTourOpen || false)
+  const [isShown, setIsShown] = useState(isMobile || false)
   const [notifications, setNotifications] = useState([])
   const [level, setLevel] = useState(defaultLevelInfo)
   const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
@@ -415,6 +416,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   }
 
   useEffect(() => {
+    if (isTourOpen === undefined) { return }
     setIsShown(isTourOpen)
   }, [isTourOpen])
 
@@ -485,11 +487,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const socialLevelColor = levelColors[quantile]
 
   const username = (level && level.levelInfo.username) || eosname
-  const isMobile = window.innerWidth <= 480
 
   const { palette } = useTheme()
-
-  console.log(`isShown`, isShown)
 
   return (
     <ErrorBoundary>

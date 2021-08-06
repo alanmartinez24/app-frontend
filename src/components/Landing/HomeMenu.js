@@ -324,16 +324,16 @@ class Home extends Component {
                                     > Start Now
                                     </Button>
                                   </a>
-                                  <Button size='large'
-                                    variant='contained'
+                                  <a className={classes.Link}
+                                    href={YUP_LANDING}
+                                    target='_blank'
                                   >
-                                    <a className={classes.Link}
-                                      href={YUP_LANDING}
-                                      target='_blank'
+                                    <Button size='large'
+                                      variant='contained'
                                     >
                                       Learn More
-                                    </a>
-                                  </Button>
+                                    </Button>
+                                  </a>
                                 </>
                           }
                         </CardActions>
