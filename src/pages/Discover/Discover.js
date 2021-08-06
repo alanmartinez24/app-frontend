@@ -36,10 +36,6 @@ const styles = theme => ({
       marginLeft: 0,
       width: '100%'
     },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100vw - 201px)`
-    },
     [theme.breakpoints.up('1600')]: {
       width: '100%',
       marginLeft: 0

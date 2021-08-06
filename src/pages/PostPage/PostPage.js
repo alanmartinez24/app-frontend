@@ -40,8 +40,6 @@ const styles = theme => ({
       marginTop: 50
     },
     [theme.breakpoints.up('md')]: {
-      marginLeft: '200px',
-      width: `calc(100vw - 200px)`,
       marginTop: '50px'
     },
     [theme.breakpoints.down('xs')]: {
