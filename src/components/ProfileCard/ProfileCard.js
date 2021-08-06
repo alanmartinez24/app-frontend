@@ -59,13 +59,14 @@ const styles = theme => ({
     boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
     background: 'transparent',
     backgroundSize: 'cover',
+    width: '550px',
     margin: 'auto',
     marginTop: '75px',
     maxWidth: '100vw',
     maxHeight: '225px',
     position: 'relative',
     [theme.breakpoints.down('lg')]: {
-      margin: '75px 0px 0px 0px'
+      margin: '75px 0px 0px 30px'
     },
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',

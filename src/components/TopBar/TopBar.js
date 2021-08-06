@@ -489,6 +489,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
 
   const { palette } = useTheme()
 
+  console.log(`isShown`, isShown)
+
   return (
     <ErrorBoundary>
       <AppBar className={classes.appBar}
