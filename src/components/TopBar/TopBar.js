@@ -440,7 +440,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
 
   const listVariant = !['xl', 'lg', 'md'].includes(width) ? 'temporary' : 'permanent'
   const avatar = level && level.levelInfo.avatar
-  const eosname = account && account.name
 
   const yupBalance =
     level &&
@@ -454,7 +453,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const quantile = level && level.levelInfo.quantile
   const socialLevelColor = levelColors[quantile]
 
-  const username = (level && level.levelInfo.username) || eosname
+  const username = (level && level.levelInfo.username)
   const isMobile = window.innerWidth <= 480
 
   const { palette } = useTheme()
