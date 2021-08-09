@@ -369,7 +369,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [account, setAccount] = useState(null)
-  const [isShown, setIsShown] = useState(isMobile || false)
+  const [isShown, setIsShown] = useState((isMobile || isTourOpen) || false)
   const [notifications, setNotifications] = useState([])
   const [level, setLevel] = useState(defaultLevelInfo)
   const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
