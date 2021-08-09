@@ -35,10 +35,10 @@ const styles = theme => ({
       marginLeft: '15px',
       marginBottom: '6vw',
       borderRadius: '100%',
-      width: '60px',
-      height: '60px',
-      minHeight: '60px',
-      minWidth: '60px'
+      width: '80px',
+      height: '80px',
+      minHeight: '80px',
+      minWidth: '80px'
     }
   },
   bio: {

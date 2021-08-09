@@ -94,7 +94,8 @@ const styles = theme => ({
     background:
       `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
     padding: '0% 3%',
-    width: '100%'
+    width: '100%',
+    backdropFilter: 'blur(2px)'
   }
 })
 

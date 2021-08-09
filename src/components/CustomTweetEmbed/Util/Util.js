@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
 import axios from 'axios'
@@ -30,6 +30,7 @@ export const parseTags = (str) => {
 
 // Converts http://www.example.com/page1/resource1 into --> example.com
 export const linkMentions = (word) => {
+      const { palette } =  useTheme()
      const re = /\B\@([\w\-]+)/gim
      const match = re.test(word)
      if (match) {
@@ -40,7 +41,7 @@ export const linkMentions = (word) => {
            <a
             style={
               {
-                color: theme.palette.common.first,
+                color: palette.common.first,
                 textDecoration: 'none',
                 fontWeight: 500
               }

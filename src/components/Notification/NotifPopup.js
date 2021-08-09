@@ -37,7 +37,9 @@ const styles = theme => ({
     overflow: 'scroll'
   },
   notifPaper: {
-    overflow: 'hidden'
+    overflow: 'hidden',
+    backgroundColor: `${theme.palette.alt.third}cc`,
+    backdropFilter: 'blur(20px)'
   },
   menuList: {
     padding: '0',

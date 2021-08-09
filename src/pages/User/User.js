@@ -10,7 +10,6 @@ import Header from '../../components/Header/Header'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
-import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import path from 'path'
@@ -532,7 +531,6 @@ class User extends Component {
         <div className={classes.container}>
           <div className={classes.page}>
             <Header />
-            <SideDrawer />
             <Grid
               container
               direction='row'
