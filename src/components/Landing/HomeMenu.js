@@ -156,8 +156,12 @@ const styles = theme => ({
   bannerBg: {
     width: '100%',
     height: `${theme.spacing(48)}px`,
+    backgroundSize: 'cover',
     backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.second}cc),
-url('images/feeds/rainbowbanner.svg')`
+url('images/feeds/rainbowbanner.svg')`,
+    [theme.breakpoints.down('xs')]: {
+      backgroundSize: 'auto'
+    }
   },
   bannerCard: {
     height: '100%',
