@@ -28,7 +28,7 @@ import Header from '../components/Header/Header'
 import TagManager from 'react-gtm-module'
 
 const tagManagerArgs = {
-  gtmId: 'GTM-KZR2RCG'
+  gtmId: 'UA-137858250-2'
 }
 
 TagManager.initialize(tagManagerArgs)
