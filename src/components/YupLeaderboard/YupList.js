@@ -32,19 +32,19 @@ const styles = theme => ({
     }
   },
   root: {
-    width: '100vw',
+    width: '100%',
     margin: 'auto'
   },
   listLoader: {
     backgroundSize: 'cover',
-    width: '70%',
+    width: '100%',
     minWidth: '250px',
     maxWidth: '100%',
     height: '100px',
     maxHeight: '100px',
     margin: '0 auto',
     [theme.breakpoints.down('sm')]: {
-      width: '85%',
+      width: '100%',
     },
     [theme.breakpoints.down('xs')]: {
       maxWidth: '85vw',
@@ -52,8 +52,7 @@ const styles = theme => ({
     }
   },
   scrollDiv: {
-    width: '100vw',
-    display: 'flex',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
    [theme.breakpoints.down('xs')]: {
@@ -61,7 +60,7 @@ const styles = theme => ({
    }
   },
   infiniteScroll: {
-    width: '100vw'
+    width: '100%'
   },
   iconButton: {
     color: '#f2f2f2',
@@ -204,9 +203,10 @@ class YupList extends Component {
         alignItems='center'
         direction='column'
         justifycontent='flex-start'
-        style={{ width: 'auto' }}
+        style={{ width: '100%' }}
       >
-        <Grid item>
+        <Grid item
+        style={{ width: '100%' }}>
           <div className={classes.root}>
             <YupListsMenu
               isMinimize={this.state.isMinimize}
@@ -216,7 +216,8 @@ class YupList extends Component {
         { isLoading ?  <div className={classes.feedLoader}>
                    <ListLoader />
                  </div> :
-        <Grid item>
+        <Grid item
+        style={{ width: '100%' }}>
           <div className={classes.scrollDiv}
           tourname='ListsFeed'>
           {this.state.isLoading ? (

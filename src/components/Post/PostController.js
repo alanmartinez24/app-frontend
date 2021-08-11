@@ -376,7 +376,7 @@ class PostController extends Component {
           />
         </ErrorBoundary>
       )
-    } else if (isArticlePost(post.caption) || isArticlePost(post.previewData.url)) {
+    } else if (isArticlePost(post.caption) || isArticlePost(post.previewData && post.previewData.url)) {
       return (
         <ErrorBoundary>
           <ArticlePost

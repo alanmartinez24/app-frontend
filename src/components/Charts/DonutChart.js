@@ -1,127 +1,162 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Card, Grid, Typography } from '@material-ui/core'
-import ChartLoader from './ChartLoader'
+import { withStyles, useTheme } from '@material-ui/core/styles'
+import { Typography, Card, Grid } from '@material-ui/core'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const styles = theme => ({
     card: {
-      paddingTop: theme.spacing(-10),
-      paddingBottom: theme.spacing(-10),
-      background: 'white',
+      background: `${theme.palette.alt.third}`,
       backgroundSize: 'cover',
-      margin: 'auto',
-      marginBottom: '20px',
-      marginLeft: '2rem',
+      padding: theme.spacing(2),
       maxWidth: '100%',
       position: 'relative',
       borderRadius: '0.5rem',
-      border: '0px solid #ffffff',
-      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
+      border: `0px solid ${theme.palette.common.fourth}10`,
+      boxShadow: `0px 0px 40px ${theme.palette.alt.first}02`,
       [theme.breakpoints.down('xs')]: {
-        marginTop: theme.spacing(10),
-        marginBottom: '0px',
         width: '100%'
-      }
+      },
+      height: '100%'
     },
-
-    name: {
-      color: theme.palette.common.third,
-      fontSize: '28px',
-      fontWeight: '500',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '20px'
-      }
-    },
-
     chart: {
-      marginBottom: '10px'
+      color: theme.palette.common.first
     },
     text: {
-      color: theme.palette.common.third,
-      fontSize: '12px',
-      padding: '0px',
-      fontFamily: 'Gilroy',
-      fontWeight: '100',
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '12px'
-      }
+      color: theme.palette.common.third
+    },
+    Skeleton: {
+      background: `${theme.palette.alt.fourth}AA`
     }
-
   })
 
-const DonutChart = (props) => {
-  const { classes, chartData, chartTitle } = props
+const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
+  const { palette } = useTheme()
 
-  if (chartData && chartData.data) {
+  if (chartData) {
+    let series = []
+    let labels = []
+    Object.values(chartData).forEach((val, i) => {
+      if (Object.keys(chartData)[i] !== 'total' && val !== 0)series.push(Number(val))
+    })
+    Object.keys(chartData).forEach((val, i) => {
+      if (val !== 'total' && Object.values(chartData)[i] !== 0) { labels.push(val.charAt(0).toUpperCase() + val.slice(1)) }
+    })
     const chart = {
-      series: [Number(chartData.twitter.toFixed(2)), Number(chartData.youtube.toFixed(2)), Number(chartData.reddit.toFixed(2)), Number(chartData.general.toFixed(2))],
-      dataLabels: {
-        enabled: false },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '55%'
+      series: series,
+      chart: {
+      height: 350,
+      type: 'donut',
+      fontFamily: 'Gilroy, sans-serif'
+    },
+    colors: colors,
+    stroke: {
+      width: 0
+    },
+    total: {
+      show: true,
+      label: 'Total Votes',
+      color: palette.common.first,
+      formatter: function (w) {
+        // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+        return chartData.total
+      }
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '55%',
+          track: {
+            background: '#2b2b2b'
+          },
+            hollow: {
+              size: '45%'
+            },
+          dataLabels: {
+            show: true,
+            name: {
+              fontSize: '22px'
+            },
+            value: {
+              fontSize: '15px',
+              color: palette.common.first,
+              formatter: function (w) {
+                          // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                          return Number(w).toFixed(2) + `%(${Math.round(chartData.total * w / 100)})`
+                        }
+                      }
+
           }
         }
-      },
-      fill: {
-        type: 'gradient'
-      },
-      stroke: {
-        colors: undefined
-      },
-      yaxis: {
-        show: false
-      },
-      labels: ['Twitter', 'Youtube', 'Reddit', 'General'],
-      legend: {
-        position: 'bottom'
       }
+    },
+    labels: labels
     }
  return (
    <Card className={`${classes.card}`}>
-     <div className='mixed-chart'
-       style={{ marginBottom: '90px' }}
-     >
-       <div className={classes.chartheader} >
-         <Typography align='left'
-           className={classes.chart}
-           style={{ color: 'white' }}
+     <div className='mixed-chart'>
+       <Grid container
+         justify='start'
+         direction='column'
+         spacing={3}
+       >
+         <Grid item
+           xs={12}
+           spacing={3}
          >
-           {chartTitle}
-         </Typography>
-       </div>
-       <Chart
-         options={chart}
-         series={chart.series}
-         type='donut'
-         width='100%'
-       />
+           <Typography align='left'
+             className={classes.chart}
+             variant='h5'
+           >
+             {chartTitle}
+           </Typography>
+         </Grid>
+         <Grid item
+           xs={12}
+         >
+           <Chart
+             options={chart}
+             series={chart.series}
+             type='donut'
+             width='100%'
+           />
+         </Grid>
+       </Grid>
      </div>
-     <FontAwesomeIcon icon='coffee' />
    </Card>)
 } else {
     return (<Card className={`${classes.card}`}>
-
       <div className='mixed-chart'>
-        <div className={classes.chartheader} >
-          <Typography align='left'
-            className={classes.chart}
-            style={{ color: 'white' }}
-          >
-            {chartTitle}
-          </Typography>
-        </div>
         <Grid container
-          justify='center'
-          style={{ margin: '0 0 50px 0' }}
+          justify='start'
+          direction='column'
+          spacing={3}
         >
-          <ChartLoader />
+          <Grid item
+            xs={12}
+            spacing={3}
+          >
+            <Typography align='left'
+              className={classes.chart}
+              variant='h4'
+            >
+              <Skeleton variant='text'
+                animation='wave'
+                className={classes.Skeleton}
+              />
+            </Typography>
+          </Grid>
+          <Grid item
+            xs={12}
+          >
+            <Skeleton variant='rect'
+              animation='wave'
+              className={classes.Skeleton}
+              width={'100%'}
+              height={150}
+            />
+          </Grid>
         </Grid>
       </div>
     </Card>)
@@ -130,7 +165,8 @@ const DonutChart = (props) => {
 
 DonutChart.propTypes = {
     classes: PropTypes.object.isRequired,
-    chartData: PropTypes.array.isRequired,
-    chartTitle: PropTypes.string.isRequired
+    chartData: PropTypes.object.isRequired,
+    chartTitle: PropTypes.string.isRequired,
+    colors: PropTypes.array
   }
 export default withStyles(styles)(DonutChart)

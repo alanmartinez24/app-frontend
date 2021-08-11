@@ -132,7 +132,8 @@ const styles = theme => ({
     width: '100%',
     zIndex: 5,
     background: `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
-    padding: '2% 3% 3% 3%'
+    padding: '2% 3% 3% 3%',
+    backdropFilter: 'blur(2px)'
   }
 })
 

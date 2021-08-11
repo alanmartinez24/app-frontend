@@ -22,25 +22,6 @@ const styles = theme => ({
     textDecoration: 'none !important',
     fontWeight: 500
   },
-  videoTweet: {
-    width: 'auto !important',
-    borderRadius: '0px 0px 20px 20px',
-    textAlign: 'center',
-    overflow: 'hidden',
-    [theme.breakpoints.down('sm')]: {
-      maxHeight: '200px'
-    },
-    '&::focus': {
-      outline: 'none !important',
-      border: 'none !important',
-      textDecoration: 'none !important'
-    },
-    '&::active': {
-      outline: 'none !important',
-      border: 'none !important',
-      textDecoration: 'none !important'
-    }
-  },
   header: {
     display: 'flex'
   },

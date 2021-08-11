@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, Grid, Typography } from '@material-ui/core'
-import ChartLoader from './ChartLoader'
+import { Skeleton } from '@material-ui/lab'
 
 const styles = theme => ({
     avatarImage: {
@@ -29,34 +29,26 @@ const styles = theme => ({
       }
     },
     card: {
-      paddingTop: theme.spacing(-10),
-      paddingBottom: theme.spacing(-10),
-      background: 'transparent',
+      background: `${theme.palette.alt.third}dd`,
       backgroundSize: 'cover',
-      margin: 'auto',
-      marginBottom: '20px',
-      marginLeft: '1rem',
       maxWidth: '100%',
       position: 'relative',
       borderRadius: '0.5rem',
-      border: '0px solid #ffffff',
-      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
+      border: `0px solid ${theme.palette.common.fourth}10`,
+      boxShadow: `0px 0px 40px ${theme.palette.alt.first}02`,
       [theme.breakpoints.down('xs')]: {
-        marginTop: theme.spacing(2),
-        marginLeft: '0px',
-        marginBottom: '0px',
         width: '100vw'
       }
     },
-
-    chart: {
-      marginBottom: '10px'
-    },
     chartheader: {
-      padding: '2rem'
+      padding: theme.spacing(2)
     },
     text: {
-      color: theme.palette.common.third
+      color: `${theme.palette.common.third}AA`,
+      fontWeight: 400
+    },
+    Skeleton: {
+      background: theme.palette.alt.fourth
     }
   })
 
@@ -70,6 +62,7 @@ const LineChart = (props) => {
                 ],
                 chart: {
                   redrawOnWindowResize: true,
+                  fontFamily: 'Gilroy, sans-serif',
                 dropShadow: {
                   enabled: true,
                   enabledOnSeries: undefined,
@@ -181,25 +174,32 @@ const LineChart = (props) => {
                 }
               }
  return (
-   <Card className={`${classes.card}`}>
+   <Card elevation='0'
+     className={`${classes.card}`}
+   >
      <div className='mixed-chart'>
        <div className={classes.chartheader} >
-         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-           <Typography align='left'
-             className={classes.chart}
-             style={{ color: color }}
-             variant='h4'
-           >
-             {headerNumber.toFixed(2)}
-           </Typography>
-           <Typography align='left'
-             className={classes.text}
-             color={color}
-             variant='subtitle2'
-           >
-             {chartTitle}
-           </Typography>
-         </div>
+         <Grid container
+           direction='column'
+         >
+           <Grid item>
+             <Typography align='left'
+               className={classes.text}
+               variant='body2'
+             >
+               {chartTitle}
+             </Typography>
+           </Grid>
+           <Grid item>
+             <Typography align='left'
+               className={classes.chart}
+               style={{ color: color }}
+               variant='h4'
+             >
+               ☺ {headerNumber.toFixed(2)}
+             </Typography>
+           </Grid>
+         </Grid>
        </div>
        <Chart
          options={chart}
@@ -212,21 +212,34 @@ const LineChart = (props) => {
    </Card>)
    } else {
      return (<Card className={`${classes.card}`}>
-
        <div className='mixed-chart'>
-         <div className={classes.chartheader} >
-           <Typography align='left'
-             className={classes.chart}
-             variant='subtitle2'
-           >
-             {chartTitle}
-           </Typography>
-         </div>
          <Grid container
-           justify='center'
-           style={{ margin: '0 0 50px 0' }}
+           justify='start'
+           direction='column'
          >
-           <ChartLoader />
+           <Grid item
+             xs={12}
+             className={classes.chartheader}
+           >
+             <Typography align='left'
+               variant='h4'
+             >
+               <Skeleton variant='text'
+                 animation='wave'
+                 className={classes.Skeleton}
+               />
+             </Typography>
+           </Grid>
+           <Grid item
+             xs={12}
+           >
+             <Skeleton variant='rect'
+               animation='wave'
+               className={classes.Skeleton}
+               width={'100%'}
+               height={160}
+             />
+           </Grid>
          </Grid>
        </div>
      </Card>)

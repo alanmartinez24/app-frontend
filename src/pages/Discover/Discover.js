@@ -1,10 +1,9 @@
 import React, { Component, memo } from 'react'
 import HomeMenu from '../../components/Landing/HomeMenu'
 import PropTypes from 'prop-types'
-import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Fab, Button, Typography } from '@material-ui/core'
+import { Grid, Fab, Button, Typography, Fade } from '@material-ui/core'
 import FeedHOC from '../../components/Feed/FeedHOC'
 import { Helmet } from 'react-helmet'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -14,7 +13,6 @@ import '../../components/Tour/tourstyles.css'
 import './discover.scss'
 import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
-import Fade from '@material-ui/core/Fade'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -35,10 +33,6 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       marginLeft: 0,
       width: '100%'
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100vw - 201px)`
     },
     [theme.breakpoints.up('1600')]: {
       width: '100%',
@@ -409,7 +403,6 @@ class Discover extends Component {
     ) : (
       <div className={classes.container}>
         <div className={classes.page}>
-          <SideDrawer />
           <Grid container
             justify='center'
           >

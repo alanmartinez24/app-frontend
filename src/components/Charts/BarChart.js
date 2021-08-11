@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { Card, Grid } from '@material-ui/core'
-import ChartLoader from './ChartLoader'
+import { Skeleton } from '@material-ui/lab'
+import LinearProgress from '@material-ui/core/LinearProgress'
+
 const styles = theme => ({
     avatarImage: {
       width: 100 - theme.spacing(),
@@ -15,7 +17,7 @@ const styles = theme => ({
       marginTop: '0px',
       marginBottom: '-4px',
       borderRadius: '100%',
-      border: 'solid 3px #DADADA',
+      border: `solid 3px ${theme.palette.alt.third}`,
       position: 'absolute',
       [theme.breakpoints.down('xs')]: {
         fontSize: '50px',
@@ -29,40 +31,45 @@ const styles = theme => ({
       }
     },
     card: {
-      paddingTop: theme.spacing(-10),
-      paddingBottom: theme.spacing(-10),
-      background: 'transparent',
+      padding: theme.spacing(2),
+      background: `${theme.palette.alt.third}dd`,
       backgroundSize: 'cover',
       margin: 'auto',
-      marginBottom: '20px',
-      marginLeft: '1rem',
       maxWidth: '100%',
       position: 'relative',
       borderRadius: '0.5rem',
-      border: '0px solid #ffffff',
-      boxShadow: `20px 20px 20px 0px ${theme.palette.common.first}04, -2px -2px 20px  ${theme.palette.alt.first}06, inset 12px 3px 20px 0px ${theme.palette.common.first}04, inset -3px -7px 17px 0px ${theme.palette.alt.second}4a, 5px 5px 9px 0px ${theme.palette.common.first}24, -20px -20px 12px ${theme.palette.alt.first}06, inset 1px 1px 6px 0px ${theme.palette.common.first}05, inset -1px -1px 2px 0px ${theme.palette.alt.second}0f`,
+      border: `0px solid ${theme.palette.common.fourth}10`,
+      boxShadow: `0px 0px 40px ${theme.palette.alt.first}02`,
       [theme.breakpoints.down('xs')]: {
-        marginTop: theme.spacing(2),
-        marginLeft: '0px',
-        marginBottom: '0px',
         width: '100%'
       }
     },
-
     chart: {
-      margin: '0 0 3rem 0'
-    },
-    chartheader: {
-      padding: '20px 2rem 0rem 20px'
+      margin: '0 0 0.75rem 0'
     },
     name: {
       color: 'contrastText'
     },
     text: {
-      color: 'contrastText',
-      marginTop: '6px'
+      color: 'contrastText'
+    },
+    Skeleton: {
+      background: `${theme.palette.alt.fourth}AA`
     }
   })
+
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 20,
+    borderRadius: 30
+  },
+  colorPrimary: {
+    backgroundColor: '#AAAAAA50' },
+  bar: {
+    borderRadius: 0,
+    background: 'linear-gradient(45deg,#00e08e75,#00E08E)'
+  }
+}))(LinearProgress)
 
 const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
         if (chartData) {
@@ -90,13 +97,14 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
                       },
                       sparkline: {
                         enabled: true
-                      }
+                      },
+                      fontFamily: 'Gilroy, sans-serif'
                     },
-                    colors: [color, '#666666'],
+                    colors: [color, `#AAAAAA88`],
                     plotOptions: {
                       bar: {
                     horizontal: true,
-                    borderRadius: 5,
+                    borderRadius: 50,
                     barHeight: '25%'
                       }
                     },
@@ -108,7 +116,8 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
                     } },
                     stroke: {
                       width: 0,
-                      colors: ['#fff']
+                      colors: ['#fff'],
+                      lineCap: 'round'
                     },
 
                     fill: {
@@ -129,54 +138,82 @@ const BarChart = ({ classes, chartData, chartTitle, color, unit }) => {
 
  return (
    <Card className={`${classes.card}`}>
-     <div className='mixed-chart'>
-       <div className={classes.chartheader}
-         style={{ display: 'flex', justifyContent: 'left' }}
+     <Grid
+       spacing={3}
+     >
+       <Grid item
+         xs={12}
        >
-         <Typography align='left'
-           className={classes.chart}
-           style={{ color: color }}
-           variant='h4'
+         <div className={classes.chartheader}
+           style={{ display: 'flex', justifyContent: 'left' }}
          >
-           {chartData.toFixed(0) + (unit || '')}
-         </Typography>
-         <Typography align='left'
-           className={classes.text}
-           style={{ paddingLeft: '5px' }}
-           variant='subtitle2'
-         >
-           {chartTitle}
-         </Typography>
-
-       </div>
-       <Chart
-         className={classes.chart}
-         options={chart}
-         series={chart.series}
-         type='bar'
-         width='100%'
-         height='40'
-       />
-     </div>
+           <Grid container
+             direction='row'
+             alignItems='flex-end'
+             className={classes.chart}
+           >
+             <Grid item>
+               <Typography align='left'
+                 style={{ color: color }}
+                 variant='h3'
+               >
+                 {chartData.toFixed(0) + (unit || '')}
+               </Typography>
+             </Grid>
+             <Grid item>
+               <Typography align='left'
+                 className={classes.text}
+                 style={{ paddingLeft: '5px' }}
+                 variant='h5'
+               >
+                 {chartTitle}
+               </Typography>
+             </Grid>
+           </Grid>
+         </div>
+       </Grid>
+       <Grid item>
+         <div>
+           <BorderLinearProgress
+             className={classes.chart}
+             variant='determinate'
+             value={chartData.toFixed(0) + (unit || '')}
+           />
+         </div>
+       </Grid>
+       <Grid item
+         style={{ display: 'none' }}
+       >
+         <Chart
+           options={chart}
+           series={chart.series}
+           type='bar'
+           width='100%'
+           height='70'
+         />
+       </Grid>
+     </Grid>
    </Card>)
 } else {
     return (<Card className={`${classes.card}`}>
-
       <div className='mixed-chart'>
-        <div className={classes.chartheader} >
-          <Typography align='left'
-            className={classes.chart}
-            style={{ color: 'white' }}
-            variant='h4'
-          >
-            {chartTitle}
-          </Typography>
-        </div>
         <Grid container
-          justify='center'
-          style={{ margin: '0 0 50px 0' }}
+          justify='start'
+          direction='column'
         >
-          <ChartLoader />
+          <Grid item
+            xs={12}
+            className={classes.chartheader}
+          >
+            <Typography align='left'
+              variant='h4'
+            >
+              <Skeleton variant='text'
+                animation='wave'
+                className={classes.Skeleton}
+              />
+            </Typography>
+          </Grid>
         </Grid>
       </div>
     </Card>)
