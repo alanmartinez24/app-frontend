@@ -53,6 +53,11 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
               style={style}
             >{userLetter && userLetter}
             </Avatar>
+            <Avatar alt={alt}
+              className={[classes.avatar, className]}
+              style={style}
+            >{userLetter && userLetter}
+            </Avatar>
           </ImageLoader>
         </Link>
       </ErrorBoundary>
