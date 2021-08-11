@@ -28,6 +28,10 @@ export const darkPalette = {
       primary: Colors.W1,
       secondary: Colors.W2
     },
+    shadow: {
+      first: '#000000',
+      second: Colors.B1
+    },
     action: {
       hover: Colors.B3
     }
@@ -65,6 +69,10 @@ export const lightPalette = {
       primary: Colors.Black,
       secondary: Colors.DarkGrey
     },
+    shadow: {
+      first: Colors.W6,
+      second: Colors.W5
+    },
     action: {
       hover: Colors.W3
     }
@@ -73,6 +81,9 @@ export const lightPalette = {
 
 export const theme = ({ palette }) => {
   return { overrides: {
+    body: {
+      backgroundColor: palette.common.fifth
+    },
     MuiButton: {
       root: {
         textTransform: 'capitalize',
@@ -83,15 +94,11 @@ export const theme = ({ palette }) => {
         borderWidth: '0.15rem',
         borderColor: palette.common.second,
         color: palette.common.second,
-        boxShadow:
-          `2px 2px 12px 0 ${palette.alt.second}33, -2px -2px 15px 0 ${palette.common.third}33`,
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
         fontFamily: 'Gilroy',
         '&:hover': {
-          boxShadow:
-            '8px 8px 30px 0 rgba(0, 0, 0, 0.06), -8px -8px 15px 0 rgba(170, 170, 170, 0.03), inset 8px 8px 30px 0 rgba(0, 0, 0, 0.06), inset -8px -8px 15px 0 rgba(170, 170, 170, 0.03)',
           backgroundColor: 'inherit'
         }
       },
@@ -100,16 +107,17 @@ export const theme = ({ palette }) => {
         border: 'none',
         backgroundColor: palette.alt.third,
         color: palette.common.second,
-        boxShadow:
-          `1px 1px 20px 0 ${palette.alt.second}02, -1px -1px 20px 0 ${palette.common.third}02`,
+        boxShadow: 'none',
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
         fontFamily: 'Gilroy',
         '&:hover': {
-          boxShadow:
-            `8px 8px 30px 0 ${palette.alt.second}07, -8px -8px 15px 0 ${palette.common.third}04, inset 8px 8px 30px 0  ${palette.alt.second}07, inset -8px -8px 15px 0 ${palette.common.third}04`,
-          backgroundColor: palette.alt.fourth
+          backgroundColor: palette.alt.third,
+          boxShadow: `0px 0px 0px 2px ${palette.alt.third}`
+        },
+        '&:active': {
+          boxShadow: 'none'
         }
       }
     },
@@ -180,7 +188,8 @@ export const theme = ({ palette }) => {
     },
     MuiMenu: {
       paper: {
-        backgroundColor: palette.alt.second
+        backgroundColor: `${palette.alt.second}CC`,
+        backdropFilter: 'blur(20px)'
       }
     },
     MuiMenuItem: {
@@ -243,6 +252,9 @@ export const theme = ({ palette }) => {
       }
     },
     MuiPaper: {
+      root: {
+        backgroundColor: palette.alt.third
+      },
       rounded: {
         borderRadius: '0.65rem'
       }
@@ -260,11 +272,30 @@ export const theme = ({ palette }) => {
         color: `${palette.common.first} !important`
       }
     },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: `${palette.common.third}40`,
+        backdropFilter: 'blur(10px)'
+      }
+    },
     MuiFab: {
       extended: {
         textTransform: 'capitalize',
         backgroundColor: palette.alt.third,
         borderRadius: '0.65rem'
+      }
+    },
+    MuiTouchRipple: {
+      root: {
+        opacity: 0.2
+      }
+    },
+    MuiSkeleton: {
+      wave: {
+        background: `${palette.alt.fourth}AA`,
+        '&::after': {
+          background: `linear-gradient(90deg, transparent, ${palette.alt.second}, transparent)`
+        }
       }
     }
   },
@@ -321,13 +352,13 @@ export const theme = ({ palette }) => {
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.625rem',
-      lineHeight: '1.25rem',
+      lineHeight: '1.65rem',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 200,
+      fontWeight: 300,
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
       color: `${palette.common.third}DD`
@@ -372,10 +403,10 @@ export const theme = ({ palette }) => {
       paragraphSpacing: '16px'
     },
     title: {
-      fontSize: '16px',
-      lineHeight: '23px',
+      fontSize: '48px',
+      lineHeight: '48px',
       letterSpacing: '0.75%',
-      fontStyle: 'thin',
+      fontStyle: 600,
       color: `${palette.common.first}EF`
     },
     caption: {
@@ -397,14 +428,14 @@ export const theme = ({ palette }) => {
       lineHeight: '21px',
       color: `${palette.common.first}DE`,
       letterSpacing: '0.25%',
-      fontWeight: '300'
+      fontWeight: '400'
     },
     body3: {
       fontSize: '12px',
       lineHeight: '18px',
       color: `${palette.common.first}DD`,
       letterSpacing: '0.25%',
-      fontWeight: '200'
+      fontWeight: '300'
     },
     tooltip: {
       fontSize: '12px',

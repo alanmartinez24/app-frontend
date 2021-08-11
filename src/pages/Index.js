@@ -28,7 +28,7 @@ import Header from '../components/Header/Header'
 import TagManager from 'react-gtm-module'
 
 const tagManagerArgs = {
-  gtmId: 'GTM-KZR2RCG'
+  gtmId: 'UA-137858250-2'
 }
 
 TagManager.initialize(tagManagerArgs)
@@ -140,7 +140,7 @@ class Index extends Component {
       )
     }
 
-    const metaTitle = 'Yup • Social Layer for the Internet'
+    const metaTitle = 'Yup • Social Network for Curators in Web3'
     const activePalette = lightMode ? lightPalette : darkPalette
     const themeWithPalette = createMuiTheme({ ...theme(activePalette), ...activePalette })
 
@@ -148,7 +148,7 @@ class Index extends Component {
       <>
         <MuiThemeProvider theme={themeWithPalette}>
           <CssBaseline>
-            <Paper style={{ background: themeWithPalette.palette.alt.second }}>
+            <Paper style={{ backgroundColor: themeWithPalette.palette.alt.second, borderRadius: 0 }}>
               <Helmet>
                 <meta charSet='utf-8' />
                 <title> {metaTitle} </title>

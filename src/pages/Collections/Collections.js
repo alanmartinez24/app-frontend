@@ -50,9 +50,10 @@ const styles = theme => ({
     overflowY: 'scroll'
   },
   feedPage: {
-    marginLeft: '40px',
+    marginLeft: '0px',
+    width: '550px',
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '30px',
+      marginLeft: '0px',
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
@@ -67,12 +68,8 @@ const styles = theme => ({
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
-    paddingLeft: '60px !important',
-    [theme.breakpoints.down('lg')]: {
-      paddingLeft: '40px !important'
-    },
+    boxShadow: `0px -60px 0px ${theme.palette.alt.second}`,
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: '20px !important',
       top: 0,
       marginBottom: '0px',
       marginLeft: '0px'
@@ -84,6 +81,7 @@ const styles = theme => ({
     }
   },
   collectionContainer: {
+    marginLeft: 20,
     [theme.breakpoints.down('xs')]: {
       width: '100vw',
       margin: '0px'
@@ -601,10 +599,10 @@ class Collections extends Component {
                 </Grid>
                 <Grid item
                   container
-                  lg={4}
+                  lg={isMinimize ? 3 : 4}
                   sm={2}
                   xs={4}
-                  justify='flex-end'
+                  justify={isMinimize ? 'flex-end' : 'flex-start'}
                 >
                   <IconButton
                     aria-label='more'

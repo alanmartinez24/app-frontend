@@ -10,16 +10,16 @@ const styles = theme => ({
     color: 'white'
   },
   container: {
-    width: 'calc(100vw - 190px)',
+    width: '100%',
     margin: 'auto',
-    maxWidth: '70%',
+    maxWidth: '100%',
     [theme.breakpoints.down('sm')]: {
-      width: '85%',
-      maxWidth: '85%'
+      width: '100%',
+      maxWidth: '100%'
     },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '1%',
-      minWidth: '100vw'
+      minWidth: '100%'
     },
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px'

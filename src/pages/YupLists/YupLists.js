@@ -24,10 +24,10 @@ const styles = theme => ({
     minHeight: '100vh',
     maxWidth: '100vw',
     paddingBottom: '0px',
-    margin: '-20',
     display: 'flex',
     overflowY: 'hidden',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '100%'
   },
   gridContainer: {
     paddingTop: '30px'
@@ -35,19 +35,15 @@ const styles = theme => ({
   page: {
     marginBottom: '0px',
     overflowX: 'hidden',
-
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 0
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      padding: '0px 1rem'
     },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 190,
-      width: `calc(100% - 190px)`
+    [theme.breakpoints.up('xl')]: {
+      padding: '0px 17vw 0px 17vw'
     },
-    [theme.breakpoints.up('1600')]: {
-      width: '100%',
-      marginLeft: 0
-    },
-    flex: 1
+    flex: 1,
+    padding: '0px 20vw'
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
