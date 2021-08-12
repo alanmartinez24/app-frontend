@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, Tabs, Tab } from '@material-ui/core'
-import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { Link } from 'react-router-dom'
 import Tour from 'reactour'
@@ -301,7 +300,6 @@ class Search extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <SideDrawer />
             <Fade in
               timeout={1000}
             >

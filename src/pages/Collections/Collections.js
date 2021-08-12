@@ -5,7 +5,6 @@ import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
 import Img from 'react-image'
 import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, Menu, MenuItem } from '@material-ui/core'
-import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
@@ -518,7 +517,6 @@ class Collections extends Component {
           onScroll={this.handleScroll}
         >
           <div className={classes.page}>
-            <SideDrawer />
             <Grid
               container
               direction='row'

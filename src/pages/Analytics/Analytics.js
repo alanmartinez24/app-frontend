@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LineChart from '../../components/Charts/LineChart'
 import BarChart from '../../components/Charts/BarChart'
-import SideDrawer from '../../components/SideDrawer/SideDrawer'
 import DonutChart from '../../components/Charts/DonutChart'
 import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import { withStyles } from '@material-ui/core/styles'
@@ -239,7 +238,7 @@ ratingPower = async () => {
   const MIN_VOTE_LIMIT = 20
   const MID_VOTE_LIMIT = 30
   const MAX_VOTE_LIMIT = 40
-  let yupBal = account.balance.YUP
+  let yupBal = account && account.balance.YUP
   let maxVoteCount = yupBal > 100 ? MAX_VOTE_LIMIT : yupBal < 0.5 ? MIN_VOTE_LIMIT : MID_VOTE_LIMIT
   let voteCount = 0
   const actionUsage = (await axios.get(`${BACKEND_API}/accounts/actionusage/${account._id}`)).data
@@ -335,7 +334,6 @@ ratingPower = async () => {
         <div className={classes.container}>
           <div className={classes.page}>
             <Header />
-            <SideDrawer />
             <Grid container
               direction='row'
               alignItems='center'
