@@ -10,7 +10,8 @@ import isEqual from 'lodash/isEqual'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import Colors from '../../utils/colors'
 
-const inputEntered = true
+const inputEntered = false
+const username = 'jack'
 
 const styles = theme => ({
   container: {
@@ -25,18 +26,6 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     overflowX: 'hidden',
-    padding: theme.spacing(8),
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100%'
-    },
-    [theme.breakpoints.up('1600')]: {
-      width: '100%',
-      marginLeft: 0
-    },
-    [theme.breakpoints.down('xs')]: {
-      backgroundSize: 'contain'
-    },
     flex: 1
   },
   sideFeed: {
@@ -45,27 +34,17 @@ const styles = theme => ({
     paddingLeft: '0px',
     paddingRight: '0px'
   },
-  feedWrapper: {
-    width: '100%',
-    [theme.breakpoints.down('xs')]: {
-      maxWidth: '100%',
-      marginLeft: '0%',
-      padding: '0%'
-    }
-  },
-  hideOnMobile: {
-    display: 'inherit',
-    [theme.breakpoints.down('xs')]: {
-      display: 'none'
-    }
-  },
-  Mask: {
-    outline: 'solid 0px #FAFAFA44'
-  },
   Card: {
     padding: theme.spacing(3),
     height: '70%',
-    width: '300px'
+    width: '300px',
+    marginBottom: 0,
+    boxShadow:
+      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
+    backgroundColor: theme.palette.alt.second,
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '20vh'
+    }
   }
 })
 
@@ -167,7 +146,7 @@ class ScorePage extends Component {
                   item
                 >
                   <Typography variant='h4'>
-                    {inputEntered ? 'username' : 'Yup Score'}
+                    {inputEntered ? `@${username}` : 'Yup Score'}
                   </Typography>
                   <Typography variant='body2'>
                     {inputEntered ? 'Yup Score:' : 'Twitter'}
@@ -192,7 +171,7 @@ class ScorePage extends Component {
                     fullWidth
                     id='name'
                     maxLength={30}
-                    label='Enter Twitter Handle'
+                    label='Twitter Username...'
                     type='text'
                     variant='outlined'
                     endAdornment={<InputAdornment position='end'>
