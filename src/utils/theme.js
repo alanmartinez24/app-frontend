@@ -183,6 +183,9 @@ export const theme = ({ palette }) => {
       shrink: {
         color: `${palette.common.first}50`
       },
+      outlined: {
+        transform: 'translate(15%, 85%) scale(1)'
+      },
       formControl: {
       }
     },
