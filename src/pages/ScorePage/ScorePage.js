@@ -10,12 +10,9 @@ import '../../components/Tour/tourstyles.css'
 import isEqual from 'lodash/isEqual'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import Colors from '../../utils/colors'
+import axios from 'axios'
 
-const inputEntered = true
-const isLoading = false
-const username = 'jack'
-const YupScore = 33
-const socialLevelColor = YupScore >= 80 && YupScore <= 1000 ? Colors.Green : YupScore >= 60 && YupScore <= 80 ? Colors.Moss : YupScore >= 40 && YupScore <= 60 ? Colors.Yellow : YupScore >= 20 && YupScore <= 40 ? Colors.Orange : Colors.Red
+const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   container: {
@@ -61,7 +58,10 @@ class ScorePage extends Component {
     isTourOpen: false,
     isMinimize: false,
     showTour: true,
-    User: []
+    isLoading: false,
+    inputEntered: false,
+    user: {},
+    twitterHandle: null
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -83,9 +83,29 @@ class ScorePage extends Component {
 
     this.prev = element.scrollTop
   }
+  handleInput = e => {
+    this.setState({ twitterHandle: e.target.value })
+  }
+  onSubmit = e => {
+    e.preventDefault()
+    console.log(this.state)
+    this.setState({ inputEntered: true, isLoading: true })
+    this.getYupScore()
+  }
+  getYupScore = async () => {
+   const user = (await axios.get(`${BACKEND_API}/scores/entity?twitterUsername=` + this.state.twitterHandle)).data
+    this.setState({ inputEntered: true, isLoading: false, user: user })
+  }
 
   render () {
     const { classes } = this.props
+    const { isLoading, inputEntered, user, twitterHandle } = this.state
+
+    console.log(this.state)
+    const username = user.twitterUsername
+    const YupScore = Math.round(user.score)
+    console.log(user)
+    const socialLevelColor = YupScore >= 80 && YupScore <= 1000 ? Colors.Green : YupScore >= 60 && YupScore <= 80 ? Colors.Moss : YupScore >= 40 && YupScore <= 60 ? Colors.Yellow : YupScore >= 20 && YupScore <= 40 ? Colors.Orange : Colors.Red
 
     return (
       <ErrorBoundary>
@@ -162,19 +182,21 @@ class ScorePage extends Component {
                 <Grid item
                   xs={12}
                 >
-                  <YupInput
-                    fullWidth
-                    id='name'
-                    maxLength={30}
-                    label='Twitter Username...'
-                    type='text'
-                    variant='outlined'
-                    endAdornment={<InputAdornment position='end'>
-                      <Icon fontSize='small'
-                        className='fal fa-arrow-right'
-                        style={{ marginRight: '20px' }}
-                      /></InputAdornment>}
-                  />
+                  <form onSubmit={this.onSubmit}>
+                    <YupInput
+                      fullWidth
+                      id='name'
+                      maxLength={30}
+                      label='Twitter Username...'
+                      type='text'
+                      variant='outlined'
+                      onChange={this.handleInput}
+                      endAdornment={<InputAdornment position='end'>
+                        <Icon fontSize='small'
+                          className='fal fa-arrow-right'
+                          style={{ marginRight: '20px' }}
+                        /></InputAdornment>}
+                    /></form>
                 </Grid>
               </Grid>
             </Card>
@@ -197,7 +219,7 @@ class ScorePage extends Component {
                     item
                   >
                     <Typography variant='h3'>
-                      {inputEntered ? `@${username}` : 'Yup Score'}
+                      {(inputEntered && !isLoading) ? `@${username}` : `@${twitterHandle}`}
                     </Typography>
                   </Grid>
                   <Grid
@@ -215,10 +237,7 @@ class ScorePage extends Component {
                 >
                   <Typography variant='h1'
                     style={{
-                      color: inputEntered ? socialLevelColor : 'inherit',
-                      background: `-webkit-linear-gradient(135deg, ${socialLevelColor}, ${socialLevelColor}66)`,
-                      '-webkit-background-clip': 'text',
-                      '-webkit-text-fill-color': 'transparent'
+                      color: inputEntered ? socialLevelColor : 'inherit'
                     }}
                   >
                     { inputEntered ? isLoading
