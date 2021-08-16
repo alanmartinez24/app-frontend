@@ -137,7 +137,7 @@ class ScorePage extends Component {
           >
             <Card className={classes.Card}
               elevation={0}
-              style={{ background: 'transparent', boxShadow: 'none', padding: 4 }}
+              style={{ background: 'transparent', boxShadow: 'none', padding: '16px 4px' }}
             >
               <Grid container
                 justify='space-between'
@@ -158,9 +158,28 @@ class ScorePage extends Component {
                     content='text'
                   >Twitter</Button>
                 </Grid>
+
+                <Grid item
+                  xs={12}
+                >
+                  <YupInput
+                    fullWidth
+                    id='name'
+                    maxLength={30}
+                    label='Twitter Username...'
+                    type='text'
+                    variant='outlined'
+                    endAdornment={<InputAdornment position='end'>
+                      <Icon fontSize='small'
+                        className='fal fa-arrow-right'
+                        style={{ marginRight: '20px' }}
+                      /></InputAdornment>}
+                  />
+                </Grid>
               </Grid>
             </Card>
             <Card className={classes.Card}
+              style={{ display: inputEntered ? 'inherit' : 'none' }}
               elevation={0}
             >
               <Grid container
@@ -212,21 +231,6 @@ class ScorePage extends Component {
                   <Typography variant='h5'>
                     &nbsp;/100
                   </Typography>
-                </Grid>
-                <Grid item>
-                  <YupInput
-                    fullWidth
-                    id='name'
-                    maxLength={30}
-                    label='Twitter Username...'
-                    type='text'
-                    variant='outlined'
-                    endAdornment={<InputAdornment position='end'>
-                      <Icon fontSize='small'
-                        className='fal fa-arrow-right'
-                        style={{ marginRight: '20px' }}
-                      /></InputAdornment>}
-                  />
                 </Grid>
               </Grid>
             </Card>
