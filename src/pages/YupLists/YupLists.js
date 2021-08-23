@@ -4,7 +4,7 @@ import YupLeaderboard from '../../components/YupLeaderboard/YupList'
 import { connect } from 'react-redux'
 import { Grid, Fab, Button, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { setListOptions } from '../../redux/actions'
+import { setListOptions, setTourAction } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
@@ -82,14 +82,6 @@ class YupLists extends Component {
     showTour: true
   }
 
-  closeTour = () => {
-    this.setState({ isTourOpen: false })
-  };
-
-  openTour = () => {
-    this.setState({ isTourOpen: true })
-  };
-
   componentDidMount () {
     if (window.analytics) {
       window.analytics.page('Yup Lists')
@@ -111,7 +103,7 @@ class YupLists extends Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, setTour, tour } = this.props
     return (
       <ErrorBoundary>
         <div className={classes.container}>
@@ -126,8 +118,8 @@ class YupLists extends Component {
             }
             <Tour
               steps={steps}
-              isOpen={this.state.isTourOpen}
-              onRequestClose={this.closeTour}
+              isOpen={tour}
+              onRequestClose={() => { setTour({ isTourOpen: false }) }}
               className={classes.Tour}
               accentColor='#00E08E'
               rounded={10}
@@ -164,7 +156,7 @@ class YupLists extends Component {
               <Fab
                 className={classes.tourFab}
                 variant='extended'
-                onClick={this.openTour}
+                onClick={() => { setTour({ isTourOpen: true }) }}
               >
                 10-Second Tutorial
               </Fab>
@@ -179,7 +171,9 @@ class YupLists extends Component {
 
 YupLists.propTypes = {
   classes: PropTypes.object.isRequired,
-  setListOpts: PropTypes.func.isRequired
+  setListOpts: PropTypes.func.isRequired,
+  setTour: PropTypes.func.isRequired,
+  tour: PropTypes.bool
 }
 
 const steps = [
@@ -316,10 +310,16 @@ const steps = [
   }
 ]
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    tour: state.tour.isTourOpen
+  }
+}
 const mapDispatchToProps = dispatch => {
   return {
-    setListOpts: (listOpts) => dispatch(setListOptions(listOpts))
+    setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
+    setTour: (tour) => dispatch(setTourAction(tour))
   }
 }
 
-export default memo(connect(null, mapDispatchToProps)(withStyles(styles)(YupLists)))
+export default memo(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(YupLists)))
