@@ -13,8 +13,6 @@ import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import Colors, { levelColors } from '../../utils/colors'
 import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
-import Footer from '../../components/Footer/Footer'
-import Header from '../../components/Header/Header'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
 
@@ -295,7 +293,6 @@ ratingPower = async () => {
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <Header />
               <div align='center'>
                 <Typography
                   className={classes.accountErrorHeader}
@@ -333,7 +330,6 @@ ratingPower = async () => {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <Grid container
               direction='row'
               alignItems='center'
@@ -482,7 +478,6 @@ ratingPower = async () => {
               </Grid>
             </Grid>
           </div>
-          <Footer />
         </div>
       </ErrorBoundary>
     )

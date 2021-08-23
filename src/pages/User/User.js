@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
-import Footer from '../../components/Footer/Footer'
-import Header from '../../components/Header/Header'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import axios from 'axios'
@@ -530,7 +528,6 @@ class User extends Component {
         </Dialog>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Header />
             <Grid
               container
               direction='row'
@@ -834,7 +831,6 @@ class User extends Component {
               </Fab>
             </Fade>
           </div>
-          <Footer />
           <CreateCollectionFab />
         </div>
       </ErrorBoundary>
