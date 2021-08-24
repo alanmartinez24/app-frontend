@@ -35,7 +35,8 @@ const styles = theme => ({
   },
   scrollDiv: {
      overflowY: 'hidden',
-     overflowX: 'hidden'
+     overflowX: 'hidden',
+     width: '100%'
   },
   infiniteScroll: {
     display: 'inherit',
@@ -44,7 +45,7 @@ const styles = theme => ({
     }
   },
   container: {
-    width: '100vw'
+    width: '100%'
   },
   page: {
     overflowY: 'none',

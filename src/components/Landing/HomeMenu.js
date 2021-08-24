@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
+import { Grid, Typography, Fade, Grow, Card, CardContent, CardMedia, CardActions, Button } from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Tilt from 'react-tilt'
@@ -13,6 +13,8 @@ import Img from 'react-image'
 import { accountInfoSelector } from '../../redux/selectors'
 import HomeMenuLinkItem from './HomeMenuLinkItem'
 import { connect } from 'react-redux'
+import LinesEllipsis from 'react-lines-ellipsis'
+import FeedHOC from '../../components/Feed/FeedHOC'
 // import { Skeleton } from '@material-ui/lab'
 
 const { BACKEND_API, YUP_LANDING, WEB_APP_URL } = process.env
@@ -58,10 +60,16 @@ const styles = theme => ({
       paddingTop: theme.spacing(0),
       padding: '0px 1rem'
     },
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: 0,
-      padding: '0px 17vw 0px 17vw',
+      padding: '0px 17vw',
       paddingTop: theme.spacing(0)
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '0px 12vw'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '0px'
     },
     flex: 1,
     padding: '0px 20vw',
@@ -121,8 +129,6 @@ const styles = theme => ({
   recommendedImg: {
     height: '60px',
     width: '60px',
-    objectFit: 'cover',
-    marginTop: '10px',
     borderRadius: '5px',
     [theme.breakpoints.down('md')]: {
       height: '50px',
@@ -467,19 +473,29 @@ class Home extends Component {
                               xl={4}
                               className={classes.recommendedImgContainer}
                             >
-                              <Img
-                                src={coll.imgSrcUrl}
-                                alt='thumbnail'
-                                loader={<div />}
+                              <Card elevation={0}
                                 className={classes.recommendedImg}
-                              />
+                                alt='thumbnail'
+                              >
+                                <CardMedia
+                                  className={classes.recommendedImg}
+                                  image={coll.imgSrcUrl ? coll.imgSrcUrl : DEFAULT_IMG}
+                                />
+                              </Card>
                             </Grid>
                             <Grid item
                               xs={8}
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='h5'>
+                                <LinesEllipsis
+                                  basedOn='letters'
+                                  ellipsis='...'
+                                  maxLine='1'
+                                  text={coll.name}
+                                  trimRight
+                                /></Typography>
                               <Typography variant='body2'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
                             </Grid>
                           </Grid>
@@ -540,21 +556,29 @@ class Home extends Component {
                               xl={4}
                               className={classes.recommendedImgContainer}
                             >
-                              <Img
-                                src={[coll.imgSrcUrl, DEFAULT_IMG]}
-                                alt='thumbnail'
-                                loader={<img src={DEFAULT_IMG}
-                                  className={classes.recommendedImg}
-                                        />}
+                              <Card elevation={0}
                                 className={classes.recommendedImg}
-                              />
+                                alt='thumbnail'
+                              >
+                                <CardMedia
+                                  className={classes.recommendedImg}
+                                  image={coll.imgSrcUrl ? coll.imgSrcUrl : DEFAULT_IMG}
+                                />
+                              </Card>
                             </Grid>
                             <Grid item
                               xs={8}
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='h5'>
+                                <LinesEllipsis
+                                  basedOn='letters'
+                                  ellipsis='...'
+                                  maxLine='1'
+                                  text={coll.name}
+                                  trimRight
+                                /></Typography>
                               <Typography variant='body2'>{coll.owner}</Typography>
                             </Grid>
                           </Grid>
@@ -564,6 +588,19 @@ class Home extends Component {
                   })}
                   </Grid>
                 </Grid>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                spacing={3}
+                direction='row'
+              />
+              <Grid
+                item
+                xs={12}
+              >
+                <FeedHOC feed='dailyhits' />
               </Grid>
             </Grid>
           </div>
