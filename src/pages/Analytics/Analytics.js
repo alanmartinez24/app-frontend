@@ -239,7 +239,7 @@ ratingPower = async () => {
   let yupBal = account && account.balance.YUP
   let maxVoteCount = yupBal > 100 ? MAX_VOTE_LIMIT : yupBal < 0.5 ? MIN_VOTE_LIMIT : MID_VOTE_LIMIT
   let voteCount = 0
-  const actionUsage = (await axios.get(`${BACKEND_API}/accounts/actionusage/${account._id}`)).data
+  const actionUsage = (await axios.get(`${BACKEND_API}/accounts/actionusage/${account && account._id}`)).data
   const now = (new Date()).getTime()
   const oneDayInMs = 60 * 60 * 24 * 1000
   if (actionUsage.lastReset + oneDayInMs >= now) {
