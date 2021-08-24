@@ -6,20 +6,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const styles = theme => ({
   dialog: {
-    width: '100%',
-    marginLeft: 190,
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
-      width: '100%'
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 190,
-      width: `calc(100% - 190px)`
-    },
-    [theme.breakpoints.up('1600')]: {
-      width: '100%',
-      marginLeft: 0
-    }
+    width: '100%'
   },
   dialogTitleText: {
     fontFamily: 'Gilroy',

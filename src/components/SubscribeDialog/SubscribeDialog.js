@@ -28,18 +28,7 @@ const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
 
 const styles = theme => ({
   dialog: {
-    [theme.breakpoints.down('md')]: {
-      marginLeft: 0,
       width: '100%'
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 190,
-      width: `calc(100% - 190px)`
-    },
-    [theme.breakpoints.up('1600')]: {
-      width: '100%',
-      marginLeft: 0
-    }
   },
   dialogTitleText: {
     fontWeight: '500'
