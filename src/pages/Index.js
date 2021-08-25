@@ -125,7 +125,7 @@ class Index extends Component {
   }
 
   render () {
-    const { history, lightMode } = this.props
+    const { history, lightMode, tour } = this.props
     if (this.state.isLoading) {
       return (
         <div style={{
@@ -160,7 +160,7 @@ class Index extends Component {
                 context={reactReduxContext}
               >
                 <div>
-                  <Header />
+                  <Header isTourOpen={tour} />
                   <Switch>
                     <Route component={Discover}
                       exact
@@ -232,7 +232,8 @@ Index.propTypes = {
   history: PropTypes.object,
   fetchUserPerms: PropTypes.func.isRequired,
   fetchAuthFromState: PropTypes.func.isRequired,
-  lightMode: PropTypes.bool.isRequired
+  lightMode: PropTypes.bool.isRequired,
+  tour: PropTypes.bool
 }
 
 const mapActionToProps = (dispatch) => {
@@ -252,7 +253,8 @@ const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return {
     accountName: account && account.name ? account.name : null,
-    lightMode: state.lightMode.active
+    lightMode: state.lightMode.active,
+    tour: state.tour.isTourOpen
   }
 }
 
