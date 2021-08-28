@@ -186,7 +186,8 @@ function ProfileCard (props) {
     ratingCount,
     isMinimize,
     levels,
-    dispatch
+    dispatch,
+    lightMode
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
   const YUPBalanceError =
@@ -445,13 +446,21 @@ function ProfileCard (props) {
                       alignItems='flex-end'
                       spacing={1}
                     >
-                      <Grid item>
-                        <img
-                          src='/images/logos/logo_outline_w.svg'
-                          style={{ width: '15px', height: '15px' }}
-                          alt='yup logo'
-                        />
-                      </Grid>
+                      {lightMode ? (
+                        <Grid item>
+                          <img
+                            src='/images/logos/logo_outline_b.svg'
+                            style={{ width: '15px', height: '15px' }}
+                            alt='yup logo'
+                          />
+                        </Grid>) : (
+                          <Grid item>
+                            <img
+                              src='/images/logos/logo_outline_w.svg'
+                              style={{ width: '15px', height: '15px' }}
+                              alt='yup logo'
+                            />
+                          </Grid>)}
                       <Grid item>
                         {YUPBalanceError ? 0 : formattedYUPBalance}
                       </Grid>
@@ -499,11 +508,13 @@ function ProfileCard (props) {
   )
 }
 const mapStateToProps = (state, ownProps) => {
+  const lightMode = state.lightMode.active
   return {
     levels: state.socialLevels.levels || {
       isLoading: true,
       levels: {}
-    }
+    },
+    lightMode
   }
 }
 
@@ -516,7 +527,8 @@ ProfileCard.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
   levels: PropTypes.object,
-  account: PropTypes.object
+  account: PropTypes.object,
+  lightMode: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(ProfileCard))
