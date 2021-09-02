@@ -27,7 +27,6 @@ const CreateCollectionFab = ({ classes, account }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => setDialogOpen(true)
   const handleDialogClose = () => setDialogOpen(false)
-  console.log(`dialogOpen in createCollectionFab`, dialogOpen)
 
   return (
     <>
