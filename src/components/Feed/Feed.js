@@ -103,7 +103,7 @@ function Feed (props) {
           }
         </div>
         {!isLoading && !hasMore &&
-          <p className={classes.resetScroll}>end of collection</p>
+          <p className={classes.resetScroll}>End</p>
         }
       </div>
     </ErrorBoundary>
