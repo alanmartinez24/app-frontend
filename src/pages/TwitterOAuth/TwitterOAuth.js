@@ -76,9 +76,12 @@ class TwitterOAuth extends Component {
         const res = await axios.post(`${BACKEND_API}/accounts/twitter/mirror/create`, { token })
 
         const twitterInfo = { name: res.data.account.eosname, isMirror: true, seenTutorial: this.state.existingAcct, token: token, expiration: res.data.expiration }
+        console.log(`twitterInfo`, twitterInfo)
         localStorage.setItem('twitterMirrorInfo', JSON.stringify(twitterInfo))
-
         this.setState({ isLoading: false, username: res.data.account.username })
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       } catch (err) {
         if (err.toString().includes('Error: Request failed with status code 429')) {
           this.setState({ errorMessage: 'Request failed. You have attempted to create too many accounts.' })

@@ -281,7 +281,6 @@ class User extends Component {
         'twitterMirrorInfo',
         JSON.stringify(updatedTwitterInfo)
       )
-      this.setState({ dialogOpen: true })
     }
   }
 
@@ -450,6 +449,10 @@ class User extends Component {
     } = this.state
 
     const isLoggedIn = account ? account.name === eosname : false
+
+    console.log(`isLoggedIn in user.js`, isLoggedIn)
+
+    console.log(`dialogOpen in user.js`, dialogOpen)
 
     if (!isLoading && hasError) {
       return (

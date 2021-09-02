@@ -35,7 +35,10 @@ class CollectionPostMenu extends Component {
 
   handleMenuClick = ({ currentTarget }) => this.setState({ anchorEl: currentTarget })
   handleMenuClose = () => this.setState({ anchorEl: null })
-  handleDialogOpen = () => this.setState({ dialogOpen: true })
+  handleDialogOpen = () => {
+    console.log('handleDialog open in collection post menu')
+    this.setState({ dialogOpen: true })
+ }
   handleDialogClose = () => this.setState({ dialogOpen: false })
   handleSnackbarOpen = (msg) => this.setState({ snackbarMsg: msg })
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
@@ -72,6 +75,7 @@ class CollectionPostMenu extends Component {
     const { postid, classes, account, collections } = this.props
     if (!postid || !account.name) return null
     const { anchorEl, snackbarMsg, dialogOpen } = this.state
+    console.log(`dialogOpen in collectionPostMenu`, dialogOpen)
     const accountName = account && account.name
     const collectionsPageId = window.location.href.split('/').pop()
     const menuOpen = Boolean(anchorEl)

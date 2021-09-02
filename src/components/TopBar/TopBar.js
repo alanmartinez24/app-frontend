@@ -384,6 +384,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     const collectionDialog = params.get('collectionDialogOpen')
     setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
+    console.log(`collectionDialogOpen in useEffect topbar`, collectionDialogOpen)
     setAccount(authInfo.account)
   }, [accountName])
 
@@ -488,6 +489,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const username = (level && level.levelInfo.username)
 
   const { palette } = useTheme()
+
+  console.log(`collectionDialogOpen in top bar`, collectionDialogOpen)
 
   return (
     <ErrorBoundary>
