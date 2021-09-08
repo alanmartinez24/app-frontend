@@ -632,7 +632,7 @@ class Collections extends Component {
                       onClick={this.handleMenuOpen}
                       className={classes.icons}
                     >
-                      <MenuIcon />
+                      <MenuIcon fontSize='small' />
                     </IconButton>
                   ) : (
                     (account && account.name) && (
@@ -643,7 +643,9 @@ class Collections extends Component {
                         onClick={this.handleDuplicateDialogOpen}
                         className={classes.icons}
                       >
-                        <Icon className={[classes.icons, 'fas fa-copy']} />
+                        <Icon fontSize='small'
+                          className={[classes.icons, 'fas fa-copy']}
+                        />
                       </IconButton>)
                   )}
                 </Grid>
