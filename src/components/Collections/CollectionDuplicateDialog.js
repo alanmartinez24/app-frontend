@@ -55,7 +55,6 @@ const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDial
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [newCollectionInfo, setNewCollectionInfo] = useState({})
-  console.log(collection, 'collection')
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
@@ -76,7 +75,7 @@ const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDial
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
       addCollectionToRedux(authToken.eosname, data)
       setNewCollectionInfo(data)
-      handleSnackbarOpen(`Succesfully created ${name}`)
+      handleSnackbarOpen(`Succesfully duplicated ${name}`)
       handleDialogClose()
       setIsLoading(false)
     } catch (err) {
