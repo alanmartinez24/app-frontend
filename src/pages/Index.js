@@ -25,13 +25,6 @@ import Analytics from './Analytics/Analytics'
 import Footer from '../components/Footer/Footer'
 import Header from '../components/Header/Header'
 
-import TagManager from 'react-gtm-module'
-
-const tagManagerArgs = {
-  gtmId: 'UA-137858250-2'
-}
-
-TagManager.initialize(tagManagerArgs)
 const { BACKEND_API } = process.env
 
 const pathname = document.location.pathname
