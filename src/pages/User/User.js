@@ -281,7 +281,6 @@ class User extends Component {
         'twitterMirrorInfo',
         JSON.stringify(updatedTwitterInfo)
       )
-      this.setState({ dialogOpen: true })
     }
   }
 

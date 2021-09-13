@@ -77,8 +77,11 @@ class TwitterOAuth extends Component {
 
         const twitterInfo = { name: res.data.account.eosname, isMirror: true, seenTutorial: this.state.existingAcct, token: token, expiration: res.data.expiration }
         localStorage.setItem('twitterMirrorInfo', JSON.stringify(twitterInfo))
-
         this.setState({ isLoading: false, username: res.data.account.username })
+        // reload because of unknown race condition
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       } catch (err) {
         if (err.toString().includes('Error: Request failed with status code 429')) {
           this.setState({ errorMessage: 'Request failed. You have attempted to create too many accounts.' })

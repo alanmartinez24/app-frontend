@@ -13,6 +13,7 @@ import DotSpinner from '../../components/DotSpinner/DotSpinner'
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link } from 'react-router-dom'
 import CollectionEditDialog from '../../components/Collections/CollectionEditDialog.js'
+import CollectionDuplicateDialog from '../../components/Collections/CollectionDuplicateDialog.js'
 import CollectionReorderDialog from '../../components/Collections/CollectionReorderDialog'
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { Helmet } from 'react-helmet'
@@ -235,7 +236,8 @@ class Collections extends Component {
     activeTab: 0,
     anchorEl: null,
     openReorderDialog: false,
-    editDialogOpen: false
+    editDialogOpen: false,
+    duplicateDialogOpen: false
   }
 
   fetchCollectionInfo = async () => {
@@ -305,6 +307,9 @@ class Collections extends Component {
   handleEditDialogOpen = () => this.setState({ editDialogOpen: true, anchorEl: null })
   handleEditDialogClose = () => this.setState({ editDialogOpen: false })
 
+  handleDuplicateDialogOpen = () => this.setState({ duplicateDialogOpen: true, anchorEl: null })
+  handleDuplicateDialogClose = () => this.setState({ duplicateDialogOpen: false })
+
   closeTour = () => this.setState({ isTourOpen: false })
   openTour = () => this.setState({ isTourOpen: true })
 
@@ -332,9 +337,10 @@ class Collections extends Component {
       anchorEl,
       socialLevelColor,
       openReorderDialog,
-      editDialogOpen
+      editDialogOpen,
+      duplicateDialogOpen
     } = this.state
-
+    console.log(account, 'account')
     let color = socialLevelColor
     const menuOpen = Boolean(anchorEl)
 
@@ -508,6 +514,14 @@ class Collections extends Component {
           dialogOpen={editDialogOpen}
           handleDialogClose={this.handleEditDialogClose}
         />
+
+        <CollectionDuplicateDialog
+          collection={collection}
+          account={account}
+          authToken={authToken}
+          dialogOpen={duplicateDialogOpen}
+          handleDialogClose={this.handleDuplicateDialogClose}
+        />
         <CollectionReorderDialog
           handleDialogClose={this.handleReorderDialogClose}
           collection={collection}
@@ -610,7 +624,7 @@ class Collections extends Component {
                   >
                     <Icon className={[classes.icons, 'fa fa-share']} />
                   </IconButton>
-                  {isLoggedUserCollection && (
+                  {isLoggedUserCollection ? (
                     <IconButton
                       aria-label='more'
                       aria-controls='long-menu'
@@ -618,8 +632,21 @@ class Collections extends Component {
                       onClick={this.handleMenuOpen}
                       className={classes.icons}
                     >
-                      <MenuIcon />
+                      <MenuIcon fontSize='small' />
                     </IconButton>
+                  ) : (
+                    (account && account.name) && (
+                      <IconButton
+                        aria-label='more'
+                        aria-controls='long-menu'
+                        aria-haspopup='true'
+                        onClick={this.handleDuplicateDialogOpen}
+                        className={classes.icons}
+                      >
+                        <Icon fontSize='small'
+                          className={[classes.icons, 'fas fa-copy']}
+                        />
+                      </IconButton>)
                   )}
                 </Grid>
               </Grid>

@@ -36,6 +36,7 @@ class CollectionPostMenu extends Component {
   handleMenuClick = ({ currentTarget }) => this.setState({ anchorEl: currentTarget })
   handleMenuClose = () => this.setState({ anchorEl: null })
   handleDialogOpen = () => this.setState({ dialogOpen: true })
+
   handleDialogClose = () => this.setState({ dialogOpen: false })
   handleSnackbarOpen = (msg) => this.setState({ snackbarMsg: msg })
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })

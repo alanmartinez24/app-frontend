@@ -42,6 +42,7 @@ const styles = theme => ({
 
 const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, authToken }) => {
   if (!collection.posts) return null
+  console.log(`collection.posts`, collection.posts)
   const [posts, setPosts] = useState(collection.posts)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -58,7 +59,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
       if (authToken.account && authToken.account.eosname) {
         authToken.eosname = authToken.account.eosname
       }
-      const params = { postIds: (posts.map(({ _id }) => _id.postid).reverse()), ...authToken }
+      const params = { postIds: (posts.map((post) => post && post._id.postid).reverse()), ...authToken }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoading(false)
       window.location.reload()
