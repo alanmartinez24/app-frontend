@@ -699,7 +699,6 @@ class SubscribeDialog extends Component {
                         <Typography
                           align='left'
                           variant='body1'
-                          style={{ color: '#fff', fontWeight: '300' }}
                         >
                           {this.getStepContent(this.state.activeStep)}
                         </Typography>

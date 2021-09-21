@@ -27,7 +27,7 @@
     "@material-ui/lab": "4.0.0-alpha.39",
     "@walletconnect/client": "1.6.5",
     "@walletconnect/qrcode-modal": "1.6.5",
-    "@walletconnect/utils": "1.5.2",
+    "@walletconnect/utils": "^1.6.5",
     "apexcharts": "^3.26.0",
     "axios": "^0.18.0",
     "babel-plugin-emotion": "^10.0.33",

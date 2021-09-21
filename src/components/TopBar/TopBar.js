@@ -376,7 +376,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
 
   let authInfo = useSelector(getReduxState)
   const accountName = authInfo && authInfo.account && authInfo.account.name
-
   useEffect(() => {
     const search = window.location.search
     const params = new URLSearchParams(search)
@@ -384,7 +383,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     const collectionDialog = params.get('collectionDialogOpen')
     setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
-    setAccount(authInfo.account)
+    authInfo.account.name && setAccount(authInfo.account)
   }, [accountName])
 
   useEffect(() => {
