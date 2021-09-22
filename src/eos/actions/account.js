@@ -3,6 +3,8 @@ const { YUPX_TOKEN_ACCOUNT, YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = proces
 
 export async function transfer (account, data, ethAuth) {
   const normalizedAmount = `${Number(data.amount).toFixed(4)} ${data.asset}`
+  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
+  const permission = isTwitMirror || ethAuth ? 'transfer' : account.authority
   const txData = {
     actions: [
       {
@@ -19,7 +21,7 @@ export async function transfer (account, data, ethAuth) {
         name: 'transfer',
         authorization: [{
           actor: account.name,
-          permission: account.authority
+          permission
         }],
         data: {
           from: account.name,
@@ -30,7 +32,7 @@ export async function transfer (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('twitterMirrorInfo')) {
+  if (isTwitMirror) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -116,6 +118,8 @@ export async function createacct (account, data, ethAuth) {
 // }
 
 export async function editacct (account, data, ethAuth) {
+  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
+  const permission = isTwitMirror || ethAuth ? 'editacct' : account.authority
   const txData = {
     actions: [
       {
@@ -132,7 +136,7 @@ export async function editacct (account, data, ethAuth) {
         name: 'editacct',
         authorization: [{
           actor: account.name,
-          permission: account.authority
+          permission
         }, {
           actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
@@ -148,7 +152,7 @@ export async function editacct (account, data, ethAuth) {
     ]
   }
 
-  if (localStorage.getItem('twitterMirrorInfo')) {
+  if (isTwitMirror) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)

@@ -14,7 +14,7 @@ export const accountInfoSelector = createSelector(
     }
     if (!scatter) {
       if (eth && eth.account && eth.account._id) {
-        account = { name: eth.account._id, authority: 'active' }
+        account = { name: eth.account._id, authority: null }
       } else if (twitterIdentity) {
         account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
       }

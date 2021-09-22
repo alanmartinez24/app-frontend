@@ -2,6 +2,8 @@ import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
 const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function createpost (account, data, ethAuth) {
+  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
+  const permission = isTwitMirror || ethAuth ? 'createpostv3' : account.authority
   const txData = {
     actions: [
       {
@@ -18,7 +20,7 @@ export async function createpost (account, data, ethAuth) {
         name: 'createpostv3',
         authorization: [{
           actor: account.name,
-          permission: account.authority
+          permission
         }, {
           actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
@@ -35,7 +37,7 @@ export async function createpost (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('twitterMirrorInfo')) {
+  if (isTwitMirror) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -43,6 +45,8 @@ export async function createpost (account, data, ethAuth) {
 }
 
 export async function editpost (account, data, ethAuth) {
+  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
+  const permission = isTwitMirror || ethAuth ? 'editpost' : account.authority
   const txData = {
     actions: [
       {
@@ -59,7 +63,7 @@ export async function editpost (account, data, ethAuth) {
         name: 'editpost',
         authorization: [{
           actor: account.name,
-          permission: account.authority
+          permission
         }, {
           actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
@@ -75,7 +79,7 @@ export async function editpost (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('twitterMirrorInfo')) {
+  if (isTwitMirror) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -83,6 +87,8 @@ export async function editpost (account, data, ethAuth) {
 }
 
 export async function deletepost (account, data, ethAuth) {
+  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
+  const permission = isTwitMirror || ethAuth ? 'deletepost' : account.authority
   const txData = {
     actions: [
       {
@@ -99,7 +105,7 @@ export async function deletepost (account, data, ethAuth) {
         name: 'deletepost',
         authorization: [{
           actor: account.name,
-          permission: account.authority
+          permission
         }, {
           actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
@@ -111,7 +117,7 @@ export async function deletepost (account, data, ethAuth) {
       }
     ]
   }
-  if (localStorage.getItem('twitterMirrorInfo')) {
+  if (isTwitMirror) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
