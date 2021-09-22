@@ -116,6 +116,7 @@ export async function createacct (account, data, ethAuth) {
 // }
 
 export async function editacct (account, data, ethAuth) {
+  const permission = ethAuth ? 'editacct' : account.authority
   const txData = {
     actions: [
       {
@@ -132,7 +133,7 @@ export async function editacct (account, data, ethAuth) {
         name: 'editacct',
         authorization: [{
           actor: account.name,
-          permission: account.authority
+          permission
         }, {
           actor: YUP_ACCOUNT_MANAGER,
           permission: 'active'
