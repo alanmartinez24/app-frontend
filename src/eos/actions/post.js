@@ -3,7 +3,7 @@ const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function createpost (account, data, ethAuth) {
   const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-  const permission = isTwitMirror || ethAuth ? 'createpostv3' : account.authority
+  const permission = ethAuth ? 'createpostv3' : account.authority
   const txData = {
     actions: [
       {
@@ -46,7 +46,7 @@ export async function createpost (account, data, ethAuth) {
 
 export async function editpost (account, data, ethAuth) {
   const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-  const permission = isTwitMirror || ethAuth ? 'editpost' : account.authority
+  const permission = ethAuth ? 'editpost' : account.authority
   const txData = {
     actions: [
       {
@@ -88,7 +88,7 @@ export async function editpost (account, data, ethAuth) {
 
 export async function deletepost (account, data, ethAuth) {
   const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-  const permission = isTwitMirror || ethAuth ? 'deletepost' : account.authority
+  const permission = ethAuth ? 'deletepost' : account.authority
   const txData = {
     actions: [
       {

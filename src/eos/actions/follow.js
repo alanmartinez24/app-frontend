@@ -3,7 +3,7 @@ const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function follow (account, data, ethAuth) {
   const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-  const permission = isTwitMirror || ethAuth ? 'follow' : account.authority
+  const permission = ethAuth ? 'follow' : account.authority
     const txData = {
       actions: [
         {
@@ -42,7 +42,7 @@ export async function follow (account, data, ethAuth) {
 
   export async function unfollow (account, data, ethAuth) {
     const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-    const permission = isTwitMirror || ethAuth ? 'unfollow' : account.authority
+    const permission = ethAuth ? 'unfollow' : account.authority
     const txData = {
       actions: [
         {
