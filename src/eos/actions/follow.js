@@ -2,7 +2,6 @@ import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
 const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function follow (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'follow' : account.authority
     const txData = {
       actions: [
@@ -33,7 +32,7 @@ export async function follow (account, data, ethAuth) {
         }
       ]
     }
-    if (isTwitMirror) {
+    if (localStorage.getItem('twitterMirrorInfo')) {
       await pushTwitterMirrorTx(txData)
     } else {
       await pushEthMirrorTx(ethAuth, txData)
@@ -41,8 +40,7 @@ export async function follow (account, data, ethAuth) {
   }
 
   export async function unfollow (account, data, ethAuth) {
-    const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-    const permission = ethAuth ? 'unfollow' : account.authority
+      const permission = ethAuth ? 'unfollow' : account.authority
     const txData = {
       actions: [
         {
@@ -72,7 +70,7 @@ export async function follow (account, data, ethAuth) {
         }
       ]
     }
-    if (isTwitMirror) {
+    if (localStorage.getItem('twitterMirrorInfo')) {
       await pushTwitterMirrorTx(txData)
     } else {
       await pushEthMirrorTx(ethAuth, txData)

@@ -116,7 +116,6 @@ export async function createacct (account, data, ethAuth) {
 // }
 
 export async function editacct (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'editacct' : account.authority
   const txData = {
     actions: [
@@ -150,7 +149,7 @@ export async function editacct (account, data, ethAuth) {
     ]
   }
 
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)

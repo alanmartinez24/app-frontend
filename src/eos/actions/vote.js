@@ -3,7 +3,6 @@ import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
 const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER, YUP_CREATOR } = process.env
 
 export async function createvote (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'createvotev2' : account.authority
   const txData = {
     actions: [
@@ -37,7 +36,7 @@ export async function createvote (account, data, ethAuth) {
       }
     ]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -45,7 +44,6 @@ export async function createvote (account, data, ethAuth) {
 }
 
 export async function postvotev3 (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'postvotev3' : account.authority
   const txData = {
     actions: [
@@ -83,7 +81,7 @@ export async function postvotev3 (account, data, ethAuth) {
         }
       }]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -91,7 +89,6 @@ export async function postvotev3 (account, data, ethAuth) {
 }
 
 export async function postvotev4 (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'postvotev4' : account.authority
   const txData = {
     actions: [
@@ -130,7 +127,7 @@ export async function postvotev4 (account, data, ethAuth) {
         }
       }]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -138,7 +135,6 @@ export async function postvotev4 (account, data, ethAuth) {
 }
 
 export async function createvotev4 (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'createvotev4' : account.authority
   const txData = {
     actions: [
@@ -173,7 +169,7 @@ export async function createvotev4 (account, data, ethAuth) {
       }
     ]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -181,7 +177,6 @@ export async function createvotev4 (account, data, ethAuth) {
 }
 
 export async function editvote (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'editvotev2' : account.authority
   const txData = {
     actions: [
@@ -214,7 +209,7 @@ export async function editvote (account, data, ethAuth) {
       }
     ]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
@@ -222,7 +217,6 @@ export async function editvote (account, data, ethAuth) {
 }
 
 export async function deletevote (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'deletevote' : account.authority
   const txData = {
     actions: [
@@ -252,7 +246,7 @@ export async function deletevote (account, data, ethAuth) {
       }
     ]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)

@@ -2,7 +2,6 @@ import { pushEthMirrorTx, pushTwitterMirrorTx } from './push-transaction'
 const { YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = process.env
 
 export async function createcomv2 (account, data, ethAuth) {
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
   const permission = ethAuth ? 'createcomv2' : account.authority
     const txData = {
       actions: [
@@ -35,7 +34,7 @@ export async function createcomv2 (account, data, ethAuth) {
         }
       ]
     }
-    if (isTwitMirror) {
+    if (localStorage.getItem('twitterMirrorInfo')) {
       await pushTwitterMirrorTx(txData)
     } else {
       await pushEthMirrorTx(ethAuth, txData)
@@ -43,8 +42,7 @@ export async function createcomv2 (account, data, ethAuth) {
   }
 
   export async function editcomment (account, data, ethAuth) {
-    const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-    const permission = ethAuth ? 'editcomment' : account
+      const permission = ethAuth ? 'editcomment' : account
     const txData = {
       actions: [
         {
@@ -75,7 +73,7 @@ export async function createcomv2 (account, data, ethAuth) {
         }
       ]
     }
-    if (isTwitMirror) {
+    if (localStorage.getItem('twitterMirrorInfo')) {
       await pushTwitterMirrorTx(txData)
     } else {
       await pushEthMirrorTx(ethAuth, txData)
@@ -83,8 +81,7 @@ export async function createcomv2 (account, data, ethAuth) {
   }
 
   export async function deletecom (account, data, ethAuth) {
-    const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-    const permission = ethAuth ? 'editcomment' : account
+      const permission = ethAuth ? 'editcomment' : account
     const txData = {
       actions: [
         {
@@ -116,7 +113,7 @@ export async function createcomv2 (account, data, ethAuth) {
         }
       ]
     }
-    if (isTwitMirror) {
+    if (localStorage.getItem('twitterMirrorInfo')) {
       await pushTwitterMirrorTx(txData)
     } else {
       await pushEthMirrorTx(ethAuth, txData)
