@@ -3,8 +3,6 @@ const { YUPX_TOKEN_ACCOUNT, YUP_CONTRACT_ACCOUNT, YUP_ACCOUNT_MANAGER } = proces
 
 export async function transfer (account, data, ethAuth) {
   const normalizedAmount = `${Number(data.amount).toFixed(4)} ${data.asset}`
-  const isTwitMirror = localStorage.getItem('twitterMirrorInfo')
-  const permission = isTwitMirror || ethAuth ? 'transfer' : account.authority
   const txData = {
     actions: [
       {
@@ -21,7 +19,7 @@ export async function transfer (account, data, ethAuth) {
         name: 'transfer',
         authorization: [{
           actor: account.name,
-          permission
+          permission: account.authority
         }],
         data: {
           from: account.name,
@@ -32,7 +30,7 @@ export async function transfer (account, data, ethAuth) {
       }
     ]
   }
-  if (isTwitMirror) {
+  if (localStorage.getItem('twitterMirrorInfo')) {
     await pushTwitterMirrorTx(txData)
   } else {
     await pushEthMirrorTx(ethAuth, txData)
