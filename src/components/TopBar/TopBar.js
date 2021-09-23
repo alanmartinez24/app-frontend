@@ -288,21 +288,30 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
     >
       <ListItem className={classes.ListItem}
         button
-        style={{ padding: '0px 16px 0px 5px' }}
+        component={Link}
+        to='/'
+        style={{ paddingLeft: '0px' }}
       >
         <ListItemIcon>
-          <Icon className='fal fa-plug' />
+          <Icon
+            fontSize='small'
+            className='fal fa-plug'
+          />
         </ListItemIcon>
-        <ListItemText>
-          <Typography variant='body2'
-            className={classes.typography}
-          >
-            {' '}
-            Extension
-          </Typography>
-        </ListItemText>
+        <Grow in
+          timeout={600}
+        >
+          <ListItemText >
+            <Typography variant='body2'
+              className={classes.typography}
+            >
+              Extension
+            </Typography>
+          </ListItemText>
+        </Grow>
       </ListItem>
     </ListLink>
+
   )
 })
 
@@ -311,6 +320,7 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account
     return (
       <List component='nav'
         aria-label='main'
+        style={{ border: '3px solid red' }}
         className={classes.list1}
       >
         <StyledAboutListLink />
