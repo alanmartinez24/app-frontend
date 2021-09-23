@@ -320,7 +320,6 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account
     return (
       <List component='nav'
         aria-label='main'
-        style={{ border: '3px solid red' }}
         className={classes.list1}
       >
         <StyledAboutListLink />
