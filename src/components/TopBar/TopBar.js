@@ -717,6 +717,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     </ListItem>)}
           </List>
         </div>
+        {!isMobile && <StyledYupProductNav account={account} />}
         <ListItem className={classes.ListItem}
           button
           component={Link}
@@ -913,9 +914,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             </List>
           </DialogContent>
         </Dialog>
-
-        <StyledYupProductNav account={account} />
-
         {(isShown || isMobile) && (
         <Grow in
           timeout={500}
