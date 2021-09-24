@@ -42,7 +42,6 @@ const styles = theme => ({
 
 const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, authToken }) => {
   if (!collection.posts) return null
-  console.log(`collection.posts`, collection.posts)
   const [posts, setPosts] = useState(collection.posts)
   const [isLoading, setIsLoading] = useState(false)
 

@@ -340,7 +340,6 @@ class Collections extends Component {
       editDialogOpen,
       duplicateDialogOpen
     } = this.state
-    console.log(account, 'account')
     let color = socialLevelColor
     const menuOpen = Boolean(anchorEl)
 
