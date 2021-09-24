@@ -612,7 +612,7 @@ class Collections extends Component {
                   container
                   lg={isMinimize ? 3 : 4}
                   sm={2}
-                  xs={4}
+                  xs={2}
                   justify={isMinimize ? 'flex-end' : 'flex-start'}
                 >
                   <IconButton
