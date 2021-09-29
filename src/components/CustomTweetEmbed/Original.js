@@ -86,9 +86,6 @@ const Original = ({ tweetData, classes }) => {
         underline='none'
       >
         <div className={classes.tweetText}
-          style={{
-            marginBottom: 20
-          }}
         >{tweetText}</div>
       </Link>
       {

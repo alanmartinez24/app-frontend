@@ -19,6 +19,7 @@ import YupLists from './YupLists/YupLists'
 import Discover from './Discover/Discover'
 import User from './User/User'
 import PostPage from './PostPage/PostPage'
+import ScorePage from './ScorePage/ScorePage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
@@ -171,6 +172,10 @@ class Index extends Component {
                     <Route component={PostPage}
                       exact
                       path='/p/:postid'
+                    />
+                    <Route component={ScorePage}
+                      exact
+                      path='/s'
                     />
                     <Route component={Analytics}
                       exact
