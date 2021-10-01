@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
@@ -595,4 +595,4 @@ Home.propTypes = {
   isUser: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(withTheme(Home)))
+export default memo(connect(mapStateToProps)(withStyles(styles)(withTheme(Home))))
