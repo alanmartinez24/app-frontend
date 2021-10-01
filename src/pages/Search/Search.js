@@ -291,10 +291,12 @@ class Search extends Component {
   }
 
   render () {
-    const { classes, postSearchResults, userSearchResults } = this.props
+    const { classes, postSearchResults, userSearchResults, collectionSearchResults } = this.props
     const { activeTab } = this.state
     const { posts, searchText, isLoading } = postSearchResults
     const { users } = userSearchResults
+    const { collections } = collectionSearchResults
+    console.log(collections)
 
     return (
       <ErrorBoundary>
@@ -614,14 +616,16 @@ const steps = [
 const mapStateToProps = (state) => {
   return {
     userSearchResults: state.searchResults.userSearchResults, // userSearchResultsSelector(state),
-    postSearchResults: state.searchResults.postSearchResults // postSearchResultsSelector(state)
+    postSearchResults: state.searchResults.postSearchResults, // postSearchResultsSelector(state)
+    collectionSearchResults: state.searchResults.collectionSearchResults // postSearchResultsSelector(state)
   }
 }
 
 Search.propTypes = {
   classes: PropTypes.object.isRequired,
   userSearchResults: PropTypes.object.isRequired,
-  postSearchResults: PropTypes.object.isRequired
+  postSearchResults: PropTypes.object.isRequired,
+  collectionSearchResults: PropTypes.object.isRequired
 }
 
 Search.defaultProps = {

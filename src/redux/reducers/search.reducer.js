@@ -69,6 +69,30 @@ export function searchResults (state = initialState, action) {
           posts: []
         }
         break
+        case constants.FETCH_COLLECTION_SEARCH_RESULTS:
+          draft.collectionSearchResults = {
+            isLoading: true,
+            searchText: action.searchText,
+            error: null,
+            collections: []
+          }
+          break
+        case constants.FETCH_COLLECTION_SEARCH_RESULTS_SUCCESS:
+          draft.collectionSearchResults = {
+            isLoading: false,
+            searchText: action.searchText,
+            error: null,
+            collections: action.collections
+          }
+          break
+        case constants.FETCH_COLLECTION_SEARCH_RESULTS_FAILURE:
+          draft.collectionSearchResults = {
+            isLoading: false,
+            searchText: action.searchText,
+            error: action.error,
+            collections: []
+          }
+          break
     }
   })
 }
