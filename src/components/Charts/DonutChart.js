@@ -38,10 +38,14 @@ const DonutChart = ({ classes, chartData, chartTitle, colors }) => {
     let series = []
     let labels = []
     Object.values(chartData).forEach((val, i) => {
-      if (Object.keys(chartData)[i] !== 'total' && val !== 0)series.push(Number(val))
+      if (Object.keys(chartData)[i] !== 'total' && val !== 0) {
+        series.push(Number(val))
+      }
     })
     Object.keys(chartData).forEach((val, i) => {
-      if (val !== 'total' && Object.values(chartData)[i] !== 0) { labels.push(val.charAt(0).toUpperCase() + val.slice(1)) }
+      if (val !== 'total' && Object.values(chartData)[i] !== 0) {
+        labels.push(val.charAt(0).toUpperCase() + val.slice(1))
+      }
     })
     const chart = {
       series: series,

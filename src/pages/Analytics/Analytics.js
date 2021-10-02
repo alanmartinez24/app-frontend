@@ -172,7 +172,7 @@ class Analytics extends Component {
       try {
         let sortedArray = []
         income.forEach(payment => {
-          if (payment.act.data.symbol === 'YUP') { sortedArray.push([new Date(payment.timestamp).getTime(), payment.act.data.amount]) }
+          if (payment.act.data.symbol === 'YUP' && payment.act.data.memo === 'Yup Curator Rewards') { sortedArray.push([new Date(payment.timestamp).getTime(), payment.act.data.amount]) }
         })
         sortedArray = sortedArray.sort((a, b) => b[0] - a[0])
         let dailyData = [[new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), account.total_claimed_rewards]]
@@ -185,7 +185,9 @@ class Analytics extends Component {
             }
           }
         })
+        console.log(dailyData)
         dailyData = this.cleanupData(dailyData)
+        console.log(dailyData)
         this.setState({ isLoading: false, userEarnings: dailyData })
       } catch (e) {
         console.log(e)
@@ -204,11 +206,11 @@ class Analytics extends Component {
     try {
       const data = (await axios.get(`${BACKEND_API}/analytics/distribution/${account}`)).data
 
-      let valuesCat = Object.values(data.categoryDistribution).sort((a, b) => b - a).slice(0, 5)
-      let keysCat = Object.keys(data.categoryDistribution).sort((a, b) => data.categoryDistribution[b] - data.categoryDistribution[a]).slice(0, 5)
+      let valuesCat = Object.values(data.categoryDistribution).sort((a, b) => b - a).slice(0, 6)
+      let keysCat = Object.keys(data.categoryDistribution).sort((a, b) => data.categoryDistribution[b] - data.categoryDistribution[a]).slice(0, 6)
       let resultCat = []; let i = -1
-      let valuesPlat = Object.values(data.platformDistribution).sort((a, b) => b - a).slice(0, 5)
-      let keysPlat = Object.keys(data.platformDistribution).sort((a, b) => data.platformDistribution[b] - data.platformDistribution[a]).slice(0, 5)
+      let valuesPlat = Object.values(data.platformDistribution).sort((a, b) => b - a).slice(0, 6)
+      let keysPlat = Object.keys(data.platformDistribution).sort((a, b) => data.platformDistribution[b] - data.platformDistribution[a]).slice(0, 6)
       let resultPlat = []; let k = -1
      while (valuesCat[++i]) {
       resultCat.push([ keysCat[i], valuesCat[i] ])
@@ -458,7 +460,7 @@ ratingPower = async () => {
                   >
                     <DonutChart
                       chartData={platformDistribution}
-                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green]}
+                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green, Colors.Purple]}
                       className={classes}
                       chartTitle='Platform Distribution'
                     />
@@ -471,7 +473,7 @@ ratingPower = async () => {
                       chartData={categoryDistribution}
                       className={classes}
                       chartTitle='Categories Distribution'
-                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green]}
+                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green, Colors.Purple]}
                     />
                   </Grid>
                 </Grid>
