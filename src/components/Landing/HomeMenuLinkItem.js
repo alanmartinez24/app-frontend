@@ -18,6 +18,9 @@ const styles = theme => ({
   gridContainer: {
     alignContent: 'center',
     height: '100%'
+  },
+  noWrap: {
+    whiteSpace: 'nowrap'
   }
 })
 
@@ -41,9 +44,12 @@ const HomeMenuLinkItem = ({ link, title, classes }) => {
           >
             <Grid container
               className={classes.gridContainer}
-              alignItems='stretch'
+              direction='column'
+              alignItems='center'
+              justify='center'
             >
               <Typography
+                className={classes.noWrap}
                 variant='body2'
               >
                 {title}
