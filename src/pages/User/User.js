@@ -108,7 +108,7 @@ const styles = theme => ({
     padding: '20px 40px 20px 30px !important'
   },
   tourFab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
     zIndex: 1000,

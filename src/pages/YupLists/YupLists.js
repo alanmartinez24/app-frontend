@@ -41,14 +41,14 @@ const styles = theme => ({
       padding: '0px 17vw 0px 17vw'
     },
     flex: 1,
-    padding: '0px 20vw'
+    padding: '0px 15vw 0 20vw'
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
     padding: '20px 40px 20px 30px !important'
   },
   tourFab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
     zIndex: 1000,

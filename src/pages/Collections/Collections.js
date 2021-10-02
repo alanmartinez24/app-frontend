@@ -118,7 +118,7 @@ const styles = theme => ({
     color: theme.palette.alt.second
   },
   tourFab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
     background: theme.palette.common.first,

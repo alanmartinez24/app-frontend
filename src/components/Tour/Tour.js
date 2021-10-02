@@ -14,7 +14,7 @@ const styles = theme => ({
       padding: '34px 60px 34px 30px !important'
     },
     tourFab: {
-      position: 'absolute',
+      position: 'fixed',
       bottom: theme.spacing(3),
       right: theme.spacing(12),
       background: theme.palette.common.first,
