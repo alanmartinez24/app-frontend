@@ -14,6 +14,7 @@ import './discover.scss'
 import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { setTourAction } from '../../redux/actions'
 
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
@@ -395,9 +396,8 @@ class Discover extends Component {
   }
 
   render () {
-    const { classes, feed, query } = this.props
+    const { classes, feed, query, dispatch, tour } = this.props
     const search = document.location.search
-
     return !search.includes('feed=') ? (
       <HomeMenu />
     ) : (
@@ -422,11 +422,8 @@ class Discover extends Component {
           </Grid>
           <Tour
             steps={steps}
-            isOpen={
-              this.state.isTourOpen ||
-              window.location.search.includes('tutorial=true')
-            }
-            onRequestClose={this.closeTour}
+            isOpen={tour}
+            onRequestClose={() => { dispatch(setTourAction({ isTourOpen: false })) }}
             className={classes.Tour}
             accentColor='#00E08E'
             rounded={10}
@@ -456,7 +453,7 @@ class Discover extends Component {
             <Fab
               className={classes.tourFab}
               variant='extended'
-              onClick={this.openTour}
+              onClick={() => { dispatch(setTourAction({ isTourOpen: true })) }}
             >
               10-Second Tutorial
             </Fab>
@@ -613,14 +610,17 @@ const mapStateToProps = state => {
   const { router } = state
   return {
     feed: router.location.query.feed || state.homeFeed.feed,
-    query: router.location.query
+    query: router.location.query,
+    tour: state.tour.isTourOpen
   }
 }
 
 Discover.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   feed: PropTypes.string,
-  query: PropTypes.object.isRequired
+  query: PropTypes.object.isRequired,
+  tour: PropTypes.object.isRequired
 }
 
 export default memo(connect(mapStateToProps)(withStyles(styles)(Discover)))
