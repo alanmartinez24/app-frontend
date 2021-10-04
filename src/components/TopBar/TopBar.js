@@ -382,7 +382,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const [notifications, setNotifications] = useState([])
   const [level, setLevel] = useState(defaultLevelInfo)
   const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
-
   let authInfo = useSelector(getReduxState)
   const accountName = authInfo && authInfo.account && authInfo.account.name
   useEffect(() => {
@@ -429,6 +428,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   }, [isTourOpen])
 
   function handleDrawerOpen () {
+    setIsShown(true)
     setOpen(true)
   }
 
@@ -439,6 +439,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const handleCollectionDialogClose = () => setCollectionDialogOpen(false)
 
   const handleDialogClose = () => {
+    setIsShown(false)
     setDialogOpen(false)
   }
   const handleToggleTheme = () => {
@@ -641,7 +642,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 className={classes.ListItem}
                 button
                 component={Link}
-                onClick={logProfileClick}
+                onClick={logProfileClick && handleDrawerClose}
                 to={`/${username}`}
                 style={{ paddingLeft: '11px' }}
               >
