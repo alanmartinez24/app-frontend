@@ -320,6 +320,16 @@ class Collections extends Component {
     this.setState({ activeTab: newTab })
   }
 
+   isValidHttpUrl (string) {
+    let url
+    try {
+      url = new URL(string)
+    } catch (_) {
+      return false
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  }
+
   render () {
     const { classes, account, levels, dispatch, authToken, tour, theme } = this.props
     const {
@@ -553,7 +563,7 @@ class Collections extends Component {
                     timeout={1000}
                   >
                     <Img
-                      src={[headerImgSrc, DEFAULT_IMG]}
+                      src={this.isValidHttpUrl(headerImgSrc) ? [headerImgSrc, DEFAULT_IMG] : DEFAULT_IMG}
                       alt='thumbnail'
                       loader={<div />}
                       className={`${classes.headerImg} ${minimize}`}
