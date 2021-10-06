@@ -22,10 +22,10 @@ const styles = theme => ({
 
     const AudiusComp = (_props) => (
       <div className={classes.postContainer}>
-        <iframe src={`${AUDIUS_EMBED}/${trackId}?flavor=card`}
+        <iframe src={`${AUDIUS_EMBED}/${trackId}?flavor=compact`}
           allow='encrypted-media'
           width='100%'
-          height='640'
+          height='130'
           style={{ border: 'none', padding: '10px' }}
         />
       </div>
