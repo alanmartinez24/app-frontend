@@ -5,7 +5,6 @@ import { parseIpfsRef, hashToUrl } from '../../utils/ipfs.js'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { Avatar, Fade } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-import { Link } from 'react-router-dom'
 
 const ANONYMOUS_DEFAULT_AVATAR = 'images/icons/user.svg'
 
@@ -36,30 +35,26 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
       timeout={1000}
     >
       <ErrorBoundary>
-        <Link style={{ textDecoration: 'none' }}
-          to={'/' + username}
+        <ImageLoader className={classes.Loader}
+          src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}
         >
-          <ImageLoader className={classes.Loader}
-            src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}
-          >
-            <img alt={alt}
-              src={hashToUrl(src)}
-              style={style}
-              onError={setDefaultSrc}
-              className={className}
-            />
-            <Avatar alt={alt}
-              className={[classes.avatar, className]}
-              style={style}
-            >{userLetter && userLetter}
-            </Avatar>
-            <Avatar alt={alt}
-              className={[classes.avatar, className]}
-              style={style}
-            >{userLetter && userLetter}
-            </Avatar>
-          </ImageLoader>
-        </Link>
+          <img alt={alt}
+            src={hashToUrl(src)}
+            style={style}
+            onError={setDefaultSrc}
+            className={className}
+          />
+          <Avatar alt={alt}
+            className={[classes.avatar, className]}
+            style={style}
+          >{userLetter && userLetter}
+          </Avatar>
+          <Avatar alt={alt}
+            className={[classes.avatar, className]}
+            style={style}
+          >{userLetter && userLetter}
+          </Avatar>
+        </ImageLoader>
       </ErrorBoundary>
     </Fade>
   )

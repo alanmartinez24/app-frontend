@@ -40,6 +40,15 @@ const styles = theme => ({
       }
     }
   })
+  function isValidHttpUrl (string) {
+    let url
+    try {
+      url = new URL(string)
+    } catch (_) {
+      return false
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  }
 
 const CollectionItem = ({ classes, collection, username }) => {
     const fmtCollectionName = collection && collection.name.replace(/\s+/g, '-').toLowerCase()
@@ -70,7 +79,7 @@ const CollectionItem = ({ classes, collection, username }) => {
             className={classes.collection}
           >
             <Img
-              src={[collection.imgSrcUrl, DEFAULT_IMG]}
+              src={isValidHttpUrl(collection.imgSrcUrl) ? [collection.imgSrcUrl, DEFAULT_IMG] : DEFAULT_IMG}
               alt='thumbnail'
               className={classes.collectionImg}
             />

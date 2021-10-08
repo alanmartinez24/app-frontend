@@ -10,7 +10,7 @@ import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 
 const styles = theme => ({
   collectionFab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(5),
     zIndex: '1000',
