@@ -279,7 +279,7 @@ class ObjectPreview extends Component {
                           basedOn='letters'
                           ellipsis='...'
                           maxLine='1'
-                          text={title.split('|', 1)}
+                          text={title && title.split('|', 1)}
                           trimRight
                         />
                       </Typography>

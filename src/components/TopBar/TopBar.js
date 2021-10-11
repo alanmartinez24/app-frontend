@@ -46,7 +46,7 @@ import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 
 const drawerWidth = 200
-const { BACKEND_API } = process.env
+const { BACKEND_API, EXTENSION_LINK } = process.env
 
 const styles = theme => ({
   appBar: {
@@ -256,61 +256,56 @@ PrivateListItem.propTypes = {
 
 const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
   return (
-    <ListLink
+    <ListItem className={classes.ListItem}
+      button
+      component={ListLink}
       href='https://yup.io'
       style={{ textDecoration: 'none', display: 'none' }}
     >
-      <ListItem className={classes.ListItem}
-        button
-      >
-        <ListItemIcon style={{ minWidth: '20px' }}>
-          <Icon className='fal fa-globe' />
-        </ListItemIcon>
-        <ListItemText>
-          <Typography variant='body2'
-            className={classes.typography}
-          >
-            About
-          </Typography>
-        </ListItemText>
-      </ListItem>
-    </ListLink>
+      <ListItemIcon style={{ minWidth: '20px' }}>
+        <Icon className='fal fa-globe' />
+      </ListItemIcon>
+      <ListItemText>
+        <Typography variant='body2'
+          className={classes.typography}
+        >
+          About
+        </Typography>
+      </ListItemText>
+    </ListItem>
   )
 })
 const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
   classes
 }) {
   return (
-    <ListLink
-      href='https://chrome.google.com/webstore/detail/yup-opinions-social-capit/nhmeoaahigiljjdkoagafdccikgojjoi'
-      style={{ textDecoration: 'none' }}
+    <ListItem
+      button
+      component={ListLink}
+      style={{ paddingLeft: '0px', textDecoration: 'none' }}
+      href={EXTENSION_LINK}
       target='_blank'
     >
-      <ListItem className={classes.ListItem}
-        button
-        component={Link}
-        to='/'
-        style={{ paddingLeft: '0px' }}
+
+      <ListItemIcon>
+        <Icon
+          fontSize='small'
+          className='fal fa-plug'
+        />
+      </ListItemIcon>
+      <Grow in
+        timeout={600}
       >
-        <ListItemIcon>
-          <Icon
-            fontSize='small'
-            className='fal fa-plug'
-          />
-        </ListItemIcon>
-        <Grow in
-          timeout={600}
-        >
-          <ListItemText >
-            <Typography variant='body2'
-              className={classes.typography}
-            >
-              Extension
-            </Typography>
-          </ListItemText>
-        </Grow>
-      </ListItem>
-    </ListLink>
+        <ListItemText >
+          <Typography variant='body2'
+            className={classes.typography}
+          >
+
+            Extension
+          </Typography>
+        </ListItemText>
+      </Grow>
+    </ListItem>
 
   )
 })
