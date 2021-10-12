@@ -210,24 +210,30 @@ function ProfileCard (props) {
    }
 
    if (levels[accountInfo.eosname].isLoading) {
-    return <div />
+    // return <div />
   }
-  const quantile = levels[accountInfo.eosname] && levels[accountInfo.eosname].levelInfo.quantile
-  const socialLevelColor = levelColors[quantile]
 
-  const displayName =
-    accountInfo.fullname || accountInfo.username || accountInfo._id
+  const eosname = accountInfo && (accountInfo.eosname || accountInfo._id)
+  const levelInfo = levels[eosname] && levels[eosname].levelInfo
+
+  const quantile = levelInfo && levelInfo.quantile
+  const socialLevelColor = levelColors[quantile] || 'sixth'
+
+  const displayName = accountInfo && (
+    accountInfo.fullname || accountInfo.username || accountInfo._id)
   const isMirror =
     accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isMirror
   const isAuthUser =
     accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isAuthUser
-  const defaultUsername = accountInfo.username || accountInfo._id
+  const defaultUsername = accountInfo && (accountInfo.username || accountInfo._id)
   const username = isMirror ? accountInfo.twitterInfo.username : defaultUsername
 
   const hidden = isMinimize ? classes.hidden : null
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
   const isMobile = window.innerWidth <= 600
+
+  const avatar = levelInfo && levelInfo.avatar
   return (
     <ErrorBoundary>
       <Card
@@ -238,7 +244,7 @@ function ProfileCard (props) {
           alt={accountInfo.username}
           username={accountInfo.username}
           className={`${classes.avatarImage} ${minimize}`}
-          src={levels[accountInfo.eosname].levelInfo.avatar}
+          src={avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
         />
         <Grid alignItems='center'
@@ -354,7 +360,7 @@ function ProfileCard (props) {
                 basedOn='letters'
                 ellipsis='...'
                 maxLine='2'
-                text={formatBio(accountInfo.bio)}
+                text={formatBio(accountInfo && accountInfo.bio)}
                 className={hidden}
                 trimRight
               />
@@ -481,7 +487,7 @@ function ProfileCard (props) {
                 account={account}
                 className={classes.text}
                 isLoggedIn={isLoggedIn}
-                username={accountInfo._id}
+                username={eosname}
               />
             </Grid>
             <Grid item>
@@ -489,7 +495,7 @@ function ProfileCard (props) {
                 account={account}
                 className={classes.text}
                 isLoggedIn={isLoggedIn}
-                username={accountInfo._id}
+                username={eosname}
               />
             </Grid>
           </Grid>
