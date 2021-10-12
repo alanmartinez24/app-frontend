@@ -128,15 +128,13 @@ export function socialLevels (state = { isLoading: true, levels: {} }, action) {
         draft.levels[action.username].isLoading = true
         break
       case constants.UPDATE_ACCOUNT_INFO_SUCCESS:
-        const level = draft.levels[action.username]
-        level.levelInfo = {
-          ...level.levelInfo,
-          bio: action.update.bio,
-          fullname: action.update.fullname,
-          avatar: action.update.avatar
-        }
+        draft.levels[action.username].levelInfo.isLoading = false
+        draft.levels[action.username].levelInfo.bio = action.update.bio
+        draft.levels[action.username].levelInfo.fullname = action.update.fullname
+        draft.levels[action.username].levelInfo.avatar = action.update.avatar
         break
       case constants.UPDATE_ACCOUNT_INFO_FAILURE:
+        draft.levels[action.username].isLoading = false
         draft.levels[action.username].error = action.error
         break
       default:
