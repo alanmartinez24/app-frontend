@@ -153,10 +153,8 @@ const Quoted = ({ tweetData, classes }) => {
               />
             </div>
             : (quotedHasVideo && quotedMediaURL) &&
-              <ReactPlayer
-                className={classes.videoTweet}
+              <TweetVidPlayer
                 url={quotedMediaURL}
-                controls
               />
          }
         </div>

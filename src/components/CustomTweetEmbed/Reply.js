@@ -207,10 +207,8 @@ const Reply = ({ tweetData, classes }) => {
                  />
                </div>
                : (replyHasVideo && replyMediaURL) &&
-                 <ReactPlayer
-                   className={classes.videoTweet}
+                 <TweetVidPlayer
                    url={replyMediaURL}
-                   controls
                  />
              }
 
