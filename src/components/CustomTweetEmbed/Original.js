@@ -2,9 +2,9 @@
 import React, { Component, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
 import axios from 'axios'
+import TweetVidPlayer from './TweetVidPlayer'
 import _ from 'lodash'
 
 // util
@@ -111,10 +111,8 @@ const Original = ({ tweetData, classes }) => {
             />
           </div>
         : (hasVideo && mediaURL) &&
-          <ReactPlayer
-            className={classes.videoTweet}
+          <TweetVidPlayer
             url={mediaURL}
-            controls
           />
         }
     </div>
