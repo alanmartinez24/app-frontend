@@ -4,7 +4,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     width: '100vw',
     textAlign: 'center',
@@ -14,6 +14,10 @@ const styles = () => ({
   message: {
     width: '95vw',
     position: 'absolute'
+  },
+  link: {
+    color: theme.palette.alt.first,
+    textDecoration: 'none'
   }
 })
 const SiteBanner = ({ classes }) => {
@@ -40,7 +44,7 @@ const SiteBanner = ({ classes }) => {
     <a
       href='https://yup.mirror.xyz/rzRK52lDvnsO3Hxp8Tctdt2gjcVVmb4Jp6mxGVSi1KQ'
       target='_blank'
-      style={{ textDecoration: 'none', color: 'black' }}
+      className={classes.link}
     >
       We just raised our $3.5M seed round! 🥳 Learn more here.
     </a>
