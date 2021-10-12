@@ -7,10 +7,13 @@ import PropTypes from 'prop-types'
 const styles = () => ({
   root: {
     width: '100vw',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: -22,
+    maxHeight: 50
   },
   message: {
-    width: '95vw'
+    width: '95vw',
+    position: 'absolute'
   }
 })
 const SiteBanner = ({ classes }) => {
@@ -51,7 +54,6 @@ const SiteBanner = ({ classes }) => {
       onClose={handleClose}
       action={action}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      style={{ marginTop: -22 }}
       message={message}
       ContentProps={{
         classes: {
