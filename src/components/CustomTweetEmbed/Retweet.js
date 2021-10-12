@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
 import axios from 'axios'
 import _ from 'lodash'
+import TweetVidPlayer from './TweetVidPlayer'
 
 // util
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
@@ -105,10 +105,8 @@ const entitiesURLS = (entities ? (entities.urls && entities.urls.length > 0) : f
                     />
                   </div>
                   : (retweetHasVideo && retweetMediaURL) &&
-                    <ReactPlayer
-                      className={classes.videoTweet}
+                    <TweetVidPlayer
                       url={retweetMediaURL}
-                      controls
                     />
                 }
       </div>

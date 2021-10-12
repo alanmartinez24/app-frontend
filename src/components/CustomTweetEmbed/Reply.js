@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
 import axios from 'axios'
 import _ from 'lodash'
+import TweetVidPlayer from './TweetVidPlayer'
 
 // util
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
@@ -256,10 +256,8 @@ const Reply = ({ tweetData, classes }) => {
             />
           </div>
           : (hasVideo && mediaURL) &&
-            <ReactPlayer
-              className={classes.videoTweet}
+            <TweetVidPlayer
               url={mediaURL}
-              controls
             />
          }
 

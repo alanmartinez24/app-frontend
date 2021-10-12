@@ -1,10 +1,8 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
-import axios from 'axios'
 import _ from 'lodash'
+import TweetVidPlayer from './TweetVidPlayer'
 
 // util
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
@@ -128,10 +126,8 @@ const Quoted = ({ tweetData, classes }) => {
               />
             </div>
             : (originalHasVideo && originalMediaURL) &&
-              <ReactPlayer
-                className={classes.videoTweet}
+              <TweetVidPlayer
                 url={originalMediaURL}
-                controls
               />
       }
       <div className={classes.retweetContainer}>
