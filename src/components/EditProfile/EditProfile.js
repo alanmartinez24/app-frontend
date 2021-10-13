@@ -586,7 +586,6 @@ class EditProfile extends Component {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   const ethAuth = ethAuthSelector(state)
-
   return {
     account,
     ethAuth,
