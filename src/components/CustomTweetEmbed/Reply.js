@@ -14,9 +14,6 @@ const Reply = ({ tweetData, classes }) => {
   const [ previewData, setPreviewData ] = useState(null)
   const entities = tweetData.tweetInfo.entities ? tweetData.tweetInfo.entities : false
   const entitiesURLS = (entities && entities.urls.length > 0)
-
-  console.log(`tweetData`, tweetData)
-
   const tweetLink = (tweetData.previewData && tweetData.previewData.url) || ''
 
   // ORIGINAL
@@ -45,7 +42,6 @@ const Reply = ({ tweetData, classes }) => {
   let mediaURL, mediaType, hasPhoto, hasVideo
   if (hasMedia) {
     mediaURL = extendedEntities.media[0].media_url_https ? extendedEntities.media[0].media_url_https : false
-    console.log(`mediaURL`, mediaURL)
     mediaType = extendedEntities.media[0].type
     hasPhoto = Boolean(mediaType === 'photo')
     hasVideo = Boolean(mediaType === 'video' || mediaType === 'animated_gif')
@@ -74,7 +70,6 @@ const Reply = ({ tweetData, classes }) => {
   let replyMediaURL, replyMediaType, replyHasPhoto, replyHasVideo
   if (replyHasMedia) {
     replyMediaURL = replyExtendedEntities.media[0].media_url_https ? replyExtendedEntities.media[0].media_url_https : false
-    console.log(`replyMediaURL`, replyMediaURL)
     replyMediaType = replyExtendedEntities.media[0].type
     replyHasPhoto = Boolean(replyMediaType === 'photo')
     replyHasVideo = Boolean(replyMediaType === 'video' || replyMediaType === 'animated_gif')
@@ -173,19 +168,6 @@ const Reply = ({ tweetData, classes }) => {
                 {replyTweetText}
               </div>
             </Link>
-
-            {/* {(previewData && replyHasMedia) && (
-              <div style={{ marginTop: 20 }}>
-                <LinkPreview
-                  classes={classes}
-                  description={previewData && previewData.description}
-                  image={previewData && previewData.img}
-                  title={previewData && previewData.title}
-                  url={previewData && previewData.url}
-                  caption={caption}
-                />
-              </div>
-            )} */}
             {
                (replyHasPhoto && replyMediaURL)
                ? <div className={classes.replyImageContainer}>
