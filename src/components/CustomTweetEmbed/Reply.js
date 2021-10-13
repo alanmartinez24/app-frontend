@@ -174,7 +174,7 @@ const Reply = ({ tweetData, classes }) => {
               </div>
             </Link>
 
-            {(previewData && replyHasMedia) && (
+            {/* {(previewData && replyHasMedia) && (
               <div style={{ marginTop: 20 }}>
                 <LinkPreview
                   classes={classes}
@@ -185,7 +185,7 @@ const Reply = ({ tweetData, classes }) => {
                   caption={caption}
                 />
               </div>
-            )}
+            )} */}
             {
                (replyHasPhoto && replyMediaURL)
                ? <div className={classes.replyImageContainer}>
