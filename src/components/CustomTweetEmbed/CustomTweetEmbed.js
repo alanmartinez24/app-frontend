@@ -79,6 +79,7 @@ const styles = theme => ({
     borderRadius: '20px',
     boxShadow: '0px 0px 5px #AAAAAAA0'
   },
+
   retweetContainer: {
     boxShadow: '0px 0px 5px #AAAAAAA0',
     padding: '12px',
@@ -208,6 +209,9 @@ const styles = theme => ({
   },
   LinkPreviewImageSmallContainer: {
     height: '100%'
+  },
+  LinkPreviewImage: {
+    maxWidth: 550,
   },
   LinkPreviewContentLarge: {
     display: 'flex',
