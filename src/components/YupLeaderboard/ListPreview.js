@@ -175,9 +175,10 @@ class ListPreview extends Component {
     const id = collection[5]
 
     const res = (await axios.get(`${BACKEND_API}/collections/${name}/${id}`)).data
-    const collectionImg = res.posts[0] && res.posts[0].previewData.img
-    const collectionImgFallback = res.posts[1] && res.posts[1].previewData.img
-     this.setState({
+    const collectionImg = res.posts[0] && res.posts[0].previewData && res.posts[0].previewData.img
+    const collectionImgFallback = res.posts[1] && res.posts[1].previewData && res.posts[1].previewData.img
+
+    this.setState({
       collectionImg: collectionImg || collectionImgFallback
     })
   }
@@ -252,7 +253,7 @@ class ListPreview extends Component {
                       light={postBroken ? (faviconURL || faviconURLFallback) : ''}
                       onError={this.addDefaultVid}
                       />
-                    : <img src={isCollection ? collectionImg : (image || faviconURL || faviconURLFallback)}
+                    : <img src={isCollection ? (collectionImg || DEFAULT_IMG) : (image || faviconURL || faviconURLFallback)}
                       className={(isNftArt || isCollection) ? classes.nftArt : classes.image}
                       onError={this.addDefaultSrc}
                       alt='favicon'
