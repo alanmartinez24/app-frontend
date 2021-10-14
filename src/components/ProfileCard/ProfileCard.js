@@ -219,8 +219,8 @@ function ProfileCard (props) {
   const quantile = levelInfo && levelInfo.quantile
   const socialLevelColor = levelColors[quantile] || 'sixth'
 
-  const displayName = accountInfo && (
-    accountInfo.fullname || accountInfo.username || accountInfo._id)
+  const displayName = (levelInfo && levelInfo.fullname) || (accountInfo && (
+    accountInfo.fullname || accountInfo.username || accountInfo._id))
   const isMirror =
     accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isMirror
   const isAuthUser =
@@ -360,7 +360,7 @@ function ProfileCard (props) {
                 basedOn='letters'
                 ellipsis='...'
                 maxLine='2'
-                text={formatBio(accountInfo && accountInfo.bio)}
+                text={formatBio(levelInfo && levelInfo.bio) || (accountInfo && accountInfo.bio)}
                 className={hidden}
                 trimRight
               />
