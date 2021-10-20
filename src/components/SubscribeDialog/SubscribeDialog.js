@@ -791,6 +791,7 @@ SubscribeDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  method: PropTypes.string
 }
 export default withRouter(connect(null)(withStyles(styles)(SubscribeDialog)))

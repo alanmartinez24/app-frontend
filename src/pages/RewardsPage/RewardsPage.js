@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card } from '@material-ui/core'
+import { Grid, Typography, Card, Button } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Colors from '../../utils/colors'
 import YupInput from '../../components/Miscellaneous/YupInput'
+import SubscribeDialog from '../../components/SubscribeDialog'
 import axios from 'axios'
 
 const BACKEND_API = 'http://localhost:4001'
@@ -23,13 +24,25 @@ const styles = theme => ({
     overflowY: 'hidden',
     backgroundColor: theme.palette.alt.second
   },
+  btn: {
+    backgroundColor: '#00E08E',
+    fontFamily: 'Gilroy',
+    width: 350,
+    height: '45px',
+    borderRadius: '0.65rem',
+    marginTop: 15,
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#00E08E'
+    }
+  },
   page: {
     width: '100%',
     marginLeft: 0,
     overflowX: 'hidden',
     flex: 1
   },
-  Card: {
+  card: {
     padding: theme.spacing(2),
     height: '70%',
     width: '350px',
@@ -52,7 +65,8 @@ class RewardsPage extends Component {
     isLoading: false,
     ethAddress: this.props.location.pathname.split('/')[2] || '',
     rewards: null,
-    price: null
+    price: null,
+    dialogOpen: false
   }
 
   handleInput = e => {
@@ -86,13 +100,12 @@ class RewardsPage extends Component {
     }
     this.setState({ isLoading: false })
   }
-  triggerWalletConnectFlow = async () => {
-
-  }
+  openWalletConnectDialog = () => this.setState({ dialogOpen: true })
+  handleDialogClose = () => this.setState({ dialogOpen: false })
 
   render () {
     const { classes } = this.props
-    const { isLoading, rewards, price } = this.state
+    const { isLoading, rewards, price, dialogOpen } = this.state
     const socialLevelColor = rewards >= 80 && rewards <= 1000 ? Colors.Green : rewards >= 60 && rewards <= 80 ? Colors.Moss : rewards >= 40 && rewards <= 60 ? Colors.Yellow : rewards >= 20 && rewards <= 40 ? Colors.Orange : Colors.Red
 
     return (
@@ -143,7 +156,7 @@ class RewardsPage extends Component {
             justify='center'
             alignItems='center'
           >
-            <Card className={classes.Card}
+            <Card className={classes.card}
               elevation={0}
               style={{ background: 'transparent', boxShadow: 'none', padding: '16px 4px' }}
             >
@@ -167,8 +180,8 @@ class RewardsPage extends Component {
                     <YupInput
                       fullWidth
                       id='name'
-                      maxLength={30}
-                      label={'Entet Ethereum address'}
+                      maxLength={50}
+                      label={'Enter ETH address'}
                       type='text'
                       value={this.state.ethAddress}
                       variant='outlined'
@@ -177,11 +190,13 @@ class RewardsPage extends Component {
                 </Grid>
               </Grid>
             </Card>
-            <Card className={classes.Card}
+            <Card className={classes.card}
               style={{ display: rewards !== null ? 'inherit' : 'none' }}
               elevation={0}
             >
-              <Grid container>
+              <Grid container
+                direction='row'
+              >
                 <Grid
                   item
                   container
@@ -206,6 +221,21 @@ class RewardsPage extends Component {
                 </Grid>
               </Grid>
             </Card>
+            {rewards !== null && (
+            <Button
+              fullWidth
+              className={classes.btn}
+              onClick={this.openWalletConnectDialog}
+              variant='contained'
+            >
+              Claim
+            </Button>
+            )}
+            <SubscribeDialog
+              dialogOpen={dialogOpen}
+              method='walletconnect'
+              handleDialogClose={this.handleDialogClose}
+            />
           </Grid>
         </div>
       </ErrorBoundary>
