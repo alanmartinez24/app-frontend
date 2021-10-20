@@ -371,7 +371,7 @@ class SubscribeDialog extends Component {
 
         this.logEthSignup(mirrorStatus.data.account)
 
-        const profileUrl = `/${this.state.username}`
+        const profileUrl = `/${this.state.username }`
         history.push(profileUrl)
         this.props.handleDialogClose()
       } else {
@@ -406,7 +406,7 @@ class SubscribeDialog extends Component {
 
     this.logEthLogin(account)
 
-    const profileUrl = `/${account.username && (rewards ? ('?rewards=' + rewards) : '')}`
+    const profileUrl = `/${account.username && (rewards ? ('?rewards=' + rewards) : 'test')}`
     // already on user page
     if (window.location.href.split('/').pop() === account.username) {
       window.location.reload()
@@ -529,7 +529,8 @@ class SubscribeDialog extends Component {
   }
 
   render () {
-    const { handleDialogClose, dialogOpen, classes, method } = this.props
+    const { handleDialogClose, dialogOpen, classes, method, rewards } = this.props
+    console.log(rewards, 'rewards')
     if (method === 'walletconnect' && dialogOpen) {
       this.initWalletConnect()
     }
