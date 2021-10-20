@@ -1,17 +1,18 @@
-import React, { Component, memo } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, InputAdornment, Icon, Button } from '@material-ui/core'
+import { Grid, Typography, Card } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import isEqual from 'lodash/isEqual'
-import YupInput from '../../components/Miscellaneous/YupInput'
 import Colors from '../../utils/colors'
+import YupInput from '../../components/Miscellaneous/YupInput'
 import axios from 'axios'
 
-const BACKEND_API = process.env.BACKEND_API
+const BACKEND_API = 'http://localhost:4001'
+const REWARDS_MANAGER_API = process.env.REWARDS_MANAGER_API
+
+// const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   container: {
@@ -28,16 +29,10 @@ const styles = theme => ({
     overflowX: 'hidden',
     flex: 1
   },
-  sideFeed: {
-    position: 'fixed',
-    marginLeft: '38vw',
-    paddingLeft: '0px',
-    paddingRight: '0px'
-  },
   Card: {
     padding: theme.spacing(2),
     height: '70%',
-    width: '300px',
+    width: '350px',
     marginBottom: 0,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
@@ -54,28 +49,42 @@ const styles = theme => ({
 
 class RewardsPage extends Component {
   state = {
-    isMinimize: false,
-    showTour: true,
     isLoading: false,
-    inputEntered: false,
-    user: {},
-    ethAddress: null
-  }
-
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
-      return true
-    }
-    return false
+    ethAddress: this.props.location.pathname.split('/')[2] || '',
+    rewards: null,
+    price: null
   }
 
   handleInput = e => {
     this.setState({ ethAddress: e.target.value })
   }
+
+  componentDidMount = () => {
+    const ethAddress = this.props.location.pathname.split('/')[2]
+    if (ethAddress) {
+      this.setState({ ethAddress }, () => { this.fetchCreatorRewards() })
+      this.ethInput = ethAddress
+    }
+    axios.get(`${REWARDS_MANAGER_API}/prices/yupeth`).then(({ data }) => this.setState({ price: data.YUPETH }))
+  }
+
   onSubmit = e => {
     e.preventDefault()
-    this.setState({ inputEntered: true, isLoading: true })
-    this.triggerWalletConnectFlow()
+    this.props.history.push(`/rewards/${this.state.ethAddress}`)
+    this.setState({ isLoading: true })
+    this.fetchCreatorRewards()
+  }
+
+  fetchCreatorRewards = async () => {
+    try {
+      const rewards = (await (axios.get(`${BACKEND_API}/rewards/eth/${this.state.ethAddress}`))).data.creatorRewards
+      this.setState({ rewards })
+    } catch (err) {
+      if (err.response && err.response.status === 422) {
+        console.log('Not a valid eth address')
+      }
+    }
+    this.setState({ isLoading: false })
   }
   triggerWalletConnectFlow = async () => {
 
@@ -83,13 +92,14 @@ class RewardsPage extends Component {
 
   render () {
     const { classes } = this.props
-    const { isLoading, inputEntered, ethAddress } = this.state
+    const { isLoading, rewards, price } = this.state
+    const socialLevelColor = rewards >= 80 && rewards <= 1000 ? Colors.Green : rewards >= 60 && rewards <= 80 ? Colors.Moss : rewards >= 40 && rewards <= 60 ? Colors.Yellow : rewards >= 20 && rewards <= 40 ? Colors.Orange : Colors.Red
 
     return (
       <ErrorBoundary>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>  </title>
+          <title> Rewards  </title>
           <meta property='description'
             content=''
           />
@@ -144,19 +154,12 @@ class RewardsPage extends Component {
                 spacing={3}
               >
                 <Grid item>
-                  <Typography style={{ opacity: 0.3 }}
-                    variant='h5'
+                  <Typography
+                    variant='h4'
                   >
-                    Yup Score
+                    Check Rewards Eligibility
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button style={{ opacity: 0.2 }}
-                    size='small'
-                    content='text'
-                  >Twitter</Button>
-                </Grid>
-
                 <Grid item
                   xs={12}
                 >
@@ -165,66 +168,42 @@ class RewardsPage extends Component {
                       fullWidth
                       id='name'
                       maxLength={30}
-                      label='Twitter Username...'
+                      label={'Entet Ethereum address'}
                       type='text'
+                      value={this.state.ethAddress}
                       variant='outlined'
                       onChange={this.handleInput}
-                      endAdornment={<InputAdornment position='end'>
-                        <Icon fontSize='small'
-                          className='fal fa-arrow-right'
-                          style={{ marginRight: '20px' }}
-                        /></InputAdornment>}
                     /></form>
                 </Grid>
               </Grid>
             </Card>
             <Card className={classes.Card}
-              style={{ display: inputEntered ? 'inherit' : 'none' }}
+              style={{ display: rewards !== null ? 'inherit' : 'none' }}
               elevation={0}
             >
-              <Grid container
-                justify='center'
-                direction='column'
-                spacing={2}
-              >
+              <Grid container>
                 <Grid
                   item
                   container
-                  direction='column'
-                  spacing={1}
-                >
-                  <Grid
-                    item
-                  >
-                    <Typography variant='h3'>
-                      {ethAddress}
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                  />
-                </Grid>
-                {/* <Grid
-                  item
-                  container
+                  alignItems='center'
                   direction='row'
                 >
-                  <Typography variant='h1'
-                    style={{
-                      color: inputEntered ? socialLevelColor : 'inherit'
-                    }}
+                  <Typography variant='h2'
+                    style={{ color: rewards ? socialLevelColor : 'inherit' }}
                   >
-                    { inputEntered ? isLoading
+                    { isLoading
                     ? <Skeleton
                       animation='pulse'
                       className={classes.Skeleton}
                       style={{ transform: 'none' }}
-                      >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton> : YupScore : '??' }
+                      >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton> : `${rewards && rewards.toFixed(2)} YUP` }
                   </Typography>
-                  <Typography variant='h5'>
-                    &nbsp;/100
+                  <Typography variant='h4'
+                    style={{ opacity: 0.5, marginLeft: 20 }}
+                  >
+                    ~{(price * rewards).toFixed(2)} USD
                   </Typography>
-                </Grid> */}
+                </Grid>
               </Grid>
             </Card>
           </Grid>
@@ -234,14 +213,10 @@ class RewardsPage extends Component {
   }
 }
 
-const mapStateToProps = ({ router }) => {
-  return {
-    query: router.location.query
-  }
-}
-
 RewardsPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 }
 
-export default memo(connect(mapStateToProps)(withStyles(styles)(RewardsPage)))
+export default withStyles(styles)(RewardsPage)

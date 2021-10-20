@@ -181,8 +181,7 @@ class Index extends Component {
                       path='/s'
                     />
                     <Route component={RewardsPage}
-                      exact
-                      path='/rewards/:ethAddress'
+                      path='/rewards'
                     />
                     <Route component={Analytics}
                       exact
