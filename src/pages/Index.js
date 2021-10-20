@@ -21,6 +21,7 @@ import Discover from './Discover/Discover'
 import User from './User/User'
 import PostPage from './PostPage/PostPage'
 import ScorePage from './ScorePage/ScorePage'
+import RewardsPage from './RewardsPage/RewardsPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
@@ -178,6 +179,10 @@ class Index extends Component {
                     <Route component={ScorePage}
                       exact
                       path='/s'
+                    />
+                    <Route component={RewardsPage}
+                      exact
+                      path='/rewards/:ethAddress'
                     />
                     <Route component={Analytics}
                       exact
