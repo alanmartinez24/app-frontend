@@ -384,6 +384,7 @@ class SubscribeDialog extends Component {
 
   signIn = async (payload) => {
     const { history, dispatch, rewards } = this.props
+    console.log(`rewards in signin function`, rewards)
     let txStatus
     try {
       txStatus = await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address: this.state.address, signature: this.state.signature })
@@ -406,7 +407,7 @@ class SubscribeDialog extends Component {
 
     this.logEthLogin(account)
 
-    const profileUrl = `/${account.username && (rewards ? ('?rewards=' + rewards) : 'test')}`
+    const profileUrl = `/${account.username && (rewards ? ('?rewards=' + rewards) : '')}`
     // already on user page
     if (window.location.href.split('/').pop() === account.username) {
       window.location.reload()

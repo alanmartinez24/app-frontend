@@ -10,10 +10,8 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 
-const BACKEND_API = 'http://localhost:4001'
+const BACKEND_API = process.env.BACKEND_API
 const REWARDS_MANAGER_API = process.env.REWARDS_MANAGER_API
-
-// const BACKEND_API = process.env.BACKEND_API
 
 const styles = theme => ({
   container: {
@@ -106,13 +104,13 @@ class RewardsPage extends Component {
   render () {
     const { classes } = this.props
     const { isLoading, rewards, price, dialogOpen } = this.state
-    const socialLevelColor = rewards >= 80 && rewards <= 1000 ? Colors.Green : rewards >= 60 && rewards <= 80 ? Colors.Moss : rewards >= 40 && rewards <= 60 ? Colors.Yellow : rewards >= 20 && rewards <= 40 ? Colors.Orange : Colors.Red
+    console.log(`rewards in rewards page`, rewards)
 
     return (
       <ErrorBoundary>
         <Helmet>
           <meta charSet='utf-8' />
-          <title> Rewards  </title>
+          <title>Rewards</title>
           <meta property='description'
             content=''
           />
@@ -204,7 +202,7 @@ class RewardsPage extends Component {
                   direction='row'
                 >
                   <Typography variant='h2'
-                    style={{ color: rewards ? socialLevelColor : 'inherit' }}
+                    style={{ color: '#00E08E' }}
                   >
                     { isLoading
                     ? <Skeleton
