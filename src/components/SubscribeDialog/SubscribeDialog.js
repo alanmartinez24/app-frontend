@@ -135,7 +135,8 @@ class SubscribeDialog extends Component {
       open: false,
       error: true,
       content: ''
-    }
+    },
+    walletConnectOpen: false
   }
 
   handleEmailChange = (e) => {
@@ -158,8 +159,10 @@ class SubscribeDialog extends Component {
   }
 
   initWalletConnect = async () => {
+    console.log(this.state.walletConnectOpen)
+    if (this.state.walletConnectOpen) return
+    this.setState({ walletConnectOpen: true })
     this.onDisconnect()
-
     const bridge = 'https://bridge.walletconnect.org'
     // create new connector
     const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
@@ -380,7 +383,7 @@ class SubscribeDialog extends Component {
   }
 
   signIn = async (payload) => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, rewards } = this.props
     let txStatus
     try {
       txStatus = await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address: this.state.address, signature: this.state.signature })
@@ -403,7 +406,7 @@ class SubscribeDialog extends Component {
 
     this.logEthLogin(account)
 
-    const profileUrl = `/${account.username}`
+    const profileUrl = `/${account.username && (rewards ? ('?rewards=' + rewards) : '')}`
     // already on user page
     if (window.location.href.split('/').pop() === account.username) {
       window.location.reload()
@@ -526,7 +529,10 @@ class SubscribeDialog extends Component {
   }
 
   render () {
-    const { handleDialogClose, dialogOpen, classes } = this.props
+    const { handleDialogClose, dialogOpen, classes, method } = this.props
+    if (method === 'walletconnect' && dialogOpen) {
+      this.initWalletConnect()
+    }
     return (
       <ErrorBoundary>
         <Portal>
@@ -548,6 +554,7 @@ class SubscribeDialog extends Component {
         <Dialog open={dialogOpen}
           onClose={() => {
             handleDialogClose()
+            this.setState({ walletConnectOpen: false })
           }}
           aria-labelledby='form-dialog-title'
           className={classes.dialog}
@@ -791,7 +798,8 @@ SubscribeDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  method: PropTypes.string
+  method: PropTypes.string,
+  rewards: PropTypes.number,
+  dispatch: PropTypes.func.isRequired
 }
 export default withRouter(connect(null)(withStyles(styles)(SubscribeDialog)))

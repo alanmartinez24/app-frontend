@@ -20,6 +20,7 @@ import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import CollectionItem from '../../components/Collections/CollectionItem.js'
+import ShareTwitterDialog from '../../components/ShareTwitterDialog/ShareTwitterDialog.js'
 import { Link } from 'react-router-dom'
 import Img from 'react-image'
 
@@ -233,6 +234,8 @@ class User extends Component {
     start: 0,
     isLoading: true,
     dialogOpen: false,
+    twitterDialogOpen: false,
+    hasShared: false,
     ratingCount: 0,
     limit: 15,
     hasError: false,
@@ -337,6 +340,13 @@ class User extends Component {
   handleDialogClose = () => {
     this.setState({ dialogOpen: false })
   }
+  handleTwitterDialogOpen = () => {
+    this.setState({ twitterDialogOpen: true })
+  }
+
+  handleTwitterDialogClose = () => {
+    this.setState({ twitterDialogOpen: false, hasShared: true })
+  }
 
   fetchPosts = async eosname => {
     let postData = { posts: [], totalCount: 0 }
@@ -430,7 +440,7 @@ class User extends Component {
   }
 
   render () {
-    const { classes, account, theme } = this.props
+    const { classes, account, theme, history } = this.props
     const {
       posts,
       _id: eosname,
@@ -445,11 +455,16 @@ class User extends Component {
       username,
       collections,
       activeTab,
-      showAll
+      showAll,
+      twitterDialogOpen,
+      hasShared
     } = this.state
 
-    const isLoggedIn = account ? account.name === eosname : false
+    const rewards = (new URLSearchParams(history.location.search)).get('rewards')
+    console.log(twitterDialogOpen)
+    if (rewards && !twitterDialogOpen && !hasShared) this.handleTwitterDialogOpen()
 
+    const isLoggedIn = account ? account.name === eosname : false
     if (!isLoading && hasError) {
       return (
         <ErrorBoundary>
@@ -831,6 +846,11 @@ class User extends Component {
             </Fade>
           </div>
           <CreateCollectionFab />
+          <ShareTwitterDialog
+            dialogOpen={twitterDialogOpen}
+            rewards={rewards}
+            handleDialogClose={this.handleTwitterDialogClose}
+          />
         </div>
       </ErrorBoundary>
     )
@@ -1046,6 +1066,7 @@ User.propTypes = {
   account: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 

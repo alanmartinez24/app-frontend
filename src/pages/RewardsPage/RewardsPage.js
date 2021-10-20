@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Colors from '../../utils/colors'
 import YupInput from '../../components/Miscellaneous/YupInput'
-import SubscribeDialog from '../../components/SubscribeDialog'
+import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 
 const BACKEND_API = 'http://localhost:4001'
@@ -234,6 +234,7 @@ class RewardsPage extends Component {
             <SubscribeDialog
               dialogOpen={dialogOpen}
               method='walletconnect'
+              rewards={rewards}
               handleDialogClose={this.handleDialogClose}
             />
           </Grid>
