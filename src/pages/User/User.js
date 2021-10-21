@@ -461,6 +461,7 @@ class User extends Component {
     } = this.state
 
     const rewards = (new URLSearchParams(history.location.search)).get('rewards')
+    localStorage.removeItem('YUP_CLAIM_RWRDS')
     console.log(twitterDialogOpen)
     if (rewards && !twitterDialogOpen && !hasShared) this.handleTwitterDialogOpen()
 

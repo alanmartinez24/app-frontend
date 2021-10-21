@@ -92,6 +92,7 @@ class RewardsPage extends Component {
   fetchCreatorRewards = async () => {
     try {
       const rewards = (await (axios.get(`${BACKEND_API}/rewards/eth/${this.state.ethAddress}`))).data.creatorRewards
+      localStorage.setItem('YUP_CLAIM_RWRDS', rewards)
       this.setState({ rewards })
     } catch (err) {
       if (err.response && err.response.status === 422) {
@@ -241,8 +242,6 @@ class RewardsPage extends Component {
                 </Button>
                 <SubscribeDialog
                   dialogOpen={dialogOpen}
-                  method='walletconnect'
-                  rewards={rewards}
                   handleDialogClose={this.handleDialogClose}
                 />
               </>

@@ -13,6 +13,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { updateEthAuthInfo } from '../../redux/actions'
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
@@ -69,11 +70,6 @@ const styles = theme => ({
     padding: '5px',
     color: '#aaa'
   },
-  arrowIcon: {
-    width: '16px',
-    height: 'auto',
-    filter: 'brightness(0) invert(1)'
-  },
   desktop: {
     display: 'inline',
     [theme.breakpoints.down('600')]: {
@@ -87,12 +83,6 @@ const styles = theme => ({
   snack: {
     color: '#fff8f3',
     justifyContent: 'center'
-  },
-  button: {
-    minWidth: '20px',
-    width: '20px',
-    height: '20px',
-    zIndex: '99999'
   },
   stepper: {
     backgroundColor: 'transparent'
@@ -159,8 +149,7 @@ class SubscribeDialog extends Component {
   }
 
   initWalletConnect = async () => {
-    console.log(this.state.walletConnectOpen)
-    if (this.state.walletConnectOpen) return
+    if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
     const bridge = 'https://bridge.walletconnect.org'
@@ -184,9 +173,7 @@ class SubscribeDialog extends Component {
    subscribeToEvents = async () => {
     const { connector } = this.state
 
-    if (!connector) {
-      return
-    }
+    if (!connector) { return }
 
     connector.on('connect', (error, payload) => {
       if (error) {
@@ -340,6 +327,8 @@ class SubscribeDialog extends Component {
 
   signUp = async () => {
     const { history, dispatch } = this.props
+    const { username } = this.state
+    const rewards = localStorage.getItem('YUP_CLAIM_RWRDS')
     let validate
     try {
       // check if username valid
@@ -347,6 +336,11 @@ class SubscribeDialog extends Component {
     } catch (err) {
       console.error(err)
       this.handleSnackbarOpen(VALIDATE_MSG, true)
+    }
+
+    if (!validate) {
+      this.handleSnackbarOpen(VALIDATE_MSG, true)
+      return
     }
 
     if (validate.status === 200) {
@@ -370,9 +364,12 @@ class SubscribeDialog extends Component {
         dispatch(updateEthAuthInfo(ethAuthInfo))
 
         this.logEthSignup(mirrorStatus.data.account)
-
-        const profileUrl = `/${this.state.username }`
-        history.push(profileUrl)
+        const profileUrl = `/${username}${rewards ? `?rewards=${rewards}` : ''}`
+        if (window.location.href.split('/').pop() === username) {
+          window.location.reload()
+        } else {
+          history.push(profileUrl)
+        }
         this.props.handleDialogClose()
       } else {
         this.handleSnackbarOpen(ERROR_MSG, true)
@@ -383,8 +380,7 @@ class SubscribeDialog extends Component {
   }
 
   signIn = async (payload) => {
-    const { history, dispatch, rewards } = this.props
-    console.log(`rewards in signin function`, rewards)
+    const { history, dispatch } = this.props
     let txStatus
     try {
       txStatus = await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address: this.state.address, signature: this.state.signature })
@@ -407,7 +403,7 @@ class SubscribeDialog extends Component {
 
     this.logEthLogin(account)
 
-    const profileUrl = `/${account.username && (rewards ? ('?rewards=' + rewards) : '')}`
+    const profileUrl = `/${account.username}`
     // already on user page
     if (window.location.href.split('/').pop() === account.username) {
       window.location.reload()
@@ -530,8 +526,10 @@ class SubscribeDialog extends Component {
   }
 
   render () {
-    const { handleDialogClose, dialogOpen, classes, method } = this.props
-    if (method === 'walletconnect' && dialogOpen) {
+    const { handleDialogClose, dialogOpen, classes } = this.props
+    const rewards = localStorage.getItem('YUP_CLAIM_RWRDS')
+
+    if (rewards !== null && dialogOpen) {
       this.initWalletConnect()
     }
     return (
@@ -602,7 +600,7 @@ class SubscribeDialog extends Component {
                         WalletConnect
                       </Typography>
                       {this.state.EthIsLoading
-                    ? <CircularProgress size={20}
+                    ? <CircularProgress size={13.5}
                       className={classes.loader}
                       />
                     : <img alt='wallet connect'
@@ -722,18 +720,15 @@ class SubscribeDialog extends Component {
                                 },
                                 className: classes.stepperInput,
                                 endAdornment: (
-                                  <Button className={classes.button}
+                                  <Button
                                     onClick={this.handleWhitelist}
                                     style={{ width: 'auto' }}
                                   >
                                     {this.state.EthIsLoading
-                                    ? <CircularProgress size={20}
+                                    ? <CircularProgress size={13.5}
                                       className={classes.loader}
                                       />
-                                    : <img alt='submit'
-                                      src='/images/icons/arrow.svg'
-                                      className={classes.arrowIcon}
-                                      />
+                                    : <KeyboardArrowRightIcon alt='submit' />
                                     }
                                   </Button>
                                 )
@@ -741,7 +736,6 @@ class SubscribeDialog extends Component {
                             />
                           </DialogContent>
                       }
-
                         {this.state.showUsername && !this.state.showWhitelist &&
                           <DialogContent>
                             <TextField
@@ -767,13 +761,8 @@ class SubscribeDialog extends Component {
                                     style={{ width: 'auto' }}
                                   >
                                     {this.state.EthIsLoading
-                                    ? <CircularProgress size={20}
-                                      className={classes.loader}
-                                      />
-                                    : <img alt='submit'
-                                      src='/images/icons/arrow.svg'
-                                      className={classes.arrowIcon}
-                                      />
+                                    ? <CircularProgress size={13.5} />
+                                    : <KeyboardArrowRightIcon alt='submit' />
                                   }
                                   </Button>
                                 )
@@ -799,8 +788,6 @@ SubscribeDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  method: PropTypes.string,
-  rewards: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))
