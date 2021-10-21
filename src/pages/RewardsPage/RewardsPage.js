@@ -189,7 +189,7 @@ class RewardsPage extends Component {
               </Grid>
             </Card>
             <Card className={classes.card}
-              style={{ display: rewards !== null ? 'inherit' : 'none' }}
+              style={{ display: rewards !== null || isLoading ? 'inherit' : 'none' }}
               elevation={0}
             >
               <Grid container
