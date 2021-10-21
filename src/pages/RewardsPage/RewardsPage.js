@@ -226,7 +226,7 @@ class RewardsPage extends Component {
                       : <CountUp
                         end={rewards}
                         decimals={2}
-                        start={10}
+                        start={0}
                         duration={1}
                         suffix=' YUP'
                         /> }
