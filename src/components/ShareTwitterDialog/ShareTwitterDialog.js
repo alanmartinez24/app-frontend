@@ -39,7 +39,7 @@ class ShareTwitterDialog extends Component {
                 className={classes.dialogTitleText}
                 variant='h3'
               >
-                You are about to receive {rewards} YUP !
+                You are about to receive {rewards.toFixed(2)} YUP !
               </Typography>
             </DialogTitle>
               <DialogContent>
@@ -54,11 +54,10 @@ class ShareTwitterDialog extends Component {
                     </span>
                   </Typography>
                 </DialogContentText>
-
                 <TwitterShareButton
                   className={classes.twitterButton}
                   url={shareUrl}
-                  title={`I just earned ${rewards} YUP!`}
+                  title={`I just earned ${rewards.toFixed(2)} YUP!`}
                   hashtags={['YUP']}
                   windowWidth={20000}
                   windowHeight={20000}
@@ -78,7 +77,6 @@ class ShareTwitterDialog extends Component {
                       fullWidth
                       buttonText='Share on Twitter'
                       variant='contained'
-
                     />
                   </Grid>
                 </Grid>
