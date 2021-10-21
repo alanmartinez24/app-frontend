@@ -530,8 +530,7 @@ class SubscribeDialog extends Component {
   }
 
   render () {
-    const { handleDialogClose, dialogOpen, classes, method, rewards } = this.props
-    console.log(rewards, 'rewards')
+    const { handleDialogClose, dialogOpen, classes, method } = this.props
     if (method === 'walletconnect' && dialogOpen) {
       this.initWalletConnect()
     }

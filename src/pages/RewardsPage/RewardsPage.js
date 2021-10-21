@@ -96,7 +96,6 @@ class RewardsPage extends Component {
     } catch (err) {
       if (err.response && err.response.status === 422) {
         this.setState({ snackbarMsg: 'Please enter a valid ethereum address' })
-        console.log('Not a valid eth address')
       }
     }
     this.setState({ isLoading: false })
@@ -151,7 +150,7 @@ class RewardsPage extends Component {
         </Helmet>
         <div className={classes.container}>
           <Snackbar
-            autoHideDuration={4000}
+            autoHideDuration={3000}
             onClose={this.handleSnackbarClose}
             open={!!snackbarMsg}
           >
@@ -231,21 +230,23 @@ class RewardsPage extends Component {
               </Grid>
             </Card>
             {rewards !== null && (
-            <Button
-              fullWidth
-              className={classes.btn}
-              onClick={this.openWalletConnectDialog}
-              variant='contained'
-            >
-              Claim
-            </Button>
+              <>
+                <Button
+                  fullWidth
+                  className={classes.btn}
+                  onClick={this.openWalletConnectDialog}
+                  variant='contained'
+                >
+                  Claim
+                </Button>
+                <SubscribeDialog
+                  dialogOpen={dialogOpen}
+                  method='walletconnect'
+                  rewards={rewards}
+                  handleDialogClose={this.handleDialogClose}
+                />
+              </>
             )}
-            <SubscribeDialog
-              dialogOpen={dialogOpen}
-              method='walletconnect'
-              rewards={rewards}
-              handleDialogClose={this.handleDialogClose}
-            />
           </Grid>
         </div>
       </ErrorBoundary>

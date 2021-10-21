@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
-import SiteBanner from '../components/SiteBanner/SiteBanner'
+// import SiteBanner from '../components/SiteBanner/SiteBanner'
 
 import YupLists from './YupLists/YupLists'
 import Discover from './Discover/Discover'
@@ -157,7 +157,7 @@ class Index extends Component {
               >
                 <div>
                   <Header isTourOpen={tour} />
-                  <SiteBanner />
+                  {/* <SiteBanner /> */}
                   <Switch>
                     <Route component={Discover}
                       exact
