@@ -9,6 +9,7 @@ import Colors from '../../utils/colors'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
+import CountUp from 'react-countup'
 
 const BACKEND_API = process.env.BACKEND_API
 const REWARDS_MANAGER_API = process.env.REWARDS_MANAGER_API
@@ -25,7 +26,7 @@ const styles = theme => ({
   btn: {
     backgroundColor: '#00E08E',
     fontFamily: 'Gilroy',
-    width: 350,
+    width: 380,
     height: '45px',
     borderRadius: '0.65rem',
     marginTop: 15,
@@ -43,7 +44,7 @@ const styles = theme => ({
   card: {
     padding: theme.spacing(2),
     height: '70%',
-    width: '350px',
+    width: 380,
     marginBottom: 0,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
@@ -188,9 +189,9 @@ class RewardsPage extends Component {
                   <form onSubmit={this.onSubmit}>
                     <YupInput
                       fullWidth
-                      id='name'
+                      id='address'
                       maxLength={50}
-                      label={'Enter ETH address'}
+                      label={'ETH address'}
                       type='text'
                       value={this.state.ethAddress}
                       variant='outlined'
@@ -209,6 +210,7 @@ class RewardsPage extends Component {
                 <Grid
                   item
                   container
+                  justifyContent='center'
                   alignItems='center'
                   direction='row'
                 >
@@ -220,7 +222,14 @@ class RewardsPage extends Component {
                       animation='pulse'
                       className={classes.Skeleton}
                       style={{ transform: 'none' }}
-                      >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton> : `${rewards && rewards.toFixed(2)} YUP` }
+                      >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton>
+                      : <CountUp
+                        end={rewards}
+                        decimals={2}
+                        start={10}
+                        duration={1}
+                        suffix=' YUP'
+                        /> }
                   </Typography>
                   <Typography variant='h4'
                     style={{ opacity: 0.5, marginLeft: 20 }}
