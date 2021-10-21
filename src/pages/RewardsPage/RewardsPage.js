@@ -12,7 +12,7 @@ import axios from 'axios'
 import CountUp from 'react-countup'
 
 const { BACKEND_API, REWARDS_MANAGER_API } = process.env
-const CLAIM_IMG = 'https://app-banners-2.s3.amazonaws.com/claim-creator-rewards-thumbnail.jpeg'
+const CLAIM_IMG = 'https://app-meta-images.s3.amazonaws.com/claim-creator-rewards-thumbnail.jpeg'
 
 const styles = theme => ({
   container: {
