@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, InputAdornment, OutlinedInput, FormControl, Icon, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
@@ -804,4 +804,4 @@ SubscribeDialog.propTypes = {
   rewards: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 }
-export default withRouter(connect(null)(withStyles(styles)(SubscribeDialog)))
+export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Snackbar, SnackbarContent } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -64,7 +64,8 @@ class RewardsPage extends Component {
     ethAddress: this.props.location.pathname.split('/')[2] || '',
     rewards: null,
     price: null,
-    dialogOpen: false
+    dialogOpen: false,
+    snackbarMsg: null
   }
 
   handleInput = e => {
@@ -86,6 +87,7 @@ class RewardsPage extends Component {
     this.setState({ isLoading: true })
     this.fetchCreatorRewards()
   }
+   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   fetchCreatorRewards = async () => {
     try {
@@ -93,6 +95,7 @@ class RewardsPage extends Component {
       this.setState({ rewards })
     } catch (err) {
       if (err.response && err.response.status === 422) {
+        this.setState({ snackbarMsg: 'Please enter a valid ethereum address' })
         console.log('Not a valid eth address')
       }
     }
@@ -103,8 +106,7 @@ class RewardsPage extends Component {
 
   render () {
     const { classes } = this.props
-    const { isLoading, rewards, price, dialogOpen } = this.state
-    console.log(`rewards in rewards page`, rewards)
+    const { isLoading, rewards, price, dialogOpen, snackbarMsg } = this.state
 
     return (
       <ErrorBoundary>
@@ -148,6 +150,15 @@ class RewardsPage extends Component {
           />
         </Helmet>
         <div className={classes.container}>
+          <Snackbar
+            autoHideDuration={4000}
+            onClose={this.handleSnackbarClose}
+            open={!!snackbarMsg}
+          >
+            <SnackbarContent
+              message={snackbarMsg}
+            />
+          </Snackbar>
           <Grid className={classes.page}
             container
             direction='column'
