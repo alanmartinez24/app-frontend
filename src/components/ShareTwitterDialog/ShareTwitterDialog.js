@@ -9,22 +9,22 @@ TwitterShareButton
 } from 'react-share'
 import Colors from '../../utils/colors'
 
+const WEB_APP_URL = process.env.WEB_APP_URL
+
 const styles = theme => ({
-    dialog: {
-        width: '100%'
-    },
-    twitterButton: {
-        width: '100%'
-    },
-    loaderButton: {
-        background: Colors.Green
-    }
+  dialog: {
+    width: '100%'
+  },
+  twitterButton: {
+    width: '100%'
+  },
+  loaderButton: {
+    background: Colors.Green
+  }
 })
 class ShareTwitterDialog extends Component {
     render () {
-        const shareUrl = 'https://app.yup.io'
         const { handleDialogClose, dialogOpen, classes, rewards } = this.props
-        console.log(rewards)
         return (
           <ErrorBoundary >
             <Dialog open={dialogOpen}
@@ -56,14 +56,12 @@ class ShareTwitterDialog extends Component {
                 </DialogContentText>
                 <TwitterShareButton
                   className={classes.twitterButton}
-                  url={shareUrl}
-                  title={`I just earned ${rewards.toFixed(2)} YUP!`}
+                  url={`${WEB_APP_URL}/rewards`}
+                  title={`Claiming creator rewards on @yup_io`}
                   hashtags={['YUP']}
                   windowWidth={20000}
                   windowHeight={20000}
-                  onShareWindowClose={() => {
-                    handleDialogClose()
-                  }}
+                  onShareWindowClose={() => handleDialogClose()}
                 > <Grid container
                   alignItems='center'
                   spacing={1}

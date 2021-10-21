@@ -397,6 +397,10 @@ class User extends Component {
     this.setState({ collections })
   }
 
+  triggerTokenRedmeption = async () => {
+    console.log('trigger redemption')
+  }
+
   loadUserData = () => {
     ; (async () => {
       try {
@@ -462,8 +466,10 @@ class User extends Component {
 
     const rewards = (new URLSearchParams(history.location.search)).get('rewards')
     localStorage.removeItem('YUP_CLAIM_RWRDS')
-    console.log(twitterDialogOpen)
-    if (rewards && !twitterDialogOpen && !hasShared) this.handleTwitterDialogOpen()
+    if (rewards && !twitterDialogOpen && !hasShared) {
+      this.handleTwitterDialogOpen()
+      this.triggerTokenRedmeption()
+    }
 
     const isLoggedIn = account ? account.name === eosname : false
     if (!isLoading && hasError) {

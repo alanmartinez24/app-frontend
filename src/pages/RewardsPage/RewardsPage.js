@@ -11,8 +11,8 @@ import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import CountUp from 'react-countup'
 
-const BACKEND_API = process.env.BACKEND_API
-const REWARDS_MANAGER_API = process.env.REWARDS_MANAGER_API
+const { BACKEND_API, REWARDS_MANAGER_API } = process.env
+const CLAIM_IMG = 'https://app-banners-2.s3.amazonaws.com/claim-creator-rewards-thumbnail.jpeg'
 
 const styles = theme => ({
   container: {
@@ -107,47 +107,48 @@ class RewardsPage extends Component {
 
   render () {
     const { classes } = this.props
-    const { isLoading, rewards, price, dialogOpen, snackbarMsg } = this.state
-
+    const { isLoading, rewards, price, dialogOpen, snackbarMsg, ethAddress } = this.state
+    const metaDescription = `${ethAddress.slice(0, 5)}...${ethAddress.slice(-6, -1)} has earned ${rewards} $YUP in creator rewards`
+    const metaTitle = 'YUP Creator Rewards Claim'
     return (
       <ErrorBoundary>
         <Helmet>
           <meta charSet='utf-8' />
           <title>Rewards</title>
           <meta property='description'
-            content=''
+            content={metaDescription}
           />
           <meta property='image'
-            content=''
+            content={CLAIM_IMG}
           />
           <meta name='twitter:card'
             content='summary_large_image'
           />
           <meta
             name='twitter:title'
-            content=''
+            content={metaTitle}
           />
           <meta name='twitter:site'
             content='@yup_io'
           />
           <meta
             name='twitter:description'
-            content=''
+            content={metaDescription}
           />
           <meta
             name='twitter:image'
-            content=''
+            content={CLAIM_IMG}
           />
           <meta
             property='og:title'
-            content=''
+            content={metaTitle}
           />
           <meta
             property='og:description'
-            content=''
+            content={metaDescription}
           />
           <meta property='og:image'
-            content=''
+            content={CLAIM_IMG}
           />
         </Helmet>
         <div className={classes.container}>
