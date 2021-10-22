@@ -108,8 +108,8 @@ class RewardsPage extends Component {
   render () {
     const { classes } = this.props
     const { isLoading, rewards, price, dialogOpen, snackbarMsg, ethAddress } = this.state
-    const metaDescription = `${ethAddress.slice(0, 5)}...${ethAddress.slice(-6, -1)} has earned ${rewards.toFixed(2)} $YUP in creator rewards`
-    const metaTitle = 'YUP Creator Rewards Claim'
+    const metaDescription = `${ethAddress.slice(0, 5)}...${ethAddress.slice(-6, -1)} has earned ${Math.round(rewards)} $YUP in creator rewards`
+    const metaTitle = 'YUP NFT Rewards'
     return (
       <ErrorBoundary>
         <Helmet>
