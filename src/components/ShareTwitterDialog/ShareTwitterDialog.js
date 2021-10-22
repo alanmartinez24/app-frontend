@@ -37,7 +37,7 @@ class ShareTwitterDialog extends Component {
                 className={classes.dialogTitleText}
                 variant='h3'
               >
-                {`You are about to receive ${Math.round(rewards)} YUP !`}
+                {`You have been allocated ${Math.round(rewards)} YUP!`}
               </Typography>
             </DialogTitle>
               <DialogContent>
@@ -48,7 +48,7 @@ class ShareTwitterDialog extends Component {
                     variant='h5'
                   >
                     <span className={classes.desktop}>
-                      To finalize, please share on Twitter.
+                      Please share on Twitter to claim your rewards.
                     </span>
                   </Typography>
                 </DialogContentText>
