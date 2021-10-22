@@ -37,7 +37,7 @@ class ShareTwitterDialog extends Component {
                 className={classes.dialogTitleText}
                 variant='h3'
               >
-                You are about to receive {rewards ? rewards.toFixed(2) : ''} YUP !
+                {`You are about to receive ${Math.round(rewards)} YUP !`}
               </Typography>
             </DialogTitle>
               <DialogContent>
