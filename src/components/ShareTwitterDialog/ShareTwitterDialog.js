@@ -28,9 +28,7 @@ class ShareTwitterDialog extends Component {
         return (
           <ErrorBoundary >
             <Dialog open={dialogOpen}
-              onClose={() => {
-            handleDialogClose()
-          }}
+              onClose={() => handleDialogClose()}
               aria-labelledby='form-dialog-title'
               className={classes.dialog}
             ><DialogTitle style={{ paddingBottom: '10px' }}>
@@ -39,7 +37,7 @@ class ShareTwitterDialog extends Component {
                 className={classes.dialogTitleText}
                 variant='h3'
               >
-                You are about to receive {rewards.toFixed(2)} YUP !
+                You are about to receive {rewards ? rewards.toFixed(2) : ''} YUP !
               </Typography>
             </DialogTitle>
               <DialogContent>
