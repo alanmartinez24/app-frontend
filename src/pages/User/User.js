@@ -29,6 +29,7 @@ const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const LIMIT_COLLECTIONS = 5
 const showTabs = window.innerWidth <= 1300
 const isMobile = window.innerWidth <= 600
+const REWARD_CLAIM_API = `http://yup-rewards-manager-prod2-10155400.us-east-1.elb.amazonaws.com/rewards/eth/nfts`
 
 const styles = theme => ({
   accountErrorHeader: {
@@ -397,8 +398,11 @@ class User extends Component {
     this.setState({ collections })
   }
 
-  triggerTokenRedmeption = async () => {
-    console.log('trigger redemption')
+  redeemCreatorRewards = async () => {
+    try {
+      const { address } = JSON.parse(localStorage.getItem('YUP_ETH_AUTH'))
+      await axios.get(`${REWARD_CLAIM_API}?address=${address}`)
+    } catch (err) { }
   }
 
   loadUserData = () => {
@@ -468,7 +472,7 @@ class User extends Component {
     localStorage.removeItem('YUP_CLAIM_RWRDS')
     if (rewards && !twitterDialogOpen && !hasShared) {
       this.handleTwitterDialogOpen()
-      this.triggerTokenRedmeption()
+      this.redeemCreatorRewards()
     }
 
     const isLoggedIn = account ? account.name === eosname : false
