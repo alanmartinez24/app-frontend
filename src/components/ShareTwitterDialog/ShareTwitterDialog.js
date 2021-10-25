@@ -48,7 +48,7 @@ class ShareTwitterDialog extends Component {
                     variant='h5'
                   >
                     <span className={classes.desktop}>
-                      Please share on Twitter to claim your rewards.
+                      Please share on Twitter to claim your rewards. You should receive your tokens within a few minutes.
                     </span>
                   </Typography>
                 </DialogContentText>

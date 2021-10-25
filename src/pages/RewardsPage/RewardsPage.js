@@ -117,7 +117,7 @@ class RewardsPage extends Component {
           <meta charSet='utf-8' />
           <title>Rewards</title>
           <meta property='description'
-            content={rewards ? metaDescriptionForAcct : metaDescription}
+            content={window.location.href.split('/'[-1]) === 'rewards' ? metaDescription : metaDescriptionForAcct}
           />
           <meta property='image'
             content={CLAIM_IMG}
