@@ -704,8 +704,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                               style={{ backgroundColor: `${palette.alt.third}70` }}
                             > <img style={{ width: '20px', aspectRatio: '1 / 1' }}
                               src={lightMode
-                                  ? 'images/logos/logo.svg'
-                                : 'images/logos/logo_w.svg'}
+                                  ? '/images/logos/logo.svg'
+                                : '/images/logos/logo_w.svg'}
                               />
                             </IconButton>
                           </ListItemIcon>
