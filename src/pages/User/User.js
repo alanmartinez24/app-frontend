@@ -23,6 +23,7 @@ import CollectionItem from '../../components/Collections/CollectionItem.js'
 import ShareTwitterDialog from '../../components/ShareTwitterDialog/ShareTwitterDialog.js'
 import { Link } from 'react-router-dom'
 import Img from 'react-image'
+import rollbar from '../../utils/rollbar'
 
 const { BACKEND_API, REWARDS_MANAGER_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -401,7 +402,9 @@ class User extends Component {
     try {
       const { address } = JSON.parse(localStorage.getItem('YUP_ETH_AUTH'))
       await axios.get(`${REWARDS_MANAGER_API}/rewards/eth/nfts?address=${address}`)
-    } catch (err) { }
+    } catch (err) {
+      rollbar.error(`Error redeeming creator rewards with err=${JSON.stringify(err)}`)
+    }
   }
 
   loadUserData = () => {
