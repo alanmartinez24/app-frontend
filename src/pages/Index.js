@@ -14,13 +14,14 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
-import SiteBanner from '../components/SiteBanner/SiteBanner'
+// import SiteBanner from '../components/SiteBanner/SiteBanner'
 
 import YupLists from './YupLists/YupLists'
 import Discover from './Discover/Discover'
 import User from './User/User'
 import PostPage from './PostPage/PostPage'
 import ScorePage from './ScorePage/ScorePage'
+import RewardsPage from './RewardsPage/RewardsPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
@@ -156,7 +157,7 @@ class Index extends Component {
               >
                 <div>
                   <Header isTourOpen={tour} />
-                  <SiteBanner />
+                  {/* <SiteBanner /> */}
                   <Switch>
                     <Route component={Discover}
                       exact
@@ -178,6 +179,9 @@ class Index extends Component {
                     <Route component={ScorePage}
                       exact
                       path='/s'
+                    />
+                    <Route component={RewardsPage}
+                      path='/rewards'
                     />
                     <Route component={Analytics}
                       exact
