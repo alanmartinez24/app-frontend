@@ -24,12 +24,11 @@ import ShareTwitterDialog from '../../components/ShareTwitterDialog/ShareTwitter
 import { Link } from 'react-router-dom'
 import Img from 'react-image'
 
-const BACKEND_API = process.env.BACKEND_API
+const { BACKEND_API, REWARDS_MANAGER_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const LIMIT_COLLECTIONS = 5
 const showTabs = window.innerWidth <= 1300
 const isMobile = window.innerWidth <= 600
-const REWARD_CLAIM_API = `http://yup-rewards-manager-prod2-10155400.us-east-1.elb.amazonaws.com/rewards/eth/nfts`
 
 const styles = theme => ({
   accountErrorHeader: {
@@ -401,7 +400,7 @@ class User extends Component {
   redeemCreatorRewards = async () => {
     try {
       const { address } = JSON.parse(localStorage.getItem('YUP_ETH_AUTH'))
-      await axios.get(`${REWARD_CLAIM_API}?address=${address}`)
+      await axios.get(`${REWARDS_MANAGER_API}/rewards/eth/nfts?address=${address}`)
     } catch (err) { }
   }
 
