@@ -93,6 +93,11 @@ const styles = theme => ({
 })
 
 class LinkPreview extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { imgRetryCount: 0 }
+  }
+
   cutUrl (inUrl) {
     const protocol = 'https://'
     const pro2 = 'http://'
@@ -153,6 +158,7 @@ class LinkPreview extends Component {
   addDefaultSrc = e => {
     e.target.onerror = null
     e.target.src = DEFAULT_POST_IMAGE
+    this.setState({ imgRetryCount: this.state.imgRetryCount + 1 })
   }
 
   render () {
@@ -194,7 +200,7 @@ class LinkPreview extends Component {
                 className={classes.linkImg}
                 src={image || DEFAULT_POST_IMAGE}
                 target='_blank'
-                onError={this.addDefaultSrc}
+                onError={this.state.imgRetryCount === 0 && this.addDefaultSrc}
               />
               <div className={classes.previewData}>
                 <Grid alignItems='center'
