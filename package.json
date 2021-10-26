@@ -5,18 +5,18 @@
   "description": "The web frontend for the Yup social network.",
   "scripts": {
     "serve": "serve -s build -p 8080",
-    "start": "NODE_ENV=production node scripts/start.js",
-    "build": "NODE_ENV=production node scripts/build.js",
-    "start-dev": "NODE_ENV=development node scripts/start.js",
-    "build-dev": "NODE_ENV=development node scripts/build.js",
+    "start": "cross-env NODE_ENV=production node scripts/start.js",
+    "build": "cross-env NODE_ENV=production node scripts/build.js",
+    "start-dev": "cross-env NODE_ENV=development node scripts/start.js",
+    "build-dev": "cross-env NODE_ENV=development node scripts/build.js",
     "deploy": "aws s3 sync build s3://app.yup.io",
     "deploy-dev": "aws s3 sync build s3://dev.app.yup.io",
     "deploy-staging": "aws s3 sync build s3://staging.app.yup.io",
     "release": "yarn config set version-tag-prefix frontend@v &&  yarn config set version-git-message 'frontend@v%s' && yarn version",
     "lint": "eslint ./src",
     "lint-fix": "eslint ./src --fix",
-    "sitemap": "NODE_ENV=production babel-node scripts/sitemap.js",
-    "sitemap-dev": "NODE_ENV=development babel-node scripts/sitemap.js"
+    "sitemap": "cross-env NODE_ENV=production babel-node scripts/sitemap.js",
+    "sitemap-dev": "cross-env NODE_ENV=development babel-node scripts/sitemap.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -35,6 +35,7 @@
     "classnames": "^2.2.6",
     "cloudinary-react": "^1.7.0",
     "connected-react-router": "^6.6.1",
+    "cross-env": "^7.0.3",
     "css-loader": "1.0.0",
     "date-fns": "^2.19.0",
     "dotenv": "^6.2.0",
