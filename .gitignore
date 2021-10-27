@@ -42,6 +42,7 @@ eosio_docker/**/*password.txt
 .env.production.local
 .Rhistory
 **/.idea
+pacakge-lock.json
 
 npm-debug.log*
 yarn-debug.log*
