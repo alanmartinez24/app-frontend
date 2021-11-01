@@ -441,7 +441,7 @@ class Home extends Component {
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {userCollections && userCollections.slice(0, 12).map((coll) => {
+                  {userCollections && userCollections.slice(0, 8).map((coll) => {
                     return (
                       <Grid
                         item
