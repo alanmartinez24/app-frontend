@@ -18,8 +18,10 @@ const styles = theme => ({
 
  function AudiusPost (props) {
     const { previewData: { trackId, ownerId }, classes, postHOC: PostHOC } = props
+    console.log('PRE')
     if (!trackId || !ownerId) return null
 
+    console.log('AFTER')
     const AudiusComp = (_props) => (
       <div className={classes.postContainer}>
         <iframe src={`${AUDIUS_EMBED}?id=${trackId}&ownerId=${ownerId}&flavor=compact`}
