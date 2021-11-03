@@ -70,7 +70,7 @@ class RewardsPage extends Component {
   }
 
   handleInput = e => {
-    this.setState({ ethAddress: e.target.value })
+    this.setState({ ethAddress: (e.target.value).toLowerCase() })
   }
 
   componentDidMount = () => {
