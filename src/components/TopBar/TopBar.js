@@ -276,7 +276,7 @@ const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes
   )
 })
 const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
-  classes
+  classes, isShown, isMobile
 }) {
   return (
     <ListItem
@@ -293,6 +293,7 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
           className='fal fa-plug'
         />
       </ListItemIcon>
+      {(isShown || isMobile) && (
       <Grow in
         timeout={600}
       >
@@ -305,12 +306,13 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
           </Typography>
         </ListItemText>
       </Grow>
+      )}
     </ListItem>
 
   )
 })
 
-const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes }) {
+const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes, isShown, isMobile }) {
   if (account) {
     return (
       <List component='nav'
@@ -327,7 +329,10 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account
       aria-label='main'
       className={classes.list1}
     >
-      <StyledExtensionListLink />
+      <StyledExtensionListLink
+        isShown={isShown}
+        isMobile={isMobile}
+      />
       <StyledAboutListLink />
     </List>
   )
@@ -713,7 +718,10 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     </ListItem>)}
           </List>
         </div>
-        {!isMobile && <StyledYupProductNav account={account} />}
+        {!isMobile && <StyledYupProductNav isShown={isShown}
+          isMobile={isMobile}
+          account={account}
+                      />}
         <ListItem className={classes.ListItem}
           button
           component={Link}
