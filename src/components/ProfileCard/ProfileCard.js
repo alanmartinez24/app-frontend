@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Card } from '@material-ui/core'
+import { Card, Chip, Icon } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import Grid from '@material-ui/core/Grid'
@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import Tooltip from '@material-ui/core/Tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CountUp from 'react-countup'
+
 import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
@@ -75,6 +76,15 @@ const styles = theme => ({
       width: '100vw'
     }
   },
+  chip: {
+    margin: '0 10px',
+    height: '26px',
+    backgroundColor: theme.palette.alt.third,
+    color: theme.palette.text.secondary,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   content: {
     color: 'black'
   },
@@ -97,6 +107,9 @@ const styles = theme => ({
   },
   LinearProgress: {
     height: '3px'
+  },
+  LinkDecoration: {
+    textDecoration: 'none'
   },
   minimize: {
     width: '45px',
@@ -154,6 +167,10 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: '14px'
     }
+  },
+  twitter: {
+    color: theme.palette.text.secondary,
+    fontSize: '14px'
   },
   username: {
     fontSize: '18px',
@@ -234,6 +251,8 @@ function ProfileCard (props) {
   const isMobile = window.innerWidth <= 600
 
   const avatar = levelInfo && levelInfo.avatar
+  const twitterName = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.username
+  const ethAddress = accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
   return (
     <ErrorBoundary>
       <Card
@@ -264,24 +283,71 @@ function ProfileCard (props) {
               justify='space-between'
               spacing={0}
             >
-              <Grid item
+              <Grid
+                alignItems={isMinimize ? 'flex-start' : 'center'}
+                container
                 sm={10}
-                xs={9}
+                xs={8}
+                direction='row'
+                justify='flex-start'
+                spacing={0}
               >
-                <Typography
-                  align='left'
-                  className={classes.name}
-                  display='inline'
-                  variant='h3'
+                <Grid
+                  xs={6}
+                  item
                 >
-                  <LinesEllipsis
-                    basedOn='letters'
-                    ellipsis='...'
-                    maxLine='4'
-                    text={displayName}
-                    trimRight
+                  <Typography
+                    align='left'
+                    className={classes.name}
+                    display='inline'
+                    variant='h3'
+                  >
+                    <LinesEllipsis
+                      basedOn='letters'
+                      ellipsis='...'
+                      maxLine='4'
+                      text={displayName}
+                      trimRight
+                    />
+                  </Typography>
+                </Grid>
+                {twitterName && (
+                <Grid item
+                  xs={3}
+                >
+                  <a href={`https://twitter.com/${twitterName}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={classes.LinkDecoration}
+                  >
+                    <Chip label={twitterName}
+                      className={classes.chip}
+                      onClick
+                      icon={
+                        <Icon fontSize='small'
+                          className={['fab fa-twitter', classes.twitter]}
+                        />
+
+                  }
+                    />
+                  </a>
+                </Grid>
+              )}
+                {ethAddress && (
+                <Grid item
+                  xs={3}
+                > <a href={`https://etherscan.io/address/${ethAddress}`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={classes.LinkDecoration}
+                  >
+                  <Chip label={ethAddress.slice(0, 5)}
+                    className={classes.chip}
+                    onClick
                   />
-                </Typography>
+                </a>
+                </Grid>
+              )}
               </Grid>
               <Grid item
                 sm={2}
