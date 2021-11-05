@@ -489,7 +489,7 @@ class PostStats extends Component {
         spacing={0}
       >
         <Grid item>
-          <Tooltip title='Post Influence Score'
+          <Tooltip title='Post Yup Score'
             disableTouchListener
           >
             <p className={classes.weight}

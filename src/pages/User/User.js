@@ -899,7 +899,7 @@ const steps = [
         <Typography
           className='tourHeader'
           variant='h4'
-        >💯 Influence Score</Typography>
+        >💯 Yup Score</Typography>
         <p className='tourText'>
           A score out of 100 showing how influential a user is. The higher the
           number, the more powerful your opinions!
