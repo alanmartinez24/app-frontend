@@ -203,6 +203,7 @@ function ProfileCard (props) {
     ratingCount,
     isMinimize,
     levels,
+    lightMode,
     dispatch
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
@@ -253,6 +254,8 @@ function ProfileCard (props) {
   const avatar = levelInfo && levelInfo.avatar
   const twitterName = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.username
   const ethAddress = accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
+
+  const logo = lightMode ? '/images/logos/logo_outline_b.svg' : '/images/logos/logo_outline_w.svg'
   return (
     <ErrorBoundary>
       <Card
@@ -519,7 +522,7 @@ function ProfileCard (props) {
                     >
                       <Grid item>
                         <img
-                          src='/images/logos/logo_outline_w.svg'
+                          src={logo}
                           style={{ width: '15px', height: '15px' }}
                           alt='yup logo'
                         />
@@ -571,11 +574,13 @@ function ProfileCard (props) {
   )
 }
 const mapStateToProps = (state, ownProps) => {
+  const lightMode = state.lightMode.active
   return {
     levels: state.socialLevels.levels || {
       isLoading: true,
       levels: {}
-    }
+    },
+    lightMode: lightMode
   }
 }
 
@@ -588,6 +593,7 @@ ProfileCard.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
   levels: PropTypes.object,
+  lightMode: PropTypes.bool,
   account: PropTypes.object
 }
 
