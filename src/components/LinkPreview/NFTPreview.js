@@ -12,26 +12,24 @@ import CldVid from '../../components/Miscellaneous/CldVid'
 const { RARIBLE_API } = process.env
 
 // TODO: Simplify regex, put in utils file
-const RARIBLE_URL = new RegExp(
-  '^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com|www.rarible.com|http://rarible.com|https://rarible.com|http://www.rarible.com|https://www.rarible.com)',
-  'i'
-)
-const SUPERRARE_URL = new RegExp(
-  '^(superrare.co|www.superrare.co|http://superrare.co|https://superrare.co|http://www.superrare.co|https://www.superrare.co)',
-  'i'
-)
-const FOUNDATION_URL = new RegExp(
-  '^(foundation.app|www.foundation.app|http://foundation.app|https://foundation.app|http://www.foundation.app|https://www.foundation.app)',
-  'i'
-)
-const ZORA_URL = new RegExp(
-  '^(zora.co|www.zora.co|http://zora.co|https://zora.co|http://www.zora.co|https://www.zora.co)',
-  'i'
-)
-const KNOWN_ORIGIN_URL = new RegExp(
-  '^((http:|https:)([/][/]))?(www.)?knownorigin.io/gallery/[^/]*[/]?$',
-  'i'
-)
+
+const ZORA_TAGS = ['zora.co']
+const zoraSearch = `.*(${ZORA_TAGS.join(').*|.*(')}).*`
+const zoraQuery = new RegExp(zoraSearch, 'i')
+
+const SUPERRARE_TAGS = ['superrare.co/artwork-v2', 'superrare.com/artwork-v2']
+const superrareSearch = `.*(${SUPERRARE_TAGS.join(').*|.*(')}).*`
+const superrareQuery = new RegExp(superrareSearch, 'i')
+
+const RARIBLE_TAGS = ['app.rarible.com/token', 'rarible.com/token']
+const raribleSearch = `.*(${RARIBLE_TAGS.join(').*|.*(')}).*`
+const raribleQuery = new RegExp(raribleSearch, 'i')
+
+const knownOriginSearch = '^((http:|https:)([/][/]))?(www.)?knownorigin.io/gallery/[^/]*[/]?$'
+const knownOriginQuery = new RegExp(knownOriginSearch, 'i')
+
+const foundationSearch = '^((http:|https:)([/][/]))?(www.)?foundation.app/(.+)/(.+)[^/]$'
+const foundationQuery = new RegExp(foundationSearch, 'i')
 
 const styles = theme => ({
   container: {
@@ -144,6 +142,7 @@ class NFTPreview extends Component {
   }
 
   cutUrl (inUrl) {
+    console.log(`inUrl`, inUrl)
     const protocol = 'https://'
     const pro2 = 'http://'
 
@@ -207,11 +206,11 @@ class NFTPreview extends Component {
 
   async getCreator () {
     const { previewData } = this.props
-    const raribleNFT = previewData.url && previewData.url.match(RARIBLE_URL)
-    const superrareNFT = previewData.url && previewData.url.match(SUPERRARE_URL)
-    const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
-    const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
-    const knownOriginNFT = previewData.url && previewData.url.match(KNOWN_ORIGIN_URL)
+    const raribleNFT = previewData.url && previewData.url.match(raribleQuery)
+    const superrareNFT = previewData.url && previewData.url.match(superrareQuery)
+    const foundationNFT = previewData.url && previewData.url.match(foundationQuery)
+    const zoraNFT = previewData.url && previewData.url.match(zoraQuery)
+    const knownOriginNFT = previewData.url && previewData.url.match(knownOriginQuery)
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
       const res = await axios.get(
@@ -236,9 +235,9 @@ class NFTPreview extends Component {
 
   async getOwners () {
     const { previewData } = this.props
-    const raribleNFT = previewData.url && previewData.url.match(RARIBLE_URL)
-    const foundationNFT = previewData.url && previewData.url.match(FOUNDATION_URL)
-    const zoraNFT = previewData.url && previewData.url.match(ZORA_URL)
+    const raribleNFT = previewData.url && previewData.url.match(raribleQuery)
+    const foundationNFT = previewData.url && previewData.url.match(foundationQuery)
+    const zoraNFT = previewData.url && previewData.url.match(zoraQuery)
 
     if (raribleNFT && previewData[0] && previewData[0].item) {
       previewData[0].item.owners.forEach(async owner => {
@@ -259,6 +258,7 @@ class NFTPreview extends Component {
   }
 
   componentDidMount () {
+    if (!this.props.previewData) { return }
     this.getCreatorAndOwners()
   }
 
@@ -285,7 +285,7 @@ class NFTPreview extends Component {
       faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
     }
 
-    const isVideo = (image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video'))
+    const isVideo = image && ((image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video')))
 
     return (
       <ErrorBoundary>

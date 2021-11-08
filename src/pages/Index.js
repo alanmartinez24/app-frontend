@@ -191,9 +191,13 @@ class Index extends Component {
                       exact
                       path='/collections/:name/:id'
                     />
-                    <Route component={User}
+                    <Route
                       exact
                       path='/:username'
+                      render={(p) => <User {...p}
+                        key={document.location.href}
+                                     />}
+
                     />
                     <Redirect from='*'
                       to='/'
