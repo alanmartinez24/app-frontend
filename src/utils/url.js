@@ -8,5 +8,5 @@ export function trimURLEnd (link) {
   return url.origin
 }
 export function getFavicon (link) {
-  return trimURLEnd(link) + 'favicon.ico'
+  return `${trimURLEnd(link)}/favicon.ico`
 }
