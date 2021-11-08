@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Fab, Button, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import ReactPlayer from 'react-player'
-
-const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
     Tour: {
@@ -273,12 +270,6 @@ const steps = [
             Blog
           </Button>
         </div>
-        <ReactPlayer
-          controls
-          style={{ overFlow: 'hidden', maxHeight: '200px' }}
-          url={EXPLAINER_VIDEO}
-          width='100%'
-        />
       </div>
     )
   }
