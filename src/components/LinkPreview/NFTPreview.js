@@ -8,6 +8,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import CldImg from '../../components/Miscellaneous/CldImg'
 import CldVid from '../../components/Miscellaneous/CldVid'
+import { trimURL, trimURLEnd } from '../../utils/url'
 
 const { RARIBLE_API } = process.env
 
@@ -141,45 +142,6 @@ class NFTPreview extends Component {
     owners: []
   }
 
-  cutUrl (inUrl) {
-    const url = new URL(inUrl)
-    return `${url.host}${url.pathname}`
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    if (link == null) {
-      return ''
-    }
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    if (link == null) {
-      return ''
-    }
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
-  }
-
   async getCreatorAndOwners () {
     await this.getCreator()
     await this.getOwners()
@@ -259,11 +221,8 @@ class NFTPreview extends Component {
     let faviconURLFallback
 
     if (url != null) {
-      faviconURL =
-        'https://api.faviconkit.com/' +
-        this.trimURLStart(this.trimURLEnd(url)) +
-        '64'
-      faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
+      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
+      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
     }
 
     const isVideo = image && ((image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video')))
@@ -424,7 +383,7 @@ class NFTPreview extends Component {
                         trimRight
                       />
                     </Typography>
-                    <Typography className={classes.url}>{url && this.cutUrl(url)}</Typography>
+                    <Typography className={classes.url}>{url && trimURL(url)}</Typography>
                   </Grid>
                 </Grid>
               </div>

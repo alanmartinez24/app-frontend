@@ -5,6 +5,7 @@ import Img from 'react-image'
 import { Grid, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { trimURL, trimURLEnd } from '../../utils/url'
 
 const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
 
@@ -82,45 +83,6 @@ const styles = theme => ({
 })
 
 class ArticlePreview extends Component {
-  cutUrl (inUrl) {
-    const url = new URL(inUrl)
-    return `${url.host}${url.pathname}`
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    if (link == null) {
-      return ''
-    }
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    if (link == null) {
-      return ''
-    }
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
-  }
-
   addDefaultSrc = e => {
     e.target.onerror = null
     e.target.src = DEFAULT_POST_IMAGE
@@ -132,11 +94,8 @@ class ArticlePreview extends Component {
     let faviconURLFallback
 
     if (url != null) {
-      faviconURL =
-        'https://api.faviconkit.com/' +
-        this.trimURLStart(this.trimURLEnd(url)) +
-        '64'
-      faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
+      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
+      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
     } else {
       faviconURL = null
       faviconURLFallback = null
@@ -200,7 +159,7 @@ class ArticlePreview extends Component {
               </Typography>
               <Typography variant='body2'
                 className={classes.url}
-              >{url && this.cutUrl(url).split(/[/]+/g, 1)}</Typography>
+              >{url && trimURL(url).split(/[/]+/g, 1)}</Typography>
             </div>
           </a>
         </div>

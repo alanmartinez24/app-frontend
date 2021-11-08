@@ -9,6 +9,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import ReactPlayer from 'react-player'
 import axios from 'axios'
 import ConditionalLinkWrapper from '../Miscellaneous/ConditionalLinkWrapper'
+import { trimURL, trimURLEnd } from '../../utils/url'
 
 const nftPattern = new RegExp('^(app.rarible.com|www.app.rarible.com|http://app.rarible.com|https://app.rarible.com|http://www.app.rarible.com|https://www.app.rarible.com|rarible.com/token/|www.rarible.com/token/|http://rarible.com/token/|https://rarible.com/*/|opensea.io/assets/|www.opensea.io/assets/|http://opensea.io/assets/|https://opensea.io/assets/|superrare.co/|www.superrare.co/|http://superrare.co/|https://superrare.co/|foundation.app/*/|www.foundation.app/*/|http://foundation.app/*/|https://foundation.app/*/|zora.co/|www.zora.co/|http://zora.co/|https://zora.co/)')
 const collectionPattern = new RegExp('^(app.yup.io/collections/|www.app.yup.io/collections/|http://app.yup.io/collections/|https://app.yup.io/collections/)')
@@ -91,46 +92,13 @@ class ListPreview extends Component {
   componentDidMount () {
     const { previewData } = this.props
     if (previewData && previewData.url !== null) {
-      let url = 'https://api.faviconkit.com/' + this.trimURLStart(this.trimURLEnd(previewData.url)) + '64'
-      let fallbackUrl = this.trimURLEnd(previewData.url) + 'favicon.ico'
+      let url = 'https://api.faviconkit.com/' + trimURL(trimURLEnd(previewData.url)) + '64'
+      let fallbackUrl = trimURLEnd(previewData.url) + 'favicon.ico'
       this.setState({
         faviconURL: url,
         faviconURLFallback: fallbackUrl
       })
     }
-  }
-
-  cutUrl (inUrl) {
-    const url = new URL(inUrl)
-    return `${url.host}${url.pathname}`
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
   }
 
   addDefaultVid = (e) => {

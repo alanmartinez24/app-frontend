@@ -7,11 +7,10 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import { levelColors } from '../../utils/colors'
 import Fade from '@material-ui/core/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-
+import { trimURL, trimURLEnd } from '../../utils/url'
 import axios from 'axios'
 
-const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
-const BACKEND_API = process.env.BACKEND_API
+const { DEFAULT_POST_IMAGE, BACKEND_API } = process.env
 
 const styles = theme => ({
   container: {
@@ -150,39 +149,6 @@ FallbackImage.propTypes = {
 const StyledFallbackImage = withStyles(styles)(FallbackImage)
 
 class ObjectPreview extends Component {
-  cutUrl (inUrl) {
-    const url = new URL(inUrl)
-    return `${url.host}${url.pathname}`
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
-  }
-
   async resetImgLink () {
     const { caption } = this.props
     const res = await axios.post(`${BACKEND_API}/posts/linkpreview/`, { url: caption })
@@ -194,8 +160,8 @@ class ObjectPreview extends Component {
     let faviconURL
     let faviconURLFallback
     if (url != null) {
-      faviconURL = 'https://api.faviconkit.com/' + this.trimURLStart(this.trimURLEnd(url)) + '64'
-      faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
+      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
+      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
     } else {
       faviconURL = null
       faviconURLFallback = null
@@ -287,7 +253,7 @@ class ObjectPreview extends Component {
                       />
                     </Grid>
                   </Grid>
-                  <p className={classes.url}>{url && this.cutUrl(url)}</p>
+                  <p className={classes.url}>{url && trimURL(url)}</p>
                 </div>
               </div>
             </a>

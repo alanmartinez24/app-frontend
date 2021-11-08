@@ -5,6 +5,7 @@ import Img from 'react-image'
 import Grid from '@material-ui/core/Grid'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { trimURL, trimURLEnd } from '../../utils/url'
 
 const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
 
@@ -100,50 +101,14 @@ const styles = theme => ({
 })
 
 class LinkPreview extends Component {
-  cutUrl (inUrl) {
-    const url = new URL(inUrl)
-    return `${url.host}${url.pathname}`
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
-  }
-
   render () {
     const { image, title, description, url, classes, caption } = this.props
     let faviconURL
     let faviconURLFallback
 
     if (url != null) {
-      faviconURL =
-        'https://api.faviconkit.com/' +
-        this.trimURLStart(this.trimURLEnd(url)) +
-        '64'
-      faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
+      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
+      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
     } else {
       faviconURL = null
       faviconURLFallback = null
@@ -217,7 +182,7 @@ class LinkPreview extends Component {
                     trimRight
                   />
                 </div>
-                <p className={classes.url}>{url && this.cutUrl(url)}</p>
+                <p className={classes.url}>{url && trimURL(url)}</p>
               </div>
             </div>
           </a>
