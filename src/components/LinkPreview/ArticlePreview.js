@@ -5,7 +5,7 @@ import Img from 'react-image'
 import { Grid, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { trimURL, trimURLEnd } from '../../utils/url'
+import { trimURL, getFavicon } from '../../utils/url'
 
 const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
 
@@ -90,15 +90,10 @@ class ArticlePreview extends Component {
 
   render () {
     const { title, description, url, classes, caption } = this.props
-    let faviconURL
-    let faviconURLFallback
+    let faviconURL = null
 
     if (url != null) {
-      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
-      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
-    } else {
-      faviconURL = null
-      faviconURLFallback = null
+      faviconURL = getFavicon(url)
     }
 
     return (
@@ -126,7 +121,7 @@ class ArticlePreview extends Component {
                   <Img
                     align='right'
                     href={url}
-                    src={[faviconURL, faviconURLFallback]}
+                    src={faviconURL}
                     className={classes.linkImg}
                     target='_blank'
                   />

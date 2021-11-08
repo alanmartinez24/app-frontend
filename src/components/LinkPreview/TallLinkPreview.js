@@ -5,7 +5,7 @@ import Img from 'react-image'
 import Grid from '@material-ui/core/Grid'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { trimURL, trimURLEnd } from '../../utils/url'
+import { trimURL, getFavicon } from '../../utils/url'
 
 const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
 
@@ -103,15 +103,10 @@ const styles = theme => ({
 class LinkPreview extends Component {
   render () {
     const { image, title, description, url, classes, caption } = this.props
-    let faviconURL
-    let faviconURLFallback
+    let faviconURL = null
 
     if (url != null) {
-      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
-      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
-    } else {
-      faviconURL = null
-      faviconURLFallback = null
+      faviconURL = getFavicon(url)
     }
 
     return (
@@ -150,7 +145,7 @@ class LinkPreview extends Component {
                     <Img
                       align='right'
                       href={url}
-                      src={[faviconURL, faviconURLFallback]}
+                      src={faviconURL}
                       style={{
                         height: 30,
                         width: 30,

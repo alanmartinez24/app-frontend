@@ -8,7 +8,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import CldImg from '../../components/Miscellaneous/CldImg'
 import CldVid from '../../components/Miscellaneous/CldVid'
-import { trimURL, trimURLEnd } from '../../utils/url'
+import { trimURL, getFavicon } from '../../utils/url'
 
 const { RARIBLE_API } = process.env
 
@@ -216,13 +216,10 @@ class NFTPreview extends Component {
       mimeType,
       postid
     } = this.props
-
-    let faviconURL
-    let faviconURLFallback
+    let faviconURL = null
 
     if (url != null) {
-      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
-      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
+      faviconURL = getFavicon(url)
     }
 
     const isVideo = image && ((image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video')))
@@ -282,7 +279,7 @@ class NFTPreview extends Component {
                         <Img
                           align='right'
                           href={url}
-                          src={[faviconURL, faviconURLFallback]}
+                          src={faviconURL}
                           style={{
                             height: 30,
                             width: 30,
@@ -290,7 +287,7 @@ class NFTPreview extends Component {
                             border: 'none'
                           }}
                           target='_blank'
-                          alt={[faviconURL, faviconURLFallback]}
+                          alt={faviconURL}
                         />
                       </Grid>
                       <Grid item>

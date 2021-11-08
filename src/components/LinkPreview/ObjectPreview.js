@@ -7,7 +7,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import { levelColors } from '../../utils/colors'
 import Fade from '@material-ui/core/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { trimURL, trimURLEnd } from '../../utils/url'
+import { trimURL, getFavicon } from '../../utils/url'
 import axios from 'axios'
 
 const { DEFAULT_POST_IMAGE, BACKEND_API } = process.env
@@ -157,14 +157,9 @@ class ObjectPreview extends Component {
 
   render () {
     const { image, title, description, url, caption, classes, quantiles, rankCategory } = this.props
-    let faviconURL
-    let faviconURLFallback
+    let faviconURL = null
     if (url != null) {
-      faviconURL = `https://api.faviconkit.com/${trimURL(trimURLEnd(url))}64`
-      faviconURLFallback = trimURLEnd(url) + 'favicon.ico'
-    } else {
-      faviconURL = null
-      faviconURLFallback = null
+      faviconURL = getFavicon(url)
     }
     // TODO: Adjust this for Yup lists, should only get quantile for category and website being compared
     const overallQuantile = rankCategory ? quantiles[rankCategory] : quantiles.overall
@@ -247,7 +242,7 @@ class ObjectPreview extends Component {
                       <Img
                         align='right'
                         href={url}
-                        src={[faviconURL, faviconURLFallback]}
+                        src={faviconURL}
                         className={classes.favicon}
                         target='_blank'
                       />
