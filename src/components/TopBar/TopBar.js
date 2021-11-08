@@ -389,17 +389,12 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     const search = window.location.search
     const params = new URLSearchParams(search)
     const dialog = params.get('signupOpen')
+    const collectionDialog = params.get('collectionDialogOpen')
+    setCollectionDialogOpen(collectionDialog || false)
     setDialogOpen((!account && dialog) || false)
     authInfo.account.name && setAccount(authInfo.account)
     fetchNotifs()
   }, [accountName])
-
-  useEffect(() => {
-    console.log(`'called'`, 'called')
-    const params = new URLSearchParams(window.location.search)
-    const collectionDialog = params.get('collectionDialogOpen')
-    setCollectionDialogOpen(collectionDialog || false)
-  }, [window.location])
 
   useEffect(() => {
     if (authInfo && authInfo.account && authInfo.account.name) {

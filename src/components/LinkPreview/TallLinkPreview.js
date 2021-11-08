@@ -101,26 +101,8 @@ const styles = theme => ({
 
 class LinkPreview extends Component {
   cutUrl (inUrl) {
-    const protocol = 'https://'
-    const pro2 = 'http://'
-
-    if (inUrl.startsWith(protocol)) {
-      inUrl = inUrl.substring(protocol.length)
-    } else if (inUrl.startsWith(pro2)) {
-      inUrl = inUrl.substring(pro2.length)
-    }
-
-    const web = 'www.'
-
-    if (inUrl.startsWith(web)) {
-      inUrl = inUrl.substring(web.length)
-    }
-
-    if (inUrl.endsWith('/')) {
-      inUrl = inUrl.substring(0, inUrl.length - 1)
-    }
-
-    return inUrl
+    const url = new URL(inUrl)
+    return `${url.host}${url.pathname}`
   }
 
   trimURLEnd (link) {
