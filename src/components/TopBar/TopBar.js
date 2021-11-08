@@ -381,17 +381,19 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const [isShown, setIsShown] = useState((isMobile || isTourOpen) || false)
   const [notifications, setNotifications] = useState([])
   const [level, setLevel] = useState(defaultLevelInfo)
-  const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
+  const [collectionDialogOpen, setCollectionDialogOpen] = useState(null)
   let authInfo = useSelector(getReduxState)
   const accountName = authInfo && authInfo.account && authInfo.account.name
+
   useEffect(() => {
     const search = window.location.search
     const params = new URLSearchParams(search)
     const dialog = params.get('signupOpen')
     const collectionDialog = params.get('collectionDialogOpen')
-    setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
+    setDialogOpen((!account && dialog) || false)
     authInfo.account.name && setAccount(authInfo.account)
+    fetchNotifs()
   }, [accountName])
 
   useEffect(() => {
@@ -409,12 +411,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     }
   }, [accountName])
 
-  useEffect(() => {
-    fetchNotifs()
-  }, [accountName])
-
   const fetchNotifs = () => {
-    if (!accountName || notifications.length) return
+    if (!accountName || notifications.length) { return }
     try {
       (axios.get(`${BACKEND_API}/notifications/${accountName}`)).then(({ data: notifs }) => {
         setNotifications(notifs.reverse())
@@ -432,11 +430,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     setOpen(true)
   }
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true)
-  }
-
+  const handleDialogOpen = () => setDialogOpen(true)
   const handleCollectionDialogClose = () => setCollectionDialogOpen(false)
+  const handleDrawerClose = () => setOpen(false)
+  const handleSettingsOpen = () => setSettingsOpen(true)
+  const handleSettingsClose = () => setSettingsOpen(false)
 
   const handleDialogClose = () => {
     setIsShown(false)
@@ -459,18 +457,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     const userId = account && account.name
     window.analytics.track('My Notifications Click', { userId })
     }
-  }
-
-  function handleDrawerClose (e) {
-    setOpen(false)
-  }
-
-  const handleSettingsOpen = () => {
-    setSettingsOpen(true)
-  }
-
-  const handleSettingsClose = () => {
-    setSettingsOpen(false)
   }
 
   function handleLogout () {
