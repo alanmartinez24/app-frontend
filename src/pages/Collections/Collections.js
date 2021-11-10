@@ -727,7 +727,41 @@ class Collections extends Component {
                             />
                           )
                       }))
-                      : (<div>Test</div>)}
+                      : (<Grid item
+                        xs={7}
+                        className={[classes.recommended, classes.recommendedMobile]}
+                         >
+                        <Skeleton variant='rect'
+                          animation='wave'
+                          className={classes.Skeleton}
+                          width={'100%'}
+                          height={70}
+                        />
+                        <Skeleton variant='rect'
+                          animation='wave'
+                          className={classes.Skeleton}
+                          width={'100%'}
+                          height={70}
+                        />
+                        <Skeleton variant='rect'
+                          animation='wave'
+                          className={classes.Skeleton}
+                          width={'100%'}
+                          height={70}
+                        />
+                        <Skeleton variant='rect'
+                          animation='wave'
+                          className={classes.Skeleton}
+                          width={'100%'}
+                          height={70}
+                        />
+                        <Skeleton variant='rect'
+                          animation='wave'
+                          className={classes.Skeleton}
+                          width={'100%'}
+                          height={70}
+                        />
+                      </Grid>)}
                     </Grid>
                   </TabPanel>
                 </>
