@@ -21,6 +21,7 @@ import { levelColors } from '../../utils/colors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { setTourAction, fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
+import { Skeleton } from '@material-ui/lab'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -109,6 +110,11 @@ const styles = theme => ({
       overflowX: 'hidden'
     },
     flex: 1
+  },
+  Skeleton: {
+    background: theme.palette.alt.fourth,
+     margin: '20px 0 ',
+     borderRadius: '8px'
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
@@ -228,6 +234,7 @@ class Collections extends Component {
     collection: null,
     posts: [],
     isLoading: true,
+    recommendedLoading: true,
     isMinimize: false,
     snackbarMsg: '',
     recommended: [],
@@ -247,19 +254,21 @@ class Collections extends Component {
     let collection, recommended
     try {
       collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
+      this.setState({
+        isLoading: false,
+        collection,
+        posts: collection.posts.reverse()
+      })
       const requQuery = `name=${collection.name}&description=${collection.description}&id=${id}`
       recommended = (await axios.get(`${BACKEND_API}/collections/recommended?${requQuery}`)).data
+      this.setState({
+        recommendedLoading: false,
+        recommended
+      })
     } catch (err) {
       this.setState({ isLoading: false })
       console.log(err)
     }
-
-    this.setState({
-      isLoading: false,
-      collection,
-      recommended,
-      posts: collection.posts.reverse()
-    })
   }
 
   componentDidMount () {
@@ -344,7 +353,8 @@ class Collections extends Component {
       socialLevelColor,
       openReorderDialog,
       editDialogOpen,
-      duplicateDialogOpen
+      duplicateDialogOpen,
+      recommendedLoading
     } = this.state
     let color = socialLevelColor
     const menuOpen = Boolean(anchorEl)
@@ -709,14 +719,15 @@ class Collections extends Component {
                       tourname='RecommendedCollections'
                       className={[classes.recommended, classes.recommendedMobile]}
                     >
-                      {recommended.map(rec => {
+                      {!recommendedLoading ? (recommended.map(rec => {
                           return (
                             <RecommendedCollections
                               classes={classes}
                               collection={rec}
                             />
                           )
-                      })}
+                      }))
+                      : (<div>Test</div>)}
                     </Grid>
                   </TabPanel>
                 </>
@@ -753,14 +764,48 @@ class Collections extends Component {
                     <Grid item
                       xs={12}
                     >
-                      {recommended.map(rec => {
+                      {!recommendedLoading ? recommended.map(rec => {
                           return (
                             <RecommendedCollections
                               classes={classes}
                               collection={rec}
                             />
                           )
-                      })}
+                      }) : (
+                        <Grid item
+                          xs={12}
+                        >
+                          <Skeleton variant='rect'
+                            animation='wave'
+                            className={classes.Skeleton}
+                            width={'100%'}
+                            height={70}
+                          />
+                          <Skeleton variant='rect'
+                            animation='wave'
+                            className={classes.Skeleton}
+                            width={'100%'}
+                            height={70}
+                          />
+                          <Skeleton variant='rect'
+                            animation='wave'
+                            className={classes.Skeleton}
+                            width={'100%'}
+                            height={70}
+                          />
+                          <Skeleton variant='rect'
+                            animation='wave'
+                            className={classes.Skeleton}
+                            width={'100%'}
+                            height={70}
+                          />
+                          <Skeleton variant='rect'
+                            animation='wave'
+                            className={classes.Skeleton}
+                            width={'100%'}
+                            height={70}
+                          />
+                        </Grid>)}
                     </Grid>
                   </Grid>
                 </>
