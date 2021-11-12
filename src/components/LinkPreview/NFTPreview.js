@@ -6,7 +6,7 @@ import { Grid, Tooltip, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import CldImg from '../../components/Miscellaneous/CldImg'
+// import CldImg from '../../components/Miscellaneous/CldImg'
 import CldVid from '../../components/Miscellaneous/CldVid'
 import { trimURL, getFavicon } from '../../utils/url'
 
@@ -257,7 +257,7 @@ class NFTPreview extends Component {
                   playsinline
                 />
               ) : (
-                <CldImg
+                <img
                   className={classes.linkImg}
                   postid={postid}
                   src={image}
