@@ -6,7 +6,7 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
       let a = document.createElement('a')
       a.href = str
       return a.hostname
-    }
+  }
 
   return (
     <div className={size === 'large' ? classes.LinkPreviewMainLarge : classes.LinkPreviewMain}>

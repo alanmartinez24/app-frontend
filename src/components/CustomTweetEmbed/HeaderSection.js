@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import ReactPlayer from 'react-player'
 import Link from '@material-ui/core/Link'
 import axios from 'axios'
 import _ from 'lodash'

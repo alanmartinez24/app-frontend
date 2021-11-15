@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
 
+// const BACKEND_API = 'http://localhost:4001'
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
 const DESC_LIMIT = 140
@@ -48,6 +49,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+  const [deleteButtonText, setDeleteButtonText] = useState('Delete')
 
   const handleNameChange = ({ target }) => setName(target.value)
   const handleDescriptionChange = ({ target }) => setDescription(target.value)
@@ -74,6 +76,10 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
 
   const handleDeleteCollection = async () => {
     try {
+      if (deleteButtonText === 'Delete') {
+        setDeleteButtonText('Are you sure?')
+        return
+      }
       setIsLoadingDelete(true)
       if (authToken.account && authToken.account.eosname) {
         authToken.eosname = authToken.account.eosname
@@ -134,7 +140,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         <DialogActions>
           <LoaderButton onClick={handleDeleteCollection}
             fullWidth
-            buttonText='Delete'
+            buttonText={deleteButtonText}
             isLoading={isLoadingDelete}
             variant='outlined'
           />

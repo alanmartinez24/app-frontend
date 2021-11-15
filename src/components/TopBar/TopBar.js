@@ -46,7 +46,7 @@ import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 
 const drawerWidth = 200
-const { BACKEND_API } = process.env
+const { BACKEND_API, EXTENSION_LINK } = process.env
 
 const styles = theme => ({
   appBar: {
@@ -256,66 +256,63 @@ PrivateListItem.propTypes = {
 
 const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
   return (
-    <ListLink
+    <ListItem className={classes.ListItem}
+      button
+      component={ListLink}
       href='https://yup.io'
       style={{ textDecoration: 'none', display: 'none' }}
     >
-      <ListItem className={classes.ListItem}
-        button
-      >
-        <ListItemIcon style={{ minWidth: '20px' }}>
-          <Icon className='fal fa-globe' />
-        </ListItemIcon>
-        <ListItemText>
-          <Typography variant='body2'
-            className={classes.typography}
-          >
-            About
-          </Typography>
-        </ListItemText>
-      </ListItem>
-    </ListLink>
+      <ListItemIcon style={{ minWidth: '20px' }}>
+        <Icon className='fal fa-globe' />
+      </ListItemIcon>
+      <ListItemText>
+        <Typography variant='body2'
+          className={classes.typography}
+        >
+          About
+        </Typography>
+      </ListItemText>
+    </ListItem>
   )
 })
 const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
-  classes
+  classes, isShown, isMobile
 }) {
   return (
-    <ListLink
-      href='https://chrome.google.com/webstore/detail/yup-opinions-social-capit/nhmeoaahigiljjdkoagafdccikgojjoi'
-      style={{ textDecoration: 'none' }}
+    <ListItem
+      button
+      component={ListLink}
+      style={{ paddingLeft: '0px', textDecoration: 'none' }}
+      href={EXTENSION_LINK}
       target='_blank'
     >
-      <ListItem className={classes.ListItem}
-        button
-        component={Link}
-        to='/'
-        style={{ paddingLeft: '0px' }}
+
+      <ListItemIcon>
+        <Icon
+          fontSize='small'
+          className='fal fa-plug'
+        />
+      </ListItemIcon>
+      {(isShown || isMobile) && (
+      <Grow in
+        timeout={600}
       >
-        <ListItemIcon>
-          <Icon
-            fontSize='small'
-            className='fal fa-plug'
-          />
-        </ListItemIcon>
-        <Grow in
-          timeout={600}
-        >
-          <ListItemText >
-            <Typography variant='body2'
-              className={classes.typography}
-            >
-              Extension
-            </Typography>
-          </ListItemText>
-        </Grow>
-      </ListItem>
-    </ListLink>
+        <ListItemText >
+          <Typography variant='body2'
+            className={classes.typography}
+          >
+
+            Extension
+          </Typography>
+        </ListItemText>
+      </Grow>
+      )}
+    </ListItem>
 
   )
 })
 
-const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes }) {
+const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes, isShown, isMobile }) {
   if (account) {
     return (
       <List component='nav'
@@ -332,7 +329,10 @@ const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account
       aria-label='main'
       className={classes.list1}
     >
-      <StyledExtensionListLink />
+      <StyledExtensionListLink
+        isShown={isShown}
+        isMobile={isMobile}
+      />
       <StyledAboutListLink />
     </List>
   )
@@ -381,18 +381,19 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   const [isShown, setIsShown] = useState((isMobile || isTourOpen) || false)
   const [notifications, setNotifications] = useState([])
   const [level, setLevel] = useState(defaultLevelInfo)
-  const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
-
+  const [collectionDialogOpen, setCollectionDialogOpen] = useState(null)
   let authInfo = useSelector(getReduxState)
   const accountName = authInfo && authInfo.account && authInfo.account.name
+
   useEffect(() => {
     const search = window.location.search
     const params = new URLSearchParams(search)
     const dialog = params.get('signupOpen')
     const collectionDialog = params.get('collectionDialogOpen')
-    setDialogOpen((!account && dialog) || false)
     setCollectionDialogOpen(collectionDialog || false)
+    setDialogOpen((!account && dialog) || false)
     authInfo.account.name && setAccount(authInfo.account)
+    fetchNotifs()
   }, [accountName])
 
   useEffect(() => {
@@ -410,12 +411,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     }
   }, [accountName])
 
-  useEffect(() => {
-    fetchNotifs()
-  }, [accountName])
-
   const fetchNotifs = () => {
-    if (!accountName || notifications.length) return
+    if (!accountName || notifications.length) { return }
     try {
       (axios.get(`${BACKEND_API}/notifications/${accountName}`)).then(({ data: notifs }) => {
         setNotifications(notifs.reverse())
@@ -429,16 +426,18 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
   }, [isTourOpen])
 
   function handleDrawerOpen () {
+    setIsShown(true)
     setOpen(true)
   }
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true)
-  }
-
+  const handleDialogOpen = () => setDialogOpen(true)
   const handleCollectionDialogClose = () => setCollectionDialogOpen(false)
+  const handleDrawerClose = () => setOpen(false)
+  const handleSettingsOpen = () => setSettingsOpen(true)
+  const handleSettingsClose = () => setSettingsOpen(false)
 
   const handleDialogClose = () => {
+    setIsShown(false)
     setDialogOpen(false)
   }
   const handleToggleTheme = () => {
@@ -458,18 +457,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     const userId = account && account.name
     window.analytics.track('My Notifications Click', { userId })
     }
-  }
-
-  function handleDrawerClose (e) {
-    setOpen(false)
-  }
-
-  const handleSettingsOpen = () => {
-    setSettingsOpen(true)
-  }
-
-  const handleSettingsClose = () => {
-    setSettingsOpen(false)
   }
 
   function handleLogout () {
@@ -641,7 +628,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 className={classes.ListItem}
                 button
                 component={Link}
-                onClick={logProfileClick}
+                onClick={logProfileClick && handleDrawerClose}
                 to={`/${username}`}
                 style={{ paddingLeft: '11px' }}
               >
@@ -708,8 +695,8 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                               style={{ backgroundColor: `${palette.alt.third}70` }}
                             > <img style={{ width: '20px', aspectRatio: '1 / 1' }}
                               src={lightMode
-                                  ? 'images/logos/logo.svg'
-                                : 'images/logos/logo_w.svg'}
+                                  ? '/images/logos/logo.svg'
+                                : '/images/logos/logo_w.svg'}
                               />
                             </IconButton>
                           </ListItemIcon>
@@ -717,7 +704,10 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     </ListItem>)}
           </List>
         </div>
-        {!isMobile && <StyledYupProductNav account={account} />}
+        {!isMobile && <StyledYupProductNav isShown={isShown}
+          isMobile={isMobile}
+          account={account}
+                      />}
         <ListItem className={classes.ListItem}
           button
           component={Link}

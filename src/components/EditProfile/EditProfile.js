@@ -413,8 +413,8 @@ class EditProfile extends Component {
         return (
           <Grid item>
             <IconButton onClick={this.cropComplete}>
-              <DoneIcon style={{ color: 'white', marginRight: '8px' }} />
-              <Typography style={{ color: 'white' }}>Crop</Typography>
+              <DoneIcon style={{ marginRight: '8px' }} />
+              <Typography >Crop</Typography>
             </IconButton>
           </Grid>
         )
@@ -586,7 +586,6 @@ class EditProfile extends Component {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   const ethAuth = ethAuthSelector(state)
-
   return {
     account,
     ethAuth,

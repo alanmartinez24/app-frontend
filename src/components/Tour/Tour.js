@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Fab, Button, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import ReactPlayer from 'react-player'
-
-const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
 const styles = theme => ({
     Tour: {
@@ -14,7 +11,7 @@ const styles = theme => ({
       padding: '34px 60px 34px 30px !important'
     },
     tourFab: {
-      position: 'absolute',
+      position: 'fixed',
       bottom: theme.spacing(3),
       right: theme.spacing(12),
       background: theme.palette.common.first,
@@ -103,7 +100,7 @@ const steps = [
           className='tourHeader'
           variant='h4'
         >
-          💯  Influence Score
+          💯  Yup Score
         </Typography>
         <p className='tourText'>
           A score out of 100 showing how influential a user is. The higher the number, the more powerful your opinions!
@@ -273,12 +270,6 @@ const steps = [
             Blog
           </Button>
         </div>
-        <ReactPlayer
-          controls
-          style={{ overFlow: 'hidden', maxHeight: '200px' }}
-          url={EXPLAINER_VIDEO}
-          width='100%'
-        />
       </div>
     )
   }

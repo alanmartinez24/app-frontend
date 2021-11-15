@@ -7,11 +7,10 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import { levelColors } from '../../utils/colors'
 import Fade from '@material-ui/core/Fade'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-
+import { trimURL, getFavicon } from '../../utils/url'
 import axios from 'axios'
 
-const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
-const BACKEND_API = process.env.BACKEND_API
+const { DEFAULT_POST_IMAGE, BACKEND_API } = process.env
 
 const styles = theme => ({
   container: {
@@ -150,58 +149,6 @@ FallbackImage.propTypes = {
 const StyledFallbackImage = withStyles(styles)(FallbackImage)
 
 class ObjectPreview extends Component {
-  cutUrl (inUrl) {
-    if (inUrl == null) { return '' }
-    const protocol = 'https://'
-    const pro2 = 'http://'
-
-    if (inUrl.startsWith(protocol)) {
-      inUrl = inUrl.substring(protocol.length)
-    } else if (inUrl.startsWith(pro2)) {
-      inUrl = inUrl.substring(pro2.length)
-    }
-
-    const web = 'www.'
-
-    if (inUrl.startsWith(web)) {
-      inUrl = inUrl.substring(web.length)
-    }
-
-    if (inUrl.endsWith('/')) {
-      inUrl = inUrl.substring(0, inUrl.length - 1)
-    }
-
-    return inUrl
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
-  }
-
   async resetImgLink () {
     const { caption } = this.props
     const res = await axios.post(`${BACKEND_API}/posts/linkpreview/`, { url: caption })
@@ -210,14 +157,9 @@ class ObjectPreview extends Component {
 
   render () {
     const { image, title, description, url, caption, classes, quantiles, rankCategory } = this.props
-    let faviconURL
-    let faviconURLFallback
+    let faviconURL = null
     if (url != null) {
-      faviconURL = 'https://api.faviconkit.com/' + this.trimURLStart(this.trimURLEnd(url)) + '64'
-      faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
-    } else {
-      faviconURL = null
-      faviconURLFallback = null
+      faviconURL = getFavicon(url)
     }
     // TODO: Adjust this for Yup lists, should only get quantile for category and website being compared
     const overallQuantile = rankCategory ? quantiles[rankCategory] : quantiles.overall
@@ -279,7 +221,7 @@ class ObjectPreview extends Component {
                           basedOn='letters'
                           ellipsis='...'
                           maxLine='1'
-                          text={title.split('|', 1)}
+                          text={title && title.split('|', 1)}
                           trimRight
                         />
                       </Typography>
@@ -300,13 +242,13 @@ class ObjectPreview extends Component {
                       <Img
                         align='right'
                         href={url}
-                        src={[faviconURL, faviconURLFallback]}
+                        src={faviconURL}
                         className={classes.favicon}
                         target='_blank'
                       />
                     </Grid>
                   </Grid>
-                  <p className={classes.url}>{url && this.cutUrl(url)}</p>
+                  <p className={classes.url}>{url && trimURL(url)}</p>
                 </div>
               </div>
             </a>

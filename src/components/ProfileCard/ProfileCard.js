@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Card } from '@material-ui/core'
+import { Card, Chip, Icon } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import Grid from '@material-ui/core/Grid'
@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import Tooltip from '@material-ui/core/Tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CountUp from 'react-countup'
+
 import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
@@ -75,6 +76,15 @@ const styles = theme => ({
       width: '100vw'
     }
   },
+  chip: {
+    margin: '0 10px',
+    height: '26px',
+    backgroundColor: theme.palette.alt.third,
+    color: theme.palette.text.secondary,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   content: {
     color: 'black'
   },
@@ -97,6 +107,9 @@ const styles = theme => ({
   },
   LinearProgress: {
     height: '3px'
+  },
+  LinkDecoration: {
+    textDecoration: 'none'
   },
   minimize: {
     width: '45px',
@@ -155,6 +168,10 @@ const styles = theme => ({
       fontSize: '14px'
     }
   },
+  twitter: {
+    color: theme.palette.text.secondary,
+    fontSize: '14px'
+  },
   username: {
     fontSize: '18px',
     padding: '0px',
@@ -186,6 +203,7 @@ function ProfileCard (props) {
     ratingCount,
     isMinimize,
     levels,
+    lightMode,
     dispatch
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
@@ -210,24 +228,34 @@ function ProfileCard (props) {
    }
 
    if (levels[accountInfo.eosname].isLoading) {
-    return <div />
+    // return <div />
   }
-  const quantile = levels[accountInfo.eosname] && levels[accountInfo.eosname].levelInfo.quantile
-  const socialLevelColor = levelColors[quantile]
 
-  const displayName =
-    accountInfo.fullname || accountInfo.username || accountInfo._id
+  const eosname = accountInfo && (accountInfo.eosname || accountInfo._id)
+  const levelInfo = levels[eosname] && levels[eosname].levelInfo
+
+  const quantile = levelInfo && levelInfo.quantile
+  const socialLevelColor = levelColors[quantile] || 'sixth'
+
+  const displayName = (levelInfo && levelInfo.fullname) || (accountInfo && (
+    accountInfo.fullname || accountInfo.username || accountInfo._id))
   const isMirror =
     accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isMirror
   const isAuthUser =
     accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.isAuthUser
-  const defaultUsername = accountInfo.username || accountInfo._id
+  const defaultUsername = accountInfo && (accountInfo.username || accountInfo._id)
   const username = isMirror ? accountInfo.twitterInfo.username : defaultUsername
 
   const hidden = isMinimize ? classes.hidden : null
   const minimize = isMinimize ? classes.minimize : null
   const minimizeCard = isMinimize ? classes.minimizeCard : null
   const isMobile = window.innerWidth <= 600
+
+  const avatar = levelInfo && levelInfo.avatar
+  const twitterName = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.username
+  const ethAddress = accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
+
+  const logo = lightMode ? '/images/logos/logo_outline_b.svg' : '/images/logos/logo_outline_w.svg'
   return (
     <ErrorBoundary>
       <Card
@@ -238,7 +266,7 @@ function ProfileCard (props) {
           alt={accountInfo.username}
           username={accountInfo.username}
           className={`${classes.avatarImage} ${minimize}`}
-          src={levels[accountInfo.eosname].levelInfo.avatar}
+          src={avatar}
           style={{ border: `solid 3px ${socialLevelColor}` }}
         />
         <Grid alignItems='center'
@@ -258,24 +286,71 @@ function ProfileCard (props) {
               justify='space-between'
               spacing={0}
             >
-              <Grid item
+              <Grid
+                alignItems={isMinimize ? 'flex-start' : 'center'}
+                container
                 sm={10}
-                xs={9}
+                xs={8}
+                direction='row'
+                justify='flex-start'
+                spacing={0}
               >
-                <Typography
-                  align='left'
-                  className={classes.name}
-                  display='inline'
-                  variant='h3'
+                <Grid
+                  xs={6}
+                  item
                 >
-                  <LinesEllipsis
-                    basedOn='letters'
-                    ellipsis='...'
-                    maxLine='4'
-                    text={displayName}
-                    trimRight
+                  <Typography
+                    align='left'
+                    className={classes.name}
+                    display='inline'
+                    variant='h3'
+                  >
+                    <LinesEllipsis
+                      basedOn='letters'
+                      ellipsis='...'
+                      maxLine='4'
+                      text={displayName}
+                      trimRight
+                    />
+                  </Typography>
+                </Grid>
+                {twitterName && (
+                <Grid item
+                  xs={3}
+                >
+                  <a href={`https://twitter.com/${twitterName}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={classes.LinkDecoration}
+                  >
+                    <Chip label={twitterName}
+                      className={classes.chip}
+                      onClick
+                      icon={
+                        <Icon fontSize='small'
+                          className={['fab fa-twitter', classes.twitter]}
+                        />
+
+                  }
+                    />
+                  </a>
+                </Grid>
+              )}
+                {ethAddress && (
+                <Grid item
+                  xs={3}
+                > <a href={`https://etherscan.io/address/${ethAddress}`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={classes.LinkDecoration}
+                  >
+                  <Chip label={ethAddress.slice(0, 5)}
+                    className={classes.chip}
+                    onClick
                   />
-                </Typography>
+                </a>
+                </Grid>
+              )}
               </Grid>
               <Grid item
                 sm={2}
@@ -354,7 +429,7 @@ function ProfileCard (props) {
                 basedOn='letters'
                 ellipsis='...'
                 maxLine='2'
-                text={formatBio(accountInfo.bio)}
+                text={formatBio(levelInfo && levelInfo.bio) || (accountInfo && accountInfo.bio)}
                 className={hidden}
                 trimRight
               />
@@ -382,7 +457,7 @@ function ProfileCard (props) {
                   <Typography
                     variant='tooltip'
                   >
-                    Influence Score: score out of 100 showing how influential
+                    Yup Score: score out of 100 showing how influential
                     you are. The higher the number, the more valuable your
                     rating!
                   </Typography>
@@ -447,7 +522,7 @@ function ProfileCard (props) {
                     >
                       <Grid item>
                         <img
-                          src='/images/logos/logo_outline_w.svg'
+                          src={logo}
                           style={{ width: '15px', height: '15px' }}
                           alt='yup logo'
                         />
@@ -481,7 +556,7 @@ function ProfileCard (props) {
                 account={account}
                 className={classes.text}
                 isLoggedIn={isLoggedIn}
-                username={accountInfo._id}
+                username={eosname}
               />
             </Grid>
             <Grid item>
@@ -489,7 +564,7 @@ function ProfileCard (props) {
                 account={account}
                 className={classes.text}
                 isLoggedIn={isLoggedIn}
-                username={accountInfo._id}
+                username={eosname}
               />
             </Grid>
           </Grid>
@@ -499,11 +574,13 @@ function ProfileCard (props) {
   )
 }
 const mapStateToProps = (state, ownProps) => {
+  const lightMode = state.lightMode.active
   return {
     levels: state.socialLevels.levels || {
       isLoading: true,
       levels: {}
-    }
+    },
+    lightMode: lightMode
   }
 }
 
@@ -516,6 +593,7 @@ ProfileCard.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
   levels: PropTypes.object,
+  lightMode: PropTypes.bool,
   account: PropTypes.object
 }
 

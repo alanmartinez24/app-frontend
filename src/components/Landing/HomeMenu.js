@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
@@ -17,7 +17,8 @@ import { connect } from 'react-redux'
 
 const { BACKEND_API, YUP_LANDING, WEB_APP_URL } = process.env
 const isMobile = window.innerWidth <= 600
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
+const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map((_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`)
+const getRandomGradientImg = () => `${AWS_DEFAULT_COLLECTION_IMG_URLS[Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)]}`
 
 const styles = theme => ({
   container: {
@@ -440,7 +441,7 @@ class Home extends Component {
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {userCollections && userCollections.map((coll) => {
+                  {userCollections && userCollections.slice(0, 8).map((coll) => {
                     return (
                       <Grid
                         item
@@ -468,9 +469,8 @@ class Home extends Component {
                               className={classes.recommendedImgContainer}
                             >
                               <Img
-                                src={coll.imgSrcUrl}
+                                src={[coll.imgSrcUrl, getRandomGradientImg()]}
                                 alt='thumbnail'
-                                loader={<div />}
                                 className={classes.recommendedImg}
                               />
                             </Grid>
@@ -541,11 +541,8 @@ class Home extends Component {
                               className={classes.recommendedImgContainer}
                             >
                               <Img
-                                src={[coll.imgSrcUrl, DEFAULT_IMG]}
+                                src={[coll.imgSrcUrl, getRandomGradientImg()]}
                                 alt='thumbnail'
-                                loader={<img src={DEFAULT_IMG}
-                                  className={classes.recommendedImg}
-                                        />}
                                 className={classes.recommendedImg}
                               />
                             </Grid>
@@ -598,4 +595,4 @@ Home.propTypes = {
   isUser: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(withTheme(Home)))
+export default memo(connect(mapStateToProps)(withStyles(styles)(withTheme(Home))))

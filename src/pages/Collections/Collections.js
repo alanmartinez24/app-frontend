@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, withTheme } from '@material-ui/core/styles'
 import Img from 'react-image'
 import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, Menu, MenuItem } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -19,7 +19,7 @@ import RecommendedCollections from '../../components/Collections/RecommendedColl
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import { fetchSocialLevel } from '../../redux/actions'
+import { setTourAction, fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
@@ -118,7 +118,7 @@ const styles = theme => ({
     color: theme.palette.alt.second
   },
   tourFab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
     background: theme.palette.common.first,
@@ -195,7 +195,7 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   tabs: {
-    color: '#fff',
+    color: theme.palette.common.first,
     fontSize: '1.2rem',
     marginLeft: '35px',
     textTransform: 'capitalize',
@@ -231,7 +231,6 @@ class Collections extends Component {
     isMinimize: false,
     snackbarMsg: '',
     recommended: [],
-    isTourOpen: false,
     socialLevelColor: '',
     activeTab: 0,
     anchorEl: null,
@@ -310,9 +309,6 @@ class Collections extends Component {
   handleDuplicateDialogOpen = () => this.setState({ duplicateDialogOpen: true, anchorEl: null })
   handleDuplicateDialogClose = () => this.setState({ duplicateDialogOpen: false })
 
-  closeTour = () => this.setState({ isTourOpen: false })
-  openTour = () => this.setState({ isTourOpen: true })
-
   getSocialLevel = async id => {
     const res = (await axios.get(`${BACKEND_API}/levels/user/${id}`)).data
     this.setState({
@@ -324,8 +320,18 @@ class Collections extends Component {
     this.setState({ activeTab: newTab })
   }
 
+   isValidHttpUrl (string) {
+    let url
+    try {
+      url = new URL(string)
+    } catch (_) {
+      return false
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  }
+
   render () {
-    const { classes, account, levels, dispatch, authToken } = this.props
+    const { classes, account, levels, dispatch, authToken, tour, theme } = this.props
     const {
       collection,
       posts,
@@ -557,7 +563,7 @@ class Collections extends Component {
                     timeout={1000}
                   >
                     <Img
-                      src={[headerImgSrc, DEFAULT_IMG]}
+                      src={this.isValidHttpUrl(headerImgSrc) ? [headerImgSrc, DEFAULT_IMG] : DEFAULT_IMG}
                       alt='thumbnail'
                       loader={<div />}
                       className={`${classes.headerImg} ${minimize}`}
@@ -663,7 +669,7 @@ class Collections extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
-                      TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
+                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.common.first } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}
@@ -679,6 +685,7 @@ class Collections extends Component {
                   >
                     <Grid item
                       xs={12}
+                      tourname='CollectionPosts'
                     >
                       <Feed
                         isLoading={isLoading}
@@ -687,7 +694,6 @@ class Collections extends Component {
                         posts={posts}
                         hideInteractions
                         renderObjects
-                        tourname='CollectionPosts'
                       />
                     </Grid>
                   </TabPanel>
@@ -719,6 +725,7 @@ class Collections extends Component {
                   <Grid item
                     lg={6}
                     xs={12}
+                    tourname='CollectionPosts'
                   >
                     <Feed
                       isLoading={isLoading}
@@ -727,7 +734,6 @@ class Collections extends Component {
                       posts={posts}
                       hideInteractions
                       renderObjects
-                      tourname='CollectionPosts'
                     />
                   </Grid>
 
@@ -763,8 +769,8 @@ class Collections extends Component {
 
             <Tour
               steps={steps}
-              isOpen={this.state.isTourOpen}
-              onRequestClose={this.closeTour}
+              isOpen={tour}
+              onRequestClose={() => { dispatch(setTourAction({ isTourOpen: false })) }}
               className={classes.Tour}
               accentColor='#00E08E'
               rounded={10}
@@ -793,7 +799,7 @@ class Collections extends Component {
             <Fab
               className={classes.tourFab}
               variant='extended'
-              onClick={this.openTour}
+              onClick={() => { dispatch(setTourAction({ isTourOpen: true })) }}
             >
               10-Second Tutorial
             </Fab>
@@ -928,6 +934,16 @@ const steps = [
     )
   }
 ]
+Collections.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  levels: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  authToken: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+  tour: PropTypes.object.isRequired
+}
 
 const mapStateToProps = state => {
   const account = accountInfoSelector(state)
@@ -941,17 +957,9 @@ const mapStateToProps = state => {
     },
     push: state.scatterInstallation.push,
     collections: state.collections,
-    authToken
+    authToken,
+    tour: state.tour.isTourOpen
   }
 }
 
-Collections.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  levels: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
-  account: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  authToken: PropTypes.object.isRequired
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Collections))
+export default connect(mapStateToProps)(withStyles(styles)(withTheme(Collections)))

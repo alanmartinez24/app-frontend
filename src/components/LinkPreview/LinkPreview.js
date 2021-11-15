@@ -5,6 +5,7 @@ import Img from 'react-image'
 import Grid from '@material-ui/core/Grid'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import { trimURL, getFavicon } from '../../utils/url'
 
 const DEFAULT_POST_IMAGE = process.env.DEFAULT_POST_IMAGE
 
@@ -93,82 +94,23 @@ const styles = theme => ({
 })
 
 class LinkPreview extends Component {
-  cutUrl (inUrl) {
-    const protocol = 'https://'
-    const pro2 = 'http://'
-
-    if (inUrl.startsWith(protocol)) {
-      inUrl = inUrl.substring(protocol.length)
-    } else if (inUrl.startsWith(pro2)) {
-      inUrl = inUrl.substring(pro2.length)
-    }
-
-    const web = 'www.'
-
-    if (inUrl.startsWith(web)) {
-      inUrl = inUrl.substring(web.length)
-    }
-
-    if (inUrl.endsWith('/')) {
-      inUrl = inUrl.substring(0, inUrl.length - 1)
-    }
-
-    return inUrl
-  }
-
-  trimURLEnd (link) {
-    let count = 0
-    if (link == null) {
-      return ''
-    }
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 3) {
-          return link.substring(0, i + 1)
-        }
-      }
-    }
-  }
-
-  trimURLStart (link) {
-    if (link == null) {
-      return ''
-    }
-    let count = 0
-    for (let i = 0; i < link.length; i++) {
-      if (link.charAt(i) === '/') {
-        count++
-        if (count === 2) {
-          link = link.substring(i + 1, link.length)
-        }
-      }
-    }
-    if (link.substring(0, 4) === 'www.') {
-      link = link.substring(4, link.length)
-    }
-    return link
+  constructor (props) {
+    super(props)
+    this.state = { imgRetryCount: 0 }
   }
 
   addDefaultSrc = e => {
     e.target.onerror = null
     e.target.src = DEFAULT_POST_IMAGE
+    this.setState({ imgRetryCount: this.state.imgRetryCount + 1 })
   }
 
   render () {
     const { image, title, description, url, classes, caption } = this.props
-    let faviconURL
-    let faviconURLFallback
+    let faviconURL = null
 
     if (url != null) {
-      faviconURL =
-        'https://api.faviconkit.com/' +
-        this.trimURLStart(this.trimURLEnd(url)) +
-        '64'
-      faviconURLFallback = this.trimURLEnd(url) + 'favicon.ico'
-    } else {
-      faviconURL = null
-      faviconURLFallback = null
+      faviconURL = getFavicon(url)
     }
 
     return (
@@ -194,7 +136,7 @@ class LinkPreview extends Component {
                 className={classes.linkImg}
                 src={image || DEFAULT_POST_IMAGE}
                 target='_blank'
-                onError={this.addDefaultSrc}
+                onError={this.state.imgRetryCount === 0 && this.addDefaultSrc}
               />
               <div className={classes.previewData}>
                 <Grid alignItems='center'
@@ -209,7 +151,7 @@ class LinkPreview extends Component {
                     <Img
                       align='right'
                       href={url}
-                      src={[faviconURL, faviconURLFallback]}
+                      src={faviconURL}
                       style={{
                         width: '100%',
                         aspectRatio: '1 / 1',
@@ -243,7 +185,7 @@ class LinkPreview extends Component {
                     trimRight
                   />
                 </div>
-                <p className={classes.url}>{url && this.cutUrl(url)}</p>
+                <p className={classes.url}>{url && trimURL(url)}</p>
               </div>
             </div>
           </a>

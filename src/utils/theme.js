@@ -183,6 +183,9 @@ export const theme = ({ palette }) => {
       shrink: {
         color: `${palette.common.first}50`
       },
+      outlined: {
+        transform: 'translate(15%, 85%) scale(1)'
+      },
       formControl: {
       }
     },
@@ -203,7 +206,7 @@ export const theme = ({ palette }) => {
         color: palette.common.first
       },
       notchedOutline: {
-        borderColor: palette.common.first,
+        borderColor: palette.common.fifth,
         color: palette.common.first
       },
       input: {
@@ -326,7 +329,7 @@ export const theme = ({ palette }) => {
     h4: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 600,
+      fontWeight: 500,
       fontSize: '1.375rem',
       lineHeight: '1.6rem',
       color: `${palette.common.third}EE`
@@ -334,7 +337,7 @@ export const theme = ({ palette }) => {
     h5: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 500,
+      fontWeight: 400,
       fontSize: '1.125rem',
       lineHeight: '1.3rem',
       color: `${palette.common.third}EE`
@@ -342,7 +345,7 @@ export const theme = ({ palette }) => {
     h6: {
       fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 800,
+      fontWeight: 600,
       fontSize: '1rem',
       lineHeight: '1.25rem',
       color: `${palette.common.third}DD`
