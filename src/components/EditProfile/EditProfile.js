@@ -545,6 +545,7 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
+                  {this.state.ethAddress && (
                   <Grid item>
                     <YupInput
                       autoFocus
@@ -559,6 +560,8 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
+
+                  )}
                 </Grid>
               </Grid>
             </DialogContent>
