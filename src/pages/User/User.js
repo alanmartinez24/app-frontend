@@ -421,6 +421,11 @@ class User extends Component {
         const account = (
           await axios.get(`${BACKEND_API}/levels/user/${username}`)
         ).data
+        for (const key in account) {
+          if (account[key] === null) {
+            account[key] = ''
+          }
+        }
         this.setState({ ...account })
         const userData = await Promise.all([
           this.fetchFollowing(account._id),
