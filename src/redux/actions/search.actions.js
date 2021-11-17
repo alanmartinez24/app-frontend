@@ -71,8 +71,8 @@ export function fetchCollectionSearchResults (searchText, limit) {
     return { type: constants.FETCH_COLLECTION_SEARCH_RESULTS, searchText, limit }
   }
 
-  function success (searchText, limit, posts) {
-    return { type: constants.FETCH_COLLECTION_SEARCH_RESULTS_SUCCESS, searchText, limit, posts }
+  function success (searchText, limit, collections) {
+    return { type: constants.FETCH_COLLECTION_SEARCH_RESULTS_SUCCESS, searchText, limit, collections }
   }
 
   function failure (searchText, limit, error) {

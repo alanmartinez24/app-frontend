@@ -10,6 +10,7 @@ import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
 import Fade from '@material-ui/core/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
+import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 
 const DISPLAYED_USERS = 2
 const showTabs = window.innerWidth <= 960
@@ -296,7 +297,7 @@ class Search extends Component {
     const { posts, searchText, isLoading } = postSearchResults
     const { users } = userSearchResults
     const { collections } = collectionSearchResults
-    console.log(collections)
+    console.log(collections, 'collections')
 
     return (
       <ErrorBoundary>
@@ -320,7 +321,7 @@ class Search extends Component {
                   </Typography>
                 </Grid>
 
-                {!isLoading && posts.length === 0 && users.length === 0 &&
+                {!isLoading && posts.length === 0 && users.length === 0 && collections.length === 0 &&
                   <Grid item
                     xs={12}
                     style={{ height: '100%' }}
@@ -335,7 +336,7 @@ class Search extends Component {
                   </Grid>
                 }
 
-                {showTabs && (posts.length > 0 || users.length > 0) &&
+                {showTabs && (posts.length > 0 || users.length > 0 || collections.length > 0) &&
                   <>
                     <Grid item
                       xs={12}
@@ -346,6 +347,7 @@ class Search extends Component {
                       >
                         <Tab label='Posts' />
                         <Tab label='People' />
+                        <Tab label='Collections' />
                       </Tabs>
                     </Grid>
 
@@ -376,10 +378,27 @@ class Search extends Component {
                         />
                       </Grid>
                     </TabPanel>
+
+                    <TabPanel value={activeTab}
+                      index={2}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        {collections.map(rec => {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                      })}
+                      </Grid>
+                    </TabPanel>
                   </>
                 }
 
-                {!showTabs && (posts.length > 0 || users.length > 0) &&
+                {!showTabs && (posts.length > 0 || users.length > 0 || collections.length > 0) &&
                   <>
                     <Grid item
                       lg={!isLoading && users.length === 0 ? 12 : 5}
@@ -401,22 +420,48 @@ class Search extends Component {
                         hideInteractions
                       />
                     </Grid>
-                    <Grid item
+                    <Grid container
+                      direction='column'
+                      item
                       lg={!isLoading && posts.length === 0 ? 12 : 7}
                       md={!isLoading && posts.length === 0 ? 12 : 4}
                       xs={12}
                       tourname='SearchUsers'
                       style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
                     >
-                      <Typography
-                        variant='h6'
-                        className={classes.headerText}
+                      <Grid item
+                        xs={12}
                       >
-                        People
-                      </Typography>
-                      <People classes={classes}
-                        people={users}
-                      />
+                        <Typography
+                          variant='h6'
+                          className={classes.headerText}
+                        >
+                          People
+                        </Typography>
+                        <People classes={classes}
+                          people={users}
+                        />
+                      </Grid>
+                      <Grid item
+                        xs={12}
+                        tourname='SearchUsers'
+                        style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
+                      >
+                        <Typography
+                          variant='h6'
+                          className={classes.headerText}
+                        >
+                          Collections
+                        </Typography>
+                        {collections.map(rec => {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                      })}
+                      </Grid>
                     </Grid>
                   </>
                 }

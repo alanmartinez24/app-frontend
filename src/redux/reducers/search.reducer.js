@@ -13,6 +13,12 @@ const initialState = {
     searchText: '',
     error: null,
     posts: []
+  },
+  collectionSearchResults: {
+    isLoading: false,
+    searchText: '',
+    error: null,
+    collections: []
   }
 }
 
