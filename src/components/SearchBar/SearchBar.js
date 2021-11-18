@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PropTypes from 'prop-types'
 import CloseIcon from '@material-ui/icons/Close'
-import { fetchUserSearchResults, fetchPostSearchResults } from '../../redux/actions'
+import { fetchUserSearchResults, fetchPostSearchResults, fetchCollectionSearchResults } from '../../redux/actions'
 
 const styles = theme => ({
   Fragment: {
@@ -150,7 +150,7 @@ class SearchBar extends Component {
   handleSearch = async () => {
     const { searchText } = this.state
     if (searchText == null || searchText === '') return // TODO: Remove this?
-    const { searchPosts, searchUsers, history, account } = this.props
+    const { searchPosts, searchUsers, searchCollections, history, account } = this.props
     window.analytics && window.analytics.track('Search Query', {
       userId: (account && account.name) || 'no-logged-user',
       query: searchText,
@@ -158,7 +158,7 @@ class SearchBar extends Component {
     })
     searchPosts(searchText, 5)
     searchUsers(searchText, 5)
-
+    searchCollections(searchText, 5)
     history.push('/search')
   }
 
@@ -206,6 +206,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     searchPosts: (searchText, limit) => dispatch(fetchPostSearchResults(searchText, limit)),
+    searchCollections: (searchText, limit) => dispatch(fetchCollectionSearchResults(searchText, limit)),
     searchUsers: (searchText, limit) => dispatch(fetchUserSearchResults(searchText, limit))
   }
 }
@@ -215,6 +216,7 @@ SearchBar.propTypes = {
   history: PropTypes.object.isRequired,
   searchPosts: PropTypes.func.isRequired,
   searchUsers: PropTypes.func.isRequired,
+  searchCollections: PropTypes.func.isRequired,
   userSearchResults: PropTypes.object.isRequired,
   postSearchResults: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
