@@ -14,6 +14,7 @@ import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+import ConnectEth from '../../components/ConnectEth/ConnectEth'
 
 const IPFS = require('ipfs-http-client')
 const BACKEND_API = process.env.BACKEND_API
@@ -151,7 +152,8 @@ class EditProfile extends Component {
     },
     snackbarOpen: false,
     snackbarContent: '',
-    open: false
+    open: false,
+    ethOpen: false
   }
 
   imageRef = null
@@ -161,6 +163,12 @@ class EditProfile extends Component {
     this.setState({ open: true })
   }
 
+  handleEthDialogOpen = () => {
+    this.setState({ ethOpen: true })
+  }
+  handleEthDialogClose = () => {
+    this.setState({ ethOpen: false })
+  }
   handleDialogClose = () => {
     const { files } = this.state
     files.forEach(file => {
@@ -377,9 +385,8 @@ class EditProfile extends Component {
   }
 
   render () {
-    const { cropTime, files, crop } = this.state
-    const { username, classes } = this.props
-
+    const { cropTime, files, ethOpen, crop } = this.state
+    const { account, username, classes } = this.props
     const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -545,23 +552,34 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
-                  {this.state.ethAddress && (
-                  <Grid item>
-                    <YupInput
-                      autoFocus
-                      defaultValue={this.state.ethAddress}
-                      fullWidth
-                      disabled
-                      id='name'
-                      maxLength={250}
-                      label='ETH Address'
-                      multiline
-                      type='text'
-                      variant='outlined'
-                    />
-                  </Grid>
+                  {this.state.ethAddress ? (
+                    <Grid item>
+                      <YupInput
+                        autoFocus
+                        defaultValue={this.state.ethAddress}
+                        fullWidth
+                        disabled
+                        id='name'
+                        maxLength={250}
+                        label='ETH Address'
+                        multiline
+                        type='text'
+                        variant='outlined'
+                      />
+                    </Grid>
 
-                  )}
+                  ) : (
+                    <Grid item >
+                      <Button
+                        fullWidth
+                        className={classes.signupBtn}
+                        onClick={this.handleEthDialogOpen}
+                        variant='contained'
+                      >
+                        Connect Eth
+                      </Button>
+                    </Grid>
+                      )}
                 </Grid>
               </Grid>
             </DialogContent>
@@ -580,6 +598,11 @@ class EditProfile extends Component {
               </Button>
             </DialogActions>
           </Dialog>
+          <ConnectEth
+            account={account}
+            dialogOpen={ethOpen}
+            handleDialogClose={this.handleEthDialogClose}
+          />
         </>
       </ErrorBoundary>
     )
