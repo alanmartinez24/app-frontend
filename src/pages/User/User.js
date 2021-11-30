@@ -568,7 +568,7 @@ class User extends Component {
               >
                 <ProfileCard
                   account={account}
-                  accountInfo={this.state}
+                  username2={username}
                   balanceInfo={balance}
                   isLoggedIn={isLoggedIn}
                   ratingCount={ratingCount}

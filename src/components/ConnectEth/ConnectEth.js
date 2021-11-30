@@ -12,6 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+import { fetchSocialLevel } from '../../redux/actions'
 // import { updateEthAuthInfo } from '../../redux/actions'
 
 const { BACKEND_API } = process.env
@@ -127,6 +128,7 @@ class SubscribeDialog extends Component {
   }
 
   initWalletConnect = async () => {
+    console.log('NEWW INIIT')
     if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
@@ -137,11 +139,13 @@ class SubscribeDialog extends Component {
 
     // already logged in
     if (connector.connected && !localStorage.getItem('YUP_ETH_AUTH')) {
+      console.log('ALREADY LOGGEDIN')
       localStorage.removeItem('walletconnect')
       this.initWalletConnect()
     }
 
     if (!connector.connected) {
+      console.log('NEW SESSION')
      await connector.createSession()
     }
 
@@ -181,6 +185,7 @@ class SubscribeDialog extends Component {
 
    onConnect = async (payload, connected) => {
      if (!this.state.connector || !payload) { return }
+     console.log('CONNNECTED')
 
      try {
       const chainId = connected ? payload._chainId : payload.params[0].chainId
@@ -205,16 +210,14 @@ class SubscribeDialog extends Component {
         keccak256('\x19Ethereum Signed Message:\n' + challenge.length + challenge)
       ]
       const signature = await this.state.connector.signMessage(msgParams)
-      console.log('SIGNATURE', signature)
-      try {
-          console.log(signature, this.account.name)
-        await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address: address, eosname: this.account.name, signature: signature })
-      } catch (err) {
-        // fetch new challenge and signature
-        this.handleSnackbarOpen(ERROR_MSG, true)
-        this.onConnect(payload)
-        return
-      }
+      this.setState({
+        activeStep: 2
+      })
+      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address: address, eosname: this.state.account.name, signature: signature })
+      this.props.dispatch(fetchSocialLevel(this.state.account.name))
+      this.handleSnackbarOpen('Successfully linked ETH account.', false)
+      this.props.handleDialogClose()
+      this.setState({ walletConnectOpen: false })
       } catch (err) {
         console.error(err)
         this.handleSnackbarOpen(ERROR_MSG, true)
@@ -257,10 +260,10 @@ class SubscribeDialog extends Component {
   }
 
   render () {
-      const { address } = this.state
+      const { address, activeStep } = this.state
     const { handleDialogClose, dialogOpen, classes, account } = this.props
     if (account && !this.state.account) this.setState({ account: account })
-    console.log(address, account)
+    console.log(address, account, activeStep)
     return (
       <ErrorBoundary>
         <Portal>
@@ -376,6 +379,7 @@ SubscribeDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
-  account: PropTypes.object.isRequired
+  account: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))
