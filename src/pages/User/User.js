@@ -158,6 +158,7 @@ const styles = theme => ({
 
 const Collection = ({ classes, collection, username }) => {
   const fmtCollectionName = collection && collection.name.replace(/\s+/g, '-').toLowerCase()
+  const collectionHref = fmtCollectionName && `/collections/${encodeURIComponent(fmtCollectionName.replace('/', ''))}/${collection._id}`
   const collectionLength = collection.postIds.length
   const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(Math.random() * 5) + 1}.png`
   const collectionSubheader =
@@ -169,7 +170,7 @@ const Collection = ({ classes, collection, username }) => {
 
   return (
     <Link
-      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
+      to={collectionHref}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid
