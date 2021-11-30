@@ -451,7 +451,8 @@ class Home extends Component {
                         className={classes.linkItemContainer}
                       >
                         <Link
-                          to={`/collections/${encodeURIComponent(coll.name)}/${coll._id}`}
+                          to={`/collections/${encodeURIComponent(coll.name.replace(/\s+|\//g, '-').toLowerCase())}/${coll._id}`}
+
                           className={classes.Link}
                         >
                           <Grid
@@ -523,7 +524,7 @@ class Home extends Component {
                         className={classes.linkItemContainer}
                       >
                         <Link
-                          to={`/collections/${encodeURIComponent(coll.name)}/${coll._id}`}
+                          to={`/collections/${encodeURIComponent(coll.name.replace('/', ''))}/${coll._id}`}
                           className={classes.Link}
                         >
                           <Grid
