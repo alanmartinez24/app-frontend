@@ -27,7 +27,11 @@ export const ethAuthSelector = createSelector([ethSelector], (ethAuth) => {
   return ethAuthInfo
 })
 
-export const levelSelector = createSelector(state => state.socialLevels.levels[state.authInfo.eosname], (level) => {
+export const userLevelSelector = createSelector(state => state.socialLevels.levels[state.authInfo.eosname], (level) => {
   let levelInfo = level ? level.levelInfo : null
   return levelInfo
+})
+
+export const levelsSelector = createSelector(state => state.socialLevels.levels, (levels) => {
+  return levels
 })

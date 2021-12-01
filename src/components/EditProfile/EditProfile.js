@@ -7,13 +7,13 @@ import { connect } from 'react-redux'
 import DoneIcon from '@material-ui/icons/Done'
 import { withStyles } from '@material-ui/core/styles'
 import Dropzone from 'react-dropzone'
-import { updateAccountInfo } from '../../redux/actions'
+import { updateAccountInfo, fetchSocialLevel } from '../../redux/actions'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+import { accountInfoSelector, ethAuthSelector, userLevelSelector } from '../../redux/selectors'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 
 const IPFS = require('ipfs-http-client')
@@ -138,7 +138,7 @@ class EditProfile extends Component {
     bio: this.props.accountInfo.bio,
     avatar: this.props.accountInfo.avatar,
     fullname: this.props.accountInfo.fullname,
-    ethAddress: this.props.accountInfo.ethInfo
+    ethAddress: this.props.accountInfo.address
       ? this.props.accountInfo.ethInfo.address
       : '',
     cropTime: false,
@@ -412,8 +412,12 @@ class EditProfile extends Component {
 
   render () {
     const { cropTime, files, ethOpen, crop } = this.state
-    const { account, username, classes } = this.props
-    console.log('RERENDER', account)
+    const { account, username, classes, dispatch, userLevel } = this.props
+    if (!userLevel) {
+      dispatch(fetchSocialLevel(username))
+       return (<div />)
+    }
+    const accountInfo = userLevel
     const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -579,11 +583,11 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
-                  {this.state.ethAddress ? (
+                  {accountInfo.ethInfo && accountInfo.ethInfo.address ? (
                     <Grid item>
                       <YupInput
                         autoFocus
-                        defaultValue={this.state.ethAddress}
+                        defaultValue={accountInfo.ethInfo.address}
                         fullWidth
                         disabled
                         id='name'
@@ -639,8 +643,10 @@ class EditProfile extends Component {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   const ethAuth = ethAuthSelector(state)
+  const userLevel = userLevelSelector(state)
   return {
     account,
+    userLevel,
     ethAuth,
     scatter: state.scatterRequest.scatter
   }
@@ -652,6 +658,7 @@ EditProfile.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
+  userLevel: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
 }
 

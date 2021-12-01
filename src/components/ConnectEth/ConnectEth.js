@@ -101,9 +101,9 @@ const styles = theme => ({
 class SubscribeDialog extends Component {
   state = {
     EthIsLoading: false,
+    account: null,
     connector: null,
     connected: false,
-    address: '',
     showWhitelist: false,
     showUsername: false,
     steps: ['Connect Ethereum Account', 'Verify Ownership'],
@@ -128,7 +128,6 @@ class SubscribeDialog extends Component {
   }
 
   initWalletConnect = async () => {
-    console.log('NEWW INIIT')
     if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
@@ -139,13 +138,11 @@ class SubscribeDialog extends Component {
 
     // already logged in
     if (connector.connected && !localStorage.getItem('YUP_ETH_AUTH')) {
-      console.log('ALREADY LOGGEDIN')
       localStorage.removeItem('walletconnect')
       this.initWalletConnect()
     }
 
     if (!connector.connected) {
-      console.log('NEW SESSION')
      await connector.createSession()
     }
 
@@ -185,7 +182,6 @@ class SubscribeDialog extends Component {
 
    onConnect = async (payload, connected) => {
      if (!this.state.connector || !payload) { return }
-     console.log('CONNNECTED')
 
      try {
       const chainId = connected ? payload._chainId : payload.params[0].chainId
@@ -217,7 +213,7 @@ class SubscribeDialog extends Component {
       this.props.dispatch(fetchSocialLevel(this.state.account.name))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
-      this.setState({ walletConnectOpen: false })
+      // this.setState({ walletConnectOpen: false })
       } catch (err) {
         console.error(err)
         this.handleSnackbarOpen(ERROR_MSG, true)
@@ -228,7 +224,6 @@ class SubscribeDialog extends Component {
   onDisconnect = () => {
     this.setState({
       connected: false,
-      address: '',
       connector: null,
       steps: ['Connect Ethereum Account', 'Verify Ownership'],
       activeStep: 0,
@@ -260,10 +255,8 @@ class SubscribeDialog extends Component {
   }
 
   render () {
-      const { address, activeStep } = this.state
     const { handleDialogClose, dialogOpen, classes, account } = this.props
     if (account && !this.state.account) this.setState({ account: account })
-    console.log(address, account, activeStep)
     return (
       <ErrorBoundary>
         <Portal>

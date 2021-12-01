@@ -11,7 +11,7 @@ import { history } from './utils/history'
 import { StylesProvider } from '@material-ui/core/styles'
 import './styles.css'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
-
+import { composeWithDevTools } from 'redux-devtools-extension'
 const { NODE_ENV } = process.env
 
 let composeEnhancers
@@ -19,7 +19,7 @@ let middleware
 
 if (NODE_ENV === 'development') {
   const loggerMiddleware = createLogger()
-  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 }) || compose
   middleware = applyMiddleware(
     routerMiddleware(history),
     thunkMiddleware,

@@ -203,23 +203,23 @@ function ProfileCard (props) {
     levels,
     lightMode,
     dispatch,
-    username2
+    accountInfo
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
   const YUPBalanceError =
     (balanceInfo && balanceInfo.YUP && balanceInfo.YUP.error) || null
-    if (!levels[username2]) {
-      dispatch(fetchSocialLevel(username2))
-       return (<div />)
+
+    if (!accountInfo.eosname) {
+      return <div />
     }
-    const accountInfo = levels[username2] && levels[username2].levelInfo
-    console.log(accountInfo, 'accountInfo', account, username2)
+    if (!levels[accountInfo.eosname]) {
+       dispatch(fetchSocialLevel(accountInfo.eosname))
+        return (<div />)
+     }
 
-  if (!accountInfo) return <div />
-  if (!accountInfo.eosname) {
-    return <div />
-  }
-
+     if (levels[accountInfo.eosname].isLoading) {
+      // return <div />
+    }
   const formattedYUPBalance =
     YUPBalance && numeral(Number(YUPBalance)).format('0,0.00')
   const formattedWeight = numeral(
@@ -588,7 +588,7 @@ ProfileCard.propTypes = {
   ratingCount: PropTypes.number.isRequired,
   balanceInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
-  username2: PropTypes.string.isRequired,
+  accountInfo: PropTypes.object.isRequired,
   levels: PropTypes.object,
   lightMode: PropTypes.bool,
   account: PropTypes.object
