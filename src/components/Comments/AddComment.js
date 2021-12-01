@@ -10,8 +10,10 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import { createcomv2 } from '../../eos/actions/comment'
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+import axios from 'axios'
+import { accountInfoSelector } from '../../redux/selectors'
+
+const { BACKEND_API } = process.env
 
 const styles = theme => ({
   addComment: {
@@ -65,7 +67,7 @@ class AddComment extends PureComponent {
     if (e.which === 13 && !e.shiftKey) {
       e.preventDefault()
       try {
-        const { scatter, account, postid, addComment, commentsCount, handleExpansionPanelOpen, ethAuth } = this.props
+        const { scatter, account, postid, addComment, commentsCount, handleExpansionPanelOpen } = this.props
         if (account == null) {
             this.handleDialogOpen()
             return
@@ -78,17 +80,16 @@ class AddComment extends PureComponent {
 
         this.setState({ isLoading: true })
 
-        const txData = { postid, comment: com }
-
-        const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
-        const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
-        if (signedInWithEth) {
-          await createcomv2(account, txData, ethAuth)
-        } else if (signedInWithTwitter) {
-          await createcomv2(account, txData)
+        let auth
+        if (!scatter || !scatter.connected) {
+          auth = account.authInfo
         } else {
-          await scatter.createcomv2({ data: txData })
+          auth = await scatter.scatter.getAuthToken()
         }
+        let commentData = { account: account.name, postid, comment: com, ...auth }
+
+        const commentParams = new URLSearchParams(commentData).toString()
+        await axios.post(`${BACKEND_API}/comment?${commentParams}`)
 
         addComment(account.name, postid, com)
         this.setState({ comment: '' })
@@ -105,7 +106,7 @@ class AddComment extends PureComponent {
     const { classes } = this.props
     const { isLoading } = this.state
 
-    const CommentLoader = (props) => isLoading
+    const CommentLoader = () => isLoading
     ? <CircularProgress size={16}
       style={{ color: 'white', marginRight: '-8px' }}
       />
@@ -166,11 +167,9 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
-  const ethAuth = ethAuthSelector(state)
 
   return {
     account,
-    ethAuth,
     scatter: state.scatterRequest.scatter
   }
 }
@@ -183,8 +182,7 @@ AddComment.propTypes = {
   commentsCount: PropTypes.number.isRequired,
   handleExpansionPanelOpen: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  postid: PropTypes.string.isRequired,
-  ethAuth: PropTypes.object
+  postid: PropTypes.string.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddComment))
