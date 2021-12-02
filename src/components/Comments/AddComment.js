@@ -86,7 +86,7 @@ class AddComment extends PureComponent {
         } else {
           auth = await scatter.scatter.getAuthToken()
         }
-        let commentData = { account: account.name, postid, comment: com, ...auth }
+        const commentData = { account: account.name, postid, comment: com, ...auth }
 
         const commentParams = new URLSearchParams(commentData).toString()
         await axios.post(`${BACKEND_API}/comment?${commentParams}`)

@@ -6,12 +6,14 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { parseError } from '../../eos/error'
 import scatter from '../../eos/scatter/scatter.wallet'
-import { follow, unfollow } from '../../eos/actions/follow'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import axios from 'axios'
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+
+const { BACKEND_API } = process.env
 
 const styles = theme => ({
   button: {
@@ -53,24 +55,32 @@ class FollowButton extends Component {
     this.setState({ snackbarOpen: false, snackbarContent: '' })
   }
 
+  getAuth = async () => {
+    let auth
+    if (!scatter || !scatter.connected) {
+      auth = this.props.account.authInfo
+    } else {
+      auth = await scatter.scatter.getAuthToken()
+    }
+    return auth
+  }
+
   handleFollow = async (accountToFollow) => {
     try {
-      const { account, ethAuth, dispatch } = this.props
+      const { account, dispatch } = this.props
       if (account == null) {
         this.handleSnackbarOpen('Login to follow user!')
         return
       }
 
       this.setState({ isLoading: true })
-      const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
-      const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
-      if (signedInWithEth) {
-        await follow(account, { accountToFollow }, ethAuth)
-      } else if (signedInWithTwitter) {
-        await follow(account, { accountToFollow })
-      } else {
-        await scatter.scatter.follow({ data: { accountToFollow } })
-      }
+
+      const auth = await this.getAuth()
+      const followData = { account: account.name, accountToFollow, ...auth }
+
+      const followParams = new URLSearchParams(followData).toString()
+      await axios.post(`${BACKEND_API}/followers?${followParams}`)
+
       await dispatch(followUser(account.name, accountToFollow))
     } catch (err) {
       console.log(parseError(err))
@@ -81,21 +91,20 @@ class FollowButton extends Component {
 
   handleUnfollow = async (accountToUnfollow) => {
     try {
-      const { account, ethAuth, dispatch } = this.props
+      const { account, dispatch } = this.props
       if (account == null) {
         this.handleSnackbarOpen('Login to unfollow user!')
         return
       }
       this.setState({ isLoading: true })
-      const signedInWithEth = (!scatter || !scatter.connected) && !!ethAuth
-      const signedInWithTwitter = (!scatter || !scatter.connected) && !!localStorage.getItem('twitterMirrorInfo')
-      if (signedInWithEth) {
-        await unfollow(account, { accountToUnfollow }, ethAuth)
-      } else if (signedInWithTwitter) {
-        await unfollow(account, { accountToUnfollow })
-      } else {
-      await scatter.scatter.unfollow({ data: { accountToUnfollow } })
-      }
+
+      const auth = await this.getAuth()
+
+      const followData = { account: account.name, accountToUnfollow, ...auth }
+
+      const followParams = new URLSearchParams(followData).toString()
+      await axios.delete(`${BACKEND_API}/followers?${followParams}`)
+
       await dispatch(unfollowUser(account.name, accountToUnfollow))
     } catch (err) {
       console.log(parseError(err))
