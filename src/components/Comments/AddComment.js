@@ -14,8 +14,7 @@ import axios from 'axios'
 import scatter from '../../eos/scatter/scatter.wallet'
 import { accountInfoSelector } from '../../redux/selectors'
 
-// const { BACKEND_API } = process.env
-const BACKEND_API = 'http://localhost:4001'
+const { BACKEND_API } = process.env
 
 const styles = theme => ({
   addComment: {
