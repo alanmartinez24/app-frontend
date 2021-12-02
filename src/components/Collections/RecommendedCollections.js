@@ -39,10 +39,11 @@ const styles = theme => ({
 
 const RecommendedCollections = ({ classes, collection }) => {
   const fmtCollectionName = collection && collection.name && collection.name.replace(/\s+/g, '-').toLowerCase()
+  const collectionHref = fmtCollectionName && `/collections/${encodeURIComponent(fmtCollectionName.replace('/', ''))}/${collection._id}`
 
   return (
     <Link
-      to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
+      to={collectionHref}
       style={{ textDecoration: 'none', color: '#fff' }}
     >
       <Grid

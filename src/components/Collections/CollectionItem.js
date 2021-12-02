@@ -61,7 +61,7 @@ const CollectionItem = ({ classes, collection, username }) => {
 
     return (
       <Link
-        to={`/collections/${encodeURIComponent(fmtCollectionName)}/${collection._id}`}
+        to={`/collections/${encodeURIComponent(fmtCollectionName.replace('/', ''))}/${collection._id}`}
         className={classes.link}
       >
         <Grid
