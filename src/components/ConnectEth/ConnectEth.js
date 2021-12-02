@@ -213,7 +213,7 @@ class SubscribeDialog extends Component {
       this.props.dispatch(fetchSocialLevel(this.state.account.name))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
-      // this.setState({ walletConnectOpen: false })
+      this.setState({ walletConnectOpen: false })
       } catch (err) {
         console.error(err)
         this.handleSnackbarOpen(ERROR_MSG, true)

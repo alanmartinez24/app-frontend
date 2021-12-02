@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import DoneIcon from '@material-ui/icons/Done'
 import { withStyles } from '@material-ui/core/styles'
 import Dropzone from 'react-dropzone'
-import { updateAccountInfo, fetchSocialLevel } from '../../redux/actions'
+import { updateAccountInfo } from '../../redux/actions'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import YupInput from '../Miscellaneous/YupInput'
@@ -412,11 +412,8 @@ class EditProfile extends Component {
 
   render () {
     const { cropTime, files, ethOpen, crop } = this.state
-    const { account, username, classes, dispatch, userLevel } = this.props
-    if (!userLevel) {
-      dispatch(fetchSocialLevel(username))
-       return (<div />)
-    }
+    const { account, username, classes, userLevel } = this.props
+
     const accountInfo = userLevel
     const Snack = props => (
       <Snackbar
@@ -583,7 +580,7 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
-                  {accountInfo.ethInfo && accountInfo.ethInfo.address ? (
+                  {accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address ? (
                     <Grid item>
                       <YupInput
                         autoFocus
