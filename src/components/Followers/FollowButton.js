@@ -11,9 +11,10 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+import { accountInfoSelector } from '../../redux/selectors'
 
-const { BACKEND_API } = process.env
+const BACKEND_API = 'http://localhost:4001'
+// const { BACKEND_API } = process.env
 
 const styles = theme => ({
   button: {
@@ -195,11 +196,9 @@ class FollowButton extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
-  const ethAuth = ethAuthSelector(state)
 
   return {
     account,
-    ethAuth,
     followingInfo: state.followersByUser
   }
 }
@@ -210,7 +209,6 @@ FollowButton.propTypes = {
   eosname: PropTypes.string.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   followingInfo: PropTypes.object,
-  ethAuth: PropTypes.object,
   account: PropTypes.object
 }
 

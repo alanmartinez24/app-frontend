@@ -8,8 +8,8 @@ import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
 
-// const BACKEND_API = 'http://localhost:4001'
-const BACKEND_API = process.env.BACKEND_API
+const BACKEND_API = 'http://localhost:4001'
+// const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
 const DESC_LIMIT = 140
 

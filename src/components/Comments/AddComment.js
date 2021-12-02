@@ -11,9 +11,11 @@ import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
+import scatter from '../../eos/scatter/scatter.wallet'
 import { accountInfoSelector } from '../../redux/selectors'
 
-const { BACKEND_API } = process.env
+// const { BACKEND_API } = process.env
+const BACKEND_API = 'http://localhost:4001'
 
 const styles = theme => ({
   addComment: {
@@ -67,7 +69,7 @@ class AddComment extends PureComponent {
     if (e.which === 13 && !e.shiftKey) {
       e.preventDefault()
       try {
-        const { scatter, account, postid, addComment, commentsCount, handleExpansionPanelOpen } = this.props
+        const { account, postid, addComment, commentsCount, handleExpansionPanelOpen } = this.props
         if (account == null) {
             this.handleDialogOpen()
             return
@@ -86,10 +88,12 @@ class AddComment extends PureComponent {
         } else {
           auth = await scatter.scatter.getAuthToken()
         }
-        const commentData = { account: account.name, postid, comment: com, ...auth }
+        console.log(`auth`, auth)
+        const commentData = { eosname: account.name, postid, comment: com, ...auth }
+        console.log(`commentData`, commentData)
 
         const commentParams = new URLSearchParams(commentData).toString()
-        await axios.post(`${BACKEND_API}/comment?${commentParams}`)
+        await axios.post(`${BACKEND_API}/comments?${commentParams}`)
 
         addComment(account.name, postid, com)
         this.setState({ comment: '' })
@@ -169,13 +173,11 @@ const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
 
   return {
-    account,
-    scatter: state.scatterRequest.scatter
-  }
+    account
+    }
 }
 
 AddComment.propTypes = {
-  scatter: PropTypes.object,
   account: PropTypes.object,
   handleSnackbarOpen: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
