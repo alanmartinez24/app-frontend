@@ -16,7 +16,6 @@ import { connect } from 'react-redux'
 import Tooltip from '@material-ui/core/Tooltip'
 import LinesEllipsis from 'react-lines-ellipsis'
 import CountUp from 'react-countup'
-
 import { fetchSocialLevel } from '../../redux/actions'
 
 const styles = theme => ({
@@ -198,18 +197,29 @@ function ProfileCard (props) {
     classes,
     balanceInfo,
     account,
-    accountInfo,
     isLoggedIn,
     ratingCount,
     isMinimize,
     levels,
     lightMode,
-    dispatch
+    dispatch,
+    accountInfo
   } = props
   const YUPBalance = (balanceInfo && balanceInfo.YUP) || 0
   const YUPBalanceError =
     (balanceInfo && balanceInfo.YUP && balanceInfo.YUP.error) || null
 
+    if (!accountInfo.eosname) {
+      return <div />
+    }
+    if (!levels[accountInfo.eosname]) {
+       dispatch(fetchSocialLevel(accountInfo.eosname))
+        return (<div />)
+     }
+
+     if (levels[accountInfo.eosname].isLoading) {
+      // return <div />
+    }
   const formattedYUPBalance =
     YUPBalance && numeral(Number(YUPBalance)).format('0,0.00')
   const formattedWeight = numeral(
@@ -218,19 +228,6 @@ function ProfileCard (props) {
   const formattedRatings = numeral(ratingCount)
     .format('0a')
     .toUpperCase()
-
-  if (!accountInfo.eosname) {
-    return <div />
-  }
-  if (!levels[accountInfo.eosname]) {
-     dispatch(fetchSocialLevel(accountInfo.eosname))
-      return (<div />)
-   }
-
-   if (levels[accountInfo.eosname].isLoading) {
-    // return <div />
-  }
-
   const eosname = accountInfo && (accountInfo.eosname || accountInfo._id)
   const levelInfo = levels[eosname] && levels[eosname].levelInfo
 
@@ -590,8 +587,8 @@ ProfileCard.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   ratingCount: PropTypes.number.isRequired,
   balanceInfo: PropTypes.object.isRequired,
-  accountInfo: PropTypes.object.isRequired,
   isMinimize: PropTypes.bool.isRequired,
+  accountInfo: PropTypes.object.isRequired,
   levels: PropTypes.object,
   lightMode: PropTypes.bool,
   account: PropTypes.object

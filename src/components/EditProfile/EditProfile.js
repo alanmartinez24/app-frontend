@@ -13,7 +13,8 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import YupInput from '../Miscellaneous/YupInput'
 import axios from 'axios'
 import { Buffer } from 'buffer'
-import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
+import { accountInfoSelector, ethAuthSelector, userLevelSelector } from '../../redux/selectors'
+import ConnectEth from '../../components/ConnectEth/ConnectEth'
 
 const IPFS = require('ipfs-http-client')
 const BACKEND_API = process.env.BACKEND_API
@@ -137,7 +138,7 @@ class EditProfile extends Component {
     bio: this.props.accountInfo.bio,
     avatar: this.props.accountInfo.avatar,
     fullname: this.props.accountInfo.fullname,
-    ethAddress: this.props.accountInfo.ethInfo
+    ethAddress: this.props.accountInfo.address
       ? this.props.accountInfo.ethInfo.address
       : '',
     cropTime: false,
@@ -151,7 +152,8 @@ class EditProfile extends Component {
     },
     snackbarOpen: false,
     snackbarContent: '',
-    open: false
+    open: false,
+    ethOpen: false
   }
 
   imageRef = null
@@ -161,6 +163,12 @@ class EditProfile extends Component {
     this.setState({ open: true })
   }
 
+  handleEthDialogOpen = () => {
+    this.setState({ ethOpen: true })
+  }
+  handleEthDialogClose = () => {
+    this.setState({ ethOpen: false })
+  }
   handleDialogClose = () => {
     const { files } = this.state
     files.forEach(file => {
@@ -258,6 +266,7 @@ class EditProfile extends Component {
         if (files.length === 0) {
           return
         }
+        console.log(files)
         const reader = new window.FileReader()
         reader.onload = async () => {
           const buf = await Buffer.from(reader.result)
@@ -275,6 +284,32 @@ class EditProfile extends Component {
     })
   }
 
+  saveImage = async () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const { files } = this.state
+        if (files.length === 0) {
+          return
+        }
+        const file = files[0].file
+        const reader = new window.FileReader()
+        reader.onload = async () => {
+          const body = {
+            key: file.name,
+            data: reader.result.split(',')[1],
+            contentType: file.type
+          }
+         const url = await axios.post(`${BACKEND_API}/accounts/account/profileImage`, { ...body })
+         resolve(url.data.url)
+        }
+
+        reader.readAsDataURL(file)
+      } catch (err) {
+        console.log(err)
+        reject(err)
+      }
+    })
+  }
   handleRemoveCurrentPhoto = () => {
     this.setState({ avatar: '' })
   }
@@ -306,6 +341,7 @@ class EditProfile extends Component {
   handleAccountInfoSubmit = async () => {
     try {
       const { account, accountInfo, dispatch, ethAuth } = this.props
+
       if (account == null) {
         this.handleSnackbarOpen(
           'Download the Yup extension to edit your profile'
@@ -314,7 +350,6 @@ class EditProfile extends Component {
       }
 
       let { avatar, bio, fullname, files, cropTime, ethAddress } = this.state
-      let avatarHash
 
       if (cropTime) {
         this.handleSnackbarOpen(`Crop your photo before saving!`)
@@ -322,15 +357,14 @@ class EditProfile extends Component {
       }
 
       if (files.length > 0) {
-        avatarHash = await this.saveToIpfs() // Save avatar to ipfs and retrieve file hash
-        if (avatarHash == null) {
+        avatar = await this.saveImage() // Save avatar to ipfs and retrieve file hash
+        console.log(avatar)
+        if (avatar == null) {
           this.handleSnackbarOpen(
             `Failed to edit your profile. Try again later. `
           )
           return
         }
-
-        avatar = `https://ipfs2.yup.io/ipfs/${avatarHash}` // hashToUrl(avatarHash)
       }
 
       if (
@@ -377,9 +411,10 @@ class EditProfile extends Component {
   }
 
   render () {
-    const { cropTime, files, crop } = this.state
-    const { username, classes } = this.props
+    const { cropTime, files, ethOpen, crop } = this.state
+    const { account, username, classes, userLevel } = this.props
 
+    const accountInfo = userLevel
     const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -545,20 +580,34 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
-                  <Grid item>
-                    <YupInput
-                      autoFocus
-                      defaultValue={this.state.ethAddress}
-                      fullWidth
-                      disabled
-                      id='name'
-                      maxLength={250}
-                      label='ETH Address'
-                      multiline
-                      type='text'
-                      variant='outlined'
-                    />
-                  </Grid>
+                  {accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address ? (
+                    <Grid item>
+                      <YupInput
+                        autoFocus
+                        defaultValue={accountInfo.ethInfo.address}
+                        fullWidth
+                        disabled
+                        id='name'
+                        maxLength={250}
+                        label='ETH Address'
+                        multiline
+                        type='text'
+                        variant='outlined'
+                      />
+                    </Grid>
+
+                  ) : (
+                    <Grid item >
+                      <Button
+                        fullWidth
+                        className={classes.signupBtn}
+                        onClick={this.handleEthDialogOpen}
+                        variant='contained'
+                      >
+                        Connect Eth
+                      </Button>
+                    </Grid>
+                      )}
                 </Grid>
               </Grid>
             </DialogContent>
@@ -577,6 +626,11 @@ class EditProfile extends Component {
               </Button>
             </DialogActions>
           </Dialog>
+          <ConnectEth
+            account={account}
+            dialogOpen={ethOpen}
+            handleDialogClose={this.handleEthDialogClose}
+          />
         </>
       </ErrorBoundary>
     )
@@ -586,8 +640,10 @@ class EditProfile extends Component {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   const ethAuth = ethAuthSelector(state)
+  const userLevel = userLevelSelector(state)
   return {
     account,
+    userLevel,
     ethAuth,
     scatter: state.scatterRequest.scatter
   }
@@ -599,6 +655,7 @@ EditProfile.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
+  userLevel: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
 }
 

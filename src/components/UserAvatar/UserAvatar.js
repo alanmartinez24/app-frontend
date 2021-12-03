@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ImageLoader from 'react-load-image'
-import { parseIpfsRef, hashToUrl } from '../../utils/ipfs.js'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { Avatar, Fade } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
@@ -29,17 +28,16 @@ function UserAvatar ({ src: _src, alt, style, username, classes, className }) {
     target.src = ANONYMOUS_DEFAULT_AVATAR
     target.style.visibility = 'hidden'
   }
-
   return (
     <Fade in
       timeout={1000}
     >
       <ErrorBoundary>
         <ImageLoader className={classes.Loader}
-          src={parseIpfsRef(src) || ANONYMOUS_DEFAULT_AVATAR}
+          src={src || ANONYMOUS_DEFAULT_AVATAR}
         >
           <img alt={alt}
-            src={hashToUrl(src)}
+            src={src}
             style={style}
             onError={setDefaultSrc}
             className={className}
