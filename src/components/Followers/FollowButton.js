@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { parseError } from '../../eos/error'
-import scatter from '../../eos/scatter/scatter.wallet'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { accountInfoSelector } from '../../redux/selectors'
+import { getAuth } from '../../utils/authentication'
 
 const { BACKEND_API } = process.env
 
@@ -55,16 +55,6 @@ class FollowButton extends Component {
     this.setState({ snackbarOpen: false, snackbarContent: '' })
   }
 
-  getAuth = async () => {
-    let auth
-    if (!scatter || !scatter.connected) {
-      auth = this.props.account.authInfo
-    } else {
-      auth = await scatter.scatter.getAuthToken()
-    }
-    return auth
-  }
-
   handleFollow = async (accountToFollow) => {
     try {
       const { account, dispatch } = this.props
@@ -75,11 +65,11 @@ class FollowButton extends Component {
 
       this.setState({ isLoading: true })
 
-      const auth = await this.getAuth()
+      const auth = await getAuth(account)
       const followData = { account: account.name, accountToFollow, ...auth }
 
       const followParams = new URLSearchParams(followData).toString()
-      await axios.post(`${BACKEND_API}/followers?${followParams}`)
+      await axios.post(`${BACKEND_API}/v2/followers?${followParams}`)
 
       await dispatch(followUser(account.name, accountToFollow))
     } catch (err) {
@@ -98,12 +88,11 @@ class FollowButton extends Component {
       }
       this.setState({ isLoading: true })
 
-      const auth = await this.getAuth()
-
+      const auth = await getAuth(account)
       const followData = { account: account.name, accountToUnfollow, ...auth }
 
       const followParams = new URLSearchParams(followData).toString()
-      await axios.delete(`${BACKEND_API}/followers?${followParams}`)
+      await axios.delete(`${BACKEND_API}/v2/followers?${followParams}`)
 
       await dispatch(unfollowUser(account.name, accountToUnfollow))
     } catch (err) {

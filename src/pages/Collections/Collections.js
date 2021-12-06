@@ -340,7 +340,7 @@ class Collections extends Component {
   }
 
   render () {
-    const { classes, account, levels, dispatch, authToken, tour, theme } = this.props
+    const { classes, account, levels, dispatch, tour, theme } = this.props
     const {
       collection,
       posts,
@@ -525,7 +525,6 @@ class Collections extends Component {
         <CollectionEditDialog
           collection={collection}
           account={account}
-          authToken={authToken}
           dialogOpen={editDialogOpen}
           handleDialogClose={this.handleEditDialogClose}
         />
@@ -533,7 +532,6 @@ class Collections extends Component {
         <CollectionDuplicateDialog
           collection={collection}
           account={account}
-          authToken={authToken}
           dialogOpen={duplicateDialogOpen}
           handleDialogClose={this.handleDuplicateDialogClose}
         />
@@ -1019,14 +1017,12 @@ Collections.propTypes = {
   classes: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  authToken: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   tour: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => {
   const account = accountInfoSelector(state)
-  const authToken = state.authInfo
 
   return {
     account,
@@ -1036,7 +1032,6 @@ const mapStateToProps = state => {
     },
     push: state.scatterInstallation.push,
     collections: state.collections,
-    authToken,
     tour: state.tour.isTourOpen
   }
 }

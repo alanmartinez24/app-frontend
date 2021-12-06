@@ -7,6 +7,8 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
+import { accountInfoSelector } from '../../redux/selectors'
+import { getAuth } from '../../utils/authentication'
 
 const BACKEND_API = process.env.BACKEND_API
 const TITLE_LIMIT = 30
@@ -42,7 +44,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, authToken }) => {
+const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClose, history, account }) => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -58,10 +60,8 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
   const handleEditCollection = async () => {
     try {
       setIsLoadingUpdate(true)
-      if (authToken.account && authToken.account.eosname) {
-        authToken.eosname = authToken.account.eosname
-      }
-      const params = { name, description, ...authToken }
+      const auth = await getAuth(account)
+      const params = { name, description, ...auth }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoadingUpdate(false)
       handleSnackbarOpen('Succesfully updated your collection')
@@ -79,15 +79,13 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
         setDeleteButtonText('Are you sure?')
         return
       }
+      const auth = await getAuth(account)
       setIsLoadingDelete(true)
-      if (authToken.account && authToken.account.eosname) {
-        authToken.eosname = authToken.account.eosname
-      }
-      const params = { ...authToken }
+      const params = { ...auth }
       await axios.delete(`${BACKEND_API}/collections/${collection._id}`, {
         data: params
       })
-      history.push(`/${authToken.eosname}`)
+      history.push(`/${account.name}`)
     } catch (err) {
       handleSnackbarOpen('There was a problem deleting your collection')
       console.error(err)
@@ -156,9 +154,9 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const authToken = state.authInfo
+  const account = accountInfoSelector(state)
   return {
-    authToken
+    account
   }
 }
 
@@ -168,7 +166,7 @@ CollectionEditDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  authToken: PropTypes.object
+  account: PropTypes.object
 }
 
 export default withRouter(connect(mapStateToProps)(withStyles(styles)(CollectionEditDialog)))

@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { addUserCollection } from '../../redux/actions'
 import YupInput from '../Miscellaneous/YupInput'
 import LoaderButton from '../Miscellaneous/LoaderButton'
+import { accountInfoSelector } from '../../redux/selectors'
+import { getAuth } from '../../utils/authentication'
 
 const BACKEND_API = process.env.BACKEND_API
 const WEB_APP_URL = process.env.WEB_APP_URL
@@ -49,7 +51,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDialogClose, addCollectionToRedux, authToken }) => {
+const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDialogClose, addCollectionToRedux, account }) => {
   const [description, setDescription] = useState(collection.description)
   const [name, setName] = useState(collection.name)
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -65,15 +67,13 @@ const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDial
 
   const handleCreateNewCollection = async () => {
     try {
-      if (isLoading) return
+      if (isLoading) { return }
       setIsLoading(true)
       const postId = collection.postIds.filter(n => n)
-      if (authToken.account && authToken.account.eosname) {
-        authToken.eosname = authToken.account.eosname
-      }
-      const params = { name, description, postId, ...authToken }
+      const auth = await getAuth(account)
+      const params = { name, description, postId, ...auth }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
-      addCollectionToRedux(authToken.eosname, data)
+      addCollectionToRedux(auth.eosname, data)
       setNewCollectionInfo(data)
       handleSnackbarOpen(`Succesfully duplicated ${name}`)
       handleDialogClose()
@@ -166,16 +166,16 @@ const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDial
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const authToken = state.authInfo
+  const account = accountInfoSelector(state)
   return {
-    authToken
+    account
   }
 }
 
 const mapActionToProps = (dispatch) => {
   return {
     addCollectionToRedux: (eosname, collection) => dispatch(addUserCollection(eosname, collection))
-    }
+  }
 }
 
 CollectionDuplicateDialog.propTypes = {
@@ -184,7 +184,7 @@ CollectionDuplicateDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   addCollectionToRedux: PropTypes.func.isRequired,
-  authToken: PropTypes.object
+  account: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CollectionDuplicateDialog))

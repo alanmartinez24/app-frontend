@@ -7,6 +7,8 @@ import DraggableCollectionPostItem from './DraggableCollectionPostItem'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import LoaderButton from '../Miscellaneous/LoaderButton'
 import axios from 'axios'
+import { getAuth } from '../../utils/authentication'
+import { accountInfoSelector } from '../../redux/selectors'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -40,7 +42,7 @@ const styles = theme => ({
   }
 })
 
-const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, authToken }) => {
+const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, account }) => {
   if (!collection.posts) return null
   const [posts, setPosts] = useState(collection.posts)
   const [isLoading, setIsLoading] = useState(false)
@@ -55,10 +57,8 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
   const handleCollectionReorder = async () => {
     try {
       setIsLoading(true)
-      if (authToken.account && authToken.account.eosname) {
-        authToken.eosname = authToken.account.eosname
-      }
-      const params = { postIds: (posts.map((post) => post && post._id.postid).reverse()), ...authToken }
+      const auth = await getAuth(account)
+      const params = { postIds: (posts.map((post) => post && post._id.postid).reverse()), ...auth }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       setIsLoading(false)
       window.location.reload()
@@ -111,8 +111,9 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, au
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state)
   return {
-    authToken: state.authInfo
+    account
   }
 }
 
@@ -120,7 +121,7 @@ CollectionReorderDialog.propTypes = {
   collection: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
-  authToken: PropTypes.object.isRequired
+  account: PropTypes.object
 }
 
 export default memo(connect(mapStateToProps)(withStyles(styles)(CollectionReorderDialog)))

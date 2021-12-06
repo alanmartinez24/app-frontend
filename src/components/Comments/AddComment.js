@@ -11,8 +11,8 @@ import SubscribeDialog from '../SubscribeDialog/SubscribeDialog'
 import WelcomeDialog from '../WelcomeDialog/WelcomeDialog'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import scatter from '../../eos/scatter/scatter.wallet'
 import { accountInfoSelector } from '../../redux/selectors'
+import { getAuth } from '../../utils/authentication'
 
 const { BACKEND_API } = process.env
 
@@ -80,19 +80,12 @@ class AddComment extends PureComponent {
         }
 
         this.setState({ isLoading: true })
+        const auth = await getAuth(account)
 
-        let auth
-        if (!scatter || !scatter.connected) {
-          auth = account.authInfo
-        } else {
-          auth = await scatter.scatter.getAuthToken()
-        }
-        console.log(`auth`, auth)
         const commentData = { eosname: account.name, postid, comment: com, ...auth }
-        console.log(`commentData`, commentData)
 
         const commentParams = new URLSearchParams(commentData).toString()
-        await axios.post(`${BACKEND_API}/comments?${commentParams}`)
+        await axios.post(`${BACKEND_API}/v2/comments?${commentParams}`)
 
         addComment(account.name, postid, com)
         this.setState({ comment: '' })
@@ -173,7 +166,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     account
-    }
+  }
 }
 
 AddComment.propTypes = {
