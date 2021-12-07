@@ -247,17 +247,21 @@ class SubscribeDialog extends Component {
         signature,
         address
       }
+
       localStorage.setItem('YUP_ETH_AUTH', JSON.stringify(ethAuth))
 
-      const whitelist = (await axios.get(`${BACKEND_API}/v1/eth/whitelist/${address}`)).data.whitelisted
-      if (!whitelist) {
-        this.handleSnackbarOpen(WHITELIST_MSG, true)
-        this.setState({
-          steps: [...this.state.steps, 'Ethereum Whitelist Application'],
-          activeStep: 2,
-          showWhitelist: true
-        })
+      try {
+        await axios.get(`${BACKEND_API}/v1/eth/whitelist/${address}`)
+      } catch (err) {
+        if (err.message.startsWith('Account is not whitelisted')) {
+          this.handleSnackbarOpen(WHITELIST_MSG, true)
+          this.setState({
+            steps: [...this.state.steps, 'Ethereum Whitelist Application'],
+            activeStep: 2,
+            showWhitelist: true
+          })
         return
+        }
       }
 
       // check if account already claimed
