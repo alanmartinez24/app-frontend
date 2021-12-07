@@ -70,7 +70,7 @@ export function fetchAuthInfo () {
       const twitterInfo = localStorage.getItem('twitterMirrorInfo')
       if (scatter.connected) {
         const { eosname, signature } = await scatter.scatter.getAuthToken()
-        authInfo = { authType: 'extension', eosname, address: null, signature: signature }
+        authInfo = { authType: 'extension', eosname, address: null, signature: Buffer.from(signature, 'hex') }
       } else if (twitterInfo) {
         const { token, name } = JSON.parse(twitterInfo)
         authInfo = { authType: 'twitter', eosname: name, address: null, oauthToken: token }

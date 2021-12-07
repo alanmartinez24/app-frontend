@@ -14,9 +14,10 @@ export const accountInfoSelector = createSelector(
     }
     if (!scatter) {
       if (eth && eth.account && eth.account._id) {
-        account = { name: eth.account._id, authority: 'active' }
+        account = { name: eth.account._id, authority: 'active', authInfo: { address: eth.address, signature: eth.signature, authType: 'ETH' } }
       } else if (twitterIdentity) {
-        account = { name: JSON.parse(twitterIdentity).name, authority: 'active' }
+        const { name, token } = JSON.parse(twitterIdentity)
+        account = { name, authority: 'active', authInfo: { oauthToken: token } }
       }
     }
     return account

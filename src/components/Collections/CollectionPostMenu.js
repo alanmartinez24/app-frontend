@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { addPostToCollection, removePostFromCollection } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
+import { getAuth } from '../../utils/authentication'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -43,9 +44,10 @@ class CollectionPostMenu extends Component {
 
   addToCollection = async (collection) => {
     try {
-      const { postid, addPostRedux, account, authToken } = this.props
+      const { postid, addPostRedux, account } = this.props
+      const auth = await getAuth(account)
       this.handleMenuClose()
-      const params = { postId: postid, ...authToken }
+      const params = { postId: postid, ...auth }
       await axios.put(`${BACKEND_API}/collections/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully added to ${collection.name}`)
       addPostRedux(account && account.name, collection, postid)
@@ -57,9 +59,10 @@ class CollectionPostMenu extends Component {
 
   removeFromCollection = async (collection) => {
     try {
-      const { postid, removePostRedux, account, authToken } = this.props
+      const { postid, removePostRedux, account } = this.props
+      const auth = await getAuth(account)
       this.handleMenuClose()
-      const params = { postId: postid, ...authToken }
+      const params = { postId: postid, ...auth }
       await axios.put(`${BACKEND_API}/collections/remove/${collection._id}`, params)
       this.handleSnackbarOpen(`Succesfully removed post from ${collection.name}`)
       removePostRedux(account && account.name, collection, postid)
@@ -164,7 +167,6 @@ class CollectionPostMenu extends Component {
 CollectionPostMenu.propTypes = {
   postid: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  authToken: PropTypes.object,
   account: PropTypes.object.isRequired,
   collections: PropTypes.array.isRequired,
   addPostRedux: PropTypes.func.isRequired,
@@ -174,10 +176,8 @@ CollectionPostMenu.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   const { collections } = state.userCollections[account.name] || {}
-  const authToken = state.authInfo
 
   return {
-    authToken,
     account,
     collections
   }

@@ -7,7 +7,7 @@ export function fetchFollowers (username) {
     dispatch(request(username))
     try {
       let followers = []
-      const followerInfo = (await axios.get(`${BACKEND_API}/followers/${username}`)).data
+      const followerInfo = (await axios.get(`${BACKEND_API}/v2/followers/${username}`)).data
 
       await Promise.all(followerInfo.map(async (follower) => {
         const data = (await axios.get(`${BACKEND_API}/accounts/${follower._id.account}`)).data

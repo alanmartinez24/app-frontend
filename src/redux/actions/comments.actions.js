@@ -6,7 +6,7 @@ export function fetchPostComments (postid) {
   return async dispatch => {
     dispatch(request(postid))
     try {
-      const comments = (await axios.get(`${BACKEND_API}/comments/post/${postid}`)).data
+      const comments = (await axios.get(`${BACKEND_API}/v2/comments/post/${postid}`)).data
       comments.reverse() // Reverse to get comments in ascending order based on timestamp
       dispatch(success(postid, comments))
     } catch (err) {

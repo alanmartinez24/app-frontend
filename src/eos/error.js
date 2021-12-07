@@ -22,9 +22,9 @@ export function parseError (obj, action) {
       }
       return 'Account has exceeded action limit for today'
     } else {
-      return 'Failed to process transaction'
+      return 'Something went wrong'
     }
   } catch (err) {
-    return 'Failed to process transaction'
+    return 'Something went wrong'
   }
 }

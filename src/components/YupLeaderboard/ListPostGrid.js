@@ -71,7 +71,6 @@ function ListPostGrid ({ account,
             postType={postType}
           />
           <CollectionPostMenu
-            account={account}
             postid={postid}
           />
           {
