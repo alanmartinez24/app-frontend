@@ -43,7 +43,7 @@ const styles = theme => ({
     }
   },
   voteComp: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('1500')]: {
       display: 'none'
     }
   }
