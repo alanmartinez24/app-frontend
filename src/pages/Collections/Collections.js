@@ -375,9 +375,10 @@ class Collections extends Component {
       (account && account.name) === (collection && collection.ownerId)
 
     const len = posts.length - 1
+
     let headerImgSrc =
       posts &&
-      ((posts[len] && posts[len].previewData.img) ||
+      ((posts[len] && posts[len].previewData && posts[len].previewData.img) ||
         (posts[len - 1] && posts[len - 1].previewData.img))
 
     if (!isLoading && !collection) {
