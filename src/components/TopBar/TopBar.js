@@ -391,7 +391,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
     const dialog = params.get('signupOpen')
     const collectionDialog = params.get('collectionDialogOpen')
     setCollectionDialogOpen(collectionDialog || false)
-    setDialogOpen((!account && dialog) || false)
+    setDialogOpen((!accountName && dialog) || false)
     authInfo.account.name && setAccount(authInfo.account)
     fetchNotifs()
   }, [accountName])
