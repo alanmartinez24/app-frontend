@@ -775,13 +775,14 @@ class User extends Component {
                                 aria-label='more'
                                 aria-controls='long-menu'
                                 aria-haspopup='true'
-                                color={theme.palette.common.fifth}
                                 variant='extended'
                                 size='small'
-                                style={{ opacity: 0.3 }}
+                                style={{ opacity: 0.4 }}
                                 onClick={this.handleShowAll}
                               >
-                                <Typography variant='body'>{collections.length}</Typography>
+                                <Typography className={classes.icons}
+                                  variant='body'
+                                >{collections.length}</Typography>
                               </Fab>
                             )}
                           </Grid>
