@@ -522,7 +522,7 @@ function ProfileCard (props) {
                       display: 'inline-block'
                     }}
                   >
-                    Influence
+                    Yup Score
                   </Typography>
                 </div>
               </Tooltip>
