@@ -106,7 +106,6 @@ const styles = theme => ({
     zIndex: 1000,
     flex: 1,
     fontSize: '10px',
-    marginTop: '5px',
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
     }

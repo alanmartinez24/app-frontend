@@ -76,8 +76,6 @@ const styles = theme => ({
     }
   },
   chip: {
-    margin: '0 10px',
-    height: '26px',
     backgroundColor: theme.palette.alt.third,
     color: theme.palette.text.secondary,
     display: 'flex',
@@ -169,7 +167,7 @@ const styles = theme => ({
   },
   twitter: {
     color: theme.palette.text.secondary,
-    fontSize: '14px'
+    fontSize: 'small !important'
   },
   username: {
     fontSize: '18px',
@@ -311,6 +309,8 @@ function ProfileCard (props) {
                     />
                   </Typography>
                 </Grid>
+                {/* MOVED THESE TWO CHIPS TO THE SECTION OF THE GRID NEAR THE USERNAME, ONE LINE BELOW
+
                 {twitterName && (
                 <Grid item
                   xs={3}
@@ -348,6 +348,8 @@ function ProfileCard (props) {
                 </a>
                 </Grid>
               )}
+
+              */}
               </Grid>
               <Grid item
                 sm={2}
@@ -378,7 +380,8 @@ function ProfileCard (props) {
             >
               <Grid container
                 direction='row'
-                spacing={0}
+                alignItems='center'
+                spacing={1}
               >
                 <Grid item>
                   <Typography
@@ -412,6 +415,43 @@ function ProfileCard (props) {
                     </Tooltip>
                   ) : null}
                 </Grid>
+                {twitterName && (
+                <Grid item>
+                  <a href={`https://twitter.com/${twitterName}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={classes.LinkDecoration}
+                  >
+                    <Chip label={twitterName}
+                      className={classes.chip}
+                      size='small'
+                      onClick
+                      icon={
+                        <Icon
+                          className={['fab fa-twitter', classes.twitter]}
+                        />
+
+                  }
+                    />
+                  </a>
+                </Grid>
+              )}
+                {ethAddress && (
+                <Grid item
+                  xs={3}
+                > <a href={`https://etherscan.io/address/${ethAddress}`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={classes.LinkDecoration}
+                  >
+                  <Chip label={ethAddress.slice(0, 5)}
+                    className={classes.chip}
+                    size='small'
+                    onClick
+                  />
+                </a>
+                </Grid>
+              )}
               </Grid>
             </Typography>
             <Typography
