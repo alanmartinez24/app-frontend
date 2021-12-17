@@ -461,9 +461,8 @@ class EditProfile extends Component {
       if (!cropTime && files.length === 0 && this.state.avatar !== '') {
         return (
           <Button
-            align='right'
             onClick={this.handleRemoveCurrentPhoto}
-            style={{ fontFamily: 'Gilroy' }}
+            style={{ fontFamily: 'Gilroy', marginLeft: 30 }}
           >
             Remove Current Photo
           </Button>
@@ -493,7 +492,7 @@ class EditProfile extends Component {
               <Grid
                 container
                 direction='row'
-                style={{ justifyContent: 'space-evenly' }}
+                style={{ justifyContent: 'center' }}
               >
                 <Grid item>
                   {!cropTime ? (
@@ -515,18 +514,16 @@ class EditProfile extends Component {
                             width='100%'
                           />
                           ) : (
-                            <div style={{ width: '250px', height: '250px' }}>
-                              <UserAvatar
-                                align='center'
-                                alt='Add'
-                                username={username}
-                                className={classes.dropzoneImg}
-                                style={{ fontSize: '100px' }}
-                                height='auto'
-                                src={this.state.avatar}
-                                width='100%'
-                              />
-                            </div>
+                            <UserAvatar
+                              align='center'
+                              alt='Add'
+                              username={username}
+                              className={classes.dropzoneImg}
+                              style={{ fontSize: '100px' }}
+                              height='auto'
+                              src={this.state.avatar}
+                              width='100%'
+                            />
                           )}
                       </Dropzone>
                     </div>
