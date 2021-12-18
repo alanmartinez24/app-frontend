@@ -300,6 +300,11 @@ export const theme = ({ palette }) => {
           background: `linear-gradient(90deg, transparent, ${palette.alt.second}, transparent)`
         }
       }
+    },
+    MuiChip: {
+      root: {
+        padding: '0 0.5rem'
+      }
     }
   },
   typography: {
