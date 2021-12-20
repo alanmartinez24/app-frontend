@@ -38,9 +38,9 @@ const styles = theme => ({
     height: '100%',
     maxWidth: '100%',
     borderRadius: '0.25rem',
+    objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {
-      height: '50px',
-      objectFit: 'cover'
+      height: '50px'
     }
   },
   imgWrapper: {
