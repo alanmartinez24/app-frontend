@@ -65,7 +65,7 @@ const styles = theme => ({
       paddingTop: theme.spacing(0)
     },
     flex: 1,
-    padding: '0px 20vw',
+    padding: '0px 10vw',
     zIndex: 1
   },
   gridContainer: {

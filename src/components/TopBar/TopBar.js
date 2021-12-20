@@ -704,10 +704,6 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     </ListItem>)}
           </List>
         </div>
-        {!isMobile && <StyledYupProductNav isShown={isShown}
-          isMobile={isMobile}
-          account={account}
-                      />}
         <ListItem className={classes.ListItem}
           button
           component={Link}
@@ -790,6 +786,11 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
             </ListItemText>
           </Grow> : null }
         </ListItem>
+
+        {!isMobile && <StyledYupProductNav isShown={isShown}
+          isMobile={isMobile}
+          account={account}
+                      />}
 
         {account && account.name && (
           <ListItem className={classes.ListItem}
