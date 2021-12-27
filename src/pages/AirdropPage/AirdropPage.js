@@ -10,8 +10,10 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import CountUp from 'react-countup'
+import { accountInfoSelector } from '../../redux/selectors'
+import { connect } from 'react-redux'
 
-const { BACKEND_API, REWARDS_MANAGER_API } = process.env
+const { BACKEND_API } = process.env
 const AIRDROP_IMG = 'https://miro.medium.com/max/1400/0*zvnqZxE7NNDduw6c.png'
 
 const styles = theme => ({
@@ -63,43 +65,38 @@ const styles = theme => ({
 class AirdropPage extends Component {
   state = {
     isLoading: false,
-    ethAddress: this.props.location.pathname.split('/')[2] || '',
-    rewards: null,
-    price: null,
+    polyAddress: this.props.location.pathname.split('/')[2] || '',
+    airdrop: null,
     dialogOpen: false,
     snackbarMsg: null
   }
 
-  handleInput = e => {
-    this.setState({ ethAddress: (e.target.value).toLowerCase() })
-  }
+  handleInput = e => { this.setState({ polyAddress: (e.target.value).toLowerCase() }) }
 
   componentDidMount = () => {
-    const ethAddress = this.props.location.pathname.split('/')[2]
-    if (ethAddress) {
-      this.setState({ ethAddress }, () => { this.fetchCreatorRewards() })
-      this.ethInput = ethAddress
+    const polyAddress = this.props.location.pathname.split('/')[2]
+    if (polyAddress) {
+      this.setState({ polyAddress }, () => { this.fetchAirdropData() })
     }
-    axios.get(`${REWARDS_MANAGER_API}/prices/yupeth`).then(({ data }) => this.setState({ price: data.YUPETH }))
   }
 
   onSubmit = e => {
     e.preventDefault()
-    this.props.history.push(`/rewards/${this.state.ethAddress}`)
+    this.props.history.push(`/airdrop/${this.state.polyAddress}`)
     this.setState({ isLoading: true })
-    this.fetchCreatorRewards()
+    this.fetchAirdropData()
   }
 
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
-  fetchCreatorRewards = async () => {
+  fetchAirdropData = async () => {
     try {
-      const rewards = (await (axios.get(`${BACKEND_API}/rewards/eth/${this.state.ethAddress}`))).data.creatorRewards
-      localStorage.setItem('YUP_CLAIM_RWRDS', rewards)
-      this.setState({ rewards })
+      const airdrop = (await (axios.get(`${BACKEND_API}/rewards/eth/${this.state.polyAddress}`))).data.creatorRewards
+      localStorage.setItem('POLY_AIRDROP', airdrop)
+      this.setState({ airdrop })
     } catch (err) {
       if (err.response && err.response.status === 422) {
-        this.setState({ snackbarMsg: 'Please enter a valid ethereum address' })
+        this.setState({ snackbarMsg: 'Please enter a valid polyhon address' })
       }
     }
     this.setState({ isLoading: false })
@@ -109,8 +106,8 @@ class AirdropPage extends Component {
 
   render () {
     const { classes } = this.props
-    const { isLoading, rewards, price, dialogOpen, snackbarMsg, ethAddress } = this.state
-    const metaDescription = ethAddress ? `${ethAddress.slice(0, 5)}...${ethAddress.slice(-6, -1)} has ${Math.round(rewards)} $YUP ready to be airdropped to Polygon`
+    const { isLoading, airdrop, dialogOpen, snackbarMsg, polyAddress } = this.state
+    const metaDescription = polyAddress ? `${polyAddress.slice(0, 5)}...${polyAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
     : `Claim your airdrop on Polygon`
     const metaTitle = 'yup NFT Creator Rewards'
     return (
@@ -195,10 +192,10 @@ class AirdropPage extends Component {
                       fullWidth
                       id='address'
                       maxLength={50}
-                      label={'ETH address'}
+                      label={'Polygon address'}
                       type='text'
                       onSubmit={this.onSubmit}
-                      value={this.state.ethAddress}
+                      value={this.state.polyAddress}
                       variant='outlined'
                       onChange={this.handleInput}
                     /></form>
@@ -206,7 +203,7 @@ class AirdropPage extends Component {
               </Grid>
             </Card>
             <Card className={classes.card}
-              style={{ display: rewards !== null || isLoading ? 'inherit' : 'none' }}
+              style={{ display: airdrop !== null || isLoading ? 'inherit' : 'none' }}
               elevation={0}
             >
               <Grid container
@@ -228,22 +225,17 @@ class AirdropPage extends Component {
                       className={classes.skeleton}
                       >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton>
                       : <CountUp
-                        end={rewards}
+                        end={airdrop}
                         decimals={2}
                         start={0}
                         duration={1}
                         suffix=' YUP'
                         /> }
                   </Typography>
-                  <Typography variant='h4'
-                    style={{ opacity: 0.5, marginLeft: 20 }}
-                  >
-                    ~{(price * rewards).toFixed(2)} USD
-                  </Typography>
                 </Grid>
               </Grid>
             </Card>
-            {rewards !== null && (
+            {airdrop !== null && (
               <>
                 <Button
                   fullWidth
@@ -271,5 +263,9 @@ AirdropPage.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired
 }
+const mapStateToProps = (state, ownProps) => {
+  const account = accountInfoSelector(state)
+  return { account }
+}
 
-export default withStyles(styles)(AirdropPage)
+export default connect(mapStateToProps)(withStyles(styles)(AirdropPage))
