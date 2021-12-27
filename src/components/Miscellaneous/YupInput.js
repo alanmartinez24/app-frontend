@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '@material-ui/core'
+import { TextField, InputAdornment } from '@material-ui/core'
 import { withStyles, useTheme } from '@material-ui/core/styles'
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 const styles = theme => ({
   input: {
@@ -29,14 +30,17 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, maxLength, ...restProps }) => {
+const YupInput = ({ classes, maxLength, onSubmit, ...restProps }) => {
   const theme = useTheme()
+  const submitBtn = onSubmit ? { startAdornment: <InputAdornment position='start'><KeyboardArrowRightIcon onClick={onSubmit} /></InputAdornment> } : null
+
   return (
     <TextField
       {...restProps}
       className={classes.textField}
       inputProps={{ maxLength, borderBottomColor: theme.palette.second }}
       InputProps={{
+                InputAdornment: submitBtn,
                 classes: {
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -54,7 +58,8 @@ const YupInput = ({ classes, maxLength, ...restProps }) => {
 
 YupInput.propTypes = {
     classes: PropTypes.object.isRequired,
-    maxLength: PropTypes.number
+    maxLength: PropTypes.number,
+    onSubmit: PropTypes.func
   }
 
 export default (withStyles(styles)(YupInput))

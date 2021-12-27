@@ -22,6 +22,7 @@ import User from './User/User'
 import PostPage from './PostPage/PostPage'
 import ScorePage from './ScorePage/ScorePage'
 import RewardsPage from './RewardsPage/RewardsPage'
+import AirdropPage from './AirdropPage/AirdropPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
@@ -182,6 +183,9 @@ class Index extends Component {
                     />
                     <Route component={RewardsPage}
                       path='/rewards'
+                    />
+                    <Route component={AirdropPage}
+                      path='/airdrop'
                     />
                     <Route component={Analytics}
                       exact
