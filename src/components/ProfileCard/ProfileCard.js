@@ -32,7 +32,7 @@ const styles = theme => ({
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
       fontSize: '45px',
-      marginLeft: '15px',
+      marginLeft: 0,
       marginBottom: '6vw',
       borderRadius: '100%',
       width: '80px',
@@ -42,7 +42,7 @@ const styles = theme => ({
     }
   },
   bio: {
-    fontSize: '12px',
+    fontSize: '14dpx',
     padding: '0px',
     marginTop: theme.spacing(1),
     fontFamily: 'Gilroy',
@@ -59,7 +59,7 @@ const styles = theme => ({
     boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
     background: 'transparent',
     backgroundSize: 'cover',
-    width: '550px',
+    width: '100%',
     margin: 'auto',
     marginTop: '75px',
     maxWidth: '100vw',
@@ -71,8 +71,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',
       marginTop: theme.spacing(10),
-      height: '175px',
-      width: '100vw'
+      height: '175px'
     }
   },
   chip: {
@@ -143,7 +142,7 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      paddingTop: '10px',
+      padding: '0 4px',
       display: 'block',
       height: '100px'
     }
@@ -272,7 +271,7 @@ function ProfileCard (props) {
           <Grid
             item
             className={classes.profileDetails}
-            style={{ paddingTop: isMinimize ? '5px' : '', marginLeft: isMinimize ? 50 : 100 }}
+            style={{ paddingTop: isMinimize ? '5px' : '', marginLeft: isMinimize ? 50 : isMobile ? 0 : 100, marginTop: isMobile ? 100 : 0 }}
           >
             <Grid
               alignItems={isMinimize ? 'flex-start' : 'center'}
