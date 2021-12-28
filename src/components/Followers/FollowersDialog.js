@@ -22,7 +22,6 @@ import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
   dialogTitle: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
     margin: 0,
     padding: theme.spacing(1.5)
   },
@@ -34,7 +33,6 @@ const styles = theme => ({
     right: theme.spacing(),
     top: theme.spacing(),
     color: 'black',
-    paddingTop: '0%',
     '&:hover': {
       backgroundColor: 'transparent'
     }

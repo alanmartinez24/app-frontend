@@ -243,8 +243,9 @@ export const theme = ({ palette }) => {
     },
     MuiDialog: {
       paper: {
-        backgroundColor: palette.alt.second,
+        backgroundColor: `${palette.alt.second}99`,
         borderRadius: '25px',
+        backdropFilter: 'blur(45px)',
         boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
         width: '80%',
         padding: '1rem 0.5rem',

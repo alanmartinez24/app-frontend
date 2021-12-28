@@ -315,12 +315,7 @@ const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
 const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes, isShown, isMobile }) {
   if (account) {
     return (
-      <List component='nav'
-        aria-label='main'
-        className={classes.list1}
-      >
-        <StyledAboutListLink />
-      </List>
+      <div />
     )
   }
 

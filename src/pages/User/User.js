@@ -6,7 +6,7 @@ import Feed from '../../components/Feed/Feed'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent, Chip } from '@material-ui/core'
 import axios from 'axios'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -153,6 +153,9 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       marginLeft: '-75px'
     }
+  },
+  chip: {
+    color: `${theme.palette.common.second}77`
   }
 })
 
@@ -765,42 +768,37 @@ class User extends Component {
                           container
                           spacing={2}
                           xs={10}
+                          alignItems='center'
                         >
                           <Grid item>
-                            <Typography variant='h4'>Collections</Typography>
+                            <Typography
+                              variant='h4'
+                            >Collections</Typography>
                           </Grid>
                           <Grid item>
                             {collections.length > LIMIT_COLLECTIONS && (
-                              <Fab
-                                aria-label='more'
-                                aria-controls='long-menu'
-                                aria-haspopup='true'
-                                variant='extended'
-                                size='small'
-                                style={{ opacity: 0.4 }}
-                                onClick={this.handleShowAll}
-                              >
-                                <Typography className={classes.icons}
-                                  variant='body'
-                                >{collections.length}</Typography>
-                              </Fab>
+                            <Chip label={collections.length}
+                              className={classes.chip}
+                              size='small'
+                              onClick={this.handleShowAll}
+                            />
                             )}
                           </Grid>
-                        </Grid>
-                        <Grid item
-                          xs={2}
-                        >
-                          {isLoggedIn && (
+                          <Grid item>
+                            {isLoggedIn && (
                             <IconButton
+                              size='small'
+                              variant='contained'
                               aria-label='more'
                               aria-controls='long-menu'
                               aria-haspopup='true'
                               onClick={this.handleDialogOpen}
-                              className={classes.icons}
+                              className={classes.chip}
                             >
-                              <AddIcon />
+                              <AddIcon fontSize='small' />
                             </IconButton>
                           )}
+                          </Grid>
                         </Grid>
                         <Grid item
                           xs={12}
