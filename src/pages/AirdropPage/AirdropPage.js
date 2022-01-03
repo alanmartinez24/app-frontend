@@ -12,8 +12,10 @@ import axios from 'axios'
 import CountUp from 'react-countup'
 import { accountInfoSelector } from '../../redux/selectors'
 import { connect } from 'react-redux'
+import { getAuth } from '../../utils/authentication'
 
-const { BACKEND_API } = process.env
+const BACKEND_API = 'http://localhost:4001'
+// const { BACKEND_API } = process.env
 const AIRDROP_IMG = 'https://miro.medium.com/max/1400/0*zvnqZxE7NNDduw6c.png'
 
 const styles = theme => ({
@@ -24,6 +26,9 @@ const styles = theme => ({
     flexDirection: 'column',
     overflowY: 'hidden',
     backgroundColor: theme.palette.alt.second
+  },
+  imgBanner: {
+    marginTop: 20
   },
   btn: {
     backgroundColor: '#00E08E',
@@ -62,100 +67,125 @@ const styles = theme => ({
   }
 })
 
-const AirdropMetaTags = ({ polyAddress, airdrop }) => {
-  const metaDescription = polyAddress ? `${polyAddress.slice(0, 5)}...${polyAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
+const AirdropMetaTags = ({ polygonAddress, airdrop }) => {
+  const metaDescription = polygonAddress ? `${polygonAddress.slice(0, 5)}...${polygonAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
   : `Claim your airdrop on Polygon`
   const metaTitle = 'yup NFT Creator Rewards'
-  return (<Helmet>
-    <meta charSet='utf-8' />
-    <title>Airdrop</title>
-    <meta property='description'
-      content={metaDescription}
-    />
-    <meta property='image'
-      content={AIRDROP_IMG}
-    />
-    <meta name='twitter:card'
-      content='summary_large_image'
-    />
-    <meta
-      name='twitter:title'
-      content={metaTitle}
-    />
-    <meta name='twitter:site'
-      content='@yup_io'
-    />
-    <meta
-      name='twitter:description'
-      content={metaDescription}
-    />
-    <meta
-      name='twitter:image'
-      content={AIRDROP_IMG}
-    />
-    <meta
-      property='og:title'
-      content={metaTitle}
-    />
-    <meta
-      property='og:description'
-      content={metaDescription}
-    />
-    <meta property='og:image'
-      content={AIRDROP_IMG}
-    />
-  </Helmet>
+  return (
+    <Helmet>
+      <meta charSet='utf-8' />
+      <title>Airdrop</title>
+      <meta property='description'
+        content={metaDescription}
+      />
+      <meta property='image'
+        content={AIRDROP_IMG}
+      />
+      <meta name='twitter:card'
+        content='summary_large_image'
+      />
+      <meta
+        name='twitter:title'
+        content={metaTitle}
+      />
+      <meta name='twitter:site'
+        content='@yup_io'
+      />
+      <meta
+        name='twitter:description'
+        content={metaDescription}
+      />
+      <meta
+        name='twitter:image'
+        content={AIRDROP_IMG}
+      />
+      <meta
+        property='og:title'
+        content={metaTitle}
+      />
+      <meta
+        property='og:description'
+        content={metaDescription}
+      />
+      <meta property='og:image'
+        content={AIRDROP_IMG}
+      />
+    </Helmet>
   )
 }
 
 class AirdropPage extends Component {
   state = {
     isLoading: false,
-    polyAddress: this.props.location.pathname.split('/')[2] || '',
+    polygonAddress: this.props.location.pathname.split('/')[2] || '',
     airdrop: null,
     dialogOpen: false,
     snackbarMsg: null
   }
-
-  handleInput = e => { this.setState({ polyAddress: (e.target.value).toLowerCase() }) }
-
   componentDidMount = () => {
-    const polyAddress = this.props.location.pathname.split('/')[2]
-    if (polyAddress) {
-      this.setState({ polyAddress }, () => { this.fetchAirdropData() })
+    const polygonAddress = this.props.location.pathname.split('/')[2]
+    if (polygonAddress) {
+      this.setState({ polygonAddress }, () => { this.fetchAirdropData() })
     }
   }
 
-  onSubmit = e => {
-    e.preventDefault()
-    this.props.history.push(`/airdrop/${this.state.polyAddress}`)
-    this.setState({ isLoading: true })
-    this.fetchAirdropData()
+  handleInput = e => { this.setState({ polygonAddress: (e.target.value).toLowerCase() }) }
+  handleDialogClose = () => { this.setState({ dialogOpen: false }) }
+
+  onSubmit = async (e) => {
+    try {
+      this.setState({ isLoading: true })
+      if (!this.state.airdrop) {
+        await this.fetchAirdropData()
+      }
+      e.preventDefault()
+      this.props.history.push(`/airdrop/${this.state.polygonAddress}`)
+      this.setState({ isLoading: true })
+      await this.claimAirdrop()
+    } catch (err) {
+      if (err.response && err.response.status === 422) {
+        this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
+      }
+    }
+  }
+
+  claimAirdrop = async () => {
+    try {
+      this.setState({ isLoading: true })
+      const { polygonAddress } = this.state
+      const { account } = this.props
+      const auth = await getAuth(account)
+      const params = { polygonAddress, eosname: account.name, ...auth }
+      const res = (await axios.post(`${BACKEND_API}/airdrop/claim`, params)).data
+      console.log(`res`, res)
+    } catch (err) {
+      this.setState({ snackbarMsg: 'Something went wrong' })
+    }
+    this.setState({ isLoading: false })
   }
 
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   fetchAirdropData = async () => {
     try {
-      const airdrop = (await (axios.get(`${BACKEND_API}/rewards/eth/${this.state.polyAddress}`))).data.creatorRewards
+      this.setState({ isLoading: true })
+      const airdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
+      console.log(`airdrop`, airdrop)
       localStorage.setItem('POLY_AIRDROP', airdrop)
       this.setState({ airdrop })
     } catch (err) {
-      if (err.response && err.response.status === 422) {
-        this.setState({ snackbarMsg: 'Please enter a valid polyhon address' })
-      }
+      this.setState({ snackbarMsg: 'Something went wrong' })
     }
     this.setState({ isLoading: false })
   }
-  openWalletConnectDialog = () => this.setState({ dialogOpen: true })
-  handleDialogClose = () => this.setState({ dialogOpen: false })
 
   render () {
-    const { classes } = this.props
-    const { isLoading, airdrop, dialogOpen, snackbarMsg, polyAddress } = this.state
+    const { classes, account } = this.props
+    const { isLoading, airdrop, snackbarMsg, polygonAddress } = this.state
+    console.log(`polygonAddress`, !!polygonAddress)
     return (
       <ErrorBoundary>
-        <AirdropMetaTags polyAddress={polyAddress}
+        <AirdropMetaTags polygonAddress={polygonAddress}
           airdrop={airdrop}
         />
         <div className={classes.container}>
@@ -178,17 +208,15 @@ class AirdropPage extends Component {
               elevation={0}
             >
               <Grid container
-                justify='space-between'
                 alignItems='center'
-                direction='row'
+                direction='column'
                 spacing={3}
               >
                 <Grid
                   container
                   direction='row'
-                  alignItems='center'
                   justify='space-around'
-                  spacing={1}
+                  className={classes.imgBanner}
                 >
                   <Grid item>
                     <img
@@ -213,18 +241,19 @@ class AirdropPage extends Component {
                 <Grid item
                   xs={12}
                 >
-                  <form onSubmit={this.onSubmit}>
+                  <form>
                     <YupInput
                       fullWidth
                       id='address'
                       maxLength={50}
-                      label={'Polygon address'}
+                      label={'Address'}
                       type='text'
                       onSubmit={this.onSubmit}
-                      value={this.state.polyAddress}
+                      value={this.state.polygonAddress}
                       variant='outlined'
                       onChange={this.handleInput}
-                    /></form>
+                    />
+                  </form>
                 </Grid>
               </Grid>
             </Card>
@@ -251,7 +280,7 @@ class AirdropPage extends Component {
                       className={classes.skeleton}
                       >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton>
                       : <CountUp
-                        end={airdrop}
+                        end={airdrop && airdrop.amount}
                         decimals={2}
                         start={0}
                         duration={1}
@@ -261,23 +290,32 @@ class AirdropPage extends Component {
                 </Grid>
               </Grid>
             </Card>
-            {airdrop !== null && (
-              <>
-                <Button
-                  fullWidth
-                  className={classes.btn}
-                  onClick={this.openWalletConnectDialog}
-                  variant='contained'
-                >
-                  Claim
-                </Button>
-                <SubscribeDialog
-                  dialogOpen={dialogOpen}
-                  handleDialogClose={this.handleDialogClose}
-                />
-              </>
-            )}
+            {account && account.name ? (
+              <Button
+                fullWidth
+                className={classes.btn}
+                variant='contained'
+                disabled={polygonAddress === ''}
+                onClick={this.onSubmit}
+              >
+                Claim
+              </Button>
+            )
+            : <Button
+              fullWidth
+              onClick={() => { this.setState({ dialogOpen: true }) }}
+              className={classes.btn}
+              variant='contained'
+              >
+              Login
+            </Button>
+          }
           </Grid>
+          <SubscribeDialog
+            account={account}
+            dialogOpen={this.state.dialogOpen}
+            handleDialogClose={this.handleDialogClose}
+          />
         </div>
       </ErrorBoundary>
     )
@@ -287,12 +325,13 @@ class AirdropPage extends Component {
 AirdropPage.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  account: PropTypes.object,
   location: PropTypes.object.isRequired
 }
 
 AirdropMetaTags.propTypes = {
   airdrop: PropTypes.string,
-  polyAddress: PropTypes.string
+  polygonAddress: PropTypes.string
 }
 
 const mapStateToProps = (state, ownProps) => {
