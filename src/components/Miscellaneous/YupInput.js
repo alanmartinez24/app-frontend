@@ -35,7 +35,6 @@ const YupInput = ({ classes, maxLength, onSubmit, ...restProps }) => {
   const endAdornment = onSubmit
     ? <InputAdornment position='end'>
       <IconButton
-        aria-label='Submit my address to clim airdrop'
         onClick={onSubmit}
         edge='end'
       >

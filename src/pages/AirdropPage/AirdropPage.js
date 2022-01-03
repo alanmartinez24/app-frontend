@@ -62,6 +62,52 @@ const styles = theme => ({
   }
 })
 
+const AirdropMetaTags = ({ polyAddress, airdrop }) => {
+  const metaDescription = polyAddress ? `${polyAddress.slice(0, 5)}...${polyAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
+  : `Claim your airdrop on Polygon`
+  const metaTitle = 'yup NFT Creator Rewards'
+  return (<Helmet>
+    <meta charSet='utf-8' />
+    <title>Airdrop</title>
+    <meta property='description'
+      content={metaDescription}
+    />
+    <meta property='image'
+      content={AIRDROP_IMG}
+    />
+    <meta name='twitter:card'
+      content='summary_large_image'
+    />
+    <meta
+      name='twitter:title'
+      content={metaTitle}
+    />
+    <meta name='twitter:site'
+      content='@yup_io'
+    />
+    <meta
+      name='twitter:description'
+      content={metaDescription}
+    />
+    <meta
+      name='twitter:image'
+      content={AIRDROP_IMG}
+    />
+    <meta
+      property='og:title'
+      content={metaTitle}
+    />
+    <meta
+      property='og:description'
+      content={metaDescription}
+    />
+    <meta property='og:image'
+      content={AIRDROP_IMG}
+    />
+  </Helmet>
+  )
+}
+
 class AirdropPage extends Component {
   state = {
     isLoading: false,
@@ -107,50 +153,11 @@ class AirdropPage extends Component {
   render () {
     const { classes } = this.props
     const { isLoading, airdrop, dialogOpen, snackbarMsg, polyAddress } = this.state
-    const metaDescription = polyAddress ? `${polyAddress.slice(0, 5)}...${polyAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
-    : `Claim your airdrop on Polygon`
-    const metaTitle = 'yup NFT Creator Rewards'
     return (
       <ErrorBoundary>
-        <Helmet>
-          <meta charSet='utf-8' />
-          <title>Airdrop</title>
-          <meta property='description'
-            content={metaDescription}
-          />
-          <meta property='image'
-            content={AIRDROP_IMG}
-          />
-          <meta name='twitter:card'
-            content='summary_large_image'
-          />
-          <meta
-            name='twitter:title'
-            content={metaTitle}
-          />
-          <meta name='twitter:site'
-            content='@yup_io'
-          />
-          <meta
-            name='twitter:description'
-            content={metaDescription}
-          />
-          <meta
-            name='twitter:image'
-            content={AIRDROP_IMG}
-          />
-          <meta
-            property='og:title'
-            content={metaTitle}
-          />
-          <meta
-            property='og:description'
-            content={metaDescription}
-          />
-          <meta property='og:image'
-            content={AIRDROP_IMG}
-          />
-        </Helmet>
+        <AirdropMetaTags polyAddress={polyAddress}
+          airdrop={airdrop}
+        />
         <div className={classes.container}>
           <Snackbar
             autoHideDuration={3000}
@@ -169,7 +176,6 @@ class AirdropPage extends Component {
           >
             <Card className={classes.card}
               elevation={0}
-              style={{ background: 'transparent', boxShadow: 'none', padding: '16px 4px' }}
             >
               <Grid container
                 justify='space-between'
@@ -177,11 +183,31 @@ class AirdropPage extends Component {
                 direction='row'
                 spacing={3}
               >
+                <Grid
+                  container
+                  direction='row'
+                  alignItems='center'
+                  justify='space-around'
+                  spacing={1}
+                >
+                  <Grid item>
+                    <img
+                      src='/images/graphics/yup-logo.svg'
+                      alt='yup logo'
+                    />
+                  </Grid>
+                  <Grid item>
+                    <img
+                      src='/images/graphics/polygon-logo.svg'
+                      alt='polygon logo'
+                    />
+                  </Grid>
+                </Grid>
                 <Grid item>
                   <Typography
                     variant='h4'
                   >
-                    Claim your Polygon Airdrop
+                    Polygon Airdrop
                   </Typography>
                 </Grid>
                 <Grid item
@@ -263,6 +289,12 @@ AirdropPage.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired
 }
+
+AirdropMetaTags.propTypes = {
+  airdrop: PropTypes.string,
+  polyAddress: PropTypes.string
+}
+
 const mapStateToProps = (state, ownProps) => {
   const account = accountInfoSelector(state)
   return { account }
