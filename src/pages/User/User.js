@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom'
 import Img from 'react-image'
 import rollbar from '../../utils/rollbar'
 
-const { BACKEND_API, REWARDS_MANAGER_API } = process.env
+const { BACKEND_API, REWARDS_MANAGER_API, WEB_APP_URL } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 const LIMIT_COLLECTIONS = 5
 const showTabs = window.innerWidth <= 1300
@@ -868,8 +868,11 @@ class User extends Component {
           <CreateCollectionFab />
           <ShareTwitterDialog
             dialogOpen={twitterDialogOpen}
-            rewards={rewards}
             handleDialogClose={this.handleTwitterDialogClose}
+            tweetTitle={`Claiming creator rewards on @yup_io`}
+            url={`${WEB_APP_URL}/rewards`}
+            headerText={`You have been allocated ${Math.round(rewards)} YUP!`}
+            bodyText={`Please share on Twitter to claim your rewards. You should receive your tokens within a few minutes.`}
           />
         </div>
       </ErrorBoundary>

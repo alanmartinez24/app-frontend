@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Snackbar, SnackbarContent } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Snackbar, SnackbarContent, IconButton, Icon } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
@@ -19,7 +19,7 @@ import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
 
 const BACKEND_API = 'http://localhost:4001'
-// const { BACKEND_API } = process.env
+const { WEB_APP_URL } = process.env
 
 const styles = theme => ({
   page: {
@@ -63,37 +63,41 @@ class AirdropPage extends Component {
     isLoading: false,
     polygonAddress: this.props.location.pathname.split('/')[2] || '',
     airdrop: null,
-    dialogOpen: false,
+    subscribeDialogOpen: false,
+    twitterDialogOpen: false,
     snackbarMsg: null,
-    activeStep: 0
+    activeStep: 3
   }
 
   handleInput = e => this.setState({ polygonAddress: (e.target.value).toLowerCase() })
 
-  handleDialogClose = () => this.setState({ dialogOpen: false })
+  handleSubscribeDialogClose = () => this.setState({ subscribeDialogOpen: false })
+  handleSubscribeDialogOpen = () => this.setState({ subscribeDialogOpen: true })
 
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
+
+  handleTwitterDialogOpen = () => this.setState({ twitterDialogOpen: true })
+  handleTwitterDialogClose = () => this.setState({ twitterDialogOpen: false })
 
   claimAirdrop = async () => {
     const { polygonAddress } = this.state
     const { account } = this.props
+    if (!isAddress(polygonAddress)) {
+      this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
+      return
+    }
 
-      if (!isAddress(polygonAddress)) {
-        this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
-        return
-      }
+    this.setState({ isLoading: true, activeStep: 2 })
+    const auth = await getAuth(account)
+    const params = { polygonAddress, eosname: account.name, ...auth }
 
-      this.setState({ isLoading: true })
-      const auth = await getAuth(account)
-      const params = { polygonAddress, eosname: account.name, ...auth }
-
-      try {
-        await axios.post(`${BACKEND_API}/airdrop/claim`, params)
-        this.setState({ activeStep: 2 })
-      } catch (err) {
-        rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
-        this.setState({ snackbarMsg: 'Oops, something went wrong.' })
-      }
+    try {
+      await axios.post(`${BACKEND_API}/airdrop/claim`, params)
+      this.setState({ activeStep: 3 })
+    } catch (err) {
+      rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
+      this.setState({ snackbarMsg: 'Something went wrong. Try again later.' })
+    }
     this.setState({ isLoading: false })
   }
 
@@ -104,16 +108,17 @@ class AirdropPage extends Component {
       this.setState({ airdrop, activeStep: 1 })
     } catch (err) {
       rollbar.error(`Error fetching airdrop data: ${JSON.stringify(err)}`)
-      this.setState({ snackbarMsg: 'Something went wrong' })
+      this.setState({ snackbarMsg: 'Something went wrong. Try again later.' })
     }
     this.setState({ isLoading: false })
   }
 
   render () {
     const { classes, account } = this.props
-    const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep } = this.state
+    const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen, twitterDialogOpen } = this.state
 
     const enableClaim = airdrop && isAddress(polygonAddress)
+    const shareStep = activeStep === 3
     const steps = ['Check elgibility', 'Claim your tokens', 'Let everyone know']
 
     return (
@@ -172,12 +177,12 @@ class AirdropPage extends Component {
                 <Typography
                   variant='h4'
                 >
-                  Polygon Airdrop
+                  {shareStep ? 'Let Everyone Know' : 'Polygon Airdrop'}
                 </Typography>
               </Grid>
               <Grid item>
                 <YupInput
-                  style={{ width: 300 }}
+                  style={{ width: 300, display: shareStep ? 'none' : 'inherit' }}
                   fullWidth
                   id='address'
                   maxLength={50}
@@ -189,6 +194,7 @@ class AirdropPage extends Component {
                   onChange={this.handleInput}
                 />
               </Grid>
+
               <Grid item
                 className={classes.balanceContainer}
               >
@@ -205,7 +211,7 @@ class AirdropPage extends Component {
                 </Typography>
               </Grid>
               <Grid item>
-                {account && account.name ? (
+                {!shareStep ? account && account.name ? (
                   <LoaderButton
                     fullWidth
                     className={classes.btn}
@@ -218,12 +224,17 @@ class AirdropPage extends Component {
             )
             : <Button
               fullWidth
-              onClick={() => this.setState({ dialogOpen: true })}
+              onClick={this.handleSubscribeDialogOpen}
               className={classes.btn}
               variant='contained'
               >
               Login
             </Button>
+            : <IconButton
+              onClick={this.handleTwitterDialogOpen}
+              >
+              {/* <Icon className='fa fa-twitter' /> */}
+            </IconButton>
           }
               </Grid>
             </Grid>
@@ -231,10 +242,17 @@ class AirdropPage extends Component {
         </Grid>
         <SubscribeDialog
           account={account}
-          dialogOpen={this.state.dialogOpen}
-          handleDialogClose={this.handleDialogClose}
+          dialogOpen={subscribeDialogOpen}
+          handleDialogClose={this.handleSubscribeDialogClose}
         />
-        <TwitterShareButton />
+        <TwitterShareButton
+          dialogOpen={twitterDialogOpen}
+          handleDialogClose={this.handleTwitterDialogClose}
+          tweetTitle={`Claiming #polygon airdrop on @yup_io`}
+          url={`${WEB_APP_URL}/airdrop`}
+          headerText={`You have succesfully claimed ${Math.round(airdrop && airdrop.amount)} YUP on polygon!`}
+          bodyText={`Talk about it on Twitter`}
+        />
       </ErrorBoundary>
     )
   }
