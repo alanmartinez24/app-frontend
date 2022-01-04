@@ -375,4 +375,5 @@ SubscribeDialog.propTypes = {
   account: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
+
 export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))
