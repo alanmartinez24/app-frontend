@@ -35,10 +35,10 @@ const styles = theme => ({
   btn: {
     backgroundColor: '#00E08E',
     fontFamily: 'Gilroy',
-    width: 380,
-    height: '45px',
+    width: '80%',
+    height: 30,
     borderRadius: '0.65rem',
-    marginTop: 15,
+    marginTop: 5,
     color: '#fff',
     '&:hover': {
       backgroundColor: '#00E08E'
@@ -50,17 +50,23 @@ const styles = theme => ({
     overflowX: 'hidden',
     flex: 1
   },
+  balanceContainer: {
+    borderRadius: '0.5rem',
+    border: 'solid 2px #1D1E1F',
+    width: '100%',
+    padding: 5
+  },
   card: {
     padding: theme.spacing(2),
     height: '70%',
-    width: 380,
+    width: 400,
     marginBottom: 0,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
     backgroundColor: theme.palette.alt.second,
     [theme.breakpoints.down('xs')]: {
       marginBottom: '20vh',
-      width: '90%'
+      width: 300
     }
   },
   skeleton: {
@@ -78,12 +84,12 @@ class AirdropPage extends Component {
     snackbarMsg: null,
     activeStep: 1
   }
-  componentDidMount = () => {
-    const polygonAddress = this.props.location.pathname.split('/')[2]
-    if (polygonAddress) {
-      this.setState({ polygonAddress }, () => { this.fetchAirdropData() })
-    }
-  }
+  // componentDidMount = () => {
+  //   const polygonAddress = this.props.location.pathname.split('/')[2]
+  //   if (polygonAddress) {
+  //     this.setState({ polygonAddress }, () => { this.fetchAirdropData() })
+  //   }
+  // }
 
   handleInput = e => { this.setState({ polygonAddress: (e.target.value).toLowerCase() }) }
 
@@ -116,7 +122,6 @@ class AirdropPage extends Component {
     try {
       this.setState({ isLoading: true })
       const airdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
-      localStorage.setItem('POLY_AIRDROP', airdrop)
       this.setState({ airdrop, activeStep: 2 })
     } catch (err) {
       this.setState({ snackbarMsg: 'Something went wrong' })
@@ -127,8 +132,8 @@ class AirdropPage extends Component {
   render () {
     const { classes, account } = this.props
     const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep } = this.state
-    const enableClaim = airdrop && isAddress(polygonAddress)
 
+    const enableClaim = airdrop && isAddress(polygonAddress)
     const steps = ['Check elgibility', 'Claim your tokens', 'Let everyone know']
 
     return (
@@ -153,12 +158,12 @@ class AirdropPage extends Component {
             justify='center'
             alignItems='center'
           >
-            <YupStepper steps={steps}
-              activeStep={activeStep}
-            />
             <Card className={classes.card}
               elevation={0}
             >
+              <YupStepper steps={steps}
+                activeStep={activeStep}
+              />
               <Grid container
                 alignItems='center'
                 direction='column'
@@ -205,30 +210,11 @@ class AirdropPage extends Component {
                     onChange={this.handleInput}
                   />
                 </Grid>
-              </Grid>
-            </Card>
-            <Card className={classes.card}
-              style={{ display: airdrop !== null || isLoading ? 'inherit' : 'none' }}
-              elevation={0}
-            >
-              <Grid container
-                direction='row'
-              >
-                <Grid
-                  item
-                  container
-                  justifyContent='center'
-                  alignItems='center'
-                  direction='row'
-                >
-                  <Typography variant='h2'
-                    style={{ color: '#00E08E' }}
+                <Grid item>
+                  <Typography variant='h4'
+                    className={classes.balanceContainer}
+                    style={{ color: airdrop ? '#00E08E' : '#616467' }}
                   >
-                    {/* { isLoading && (<Skeleton
-                      animation='pulse'
-                      className={classes.skeleton}
-                                    >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton>)} */}
-                    {airdrop && airdrop.amount && (
                     <CountUp
                       end={airdrop && airdrop.amount}
                       decimals={2}
@@ -236,22 +222,21 @@ class AirdropPage extends Component {
                       duration={1}
                       suffix=' YUP'
                     />
-                      )}
                   </Typography>
                 </Grid>
-              </Grid>
-            </Card>
-            {account && account.name ? (
-              <LoaderButton
-                fullWidth
-                className={classes.btn}
-                variant='contained'
-                buttonText={'Claim'}
-                disabled={!enableClaim}
-                isLoading={isLoading}
-                onClick={this.claimAirdrop}
-              />
-
+                <Grid item
+                  xs={12}
+                >
+                  {account && account.name ? (
+                    <LoaderButton
+                      fullWidth
+                      className={classes.btn}
+                      variant='contained'
+                      buttonText='Claim'
+                      disabled={!enableClaim}
+                      isLoading={isLoading}
+                      onClick={this.claimAirdrop}
+                    />
             )
             : <Button
               fullWidth
@@ -262,6 +247,9 @@ class AirdropPage extends Component {
               Login
             </Button>
           }
+                </Grid>
+              </Grid>
+            </Card>
           </Grid>
           <SubscribeDialog
             account={account}

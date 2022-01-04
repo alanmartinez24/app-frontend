@@ -4,6 +4,7 @@ import { StepLabel, Stepper, Step } from '@material-ui/core'
 // import { styled } from '@mui/material/styles'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useTheme } from '@material-ui/styles'
 
 // const ColorlibConnector = styled(StepConnector)(() => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -30,9 +31,11 @@ import PropTypes from 'prop-types'
 // }))
 
 const YupStepper = ({ steps, activeStep }) => {
+  const theme = useTheme()
   return (
     <Stepper alternativeLabel
       activeStep={activeStep}
+      style={{ backgroundColor: theme.palette.alt.second }}
     >
       {steps.map((label) => (
         <Step key={label}>
