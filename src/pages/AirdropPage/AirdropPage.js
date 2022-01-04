@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography, Card, Button, Snackbar, SnackbarContent } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import Colors from '../../utils/colors'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
@@ -11,67 +10,51 @@ import CountUp from 'react-countup'
 import { accountInfoSelector } from '../../redux/selectors'
 import { connect } from 'react-redux'
 import { getAuth } from '../../utils/authentication'
+import rollbar from '../../utils/rollbar'
 import MetaTags from '../../components/Airdrop/MetaTags'
 import YupStepper from '../../components/Airdrop/YupStepper'
 import LoaderButton from '../../components/Miscellaneous/LoaderButton'
-
 import { isAddress } from 'web3-utils'
+import { TwitterShareButton } from 'react-share'
+import Colors from '../../utils/colors'
 
 const BACKEND_API = 'http://localhost:4001'
 // const { BACKEND_API } = process.env
 
 const styles = theme => ({
-  container: {
+  page: {
+    overflow: 'hidden',
     minHeight: '100vh',
     maxWidth: '100vw',
-    display: 'flex',
-    flexDirection: 'column',
-    overflowY: 'hidden',
     backgroundColor: theme.palette.alt.second
   },
-  imgBanner: {
-    marginTop: 20
-  },
-  btn: {
-    backgroundColor: '#00E08E',
-    fontFamily: 'Gilroy',
-    width: '80%',
-    height: 30,
-    borderRadius: '0.65rem',
-    marginTop: 5,
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#00E08E'
-    }
-  },
-  page: {
-    width: '100%',
-    marginLeft: 0,
-    overflowX: 'hidden',
-    flex: 1
-  },
   balanceContainer: {
-    borderRadius: '0.5rem',
-    border: 'solid 2px #1D1E1F',
-    width: '100%',
-    padding: 5
+    borderRadius: '0.65rem',
+    border: `solid 2px ${Colors.B6}`,
+    padding: '2px 75px',
+    width: 300
   },
   card: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     height: '70%',
-    width: 400,
-    marginBottom: 0,
+    width: 450,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
     backgroundColor: theme.palette.alt.second,
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '20vh',
-      width: 300
+      width: 350
     }
   },
-  skeleton: {
-    background: `linear-gradient(90deg, ${Colors.Green}33, ${Colors.Moss}33, ${Colors.Yellow}33, ${Colors.Orange}33,  ${Colors.Red}33)`,
-    transform: 'none'
+  btn: {
+    backgroundColor: Colors.Green,
+    fontFamily: 'Gilroy',
+    width: 300,
+    height: 35,
+    borderRadius: '0.65rem',
+    color: Colors.White,
+    '&:hover': {
+      backgroundColor: Colors.Green
+    }
   }
 })
 
@@ -82,48 +65,45 @@ class AirdropPage extends Component {
     airdrop: null,
     dialogOpen: false,
     snackbarMsg: null,
-    activeStep: 1
+    activeStep: 0
   }
-  // componentDidMount = () => {
-  //   const polygonAddress = this.props.location.pathname.split('/')[2]
-  //   if (polygonAddress) {
-  //     this.setState({ polygonAddress }, () => { this.fetchAirdropData() })
-  //   }
-  // }
 
-  handleInput = e => { this.setState({ polygonAddress: (e.target.value).toLowerCase() }) }
+  handleInput = e => this.setState({ polygonAddress: (e.target.value).toLowerCase() })
 
-  handleDialogClose = () => { this.setState({ dialogOpen: false }) }
+  handleDialogClose = () => this.setState({ dialogOpen: false })
+
+  handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   claimAirdrop = async () => {
-    try {
-      if (!isAddress(this.state.polygonAddress)) {
+    const { polygonAddress } = this.state
+    const { account } = this.props
+
+      if (!isAddress(polygonAddress)) {
         this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
         return
       }
+
       this.setState({ isLoading: true })
-      const { polygonAddress } = this.state
-      const { account } = this.props
-      this.props.history.push(`/airdrop/${polygonAddress}`)
       const auth = await getAuth(account)
       const params = { polygonAddress, eosname: account.name, ...auth }
-      const res = (await axios.post(`${BACKEND_API}/airdrop/claim`, params)).data
-      console.log(`res`, res)
-      this.setState({ activeStep: 3 })
-    } catch (err) {
-      this.setState({ snackbarMsg: 'Something went wrong' })
-    }
+
+      try {
+        await axios.post(`${BACKEND_API}/airdrop/claim`, params)
+        this.setState({ activeStep: 2 })
+      } catch (err) {
+        rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
+        this.setState({ snackbarMsg: 'Oops, something went wrong.' })
+      }
     this.setState({ isLoading: false })
   }
-
-  handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   fetchAirdropData = async () => {
     try {
       this.setState({ isLoading: true })
       const airdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
-      this.setState({ airdrop, activeStep: 2 })
+      this.setState({ airdrop, activeStep: 1 })
     } catch (err) {
+      rollbar.error(`Error fetching airdrop data: ${JSON.stringify(err)}`)
       this.setState({ snackbarMsg: 'Something went wrong' })
     }
     this.setState({ isLoading: false })
@@ -141,122 +121,120 @@ class AirdropPage extends Component {
         <MetaTags polygonAddress={polygonAddress}
           airdrop={airdrop}
         />
-        <div className={classes.container}>
-          <Snackbar
-            autoHideDuration={3000}
-            onClose={this.handleSnackbarClose}
-            open={!!snackbarMsg}
-          >
-            <SnackbarContent
-              message={snackbarMsg}
-            />
-          </Snackbar>
+        <Snackbar
+          autoHideDuration={3000}
+          onClose={this.handleSnackbarClose}
+          open={!!snackbarMsg}
+        >
+          <SnackbarContent
+            message={snackbarMsg}
+          />
+        </Snackbar>
 
-          <Grid className={classes.page}
-            container
-            direction='column'
-            justify='center'
-            alignItems='center'
+        <Grid className={classes.page}
+          container
+          direction='column'
+          justify='center'
+          alignItems='center'
+        >
+          <Card className={classes.card}
+            elevation={0}
           >
-            <Card className={classes.card}
-              elevation={0}
+            <YupStepper steps={steps}
+              activeStep={activeStep}
+            />
+            <Grid container
+              alignItems='center'
+              direction='column'
+              justify='center'
+              spacing={3}
             >
-              <YupStepper steps={steps}
-                activeStep={activeStep}
-              />
-              <Grid container
-                alignItems='center'
-                direction='column'
-                spacing={3}
+              <Grid
+                container
+                direction='row'
+                justify='space-around'
+                style={{ marginTop: 10 }}
               >
-                <Grid
-                  container
-                  direction='row'
-                  justify='space-around'
-                  className={classes.imgBanner}
-                >
-                  <Grid item>
-                    <img
-                      src='/images/graphics/yup-logo.svg'
-                      alt='yup logo'
-                    />
-                  </Grid>
-                  <Grid item>
-                    <img
-                      src='/images/graphics/polygon-logo.svg'
-                      alt='polygon logo'
-                    />
-                  </Grid>
-                </Grid>
                 <Grid item>
-                  <Typography
-                    variant='h4'
-                  >
-                    Polygon Airdrop
-                  </Typography>
-                </Grid>
-                <Grid item
-                  xs={12}
-                >
-                  <YupInput
-                    fullWidth
-                    id='address'
-                    maxLength={50}
-                    label={'Address'}
-                    type='text'
-                    onSubmit={this.fetchAirdropData}
-                    value={this.state.polygonAddress}
-                    variant='outlined'
-                    onChange={this.handleInput}
+                  <img
+                    src='/images/graphics/yup-logo.svg'
+                    alt='yup logo'
                   />
                 </Grid>
                 <Grid item>
-                  <Typography variant='h4'
-                    className={classes.balanceContainer}
-                    style={{ color: airdrop ? '#00E08E' : '#616467' }}
-                  >
-                    <CountUp
-                      end={airdrop && airdrop.amount}
-                      decimals={2}
-                      start={0}
-                      duration={1}
-                      suffix=' YUP'
-                    />
-                  </Typography>
+                  <img
+                    src='/images/graphics/polygon-logo.svg'
+                    alt='polygon logo'
+                  />
                 </Grid>
-                <Grid item
-                  xs={12}
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant='h4'
                 >
-                  {account && account.name ? (
-                    <LoaderButton
-                      fullWidth
-                      className={classes.btn}
-                      variant='contained'
-                      buttonText='Claim'
-                      disabled={!enableClaim}
-                      isLoading={isLoading}
-                      onClick={this.claimAirdrop}
-                    />
+                  Polygon Airdrop
+                </Typography>
+              </Grid>
+              <Grid item>
+                <YupInput
+                  style={{ width: 300 }}
+                  fullWidth
+                  id='address'
+                  maxLength={50}
+                  label='Address'
+                  type='text'
+                  onSubmit={this.fetchAirdropData}
+                  value={polygonAddress}
+                  variant='outlined'
+                  onChange={this.handleInput}
+                />
+              </Grid>
+              <Grid item
+                className={classes.balanceContainer}
+              >
+                <Typography variant='h4'
+                  style={{ color: airdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                >
+                  <CountUp
+                    end={airdrop && airdrop.amount}
+                    decimals={2}
+                    start={0}
+                    duration={2}
+                    suffix=' YUP'
+                  />
+                </Typography>
+              </Grid>
+              <Grid item>
+                {account && account.name ? (
+                  <LoaderButton
+                    fullWidth
+                    className={classes.btn}
+                    variant='contained'
+                    buttonText='Claim'
+                    disabled={!enableClaim}
+                    isLoading={isLoading}
+                    onClick={this.claimAirdrop}
+                  />
             )
             : <Button
               fullWidth
-              onClick={() => { this.setState({ dialogOpen: true }) }}
+              onClick={() => this.setState({ dialogOpen: true })}
               className={classes.btn}
               variant='contained'
               >
               Login
             </Button>
           }
-                </Grid>
               </Grid>
-            </Card>
-          </Grid>
-          <SubscribeDialog
-            account={account}
-            dialogOpen={this.state.dialogOpen}
-            handleDialogClose={this.handleDialogClose}
-          />
-        </div>
+            </Grid>
+          </Card>
+        </Grid>
+        <SubscribeDialog
+          account={account}
+          dialogOpen={this.state.dialogOpen}
+          handleDialogClose={this.handleDialogClose}
+        />
+        <TwitterShareButton />
       </ErrorBoundary>
     )
   }
@@ -264,7 +242,6 @@ class AirdropPage extends Component {
 
 AirdropPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   account: PropTypes.object,
   location: PropTypes.object.isRequired
 }
