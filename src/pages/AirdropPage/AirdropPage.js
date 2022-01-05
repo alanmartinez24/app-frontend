@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Snackbar, SnackbarContent, IconButton, Icon } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Snackbar, SnackbarContent, Icon } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
@@ -45,6 +45,9 @@ const styles = theme => ({
       width: 350
     }
   },
+  twitterButton: {
+    height: 50
+  },
   btn: {
     backgroundColor: Colors.Green,
     fontFamily: 'Gilroy',
@@ -64,9 +67,8 @@ class AirdropPage extends Component {
     polygonAddress: this.props.location.pathname.split('/')[2] || '',
     airdrop: null,
     subscribeDialogOpen: false,
-    twitterDialogOpen: false,
     snackbarMsg: null,
-    activeStep: 3
+    activeStep: 0
   }
 
   handleInput = e => this.setState({ polygonAddress: (e.target.value).toLowerCase() })
@@ -75,9 +77,6 @@ class AirdropPage extends Component {
   handleSubscribeDialogOpen = () => this.setState({ subscribeDialogOpen: true })
 
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
-
-  handleTwitterDialogOpen = () => this.setState({ twitterDialogOpen: true })
-  handleTwitterDialogClose = () => this.setState({ twitterDialogOpen: false })
 
   claimAirdrop = async () => {
     const { polygonAddress } = this.state
@@ -115,7 +114,7 @@ class AirdropPage extends Component {
 
   render () {
     const { classes, account } = this.props
-    const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen, twitterDialogOpen } = this.state
+    const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
 
     const enableClaim = airdrop && isAddress(polygonAddress)
     const shareStep = activeStep === 3
@@ -230,11 +229,15 @@ class AirdropPage extends Component {
               >
               Login
             </Button>
-            : <IconButton
-              onClick={this.handleTwitterDialogOpen}
+            : <TwitterShareButton
+              url={`${WEB_APP_URL}/airdrop`}
+              title={`Claiming #polygon airdrop on @yup_io`}
+              hashtags={['YUP']}
+              windowWidth={800}
+              windowHeight={600}
               >
-              {/* <Icon className='fa fa-twitter' /> */}
-            </IconButton>
+              <Icon className='fa fa-twitter fa-2x' />
+            </TwitterShareButton>
           }
               </Grid>
             </Grid>
@@ -244,14 +247,6 @@ class AirdropPage extends Component {
           account={account}
           dialogOpen={subscribeDialogOpen}
           handleDialogClose={this.handleSubscribeDialogClose}
-        />
-        <TwitterShareButton
-          dialogOpen={twitterDialogOpen}
-          handleDialogClose={this.handleTwitterDialogClose}
-          tweetTitle={`Claiming #polygon airdrop on @yup_io`}
-          url={`${WEB_APP_URL}/airdrop`}
-          headerText={`You have succesfully claimed ${Math.round(airdrop && airdrop.amount)} YUP on polygon!`}
-          bodyText={`Talk about it on Twitter`}
         />
       </ErrorBoundary>
     )

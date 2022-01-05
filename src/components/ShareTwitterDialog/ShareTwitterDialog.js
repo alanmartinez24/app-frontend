@@ -30,7 +30,7 @@ class ShareTwitterDialog extends Component {
             ><DialogTitle style={{ paddingBottom: '10px' }}>
               <Typography
                 align='left'
-                className={classes.dialogTitleText}
+                // className={classes.dialogTitleText}
                 variant='h3'
               >
                 {headerText}
@@ -40,7 +40,7 @@ class ShareTwitterDialog extends Component {
                 <DialogContentText style={{ padding: '20px 0px' }}>
                   <Typography
                     align='left'
-                    className={classes.dialogContentText}
+                    // className={classes.dialogContentText}
                     variant='h5'
                   >
                     <span className={classes.desktop}>
@@ -81,7 +81,7 @@ class ShareTwitterDialog extends Component {
 }
 
 ShareTwitterDialog.propTypes = {
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object,
     dialogOpen: PropTypes.bool.isRequired,
     handleDialogClose: PropTypes.func.isRequired,
     bodyText: PropTypes.string.isRequired,
