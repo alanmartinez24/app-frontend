@@ -243,8 +243,9 @@ export const theme = ({ palette }) => {
     },
     MuiDialog: {
       paper: {
-        backgroundColor: palette.alt.second,
+        backgroundColor: `${palette.alt.second}99`,
         borderRadius: '25px',
+        backdropFilter: 'blur(45px)',
         boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
         width: '80%',
         padding: '1rem 0.5rem',
@@ -263,16 +264,21 @@ export const theme = ({ palette }) => {
       }
     },
     MuiStepIcon: {
+      root: {}
+    },
+    MuiStepConnector: {
       root: {
-        color: `${Colors.YupGreen} !important`
-      },
-      text: {
-        fill: `${palette.alt.first} !important`
+        display: 'none'
       }
     },
     MuiStepLabel: {
       label: {
         color: `${palette.common.first} !important`
+        // background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)',
+        // border: '10px solid',
+        // borderImageSlice: 1,
+        // borderWidth: 2,
+        // borderImageSource: 'linear-gradient(45deg, #00e08e, #f0c909, #eb3650)'
       }
     },
     MuiBackdrop: {
