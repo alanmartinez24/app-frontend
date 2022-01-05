@@ -38,15 +38,13 @@ const styles = theme => ({
     padding: theme.spacing(3),
     height: '70%',
     width: 450,
+    marginTop: 50,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
     backgroundColor: theme.palette.alt.second,
     [theme.breakpoints.down('xs')]: {
       width: 350
     }
-  },
-  twitterButton: {
-    height: 50
   },
   btn: {
     backgroundColor: Colors.Green,
@@ -58,6 +56,10 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: Colors.Green
     }
+  },
+  stepper: {
+    position: 'fixed',
+    top: 20
   }
 })
 
@@ -118,7 +120,7 @@ class AirdropPage extends Component {
 
     const enableClaim = airdrop && isAddress(polygonAddress)
     const shareStep = activeStep === 3
-    const steps = ['Check elgibility', 'Claim your tokens', 'Let everyone know']
+    const steps = ['Check', 'Claim', 'Share']
 
     return (
       <ErrorBoundary>
@@ -141,12 +143,13 @@ class AirdropPage extends Component {
           justify='center'
           alignItems='center'
         >
+          <YupStepper steps={steps}
+            activeStep={activeStep}
+            className={classes.stepper}
+          />
           <Card className={classes.card}
             elevation={0}
           >
-            <YupStepper steps={steps}
-              activeStep={activeStep}
-            />
             <Grid container
               alignItems='center'
               direction='column'
@@ -190,6 +193,7 @@ class AirdropPage extends Component {
                   onSubmit={this.fetchAirdropData}
                   value={polygonAddress}
                   variant='outlined'
+                  onClick={() => this.setState({ activeStep: this.state.activeStep + 1 })}
                   onChange={this.handleInput}
                 />
               </Grid>

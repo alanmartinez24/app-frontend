@@ -264,7 +264,16 @@ export const theme = ({ palette }) => {
       }
     },
     MuiStepIcon: {
-      root: {}
+      root: {
+        display: 'none'
+        // background: 'linear-gradient(45deg, #00e08e, #f0c909, #eb3650)'
+      }
+    },
+    MuiStepper: {
+      root: {
+        justifyContent: 'space-around',
+        marginBottom: 20
+      }
     },
     MuiStepConnector: {
       root: {
