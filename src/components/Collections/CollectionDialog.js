@@ -72,9 +72,9 @@ const CollectionDialog = ({ postid, classes, dialogOpen, handleDialogClose, addC
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
       const auth = await getAuth(account)
-      const params = { name, description, postId, ...auth }
+      const params = { name, description, postId, eosname: account.name, ...auth }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
-      addCollectionToRedux(auth.eosname || auth.name, data)
+      addCollectionToRedux(auth.eosname || account.name, data)
       setNewCollectionInfo(data)
       handleSnackbarOpen(`Succesfully created ${name}`)
       handleDialogClose()
