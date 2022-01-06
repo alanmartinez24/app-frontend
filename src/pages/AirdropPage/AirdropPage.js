@@ -162,18 +162,15 @@ class AirdropPage extends Component {
                 justify='space-around'
                 style={{ marginTop: 10 }}
               >
-                <Grid item>
-                  <img
-                    src='/images/graphics/yup-logo.svg'
-                    alt='yup logo'
-                  />
-                </Grid>
-                <Grid item>
-                  <img
-                    src='/images/graphics/polygon-logo.svg'
-                    alt='polygon logo'
-                  />
-                </Grid>
+                <img
+                  src='/images/graphics/yup-logo.svg'
+                  alt='yup logo'
+                />
+
+                <img
+                  src='/images/graphics/polygon-logo.svg'
+                  alt='polygon logo'
+                />
               </Grid>
               <Grid item>
                 <Typography
