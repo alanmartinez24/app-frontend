@@ -67,7 +67,7 @@ const DraggableCollectionPostItem = ({ classes, post, index }) => {
               className={classes.collection}
             >
               <Img
-                src={[previewData.img, DEFAULT_IMG]}
+                src={[previewData ? previewData.img : DEFAULT_IMG, DEFAULT_IMG]}
                 alt='thumbnail'
                 className={classes.collectionImg}
               />
