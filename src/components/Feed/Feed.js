@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { useEffect, memo } from 'react'
 import PostController from '../Post/PostController'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -55,10 +55,32 @@ const styles = theme => ({
   }
 })
 
+let lightMode
+
 function Feed (props) {
   const { posts, classes, isLoading, hasMore, hideInteractions, renderObjects } = props
   // remove duplicate posts
   const formatPosts = Array.from(new Set(posts))
+
+  useEffect(() => {
+    window.twttr = (function (d, s, id) {
+      var js; var fjs = d.getElementsByTagName(s)[0]
+        var t = window.twttr || {}
+      if (d.getElementById(id)) return t
+      js = d.createElement(s)
+      js.id = id
+      js.src = 'https://platform.twitter.com/widgets.js'
+      fjs.parentNode.insertBefore(js, fjs)
+
+      t._e = []
+      t.ready = function (f) {
+        t._e.push(f)
+      }
+
+      return t
+    }(document, 'script', 'twitter-wjs'))
+    lightMode = JSON.parse(localStorage.getItem('lightMode'))
+  }, [])
 
   if (isLoading) {
     return (
@@ -98,6 +120,7 @@ function Feed (props) {
                 post={post}
                 hideInteractions={hideInteractions}
                 classes={classes}
+                lightMode={lightMode}
               />
             ))
           }
