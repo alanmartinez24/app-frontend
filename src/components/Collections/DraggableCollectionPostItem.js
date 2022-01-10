@@ -41,7 +41,7 @@ const styles = theme => ({
 })
 
 const DraggableCollectionPostItem = ({ classes, post, index }) => {
-  if (!post) return null
+  if (post && !post.previewData) return null
   const { _id, previewData } = post
 
     return (
@@ -67,7 +67,7 @@ const DraggableCollectionPostItem = ({ classes, post, index }) => {
               className={classes.collection}
             >
               <Img
-                src={[previewData.img, DEFAULT_IMG]}
+                src={[ previewData.img, DEFAULT_IMG ]}
                 alt='thumbnail'
                 className={classes.collectionImg}
               />

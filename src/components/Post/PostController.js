@@ -228,6 +228,7 @@ class PostController extends Component {
             rating={post.rating}
             hideInteractions={hideInteractions}
             classes={classes}
+            lightMode={this.props.lightMode}
           />
         </ErrorBoundary>
       )
@@ -510,7 +511,8 @@ PostController.propTypes = {
   post: PropTypes.object.isRequired,
   hideInteractions: PropTypes.bool,
   renderObjects: PropTypes.bool,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  lightMode: PropTypes.bool
 }
 
 const mapStateToProps = () => {
