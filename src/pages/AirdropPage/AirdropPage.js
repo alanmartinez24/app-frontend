@@ -36,7 +36,6 @@ const styles = theme => ({
   },
   card: {
     padding: theme.spacing(3),
-    height: '70%',
     width: 450,
     marginTop: 50,
     boxShadow:
@@ -155,6 +154,7 @@ class AirdropPage extends Component {
               direction='column'
               justify='center'
               spacing={3}
+              style={{ height: 400 }}
             >
               <Grid
                 container

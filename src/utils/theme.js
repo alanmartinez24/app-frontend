@@ -282,12 +282,12 @@ export const theme = ({ palette }) => {
     },
     MuiStepLabel: {
       label: {
-        color: `${palette.common.first} !important`
-        // background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)',
-        // border: '10px solid',
-        // borderImageSlice: 1,
-        // borderWidth: 2,
-        // borderImageSource: 'linear-gradient(45deg, #00e08e, #f0c909, #eb3650)'
+        color: `${palette.common.first} !important`,
+        display: 'flex',
+        opacity: 0.5
+      },
+      active: {
+        opacity: 1
       }
     },
     MuiBackdrop: {
@@ -306,6 +306,11 @@ export const theme = ({ palette }) => {
     MuiTouchRipple: {
       root: {
         opacity: 0.2
+      }
+    },
+    MuiCard: {
+      root: {
+        border: `1px solid ${palette.alt.fifth}`
       }
     },
     MuiSkeleton: {
