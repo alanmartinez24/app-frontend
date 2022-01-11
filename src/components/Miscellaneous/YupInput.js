@@ -30,7 +30,8 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, maxLength, onSubmit, ...restProps }) => {
+const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) => {
+  console.log(`inputIsValid`, inputIsValid)
   const theme = useTheme()
   const endAdornment = onSubmit
     ? <InputAdornment position='end'>
@@ -38,7 +39,7 @@ const YupInput = ({ classes, maxLength, onSubmit, ...restProps }) => {
         onClick={onSubmit}
         edge='end'
       >
-        <ArrowForwardIcon />
+        <ArrowForwardIcon style={{ opacity: inputIsValid ? 1 : 0.5 }} />
       </IconButton>
     </InputAdornment> : null
 
@@ -67,7 +68,8 @@ const YupInput = ({ classes, maxLength, onSubmit, ...restProps }) => {
 YupInput.propTypes = {
     classes: PropTypes.object.isRequired,
     maxLength: PropTypes.number,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    inputIsValid: PropTypes.bool.isRequired
   }
 
 export default (withStyles(styles)(YupInput))

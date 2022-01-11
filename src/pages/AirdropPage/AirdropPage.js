@@ -116,8 +116,9 @@ class AirdropPage extends Component {
   render () {
     const { classes, account } = this.props
     const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
+    const isValidAddress = isAddress(polygonAddress)
 
-    const enableClaim = airdrop && isAddress(polygonAddress)
+    const enableClaim = airdrop && isValidAddress
     const shareStep = activeStep === 3
     const steps = ['Check', 'Claim', 'Share']
 
@@ -165,12 +166,17 @@ class AirdropPage extends Component {
                 <img
                   src='/images/graphics/yup-logo.svg'
                   alt='yup logo'
+                  height='90'
+                  style={{ marginLeft: 30 }}
                 />
-
                 <img
                   src='/images/graphics/polygon-logo.svg'
                   alt='polygon logo'
+                  height='90'
+                  style={{ marginRight: 30 }}
+
                 />
+
               </Grid>
               <Grid item>
                 <Typography
@@ -188,9 +194,9 @@ class AirdropPage extends Component {
                   label='Address'
                   type='text'
                   onSubmit={this.fetchAirdropData}
+                  inputIsValid={isValidAddress}
                   value={polygonAddress}
                   variant='outlined'
-                  onClick={() => this.setState({ activeStep: this.state.activeStep + 1 })}
                   onChange={this.handleInput}
                 />
               </Grid>
