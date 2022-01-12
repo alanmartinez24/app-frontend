@@ -245,35 +245,10 @@ const styles = theme => ({
 })
 
 class CustomTweetEmbed extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isMissingPreview: !this.props.tweetData || !this.props.tweetData.tweetInfo
-    }
-  }
-
-  componentDidMount() {
-    const tweetEmbed = document.getElementById(`tweet-${this.props.statusId}`)
-    if(tweetEmbed) {
-      window.twttr.widgets.createTweet(
-        this.props.statusId,
-        tweetEmbed,
-        {
-          ...( !this.props.lightMode ? {theme: 'dark'} : {}),
-        }
-      );
-    }
-  }
-
-  makeTweetEmbed() {
-    return <div style={{width:'100%'}} id={`tweet-${this.props.statusId}`} />
-  }
-
   render () {
     const { tweetData, classes } = this.props
-    if (this.state.isMissingPreview) {
-      return this.makeTweetEmbed()
+    if (!tweetData || !tweetData.tweetInfo) {
+      return <div/>
     }
     const retweet = tweetData.tweetInfo.retweeted_status ? !(_.isEmpty(tweetData.tweetInfo.retweeted_status)) : false
     const quoted = tweetData.tweetInfo.quoted_status ? !(_.isEmpty(tweetData.tweetInfo.quoted_status)) : false

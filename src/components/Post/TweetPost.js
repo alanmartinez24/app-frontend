@@ -45,8 +45,6 @@ class TweetPost extends PureComponent {
       <div className={classes.postContainer}>
         <CustomTweetEmbed
           tweetData={tweetObject}
-          statusId={caption.split('/status/')[1]}
-          lightMode={this.props.lightMode}
         />
       </div>
     )
@@ -67,8 +65,7 @@ TweetPost.propTypes = {
   classes: PropTypes.object.isRequired,
   previewData: PropTypes.object,
   tweetObject: PropTypes.object,
-  postHOC: PropTypes.element.isRequired,
-  lightMode: PropTypes.bool
+  postHOC: PropTypes.element.isRequired
 }
 
 export default withStyles(styles)(TweetPost)

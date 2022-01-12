@@ -260,11 +260,11 @@ class User extends Component {
     this.setState({ isTourOpen: true })
   }
 
-  async componentDidMount () {
+  componentDidMount () {
     const { dispatch } = this.props
     dispatch(pushAccount(false))
 
-    await this.loadUserData()
+    this.loadUserData()
     this.showDialog()
 
     if (!window.analytics) {
@@ -292,7 +292,7 @@ class User extends Component {
     }
   }
 
-  async componentDidUpdate (prevProps) {
+  componentDidUpdate (prevProps) {
     const prevUser = path.basename(prevProps.location.pathname)
     const currUser = path.basename(this.props.location.pathname)
 
@@ -320,7 +320,7 @@ class User extends Component {
         hasError: false,
         isMinimize: false
       })
-       await this.loadUserData()
+      this.loadUserData()
     }
   }
 
@@ -364,7 +364,7 @@ class User extends Component {
       ).data
       const newStart = this.state.start + this.state.limit
       this.setState({
-        posts: [...this.state.posts, ...postData.posts],
+        posts: this.state.posts.concat(postData.posts),
         hasMore: postData.totalCount > newStart,
         initialLoad: false,
         ratingCount: postData.totalCount,
@@ -411,7 +411,8 @@ class User extends Component {
     }
   }
 
-  loadUserData = async () => {
+  loadUserData = () => {
+    ; (async () => {
       try {
         const { dispatch } = this.props
         const username = path.basename(this.props.location.pathname)
@@ -444,6 +445,7 @@ class User extends Component {
       } catch (err) {
         this.setState({ hasError: true, isLoading: false })
       }
+    })()
   }
 
   handleChange = (e, newTab) => {
