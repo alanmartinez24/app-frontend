@@ -4,9 +4,18 @@ import { Image, CloudinaryContext, Transformation, Placeholder } from 'cloudinar
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 const ROOT_CLOUDINARY_URL = `https://res.cloudinary.com/yup-io/image/upload/`
+const FOUNDATION_IMG_URI = `https://f8n`
+
+const foundationOptimizeParams = { q: 30, auto: 'format,compress', cs: 'srbg', h: 640, fm: 'png' }
 
 const CldImg = ({ postid, src, ...restProps }) => {
   const isUploadedToCloud = src && src.startsWith(ROOT_CLOUDINARY_URL)
+  const isFoundationImg = src && src.split('-')[0] === FOUNDATION_IMG_URI
+
+  if (isFoundationImg) { // use foundation optimization params to save cloudianry credits
+    return <img src={`${src}?${new URLSearchParams(foundationOptimizeParams).toString()}`} />
+  }
+
   return (
     <ErrorBoundary>
       <CloudinaryContext cloudName={process.env.CLOUDINARY_NAME}>
