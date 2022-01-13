@@ -105,7 +105,7 @@ class FollowersDialog extends Component {
           >
             <Typography
               align='left'
-              variant='body3'
+              variant='body2'
             >
               <a style={{ fontWeight: 700 }}>{formattedFollowers} </a> followers
             </Typography>

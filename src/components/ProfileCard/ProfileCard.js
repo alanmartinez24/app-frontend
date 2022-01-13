@@ -416,7 +416,7 @@ function ProfileCard (props) {
               color='inherit'
               nowrap
               style={{ wordWrap: 'break-word' }}
-              variant='body3'
+              variant='body2'
             >
               <LinesEllipsis
                 basedOn='letters'
@@ -535,7 +535,7 @@ function ProfileCard (props) {
           >
             <Grid item>
               <Typography align='left'
-                variant='body3'
+                variant='body2'
               >
                 <a style={{ fontWeight: 500 }}>{formattedRatings}</a> Ratings
               </Typography>

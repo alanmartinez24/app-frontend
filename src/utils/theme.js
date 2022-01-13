@@ -310,12 +310,12 @@ export const theme = ({ palette }) => {
     fontFamily: [
       'Gilroy',
       'Roboto',
-      '"Helvetica Neue"',
+      'Helvetica Neue',
       'Arial',
       'sans-serif'
     ].join(','),
+    fonStyle: 'normal',
     h1: {
-      fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '3.815rem',
       lineHeight: '3.25rem',
@@ -323,74 +323,60 @@ export const theme = ({ palette }) => {
       color: `${palette.common.first}EE`
     },
     h2: {
-      fontStyle: 'normal',
       fontWeight: 800,
       fontSize: '3.052rem',
       lineHeight: '2.5rem',
       color: `${palette.common.first}EE`
     },
     h3: {
-      fontStyle: 'normal',
       fontWeight: 600,
       fontSize: '2.441rem',
       lineHeight: '1.85rem',
       color: `${palette.common.second}EE`
     },
     h4: {
-      fontStyle: 'normal',
       fontWeight: 400,
       fontSize: '1.953rem',
       lineHeight: '1.6rem',
       color: `${palette.common.third}EE`
     },
     h5: {
-      fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '1.562rem',
       lineHeight: '1.3rem',
       color: `${palette.common.third}EE`
     },
     subtitle1: {
-      fontStyle: 'normal',
       fontWeight: 400,
       fontSize: '1.25rem',
       lineHeight: '1.65rem',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
-      fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.2rem',
       lineHeight: '1.1875rem',
       color: `${palette.common.third}DD`
     },
     body1: {
-      fontStyle: 'normal',
-      fontWeight: 300,
-      fontSize: '0.9rem',
+      fontWeight: 800,
+      fontSize: '0.8rem',
       lineHeight: '1rem',
       color: `${palette.common.third}EE`
     },
-    caption: {
-      fontStyle: '600',
-      fontSize: '16px',
-      color: `${palette.common.third}DE`
-    },
     body2: {
-      fontSize: '14px',
-      lineHeight: '21px',
+      fontSize: '0.8rem',
+      lineHeight: '0.9rem',
       color: `${palette.common.first}DE`,
       fontWeight: '400'
     },
-    body3: {
-      fontSize: '12px',
-      lineHeight: '18px',
-      color: `${palette.common.first}DD`,
-      fontWeight: '300'
+    caption: {
+      fontStyle: '600',
+      fontSize: '1rem',
+      color: `${palette.common.third}DE`
     },
     tooltip: {
-      fontSize: '12px',
-      color: `#fff`,
+      fontSize: '0.75rem',
       fontWeight: '200'
     },
     colorError: {
