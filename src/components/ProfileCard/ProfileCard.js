@@ -138,8 +138,8 @@ const styles = theme => ({
     boxShadow: 'none',
     maxHeight: '250px',
     height: '140px',
+    width: 550,
     display: 'inline-grid',
-    width: '100%',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
       padding: '0 4px',
@@ -308,47 +308,6 @@ function ProfileCard (props) {
                     />
                   </Typography>
                 </Grid>
-                {/* MOVED THESE TWO CHIPS TO THE SECTION OF THE GRID NEAR THE USERNAME, ONE LINE BELOW
-
-                {twitterName && (
-                <Grid item
-                  xs={3}
-                >
-                  <a href={`https://twitter.com/${twitterName}`}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className={classes.LinkDecoration}
-                  >
-                    <Chip label={twitterName}
-                      className={classes.chip}
-                      onClick
-                      icon={
-                        <Icon fontSize='small'
-                          className={['fab fa-twitter', classes.twitter]}
-                        />
-
-                  }
-                    />
-                  </a>
-                </Grid>
-              )}
-                {ethAddress && (
-                <Grid item
-                  xs={3}
-                > <a href={`https://etherscan.io/address/${ethAddress}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={classes.LinkDecoration}
-                  >
-                  <Chip label={ethAddress.slice(0, 5)}
-                    className={classes.chip}
-                    onClick
-                  />
-                </a>
-                </Grid>
-              )}
-
-              */}
               </Grid>
               <Grid item
                 sm={2}
@@ -436,13 +395,11 @@ function ProfileCard (props) {
                 </Grid>
               )}
                 {ethAddress && (
-                <Grid item
-                  xs={3}
-                > <a href={`https://etherscan.io/address/${ethAddress}`}
+                <Grid item> <a href={`https://etherscan.io/address/${ethAddress}`}
                   target='_blank'
                   rel='noopener noreferrer'
                   className={classes.LinkDecoration}
-                  >
+                            >
                   <Chip label={ethAddress.slice(0, 5)}
                     className={classes.chip}
                     size='small'
@@ -481,11 +438,7 @@ function ProfileCard (props) {
             spacing={3}
             className={`${classes.profileStats} ${hidden}`}
           >
-            <Grid item
-              xs={6}
-              sm={3}
-              md={3}
-            >
+            <Grid item>
               <Tooltip
                 placement='bottom'
                 disableTouchListener
@@ -504,7 +457,7 @@ function ProfileCard (props) {
                     className={classes.largeStat}
                     style={{
                       display: 'inline-block',
-                      fontFamily: 'Gilroy',
+                      // fontFamily: 'Gilroy',
                       color: socialLevelColor
                     }}
                     variant='caption'

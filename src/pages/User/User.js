@@ -91,7 +91,7 @@ const styles = theme => ({
   },
   page: {
     width: '100%',
-    marginLeft: 0,
+    marginLeft: 100,
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
       paddingTop: theme.spacing(0),
