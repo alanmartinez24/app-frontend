@@ -480,7 +480,7 @@ class Home extends Component {
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='subtitle1'>{coll.name}</Typography>
                               <Typography variant='body2'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
                             </Grid>
                           </Grid>
@@ -552,7 +552,7 @@ class Home extends Component {
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='subtitle1'>{coll.name}</Typography>
                               <Typography variant='body2'>{coll.owner}</Typography>
                             </Grid>
                           </Grid>

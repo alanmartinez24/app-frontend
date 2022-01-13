@@ -97,8 +97,7 @@ export const theme = ({ palette }) => {
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
-        fontFamily: 'Gilroy',
-        '&:hover': {
+          '&:hover': {
           backgroundColor: 'inherit'
         }
       },
@@ -111,8 +110,7 @@ export const theme = ({ palette }) => {
         lineHeight: '23px',
         letterSpacing: '1%',
         fontWeight: '500',
-        fontFamily: 'Gilroy',
-        '&:hover': {
+          '&:hover': {
           backgroundColor: palette.alt.third,
           boxShadow: `0px 0px 0px 2px ${palette.alt.third}`
         },
@@ -309,63 +307,57 @@ export const theme = ({ palette }) => {
     }
   },
   typography: {
+    fontFamily: [
+      'Gilroy',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif'
+    ].join(','),
     h1: {
       fontStyle: 'normal',
-      fontWeight: 700,
-      fontSize: '4rem',
+      fontWeight: 600,
+      fontSize: '3.815rem',
       lineHeight: '3.25rem',
       marginBottom: '0.2rem',
       color: `${palette.common.first}EE`
     },
     h2: {
       fontStyle: 'normal',
-      fontWeight: 700,
-      fontSize: '2.25rem',
+      fontWeight: 800,
+      fontSize: '3.052rem',
       lineHeight: '2.5rem',
       color: `${palette.common.first}EE`
     },
     h3: {
-      fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 800,
-      fontSize: '1.75rem',
+      fontWeight: 600,
+      fontSize: '2.441rem',
       lineHeight: '1.85rem',
       color: `${palette.common.second}EE`
     },
     h4: {
-      fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 500,
-      fontSize: '1.375rem',
+      fontWeight: 400,
+      fontSize: '1.953rem',
       lineHeight: '1.6rem',
       color: `${palette.common.third}EE`
     },
     h5: {
-      fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 400,
-      fontSize: '1.125rem',
+      fontWeight: 700,
+      fontSize: '1.562rem',
       lineHeight: '1.3rem',
       color: `${palette.common.third}EE`
     },
-    h6: {
-      fontFamily: 'Gilroy',
-      fontStyle: 'normal',
-      fontWeight: 600,
-      fontSize: '1rem',
-      lineHeight: '1.25rem',
-      color: `${palette.common.third}DD`
-    },
     subtitle1: {
-      fontFamily: 'Gilroy',
       fontStyle: 'normal',
-      fontWeight: 300,
-      fontSize: '1.625rem',
+      fontWeight: 400,
+      fontSize: '1.25rem',
       lineHeight: '1.65rem',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
-      fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '1.2rem',
@@ -373,89 +365,37 @@ export const theme = ({ palette }) => {
       color: `${palette.common.third}DD`
     },
     body1: {
-      fontFamily: 'Gilroy',
       fontStyle: 'normal',
       fontWeight: 300,
       fontSize: '0.9rem',
       lineHeight: '1rem',
       color: `${palette.common.third}EE`
     },
-    display3: {
-      fontFamily: 'Gilroy',
-      fontStyle: 'thin',
-      fontSize: '1.2rem',
-      lineHeight: '20px',
-      color: Colors.Green,
-      fontWeight: '200'
-    },
-    display2: {
-      fontFamily: 'Gilroy',
-      fontStyle: 'thin',
-      fontSize: '34px',
-      lineHeight: '59px',
-      color: Colors.Green
-    },
-    display1: {
-      fontFamily: 'Gilroy',
-      fontStyle: 'thin',
-      fontSize: '24px',
-      lineHeight: '29px',
-      color: Colors.Yellow,
-      fontWeight: '200'
-    },
-    headline: {
-      fontSize: '20px',
-      lineHeight: '29px',
-      color: Colors.Yellow,
-      fontStyle: 'thin',
-      letterSpacing: '0.25%',
-      paragraphSpacing: '16px'
-    },
-    title: {
-      fontSize: '48px',
-      lineHeight: '48px',
-      letterSpacing: '0.75%',
-      fontStyle: 600,
-      color: `${palette.common.first}EF`
-    },
     caption: {
-      fontFamily: 'Gilroy',
       fontStyle: '600',
       fontSize: '16px',
       color: `${palette.common.third}DE`
-    },
-    subheader: {
-      fontSize: '20px',
-      lineHeight: '29px',
-      fontFamily: 'Gilroy',
-      letterSpacing: '0.15%',
-      color: `${palette.common.fourth}DE`,
-      fontStyle: 'thin'
     },
     body2: {
       fontSize: '14px',
       lineHeight: '21px',
       color: `${palette.common.first}DE`,
-      letterSpacing: '0.25%',
       fontWeight: '400'
     },
     body3: {
       fontSize: '12px',
       lineHeight: '18px',
       color: `${palette.common.first}DD`,
-      letterSpacing: '0.25%',
       fontWeight: '300'
     },
     tooltip: {
       fontSize: '12px',
       color: `#fff`,
-      letterSpacing: '0.25%',
       fontWeight: '200'
     },
     colorError: {
       color: Colors.Red
-    },
-    fontFamily: 'Gilroy'
+    }
   },
   props: {
     MuiWithWidth: {

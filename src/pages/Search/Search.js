@@ -327,7 +327,7 @@ class Search extends Component {
                     style={{ height: '100%' }}
                   >
                     <Typography
-                      variant='h6'
+                      variant='h5'
                       className={classes.headerText}
                       style={{ textAlign: 'center' }}
                     >
@@ -408,7 +408,7 @@ class Search extends Component {
                       style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
                     >
                       <Typography
-                        variant='h6'
+                        variant='h5'
                         className={classes.headerText}
                       >
                         Posts
@@ -433,7 +433,7 @@ class Search extends Component {
                         xs={12}
                       >
                         <Typography
-                          variant='h6'
+                          variant='h5'
                           className={classes.headerText}
                         >
                           People
@@ -448,7 +448,7 @@ class Search extends Component {
                         style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
                       >
                         <Typography
-                          variant='h6'
+                          variant='h5'
                           className={classes.headerText}
                         >
                           Collections

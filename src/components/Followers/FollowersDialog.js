@@ -145,7 +145,7 @@ class FollowersDialog extends Component {
                   {' '}
                   {followers.length === 0 ? (
                     <Typography
-                      variant='h6'
+                      variant='h5'
                     >
                       No followers
                     </Typography>
