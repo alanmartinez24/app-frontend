@@ -95,7 +95,8 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
       paddingTop: theme.spacing(0),
-      padding: '0px 1rem'
+      padding: '0px 1rem',
+      marginLeft: 0
     },
     [theme.breakpoints.up('lg')]: {
       padding: '0px 8vw'
