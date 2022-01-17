@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Link from '@material-ui/core/Link'
+import { Link, Typography } from '@material-ui/core'
 import TweetVidPlayer from './TweetVidPlayer'
 import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
 import LinkPreview from './LinkPreview'
@@ -164,9 +164,9 @@ const Reply = ({ tweetData, classes }) => {
               target='_blank'
               underline='none'
             >
-              <div className={classes.tweetText}>
+              <Typography variant='body1'>
                 {replyTweetText}
-              </div>
+              </Typography>
             </Link>
             {
                (replyHasPhoto && replyMediaURL)
@@ -194,11 +194,11 @@ const Reply = ({ tweetData, classes }) => {
           target='_blank'
           underline='none'
         >
-          <div className={classes.tweetText}
+          <Typography className={classes.tweetText}
             style={{ marginLeft: '6px' }}
           >
             {tweetText.replace(/@\S+\s?/gm, '')}
-          </div>
+          </Typography>
         </Link>
         {(previewData && !replyHasMedia && !mediaURL) && (
           <div style={{ marginTop: 20 }}>
@@ -215,12 +215,12 @@ const Reply = ({ tweetData, classes }) => {
          )}
         {
           (hasPhoto && mediaURL)
-          ? <div className={classes.tweetText}>
+          ? <Typography className={classes.tweetText}>
             <img className={classes.tweetImg}
               src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : mediaURL}
               alt='tweet-image'
             />
-          </div>
+          </Typography>
           : (hasVideo && mediaURL) &&
             <TweetVidPlayer
               url={mediaURL}
@@ -235,7 +235,6 @@ const Reply = ({ tweetData, classes }) => {
 
 Reply.propTypes = {
   classes: PropTypes.object.isRequired,
-  tweetData: PropTypes.object
-
+  tweetData: PropTypes.object.isRequired
 }
 export default Reply

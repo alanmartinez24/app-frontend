@@ -1,28 +1,21 @@
-/* eslint-disable */
-import React, { Component, useState, useEffect } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import Link from '@material-ui/core/Link'
-import axios from 'axios'
-import _ from 'lodash'
+import React from 'react'
+import { Link, Typography } from '@material-ui/core/'
+import PropTypes from 'prop-types'
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
 
 const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
   let userAvatar
-  let twitterName
   let twitterBirdIcon
 
   if (tweetType === 'retweet') {
     userAvatar = classes.retweetUserAvatar
-    twitterName = classes.retweetTwitterName
     twitterBirdIcon = classes.retweetTwitterBirdIcon
   } else if (tweetType === 'reply') {
     userAvatar = classes.userAvatar
-    twitterName = classes.replyTwitterName
     twitterBirdIcon = classes.twitterBirdIcon
   } else {
     userAvatar = classes.userAvatar
-    twitterName = classes.twitterName
     if (hideBird === true) {
       twitterBirdIcon = classes.retweetTwitterBirdIcon
     } else {
@@ -51,10 +44,11 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           target='_blank'
           underline='none'
         >
-          <h4 className={twitterName}
-            style={{maxWidth: '300px'}}>
+          <Typography variant='h5'
+            style={{ maxWidth: '300px' }}
+          >
             {user && user.name && user.name.substring(0, 80)}
-          </h4>
+          </Typography>
         </Link>
         <Link href={accountLink}
           target='_blank'
@@ -75,6 +69,13 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
       </span>
     </div>
  )
+}
+HeaderSection.propTypes = {
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  tweetType: PropTypes.string.isRequired,
+  tweetLink: PropTypes.string.isRequired,
+  hideBird: PropTypes.bool.isRequired
 }
 
 export default HeaderSection

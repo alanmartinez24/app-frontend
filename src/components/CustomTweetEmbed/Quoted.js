@@ -1,21 +1,15 @@
-/* eslint-disable */
-import React, { Component, useState, useEffect } from 'react'
-import Link from '@material-ui/core/Link'
-import _ from 'lodash'
+import React from 'react'
+import { Link, Typography } from '@material-ui/core'
 import TweetVidPlayer from './TweetVidPlayer'
-
-// util
-import { parseText, linkMentions, fetchLinkPreviewData } from './Util/Util'
-
-// components
-import LinkPreview from './LinkPreview'
+import PropTypes from 'prop-types'
+import { parseText, linkMentions } from './Util/Util'
 import HeaderSection from './HeaderSection'
 
 const Quoted = ({ tweetData, classes }) => {
-  const { user, quoted_status } = tweetData.tweetInfo
-  const { user: quotedUser } = quoted_status
-  const extended_entities = tweetData.tweetInfo.extended_entities ? tweetData.tweetInfo.extended_entities : false
-  const quoted_extended_entities = tweetData.tweetInfo.quoted_status.extended_entities ? tweetData.tweetInfo.quoted_status.extended_entities : false
+  const { user, quoted_status: quotedStatus } = tweetData.tweetInfo
+  const { user: quotedUser } = quotedStatus
+  const extendedEntities = tweetData.tweetInfo.extended_entities ? tweetData.tweetInfo.extended_entities : false
+  const quoteExtendedEentities = tweetData.tweetInfo.quoted_status.extended_entities ? tweetData.tweetInfo.quoted_status.extended_entities : false
 
   // CHECK EXISTENCE OF ORIGINAL POST VARIABLES AND ASSIGN VALUES
   let originalMediaRootID
@@ -23,11 +17,11 @@ const Quoted = ({ tweetData, classes }) => {
   let differentMedia
   let originalHasMedia
 
-  if (extended_entities) {
-    originalMediaRootID = extended_entities.media && extended_entities.media[0].id
-    quotedMediaRootID = quoted_extended_entities && quoted_extended_entities.media[0].id
+  if (extendedEntities) {
+    originalMediaRootID = extendedEntities.media && extendedEntities.media[0].id
+    quotedMediaRootID = quoteExtendedEentities && quoteExtendedEentities.media[0].id
     differentMedia = originalMediaRootID !== quotedMediaRootID
-    originalHasMedia = extended_entities.media ? extended_entities.media.length > 0 : false
+    originalHasMedia = extendedEntities.media ? extendedEntities.media.length > 0 : false
   }
 
   let originalMediaURL
@@ -36,12 +30,12 @@ const Quoted = ({ tweetData, classes }) => {
   let originalHasVideo
 
   if (originalHasMedia) {
-    originalMediaURL = extended_entities.media[0].media_url_https ? extended_entities.media[0].media_url_https : false
-    originalMediaType = extended_entities.media[0].type
+    originalMediaURL = extendedEntities.media[0].media_url_https ? extendedEntities.media[0].media_url_https : false
+    originalMediaType = extendedEntities.media[0].type
     originalHasPhoto = Boolean(originalMediaType === 'photo')
     originalHasVideo = Boolean(originalMediaType === 'video' || originalMediaType === 'animated_gif')
 
-    if (originalHasVideo) originalMediaURL = extended_entities.media[0].video_info.variants[0].url
+    if (originalHasVideo) originalMediaURL = extendedEntities.media[0].video_info.variants[0].url
   }
 
     let initialText
@@ -59,8 +53,8 @@ const Quoted = ({ tweetData, classes }) => {
   // CHECK EXISTENCE OF QUOTED POST VARIABLES AND ASSIGN VALUES
   let quotedHasMedia
 
-  if (quoted_extended_entities) {
-    quotedHasMedia = quoted_extended_entities.media ? quoted_extended_entities.media.length > 0 : false
+  if (quoteExtendedEentities) {
+    quotedHasMedia = quoteExtendedEentities.media ? quoteExtendedEentities.media.length > 0 : false
   }
 
   let quotedLink
@@ -80,12 +74,12 @@ const Quoted = ({ tweetData, classes }) => {
   }
 
   if (quotedHasMedia) {
-    quotedMediaURL = quoted_extended_entities.media[0].media_url_https ? quoted_extended_entities.media[0].media_url_https : false
-    quotedMediaType = quoted_extended_entities.media[0].type
+    quotedMediaURL = quoteExtendedEentities.media[0].media_url_https ? quoteExtendedEentities.media[0].media_url_https : false
+    quotedMediaType = quoteExtendedEentities.media[0].type
     quotedHasPhoto = Boolean(quotedMediaType === 'photo')
     quotedHasVideo = Boolean(quotedMediaType === 'video' || quotedMediaType === 'animated_gif')
 
-    if (quotedHasVideo) quotedMediaURL = quoted_extended_entities.media[0].video_info.variants[0].url
+    if (quotedHasVideo) quotedMediaURL = quoteExtendedEentities.media[0].video_info.variants[0].url
   }
 
   let quotedInitialText
@@ -110,21 +104,19 @@ const Quoted = ({ tweetData, classes }) => {
         target='_blank'
         underline='none'
       >
-        <div className={classes.tweetText}
-          style={{ marginBottom: '22px' }}
-        >
-          {tweetText}
-        </div>
+        <Typography variant='body1'
+          style={{ marginBottom: 22 }}
+        >{tweetText}</Typography>
       </Link>
 
       {
         (originalHasPhoto && originalMediaURL) && differentMedia
-            ? <div className={classes.tweetText}>
+            ? <Typography className={classes.tweetText}>
               <img className={classes.tweetImg}
-                src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : originalMediaURL }
+                src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : originalMediaURL}
                 alt='tweet-image'
               />
-            </div>
+            </Typography>
             : (originalHasVideo && originalMediaURL) &&
               <TweetVidPlayer
                 url={originalMediaURL}
@@ -139,27 +131,29 @@ const Quoted = ({ tweetData, classes }) => {
           target='_blank'
           underline='none'
         >
-          <div className={classes.tweetText}>
-            {quotedTweetText}
-          </div>
+          <Typography variant='body1'>{quotedTweetText}</Typography>
         </Link>
         {
             (quotedHasPhoto && quotedMediaURL)
-            ? <div className={classes.tweetText}>
+            ? <Typography className={classes.tweetText}>
               <img className={classes.tweetImg}
                 style={{ borderRadius: '0px 0px 20px 20px', marginTop: 10 }}
-                src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : quotedMediaURL }
+                src={tweetData.excludeTweet ? 'https://api.faviconkit.com/twitter.com/128' : quotedMediaURL}
                 alt='tweet-image'
               />
-            </div>
+            </Typography>
             : (quotedHasVideo && quotedMediaURL) &&
               <TweetVidPlayer
                 url={quotedMediaURL}
               />
          }
-        </div>
+      </div>
     </div>
   )
 }
+Quoted.propTypes = {
+  classes: PropTypes.object.isRequired,
+  tweetData: PropTypes.object.isRequired
 
+}
 export default Quoted

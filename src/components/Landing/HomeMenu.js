@@ -400,7 +400,7 @@ class Home extends Component {
                                     <Grid container>
                                       <Grid item>
                                         <Typography
-                                          variant='h4'
+                                          variant='h5'
                                           style={{ color: Colors.W2 }}
                                         >
                                           {item.title}

@@ -589,7 +589,7 @@ class Collections extends Component {
                   <Fade in
                     timeout={400}
                   >
-                    <Typography variant='h2'
+                    <Typography variant='h3'
                       className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
                     >
                       {collection.name}
@@ -599,7 +599,7 @@ class Collections extends Component {
                     timeout={800}
                   >
                     <Typography
-                      variant='h5'
+                      variant='subtitle1'
                       className={[classes.headerText, hidden]}
                     >
                       Curated by{' '}

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Typography } from '@material-ui/core/'
 
 const LinkPreview = ({ description, image, title, url, caption, classes, size }) => {
   const getDomain = (str) => {
@@ -26,9 +27,9 @@ const LinkPreview = ({ description, image, title, url, caption, classes, size })
         target='_blank'
       >
         <div className={size === 'large' ? classes.LinkPreviewContentLarge : classes.LinkPreviewContent}>
-          <div className={classes.LinkPreviewTitle}>{title}</div>
-          <div className={classes.LinkPreviewText}>{`${description && description.substring(0, 50)}...` || `${caption && caption.substring(0, 50)}...`} </div>
-          <div className={classes.LinkPreviewURL}>{url && getDomain(url)}</div>
+          <Typography className={classes.LinkPreviewTitle}>{title}</Typography>
+          <Typography className={classes.LinkPreviewText}>{`${description && description.substring(0, 50)}...` || `${caption && caption.substring(0, 50)}...`} </Typography>
+          <Typography className={classes.LinkPreviewURL}>{url && getDomain(url)}</Typography>
         </div>
       </a>
     </div>
