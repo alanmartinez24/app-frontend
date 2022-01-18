@@ -138,7 +138,7 @@ class PostHOC extends PureComponent {
         >
           <div
             className={classes.article}
-            style={{ background: 'transparent', boxShadow: 'none', paddingTop: '0.25rem' }}
+            style={{ background: 'transparent', paddingTop: '0.25rem' }}
           >
             <PostHeader
               postid={postid}
