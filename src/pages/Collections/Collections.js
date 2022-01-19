@@ -134,9 +134,6 @@ const styles = theme => ({
       display: 'none'
     }
   },
-  headerText: {
-    marginBottom: '10px'
-  },
   headerTitle: {
     [theme.breakpoints.down('xs')]: {
       lineHeight: 1,
@@ -586,48 +583,63 @@ class Collections extends Component {
                   sm={8}
                   xs={6}
                 >
-                  <Fade in
-                    timeout={400}
+                  <Grid container
+                    direction='column'
+                    spacing={1}
                   >
-                    <Typography variant='h3'
-                      className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
+                    <Grid item>
+                      <Fade in
+                        timeout={400}
+                      >
+                        <Typography variant='h3'
+                          className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
+                        >
+                          {collection.name}
+                        </Typography>
+                      </Fade>
+                    </Grid>
+                    <Grid item
+                      style={{ display: isMinimize ? 'none' : 'inherit' }}
                     >
-                      {collection.name}
-                    </Typography>
-                  </Fade>
-                  <Fade in
-                    timeout={800}
-                  >
-                    <Typography
-                      variant='subtitle1'
-                      className={[classes.headerText, hidden]}
-                    >
-                      Curated by{' '}
-                      <Link
-                        to={`/${collection.owner}`}
-                        style={{
+                      <Fade in
+                        timeout={800}
+                      >
+                        <Typography
+                          variant='subtitle1'
+                          className={[classes.headerText, hidden]}
+                        >
+                          Curated by{' '}
+                          <Link
+                            to={`/${collection.owner}`}
+                            style={{
                           textDecoration: color
                             ? `1px solid underline ${color}`
                             : 'none'
                         }}
-                        className={classes.curatedByName}
+                            className={classes.curatedByName}
+                          >
+                            {collection.owner}
+                          </Link>
+                        </Typography>
+                      </Fade>
+                    </Grid>
+                    <Grid item
+                      style={{ display: isMinimize ? 'none' : 'inherit' }}
+                    >
+                      <Typography
+                        variant='body2'
+                        className={[classes.headerText, hidden]}
                       >
-                        {collection.owner}
-                      </Link>
-                    </Typography>
-                  </Fade>
-                  <Typography
-                    variant='subtitle2'
-                    className={[classes.headerText, hidden]}
-                  >
-                    {collection.description}
-                  </Typography>
+                        {collection.description}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item
                   container
                   lg={isMinimize ? 3 : 4}
                   sm={2}
-                  xs={2}
+                  xs={isMinimize ? 4 : 2}
                   justify={isMinimize ? 'flex-end' : 'flex-start'}
                 >
                   <IconButton

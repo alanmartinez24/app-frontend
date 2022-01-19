@@ -10,7 +10,6 @@ import './tweet.css'
 
 const styles = theme => ({
   postContainer: {
-    display: 'flex',
     transition: 'opacity 2s ease-in',
     padding: '0% 0% 0% 0%',
     minHeight: '100px',
