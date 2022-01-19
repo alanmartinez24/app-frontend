@@ -216,7 +216,7 @@ class ObjectPreview extends Component {
                       sm={8}
                       style={{ margin: 'auto 0px' }}
                     >
-                      <Typography variant='h4'>
+                      <Typography variant='h5'>
                         <LinesEllipsis
                           basedOn='letters'
                           ellipsis='...'
@@ -225,7 +225,7 @@ class ObjectPreview extends Component {
                           trimRight
                         />
                       </Typography>
-                      <Typography variant='body1'>
+                      <Typography variant='body2'>
                         <LinesEllipsis
                           basedOn='letters'
                           ellipsis='...'
