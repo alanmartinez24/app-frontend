@@ -104,7 +104,7 @@ const Quoted = ({ tweetData, classes }) => {
         target='_blank'
         underline='none'
       >
-        <Typography variant='body1'
+        <Typography variant='body2'
           style={{ marginBottom: 22 }}
         >{tweetText}</Typography>
       </Link>
@@ -131,7 +131,7 @@ const Quoted = ({ tweetData, classes }) => {
           target='_blank'
           underline='none'
         >
-          <Typography variant='body1'>{quotedTweetText}</Typography>
+          <Typography variant='body2'>{quotedTweetText}</Typography>
         </Link>
         {
             (quotedHasPhoto && quotedMediaURL)

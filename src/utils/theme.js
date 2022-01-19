@@ -323,7 +323,7 @@ export const theme = ({ palette }) => {
       color: `${palette.common.first}EE`
     },
     h2: {
-      fontWeight: 800,
+      fontWeight: 700,
       fontSize: '3.052rem',
       lineHeight: '2.5rem',
       color: `${palette.common.first}EE`
@@ -346,6 +346,12 @@ export const theme = ({ palette }) => {
       lineHeight: '1.3rem',
       color: `${palette.common.third}EE`
     },
+    h6: {
+      fontWeight: 600,
+      fontSize: '1.339rem',
+      lineHeight: '1.2rem',
+      color: `${palette.common.third}EE`
+    },
     subtitle1: {
       fontWeight: 400,
       fontSize: '1.25rem',
@@ -353,9 +359,9 @@ export const theme = ({ palette }) => {
       color: `${palette.common.third}DD`
     },
     subtitle2: {
-      fontWeight: 300,
-      fontSize: '1.2rem',
-      lineHeight: '1.1875rem',
+      fontWeight: 700,
+      fontSize: '1rem',
+      lineHeight: '1.18rem',
       color: `${palette.common.third}DD`
     },
     body1: {
@@ -365,10 +371,10 @@ export const theme = ({ palette }) => {
       color: `${palette.common.third}EE`
     },
     body2: {
+      fontWeight: 400,
       fontSize: '0.8rem',
       lineHeight: '0.9rem',
-      color: `${palette.common.first}DE`,
-      fontWeight: '400'
+      color: `${palette.common.first}DE`
     },
     caption: {
       fontStyle: '600',

@@ -48,16 +48,14 @@ const styles = theme => ({
     padding: '10px 4px',
     textAlign: 'left',
     position: 'relative',
-    wordWrap: 'break-word',
-    fontSize: '1.2rem'
+    wordWrap: 'break-word'
   },
   twitterName: {
     padding: 0,
     margin: 0
   },
   twitterHandle: {
-    color: 'grey',
-    fontSize: '1rem'
+    color: 'grey'
   },
   twitterBirdIcon: {
     position: 'absolute',
