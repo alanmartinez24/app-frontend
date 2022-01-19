@@ -430,7 +430,7 @@ class Home extends Component {
                   <Fade in
                     timeout={2000}
                   >
-                    <Typography variant='h4'>
+                    <Typography variant='h5'>
                       Your Collections
                     </Typography>
                   </Fade>
@@ -508,7 +508,7 @@ class Home extends Component {
                       <Fade in
                         timeout={2000}
                       >
-                        <Typography variant='h4'>
+                        <Typography variant='h5'>
                           Browse
                         </Typography>
                       </Fade>
