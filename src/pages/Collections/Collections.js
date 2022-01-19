@@ -792,7 +792,7 @@ class Collections extends Component {
                     <Grid item
                       xs={12}
                     >
-                      <Typography variant='h4'>Recommended</Typography>
+                      <Typography variant='h5'>Recommended</Typography>
                     </Grid>
                     <Grid item
                       xs={12}

@@ -67,12 +67,19 @@ const RecommendedCollections = ({ classes, collection }) => {
           />
         </Grid>
         <Grid item
+          container
+          spacing={1}
+          direction='column'
           xs={9}
           lg={8}
           xl={8}
         >
-          <Typography variant='h5'>{collection.name}</Typography>
-          <Typography variant='body2'>{collection.owner}</Typography>
+          <Grid item >
+            <Typography variant='h6'>{collection.name}</Typography>
+          </Grid>
+          <Grid item >
+            <Typography variant='body2'>{collection.owner}</Typography>
+          </Grid>
         </Grid>
       </Grid>
     </Link>
