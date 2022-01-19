@@ -166,7 +166,8 @@ const styles = theme => ({
   },
   chipIcon: {
     color: theme.palette.text.secondary,
-    fontSize: 'small !important'
+    fontSize: 'small !important',
+    height: 'minContent'
   },
   username: {
     fontSize: '18px',
