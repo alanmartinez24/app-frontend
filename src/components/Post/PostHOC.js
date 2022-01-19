@@ -6,8 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { fetchPostComments } from '../../redux/actions'
 import PostHeader from '../PostHeader/PostHeader'
-import Divider from '@material-ui/core/Divider'
-import Fade from '@material-ui/core/Fade'
+import { Divider, Fade, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { accountInfoSelector } from '../../redux/selectors'
 
@@ -19,7 +18,6 @@ const styles = theme => ({
     backgroundSize: 'cover',
     marginLeft: '0%',
     marginRight: '0%',
-    fontFamily: '"Gilroy", sans-serif',
     marginBottom: '1rem',
     minWidth: '0px',
     [theme.breakpoints.down('md')]: {
@@ -51,9 +49,7 @@ const styles = theme => ({
   },
   postCaptionHeader: {
     padding: '0.1vh 1vw',
-    fontFamily: '"Gilroy", sans-serif',
-    fontWeight: '200',
-    fontSize: '20px',
+    width: '100%',
     borderBottomLeftRadius: '10px',
     borderBottomRightRadius: '10px',
     [theme.breakpoints.down('xs')]: {
@@ -61,37 +57,9 @@ const styles = theme => ({
     }
   },
   postCaption: {
-    fontFamily: '"Gilroy", sans-serif',
-    fontSize: '20px',
-    fontWeight: '200',
-    lineHeight: 'normal',
     padding: '16px 16px',
     wordBreak: 'break-word',
-    width: '100%',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '24px'
-    },
-    [theme.breakpoints.up('1700')]: {
-      fontSize: '34px'
-    }
-  },
-  h: {
-    fontSize: '18px',
-    fontFamily: '"Gilroy", sans-serif'
-  },
-  cap1: {
-    fontFamily: '"Gilroy", sans-serif',
-    fontSize: '28px',
-    lineHeight: 'normal',
-    [theme.breakpoints.down('sm')]: {
-      lineHeight: 'normal'
-    },
-    [theme.breakpoints.up('1700')]: {
-      fontSize: '34'
-    }
-  },
-  head: {
-    marginBottom: '-20px'
+    width: '100%'
   },
   divider: {
     [theme.breakpoints.up('580')]: {
@@ -147,8 +115,8 @@ class PostHOC extends PureComponent {
             />
             <div className={classes.article}>
               <Component {...this.props} />
-              <div className={classes.postCaptionHeader}
-                width='500px'
+              <Typography className={classes.postCaptionHeader}
+                variant='h6'
               >
                 <PostGrid
                   account={account}
@@ -161,7 +129,7 @@ class PostHOC extends PureComponent {
                   rating={rating}
                 />
                 <Comments postid={postid} />
-              </div>
+              </Typography>
               <Divider
                 className={classes.divider}
                 style={{ backgroundColor: '#ffffff05' }}
