@@ -303,6 +303,12 @@ export const theme = ({ palette }) => {
     MuiChip: {
       root: {
         padding: '0 0.5rem'
+      },
+      icon: {
+        height: 'minContent',
+        color: palette.text.secondary,
+        fontSize: 'small !important',
+        opacity: 0.4
       }
     }
   },

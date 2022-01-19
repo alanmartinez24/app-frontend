@@ -164,11 +164,7 @@ const styles = theme => ({
       fontSize: '14px'
     }
   },
-  chipIcon: {
-    color: theme.palette.text.secondary,
-    fontSize: 'small !important',
-    height: 'minContent'
-  },
+
   username: {
     fontSize: '18px',
     padding: '0px',
