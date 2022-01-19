@@ -44,7 +44,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           target='_blank'
           underline='none'
         >
-          <Typography variant='subtitle1'
+          <Typography variant='h6'
             style={{ maxWidth: '300px' }}
           >
             {user && user.name && user.name.substring(0, 80)}
