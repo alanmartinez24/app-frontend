@@ -79,7 +79,8 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 24
   },
   content: {
     color: 'black'
@@ -379,7 +380,6 @@ function ProfileCard (props) {
                   >
                     <Chip label={twitterName}
                       className={classes.chip}
-                      size='small'
                       onClick
                       icon={
                         <Icon
@@ -398,7 +398,6 @@ function ProfileCard (props) {
                             >
                   <Chip label={ethAddress.slice(0, 5)}
                     className={classes.chip}
-                    size='small'
                     onClick
                     icon={
                       <Icon
