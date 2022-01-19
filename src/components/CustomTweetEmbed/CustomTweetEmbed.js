@@ -59,7 +59,7 @@ const styles = theme => ({
   },
   twitterBirdIcon: {
     position: 'absolute',
-    left: '550px',
+    left: 550,
     '&:hover': {
       filter: 'brightness(1) invert(1)'
     }

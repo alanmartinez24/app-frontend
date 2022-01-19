@@ -373,7 +373,7 @@ export const theme = ({ palette }) => {
     body2: {
       fontWeight: 400,
       fontSize: '0.8rem',
-      lineHeight: '0.9rem',
+      lineHeight: '1.1rem',
       color: `${palette.common.first}DE`
     },
     caption: {
