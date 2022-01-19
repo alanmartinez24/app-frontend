@@ -104,7 +104,7 @@ const styles = theme => ({
   LinearProgress: {
     height: '3px'
   },
-  LinkDecoration: {
+  linkDecoration: {
     textDecoration: 'none'
   },
   minimize: {
@@ -164,7 +164,7 @@ const styles = theme => ({
       fontSize: '14px'
     }
   },
-  twitter: {
+  chipIcon: {
     color: theme.palette.text.secondary,
     fontSize: 'small !important'
   },
@@ -378,7 +378,7 @@ function ProfileCard (props) {
                   <a href={`https://twitter.com/${twitterName}`}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className={classes.LinkDecoration}
+                    className={classes.linkDecoration}
                   >
                     <Chip label={twitterName}
                       className={classes.chip}
@@ -386,9 +386,8 @@ function ProfileCard (props) {
                       onClick
                       icon={
                         <Icon
-                          className={['fab fa-twitter', classes.twitter]}
+                          className={['fab fa-twitter', classes.chipIcon]}
                         />
-
                   }
                     />
                   </a>
@@ -398,12 +397,17 @@ function ProfileCard (props) {
                 <Grid item> <a href={`https://etherscan.io/address/${ethAddress}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className={classes.LinkDecoration}
+                  className={classes.linkDecoration}
                             >
                   <Chip label={ethAddress.slice(0, 5)}
                     className={classes.chip}
                     size='small'
                     onClick
+                    icon={
+                      <Icon
+                        className={['fab fa-ethereum', classes.chipIcon]}
+                      />
+                    }
                   />
                 </a>
                 </Grid>
