@@ -137,7 +137,6 @@ class PostHOC extends PureComponent {
           timeout={2000}
         >
           <div
-            className={classes.article}
             style={{ background: 'transparent', paddingTop: '0.25rem' }}
           >
             <PostHeader
