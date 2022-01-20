@@ -29,14 +29,15 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, maxLength, ...restProps }) => {
-  const theme = useTheme()
+const YupInput = ({ classes, maxLength, adornment, ...restProps }) => {
+  const { palette } = useTheme()
   return (
     <TextField
       {...restProps}
       className={classes.textField}
-      inputProps={{ maxLength, borderBottomColor: theme.palette.second }}
+      inputProps={{ maxLength, borderBottomColor: palette.second }}
       InputProps={{
+                endAdornment: adornment,
                 classes: {
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -45,7 +46,7 @@ const YupInput = ({ classes, maxLength, ...restProps }) => {
                 className: classes.input }}
       InputLabelProps={{
                 style: {
-                    color: theme.palette.third
+                    color: palette.third
                 }
             }}
     />
@@ -54,7 +55,8 @@ const YupInput = ({ classes, maxLength, ...restProps }) => {
 
 YupInput.propTypes = {
     classes: PropTypes.object.isRequired,
-    maxLength: PropTypes.number
+    maxLength: PropTypes.number,
+    adornment: PropTypes.object
   }
 
 export default (withStyles(styles)(YupInput))

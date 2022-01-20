@@ -1,15 +1,15 @@
-import React, { Component, memo } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography, Card, Button, Tabs, Tab } from '@material-ui/core'
-// import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import '../../components/Tour/tourstyles.css'
+// import '../../components/Tour/tourstyles.css'
 import YupInput from '../../components/Miscellaneous/YupInput'
-// import Colors from '../../utils/colors'
-/* CLEAN UP */
+
+const { YUP_DOCS_URL, YUP_BUY_LINK } = process.env
+
 const styles = theme => ({
   container: {
     minHeight: '100vh',
@@ -24,40 +24,23 @@ const styles = theme => ({
     overflowX: 'hidden',
     flex: 1
   },
-  sideFeed: {
-    position: 'fixed',
-    marginLeft: '38vw',
-    paddingLeft: '0px',
-    paddingRight: '0px'
+  aprText: {
+    background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)',
+    '-webkit-background-clip': 'text',
+    '-webkit-text-fill-color': 'transparent'
   },
-  Card: {
-    padding: theme.spacing(2),
-    height: '70%',
-    width: '300px',
-    marginBottom: 0,
-    boxShadow:
-      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
-    backgroundColor: theme.palette.alt.second,
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '20vh',
-      width: '90%'
-    }
+  card: {
+    padding: 20
   }
 })
 
 /* CLEAN UP */
-class StakingPage extends Component {
-  state = {
-  }
-
-  render () {
-    const { classes } = this.props
-
+const StakingPage = ({ classes }) => {
     return (
       <ErrorBoundary>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>  </title>
+          <title> Yup Staking </title>
           <meta property='description'
             content=''
           />
@@ -114,7 +97,7 @@ class StakingPage extends Component {
               </Grid>
               <Grid item>
                 <Typography variant='h1'
-                  style={{ background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)', '-webkit-background-clip': 'text', '-webkit-text-fill-color': 'transparent' }}
+                  className={classes.aprText}
                 >
                   523.432% APR
                 </Typography>
@@ -126,12 +109,12 @@ class StakingPage extends Component {
               >
                 <Grid item>
                   <Button variant='outlined'
-                    href='https://matcha.xyz/markets/1/0x69bbc3f8787d573f1bbdd0a5f40c7ba0aee9bcc9/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+                    href={YUP_BUY_LINK}
                     target='_blank'
                   > Buy YUP </Button>
                 </Grid>
                 <Grid item>
-                  <Button href='https://docs.yup.io/protocol/yup-protocol'
+                  <Button href={`${YUP_DOCS_URL}/protocol/yup-protocol`}
                     target='_blank'
                   > Learn More </Button>
                 </Grid>
@@ -154,7 +137,9 @@ class StakingPage extends Component {
                 <Grid item
                   xs={44}
                 >
-                  <img src='images/graphics/yupeth.svg' />
+                  <img src='images/graphics/yupeth.svg'
+                    alt='yupeth graphic'
+                  />
                 </Grid>
                 <Grid item
                   xs={8}
@@ -169,7 +154,7 @@ class StakingPage extends Component {
                   </Grid>
                   <Grid item>
                     <Typography variant='subtitle1'>
-                      Stake YUP-ETH LP Tokens from Uniswap V2 on Ethereum
+                      Stake YUP-ETH Uniswap V2 LP Tokens on Ethereum
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -189,7 +174,9 @@ class StakingPage extends Component {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Card >
+                    <Card
+                      className={classes.card}
+                    >
                       <Grid
                         container
                         direction='column'
@@ -213,7 +200,6 @@ class StakingPage extends Component {
                               container
                               direction='column'
                               xs={12}
-                              sx={{ p: 5 }}
                               spacing={2}
                             >
                               <Grid item
@@ -222,16 +208,21 @@ class StakingPage extends Component {
                                 spacing={1}
                               >
                                 <Grid item
+                                  container
+                                  justify='space-between'
                                   xs={10}
                                 >
                                   <YupInput
                                     fullWidth
-                                    id='name'
+                                    id='stake-amount'
                                     maxLength='10'
-                                    multiline
-                                    type='text'
+                                    type='number'
                                     variant='outlined'
                                     size='small'
+                                    adornment={<Button size='xs'
+                                      variant='contained'
+                                      style={{ lineHeight: 0 }}
+                                               >MAX</Button>}
                                   />
                                 </Grid>
                                 <Grid item
@@ -323,7 +314,7 @@ class StakingPage extends Component {
                   </Grid>
                   <Grid item>
                     <Typography variant='subtitle1'>
-                      Stake YUP-ETH LP Tokens from Uniswap V3 on Polygon
+                      Stake YUP-ETH Uniswap V3 LP Tokens on Polygon
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -343,16 +334,17 @@ class StakingPage extends Component {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Card >
+                    <Card
+                      className={classes.card}
+                    >
                       <Grid
                         container
                         direction='column'
                         spacing={2}
-                        sx={{ p: 2 }}
                       >
                         <Grid item>
                           <Tabs
-                            aria-label='basic tabs example'
+                            aria-label='stake-tab'
                           >
                             <Tab label='Staked' />
                             <Tab label='Unstaked' />
@@ -367,7 +359,6 @@ class StakingPage extends Component {
                               container
                               direction='column'
                               xs={12}
-                              sx={{ p: 5 }}
                               spacing={2}
                             >
                               <Grid item
@@ -380,12 +371,15 @@ class StakingPage extends Component {
                                 >
                                   <YupInput
                                     fullWidth
-                                    id='name'
+                                    id='stake-amount'
                                     maxLength='10'
-                                    multiline
-                                    type='text'
+                                    type='number'
                                     variant='outlined'
                                     size='small'
+                                    adornment={<Button size='xs'
+                                      variant='contained'
+                                      style={{ lineHeight: 0 }}
+                                               >MAX</Button>}
                                   />
                                 </Grid>
                                 <Grid item
@@ -470,7 +464,9 @@ class StakingPage extends Component {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Card >
+                    <Card
+                      className={classes.card}
+                    >
                       <Grid
                         container
                         direction='column'
@@ -499,10 +495,9 @@ class StakingPage extends Component {
                                 >
                                   <YupInput
                                     fullWidth
-                                    id='name'
+                                    id='collect-lp-rewards'
                                     maxLength='10'
-                                    multiline
-                                    type='text'
+                                    type='number'
                                     variant='outlined'
                                     size='small'
                                   />
@@ -571,7 +566,6 @@ class StakingPage extends Component {
       </ErrorBoundary>
     )
   }
-}
 
 const mapStateToProps = state => {
   const { router } = state
