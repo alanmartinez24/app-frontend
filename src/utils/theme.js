@@ -21,6 +21,7 @@ export const darkPalette = {
       main: Colors.W1,
       gradient: Gradients.background.dark
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     secondary: {
       main: Colors.Green
     },
@@ -55,6 +56,7 @@ export const lightPalette = {
       fourth: Colors.W4,
       fifth: Colors.W5
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     primary: {
       main: Colors.B2,
       gradient: Gradients.background.light
@@ -209,6 +211,9 @@ export const theme = ({ palette }) => {
       },
       input: {
         padding: '10px 14px'
+      },
+      adornedEnd: {
+        padding: 0
       }
     },
     MuiTextField: {

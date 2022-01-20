@@ -1,22 +1,24 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, useTheme } from '@material-ui/core/styles'
 import { Grid, Typography, Card, Button, Tabs, Tab } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-// import '../../components/Tour/tourstyles.css'
 import YupInput from '../../components/Miscellaneous/YupInput'
 
 const { YUP_DOCS_URL, YUP_BUY_LINK } = process.env
 
-const styles = theme => ({
+const styles = ({ palette }) => ({
   container: {
     minHeight: '100vh',
     maxWidth: '100vw',
     padding: '80px 220px 80px 220px',
     overflowY: 'hidden',
-    backgroundColor: theme.palette.alt.second
+    backgroundColor: palette.alt.second
+  },
+  submitBtnTxt: {
+    color: palette.alt.second
   },
   page: {
     width: '100%',
@@ -24,18 +26,33 @@ const styles = theme => ({
     overflowX: 'hidden',
     flex: 1
   },
+  maxBtn: {
+    lineHeight: 0,
+    maxWidth: 30
+  },
+  submitBtn: {
+    background: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
+    height: '100%'
+  },
   aprText: {
     background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)',
     '-webkit-background-clip': 'text',
     '-webkit-text-fill-color': 'transparent'
   },
   card: {
-    padding: 20
+    padding: 20,
+    border: '1px solid #616467'
   }
 })
 
 /* CLEAN UP */
 const StakingPage = ({ classes }) => {
+  const { palette } = useTheme()
+  const [activePolyTab, setActivePolyTab] = useState(0)
+  const [activeEthTab, setActiveEthTab] = useState(0)
+
+  const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
+  const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
     return (
       <ErrorBoundary>
         <Helmet>
@@ -181,11 +198,12 @@ const StakingPage = ({ classes }) => {
                         container
                         direction='column'
                         spacing={2}
-                        sx={{ p: 2 }}
                       >
                         <Grid item>
                           <Tabs
-                            aria-label='basic tabs example'
+                            value={activeEthTab}
+                            onChange={handleEthTabChange}
+                            TabIndicatorProps={{ style: { background: palette.rainbowGradient } }}
                           >
                             <Tab label='Staked' />
                             <Tab label='Unstaked' />
@@ -221,8 +239,8 @@ const StakingPage = ({ classes }) => {
                                     size='small'
                                     adornment={<Button size='xs'
                                       variant='contained'
-                                      style={{ lineHeight: 0 }}
-                                               >MAX</Button>}
+                                      className={classes.maxBtn}
+                                               >Max</Button>}
                                   />
                                 </Grid>
                                 <Grid item
@@ -230,9 +248,11 @@ const StakingPage = ({ classes }) => {
                                 >
                                   <Button size='large'
                                     variant='contained'
-                                    style={{ height: '100%' }}
+                                    className={classes.submitBtn}
                                   >
-                                    <Typography variant='body2'>
+                                    <Typography variant='body2'
+                                      className={classes.submitBtnTxt}
+                                    >
                                       Stake
                                     </Typography>
                                   </Button>
@@ -344,7 +364,9 @@ const StakingPage = ({ classes }) => {
                       >
                         <Grid item>
                           <Tabs
-                            aria-label='stake-tab'
+                            value={activePolyTab}
+                            onChange={handlePolyTabChange}
+                            TabIndicatorProps={{ style: { background: palette.rainbowGradient } }}
                           >
                             <Tab label='Staked' />
                             <Tab label='Unstaked' />
@@ -378,8 +400,8 @@ const StakingPage = ({ classes }) => {
                                     size='small'
                                     adornment={<Button size='xs'
                                       variant='contained'
-                                      style={{ lineHeight: 0 }}
-                                               >MAX</Button>}
+                                      className={classes.maxBtn}
+                                               >Max</Button>}
                                   />
                                 </Grid>
                                 <Grid item
@@ -387,9 +409,11 @@ const StakingPage = ({ classes }) => {
                                 >
                                   <Button size='large'
                                     variant='contained'
-                                    style={{ height: '100%' }}
+                                    className={classes.submitBtn}
                                   >
-                                    <Typography variant='body2'>
+                                    <Typography variant='body2'
+                                      className={classes.submitBtnTxt}
+                                    >
                                       Stake
                                     </Typography>
                                   </Button>
@@ -471,7 +495,6 @@ const StakingPage = ({ classes }) => {
                         container
                         direction='column'
                         spacing={2}
-                        sx={{ p: 2 }}
                       >
                         <Grid item>
                           <Grid item
@@ -482,7 +505,6 @@ const StakingPage = ({ classes }) => {
                               container
                               direction='column'
                               xs={12}
-                              sx={{ p: 5 }}
                               spacing={2}
                             >
                               <Grid item
@@ -507,9 +529,12 @@ const StakingPage = ({ classes }) => {
                                 >
                                   <Button size='large'
                                     variant='contained'
-                                    style={{ height: '100%' }}
+                                    className={classes.submitBtn}
                                   >
-                                    <Typography variant='body2'>
+                                    <Typography
+                                      className={classes.submitBtnTxt}
+                                      variant='body2'
+                                    >
                                       Collect
                                     </Typography>
                                   </Button>
