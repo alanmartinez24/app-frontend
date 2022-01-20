@@ -7,13 +7,14 @@ import { Grid, Typography, Card, Button, Tabs, Tab } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import '../../components/Tour/tourstyles.css'
+import YupInput from '../../components/Miscellaneous/YupInput'
 // import Colors from '../../utils/colors'
 /* CLEAN UP */
 const styles = theme => ({
   container: {
     minHeight: '100vh',
     maxWidth: '100vw',
-    padding: '80px 220px 80px 260px',
+    padding: '80px 220px 80px 220px',
     overflowY: 'hidden',
     backgroundColor: theme.palette.alt.second
   },
@@ -112,7 +113,9 @@ class StakingPage extends Component {
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant='h1'>
+                <Typography variant='h1'
+                  style={{ background: '-webkit-linear-gradient(45deg, #00e08e, #f0c909, #eb3650)', '-webkit-background-clip': 'text', '-webkit-text-fill-color': 'transparent' }}
+                >
                   523.432% APR
                 </Typography>
               </Grid>
@@ -122,10 +125,15 @@ class StakingPage extends Component {
                 spacing={2}
               >
                 <Grid item>
-                  <Button variant='outlined'> Buy YUP </Button>
+                  <Button variant='outlined'
+                    href='https://matcha.xyz/markets/1/0x69bbc3f8787d573f1bbdd0a5f40c7ba0aee9bcc9/0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+                    target='_blank'
+                  > Buy YUP </Button>
                 </Grid>
                 <Grid item>
-                  <Button> Learn More </Button>
+                  <Button href='https://docs.yup.io/protocol/yup-protocol'
+                    target='_blank'
+                  > Learn More </Button>
                 </Grid>
               </Grid>
             </Grid>
@@ -137,22 +145,19 @@ class StakingPage extends Component {
               spacing={5}
             >
               <Grid item
-                xs={6}
+                xs={12}
+                md={6}
                 container
                 direction='row'
                 spacing={4}
               >
                 <Grid item
-                  xs={2}
+                  xs={44}
                 >
-                  <Card>
-                    <Typography variant='h6'>
-                      Pic
-                    </Typography>
-                  </Card>
+                  <img src='images/graphics/yupeth.svg' />
                 </Grid>
                 <Grid item
-                  xs={10}
+                  xs={8}
                   container
                   direction='column'
                   spacing={2}
@@ -176,7 +181,7 @@ class StakingPage extends Component {
                 <Grid item
                   container
                   direction='column'
-                  spacing={6}
+                  spacing={4}
                 >
                   <Grid item>
                     <Typography variant='subtitle1'>
@@ -184,11 +189,12 @@ class StakingPage extends Component {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Card>
+                    <Card >
                       <Grid
                         container
                         direction='column'
                         spacing={2}
+                        sx={{ p: 2 }}
                       >
                         <Grid item>
                           <Tabs
@@ -203,10 +209,86 @@ class StakingPage extends Component {
                             spacing={5}
                             container
                           >
-                            <Grid item>
-                              <Typography variant='h6'>
-                                Main
-                              </Typography>
+                            <Grid item
+                              container
+                              direction='column'
+                              xs={12}
+                              sx={{ p: 5 }}
+                              spacing={2}
+                            >
+                              <Grid item
+                                container
+                                direction='row'
+                                spacing={1}
+                              >
+                                <Grid item
+                                  xs={10}
+                                >
+                                  <YupInput
+                                    fullWidth
+                                    id='name'
+                                    maxLength='10'
+                                    multiline
+                                    type='text'
+                                    variant='outlined'
+                                    size='small'
+                                  />
+                                </Grid>
+                                <Grid item
+                                  xs={2}
+                                >
+                                  <Button size='large'
+                                    variant='contained'
+                                    style={{ height: '100%' }}
+                                  >
+                                    <Typography variant='body2'>
+                                      Stake
+                                    </Typography>
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                              <Grid item
+                                container
+                                direction='column'
+                              >
+                                <Grid item
+                                  container
+                                  direction='row'
+                                  justify='space-between'
+                                >
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      UNI V2 YUP-ETH LP in wallet:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      --
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                                <Grid item
+                                  container
+                                  direction='row'
+                                  justify='space-between'
+                                >
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      Staked:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      0
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                              <Grid item>
+                                <Typography variant='body2'>
+                                  Pending YUP rewards will be automatically collected when you stake or unstake.
+                                </Typography>
+                              </Grid>
                             </Grid>
                           </Grid>
                         </Grid>
@@ -215,25 +297,273 @@ class StakingPage extends Component {
                   </Grid>
                 </Grid>
               </Grid>
+
               <Grid item
-                xs={6}
+                xs={12}
+                md={6}
+                container
+                direction='row'
+                spacing={4}
               >
-                <Card>
-                  <Typography variant='h6'>
-                    Text
-                  </Typography>
-                  <Button />
-                </Card>
+                <Grid item
+                  xs={44}
+                >
+                  <img src='images/graphics/yupeth.svg' />
+                </Grid>
+                <Grid item
+                  xs={8}
+                  container
+                  direction='column'
+                  spacing={2}
+                >
+                  <Grid item>
+                    <Typography variant='body1'>
+                      LP Token Staking
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='subtitle1'>
+                      Stake YUP-ETH LP Tokens from Uniswap V3 on Polygon
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='h5'>
+                      523.53% APR
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item
+                  container
+                  direction='column'
+                  spacing={4}
+                >
+                  <Grid item>
+                    <Typography variant='subtitle1'>
+                      Your Stake
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Card >
+                      <Grid
+                        container
+                        direction='column'
+                        spacing={2}
+                        sx={{ p: 2 }}
+                      >
+                        <Grid item>
+                          <Tabs
+                            aria-label='basic tabs example'
+                          >
+                            <Tab label='Staked' />
+                            <Tab label='Unstaked' />
+                          </Tabs>
+                        </Grid>
+                        <Grid item>
+                          <Grid item
+                            spacing={5}
+                            container
+                          >
+                            <Grid item
+                              container
+                              direction='column'
+                              xs={12}
+                              sx={{ p: 5 }}
+                              spacing={2}
+                            >
+                              <Grid item
+                                container
+                                direction='row'
+                                spacing={1}
+                              >
+                                <Grid item
+                                  xs={10}
+                                >
+                                  <YupInput
+                                    fullWidth
+                                    id='name'
+                                    maxLength='10'
+                                    multiline
+                                    type='text'
+                                    variant='outlined'
+                                    size='small'
+                                  />
+                                </Grid>
+                                <Grid item
+                                  xs={2}
+                                >
+                                  <Button size='large'
+                                    variant='contained'
+                                    style={{ height: '100%' }}
+                                  >
+                                    <Typography variant='body2'>
+                                      Stake
+                                    </Typography>
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                              <Grid item
+                                container
+                                direction='column'
+                              >
+                                <Grid item
+                                  container
+                                  direction='row'
+                                  justify='space-between'
+                                >
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      UNI V2 YUP-ETH LP in wallet:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      --
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                                <Grid item
+                                  container
+                                  direction='row'
+                                  justify='space-between'
+                                >
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      Staked:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      0
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                              <Grid item>
+                                <Typography variant='body2'>
+                                  Pending YUP rewards will be automatically collected when you stake or unstake.
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
+                </Grid>
               </Grid>
+
               <Grid item
-                xs={6}
+                xs={12}
+                md={6}
+                container
+                direction='row'
+                spacing={4}
               >
-                <Card>
-                  <Typography variant='h6'>
-                    Text
-                  </Typography>
-                  <Button />
-                </Card>
+                <Grid item
+                  container
+                  direction='column'
+                  spacing={4}
+                >
+                  <Grid item>
+                    <Typography variant='h5'>
+                      Rewards to Collect
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Card >
+                      <Grid
+                        container
+                        direction='column'
+                        spacing={2}
+                        sx={{ p: 2 }}
+                      >
+                        <Grid item>
+                          <Grid item
+                            spacing={5}
+                            container
+                          >
+                            <Grid item
+                              container
+                              direction='column'
+                              xs={12}
+                              sx={{ p: 5 }}
+                              spacing={2}
+                            >
+                              <Grid item
+                                container
+                                direction='row'
+                                spacing={1}
+                              >
+                                <Grid item
+                                  xs={10}
+                                >
+                                  <YupInput
+                                    fullWidth
+                                    id='name'
+                                    maxLength='10'
+                                    multiline
+                                    type='text'
+                                    variant='outlined'
+                                    size='small'
+                                  />
+                                </Grid>
+                                <Grid item
+                                  xs={2}
+                                >
+                                  <Button size='large'
+                                    variant='contained'
+                                    style={{ height: '100%' }}
+                                  >
+                                    <Typography variant='body2'>
+                                      Collect
+                                    </Typography>
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                              <Grid item
+                                container
+                                direction='column'
+                              >
+                                <Grid item
+                                  container
+                                  direction='row'
+                                  justify='space-between'
+                                >
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      Last collected:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      --
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                                <Grid item
+                                  container
+                                  direction='row'
+                                  justify='space-between'
+                                >
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      Collected to date:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant='body2'>
+                                      0
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
