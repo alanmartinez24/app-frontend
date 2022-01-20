@@ -31,7 +31,7 @@ const styles = ({ palette }) => ({
     maxWidth: 30
   },
   submitBtn: {
-    background: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
+    background: palette.rainbowGradient,
     height: '100%'
   },
   aprText: {
@@ -53,11 +53,12 @@ const StakingPage = ({ classes }) => {
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
+
     return (
       <ErrorBoundary>
         <Helmet>
           <meta charSet='utf-8' />
-          <title> Yup Staking </title>
+          <title> Yup LP Staking </title>
           <meta property='description'
             content=''
           />
@@ -94,7 +95,9 @@ const StakingPage = ({ classes }) => {
             content=''
           />
         </Helmet>
-        <div className={classes.container}>
+        <Grid container
+          className={classes.container}
+        >
           <Grid className={classes.page}
             container
             direction='column'
@@ -587,7 +590,7 @@ const StakingPage = ({ classes }) => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Grid>
       </ErrorBoundary>
     )
   }
