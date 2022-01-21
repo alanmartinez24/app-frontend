@@ -1,21 +1,17 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
+import { Dialog, Portal, Snackbar, SnackbarContent, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import WalletConnect from '@walletconnect/client'
-import QRCodeModal from '@walletconnect/qrcode-modal'
+import { getEthConnector } from '../../utils/eth'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import { keccak256 } from 'web3-utils'
-import Portal from '@material-ui/core/Portal'
-import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
+import { convertUtf8ToHex } from '@walletconnect/utils'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
-// import { updateEthAuthInfo } from '../../redux/actions'
 
-const { BACKEND_API } = process.env
+// const { BACKEND_API } = process.env
+const BACKEND_API = 'http://localhost:4001'
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
 
@@ -131,9 +127,8 @@ class ConnectEth extends Component {
     if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
-    const bridge = 'https://bridge.walletconnect.org'
     // create new connector
-    const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
+    const connector = await getEthConnector()
     this.setState({ connector })
 
     // already logged in
@@ -201,16 +196,14 @@ class ConnectEth extends Component {
 
       const address = accounts[0]
       const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
-      const msgParams = [
-        address,
-        keccak256('\x19Ethereum Signed Message:\n' + challenge.length + challenge)
-      ]
+      const hexMsg = convertUtf8ToHex(challenge)
+      const msgParams = [address, hexMsg]
       const signature = await this.state.connector.signMessage(msgParams)
       this.setState({
         activeStep: 2
       })
-      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address: address, eosname: this.state.account.name, signature: signature })
-      this.props.dispatch(fetchSocialLevel(this.state.account.name))
+      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address, eosname: this.props.account.name, signature })
+      this.props.dispatch(fetchSocialLevel(this.state.props.name))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
       this.setState({ walletConnectOpen: false })

@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles, useTheme } from '@material-ui/core/styles'
@@ -9,7 +9,7 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import { accountInfoSelector } from '../../redux/selectors'
 import { ethers } from 'ethers'
-import { getPolygonWeb3Provider } from '../../utils/eth'
+import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
 import LIQUIDITY_RWRDS_ABI from '../../abis/LiquidityRewards.json'
 
 const isMobile = window.innerWidth <= 600
@@ -56,6 +56,7 @@ const styles = theme => ({
 
 const StakingPage = ({ classes, account }) => {
   const provider = getPolygonWeb3Provider()
+  console.log('account', account)
   const liquidityRwrdsContract = new provider.eth.Contract(LIQUIDITY_RWRDS_ABI, LIQUIDITY_RWRDS_CONTRACT)
   console.log('liquidityRwrdsContract', liquidityRwrdsContract)
   // const ethYUPETHtokenContract = new provider.eth.Contract(LIQUIDITY_RWRDS_ABI, POLYGON_YUP_TOKEN)
@@ -73,17 +74,25 @@ const StakingPage = ({ classes, account }) => {
   const handleEthStakeAmountChange = ({ target }) => setEthStakeAmt(target.value)
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
 
+  useEffect(() => {
+    const connector = getEthConnector()
+    console.log('connector', connector)
+  }, [])
+
   const handleEthStaking = async () => {
     const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
     console.log('isStake', isStake)
-    const stakeAmt = ethers.BigNumber.from(stakeAmt)
-    await liquidityRwrdsContract.connect(liquidityProvider1).approve(LIQUIDITY_RWRDS_CONTRACT, stakeAmt)
-    await liquidityRwrdsContract.connect(liquidityProvider1).stake('1000')
+    const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
+    console.log('stakeAmt', stakeAmt)
+    // await liquidityRwrdsContract.connect(liquidityProvider1).approve(LIQUIDITY_RWRDS_CONTRACT, stakeAmt)
+    // await liquidityRwrdsContract.connect(liquidityProvider1).stake('1000')
     setEthConnectorDialog(true)
   }
 
   const handlePolygonStaking = async () => {
     console.log('activePolyTab', activePolyTab)
+    const stakeAmt = ethers.BigNumber.from(polyStakeAmt)
+    console.log('stakeAmt', stakeAmt)
     setEthConnectorDialog(true)
   }
 
