@@ -8,14 +8,16 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import { accountInfoSelector } from '../../redux/selectors'
-import ethers from 'ethers'
+import { ethers } from 'ethers'
+import { getPolygonWeb3Provider } from '../../utils/eth'
+import LIQUIDITY_RWRDS_ABI from '../../abis/LiquidityRewards.json'
 
 const isMobile = window.innerWidth <= 600
 // const isMedium = window.innerWidth <= 900
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, LIQUIDITY_RWRDS_CONTRACT } = process.env
 
 const styles = theme => ({
   container: {
@@ -53,22 +55,34 @@ const styles = theme => ({
 })
 
 const StakingPage = ({ classes, account }) => {
+  const provider = getPolygonWeb3Provider()
+  const liquidityRwrdsContract = new provider.eth.Contract(LIQUIDITY_RWRDS_ABI, LIQUIDITY_RWRDS_CONTRACT)
+  console.log('liquidityRwrdsContract', liquidityRwrdsContract)
+  // const ethYUPETHtokenContract = new provider.eth.Contract(LIQUIDITY_RWRDS_ABI, POLYGON_YUP_TOKEN)
+
   const { palette } = useTheme()
-  console.log('ethers', ethers)
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
   const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
+  const [ethStakeAmt, setEthStakeAmt] = useState(0)
+  const [polyStakeAmt, setPolyStakeAmt] = useState(0)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
   const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
+  const handleEthStakeAmountChange = ({ target }) => setEthStakeAmt(target.value)
+  const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
 
-  const handleEthStaking = () => {
-    console.log('activeEthTab', activeEthTab)
+  const handleEthStaking = async () => {
+    const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
+    console.log('isStake', isStake)
+    const stakeAmt = ethers.BigNumber.from(stakeAmt)
+    await liquidityRwrdsContract.connect(liquidityProvider1).approve(LIQUIDITY_RWRDS_CONTRACT, stakeAmt)
+    await liquidityRwrdsContract.connect(liquidityProvider1).stake('1000')
     setEthConnectorDialog(true)
   }
 
-  const handlePolygonStaking = () => {
+  const handlePolygonStaking = async () => {
     console.log('activePolyTab', activePolyTab)
     setEthConnectorDialog(true)
   }
@@ -257,6 +271,7 @@ const StakingPage = ({ classes, account }) => {
                                           type='number'
                                           variant='outlined'
                                           size='small'
+                                          onChange={handleEthStakeAmountChange}
                                           adornment={<Button size='xs'
                                             variant='contained'
                                             className={classes.maxBtn}
@@ -271,7 +286,7 @@ const StakingPage = ({ classes, account }) => {
                                       >
                                         <Typography variant='body2'
                                           className={classes.submitBtnTxt}
-                                          onclick={handleEthStaking}
+                                          onClick={handleEthStaking}
                                         >
                                           Stake
                                         </Typography>
@@ -422,6 +437,7 @@ const StakingPage = ({ classes, account }) => {
                                           type='number'
                                           variant='outlined'
                                           size='small'
+                                          onChange={handlePolyStakeAmountChange}
                                           adornment={<Button size='xs'
                                             variant='contained'
                                             className={classes.maxBtn}
@@ -436,7 +452,7 @@ const StakingPage = ({ classes, account }) => {
                                       >
                                         <Typography variant='body2'
                                           className={classes.submitBtnTxt}
-                                          onclick={handlePolygonStaking}
+                                          onClick={handlePolygonStaking}
                                         >
                                           Stake
                                         </Typography>
