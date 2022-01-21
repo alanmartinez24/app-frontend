@@ -173,7 +173,7 @@ const StakingPage = ({ classes }) => {
                       />
                     </Grid>
                     <Grid item
-                      xs
+                      xs={9}
                     >
                       <Grid
                         container
@@ -337,7 +337,7 @@ const StakingPage = ({ classes }) => {
                       />
                     </Grid>
                     <Grid item
-                      xs
+                      xs={9}
                     >
                       <Grid
                         container

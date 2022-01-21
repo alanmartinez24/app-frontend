@@ -89,8 +89,17 @@ const CollectionItem = ({ classes, collection, username }) => {
             lg={9}
             xl={10}
           >
-            <Typography variant='subtitle1'>{collection.name}</Typography>
-            <Typography variant='body2'>{collectionSubheader}</Typography>
+            <Grid container
+              direction='column'
+              spacing={1}
+            >
+              <Grid item>
+                <Typography variant='subtitle2'>{collection.name}</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant='body2'>{collectionSubheader}</Typography>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Link>
