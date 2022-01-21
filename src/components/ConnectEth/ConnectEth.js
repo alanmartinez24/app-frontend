@@ -98,9 +98,9 @@ const styles = theme => ({
   }
 })
 
-class SubscribeDialog extends Component {
+class ConnectEth extends Component {
   state = {
-    EthIsLoading: false,
+    ethIsLoading: false,
     account: null,
     connector: null,
     connected: false,
@@ -229,7 +229,7 @@ class SubscribeDialog extends Component {
       activeStep: 0,
       showWhitelist: false,
       showUsername: false,
-      EthIsLoading: false
+      ethIsLoading: false
     },
     localStorage.removeItem('YUP_ETH_AUTH')
     )
@@ -312,7 +312,7 @@ class SubscribeDialog extends Component {
                       >
                         WalletConnect
                       </Typography>
-                      {this.state.EthIsLoading
+                      {this.state.ethIsLoading
                     ? <CircularProgress size={13.5}
                       className={classes.loader}
                       />
@@ -368,11 +368,11 @@ class SubscribeDialog extends Component {
   }
 }
 
-SubscribeDialog.propTypes = {
+ConnectEth.propTypes = {
   classes: PropTypes.object.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
-export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))
+export default memo(withRouter(connect(null)(withStyles(styles)(ConnectEth))))

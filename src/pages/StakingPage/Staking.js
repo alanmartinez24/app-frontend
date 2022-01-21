@@ -6,6 +6,9 @@ import { Grid, Typography, Card, Button, Tabs, Tab } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
+import ConnectEth from '../../components/ConnectEth/ConnectEth'
+import { accountInfoSelector } from '../../redux/selectors'
+import ethers from 'ethers'
 
 const isMobile = window.innerWidth <= 600
 // const isMedium = window.innerWidth <= 900
@@ -49,14 +52,26 @@ const styles = theme => ({
   }
 })
 
-/* CLEAN UP */
-const StakingPage = ({ classes }) => {
+const StakingPage = ({ classes, account }) => {
   const { palette } = useTheme()
+  console.log('ethers', ethers)
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
+  const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
+  const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
+
+  const handleEthStaking = () => {
+    console.log('activeEthTab', activeEthTab)
+    setEthConnectorDialog(true)
+  }
+
+  const handlePolygonStaking = () => {
+    console.log('activePolyTab', activePolyTab)
+    setEthConnectorDialog(true)
+  }
 
     return (
       <ErrorBoundary>
@@ -256,6 +271,7 @@ const StakingPage = ({ classes }) => {
                                       >
                                         <Typography variant='body2'
                                           className={classes.submitBtnTxt}
+                                          onclick={handleEthStaking}
                                         >
                                           Stake
                                         </Typography>
@@ -420,6 +436,7 @@ const StakingPage = ({ classes }) => {
                                       >
                                         <Typography variant='body2'
                                           className={classes.submitBtnTxt}
+                                          onclick={handlePolygonStaking}
                                         >
                                           Stake
                                         </Typography>
@@ -611,6 +628,11 @@ const StakingPage = ({ classes }) => {
                 </Grid>
               </Grid>
             </Grid>
+            <ConnectEth
+              account={account}
+              dialogOpen={ethConnectorDialog}
+              handleDialogClose={handleEthConnectorDialogClose}
+            />
           </Grid>
         </Grid>
       </ErrorBoundary>
@@ -619,14 +641,17 @@ const StakingPage = ({ classes }) => {
 
 const mapStateToProps = state => {
   const { router } = state
+  const account = accountInfoSelector(state)
   return {
     feed: router.location.query.feed || state.homeFeed.feed,
-    query: router.location.query
+    query: router.location.query,
+    account
   }
 }
 
 StakingPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired
 }
 
 export default memo(connect(mapStateToProps)(withStyles(styles)(StakingPage)))
