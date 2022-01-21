@@ -151,7 +151,7 @@ const Reply = ({ tweetData, classes }) => {
               >
                 <img
                   src='/images/icons/twitter.svg'
-                  style={{ height: '24px', paddingLeft: '10px', paddingRight: '10px' }}
+                  height='24'
                   alt='twitter'
                 />
               </Link>
@@ -164,7 +164,7 @@ const Reply = ({ tweetData, classes }) => {
               target='_blank'
               underline='none'
             >
-              <Typography variant='body1'>
+              <Typography variant='body2'>
                 {replyTweetText}
               </Typography>
             </Link>
@@ -194,7 +194,8 @@ const Reply = ({ tweetData, classes }) => {
           target='_blank'
           underline='none'
         >
-          <Typography className={classes.tweetText}
+          <Typography variant='body2'
+            className={classes.tweetText}
             style={{ marginLeft: '6px' }}
           >
             {tweetText.replace(/@\S+\s?/gm, '')}

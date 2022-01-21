@@ -771,7 +771,7 @@ class User extends Component {
                         >
                           <Grid item>
                             <Typography
-                              variant='h4'
+                              variant='h5'
                             >Collections</Typography>
                           </Grid>
                           <Grid item>

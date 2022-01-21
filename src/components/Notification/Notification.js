@@ -59,8 +59,7 @@ const styles = theme => ({
   },
   textContainer: {
     height: '100%',
-    maxWidth: '100%',
-    width: '100%'
+    maxWidth: '70%'
   },
   notifGrad: {
     position: 'absolute',
@@ -71,7 +70,8 @@ const styles = theme => ({
     left: '0'
   },
   notifText: {
-    display: 'inline'
+    inlineSize: '100%',
+    overflowWrap: 'break-word'
   }
 })
 
@@ -186,8 +186,10 @@ class Notification extends Component {
                 jutifyContent='center'
                 xs={9}
               >
-                <Grid item>
-                  <NotifText className='notif-text'
+                <Grid item
+                  className={classes.notifText}
+                >
+                  <NotifText
                     invoker={invoker}
                     invokerWeight={invokerWeight}
                     notif={notif}

@@ -81,8 +81,6 @@ const styles = theme => ({
   },
   title: {
     position: 'relative',
-    fontSize: '20px',
-    fontWeight: 600,
     textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
     color: theme.palette.common.first,
     opacity: 0.9,
@@ -291,7 +289,7 @@ class NFTPreview extends Component {
                         />
                       </Grid>
                       <Grid item>
-                        <Typography variant='h3'
+                        <Typography variant='h6'
                           className={classes.title}
                         >
                           <LinesEllipsis

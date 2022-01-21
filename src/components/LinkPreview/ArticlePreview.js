@@ -130,7 +130,7 @@ class ArticlePreview extends Component {
                   xs={10}
                   sm={11}
                 >
-                  <Typography variant='h4'>
+                  <Typography variant='h6'>
                     <LinesEllipsis
                       basedOn='letters'
                       ellipsis='...'
@@ -141,7 +141,7 @@ class ArticlePreview extends Component {
                   </Typography>
                 </Grid>
               </Grid>
-              <Typography variant='body1'
+              <Typography variant='body2'
                 className={classes.description}
               >
                 <LinesEllipsis

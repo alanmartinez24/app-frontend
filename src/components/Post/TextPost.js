@@ -45,6 +45,7 @@ function TextPost (props) {
   const TextComp = (_props) => (
     <div className={classes.postContainer}>
       <Typography align='left'
+        variant='h6'
         className={classes.postCaption}
       >
         <Linkify properties={{

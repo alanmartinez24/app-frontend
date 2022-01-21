@@ -44,7 +44,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
           target='_blank'
           underline='none'
         >
-          <Typography variant='h5'
+          <Typography variant='h6'
             style={{ maxWidth: '300px' }}
           >
             {user && user.name && user.name.substring(0, 80)}
@@ -62,7 +62,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
         >
           <img
             src='/images/icons/twitter.svg'
-            style={{ height: '24px', paddingLeft: '10px', paddingRight: '10px' }}
+            height='24'
             alt='twitter'
           />
         </Link>

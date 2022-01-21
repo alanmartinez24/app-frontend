@@ -121,6 +121,7 @@ class Comment extends Component {
         >
           <Grid item>
             <Typography align='left'
+              variant='body2'
               className={classes.panelText}
             >
               <a

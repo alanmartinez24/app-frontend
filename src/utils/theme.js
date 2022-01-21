@@ -303,6 +303,12 @@ export const theme = ({ palette }) => {
     MuiChip: {
       root: {
         padding: '0 0.5rem'
+      },
+      icon: {
+        height: 'minContent',
+        color: palette.text.secondary,
+        fontSize: 'small !important',
+        opacity: 0.4
       }
     }
   },
@@ -318,57 +324,62 @@ export const theme = ({ palette }) => {
     h1: {
       fontWeight: 600,
       fontSize: '3.815rem',
-      lineHeight: '3.25rem',
-      marginBottom: '0.2rem',
+      lineHeight: '105%',
       color: `${palette.common.first}EE`
     },
     h2: {
-      fontWeight: 800,
+      fontWeight: 700,
       fontSize: '3.052rem',
-      lineHeight: '2.5rem',
+      lineHeight: '105%',
       color: `${palette.common.first}EE`
     },
     h3: {
       fontWeight: 600,
       fontSize: '2.441rem',
-      lineHeight: '1.85rem',
+      lineHeight: '105%',
       color: `${palette.common.second}EE`
     },
     h4: {
       fontWeight: 400,
       fontSize: '1.953rem',
-      lineHeight: '1.6rem',
+      lineHeight: '105%',
       color: `${palette.common.third}EE`
     },
     h5: {
       fontWeight: 700,
       fontSize: '1.562rem',
-      lineHeight: '1.3rem',
+      lineHeight: '105%',
+      color: `${palette.common.third}EE`
+    },
+    h6: {
+      fontWeight: 600,
+      fontSize: '1.339rem',
+      lineHeight: '105%',
       color: `${palette.common.third}EE`
     },
     subtitle1: {
       fontWeight: 400,
       fontSize: '1.25rem',
-      lineHeight: '1.65rem',
+      lineHeight: '105%',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
-      fontWeight: 300,
-      fontSize: '1.2rem',
-      lineHeight: '1.1875rem',
+      fontWeight: 700,
+      fontSize: '1rem',
+      lineHeight: '105%',
       color: `${palette.common.third}DD`
     },
     body1: {
       fontWeight: 800,
       fontSize: '0.8rem',
-      lineHeight: '1rem',
+      lineHeight: '105%',
       color: `${palette.common.third}EE`
     },
     body2: {
+      fontWeight: 400,
       fontSize: '0.8rem',
-      lineHeight: '0.9rem',
-      color: `${palette.common.first}DE`,
-      fontWeight: '400'
+      lineHeight: '105%',
+      color: `${palette.common.first}DE`
     },
     caption: {
       fontStyle: '600',

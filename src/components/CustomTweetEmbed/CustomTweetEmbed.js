@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Fade from '@material-ui/core/Fade'
+import { Fade } from '@material-ui/core/'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'lodash'
 
@@ -48,20 +48,18 @@ const styles = theme => ({
     padding: '10px 4px',
     textAlign: 'left',
     position: 'relative',
-    wordWrap: 'break-word',
-    fontSize: '1.2rem'
+    wordWrap: 'break-word'
   },
   twitterName: {
     padding: 0,
     margin: 0
   },
   twitterHandle: {
-    color: 'grey',
-    fontSize: '1rem'
+    color: 'grey'
   },
   twitterBirdIcon: {
     position: 'absolute',
-    left: '550px',
+    left: 550,
     '&:hover': {
       filter: 'brightness(1) invert(1)'
     }
