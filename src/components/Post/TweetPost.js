@@ -1,16 +1,12 @@
-/* eslint-disable */
 import React, { PureComponent } from 'react'
-import { TwitterTweetEmbed } from 'react-twitter-embed'
-import CustomTweetEmbed  from '../CustomTweetEmbed/CustomTweetEmbed'
+import CustomTweetEmbed from '../CustomTweetEmbed/CustomTweetEmbed'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import LinkPreviewPost from './LinkPreviewPost'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import './tweet.css'
 
 const styles = theme => ({
   postContainer: {
-    display: 'flex',
     transition: 'opacity 2s ease-in',
     padding: '0% 0% 0% 0%',
     minHeight: '100px',
@@ -39,7 +35,7 @@ const styles = theme => ({
 
 class TweetPost extends PureComponent {
   render () {
-    const { classes, caption, previewData, postHOC: PostHOC, tweetObject } = this.props
+    const { classes, postHOC: PostHOC, tweetObject } = this.props
 
     const TweetComp = (_props) => (
       <div className={classes.postContainer}>

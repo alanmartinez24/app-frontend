@@ -181,11 +181,11 @@ const LineChart = (props) => {
        <div className={classes.chartheader} >
          <Grid container
            direction='column'
+           spacing={2}
          >
            <Grid item>
              <Typography align='left'
-               className={classes.text}
-               variant='body2'
+               variant='h5'
              >
                {chartTitle}
              </Typography>

@@ -69,7 +69,7 @@ class WelcomeDialog extends Component {
             <Typography
               align='left'
               className={classes.dialogTitleText}
-              variant='title'
+              variant='h1'
             >
               Welcome to Yup 🎉
             </Typography>
@@ -79,7 +79,7 @@ class WelcomeDialog extends Component {
               <Typography
                 align='left'
                 className={classes.dialogContentText}
-                variant='title'
+                variant='h1'
               >
                 <span className={classes.desktopDialogContentText}>
                   <div style={{ opacity: 0.6, marginBottom: '10px' }}>

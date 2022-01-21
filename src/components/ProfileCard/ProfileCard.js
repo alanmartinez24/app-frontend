@@ -24,32 +24,32 @@ const styles = theme => ({
     height: 100 - theme.spacing(),
     minHeight: 100 - theme.spacing(),
     minWidth: 100 - theme.spacing(),
-    fontSize: '60px',
-    marginTop: '0px',
-    marginBottom: '-4px',
+    fontSize: 60,
+    marginTop: 0,
+    marginBottom: -4,
     borderRadius: '100%',
     border: `solid 3px ${theme.palette.common.third}`,
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '45px',
-      marginLeft: '15px',
+      fontSize: 45,
+      marginLeft: 0,
       marginBottom: '6vw',
       borderRadius: '100%',
-      width: '80px',
-      height: '80px',
-      minHeight: '80px',
-      minWidth: '80px'
+      width: 80,
+      height: 80,
+      minHeight: 80,
+      minWidth: 80
     }
   },
   bio: {
-    fontSize: '12px',
-    padding: '0px',
+    fontSize: 14,
+    padding: 0,
     marginTop: theme.spacing(1),
     fontFamily: 'Gilroy',
-    fontWeight: '100',
+    fontWeight: 100,
     display: 'inherit',
     [theme.breakpoints.down('xs')]: {
-      fontSize: '12px',
+      fontSize: 12,
       display: 'none'
     }
   },
@@ -59,11 +59,11 @@ const styles = theme => ({
     boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
     background: 'transparent',
     backgroundSize: 'cover',
-    width: '550px',
+    width: '100%',
     margin: 'auto',
-    marginTop: '75px',
+    marginTop: 75,
     maxWidth: '100vw',
-    maxHeight: '225px',
+    maxHeight: 225,
     position: 'relative',
     [theme.breakpoints.down('lg')]: {
       margin: '75px 0px 0px 30px'
@@ -71,8 +71,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       margin: 'auto',
       marginTop: theme.spacing(10),
-      height: '175px',
-      width: '100vw'
+      height: 175
     }
   },
   chip: {
@@ -80,7 +79,8 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 24
   },
   content: {
     color: 'black'
@@ -92,46 +92,46 @@ const styles = theme => ({
     display: 'none'
   },
   largeStat: {
-    fontSize: '24px',
+    fontSize: 24,
     padding: '0px',
     fontFamily: 'Gilroy',
     fontWeight: '500',
-    marginRight: '5px',
+    marginRight: 5,
     [theme.breakpoints.down('xs')]: {
-      fontSize: '22px',
+      fontSize: 22,
       width: '2rem'
     }
   },
   LinearProgress: {
-    height: '3px'
+    height: 3
   },
-  LinkDecoration: {
+  linkDecoration: {
     textDecoration: 'none'
   },
   minimize: {
-    width: '45px',
-    height: '45px',
-    minWidth: '45px',
-    minHeight: '45px',
-    fontSize: '18px',
+    width: 45,
+    height: 45,
+    minWidth: 45,
+    minHeight: 45,
+    fontSize: 18,
     [theme.breakpoints.down('xs')]: {
-      width: '35px',
-      height: '35px',
-      minWidth: '35px',
-      minHeight: '35px',
-      fontSize: '14px'
+      width: 35,
+      height: 35,
+      minWidth: 35,
+      minHeight: 35,
+      fontSize: 14
     }
   },
   minimizeCard: {
-    maxHeight: '55px',
+    maxHeight: 55,
     transition: 'max-height 0.2s linear',
     overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '45px'
+      maxHeight: 45
     }
   },
   name: {
-    padding: '0px'
+    padding: 0
   },
   profileDetails: {
     ...theme.mixins.gutters(),
@@ -139,11 +139,11 @@ const styles = theme => ({
     boxShadow: 'none',
     maxHeight: '250px',
     height: '140px',
+    width: 550,
     display: 'inline-grid',
-    width: '100%',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      paddingTop: '10px',
+      padding: '0 4px',
       display: 'block',
       height: '100px'
     }
@@ -165,10 +165,7 @@ const styles = theme => ({
       fontSize: '14px'
     }
   },
-  twitter: {
-    color: theme.palette.text.secondary,
-    fontSize: 'small !important'
-  },
+
   username: {
     fontSize: '18px',
     padding: '0px',
@@ -272,7 +269,7 @@ function ProfileCard (props) {
           <Grid
             item
             className={classes.profileDetails}
-            style={{ paddingTop: isMinimize ? '5px' : '', marginLeft: isMinimize ? 50 : 100 }}
+            style={{ paddingTop: isMinimize ? '5px' : '', marginLeft: isMinimize ? 50 : isMobile ? 0 : 100, marginTop: isMobile ? 100 : 0 }}
           >
             <Grid
               alignItems={isMinimize ? 'flex-start' : 'center'}
@@ -309,47 +306,6 @@ function ProfileCard (props) {
                     />
                   </Typography>
                 </Grid>
-                {/* MOVED THESE TWO CHIPS TO THE SECTION OF THE GRID NEAR THE USERNAME, ONE LINE BELOW
-
-                {twitterName && (
-                <Grid item
-                  xs={3}
-                >
-                  <a href={`https://twitter.com/${twitterName}`}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className={classes.LinkDecoration}
-                  >
-                    <Chip label={twitterName}
-                      className={classes.chip}
-                      onClick
-                      icon={
-                        <Icon fontSize='small'
-                          className={['fab fa-twitter', classes.twitter]}
-                        />
-
-                  }
-                    />
-                  </a>
-                </Grid>
-              )}
-                {ethAddress && (
-                <Grid item
-                  xs={3}
-                > <a href={`https://etherscan.io/address/${ethAddress}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={classes.LinkDecoration}
-                  >
-                  <Chip label={ethAddress.slice(0, 5)}
-                    className={classes.chip}
-                    onClick
-                  />
-                </a>
-                </Grid>
-              )}
-
-              */}
               </Grid>
               <Grid item
                 sm={2}
@@ -420,34 +376,34 @@ function ProfileCard (props) {
                   <a href={`https://twitter.com/${twitterName}`}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className={classes.LinkDecoration}
+                    className={classes.linkDecoration}
                   >
                     <Chip label={twitterName}
                       className={classes.chip}
-                      size='small'
                       onClick
                       icon={
                         <Icon
-                          className={['fab fa-twitter', classes.twitter]}
+                          className={['fab fa-twitter', classes.chipIcon]}
                         />
-
                   }
                     />
                   </a>
                 </Grid>
               )}
                 {ethAddress && (
-                <Grid item
-                  xs={3}
-                > <a href={`https://etherscan.io/address/${ethAddress}`}
+                <Grid item> <a href={`https://etherscan.io/address/${ethAddress}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className={classes.LinkDecoration}
-                  >
+                  className={classes.linkDecoration}
+                            >
                   <Chip label={ethAddress.slice(0, 5)}
                     className={classes.chip}
-                    size='small'
                     onClick
+                    icon={
+                      <Icon
+                        className={['fab fa-ethereum', classes.chipIcon]}
+                      />
+                    }
                   />
                 </a>
                 </Grid>
@@ -460,7 +416,7 @@ function ProfileCard (props) {
               color='inherit'
               nowrap
               style={{ wordWrap: 'break-word' }}
-              variant='body3'
+              variant='body2'
             >
               <LinesEllipsis
                 basedOn='letters'
@@ -482,11 +438,7 @@ function ProfileCard (props) {
             spacing={3}
             className={`${classes.profileStats} ${hidden}`}
           >
-            <Grid item
-              xs={6}
-              sm={3}
-              md={3}
-            >
+            <Grid item>
               <Tooltip
                 placement='bottom'
                 disableTouchListener
@@ -505,7 +457,7 @@ function ProfileCard (props) {
                     className={classes.largeStat}
                     style={{
                       display: 'inline-block',
-                      fontFamily: 'Gilroy',
+                      // fontFamily: 'Gilroy',
                       color: socialLevelColor
                     }}
                     variant='caption'
@@ -583,7 +535,7 @@ function ProfileCard (props) {
           >
             <Grid item>
               <Typography align='left'
-                variant='body3'
+                variant='body2'
               >
                 <a style={{ fontWeight: 500 }}>{formattedRatings}</a> Ratings
               </Typography>

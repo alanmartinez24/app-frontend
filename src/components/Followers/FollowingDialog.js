@@ -104,7 +104,7 @@ class FollowingDialog extends Component {
           >
             <Typography
               align='left'
-              variant='body3'
+              variant='body2'
             >
               <a style={{ fontWeight: 700 }}>{formattedFollowing} </a> following
             </Typography>

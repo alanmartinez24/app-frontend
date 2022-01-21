@@ -400,7 +400,7 @@ class Home extends Component {
                                     <Grid container>
                                       <Grid item>
                                         <Typography
-                                          variant='h4'
+                                          variant='h5'
                                           style={{ color: Colors.W2 }}
                                         >
                                           {item.title}
@@ -430,7 +430,7 @@ class Home extends Component {
                   <Fade in
                     timeout={2000}
                   >
-                    <Typography variant='h4'>
+                    <Typography variant='h5'>
                       Your Collections
                     </Typography>
                   </Fade>
@@ -480,7 +480,7 @@ class Home extends Component {
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='subtitle1'>{coll.name}</Typography>
                               <Typography variant='body2'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
                             </Grid>
                           </Grid>
@@ -508,7 +508,7 @@ class Home extends Component {
                       <Fade in
                         timeout={2000}
                       >
-                        <Typography variant='h4'>
+                        <Typography variant='h5'>
                           Browse
                         </Typography>
                       </Fade>
@@ -552,7 +552,7 @@ class Home extends Component {
                               lg={8}
                               xl={8}
                             >
-                              <Typography variant='h5'>{coll.name}</Typography>
+                              <Typography variant='subtitle1'>{coll.name}</Typography>
                               <Typography variant='body2'>{coll.owner}</Typography>
                             </Grid>
                           </Grid>

@@ -89,7 +89,7 @@ const CollectionItem = ({ classes, collection, username }) => {
             lg={9}
             xl={10}
           >
-            <Typography variant='h5'>{collection.name}</Typography>
+            <Typography variant='subtitle1'>{collection.name}</Typography>
             <Typography variant='body2'>{collectionSubheader}</Typography>
           </Grid>
         </Grid>

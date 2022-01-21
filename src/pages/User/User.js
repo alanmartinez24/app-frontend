@@ -6,7 +6,7 @@ import Feed from '../../components/Feed/Feed'
 import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll'
 import FeedLoader from '../../components/FeedLoader/FeedLoader'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, IconButton, Fade, Hidden, Tabs, Tab, Dialog, DialogTitle, DialogContent, Chip } from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Fade, Tabs, Tab, Dialog, DialogTitle, DialogContent, Chip } from '@material-ui/core'
 import axios from 'axios'
 import { pushAccount, fetchFollowers, fetchFollowing } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -61,10 +61,10 @@ const styles = theme => ({
     marginLeft: '110px',
     [theme.breakpoints.down('lg')]: {
       marginLeft: '30px',
-      maxWidth: '550px'
+      maxWidth: '600px'
     },
     [theme.breakpoints.down('xs')]: {
-      marginLeft: '15px',
+      marginLeft: 0,
       maxWidth: '96%'
     }
   },
@@ -91,18 +91,20 @@ const styles = theme => ({
   },
   page: {
     width: '100%',
-    marginLeft: 0,
-    [theme.breakpoints.down('md')]: {
-      width: '100%'
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 200,
-      width: `calc(100% - 200px)`
-    },
+    marginLeft: 100,
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain',
-      overflowX: 'hidden'
+      paddingTop: theme.spacing(0),
+      padding: '0px 1rem',
+      marginLeft: 0
     },
+    [theme.breakpoints.up('lg')]: {
+      padding: '0px 8vw'
+    },
+    [theme.breakpoints.up('xl')]: {
+      padding: '0px 15vw 0px 15vw'
+    },
+    padding: '0px 6vw',
     flex: 1
   },
   Tour: {
@@ -139,6 +141,9 @@ const styles = theme => ({
       margin: '0px 0px 0px 50px',
       width: '100%',
       maxWidth: '100%'
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0px 0px 0px 8px'
     }
   },
   collection: {
@@ -572,7 +577,6 @@ class User extends Component {
               spacing={showTabs ? 2 : 4}
             >
               <Grid item
-                lg={6}
                 xs={12}
               >
                 <ProfileCard
@@ -584,11 +588,6 @@ class User extends Component {
                   isMinimize={isMinimize}
                 />
               </Grid>
-              <Hidden mdDown>
-                <Grid item
-                  lg={6}
-                />
-              </Hidden>
 
               {showTabs && collections.length > 0 ? (
                 <>
@@ -772,7 +771,7 @@ class User extends Component {
                         >
                           <Grid item>
                             <Typography
-                              variant='h4'
+                              variant='h5'
                             >Collections</Typography>
                           </Grid>
                           <Grid item>
