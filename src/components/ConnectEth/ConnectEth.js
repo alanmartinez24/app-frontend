@@ -181,6 +181,7 @@ class ConnectEth extends Component {
      try {
       const chainId = connected ? payload._chainId : payload.params[0].chainId
       const accounts = connected ? payload._accounts : payload.params[0].accounts
+      const eosname = this.props.account.name
 
       if (chainId !== 1) {
         this.handleSnackbarOpen(NOTMAINNET_MSG, true)
@@ -195,15 +196,15 @@ class ConnectEth extends Component {
       })
 
       const address = accounts[0]
-      const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
+      const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
       const hexMsg = convertUtf8ToHex(challenge)
       const msgParams = [address, hexMsg]
       const signature = await this.state.connector.signMessage(msgParams)
       this.setState({
         activeStep: 2
       })
-      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address, eosname: this.props.account.name, signature })
-      this.props.dispatch(fetchSocialLevel(this.state.props.name))
+      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address, eosname, signature })
+      this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
       this.setState({ walletConnectOpen: false })
