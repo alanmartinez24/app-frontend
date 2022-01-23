@@ -371,13 +371,13 @@ export const theme = ({ palette }) => {
     },
     body1: {
       fontWeight: 800,
-      fontSize: '0.8rem',
+      fontSize: '0.875rem',
       lineHeight: '100%',
       color: `${palette.common.third}EE`
     },
     body2: {
       fontWeight: 400,
-      fontSize: '0.8rem',
+      fontSize: '0.875rem',
       lineHeight: '100%',
       color: `${palette.common.first}DE`
     },

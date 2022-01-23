@@ -48,7 +48,7 @@ const styles = (theme) => ({
     color: 'grey'
   },
   userAvatar: {
-    width: '3rem',
+    width: '2.5rem',
     aspectRatio: 1 / 1,
     borderRadius: '50%'
   },
@@ -83,7 +83,7 @@ const styles = (theme) => ({
     marginRight: '10px'
   },
   barDiv: {
-    border: '1.2px solid #AAAAAA',
+    border: `1.2px solid ${theme.palette.alt.fourth}`,
     content: " '' ",
     top: 0,
     left: -35,

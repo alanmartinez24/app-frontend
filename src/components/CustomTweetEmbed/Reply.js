@@ -113,9 +113,11 @@ const Reply = ({ tweetData, classes }) => {
   }
 
   return (
-    <Grid container
+    <Grid
+      container
       direction='column'
       className={classes.mainReplyContainer}
+      spacing={1}
     >
       <Grid item
         xs={12}
@@ -125,20 +127,53 @@ const Reply = ({ tweetData, classes }) => {
           direction='row'
           spacing={1}
           className={classes.replyContainer}
+          style={{ minHeight: '80px' }}
         >
           <Grid item>
-            {replyUserAvatar ? (
-              <img
-                className={userAvatar}
-                src={replyUserAvatar}
-                alt='user image'
-                onError={addDefaultSrc}
-              />
-            ) : (
-              <span className={classes.letterAvatar}>
-                {replyName && replyName[0] && replyName[0].toUpperCase()}
-              </span>
-            )}
+            <Grid
+              container
+              direction='column'
+              alignItems='stretch'
+              justifyContent='space-between'
+              style={{ height: '100%' }}
+              spacing={1}
+            >
+              <Grid item>
+                {replyUserAvatar ? (
+                  <img
+                    className={userAvatar}
+                    src={replyUserAvatar}
+                    alt='user image'
+                    onError={addDefaultSrc}
+                  />
+                ) : (
+                  <span className={classes.letterAvatar}>
+                    {replyName && replyName[0] && replyName[0].toUpperCase()}
+                  </span>
+                )}
+              </Grid>
+              <Grid item
+                xs
+              >
+                <Grid container
+                  direction='row'
+                  style={{ height: '100%' }}
+                >
+                  <Grid item
+                    xs
+                  />
+                  <Grid
+                    item
+                    style={{ height: '100%' }}
+                    xs='1.5px'
+                    className={classes.barDiv}
+                  />
+                  <Grid item
+                    xs
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item
             xs
@@ -199,8 +234,10 @@ const Reply = ({ tweetData, classes }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item
+              <Grid
+                item
                 className={classes.replyContent}
+                style={{ paddingBottom: '8px' }}
               >
                 <Link href={tweetLink}
                   target='_blank'
@@ -230,38 +267,6 @@ const Reply = ({ tweetData, classes }) => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-      <Grid item>
-        <Grid
-          container
-          direction='row'
-          className={classes.replyContainer}
-          style={{ padding: '2px 0' }}
-        >
-          <Grid item
-            xs={1}
-          >
-            <Grid container
-              direction='row'
-            >
-              <Grid item
-                xs
-              />
-              <Grid
-                item
-                style={{ height: '1rem' }}
-                xs='2px'
-                className={classes.barDiv}
-              />
-              <Grid item
-                xs
-              />
-            </Grid>
-          </Grid>
-          <Grid item
-            xs
-          />
         </Grid>
       </Grid>
       {/* REPLY TWEET */}
@@ -300,7 +305,8 @@ const Reply = ({ tweetData, classes }) => {
                       target='_blank'
                       underline='none'
                     >
-                      <Typography variant='subtitle2'
+                      <Typography
+                        variant='subtitle2'
                         className={classes.tweetText}
                       >
                         {tweetText.replace(/@\S+\s?/gm, '')}

@@ -250,7 +250,9 @@ const Quoted = ({ tweetData, classes }) => {
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item>
+                      <Grid item
+                        style={{ marginBottom: '-2px' }}
+                      >
                         {quotedHasPhoto && quotedMediaURL ? (
                           <img
                             className={classes.tweetImg}

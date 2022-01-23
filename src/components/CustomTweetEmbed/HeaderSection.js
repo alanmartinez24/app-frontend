@@ -18,16 +18,19 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
   }
 
   const accountLink = `https://twitter.com/${user.screen_name}`
+  const isMobile = window.innerWidth <= 600
 
   return (
-    <Grid container
+    <Grid
+      container
       direction='row'
       className={classes.header}
       justify='space-between'
       alignItems='flex-end'
     >
       <Grid item>
-        <Grid container
+        <Grid
+          container
           direction='row'
           spacing={1}
           className={classes.userTags}
@@ -51,7 +54,9 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
             >
               <Typography variant='body2'
                 className={classes.twitterHandle}
-              >@{user.screen_name}</Typography>
+              >
+                @{user.screen_name}
+              </Typography>
             </Link>
           </Grid>
         </Grid>
@@ -65,13 +70,13 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
         >
           <img
             src='/images/icons/twitter.svg'
-            height='24'
+            height={isMobile ? '12' : '24'}
             alt='twitter'
           />
         </Link>
       </Grid>
     </Grid>
- )
+  )
 }
 HeaderSection.propTypes = {
   classes: PropTypes.object.isRequired,
