@@ -23,7 +23,6 @@ const styles = (theme) => ({
     fontWeight: 500
   },
   replyTextWithBar: {
-    padding: '10px 0px',
     textAlign: 'left',
     '&::before': {
       border: '1.2px solid #AAAAAA',
@@ -43,14 +42,10 @@ const styles = (theme) => ({
     wordWrap: 'break-word'
   },
   twitterName: {
-    padding: 0,
     margin: 0
   },
   twitterHandle: {
     color: 'grey'
-  },
-  userAvatarContainer: {
-    paddingRight: '10px'
   },
   userAvatar: {
     width: '3rem',
@@ -105,28 +100,21 @@ const styles = (theme) => ({
     backgroundColor: 'gray',
     width: 2,
     marginRight: 'auto',
-    padding: 0,
     height: 100
   },
   mainReplyContainer: {
-    padding: '15px',
+    padding: '16px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     textAlign: 'left',
     width: '100%'
   },
   replyContainer: {
-    padding: '15px',
-    paddingTop: '0px',
-    paddingLeft: '0px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     textAlign: 'left'
   },
   replyOriginalContainer: {
-    padding: '12px',
-    paddingTop: '0px',
-    paddingLeft: '0px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     textAlign: 'left'
@@ -140,11 +128,8 @@ const styles = (theme) => ({
     borderRadius: '12px 0px 0px 12px'
   },
   LinkPreviewContentSmall: {
-    paddingLeft: 20,
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingTop: 10,
-    paddingBottom: 10
+    justifyContent: 'space-evenly'
   },
   LinkPreviewMain: {
     maxHeight: 150,
@@ -156,9 +141,6 @@ const styles = (theme) => ({
   },
   LinkPreviewURL: {
     color: 'gray'
-  },
-  LinkPreviewText: {
-    padding: '10px 0px'
   },
   LinkPreviewImageLarge: {
     width: '100%',
@@ -172,8 +154,7 @@ const styles = (theme) => ({
   },
   LinkPreviewContentLarge: {
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    padding: 20
+    justifyContent: 'space-evenly'
   },
   LinkPreviewMainLarge: {
     overflow: 'hidden',
@@ -192,8 +173,7 @@ const styles = (theme) => ({
     backgroundColor: 'rgba(9, 9, 9, 0.44)',
     fontFamily: 'Gilroy',
     fontWeight: '600',
-    color: 'rgb(218, 218, 218)',
-    padding: '0 5px 0 5px'
+    color: 'rgb(218, 218, 218)'
   }
 })
 

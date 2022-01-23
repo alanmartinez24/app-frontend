@@ -27,7 +27,7 @@ const styles = theme => ({
       minWidth: '100vw'
     },
     marginLeft: '0px',
-    zoom: '115%',
+    zoom: '100%',
     marginRight: 'auto',
     marginTop: '-10px'
   }
