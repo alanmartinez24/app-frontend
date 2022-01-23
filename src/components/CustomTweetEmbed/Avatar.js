@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const DEFAULT_TWITTER_PROF = '/images/default-twitter-prof.png'
 
-const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
+const Avatar = ({ classes, user, tweetType, tweetLink, hideBird }) => {
   let userAvatar
 
   if (tweetType === 'retweet') {
@@ -29,7 +29,7 @@ const HeaderSection = ({ classes, user, tweetType, tweetLink, hideBird }) => {
     </div>
  )
 }
-HeaderSection.propTypes = {
+Avatar.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   tweetType: PropTypes.string.isRequired,
@@ -37,4 +37,4 @@ HeaderSection.propTypes = {
   hideBird: PropTypes.bool.isRequired
 }
 
-export default HeaderSection
+export default Avatar

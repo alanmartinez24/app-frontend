@@ -196,33 +196,47 @@ const Quoted = ({ tweetData, classes }) => {
                   <Grid item>
                     <Grid
                       container
-                      spacing={1}
+                      direction='column'
                       className={classes.retweetContainer}
                     >
                       <Grid item>
-                        <Avatar
-                          classes={classes}
-                          user={quotedUser}
-                          tweetLink={tweetLink}
-                        />
-                      </Grid>
-                      <Grid item
-                        xs
-                      >
                         <Grid container
                           direction='column'
                         >
                           <Grid item
                             xs={12}
+                            style={{ padding: 8 }}
                           >
-                            <HeaderSection
-                              classes={classes}
-                              user={quotedUser}
-                              tweetType={'retweet'}
-                            />
+                            <Grid
+                              container
+                              direction='row'
+                              alignItems='center'
+                              spacing={1}
+                            >
+                              <Grid item>
+                                <Avatar
+                                  classes={classes}
+                                  className={classes.retweetUserAvatar}
+                                  user={quotedUser}
+                                  tweetLink={tweetLink}
+                                  tweetType={'retweet'}
+                                />
+                              </Grid>
+                              <Grid item
+                                xs
+                              >
+                                <HeaderSection
+                                  classes={classes}
+                                  user={quotedUser}
+                                  tweetType={'retweet'}
+                                />
+                              </Grid>
+                            </Grid>
                           </Grid>
-                          <Grid item
+                          <Grid
+                            item
                             xs={12}
+                            style={{ padding: '0px 8px 8px 8px' }}
                           >
                             <Link
                               href={quotedLink}
@@ -233,29 +247,29 @@ const Quoted = ({ tweetData, classes }) => {
                                 {quotedTweetText}
                               </Typography>
                             </Link>
-                            {quotedHasPhoto && quotedMediaURL ? (
-                              <Typography className={classes.tweetText}>
-                                <img
-                                  className={classes.tweetImg}
-                                  style={{
-                                    borderRadius: '0px 0px 20px 20px'
-                                  }}
-                                  src={
-                                    tweetData.excludeTweet
-                                      ? 'https://api.faviconkit.com/twitter.com/128'
-                                      : quotedMediaURL
-                                  }
-                                  alt='tweet-image'
-                                />
-                              </Typography>
-                            ) : (
-                              quotedHasVideo &&
-                              quotedMediaURL && (
-                                <TweetVidPlayer url={quotedMediaURL} />
-                              )
-                            )}
                           </Grid>
                         </Grid>
+                      </Grid>
+                      <Grid item>
+                        {quotedHasPhoto && quotedMediaURL ? (
+                          <img
+                            className={classes.tweetImg}
+                            style={{
+                                borderRadius: '0px 0px 12px 12px'
+                              }}
+                            src={
+                                tweetData.excludeTweet
+                                  ? 'https://api.faviconkit.com/twitter.com/128'
+                                  : quotedMediaURL
+                              }
+                            alt='tweet-image'
+                          />
+                        ) : (
+                          quotedHasVideo &&
+                          quotedMediaURL && (
+                            <TweetVidPlayer url={quotedMediaURL} />
+                          )
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>

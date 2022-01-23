@@ -57,8 +57,7 @@ const styles = (theme) => ({
     maxHeight: '400px',
     objectFit: 'cover',
     overflow: 'hidden',
-    borderRadius: '12px',
-    boxShadow: '0px 0px 5px #AAAAAAA0'
+    borderRadius: '12px'
   },
   retweetContainer: {
     border: `solid 1px ${theme.palette.alt.fifth}`,
@@ -69,7 +68,7 @@ const styles = (theme) => ({
     border: `solid 1px ${theme.palette.common.third}`
   },
   retweetUserAvatar: {
-    width: '2rem',
+    width: '1.5rem',
     borderRadius: '50%'
   },
   retweetTwitterName: {
