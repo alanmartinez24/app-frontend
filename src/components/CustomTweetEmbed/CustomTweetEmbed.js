@@ -10,21 +10,17 @@ import Retweet from './Retweet'
 import Quoted from './Quoted'
 import Original from './Original'
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
-    padding: '15px',
+    padding: '16px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     textAlign: 'left',
-    position: 'relative',
-    width: '95%'
+    width: '100%'
   },
   twitterTag: {
     textDecoration: 'none !important',
     fontWeight: 500
-  },
-  header: {
-    display: 'flex'
   },
   replyTextWithBar: {
     padding: '10px 0px',
@@ -36,18 +32,14 @@ const styles = theme => ({
       left: -35,
       fontSize: 0,
       bottom: 2,
-      position: 'absolute !important',
       width: 0,
       zIndex: 1,
       height: '92%'
-    },
-    position: 'relative'
+    }
   },
   tweetText: {
     whiteSpace: 'pre-wrap',
-    padding: '10px 4px',
     textAlign: 'left',
-    position: 'relative',
     wordWrap: 'break-word'
   },
   twitterName: {
@@ -57,40 +49,32 @@ const styles = theme => ({
   twitterHandle: {
     color: 'grey'
   },
-  twitterBirdIcon: {
-    position: 'absolute',
-    left: 550,
-    '&:hover': {
-      filter: 'brightness(1) invert(1)'
-    }
-  },
   userAvatarContainer: {
     paddingRight: '10px'
   },
   userAvatar: {
-    width: '50px',
+    width: '3rem',
+    aspectRatio: 1 / 1,
     borderRadius: '50%'
   },
   tweetImg: {
     width: '100%',
     maxHeight: '400px',
     objectFit: 'cover',
-    borderRadius: '20px',
+    overflow: 'hidden',
+    borderRadius: '12px',
     boxShadow: '0px 0px 5px #AAAAAAA0'
   },
-
   retweetContainer: {
-    boxShadow: '0px 0px 5px #AAAAAAA0',
-    padding: '12px',
-    borderRadius: '20px',
-    marginTop: '10px'
+    border: `solid 1px ${theme.palette.alt.fifth}`,
+    borderRadius: '12px'
   },
   videoTweetContainer: {
     boxShadow: '0px 0px 5px #AAAAA0',
-    paddingTop: 10
+    border: `solid 1px ${theme.palette.common.third}`
   },
   retweetUserAvatar: {
-    width: '30px',
+    width: '2rem',
     borderRadius: '50%'
   },
   retweetTwitterName: {
@@ -121,17 +105,14 @@ const styles = theme => ({
     backgroundColor: 'gray',
     width: 2,
     marginRight: 'auto',
-    marginLeft: 22,
     padding: 0,
-    height: 100,
-    position: 'absolute'
+    height: 100
   },
   mainReplyContainer: {
     padding: '15px',
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     textAlign: 'left',
-    position: 'relative',
     width: '100%'
   },
   replyContainer: {
@@ -150,39 +131,22 @@ const styles = theme => ({
     borderTopRightRadius: '10px',
     textAlign: 'left'
   },
-  replyHeaderAndContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginLeft: '9px'
-  },
-  replyAvatarAndBar: {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'relative',
-    marginBottom: '5px'
-  },
   replyImageContainer: {
     color: 'white !important',
-    padding: '10px 0px',
-    textAlign: 'left',
-    position: 'relative'
+    textAlign: 'left'
   },
   LinkPreviewImageSmall: {
-    width: 150,
     height: '100%',
-    borderRadius: '20px 0px 0px 20px'
+    borderRadius: '12px 0px 0px 12px'
   },
   LinkPreviewContentSmall: {
     paddingLeft: 20,
-    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     paddingTop: 10,
-    paddingBottom: 10,
-    fontSize: '0.85em'
+    paddingBottom: 10
   },
   LinkPreviewMain: {
-    display: 'flex',
     maxHeight: 150,
     minHeight: 150,
     overflow: 'hidden',
@@ -193,15 +157,12 @@ const styles = theme => ({
   LinkPreviewURL: {
     color: 'gray'
   },
-  LinkPreviewTitle: {
-    fontWeight: 400
-  },
   LinkPreviewText: {
     padding: '10px 0px'
   },
   LinkPreviewImageLarge: {
     width: '100%',
-    borderRadius: '20px 20px 0px 0px'
+    borderRadius: '12px 12px 0px 0px'
   },
   LinkPreviewImageSmallContainer: {
     height: '100%'
@@ -210,26 +171,22 @@ const styles = theme => ({
     maxWidth: 550
   },
   LinkPreviewContentLarge: {
-    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    padding: 20,
-    fontSize: '0.85em'
+    padding: 20
   },
   LinkPreviewMainLarge: {
-    display: 'flex',
     overflow: 'hidden',
     marginBottom: 25,
     flexDirection: 'column',
     boxShadow: `0px 0px 3px #AAAAA0`,
-    borderRadius: 20
+    borderRadius: 12
   },
   LinkPreviewAnchor: {
     color: 'inherit',
     textDecoration: 'none'
   },
   letterAvatar: {
-    fontSize: '25px',
     border: '2px solid rgb(218, 218, 218)',
     borderRadius: '100%',
     backgroundColor: 'rgba(9, 9, 9, 0.44)',
