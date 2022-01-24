@@ -6,7 +6,7 @@ import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import { keccak256 } from 'web3-utils'
+import { convertUtf8ToHex } from '@walletconnect/utils'
 import Portal from '@material-ui/core/Portal'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
@@ -222,10 +222,8 @@ class SubscribeDialog extends Component {
 
       const address = accounts[0]
       const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
-      const msgParams = [
-        address,
-        keccak256('\x19Ethereum Signed Message:\n' + challenge.length + challenge)
-      ]
+      const hexMsg = convertUtf8ToHex(challenge)
+      const msgParams = [address, hexMsg]
       const signature = await this.state.connector.signMessage(msgParams)
 
       this.setState({
