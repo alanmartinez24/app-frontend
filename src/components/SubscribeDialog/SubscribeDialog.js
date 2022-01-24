@@ -653,7 +653,7 @@ class SubscribeDialog extends Component {
                                       >
                           <Icon fontSize='small'
                             className='fal fa-arrow-right'
-                            style={{ marginRight: '20px' }}
+                            style={{ marginRight: '20px', cursor: 'pointer' }}
                           /></InputAdornment>}
                         aria-describedby='filled-weight-helper-text'
                         variant='outlined'
