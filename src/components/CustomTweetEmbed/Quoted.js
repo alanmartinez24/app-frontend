@@ -269,7 +269,12 @@ const Quoted = ({ tweetData, classes }) => {
                         ) : (
                           quotedHasVideo &&
                           quotedMediaURL && (
-                            <TweetVidPlayer url={quotedMediaURL} />
+                            <TweetVidPlayer
+                              style={{
+                                borderRadius: '0px 0px 12px 12px'
+                              }}
+                              url={quotedMediaURL}
+                            />
                           )
                         )}
                       </Grid>

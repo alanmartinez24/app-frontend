@@ -103,8 +103,8 @@ const styles = (theme) => ({
   },
   mainReplyContainer: {
     padding: '16px',
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
+    borderBottomLeftRadius: '12px',
+    borderBottomRightRadius: '12px',
     textAlign: 'left',
     width: '100%'
   },

@@ -245,26 +245,29 @@ const Reply = ({ tweetData, classes }) => {
                 >
                   <Typography variant='body2'>{replyTweetText}</Typography>
                 </Link>
-                {replyHasPhoto && replyMediaURL ? (
-                  <Grid item
-                    className={classes.replyImageContainer}
-                  >
-                    <img
-                      className={classes.tweetImg}
-                      style={BothHaveMedia ? smallImage : bigImage}
-                      src={
+              </Grid>
+              {replyHasPhoto && replyMediaURL ? (
+                <Grid item
+                  className={classes.replyImageContainer}
+                >
+                  <img
+                    className={classes.tweetImg}
+                    style={BothHaveMedia ? smallImage : bigImage}
+                    src={
                         tweetData.excludeTweet
                           ? 'https://api.faviconkit.com/twitter.com/128'
                           : replyMediaURL
                       }
-                      alt='tweet-image'
-                    />
-                  </Grid>
+                    alt='tweet-image'
+                  />
+                </Grid>
                 ) : (
                   replyHasVideo &&
-                  replyMediaURL && <TweetVidPlayer url={replyMediaURL} />
+                  replyMediaURL &&
+                  <Grid item
+                    className={classes.replyImageContainer}
+                  ><TweetVidPlayer url={replyMediaURL} /></Grid>
                 )}
-              </Grid>
             </Grid>
           </Grid>
         </Grid>

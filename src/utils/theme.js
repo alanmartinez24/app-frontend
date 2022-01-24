@@ -348,13 +348,13 @@ export const theme = ({ palette }) => {
     h5: {
       fontWeight: 700,
       fontSize: '1.562rem',
-      lineHeight: '100%',
+      lineHeight: '105%',
       color: `${palette.common.third}EE`
     },
     h6: {
       fontWeight: 600,
       fontSize: '1.339rem',
-      lineHeight: '100%',
+      lineHeight: '105%',
       color: `${palette.common.third}EE`
     },
     subtitle1: {
@@ -372,13 +372,13 @@ export const theme = ({ palette }) => {
     body1: {
       fontWeight: 800,
       fontSize: '0.875rem',
-      lineHeight: '100%',
+      lineHeight: '110%',
       color: `${palette.common.third}EE`
     },
     body2: {
       fontWeight: 400,
       fontSize: '0.875rem',
-      lineHeight: '100%',
+      lineHeight: '110%',
       color: `${palette.common.first}DE`
     },
     caption: {
