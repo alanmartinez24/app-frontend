@@ -58,8 +58,8 @@ const styles = theme => ({
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '90vw',
-      marginLeft: '5vw'
+      width: '100vw',
+      marginLeft: '0vw'
     }
   },
   collectionHeader: {

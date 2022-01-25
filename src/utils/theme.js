@@ -324,25 +324,25 @@ export const theme = ({ palette }) => {
     h1: {
       fontWeight: 600,
       fontSize: '3.815rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.first}EE`
     },
     h2: {
       fontWeight: 700,
       fontSize: '3.052rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.first}EE`
     },
     h3: {
       fontWeight: 600,
       fontSize: '2.441rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.second}EE`
     },
     h4: {
       fontWeight: 400,
       fontSize: '1.953rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.third}EE`
     },
     h5: {
@@ -360,25 +360,25 @@ export const theme = ({ palette }) => {
     subtitle1: {
       fontWeight: 400,
       fontSize: '1.25rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
       fontWeight: 700,
       fontSize: '1rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.third}DD`
     },
     body1: {
       fontWeight: 800,
-      fontSize: '0.8rem',
-      lineHeight: '105%',
+      fontSize: '0.875rem',
+      lineHeight: '110%',
       color: `${palette.common.third}EE`
     },
     body2: {
       fontWeight: 400,
-      fontSize: '0.8rem',
-      lineHeight: '105%',
+      fontSize: '0.875rem',
+      lineHeight: '110%',
       color: `${palette.common.first}DE`
     },
     caption: {
