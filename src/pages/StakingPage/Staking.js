@@ -39,7 +39,8 @@ const styles = theme => ({
   },
   maxBtn: {
     lineHeight: 0,
-    maxWidth: 30
+    maxWidth: 30,
+    height: '100%'
   },
   submitBtn: {
     background: theme.palette.rainbowGradient,
@@ -71,6 +72,7 @@ const StakingPage = ({ classes, account }) => {
   const [polyStakeAmt, setPolyStakeAmt] = useState(0)
   const [polyApr, setPolyApr] = useState(0)
   const [ethApr, setEthApr] = useState(0)
+  const [rwrdAmt, setRwrdAmt] = useState(0)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
@@ -83,6 +85,7 @@ const StakingPage = ({ classes, account }) => {
     const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
     setEthApr(ethApr.toFixed(2))
     setPolyApr(500)
+    setRwrdAmt(24.23)
     console.log('connector', connector)
   }, [])
 
@@ -594,6 +597,8 @@ const StakingPage = ({ classes, account }) => {
                                             type='number'
                                             variant='outlined'
                                             size='small'
+                                            disabled
+                                            value={rwrdAmt}
                                           />
                                         </Grid>
                                       </Grid>
