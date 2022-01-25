@@ -44,6 +44,7 @@ import axios from 'axios'
 import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
+import PrivateListItem from './PrivateListItem'
 
 const drawerWidth = 200
 const { BACKEND_API, EXTENSION_LINK } = process.env
@@ -244,16 +245,6 @@ const styles = theme => ({
   }
 })
 
-function PrivateListItem ({ account, children }) {
-  const isLoggedIn = account || (wallet.scatter && wallet.scatter.wallet === 'ScatterExtension')
-  return isLoggedIn ? <> {children} </> : null
-}
-
-PrivateListItem.propTypes = {
-  account: PropTypes.object,
-  children: PropTypes.node.isRequired
-}
-
 const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
   return (
     <ListItem className={classes.ListItem}
@@ -275,6 +266,7 @@ const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes
     </ListItem>
   )
 })
+
 const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
   classes, isShown, isMobile
 }) {
