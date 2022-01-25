@@ -10,8 +10,9 @@ import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import { accountInfoSelector } from '../../redux/selectors'
 import { ethers } from 'ethers'
 import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
-import LIQUIDITY_RWRDS_ABI from '../../abis/LiquidityRewards.json'
-import axios from 'axios'
+import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
+import YUPETH_ABI from '../../abis/YUPETH.json'
+// import axios from 'axios'
 import CountUp from 'react-countup'
 
 const isMobile = window.innerWidth <= 600
@@ -19,7 +20,7 @@ const isMobile = window.innerWidth <= 600
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, LIQUIDITY_RWRDS_CONTRACT, REWARDS_MANAGER_API } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, LIQUIDITY_RWRDS_CONTRACT, ETH_LP_TOKEN, POLY_LP_TOKEN } = process.env
 
 const styles = theme => ({
   container: {
@@ -58,13 +59,10 @@ const styles = theme => ({
 })
 
 const StakingPage = ({ classes, account }) => {
-  const provider = getPolygonWeb3Provider()
-  console.log('account', account)
-  const liquidityRwrdsContract = new provider.eth.Contract(LIQUIDITY_RWRDS_ABI, LIQUIDITY_RWRDS_CONTRACT)
-  console.log('liquidityRwrdsContract', liquidityRwrdsContract)
-  // const ethYUPETHtokenContract = new provider.eth.Contract(LIQUIDITY_RWRDS_ABI, POLYGON_YUP_TOKEN)
-
   const { palette } = useTheme()
+  const provider = getPolygonWeb3Provider()
+  const connector = getEthConnector()
+
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
   const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
@@ -73,6 +71,10 @@ const StakingPage = ({ classes, account }) => {
   const [polyApr, setPolyApr] = useState(0)
   const [ethApr, setEthApr] = useState(0)
   const [rwrdAmt, setRwrdAmt] = useState(0)
+  const [polyLpBal, setPolyLpBal] = useState(0)
+  const [ethLpBal, setEthLpBal] = useState(0)
+  const [contracts, setContracts] = useState(null)
+  const [address, setAddress] = useState('')
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
@@ -80,30 +82,87 @@ const StakingPage = ({ classes, account }) => {
   const handleEthStakeAmountChange = ({ target }) => setEthStakeAmt(target.value)
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
 
-  useEffect(async () => {
-    const connector = getEthConnector()
-    const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
-    setEthApr(ethApr.toFixed(2))
-    setPolyApr(500)
-    setRwrdAmt(24.23)
-    console.log('connector', connector)
+  useEffect(() => {
+    setAddress(connector._accounts[0])
+    getContracts()
   }, [])
 
+  useEffect(() => {
+    if (contracts === null) { return }
+    getAprsAndRwrds()
+    getStakeAmts()
+    getBalances()
+  }, [contracts])
+
+  const getContracts = async () => {
+    try {
+      const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, LIQUIDITY_RWRDS_CONTRACT)
+      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, LIQUIDITY_RWRDS_CONTRACT) // UPDATE CONTRACT ADDRESS
+      const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN)
+      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_LP_TOKEN)
+      setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
+    } catch (err) {
+      console.log('ERR getting token contracts', err)
+    }
+  }
+  const getBalances = async () => {
+    try {
+      const _polyLpBal = contracts.polyLpToken.methods.balanceOf(address)
+      setPolyLpBal(0)
+      console.log('_polyLpBal', _polyLpBal)
+      const _ethLpBal = contracts.ethLpToken.methods.balanceOf(address)
+      console.log('_ethLpBal', _ethLpBal)
+      setEthLpBal(0)
+    } catch (err) {
+      console.log('ERR getting balances', err)
+    }
+  }
+
+  const getAprsAndRwrds = async () => {
+    try {
+      const ethApr = 5424
+      // const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
+      setEthApr(ethApr)
+      setPolyApr(500)
+      setRwrdAmt(24.23)
+    } catch (err) {
+      console.log('ERR fetching rwrds and aprs', err)
+    }
+  }
+
+  const getStakeAmts = async () => {
+    try {
+      console.log('contracts', contracts)
+      const stakeAmtPoly = await contracts.polyLiquidity.methods.balanceOf(address).call()
+      setPolyStakeAmt(stakeAmtPoly)
+      const stakeAmtEth = await contracts.ethLiquidity.methods.balanceOf(address).call()
+      setEthStakeAmt(stakeAmtEth)
+    } catch (err) {
+      console.log('ERR getting stake amts', err)
+    }
+  }
+
   const handleEthStaking = async () => {
-    const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
-    console.log('isStake', isStake)
-    const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
-    console.log('stakeAmt', stakeAmt)
-    // await liquidityRwrdsContract.connect(liquidityProvider1).approve(LIQUIDITY_RWRDS_CONTRACT, stakeAmt)
-    // await liquidityRwrdsContract.connect(liquidityProvider1).stake('1000')
-    setEthConnectorDialog(true)
+    try {
+      const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
+      console.log('isStake', isStake)
+      const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
+      console.log('stakeAmt', stakeAmt)
+      setEthConnectorDialog(true)
+    } catch (err) {
+      console.log('ERR handling eth staking', err)
+    }
   }
 
   const handlePolygonStaking = async () => {
-    console.log('activePolyTab', activePolyTab)
-    const stakeAmt = ethers.BigNumber.from(polyStakeAmt)
-    console.log('stakeAmt', stakeAmt)
-    setEthConnectorDialog(true)
+    try {
+      console.log('activePolyTab', activePolyTab)
+      const stakeAmt = ethers.BigNumber.from(polyStakeAmt)
+      console.log('stakeAmt', stakeAmt)
+      setEthConnectorDialog(true)
+    } catch (err) {
+      console.log('ERR handling polygon staking', err)
+    }
   }
 
     return (
@@ -241,7 +300,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${ethApr}% APR`}
+                            {`${ethApr.toFixed(2)}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -336,7 +395,7 @@ const StakingPage = ({ classes, account }) => {
                                         </Grid>
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            --
+                                            {ethLpBal}
                                           </Typography>
                                         </Grid>
                                       </Grid>
@@ -407,7 +466,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${polyApr}% APR`}
+                            {`${polyApr.toFixed(2)}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -502,7 +561,7 @@ const StakingPage = ({ classes, account }) => {
                                         </Grid>
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            --
+                                            {polyLpBal}
                                           </Typography>
                                         </Grid>
                                       </Grid>

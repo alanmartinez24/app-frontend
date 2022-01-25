@@ -8,7 +8,7 @@ const WALLET_CONNECT_BRIDGE = process.env.WALLET_CONNECT_BRIDGE
 export const getPolygonWeb3Provider = () => {
   const maticProvider = new WalletConnectProvider(
     {
-      host: 'https://rpc-mumbai.matic.today',
+      host: 'https://polygon-mumbai.g.alchemy.com/v2/-zgJy51M1HK6nmQyqPE8yKZbPJQChI_i',
       callbacks: {
         onConnect: console.log('matic provider connected'),
         onDisconnect: console.log('matic provider disconnected')
