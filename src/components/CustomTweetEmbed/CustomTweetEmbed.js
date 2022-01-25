@@ -61,7 +61,8 @@ const styles = (theme) => ({
   },
   retweetContainer: {
     border: `solid 1px ${theme.palette.alt.fifth}`,
-    borderRadius: '12px'
+    borderRadius: '12px',
+    overflow: 'hidden'
   },
   videoTweetContainer: {
     boxShadow: '0px 0px 5px #AAAAA0',
@@ -77,6 +78,9 @@ const styles = (theme) => ({
   },
   retweetTwitterBirdIcon: {
     display: 'none'
+  },
+  retweetVid: {
+    borderRadius: '12px 0px 0px 12px'
   },
   replyTwitterName: {
     display: 'inline',

@@ -11,7 +11,6 @@ const TweetVidPlayer = ({ url }) => {
         url={url}
         width={'100%'}
         height={'100%'}
-        style={{ borderRadius: '12px', overflow: 'hidden' }}
       />
 
     )

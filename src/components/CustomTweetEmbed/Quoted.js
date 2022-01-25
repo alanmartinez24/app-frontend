@@ -188,7 +188,9 @@ const Quoted = ({ tweetData, classes }) => {
                       <Grid item
                         xs={12}
                       >
-                        <TweetVidPlayer url={originalMediaURL} />
+                        <TweetVidPlayer
+                          url={originalMediaURL}
+                        />
                       </Grid>
                     )
                   )}
@@ -270,9 +272,6 @@ const Quoted = ({ tweetData, classes }) => {
                           quotedHasVideo &&
                           quotedMediaURL && (
                             <TweetVidPlayer
-                              style={{
-                                borderRadius: '0px 0px 12px 12px'
-                              }}
                               url={quotedMediaURL}
                             />
                           )
