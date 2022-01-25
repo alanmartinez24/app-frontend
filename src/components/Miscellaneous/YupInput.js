@@ -19,9 +19,6 @@ const styles = theme => ({
   inputInput: {
     color: theme.palette.common.fifth
   },
-  inputUnderline: {
-    borderBottomColor: theme.palette.common.fifth
-  },
   textField: {
     color: theme.palette.common.fifth,
     flexWrap: 'none',
@@ -40,8 +37,8 @@ const YupInput = ({ classes, maxLength, adornment, ...restProps }) => {
                 endAdornment: adornment,
                 classes: {
                     root: classes.inputRoot,
-                    input: classes.inputInput,
-                    underline: classes.inputUnderline
+                    input: classes.inputInput
+                    // underline: classes.inputUnderline
                 },
                 className: classes.input }}
       InputLabelProps={{

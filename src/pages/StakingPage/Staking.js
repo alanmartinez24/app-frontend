@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles, useTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Tabs, Tab } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
@@ -20,7 +20,7 @@ const isMobile = window.innerWidth <= 600
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, LIQUIDITY_RWRDS_CONTRACT, ETH_LP_TOKEN, POLY_LP_TOKEN } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_LP_RWRDS_CONTRACT, POLY_LP_TOKEN, ETH_LP_RWRDS_CONTRACT } = process.env
 
 const styles = theme => ({
   container: {
@@ -60,8 +60,6 @@ const styles = theme => ({
 
 const StakingPage = ({ classes, account }) => {
   const { palette } = useTheme()
-  const provider = getPolygonWeb3Provider()
-  const connector = getEthConnector()
 
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
@@ -75,20 +73,30 @@ const StakingPage = ({ classes, account }) => {
   const [ethLpBal, setEthLpBal] = useState(0)
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
+  const [snackbarMsg, setSnackbarMsg] = useState('')
+  const [provider, setProvider] = useState(null)
+  const [connector, setConnector] = useState(null)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
   const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
   const handleEthStakeAmountChange = ({ target }) => setEthStakeAmt(target.value)
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
+  const handleSnackbarOpen = msg => setSnackbarMsg(msg)
+  const handleSnackbarClose = () => setSnackbarMsg('')
 
   useEffect(() => {
-    setAddress(connector._accounts[0])
-    getContracts()
+    setProvider(getPolygonWeb3Provider())
+    setConnector(getEthConnector())
   }, [])
 
   useEffect(() => {
+    getContracts()
+  }, [provider])
+
+  useEffect(() => {
     if (contracts === null) { return }
+    setAddress(connector._accounts[0])
     getAprsAndRwrds()
     getStakeAmts()
     getBalances()
@@ -96,23 +104,27 @@ const StakingPage = ({ classes, account }) => {
 
   const getContracts = async () => {
     try {
-      const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, LIQUIDITY_RWRDS_CONTRACT)
-      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, LIQUIDITY_RWRDS_CONTRACT) // UPDATE CONTRACT ADDRESS
+      if (!provider) { return }
+      const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LP_RWRDS_CONTRACT)
+      console.log('polyLiquidity', polyLiquidity)
+      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LP_RWRDS_CONTRACT) // UPDATE CONTRACT ADDRESS
       const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN)
-      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_LP_TOKEN)
+      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN) // UPDATE CONTRACT ADDRESS
+      console.log('ethLpToken', ethLpToken)
       setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
     } catch (err) {
+      handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
     }
   }
   const getBalances = async () => {
     try {
-      const _polyLpBal = contracts.polyLpToken.methods.balanceOf(address)
-      setPolyLpBal(0)
-      console.log('_polyLpBal', _polyLpBal)
-      const _ethLpBal = contracts.ethLpToken.methods.balanceOf(address)
-      console.log('_ethLpBal', _ethLpBal)
-      setEthLpBal(0)
+      const poly = await contracts.polyLpToken.methods.balanceOf(address).call()
+      console.log('poly', poly)
+      setPolyLpBal(poly)
+      const eth = await contracts.ethLpToken.methods.balanceOf(address).call()
+      console.log('eth', eth)
+      setEthLpBal(eth)
     } catch (err) {
       console.log('ERR getting balances', err)
     }
@@ -132,11 +144,11 @@ const StakingPage = ({ classes, account }) => {
 
   const getStakeAmts = async () => {
     try {
-      console.log('contracts', contracts)
-      const stakeAmtPoly = await contracts.polyLiquidity.methods.balanceOf(address).call()
-      setPolyStakeAmt(stakeAmtPoly)
-      const stakeAmtEth = await contracts.ethLiquidity.methods.balanceOf(address).call()
-      setEthStakeAmt(stakeAmtEth)
+      if (!address) { return }
+      const polyAmt = await contracts.polyLiquidity.methods.balanceOf(address).call()
+      setPolyStakeAmt(polyAmt)
+      const ethAmt = await contracts.ethLiquidity.methods.balanceOf(address).call()
+      setEthStakeAmt(ethAmt)
     } catch (err) {
       console.log('ERR getting stake amts', err)
     }
@@ -144,11 +156,13 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStaking = async () => {
     try {
+      if (!connector) {
+        setEthConnectorDialog(true)
+      }
       const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
       console.log('isStake', isStake)
       const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
       console.log('stakeAmt', stakeAmt)
-      setEthConnectorDialog(true)
     } catch (err) {
       console.log('ERR handling eth staking', err)
     }
@@ -156,10 +170,13 @@ const StakingPage = ({ classes, account }) => {
 
   const handlePolygonStaking = async () => {
     try {
-      console.log('activePolyTab', activePolyTab)
+      if (!connector) {
+        setEthConnectorDialog(true)
+      }
       const stakeAmt = ethers.BigNumber.from(polyStakeAmt)
+      await contracts.polyLiquidity.methods.stake(stakeAmt)
+      console.log('activePolyTab', activePolyTab)
       console.log('stakeAmt', stakeAmt)
-      setEthConnectorDialog(true)
     } catch (err) {
       console.log('ERR handling polygon staking', err)
     }
@@ -216,6 +233,15 @@ const StakingPage = ({ classes, account }) => {
             alignItems='start'
             spacing={10}
           >
+            <Snackbar
+              autoHideDuration={4000}
+              onClose={handleSnackbarClose}
+              open={!!snackbarMsg}
+            >
+              <SnackbarContent
+                message={snackbarMsg}
+              />
+            </Snackbar>
             <Grid item>
               <Grid
                 container
