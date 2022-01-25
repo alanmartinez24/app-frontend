@@ -39,7 +39,6 @@ const styles = theme => ({
     height: '800px',
     minHeight: '800px',
     marginLeft: '-5px',
-    overflowY: 'scroll',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0px',
       width: '100vw',
@@ -427,7 +426,7 @@ class Search extends Component {
                       md={!isLoading && posts.length === 0 ? 12 : 4}
                       xs={12}
                       tourname='SearchUsers'
-                      style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
+                      style={{ display: users.length === 0 ? 'none' : 'inherit' }}
                     >
                       <Grid item
                         xs={12}
@@ -444,8 +443,8 @@ class Search extends Component {
                       </Grid>
                       <Grid item
                         xs={12}
-                        tourname='SearchUsers'
-                        style={{ display: !isLoading && users.length === 0 ? 'none' : '' }}
+                        tourname='collections'
+                        style={{ display: collections.length === 0 ? 'none' : 'inherit' }}
                       >
                         <Typography
                           variant='h5'
