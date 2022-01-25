@@ -45,6 +45,7 @@ import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 import PrivateListItem from './PrivateListItem'
+import StyledAboutListLink from './StyledAboutListLink'
 
 const drawerWidth = 200
 const { BACKEND_API, EXTENSION_LINK } = process.env
@@ -243,28 +244,6 @@ const styles = theme => ({
       }
     }
   }
-})
-
-const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
-  return (
-    <ListItem className={classes.ListItem}
-      button
-      component={ListLink}
-      href='https://yup.io'
-      style={{ textDecoration: 'none', display: 'none' }}
-    >
-      <ListItemIcon style={{ minWidth: '20px' }}>
-        <Icon className='fal fa-globe' />
-      </ListItemIcon>
-      <ListItemText>
-        <Typography variant='body2'
-          className={classes.typography}
-        >
-          About
-        </Typography>
-      </ListItemText>
-    </ListItem>
-  )
 })
 
 const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
