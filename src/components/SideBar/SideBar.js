@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { toggleColorTheme } from '../../redux/actions'
 import {
@@ -28,7 +28,6 @@ import { withStyles, useTheme } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { Link } from 'react-router-dom'
 import { useSelector, connect } from 'react-redux'
-import UserAvatar from '../UserAvatar/UserAvatar'
 import SearchBar from '../SearchBar/SearchBar'
 import YupListSearchBar from '../YupLeaderboard/YupListSearchBar'
 import Orange from '@material-ui/core/colors/orange'
@@ -44,6 +43,7 @@ import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 import PrivateListItem from './PrivateListItem'
 import { StyledYupProductNav } from './StyledYupProductNav'
+import { StyledProfileAvatar } from './StyledProfileAvatar'
 
 const drawerWidth = 200
 const { BACKEND_API } = process.env
@@ -256,27 +256,6 @@ const defaultLevelInfo = {
   error: false,
   levelInfo: {}
 }
-
-const ProfileAvatar = memo(({ username, avatar, classes, socialLevelColor }) => (
-  <ErrorBoundary>
-    <UserAvatar
-      alt={username}
-      username={username}
-      src={avatar}
-      className={classes.avatarImage}
-      style={{ border: `solid 2px ${socialLevelColor}`, aspectRatio: '1 / 1' }}
-    />
-  </ErrorBoundary>
-))
-
-ProfileAvatar.propTypes = {
-  avatar: PropTypes.string,
-  classes: PropTypes.object,
-  username: PropTypes.string,
-  socialLevelColor: PropTypes.string
-}
-
-const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
 
 function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
   // use material ui to create dynamic breakpoints ------------------------------------------------ //
