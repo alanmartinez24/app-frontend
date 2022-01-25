@@ -11,13 +11,15 @@ import { accountInfoSelector } from '../../redux/selectors'
 import { ethers } from 'ethers'
 import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
 import LIQUIDITY_RWRDS_ABI from '../../abis/LiquidityRewards.json'
+import axios from 'axios'
+import CountUp from 'react-countup'
 
 const isMobile = window.innerWidth <= 600
 // const isMedium = window.innerWidth <= 900
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, LIQUIDITY_RWRDS_CONTRACT } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, LIQUIDITY_RWRDS_CONTRACT, REWARDS_MANAGER_API } = process.env
 
 const styles = theme => ({
   container: {
@@ -67,6 +69,8 @@ const StakingPage = ({ classes, account }) => {
   const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
   const [ethStakeAmt, setEthStakeAmt] = useState(0)
   const [polyStakeAmt, setPolyStakeAmt] = useState(0)
+  const [polyApr, setPolyApr] = useState(0)
+  const [ethApr, setEthApr] = useState(0)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
@@ -74,8 +78,11 @@ const StakingPage = ({ classes, account }) => {
   const handleEthStakeAmountChange = ({ target }) => setEthStakeAmt(target.value)
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
 
-  useEffect(() => {
+  useEffect(async () => {
     const connector = getEthConnector()
+    const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
+    setEthApr(ethApr.toFixed(2))
+    setPolyApr(500)
     console.log('connector', connector)
   }, [])
 
@@ -162,7 +169,13 @@ const StakingPage = ({ classes, account }) => {
                   <Typography variant='h1'
                     className={classes.aprText}
                   >
-                    523.432% APR
+                    <CountUp
+                      end={Math.max(polyApr, ethApr)}
+                      decimals={2}
+                      start={0}
+                      duration={1}
+                      suffix='% APR'
+                    />
                   </Typography>
                 </Grid>
                 <Grid item
@@ -225,7 +238,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            523.53% APR
+                            {`${ethApr}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -297,7 +310,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={handleEthStaking}
                                         >
-                                          Stake
+                                          {activeEthTab ? 'Unstake' : 'Stake'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -391,7 +404,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            523.53% APR
+                            {`${polyApr}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -463,7 +476,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={handlePolygonStaking}
                                         >
-                                          Stake
+                                          {activePolyTab ? 'Unstake' : 'Stake'}
                                         </Typography>
                                       </Button>
                                     </Grid>
