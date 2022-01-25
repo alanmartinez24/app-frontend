@@ -20,7 +20,7 @@ const isMobile = window.innerWidth <= 600
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_LP_RWRDS_CONTRACT, POLY_LP_TOKEN, ETH_LP_RWRDS_CONTRACT } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_LP_RWRDS_CONTRACT, POLY_LP_TOKEN, ETH_LP_TOKEN } = process.env
 
 const styles = theme => ({
   container: {
@@ -91,27 +91,34 @@ const StakingPage = ({ classes, account }) => {
   }, [])
 
   useEffect(() => {
+    if (!connector) { return }
+    setAddress(connector._accounts[0])
+  }, [connector])
+
+  useEffect(() => {
     getContracts()
   }, [provider])
 
   useEffect(() => {
-    if (contracts === null) { return }
-    setAddress(connector._accounts[0])
+    console.log('contracts use effect is called')
     getAprsAndRwrds()
     getStakeAmts()
     getBalances()
   }, [contracts])
 
+  // amt staked poly
+
+  //
+
   const getContracts = async () => {
     try {
       if (!provider) { return }
       const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LP_RWRDS_CONTRACT)
-      console.log('polyLiquidity', polyLiquidity)
-      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LP_RWRDS_CONTRACT) // UPDATE CONTRACT ADDRESS
       const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN)
-      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN) // UPDATE CONTRACT ADDRESS
+      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_LP_TOKEN)
       console.log('ethLpToken', ethLpToken)
-      setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
+      setContracts({ polyLpToken, ethLpToken, polyLiquidity })
+      console.log('contracts', contracts)
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
