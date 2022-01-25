@@ -26,8 +26,6 @@ import {
 } from '@material-ui/core'
 import { withStyles, useTheme } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
-import wallet from '../../eos/scatter/scatter.wallet'
-import ListLink from '@material-ui/core/Link'
 import { Link } from 'react-router-dom'
 import { useSelector, connect } from 'react-redux'
 import UserAvatar from '../UserAvatar/UserAvatar'
@@ -45,10 +43,10 @@ import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 import PrivateListItem from './PrivateListItem'
-import StyledAboutListLink from './StyledAboutListLink'
+import { StyledAboutListLink } from './StyledAboutListLink'
 
 const drawerWidth = 200
-const { BACKEND_API, EXTENSION_LINK } = process.env
+const { BACKEND_API } = process.env
 
 const styles = theme => ({
   appBar: {
@@ -246,43 +244,6 @@ const styles = theme => ({
   }
 })
 
-const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
-  classes, isShown, isMobile
-}) {
-  return (
-    <ListItem
-      button
-      component={ListLink}
-      style={{ paddingLeft: '0px', textDecoration: 'none' }}
-      href={EXTENSION_LINK}
-      target='_blank'
-    >
-
-      <ListItemIcon>
-        <Icon
-          fontSize='small'
-          className='fal fa-plug'
-        />
-      </ListItemIcon>
-      {(isShown || isMobile) && (
-      <Grow in
-        timeout={600}
-      >
-        <ListItemText >
-          <Typography variant='body2'
-            className={classes.typography}
-          >
-
-            Extension
-          </Typography>
-        </ListItemText>
-      </Grow>
-      )}
-    </ListItem>
-
-  )
-})
-
 const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes, isShown, isMobile }) {
   if (account) {
     return (
@@ -339,6 +300,7 @@ ProfileAvatar.propTypes = {
 const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
 
 function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
+  // use material ui to create dynamic breakpoints ------------------------------------------------ //
   const isMobile = window.innerWidth <= 480
   const [open, setOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -452,8 +414,10 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
   return (
     <ErrorBoundary>
-      <AppBar className={classes.appBar}
+      <AppBar
+        className={classes.appBar}
         position='fixed'
+        // switch isMobile for materal ui breakpoints ------------------------------------------------ //
         onMouseEnter={isMobile ? 'handleDrawerOpen' : null}
         onMouseLeave={isMobile ? 'handleDrawerClose' : null}
       >
@@ -466,9 +430,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             justify='space-between'
           >
             <Grid item>
-              <Grid alignItems='center'
-                container
-              >
+              <Grid alignItems='center' container>
                 <Grid item>
                   <IconButton
                     size='small'
@@ -478,83 +440,69 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                     onClick={handleDrawerOpen}
                   >
                     {accountName ? (
-                      <StyledProfileAvatar username={username}
+                      <StyledProfileAvatar
+                        username={username}
                         socialLevelColor={socialLevelColor}
                         avatar={avatar}
                       />
-                      ) : (
-                        <Grow in
-                          timeout={400}
-                        >
-                          <Icon
-                            alt='menu'
-                            className='fal fa-bars'
-                            style={{
-                              maxWidth: '4vw',
-                              width: '20px',
-                              opacity: '0.6'
-                            }}
-                          />
-                        </Grow>
-                      )}
+                    ) : (
+                      <Grow in timeout={400}>
+                        <Icon
+                          alt='menu'
+                          className='fal fa-bars'
+                          style={{
+                            maxWidth: '4vw',
+                            width: '20px',
+                            opacity: '0.6'
+                          }}
+                        />
+                      </Grow>
+                    )}
                   </IconButton>
                 </Grid>
-                <Grid className={classes.Search}
-                  item
-                  tourname='Search'
-                >
+                <Grid className={classes.Search} item tourname='Search'>
                   {!history.location.pathname.includes('leaderboard') ? (
                     <SearchBar />
-                    ) : null}
+                  ) : null}
                 </Grid>
               </Grid>
             </Grid>
-            <Grid className={classes.SearchMobile}
-              item
-            >
+            <Grid className={classes.SearchMobile} item>
               {!history.location.pathname.includes('leaderboard') ? (
                 <SearchBar />
-                ) : (
-                  <YupListSearchBar />
-                )}
+              ) : (
+                <YupListSearchBar />
+              )}
             </Grid>
-            <Grow in
-              timeout={500}
-            >
-              <Grid className={classes.icons}
-                item
-              >
+            <Grow in timeout={500}>
+              <Grid className={classes.icons} item>
                 {account && account.name ? (
-                  <div onClick={logNotifsClick}
-                    className={classes.notifWrap}
-                  >
+                  <div onClick={logNotifsClick} className={classes.notifWrap}>
                     <NotifPopup
                       className={classes.topbuttons}
                       notifications={notifications}
                     />
                   </div>
-                  ) : (
-                    <Tooltip
-                      placement='bottom'
-                      disableTouchListener
-                      title={
-                        <Typography
-                          variant='tooltip'
-                        >
-                          Create an account!
-                        </Typography>
-                      }
+                ) : (
+                  <Tooltip
+                    placement='bottom'
+                    disableTouchListener
+                    title={
+                      <Typography variant='tooltip'>
+                        Create an account!
+                      </Typography>
+                    }
+                  >
+                    <Button
+                      fullWidth
+                      className={classes.signupBtn}
+                      onClick={handleDialogOpen}
+                      variant='contained'
                     >
-                      <Button
-                        fullWidth
-                        className={classes.signupBtn}
-                        onClick={handleDialogOpen}
-                        variant='contained'
-                      >
-                        Sign Up/Login
-                      </Button>
-                    </Tooltip>
-                  )}
+                      Sign Up/Login
+                    </Button>
+                  </Tooltip>
+                )}
               </Grid>
             </Grow>
           </Grid>
@@ -604,73 +552,82 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                     overlap='circle'
                     badgeContent={formattedWeight}
                     anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right'
-                          }}
+                      vertical: 'bottom',
+                      horizontal: 'right'
+                    }}
                   >
-                    <StyledProfileAvatar username={username}
+                    <StyledProfileAvatar
+                      username={username}
                       socialLevelColor={socialLevelColor}
                       avatar={avatar}
                     />
                   </Badge>
                 </ListItemAvatar>
-                {isShown
-                ? <Grow in
-                  timeout={500}
-                  >
-                  <ListItemText
-                    style={{ margin: 0 }}
-                    primary={
-                      <span
-                        style={{
-                              color: 'fourth',
-                              fontSize: '15px',
-                              fontWeight: 600
-                            }}
-                      >
-                        {username}
-                      </span>
-                        }
-                    secondary={
-                      <span
-                        style={{
-                              color: palette.common.fourth,
-                              fontWeight: 300,
-                              fontSize: '10px'
-                            }}
-                      >
-                        {formattedYupBalance} YUP
-                      </span>
-                        }
-                  />
-                </Grow> : null}
+                {isShown ? (
+                  <Grow in timeout={500}>
+                    <ListItemText
+                      style={{ margin: 0 }}
+                      primary={
+                        <span
+                          style={{
+                            color: 'fourth',
+                            fontSize: '15px',
+                            fontWeight: 600
+                          }}
+                        >
+                          {username}
+                        </span>
+                      }
+                      secondary={
+                        <span
+                          style={{
+                            color: palette.common.fourth,
+                            fontWeight: 300,
+                            fontSize: '10px'
+                          }}
+                        >
+                          {formattedYupBalance} YUP
+                        </span>
+                      }
+                    />
+                  </Grow>
+                ) : null}
               </ListItem>
-                  ) : (
-                    <ListItem className={classes.ListItem}
-                      button
-                      component={Link}
-                      to='/'
-                      onClick={handleDrawerClose}
-                      style={{ paddingLeft: '0px', backgroundColor: 'transparent' }}
+            ) : (
+              <ListItem
+                className={classes.ListItem}
+                button
+                component={Link}
+                to='/'
+                onClick={handleDrawerClose}
+                style={{ paddingLeft: '0px', backgroundColor: 'transparent' }}
+              >
+                {isMobile ? (
+                  <div />
+                ) : (
+                  <ListItemIcon>
+                    <IconButton
+                      size='small'
+                      style={{ backgroundColor: `${palette.alt.third}70` }}
                     >
-                      {isMobile ? (
-                        <div />
-                        ) : (
-                          <ListItemIcon>
-                            <IconButton size='small'
-                              style={{ backgroundColor: `${palette.alt.third}70` }}
-                            > <img style={{ width: '20px', aspectRatio: '1 / 1' }}
-                              src={lightMode
-                                  ? '/images/logos/logo.svg'
-                                : '/images/logos/logo_w.svg'}
-                              />
-                            </IconButton>
-                          </ListItemIcon>
-                        )}
-                    </ListItem>)}
+                      {' '}
+                      <img
+                        style={{ width: '20px', aspectRatio: '1 / 1' }}
+                        src={
+                          lightMode
+                            ? '/images/logos/logo.svg'
+                            : '/images/logos/logo_w.svg'
+                        }
+                      />
+                    </IconButton>
+                  </ListItemIcon>
+                )}
+              </ListItem>
+            )}
           </List>
         </div>
-        <ListItem className={classes.ListItem}
+        <ListItem
+          className={classes.ListItem}
           button
           component={Link}
           to='/'
@@ -678,26 +635,21 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           style={{ paddingLeft: '0px' }}
         >
           <ListItemIcon>
-            <Icon
-              fontSize='small'
-              className='fal fa-home'
-            />
+            <Icon fontSize='small' className='fal fa-home' />
           </ListItemIcon>
-          {isShown
-          ? <Grow in
-            timeout={600}
-            >
-            <ListItemText >
-              <Typography variant='body2'
-                className={classes.typography}
-              >
-                {' '}
-                Home
-              </Typography>
-            </ListItemText>
-          </Grow> : null }
+          {isShown ? (
+            <Grow in timeout={600}>
+              <ListItemText>
+                <Typography variant='body2' className={classes.typography}>
+                  {' '}
+                  Home
+                </Typography>
+              </ListItemText>
+            </Grow>
+          ) : null}
         </ListItem>
-        <ListItem className={classes.ListItem}
+        <ListItem
+          className={classes.ListItem}
           button
           component={Link}
           to='/leaderboard'
@@ -712,20 +664,18 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
               style={{ overflow: 'visible', width: '100%' }}
             />
           </ListItemIcon>
-          {isShown
-          ? <Grow in
-            timeout={700}
-            >
-            <ListItemText >
-              <Typography variant='body2'
-                className={classes.typography}
-              >
-                Leaderboards
-              </Typography>
-            </ListItemText>
-          </Grow> : null }
+          {isShown ? (
+            <Grow in timeout={700}>
+              <ListItemText>
+                <Typography variant='body2' className={classes.typography}>
+                  Leaderboards
+                </Typography>
+              </ListItemText>
+            </Grow>
+          ) : null}
         </ListItem>
-        <ListItem className={classes.ListItem}
+        <ListItem
+          className={classes.ListItem}
           button
           component={Link}
           onClick={handleDrawerClose}
@@ -733,33 +683,31 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           style={{ paddingLeft: '0px' }}
         >
           <ListItemIcon>
-            <Icon
-              fontSize='small'
-              className='fal fa-list'
-            />
+            <Icon fontSize='small' className='fal fa-list' />
           </ListItemIcon>
-          {isShown
-          ? <Grow in
-            timeout={800}
-            >
-            <ListItemText >
-              <Typography variant='body2'
-                className={classes.typography}
-              >
-                {' '}
-                Collections
-              </Typography>
-            </ListItemText>
-          </Grow> : null }
+          {isShown ? (
+            <Grow in timeout={800}>
+              <ListItemText>
+                <Typography variant='body2' className={classes.typography}>
+                  {' '}
+                  Collections
+                </Typography>
+              </ListItemText>
+            </Grow>
+          ) : null}
         </ListItem>
 
-        {!isMobile && <StyledYupProductNav isShown={isShown}
-          isMobile={isMobile}
-          account={account}
-                      />}
+        {!isMobile && (
+          <StyledYupProductNav
+            isShown={isShown}
+            isMobile={isMobile}
+            account={account}
+          />
+        )}
 
         {account && account.name && (
-          <ListItem className={classes.ListItem}
+          <ListItem
+            className={classes.ListItem}
             button
             component={Link}
             onClick={handleDrawerClose}
@@ -774,28 +722,20 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                 style={{ overflow: 'visible', width: '100%' }}
               />
             </ListItemIcon>
-            {isShown
-            ? <Grow in
-              timeout={800}
-              >
-              <ListItemText >
-                <Typography variant='body2'
-                  className={classes.typography}
-                >
-                  Analytics
-                </Typography>
-              </ListItemText>
-            </Grow> : null }
-          </ListItem>)}
-        <ListItem dense
-          style={{ bottom: 10, position: 'absolute' }}
-        >
-          <Grid container
-            direction='row'
-          >
-            <Grid item
-              xs={3}
-            >
+            {isShown ? (
+              <Grow in timeout={800}>
+                <ListItemText>
+                  <Typography variant='body2' className={classes.typography}>
+                    Analytics
+                  </Typography>
+                </ListItemText>
+              </Grow>
+            ) : null}
+          </ListItem>
+        )}
+        <ListItem dense style={{ bottom: 10, position: 'absolute' }}>
+          <Grid container direction='row'>
+            <Grid item xs={3}>
               <IconButton
                 aria-label='delete'
                 className={classes.margin}
@@ -809,36 +749,31 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                 />
               </IconButton>
             </Grid>
-            {isShown
-            ? <Grow in
-              timeout={500}
-              >
-
-              <Grid item
-                xs={3}
-              >
-                <IconButton
-                  aria-label='theme-mode'
-                  className={classes.margin}
-                  size='small'
-                  onClick={handleToggleTheme}
-                >
-                  {
-                lightMode ? <Icon
-                  fontSize='small'
-                  className='fal fa-moon'
-                  style={{ color: palette.common.fourth }}
-                            />
-                : <WbSunnyRoundedIcon
-                  style={{ color: palette.common.fourth }}
-                  fontSize='small'
-                  />
-              }
-
-                </IconButton>
-              </Grid>
-            </Grow>
-          : null }
+            {isShown ? (
+              <Grow in timeout={500}>
+                <Grid item xs={3}>
+                  <IconButton
+                    aria-label='theme-mode'
+                    className={classes.margin}
+                    size='small'
+                    onClick={handleToggleTheme}
+                  >
+                    {lightMode ? (
+                      <Icon
+                        fontSize='small'
+                        className='fal fa-moon'
+                        style={{ color: palette.common.fourth }}
+                      />
+                    ) : (
+                      <WbSunnyRoundedIcon
+                        style={{ color: palette.common.fourth }}
+                        fontSize='small'
+                      />
+                    )}
+                  </IconButton>
+                </Grid>
+              </Grow>
+            ) : null}
           </Grid>
         </ListItem>
         <Dialog
@@ -846,7 +781,6 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           onClose={handleSettingsClose}
           open={settingsOpen}
           className={classes.dialog}
-
         >
           <DialogTitle style={{ paddingLeft: '40px', paddingBottom: '10px' }}>
             <Typography variant='h4'>Settings</Typography>
@@ -872,213 +806,215 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           </DialogContent>
         </Dialog>
         {(isShown || isMobile) && (
-        <Grow in
-          timeout={500}
-        >
-          <List
-            component='nav'
-            aria-label='secondary'
-            className={classes.list1}
-            tourname='FeedsDrawer'
-            dense='true'
-          >
-            <ListSubheader
-              style={{
-                        color: palette.common.fifth,
-                        fontWeight: '500'
-                      }}
+          <Grow in timeout={500}>
+            <List
+              component='nav'
+              aria-label='secondary'
+              className={classes.list1}
+              tourname='FeedsDrawer'
+              dense='true'
             >
-              Feeds
-            </ListSubheader>
-            <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
-              <PrivateListItem>
-                <ListItem className={classes.ListItem}
+              <ListSubheader
+                style={{
+                  color: palette.common.fifth,
+                  fontWeight: '500'
+                }}
+              >
+                Feeds
+              </ListSubheader>
+              <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
+                <PrivateListItem>
+                  <ListItem
+                    className={classes.ListItem}
+                    button
+                    dense
+                    component={Link}
+                    onClick={handleDrawerClose}
+                    to='/?feed=dailyhits'
+                  >
+                    <ListItemText
+                      primary='Your Daily Hits'
+                      className={classes.listButton}
+                    />
+                  </ListItem>
+                </PrivateListItem>
+                <ListItem
+                  className={classes.ListItem}
                   button
                   dense
                   component={Link}
                   onClick={handleDrawerClose}
-                  to='/?feed=dailyhits'
+                  to='/?feed=crypto'
                 >
                   <ListItemText
-                    primary='Your Daily Hits'
+                    primary='Crypto'
                     className={classes.listButton}
                   />
                 </ListItem>
-              </PrivateListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=crypto'
-              >
-                <ListItemText
-                  primary='Crypto'
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=nfts'
-              >
-                <ListItemText
-                  primary='NFTs'
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=mirror'
-              >
-                <ListItemText
-                  primary='Mirror Articles'
-                  style={{ margin: 0 }}
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=politics'
-              >
-                <ListItemText
-                  primary='Politics'
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=non-corona'
-              >
-                <ListItemText
-                  primary='Safe Space'
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=latenightcool'
-              >
-                <ListItemText
-                  primary='Popular'
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=lol'
-              >
-                <ListItemText
-                  primary='Funny'
-                  className={classes.listButton}
-                />
-              </ListItem>
-              <ListItem className={classes.ListItem}
-                button
-                dense
-                component={Link}
-                onClick={handleDrawerClose}
-                to='/?feed=brainfood'
-              >
-                <ListItemText
-                  primary='Smart'
-                  className={classes.listButton}
-                />
-              </ListItem>
-            </div>
-          </List>
-        </Grow>
-
-              )}
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=nfts'
+                >
+                  <ListItemText primary='NFTs' className={classes.listButton} />
+                </ListItem>
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=mirror'
+                >
+                  <ListItemText
+                    primary='Mirror Articles'
+                    style={{ margin: 0 }}
+                    className={classes.listButton}
+                  />
+                </ListItem>
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=politics'
+                >
+                  <ListItemText
+                    primary='Politics'
+                    className={classes.listButton}
+                  />
+                </ListItem>
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=non-corona'
+                >
+                  <ListItemText
+                    primary='Safe Space'
+                    className={classes.listButton}
+                  />
+                </ListItem>
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=latenightcool'
+                >
+                  <ListItemText
+                    primary='Popular'
+                    className={classes.listButton}
+                  />
+                </ListItem>
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=lol'
+                >
+                  <ListItemText
+                    primary='Funny'
+                    className={classes.listButton}
+                  />
+                </ListItem>
+                <ListItem
+                  className={classes.ListItem}
+                  button
+                  dense
+                  component={Link}
+                  onClick={handleDrawerClose}
+                  to='/?feed=brainfood'
+                >
+                  <ListItemText
+                    primary='Smart'
+                    className={classes.listButton}
+                  />
+                </ListItem>
+              </div>
+            </List>
+          </Grow>
+        )}
 
         {/* Second Menu: LISTS */}
         {(isShown || isMobile) && (
-        <Grow in
-          timeout={1000}
-        >
-          <List
-            component='nav'
-            aria-label='secondary'
-            className={classes.list1}
-            tourname='InfoDrawer'
-          >
-            <ListItem className={classes.ListItem}
-              button
-              dense
-              style={{ bottom: '0', marginTop: '6vh' }}
+          <Grow in timeout={1000}>
+            <List
+              component='nav'
+              aria-label='secondary'
+              className={classes.list1}
+              tourname='InfoDrawer'
             >
-              <ListItemText>
-                <p
-                  className={classes.listInfoLinks}
-                  style={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            fontWeight: 300,
-                            fontSize: '12px'
-                          }}
-                >
-                  <a
-                    href='https://yup.io'
+              <ListItem
+                className={classes.ListItem}
+                button
+                dense
+                style={{ bottom: '0', marginTop: '6vh' }}
+              >
+                <ListItemText>
+                  <p
                     className={classes.listInfoLinks}
-                    target='_blank'
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      fontWeight: 300,
+                      fontSize: '12px'
+                    }}
                   >
-                    Main Site
-                  </a>
-                  ,&nbsp;
-                  <a
-                    href='https://yup.live'
-                    className={classes.listInfoLinks}
-                    target='_blank'
-                  >
-                    Explorer
-                  </a>
-                  ,&nbsp;
-                  <a
-                    href='https://blog.yup.io'
-                    className={classes.listInfoLinks}
-                    target='_blank'
-                  >
-                    Blog
-                  </a>
-                  ,&nbsp;
-                  <a
-                    href='https://docs.yup.io'
-                    className={classes.listInfoLinks}
-                    target='_blank'
-                  >
-                    Docs
-                  </a>
-                  ,&nbsp;
-                  <a
-                    href='https://docs.google.com/document/d/1LFrn0eeTfiy8lWAs8TPzWeydkRI-TRCDP0_NHCBOR0s/edit?usp=sharing'
-                    className={classes.listInfoLinks}
-                    target='_blank'
-                  >
-                    Privacy
-                  </a>
-                </p>
-              </ListItemText>
-            </ListItem>
-          </List>
-        </Grow>
-              )}
+                    <a
+                      href='https://yup.io'
+                      className={classes.listInfoLinks}
+                      target='_blank'
+                    >
+                      Main Site
+                    </a>
+                    ,&nbsp;
+                    <a
+                      href='https://yup.live'
+                      className={classes.listInfoLinks}
+                      target='_blank'
+                    >
+                      Explorer
+                    </a>
+                    ,&nbsp;
+                    <a
+                      href='https://blog.yup.io'
+                      className={classes.listInfoLinks}
+                      target='_blank'
+                    >
+                      Blog
+                    </a>
+                    ,&nbsp;
+                    <a
+                      href='https://docs.yup.io'
+                      className={classes.listInfoLinks}
+                      target='_blank'
+                    >
+                      Docs
+                    </a>
+                    ,&nbsp;
+                    <a
+                      href='https://docs.google.com/document/d/1LFrn0eeTfiy8lWAs8TPzWeydkRI-TRCDP0_NHCBOR0s/edit?usp=sharing'
+                      className={classes.listInfoLinks}
+                      target='_blank'
+                    >
+                      Privacy
+                    </a>
+                  </p>
+                </ListItemText>
+              </ListItem>
+            </List>
+          </Grow>
+        )}
       </Drawer>
     </ErrorBoundary>
   )

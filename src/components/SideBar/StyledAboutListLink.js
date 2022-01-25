@@ -9,29 +9,32 @@ import {
 } from '@material-ui/core'
 import ListLink from '@material-ui/core/Link'
 
-const styles = theme => ({
-  ListItem: {
-    borderRadius: '0.4rem'
+const { YUP_LANDING } = process.env
+
+const styles = () => ({
+  listItem: {
+    borderRadius: '0.4rem',
+    textDecoration: 'none',
+    display: 'none'
+  },
+  listItemIcon: {
+    minWidth: '20px'
   }
 })
 
 export const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes }) {
   return (
-    <ListItem className={classes.ListItem}
+    <ListItem
+      className={classes.listItem}
       button
       component={ListLink}
-      href='https://yup.io'
-      style={{ textDecoration: 'none', display: 'none' }}
+      href={YUP_LANDING}
     >
-      <ListItemIcon style={{ minWidth: '20px' }}>
+      <ListItemIcon className={classes.listItemIcon}>
         <Icon className='fal fa-globe' />
       </ListItemIcon>
       <ListItemText>
-        <Typography variant='body2'
-          className={classes.typography}
-        >
-          About
-        </Typography>
+        <Typography variant='body2'>About</Typography>
       </ListItemText>
     </ListItem>
   )

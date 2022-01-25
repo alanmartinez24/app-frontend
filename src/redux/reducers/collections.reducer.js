@@ -1,7 +1,7 @@
 import { collectionsConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function userCollections (state = {}, action) {
+export function userCollections(state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_USER_COLLECTIONS:
@@ -30,12 +30,19 @@ export function userCollections (state = {}, action) {
         prevCollections.push(action.collection)
         break
       case constants.ADD_POST_TO_COLLECTION:
-        const targetCollAdd = draft[action.eosname].collections.find(({ _id }) => _id === action.collection._id)
+        const targetCollAdd = draft[action.eosname].collections.find(
+          ({ _id }) => _id === action.collection._id
+        )
         targetCollAdd.postIds.push(action.postid)
         break
       case constants.REM_POST_FROM_COLLECTION:
-        const targetCollRem = draft[action.eosname].collections.find(({ _id }) => _id === action.collection._id)
-        targetCollRem.postIds.splice(targetCollRem.postIds.indexOf(action.postid), 1)
+        const targetCollRem = draft[action.eosname].collections.find(
+          ({ _id }) => _id === action.collection._id
+        )
+        targetCollRem.postIds.splice(
+          targetCollRem.postIds.indexOf(action.postid),
+          1
+        )
         break
       default:
         return state

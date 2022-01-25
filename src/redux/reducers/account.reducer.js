@@ -1,7 +1,7 @@
 import { accountConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function currencyBalance (state = {}, action) {
+export function currencyBalance(state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_CURRENCY_BALANCE:
@@ -27,7 +27,8 @@ export function currencyBalance (state = {}, action) {
         }
         break
       case constants.DEDUCT_BALANCE:
-        const curr = draft[action.username] && draft[action.username][action.currency]
+        const curr =
+          draft[action.username] && draft[action.username][action.currency]
         draft[action.username] = {
           ...draft[action.username],
           [action.currency]: {
@@ -43,7 +44,7 @@ export function currencyBalance (state = {}, action) {
   })
 }
 
-export function resourceUsage (state = {}, action) {
+export function resourceUsage(state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_RESOURCE_USAGE:
@@ -73,7 +74,7 @@ export function resourceUsage (state = {}, action) {
   })
 }
 
-export function socialLevels (state = { isLoading: true, levels: {} }, action) {
+export function socialLevels(state = { isLoading: true, levels: {} }, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_SOCIAL_LEVEL:
@@ -117,10 +118,16 @@ export function socialLevels (state = { isLoading: true, levels: {} }, action) {
         break
       case constants.UPDATE_WEIGHT:
         const levelInfo = draft.levels[action.username].levelInfo
-        const upvotes = action.upvotes ? levelInfo.upvotes + action.upvotes : levelInfo.upvotes
-        const downvotes = action.downvotes ? levelInfo.downvotes + action.downvotes : levelInfo.downvotes
-        const balance = action.balance ? Number(levelInfo.balance.YUPX) + Number(action.balance) : levelInfo.balance.YUPX
-        levelInfo.weight = balance * Math.sqrt(((upvotes + 1) / (downvotes + 1)))
+        const upvotes = action.upvotes
+          ? levelInfo.upvotes + action.upvotes
+          : levelInfo.upvotes
+        const downvotes = action.downvotes
+          ? levelInfo.downvotes + action.downvotes
+          : levelInfo.downvotes
+        const balance = action.balance
+          ? Number(levelInfo.balance.YUPX) + Number(action.balance)
+          : levelInfo.balance.YUPX
+        levelInfo.weight = balance * Math.sqrt((upvotes + 1) / (downvotes + 1))
         levelInfo.upvotes = upvotes
         levelInfo.downvotes = downvotes
         break
@@ -130,7 +137,8 @@ export function socialLevels (state = { isLoading: true, levels: {} }, action) {
       case constants.UPDATE_ACCOUNT_INFO_SUCCESS:
         draft.levels[action.username].levelInfo.isLoading = false
         draft.levels[action.username].levelInfo.bio = action.update.bio
-        draft.levels[action.username].levelInfo.fullname = action.update.fullname
+        draft.levels[action.username].levelInfo.fullname =
+          action.update.fullname
         draft.levels[action.username].levelInfo.avatar = action.update.avatar
         break
       case constants.UPDATE_ACCOUNT_INFO_FAILURE:
@@ -143,7 +151,10 @@ export function socialLevels (state = { isLoading: true, levels: {} }, action) {
   })
 }
 
-export function ethAuth (state = { address: null, signature: null, account: null }, action) {
+export function ethAuth(
+  state = { address: null, signature: null, account: null },
+  action
+) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.UPDATE_ETH_AUTH_INFO:
@@ -163,7 +174,10 @@ export function ethAuth (state = { address: null, signature: null, account: null
   })
 }
 
-export function authInfo (state = { signature: null, eosname: null, isLoading: false, error: null }, action) {
+export function authInfo(
+  state = { signature: null, eosname: null, isLoading: false, error: null },
+  action
+) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_AUTH_TOKEN:

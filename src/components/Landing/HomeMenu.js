@@ -1,7 +1,16 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
+import {
+  Grid,
+  Typography,
+  Fade,
+  Grow,
+  Card,
+  CardContent,
+  CardActions,
+  Button
+} from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Tilt from 'react-tilt'
@@ -17,8 +26,15 @@ import { connect } from 'react-redux'
 
 const { BACKEND_API, YUP_LANDING, WEB_APP_URL } = process.env
 const isMobile = window.innerWidth <= 600
-const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map((_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`)
-const getRandomGradientImg = () => `${AWS_DEFAULT_COLLECTION_IMG_URLS[Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)]}`
+const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map(
+  (_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`
+)
+const getRandomGradientImg = () =>
+  `${
+    AWS_DEFAULT_COLLECTION_IMG_URLS[
+      Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)
+    ]
+  }`
 
 const styles = theme => ({
   container: {
@@ -218,20 +234,24 @@ class Home extends Component {
     cardItems: [],
     recommendedCollections: []
   }
-  componentDidMount () {
-   this.fetchHomeConfig()
+  componentDidMount() {
+    this.fetchHomeConfig()
   }
 
-  fetchHomeConfig () {
-    axios.get(`${BACKEND_API}/home-config/v2`).then(({ data: { cardItems, linkItems } }) => {
-      this.setState({ linkItems, cardItems })
-    })
-    axios.get(`${BACKEND_API}/collections/recommended?limit=7`).then(({ data: recommendedCollections }) => {
-      this.setState({ recommendedCollections })
-    })
+  fetchHomeConfig() {
+    axios
+      .get(`${BACKEND_API}/home-config/v2`)
+      .then(({ data: { cardItems, linkItems } }) => {
+        this.setState({ linkItems, cardItems })
+      })
+    axios
+      .get(`${BACKEND_API}/collections/recommended?limit=7`)
+      .then(({ data: recommendedCollections }) => {
+        this.setState({ recommendedCollections })
+      })
   }
 
-  render () {
+  render() {
     const { classes, isUser, userCollections, theme } = this.props
     const { linkItems, cardItems, recommendedCollections } = this.state
 
@@ -242,197 +262,212 @@ class Home extends Component {
             <Grid
               className={classes.gridContainer}
               container
-              direction='row'
-              justify='flex-start'
+              direction="row"
+              justify="flex-start"
               spacing={5}
-              alignItems='flex-start'
-              alignContent='flex-start'
+              alignItems="flex-start"
+              alignContent="flex-start"
             >
-              <Grid item
-                xs={12}
-              >
+              <Grid item xs={12}>
                 <div className={classes.banner}>
                   <div className={classes.bannerBg} />
                 </div>
               </Grid>
-              <Grid item
-                xs={12}
-              >
+              <Grid item xs={12}>
                 <Grid
                   container
-                  direction='row'
+                  direction="row"
                   spacing={3}
-                  alignItems='stretch'
+                  alignItems="stretch"
                 >
-                  <Grid item
-                    md={12}
-                    xs={12}
-                  >
-                    <Fade in
-                      timeout={300}
-                    >
-                      <Card elevation={0}
+                  <Grid item md={12} xs={12}>
+                    <Fade in timeout={300}>
+                      <Card
+                        elevation={0}
                         className={classes.bannerCard}
-                        style={{ backgroundImage: isUser ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')" }}
+                        style={{
+                          backgroundImage: isUser
+                            ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})`
+                            : "url('images/feeds/rainbowbanner.svg')"
+                        }}
                       >
                         <CardContent>
-                          <Grid container
-                            direction='row'
-                            justify='space-between'
-                            alignItems='center'
+                          <Grid
+                            container
+                            direction="row"
+                            justify="space-between"
+                            alignItems="center"
                           >
-                            <Grid item
-                              xs={isMobile ? 12 : 7}
-                            >
-                              <Typography variant='h1'
+                            <Grid item xs={isMobile ? 12 : 7}>
+                              <Typography
+                                variant="h1"
                                 className={classes.titlePlain}
                               >
-                                {isUser ? `Mirror Feed` : `Social Network for Curators`}
-
+                                {isUser
+                                  ? `Mirror Feed`
+                                  : `Social Network for Curators`}
                               </Typography>
-                              <Typography variant='subtitle1'
+                              <Typography
+                                variant="subtitle1"
                                 className={classes.subtitle}
                               >
-                                {isUser ? `Explore Mirror articles from all publications, all in one feed` : `Curate and share content across the web. Earn money and clout for your taste`}
+                                {isUser
+                                  ? `Explore Mirror articles from all publications, all in one feed`
+                                  : `Curate and share content across the web. Earn money and clout for your taste`}
                               </Typography>
                             </Grid>
-                            <Grid item
+                            <Grid
+                              item
                               container
-                              justify='center'
+                              justify="center"
                               xs={5}
                               style={{ display: isMobile ? 'none' : 'inherit' }}
                             >
-
-                              <Img className={isUser ? classes.bannerMediaUser : classes.bannerMediaNews}
-                                src={isUser ? 'images/graphics/mirrorgraphic.png' : 'images/graphics/coingraphic.png'}
+                              <Img
+                                className={
+                                  isUser
+                                    ? classes.bannerMediaUser
+                                    : classes.bannerMediaNews
+                                }
+                                src={
+                                  isUser
+                                    ? 'images/graphics/mirrorgraphic.png'
+                                    : 'images/graphics/coingraphic.png'
+                                }
                               />
                             </Grid>
                           </Grid>
                         </CardContent>
                         <CardActions>
-                          {isUser
-                           ? <Link className={classes.Link}
-                             to={'/?feed=mirror'}
-                             >
-                             <Button size='large'
-                               variant='contained'
-                               className={classes.primaryButton}
-                             >
-                               Enter</Button></Link>
-                                : <>
-                                  <a className={classes.Link}
-                                    href={`${WEB_APP_URL}/?signupOpen=true`}
-                                  >
-                                    <Button size='large'
-                                      variant='contained'
-                                      className={classes.primaryButton}
-                                    > Start Now
-                                    </Button>
-                                  </a>
-                                  <a className={classes.Link}
-                                    href={YUP_LANDING}
-                                    target='_blank'
-                                  >
-                                    <Button size='large'
-                                      variant='contained'
-                                    >
-                                      Learn More
-                                    </Button>
-                                  </a>
-                                </>
-                          }
+                          {isUser ? (
+                            <Link className={classes.Link} to={'/?feed=mirror'}>
+                              <Button
+                                size="large"
+                                variant="contained"
+                                className={classes.primaryButton}
+                              >
+                                Enter
+                              </Button>
+                            </Link>
+                          ) : (
+                            <>
+                              <a
+                                className={classes.Link}
+                                href={`${WEB_APP_URL}/?signupOpen=true`}
+                              >
+                                <Button
+                                  size="large"
+                                  variant="contained"
+                                  className={classes.primaryButton}
+                                >
+                                  {' '}
+                                  Start Now
+                                </Button>
+                              </a>
+                              <a
+                                className={classes.Link}
+                                href={YUP_LANDING}
+                                target="_blank"
+                              >
+                                <Button size="large" variant="contained">
+                                  Learn More
+                                </Button>
+                              </a>
+                            </>
+                          )}
                         </CardActions>
                       </Card>
                     </Fade>
                   </Grid>
-                  {linkItems && linkItems.map(({ title, link, onlyVisibleToLoggedUser }) => {
-                    if (!isUser && onlyVisibleToLoggedUser) { return }
-                    return <HomeMenuLinkItem
-                      title={title}
-                      link={link.replace('USER_PLACEHOLDER', isUser)}
-                           />
-                  })}
+                  {linkItems &&
+                    linkItems.map(
+                      ({ title, link, onlyVisibleToLoggedUser }) => {
+                        if (!isUser && onlyVisibleToLoggedUser) {
+                          return
+                        }
+                        return (
+                          <HomeMenuLinkItem
+                            title={title}
+                            link={link.replace('USER_PLACEHOLDER', isUser)}
+                          />
+                        )
+                      }
+                    )}
                 </Grid>
               </Grid>
-              <Grid item
-                container
-                direction='column'
-                xs={12}
-              >
+              <Grid item container direction="column" xs={12}>
                 <Grid
                   item
                   container
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {cardItems && cardItems.map((item, index) => {
-                    return (
-                      <Grid
-                        item
-                        className={classes.ItemContainer}
-                        key={index}
-                        xs={6}
-                        sm={3}
-                      >
-                        <Link
-                          to={item.link}
-                          className={classes.Link}
+                  {cardItems &&
+                    cardItems.map((item, index) => {
+                      return (
+                        <Grid
+                          item
+                          className={classes.ItemContainer}
+                          key={index}
+                          xs={6}
+                          sm={3}
                         >
-                          <Grow in
-                            timeout={500}
-                          >
-                            <Grid
-                              container
-                              direction='column'
-                              spacing={1}
-                              style={{ display: 'block' }}
-                            >
-                              <Grid item>
-                                <Tilt
-                                  className={classes.Tilt}
-                                  options={{ max: 10, scale: 1.1, perspective: 2000 }}
-                                >
-                                  <Card elevation={0}
-                                    style={{ backgroundImage: `url(${item.imgSrc})` }}
-                                    alt={item.title}
-                                    className={classes.ImageCard}
+                          <Link to={item.link} className={classes.Link}>
+                            <Grow in timeout={500}>
+                              <Grid
+                                container
+                                direction="column"
+                                spacing={1}
+                                style={{ display: 'block' }}
+                              >
+                                <Grid item>
+                                  <Tilt
+                                    className={classes.Tilt}
+                                    options={{
+                                      max: 10,
+                                      scale: 1.1,
+                                      perspective: 2000
+                                    }}
                                   >
-                                    <Grid container>
-                                      <Grid item>
-                                        <Typography
-                                          variant='h5'
-                                          style={{ color: Colors.W2 }}
-                                        >
-                                          {item.title}
-                                        </Typography>
+                                    <Card
+                                      elevation={0}
+                                      style={{
+                                        backgroundImage: `url(${item.imgSrc})`
+                                      }}
+                                      alt={item.title}
+                                      className={classes.ImageCard}
+                                    >
+                                      <Grid container>
+                                        <Grid item>
+                                          <Typography
+                                            variant="h5"
+                                            style={{ color: Colors.W2 }}
+                                          >
+                                            {item.title}
+                                          </Typography>
+                                        </Grid>
                                       </Grid>
-                                    </Grid>
-                                  </Card>
-                                </Tilt>
+                                    </Card>
+                                  </Tilt>
+                                </Grid>
                               </Grid>
-                            </Grid>
-                          </Grow>
-                        </Link>
-                      </Grid>
-                    )
-                  })}
+                            </Grow>
+                          </Link>
+                        </Grid>
+                      )
+                    })}
                 </Grid>
               </Grid>
-              <Grid item
+              <Grid
+                item
                 container
-                direction='column'
+                direction="column"
                 xs={12}
                 style={{ display: isUser ? 'inherit' : 'none' }}
               >
-                <Grid item
-                  xs={12}
-                >
-                  <Fade in
-                    timeout={2000}
-                  >
-                    <Typography variant='h5'>
-                      Your Collections
-                    </Typography>
+                <Grid item xs={12}>
+                  <Fade in timeout={2000}>
+                    <Typography variant="h5">Your Collections</Typography>
                   </Fade>
                 </Grid>
                 <Grid
@@ -441,125 +476,127 @@ class Home extends Component {
                   spacing={3}
                   className={classes.ItemsContainer}
                 >
-                  {userCollections && userCollections.slice(0, 8).map((coll) => {
-                    return (
-                      <Grid
-                        item
-                        xs={6}
-                        sm={4}
-                        md={3}
-                        className={classes.linkItemContainer}
-                      >
-                        <Link
-                          to={`/collections/${encodeURIComponent(coll.name.replace(/\s+|\//g, '-').toLowerCase())}/${coll._id}`}
-
-                          className={classes.Link}
+                  {userCollections &&
+                    userCollections.slice(0, 8).map(coll => {
+                      return (
+                        <Grid
+                          item
+                          xs={6}
+                          sm={4}
+                          md={3}
+                          className={classes.linkItemContainer}
                         >
-                          <Grid
-                            container
-                            direction='row'
-                            justify='flex-start'
-                            alignItems='center'
-                            spacing={2}
-                            className={classes.recommendedContainer}
+                          <Link
+                            to={`/collections/${encodeURIComponent(
+                              coll.name.replace(/\s+|\//g, '-').toLowerCase()
+                            )}/${coll._id}`}
+                            className={classes.Link}
                           >
-                            <Grid item
-                              xs={4}
-                              lg={4}
-                              xl={4}
-                              className={classes.recommendedImgContainer}
+                            <Grid
+                              container
+                              direction="row"
+                              justify="flex-start"
+                              alignItems="center"
+                              spacing={2}
+                              className={classes.recommendedContainer}
                             >
-                              <Img
-                                src={[coll.imgSrcUrl, getRandomGradientImg()]}
-                                alt='thumbnail'
-                                className={classes.recommendedImg}
-                              />
+                              <Grid
+                                item
+                                xs={4}
+                                lg={4}
+                                xl={4}
+                                className={classes.recommendedImgContainer}
+                              >
+                                <Img
+                                  src={[coll.imgSrcUrl, getRandomGradientImg()]}
+                                  alt="thumbnail"
+                                  className={classes.recommendedImg}
+                                />
+                              </Grid>
+                              <Grid item xs={8} lg={8} xl={8}>
+                                <Typography variant="subtitle1">
+                                  {coll.name}
+                                </Typography>
+                                <Typography variant="body2">
+                                  {coll.postIds.length === 1
+                                    ? `1 post`
+                                    : `${coll.postIds.length} posts`}
+                                </Typography>
+                              </Grid>
                             </Grid>
-                            <Grid item
-                              xs={8}
-                              lg={8}
-                              xl={8}
-                            >
-                              <Typography variant='subtitle1'>{coll.name}</Typography>
-                              <Typography variant='body2'>{coll.postIds.length === 1 ? `1 post` : `${coll.postIds.length} posts`}</Typography>
-                            </Grid>
-                          </Grid>
-                        </Link>
-                      </Grid>
-                    )
-                  })}
+                          </Link>
+                        </Grid>
+                      )
+                    })}
                 </Grid>
               </Grid>
               <Grid item>
-                <Grid
-                  container
-                  direction='column'
-                  xs={12}
-                >
+                <Grid container direction="column" xs={12}>
                   <Grid
                     item
                     container
                     spacing={3}
                     className={classes.ItemsContainer}
                   >
-                    <Grid item
-                      xs={12}
-                    >
-                      <Fade in
-                        timeout={2000}
-                      >
-                        <Typography variant='h5'>
-                          Browse
-                        </Typography>
+                    <Grid item xs={12}>
+                      <Fade in timeout={2000}>
+                        <Typography variant="h5">Browse</Typography>
                       </Fade>
                     </Grid>
-                    {recommendedCollections && recommendedCollections.map((coll) => {
-                    if (!coll) return null
-                    return (
-                      <Grid
-                        item
-                        xs={6}
-                        sm={4}
-                        md={3}
-                        className={classes.linkItemContainer}
-                      >
-                        <Link
-                          to={`/collections/${encodeURIComponent(coll.name.replace('/', ''))}/${coll._id}`}
-                          className={classes.Link}
-                        >
+                    {recommendedCollections &&
+                      recommendedCollections.map(coll => {
+                        if (!coll) return null
+                        return (
                           <Grid
-                            container
-                            direction='row'
-                            justify='flex-start'
-                            alignItems='center'
-                            spacing={2}
-                            className={classes.recommendedContainer}
+                            item
+                            xs={6}
+                            sm={4}
+                            md={3}
+                            className={classes.linkItemContainer}
                           >
-                            <Grid item
-                              xs={4}
-                              lg={4}
-                              xl={4}
-                              className={classes.recommendedImgContainer}
+                            <Link
+                              to={`/collections/${encodeURIComponent(
+                                coll.name.replace('/', '')
+                              )}/${coll._id}`}
+                              className={classes.Link}
                             >
-                              <Img
-                                src={[coll.imgSrcUrl, getRandomGradientImg()]}
-                                alt='thumbnail'
-                                className={classes.recommendedImg}
-                              />
-                            </Grid>
-                            <Grid item
-                              xs={8}
-                              lg={8}
-                              xl={8}
-                            >
-                              <Typography variant='subtitle1'>{coll.name}</Typography>
-                              <Typography variant='body2'>{coll.owner}</Typography>
-                            </Grid>
+                              <Grid
+                                container
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="center"
+                                spacing={2}
+                                className={classes.recommendedContainer}
+                              >
+                                <Grid
+                                  item
+                                  xs={4}
+                                  lg={4}
+                                  xl={4}
+                                  className={classes.recommendedImgContainer}
+                                >
+                                  <Img
+                                    src={[
+                                      coll.imgSrcUrl,
+                                      getRandomGradientImg()
+                                    ]}
+                                    alt="thumbnail"
+                                    className={classes.recommendedImg}
+                                  />
+                                </Grid>
+                                <Grid item xs={8} lg={8} xl={8}>
+                                  <Typography variant="subtitle1">
+                                    {coll.name}
+                                  </Typography>
+                                  <Typography variant="body2">
+                                    {coll.owner}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </Link>
                           </Grid>
-                        </Link>
-                      </Grid>
-                    )
-                  })}
+                        )
+                      })}
                   </Grid>
                 </Grid>
               </Grid>
@@ -571,7 +608,7 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const account = accountInfoSelector(state)
   const isUser = account && account.name
   // const accountNotLoaded = state.authInfo.isLoading || (state.authInfo.error && !state.authInfo.isLoading)
@@ -582,7 +619,8 @@ const mapStateToProps = (state) => {
   // if (!cachedUsername && account.name) {
   //   localStorage.setItem('cachedUsername', JSON.stringify(account.name))
   // }
-  const { collections: userCollections } = state.userCollections[account && account.name] || {}
+  const { collections: userCollections } =
+    state.userCollections[account && account.name] || {}
   return {
     isUser,
     userCollections
@@ -596,4 +634,6 @@ Home.propTypes = {
   isUser: PropTypes.bool.isRequired
 }
 
-export default memo(connect(mapStateToProps)(withStyles(styles)(withTheme(Home))))
+export default memo(
+  connect(mapStateToProps)(withStyles(styles)(withTheme(Home)))
+)

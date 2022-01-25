@@ -1,6 +1,19 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  Button,
+  Typography,
+  CircularProgress,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Grid
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
@@ -21,7 +34,7 @@ const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
 
 const styles = theme => ({
   dialog: {
-      width: '100%'
+    width: '100%'
   },
   dialogTitleText: {
     fontWeight: '500'
@@ -116,19 +129,23 @@ class SubscribeDialog extends Component {
     walletConnectOpen: false
   }
 
-  getStepContent = (step) => {
+  getStepContent = step => {
     switch (step) {
       case 0:
         return 'Connect your account from your mobile device.'
       case 1:
         return 'Sign the message on your mobile device to confirm your account ownership.'
       case 2:
-        return this.state.showWhitelist ? 'Your address needs to be whitelisted. Please add your email so we can notify you.' : 'Please enter a Yup username to create your account.'
+        return this.state.showWhitelist
+          ? 'Your address needs to be whitelisted. Please add your email so we can notify you.'
+          : 'Please enter a Yup username to create your account.'
     }
   }
 
   initWalletConnect = async () => {
-    if (this.state.walletConnectOpen) { return }
+    if (this.state.walletConnectOpen) {
+      return
+    }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
     const bridge = 'https://bridge.walletconnect.org'
@@ -143,16 +160,18 @@ class SubscribeDialog extends Component {
     }
 
     if (!connector.connected) {
-     await connector.createSession()
+      await connector.createSession()
     }
 
     await this.subscribeToEvents()
   }
 
-   subscribeToEvents = async () => {
+  subscribeToEvents = async () => {
     const { connector } = this.state
 
-    if (!connector) { return }
+    if (!connector) {
+      return
+    }
 
     connector.on('connect', (error, payload) => {
       if (error) {
@@ -178,14 +197,18 @@ class SubscribeDialog extends Component {
       this.setState({ connector })
       this.onConnect(connector, true)
     }
-  };
+  }
 
-   onConnect = async (payload, connected) => {
-     if (!this.state.connector || !payload) { return }
+  onConnect = async (payload, connected) => {
+    if (!this.state.connector || !payload) {
+      return
+    }
 
-     try {
+    try {
       const chainId = connected ? payload._chainId : payload.params[0].chainId
-      const accounts = connected ? payload._accounts : payload.params[0].accounts
+      const accounts = connected
+        ? payload._accounts
+        : payload.params[0].accounts
 
       if (chainId !== 1) {
         this.handleSnackbarOpen(NOTMAINNET_MSG, true)
@@ -200,38 +223,49 @@ class SubscribeDialog extends Component {
       })
 
       const address = accounts[0]
-      const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
+      const challenge = (
+        await axios.get(`${BACKEND_API}/v1/eth/challenge`, {
+          params: { address }
+        })
+      ).data.data
       const msgParams = [
         address,
-        keccak256('\x19Ethereum Signed Message:\n' + challenge.length + challenge)
+        keccak256(
+          '\x19Ethereum Signed Message:\n' + challenge.length + challenge
+        )
       ]
       const signature = await this.state.connector.signMessage(msgParams)
       this.setState({
         activeStep: 2
       })
-      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address: address, eosname: this.state.account.name, signature: signature })
+      await axios.post(`${BACKEND_API}/accounts/linked/eth`, {
+        address: address,
+        eosname: this.state.account.name,
+        signature: signature
+      })
       this.props.dispatch(fetchSocialLevel(this.state.account.name))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
       this.setState({ walletConnectOpen: false })
-      } catch (err) {
-        console.error(err)
-        this.handleSnackbarOpen(ERROR_MSG, true)
-        this.onDisconnect()
-      }
+    } catch (err) {
+      console.error(err)
+      this.handleSnackbarOpen(ERROR_MSG, true)
+      this.onDisconnect()
+    }
   }
 
   onDisconnect = () => {
-    this.setState({
-      connected: false,
-      connector: null,
-      steps: ['Connect Ethereum Account', 'Verify Ownership'],
-      activeStep: 0,
-      showWhitelist: false,
-      showUsername: false,
-      EthIsLoading: false
-    },
-    localStorage.removeItem('YUP_ETH_AUTH')
+    this.setState(
+      {
+        connected: false,
+        connector: null,
+        steps: ['Connect Ethereum Account', 'Verify Ownership'],
+        activeStep: 0,
+        showWhitelist: false,
+        showUsername: false,
+        EthIsLoading: false
+      },
+      localStorage.removeItem('YUP_ETH_AUTH')
     )
   }
   handleSnackbarOpen = (msg, error) => {
@@ -254,7 +288,7 @@ class SubscribeDialog extends Component {
     })
   }
 
-  render () {
+  render() {
     const { handleDialogClose, dialogOpen, classes, account } = this.props
     if (account && !this.state.account) this.setState({ account: account })
     return (
@@ -270,89 +304,95 @@ class SubscribeDialog extends Component {
             <SnackbarContent
               className={classes.snack}
               message={this.state.snackbar.content}
-              style={{ backgroundColor: this.state.snackbar.error ? '#ff5252' : '#48B04C' }}
+              style={{
+                backgroundColor: this.state.snackbar.error
+                  ? '#ff5252'
+                  : '#48B04C'
+              }}
             />
           </Snackbar>
         </Portal>
 
-        <Dialog open={dialogOpen}
+        <Dialog
+          open={dialogOpen}
           onClose={() => {
             handleDialogClose()
             this.setState({ walletConnectOpen: false })
           }}
-          aria-labelledby='form-dialog-title'
+          aria-labelledby="form-dialog-title"
           className={classes.dialog}
         >
-          {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
-            <>
-              <DialogTitle style={{ paddingBottom: '10px' }}>
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  variant='h3'
-                >
-                  Link your Ethereum account
-                </Typography>
-              </DialogTitle>
-              <DialogContent>
-                <Grid container
-                  direction='column'
-                  spacing={1}
-                >
-                  <Grid item>
-                    <Button
-                      variant='outlined'
-                      size='large'
-                      onClick={this.initWalletConnect}
-                      fullWidth
-                    >
-                      <Typography
-                        align='left'
-                        className={classes.platforms}
+          {!this.state.connected &&
+            !this.state.showWhitelist &&
+            !this.state.showUsername && (
+              <>
+                <DialogTitle style={{ paddingBottom: '10px' }}>
+                  <Typography
+                    align="left"
+                    className={classes.dialogTitleText}
+                    variant="h3"
+                  >
+                    Link your Ethereum account
+                  </Typography>
+                </DialogTitle>
+                <DialogContent>
+                  <Grid container direction="column" spacing={1}>
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        onClick={this.initWalletConnect}
+                        fullWidth
                       >
-                        WalletConnect
-                      </Typography>
-                      {this.state.EthIsLoading
-                    ? <CircularProgress size={13.5}
-                      className={classes.loader}
-                      />
-                    : <img alt='wallet connect'
-                      src='/images/icons/wallet_connect.png'
-                      className={classes.walletConnectIcon}
-                      />
-                  }
-                    </Button>
+                        <Typography align="left" className={classes.platforms}>
+                          WalletConnect
+                        </Typography>
+                        {this.state.EthIsLoading ? (
+                          <CircularProgress
+                            size={13.5}
+                            className={classes.loader}
+                          />
+                        ) : (
+                          <img
+                            alt="wallet connect"
+                            src="/images/icons/wallet_connect.png"
+                            className={classes.walletConnectIcon}
+                          />
+                        )}
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </DialogContent>
-            </>
-          }
+                </DialogContent>
+              </>
+            )}
 
-          {this.state.connected &&
+          {this.state.connected && (
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
                 <Typography
-                  align='left'
+                  align="left"
                   className={classes.dialogTitleText}
-                  variant='h5'
+                  variant="h5"
                 >
                   Sign Up / Login
                 </Typography>
               </DialogTitle>
               <DialogContent>
-                <DialogContentText>Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved </DialogContentText>
-                <Stepper activeStep={this.state.activeStep}
-                  orientation='vertical'
+                <DialogContentText>
+                  Please sign up with an 'active' wallet, one that has held some
+                  ETH or YUP before. Fresh unused wallets will not be
+                  whitelisted and will need to be approved{' '}
+                </DialogContentText>
+                <Stepper
+                  activeStep={this.state.activeStep}
+                  orientation="vertical"
                   className={classes.stepper}
                 >
-                  {this.state.steps.map((label) => (
+                  {this.state.steps.map(label => (
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
                       <StepContent>
-                        <Typography
-                          align='left'
-                          variant='body1'
-                        >
+                        <Typography align="left" variant="body1">
                           {this.getStepContent(this.state.activeStep)}
                         </Typography>
                       </StepContent>
@@ -361,7 +401,7 @@ class SubscribeDialog extends Component {
                 </Stepper>
               </DialogContent>
             </>
-          }
+          )}
         </Dialog>
       </ErrorBoundary>
     )
@@ -375,4 +415,6 @@ SubscribeDialog.propTypes = {
   account: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
-export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))
+export default memo(
+  withRouter(connect(null)(withStyles(styles)(SubscribeDialog)))
+)

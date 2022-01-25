@@ -241,36 +241,32 @@ const styles = theme => ({
 })
 
 class CustomTweetEmbed extends Component {
-  render () {
+  render() {
     const { tweetData, classes } = this.props
     if (!tweetData || !tweetData.tweetInfo) {
       return <div />
     }
-    const retweet = tweetData.tweetInfo.retweeted_status ? !(isEmpty(tweetData.tweetInfo.retweeted_status)) : false
-    const quoted = tweetData.tweetInfo.quoted_status ? !(isEmpty(tweetData.tweetInfo.quoted_status)) : false
-    const reply = tweetData.tweetInfo.in_reply_to_status_id ? !(isEmpty(tweetData.tweetInfo.reply_status)) : false
+    const retweet = tweetData.tweetInfo.retweeted_status
+      ? !isEmpty(tweetData.tweetInfo.retweeted_status)
+      : false
+    const quoted = tweetData.tweetInfo.quoted_status
+      ? !isEmpty(tweetData.tweetInfo.quoted_status)
+      : false
+    const reply = tweetData.tweetInfo.in_reply_to_status_id
+      ? !isEmpty(tweetData.tweetInfo.reply_status)
+      : false
 
     return (
-      <Fade in
-        timeout={1000}
-      >
-        {
-          retweet
-          ? <Retweet tweetData={tweetData}
-            classes={classes}
-            />
-          : quoted
-          ? <Quoted tweetData={tweetData}
-            classes={classes}
-            />
-          : reply
-          ? <Reply tweetData={tweetData}
-            classes={classes}
-            />
-          : <Original tweetData={tweetData}
-            classes={classes}
-            />
-        }
+      <Fade in timeout={1000}>
+        {retweet ? (
+          <Retweet tweetData={tweetData} classes={classes} />
+        ) : quoted ? (
+          <Quoted tweetData={tweetData} classes={classes} />
+        ) : reply ? (
+          <Reply tweetData={tweetData} classes={classes} />
+        ) : (
+          <Original tweetData={tweetData} classes={classes} />
+        )}
       </Fade>
     )
   }

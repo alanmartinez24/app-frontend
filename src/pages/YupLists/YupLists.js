@@ -71,9 +71,11 @@ class YupLists extends Component {
   state = {
     isLoading: true
   }
-  async fetchListOptions () {
+  async fetchListOptions() {
     const { setListOpts } = this.props
-    const updatedListOpts = (await axios.get(`${BACKEND_API}/v1/lists/listInfo`)).data
+    const updatedListOpts = (
+      await axios.get(`${BACKEND_API}/v1/lists/listInfo`)
+    ).data
     setListOpts(updatedListOpts)
     this.setState({ isLoading: false })
   }
@@ -82,7 +84,7 @@ class YupLists extends Component {
     showTour: true
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (window.analytics) {
       window.analytics.page('Yup Lists')
     }
@@ -95,40 +97,43 @@ class YupLists extends Component {
     }, 30000)
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (!isEqual(nextProps, this.props) || !isEqual(nextState, this.state)) {
       return true
     }
     return false
   }
 
-  render () {
+  render() {
     const { classes, setTour, tour } = this.props
     return (
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            {!this.state.isLoading &&
-              <Grid className={classes.gridContainer}
+            {!this.state.isLoading && (
+              <Grid
+                className={classes.gridContainer}
                 container
-                justify='center'
+                justify="center"
               >
                 <YupLeaderboard />
               </Grid>
-            }
+            )}
             <Tour
               steps={steps}
               isOpen={tour}
-              onRequestClose={() => { setTour({ isTourOpen: false }) }}
+              onRequestClose={() => {
+                setTour({ isTourOpen: false })
+              }}
               className={classes.Tour}
-              accentColor='#00E08E'
+              accentColor="#00E08E"
               rounded={10}
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
                 <Button
-                  size='small'
-                  variant='outlined'
+                  size="small"
+                  variant="outlined"
                   style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                   small
                 >
@@ -137,26 +142,22 @@ class YupLists extends Component {
               }
               prevButton={
                 <Button
-                  size='small'
-                  variant='outlined'
+                  size="small"
+                  variant="outlined"
                   style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                 >
                   Back
                 </Button>
               }
-              lastStepNextButton={
-                <div
-                  style={{ display: 'none' }}
-                />
-              }
+              lastStepNextButton={<div style={{ display: 'none' }} />}
             />
-            <Fade in={this.state.showTour}
-              timeout={1000}
-            >
+            <Fade in={this.state.showTour} timeout={1000}>
               <Fab
                 className={classes.tourFab}
-                variant='extended'
-                onClick={() => { setTour({ isTourOpen: true }) }}
+                variant="extended"
+                onClick={() => {
+                  setTour({ isTourOpen: true })
+                }}
               >
                 10-Second Tutorial
               </Fab>
@@ -181,19 +182,19 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <>
-        <Typography
-          className='tourHeader'
-          variant='h4'
-        >
-          📈  Leaderboard
+        <Typography className="tourHeader" variant="h4">
+          📈 Leaderboard
         </Typography>
-        <p className='tourText'>
+        <p className="tourText">
           Find content and users ranked by category and platform.
         </p>
-        <a href='https://docs.yup.io/products/app#lists'
-          target='_blank'
-          className='tourLink'
-        >Learn more</a>
+        <a
+          href="https://docs.yup.io/products/app#lists"
+          target="_blank"
+          className="tourLink"
+        >
+          Learn more
+        </a>
       </>
     )
   },
@@ -201,15 +202,10 @@ const steps = [
     selector: '[tourName="LeaderboardMenu"]',
     content: (
       <div>
-        <Typography
-          className='tourHeader'
-          variant='h4'
-        >
-          ‍📊  Leaderboard Menu
+        <Typography className="tourHeader" variant="h4">
+          ‍📊 Leaderboard Menu
         </Typography>
-        <p className='tourText'>
-          Here you can edit and filter leaderboards.
-        </p>
+        <p className="tourText">Here you can edit and filter leaderboards.</p>
       </div>
     )
   },
@@ -217,19 +213,20 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <Typography
-          className='tourHeader'
-          variant='h4'
-        >
-          🤔  Rating
+        <Typography className="tourHeader" variant="h4">
+          🤔 Rating
         </Typography>
-        <p className='tourText'>
-          You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
+        <p className="tourText">
+          You can rate content out of 5 in different categories, such as like
+          ♥️, smart 💡, funny 😂, etc.
         </p>
-        <a href='https://docs.yup.io/basic/rating'
-          target='_blank'
-          className='tourLink'
-        >Learn more</a>
+        <a
+          href="https://docs.yup.io/basic/rating"
+          target="_blank"
+          className="tourLink"
+        >
+          Learn more
+        </a>
       </div>
     )
   },
@@ -237,64 +234,60 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography
-          className='tourHeader'
-          variant='h4'
-        >
-          📡  Feeds
+        <Typography className="tourHeader" variant="h4">
+          📡 Feeds
         </Typography>
-        <p className='tourText'>
-          These are your feeds.
-        </p>
-        <a href='https://docs.yup.io/products/app#feed'
-          target='_blank'
-          className='tourLink'
-        >Learn more</a>
+        <p className="tourText">These are your feeds.</p>
+        <a
+          href="https://docs.yup.io/products/app#feed"
+          target="_blank"
+          className="tourLink"
+        >
+          Learn more
+        </a>
       </div>
     )
   },
   {
     content: (
       <div>
-        <Typography className='tourHeader'
-          variant='h3'
-        >
+        <Typography className="tourHeader" variant="h3">
           👏 That's it !
         </Typography>
-        <p className='tourText'>
+        <p className="tourText">
           That's all for now. Learn more with some of these resources:
         </p>
-        <div className='tourResources'>
+        <div className="tourResources">
           <Button
-            size='medium'
-            variant='contained'
+            size="medium"
+            variant="contained"
             style={{ fontWeight: 400 }}
             small
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
+            className="tourButton"
+            href="https://docs.yup.io"
+            target="_blank"
           >
             Docs
           </Button>
           <Button
-            size='medium'
-            variant='contained'
+            size="medium"
+            variant="contained"
             style={{ fontWeight: 400 }}
             small
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
+            className="tourButton"
+            href="https://yup.io"
+            target="_blank"
           >
             Website
           </Button>
           <Button
-            size='medium'
-            variant='contained'
+            size="medium"
+            variant="contained"
             style={{ fontWeight: 400 }}
             small
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
+            className="tourButton"
+            href="https://blog.yup.io"
+            target="_blank"
           >
             Blog
           </Button>
@@ -303,7 +296,7 @@ const steps = [
           controls
           style={{ overFlow: 'hidden', maxHeight: '200px' }}
           url={EXPLAINER_VIDEO}
-          width='100%'
+          width="100%"
         />
       </div>
     )
@@ -317,9 +310,11 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
-    setTour: (tour) => dispatch(setTourAction(tour))
+    setListOpts: listOpts => dispatch(setListOptions(listOpts)),
+    setTour: tour => dispatch(setTourAction(tour))
   }
 }
 
-export default memo(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(YupLists)))
+export default memo(
+  connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(YupLists))
+)

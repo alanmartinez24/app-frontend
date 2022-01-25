@@ -105,170 +105,299 @@ class Analytics extends Component {
     ratingPower: 100
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.loadUserData()
     if (window.analytics) {
       window.analytics.page('User')
     }
   }
 
- getAllActions = async (voter, start, limit, type, actions) => {
-  try {
-    let data = (await axios.get(`https://eos.hyperion.eosrio.io/v2/history/get_actions?&filter=token.yup&account=${voter}&skip=${start}&limit=${limit}&sort=desc&${type}=${voter}`, {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })).data
-    actions = actions.concat(data.actions)
-   // if (actions.length >= data.total.value) return actions
+  getAllActions = async (voter, start, limit, type, actions) => {
+    try {
+      let data = (
+        await axios.get(
+          `https://eos.hyperion.eosrio.io/v2/history/get_actions?&filter=token.yup&account=${voter}&skip=${start}&limit=${limit}&sort=desc&${type}=${voter}`,
+          {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )
+      ).data
+      actions = actions.concat(data.actions)
+      // if (actions.length >= data.total.value) return actions
 
-    // actions = await this.getAllActions(voter, start + limit, limit, type, actions)
-    return actions
-  } catch (e) {
-    console.log(e)
-    return actions
+      // actions = await this.getAllActions(voter, start + limit, limit, type, actions)
+      return actions
+    } catch (e) {
+      console.log(e)
+      return actions
+    }
   }
-}
   getHoldingsUser = async (account, income, outgoing) => {
-      try {
-        let formattedIncome = []
-        let formattedOutgoing = []
-        // Checking if ratelimited and missing some incoming transactions
-        // If so, remove outgoing transactions that are older than the oldest income
-         let oldestOutgoing = outgoing[outgoing.length - 1]
-          let oldestIncome = income[income.length - 1]
-          if (oldestOutgoing && oldestIncome) {
-          if (new Date(oldestOutgoing.timestamp).getTime() < new Date(oldestIncome.timestamp)) {
-            outgoing = outgoing.filter(item => !(new Date(item.timestamp) < new Date(oldestIncome.timestamp)))
+    try {
+      let formattedIncome = []
+      let formattedOutgoing = []
+      // Checking if ratelimited and missing some incoming transactions
+      // If so, remove outgoing transactions that are older than the oldest income
+      let oldestOutgoing = outgoing[outgoing.length - 1]
+      let oldestIncome = income[income.length - 1]
+      if (oldestOutgoing && oldestIncome) {
+        if (
+          new Date(oldestOutgoing.timestamp).getTime() <
+          new Date(oldestIncome.timestamp)
+        ) {
+          outgoing = outgoing.filter(
+            item =>
+              !(new Date(item.timestamp) < new Date(oldestIncome.timestamp))
+          )
+        }
+      }
+
+      income.forEach((data, index) => {
+        if (data.act.data.symbol === 'YUP') {
+          formattedIncome[index] = {
+            timestamp: new Date(data.timestamp).getTime(),
+            amount: data.act.data.amount,
+            type: 'incoming'
           }
         }
-
-        income.forEach((data, index) => {
-          if (data.act.data.symbol === 'YUP') {
-            formattedIncome[index] = { timestamp: new Date(data.timestamp).getTime(), amount: data.act.data.amount, type: 'incoming' }
+      })
+      outgoing.forEach((data, index) => {
+        if (data.act.data.symbol === 'YUP') {
+          formattedOutgoing[index] = {
+            timestamp: new Date(data.timestamp).getTime(),
+            amount: data.act.data.amount,
+            type: 'outgoing'
           }
-        })
-        outgoing.forEach((data, index) => {
-          if (data.act.data.symbol === 'YUP') {
-          formattedOutgoing[index] = { timestamp: new Date(data.timestamp).getTime(), amount: data.act.data.amount, type: 'outgoing' }
+        }
+      })
+      let sortedArray = formattedIncome
+        .concat(formattedOutgoing)
+        .sort((a, b) => b.timestamp - a.timestamp)
+      let dailyData = [
+        [
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate()
+          ),
+          account.balance.YUP
+        ]
+      ]
+      sortedArray.forEach(transaction => {
+        if (dailyData.length > 0) {
+          if (
+            isSameDay(
+              new Date(transaction.timestamp),
+              dailyData[dailyData.length - 1][0]
+            )
+          ) {
+            dailyData[dailyData.length - 1][1] =
+              transaction.type === 'incoming'
+                ? +(
+                    dailyData[dailyData.length - 1][1] - transaction.amount
+                  ).toFixed(4)
+                : +(
+                    dailyData[dailyData.length - 1][1] + transaction.amount
+                  ).toFixed(4)
+          } else {
+            dailyData.push([
+              new Date(
+                new Date(transaction.timestamp).getFullYear(),
+                new Date(transaction.timestamp).getMonth(),
+                new Date(transaction.timestamp).getDate()
+              ),
+              transaction.type === 'incoming'
+                ? +(
+                    dailyData[dailyData.length - 1][1] - transaction.amount
+                  ).toFixed(4)
+                : +(
+                    dailyData[dailyData.length - 1][1] + transaction.amount
+                  ).toFixed(4)
+            ])
           }
-        })
-        let sortedArray = formattedIncome.concat(formattedOutgoing).sort((a, b) => b.timestamp - a.timestamp)
-        let dailyData = [[new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), account.balance.YUP]]
-        sortedArray.forEach(transaction => {
-          if (dailyData.length > 0) {
-            if (isSameDay(new Date(transaction.timestamp), dailyData[dailyData.length - 1][0])) {
-              dailyData[dailyData.length - 1][1] = transaction.type === 'incoming' ? +(dailyData[dailyData.length - 1][1] - transaction.amount).toFixed(4) : +(dailyData[dailyData.length - 1][1] + transaction.amount).toFixed(4)
-            } else {
-              dailyData.push([ new Date(new Date(transaction.timestamp).getFullYear(), new Date(transaction.timestamp).getMonth(), new Date(transaction.timestamp).getDate()), transaction.type === 'incoming' ? +(dailyData[dailyData.length - 1][1] - transaction.amount).toFixed(4) : +(dailyData[dailyData.length - 1][1] + transaction.amount).toFixed(4) ])
-            }
-          }
-        })
-        this.setState({ isLoading: false, userHoldings: dailyData })
-      } catch (err) {
-        console.log(err)
-      }
+        }
+      })
+      this.setState({ isLoading: false, userHoldings: dailyData })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   getEarningsUser = async (account, income) => {
-      try {
-        let sortedArray = []
-        income.forEach(payment => {
-          if (payment.act.data.symbol === 'YUP') { sortedArray.push([new Date(payment.timestamp).getTime(), payment.act.data.amount]) }
-        })
-        sortedArray = sortedArray.sort((a, b) => b[0] - a[0])
-        let dailyData = [[new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), account.total_claimed_rewards]]
-        sortedArray.forEach(transaction => {
-          if (dailyData.length > 0) {
-            if (isSameDay(new Date(transaction[0]), dailyData[dailyData.length - 1][0])) {
-              dailyData[dailyData.length - 1][1] = dailyData[dailyData.length - 1][1] - transaction[1]
-            } else {
-               dailyData.push([ new Date(new Date(transaction[0]).getFullYear(), new Date(transaction[0]).getMonth(), new Date(transaction[0]).getDate()), dailyData[dailyData.length - 1][1] - transaction[1] ])
-            }
+    try {
+      let sortedArray = []
+      income.forEach(payment => {
+        if (payment.act.data.symbol === 'YUP') {
+          sortedArray.push([
+            new Date(payment.timestamp).getTime(),
+            payment.act.data.amount
+          ])
+        }
+      })
+      sortedArray = sortedArray.sort((a, b) => b[0] - a[0])
+      let dailyData = [
+        [
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate()
+          ),
+          account.total_claimed_rewards
+        ]
+      ]
+      sortedArray.forEach(transaction => {
+        if (dailyData.length > 0) {
+          if (
+            isSameDay(
+              new Date(transaction[0]),
+              dailyData[dailyData.length - 1][0]
+            )
+          ) {
+            dailyData[dailyData.length - 1][1] =
+              dailyData[dailyData.length - 1][1] - transaction[1]
+          } else {
+            dailyData.push([
+              new Date(
+                new Date(transaction[0]).getFullYear(),
+                new Date(transaction[0]).getMonth(),
+                new Date(transaction[0]).getDate()
+              ),
+              dailyData[dailyData.length - 1][1] - transaction[1]
+            ])
           }
-        })
-        dailyData = this.cleanupData(dailyData)
-        this.setState({ isLoading: false, userEarnings: dailyData })
-      } catch (e) {
-        console.log(e)
-      }
+        }
+      })
+      dailyData = this.cleanupData(dailyData)
+      this.setState({ isLoading: false, userEarnings: dailyData })
+    } catch (e) {
+      console.log(e)
+    }
   }
   // Current data we get through eos api seems to be off by a bit.
   // Until we have our own analytics we need to set the values to 0 if the earnings/holdings have negative values
   // Breaks the chart styling otherwise ( and confuses the users)
-  cleanupData = (data) => {
-     data.forEach(entry => {
+  cleanupData = data => {
+    data.forEach(entry => {
       if (entry[1] < 0) entry[1] = 0
     })
     return data
   }
-  getDistributions = async (account) => {
+  getDistributions = async account => {
     try {
-      const data = (await axios.get(`${BACKEND_API}/analytics/distribution/${account}`)).data
+      const data = (
+        await axios.get(`${BACKEND_API}/analytics/distribution/${account}`)
+      ).data
 
-      let valuesCat = Object.values(data.categoryDistribution).sort((a, b) => b - a).slice(0, 5)
-      let keysCat = Object.keys(data.categoryDistribution).sort((a, b) => data.categoryDistribution[b] - data.categoryDistribution[a]).slice(0, 5)
-      let resultCat = []; let i = -1
-      let valuesPlat = Object.values(data.platformDistribution).sort((a, b) => b - a).slice(0, 5)
-      let keysPlat = Object.keys(data.platformDistribution).sort((a, b) => data.platformDistribution[b] - data.platformDistribution[a]).slice(0, 5)
-      let resultPlat = []; let k = -1
-     while (valuesCat[++i]) {
-      resultCat.push([ keysCat[i], valuesCat[i] ])
-     }
-     while (valuesPlat[++k]) {
-      resultPlat.push([ keysPlat[k], valuesPlat[k] ])
-     }
-     const entriesCat = new Map(
-      resultCat
-    )
-    const entriesPlat = new Map(
-      resultPlat
-   )
-    const objCat = Object.fromEntries(entriesCat)
+      let valuesCat = Object.values(data.categoryDistribution)
+        .sort((a, b) => b - a)
+        .slice(0, 5)
+      let keysCat = Object.keys(data.categoryDistribution)
+        .sort(
+          (a, b) => data.categoryDistribution[b] - data.categoryDistribution[a]
+        )
+        .slice(0, 5)
+      let resultCat = []
+      let i = -1
+      let valuesPlat = Object.values(data.platformDistribution)
+        .sort((a, b) => b - a)
+        .slice(0, 5)
+      let keysPlat = Object.keys(data.platformDistribution)
+        .sort(
+          (a, b) => data.platformDistribution[b] - data.platformDistribution[a]
+        )
+        .slice(0, 5)
+      let resultPlat = []
+      let k = -1
+      while (valuesCat[++i]) {
+        resultCat.push([keysCat[i], valuesCat[i]])
+      }
+      while (valuesPlat[++k]) {
+        resultPlat.push([keysPlat[k], valuesPlat[k]])
+      }
+      const entriesCat = new Map(resultCat)
+      const entriesPlat = new Map(resultPlat)
+      const objCat = Object.fromEntries(entriesCat)
 
-    const objPlat = Object.fromEntries(entriesPlat)
-      this.setState({ isLoading: false, categoryDistribution: objCat, platformDistribution: objPlat })
+      const objPlat = Object.fromEntries(entriesPlat)
+      this.setState({
+        isLoading: false,
+        categoryDistribution: objCat,
+        platformDistribution: objPlat
+      })
     } catch (e) {
       console.log(e)
     }
-}
-
-ratingPower = async () => {
-  const { account } = this.state
-  const MIN_VOTE_LIMIT = 20
-  const MID_VOTE_LIMIT = 30
-  const MAX_VOTE_LIMIT = 40
-  let yupBal = account && account.balance.YUP
-  let maxVoteCount = yupBal > 100 ? MAX_VOTE_LIMIT : yupBal < 0.5 ? MIN_VOTE_LIMIT : MID_VOTE_LIMIT
-  let voteCount = 0
-  const actionUsage = (await axios.get(`${BACKEND_API}/accounts/actionusage/${account && account._id}`)).data
-  const now = (new Date()).getTime()
-  const oneDayInMs = 60 * 60 * 24 * 1000
-  if (actionUsage.lastReset + oneDayInMs >= now) {
-    voteCount = actionUsage.createVoteCount
   }
 
-  if (maxVoteCount < voteCount) { return 0 }
-  this.setState({ isLoading: false, ratingPower: Math.round(((maxVoteCount - voteCount) / maxVoteCount) * 100) })
-}
+  ratingPower = async () => {
+    const { account } = this.state
+    const MIN_VOTE_LIMIT = 20
+    const MID_VOTE_LIMIT = 30
+    const MAX_VOTE_LIMIT = 40
+    let yupBal = account && account.balance.YUP
+    let maxVoteCount =
+      yupBal > 100
+        ? MAX_VOTE_LIMIT
+        : yupBal < 0.5
+        ? MIN_VOTE_LIMIT
+        : MID_VOTE_LIMIT
+    let voteCount = 0
+    const actionUsage = (
+      await axios.get(
+        `${BACKEND_API}/accounts/actionusage/${account && account._id}`
+      )
+    ).data
+    const now = new Date().getTime()
+    const oneDayInMs = 60 * 60 * 24 * 1000
+    if (actionUsage.lastReset + oneDayInMs >= now) {
+      voteCount = actionUsage.createVoteCount
+    }
+
+    if (maxVoteCount < voteCount) {
+      return 0
+    }
+    this.setState({
+      isLoading: false,
+      ratingPower: Math.round(((maxVoteCount - voteCount) / maxVoteCount) * 100)
+    })
+  }
   loadUserData = () => {
-    (async () => {
+    ;(async () => {
       try {
         const { pathname } = window.location
         const username = pathname.split('/')[1]
 
-        const account = (await axios.get(`${BACKEND_API}/levels/user/${username}`)).data
+        const account = (
+          await axios.get(`${BACKEND_API}/levels/user/${username}`)
+        ).data
         this.setState({ isLoading: false, account: account })
         this.ratingPower()
         this.getDistributions(account._id)
         let income = await getCache('income:' + account._id, 24 * 60 * 60000)
-        let outgoing = await getCache('outgoing:' + account._id, 24 * 60 * 60000)
+        let outgoing = await getCache(
+          'outgoing:' + account._id,
+          24 * 60 * 60000
+        )
 
         if (!outgoing || !outgoing.length) {
-          outgoing = await this.getAllActions(account._id, 0, 1000, 'transfer.from', [])
-            setCache('outgoing:' + account._id, outgoing)
-         }
+          outgoing = await this.getAllActions(
+            account._id,
+            0,
+            1000,
+            'transfer.from',
+            []
+          )
+          setCache('outgoing:' + account._id, outgoing)
+        }
         if (!income || !income.length) {
-         income = await this.getAllActions(account._id, 0, 1000, 'transfer.to', [])
-           setCache('income:' + account._id, income)
+          income = await this.getAllActions(
+            account._id,
+            0,
+            1000,
+            'transfer.to',
+            []
+          )
+          setCache('income:' + account._id, income)
         }
         this.setState({ totalClaimedRewards: account.total_claimed_rewards })
 
@@ -280,32 +409,35 @@ ratingPower = async () => {
     })()
   }
 
-  render () {
+  render() {
     const { classes } = this.props
-    const { account, totalClaimedRewards, isLoading, hasError, userEarnings, userHoldings, categoryDistribution, platformDistribution, ratingPower } = this.state
+    const {
+      account,
+      totalClaimedRewards,
+      isLoading,
+      hasError,
+      userEarnings,
+      userHoldings,
+      categoryDistribution,
+      platformDistribution,
+      ratingPower
+    } = this.state
 
     const influence = account && account.weight
     const quantile = account && account.quantile
     const socialLevelColor = levelColors[quantile]
-    const isMirror = account && account.twitterInfo && account.twitterInfo.isMirror
+    const isMirror =
+      account && account.twitterInfo && account.twitterInfo.isMirror
     if (!isLoading && hasError) {
       return (
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <div align='center'>
-                <Typography
-                  className={classes.accountErrorHeader}
-                  variant='h1'
-                >
-                  <strong>
-                    Sorry this page is not available.
-                  </strong>
+              <div align="center">
+                <Typography className={classes.accountErrorHeader} variant="h1">
+                  <strong>Sorry this page is not available.</strong>
                 </Typography>
-                <Typography
-                  className={classes.accountErrorSub}
-                  variant='h2'
-                >
+                <Typography className={classes.accountErrorSub} variant="h2">
                   The page you're looking for does not exist.
                 </Typography>
               </div>
@@ -315,12 +447,13 @@ ratingPower = async () => {
       )
     } else if (isLoading) {
       return (
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh'
-        }}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh'
+          }}
         >
           <DotSpinner />
         </div>
@@ -330,10 +463,11 @@ ratingPower = async () => {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Grid container
-              direction='row'
-              alignItems='center'
-              justify='left'
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="left"
               className={classes.graphContainers}
               spacing={3}
             >
@@ -347,28 +481,28 @@ ratingPower = async () => {
                 />
               </Grid>
               <Grid item>
-                <Typography align='left'
-                  variant='h2'
-                >
+                <Typography align="left" variant="h2">
                   <LinesEllipsis
-                    basedOn='letters'
-                    ellipsis='...'
-                    maxLine='4'
+                    basedOn="letters"
+                    ellipsis="..."
+                    maxLine="4"
                     text={account.fullname || account.username || account._id}
                     trimRight
                   />
                 </Typography>
-                <Typography align='left'
-                  variant='subtitle2'
+                <Typography
+                  align="left"
+                  variant="subtitle2"
                   className={`${classes.username}`}
                 >
-                  <span style={{
-                    textDecoration: socialLevelColor ? 'none' : 'none',
-                    textDecorationColor: socialLevelColor,
-                    textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                    fontWeight: isMirror ? '200' : '200',
-                    padding: '0px'
-                  }}
+                  <span
+                    style={{
+                      textDecoration: socialLevelColor ? 'none' : 'none',
+                      textDecorationColor: socialLevelColor,
+                      textDecorationStyle: socialLevelColor ? 'solid' : 'none',
+                      fontWeight: isMirror ? '200' : '200',
+                      padding: '0px'
+                    }}
                   >
                     @{account.username}
                   </span>
@@ -376,50 +510,39 @@ ratingPower = async () => {
               </Grid>
             </Grid>
 
-            <Grid container
-              direction='row'
-              alignItems='center'
-              justify='center'
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="center"
               spacing={3}
             >
-              <Grid item
-                sm={6}
-                xs={12}
-              >
+              <Grid item sm={6} xs={12}>
                 <BarChart
                   chartData={influence}
-                  chartTitle='Influence'
+                  chartTitle="Influence"
                   color={socialLevelColor}
                 />
               </Grid>
-              <Grid item
-                sm={6}
-                xs={12}
-              >
+              <Grid item sm={6} xs={12}>
                 <BarChart
                   chartData={ratingPower}
-                  chartTitle='Rating Power'
-                  color=''
+                  chartTitle="Rating Power"
+                  color=""
                 />
               </Grid>
-              <Grid item
-                sm={6}
-                xs={12}
-              >
+              <Grid item sm={6} xs={12}>
                 <LineChart
                   headerNumber={totalClaimedRewards}
                   chartData={{ name: 'Earnings', data: userEarnings }}
-                  chartTitle='Earnings'
+                  chartTitle="Earnings"
                 />
               </Grid>
-              <Grid item
-                sm={6}
-                xs={12}
-              >
+              <Grid item sm={6} xs={12}>
                 <LineChart
                   headerNumber={account.balance.YUP}
                   chartData={{ name: 'Holdings', data: userHoldings }}
-                  chartTitle='Holdings'
+                  chartTitle="Holdings"
                 />
               </Grid>
               {/* <Grid item
@@ -444,34 +567,37 @@ ratingPower = async () => {
                   colors={[Colors.Blue, Colors.Green, Colors.Orange, Colors.Red]}
                 />
               </Grid> */}
-              <Grid item
-                xs={12}
-              >
-                <Grid container
-                  direction='row'
+              <Grid item xs={12}>
+                <Grid
+                  container
+                  direction="row"
                   spacing={3}
-                  alignItems='stretch'
+                  alignItems="stretch"
                 >
-                  <Grid item
-                    xs={12}
-                    sm={6}
-                  >
+                  <Grid item xs={12} sm={6}>
                     <DonutChart
                       chartData={platformDistribution}
-                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green]}
+                      colors={[
+                        Colors.Blue,
+                        Colors.Red,
+                        Colors.Orange,
+                        Colors.Green
+                      ]}
                       className={classes}
-                      chartTitle='Platform Distribution'
+                      chartTitle="Platform Distribution"
                     />
                   </Grid>
-                  <Grid item
-                    xs={12}
-                    sm={6}
-                  >
+                  <Grid item xs={12} sm={6}>
                     <DonutChart
                       chartData={categoryDistribution}
                       className={classes}
-                      chartTitle='Categories Distribution'
-                      colors={[Colors.Blue, Colors.Red, Colors.Orange, Colors.Green]}
+                      chartTitle="Categories Distribution"
+                      colors={[
+                        Colors.Blue,
+                        Colors.Red,
+                        Colors.Orange,
+                        Colors.Green
+                      ]}
                     />
                   </Grid>
                 </Grid>
