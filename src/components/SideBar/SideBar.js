@@ -43,7 +43,7 @@ import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 import PrivateListItem from './PrivateListItem'
-import { StyledAboutListLink } from './StyledAboutListLink'
+import { StyledYupProductNav } from './StyledYupProductNav'
 
 const drawerWidth = 200
 const { BACKEND_API } = process.env
@@ -242,27 +242,6 @@ const styles = theme => ({
       }
     }
   }
-})
-
-const StyledYupProductNav = withStyles(styles)(function YupProductNav ({ account, classes, isShown, isMobile }) {
-  if (account) {
-    return (
-      <div />
-    )
-  }
-
-  return (
-    <List component='nav'
-      aria-label='main'
-      className={classes.list1}
-    >
-      <StyledExtensionListLink
-        isShown={isShown}
-        isMobile={isMobile}
-      />
-      <StyledAboutListLink />
-    </List>
-  )
 })
 
 const getReduxState = state => {
