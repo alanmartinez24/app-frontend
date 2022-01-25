@@ -83,13 +83,13 @@ const styles = theme => ({
       marginRight: '0'
     }
   },
-  SearchMobile: {
+  searchMobile: {
     display: 'none',
     [theme.breakpoints.down('xs')]: {
       display: 'contents'
     }
   },
-  Search: {
+  search: {
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
@@ -150,23 +150,7 @@ const styles = theme => ({
       backgroundColor: `${theme.palette.alt.second}40`
     }
   },
-  bottomBar: {
-    background: 'transparent',
-    textColor: 'white'
-  },
-  list2: {
-    background: 'transparent',
-    textColor: 'white',
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  },
-  ListSubheader: {
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  },
-  ListItem: {
+  listItem: {
     borderRadius: '0.4rem'
   },
   menuButton: {
@@ -196,22 +180,6 @@ const styles = theme => ({
   },
   listInfoLinks: {
     color: '#888888'
-  },
-  navLogo: {
-    maxWidth: '10vw',
-    width: '15px'
-  },
-  avatarImage: {
-    height: '35px',
-    width: '35px',
-    maxHeight: '35px',
-    maxWidth: '35px',
-    border: '2px solid',
-    borderRadius: '100%',
-    [theme.breakpoints.down('xs')]: {
-      height: '30px',
-      width: '30px'
-    }
   },
   logoutBtn: {
     fontFamily: 'Gilroy',
@@ -418,14 +386,14 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                     )}
                   </IconButton>
                 </Grid>
-                <Grid className={classes.Search} item tourname='Search'>
+                <Grid className={classes.search} item tourname='Search'>
                   {!history.location.pathname.includes('leaderboard') ? (
                     <SearchBar />
                   ) : null}
                 </Grid>
               </Grid>
             </Grid>
-            <Grid className={classes.SearchMobile} item>
+            <Grid className={classes.searchMobile} item>
               {!history.location.pathname.includes('leaderboard') ? (
                 <SearchBar />
               ) : (
@@ -497,7 +465,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           <List style={{ width: '100%' }}>
             {accountName ? (
               <ListItem
-                className={classes.ListItem}
+                className={classes.listItem}
                 button
                 component={Link}
                 onClick={logProfileClick && handleDrawerClose}
@@ -553,7 +521,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
               </ListItem>
             ) : (
               <ListItem
-                className={classes.ListItem}
+                className={classes.listItem}
                 button
                 component={Link}
                 to='/'
@@ -585,7 +553,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           </List>
         </div>
         <ListItem
-          className={classes.ListItem}
+          className={classes.listItem}
           button
           component={Link}
           to='/'
@@ -607,7 +575,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           ) : null}
         </ListItem>
         <ListItem
-          className={classes.ListItem}
+          className={classes.listItem}
           button
           component={Link}
           to='/leaderboard'
@@ -633,7 +601,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           ) : null}
         </ListItem>
         <ListItem
-          className={classes.ListItem}
+          className={classes.listItem}
           button
           component={Link}
           onClick={handleDrawerClose}
@@ -665,7 +633,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
         {account && account.name && (
           <ListItem
-            className={classes.ListItem}
+            className={classes.listItem}
             button
             component={Link}
             onClick={handleDrawerClose}
@@ -783,7 +751,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
               <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
                 <PrivateListItem>
                   <ListItem
-                    className={classes.ListItem}
+                    className={classes.listItem}
                     button
                     dense
                     component={Link}
@@ -797,7 +765,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   </ListItem>
                 </PrivateListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -810,7 +778,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -820,7 +788,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   <ListItemText primary='NFTs' className={classes.listButton} />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -834,7 +802,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -847,7 +815,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -860,7 +828,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -873,7 +841,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -886,7 +854,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   />
                 </ListItem>
                 <ListItem
-                  className={classes.ListItem}
+                  className={classes.listItem}
                   button
                   dense
                   component={Link}
@@ -913,7 +881,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
               tourname='InfoDrawer'
             >
               <ListItem
-                className={classes.ListItem}
+                className={classes.listItem}
                 button
                 dense
                 style={{ bottom: '0', marginTop: '6vh' }}
