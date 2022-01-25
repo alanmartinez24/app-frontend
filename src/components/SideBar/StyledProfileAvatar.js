@@ -12,6 +12,7 @@ const styles = theme => ({
     maxWidth: '35px',
     border: '2px solid',
     borderRadius: '100%',
+    aspectRatio: '1 / 1',
     [theme.breakpoints.down('xs')]: {
       height: '30px',
       width: '30px'
@@ -28,8 +29,7 @@ const ProfileAvatar = memo(
         src={avatar}
         className={classes.avatarImage}
         style={{
-          border: `solid 2px ${socialLevelColor}`,
-          aspectRatio: '1 / 1'
+          border: `solid 2px ${socialLevelColor}`
         }}
       />
     </ErrorBoundary>

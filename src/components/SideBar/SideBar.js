@@ -598,7 +598,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           {isShown ? (
             <Grow in timeout={600}>
               <ListItemText>
-                <Typography variant='body2' className={classes.typography}>
+                <Typography variant='body2'>
                   {' '}
                   Home
                 </Typography>
@@ -625,7 +625,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           {isShown ? (
             <Grow in timeout={700}>
               <ListItemText>
-                <Typography variant='body2' className={classes.typography}>
+                <Typography variant='body2'>
                   Leaderboards
                 </Typography>
               </ListItemText>
@@ -646,7 +646,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           {isShown ? (
             <Grow in timeout={800}>
               <ListItemText>
-                <Typography variant='body2' className={classes.typography}>
+                <Typography variant='body2'>
                   {' '}
                   Collections
                 </Typography>
@@ -683,7 +683,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             {isShown ? (
               <Grow in timeout={800}>
                 <ListItemText>
-                  <Typography variant='body2' className={classes.typography}>
+                  <Typography variant='body2'>
                     Analytics
                   </Typography>
                 </ListItemText>
