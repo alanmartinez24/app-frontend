@@ -367,7 +367,7 @@ ProfileAvatar.propTypes = {
 
 const StyledProfileAvatar = withStyles(styles)(ProfileAvatar)
 
-function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
+function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
   const isMobile = window.innerWidth <= 480
   const [open, setOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -1125,7 +1125,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-TopBar.propTypes = {
+SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
@@ -1134,4 +1134,4 @@ TopBar.propTypes = {
   toggleTheme: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, mapActionToProps)(withRouter(withStyles(styles)(withWidth()(TopBar))))
+export default connect(mapStateToProps, mapActionToProps)(withRouter(withStyles(styles)(withWidth()(SideBar))))
