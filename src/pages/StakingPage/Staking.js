@@ -124,9 +124,9 @@ const StakingPage = ({ classes, account }) => {
   const getBalances = async () => {
     try {
       const polyBal = await contracts.polyLpToken.methods.balanceOf(address).call({ from: address })
-      setPolyLpBal(polyBal / Math.pow(10, 18))
+      setPolyLpBal(polyBal)
       const ethBal = await contracts.ethLpToken.methods.balanceOf(address).call({ from: address })
-      setEthLpBal(ethBal / Math.pow(10, 18))
+      setEthLpBal(ethBal)
     } catch (err) {
       console.log('ERR getting balances', err)
     }
@@ -138,7 +138,8 @@ const StakingPage = ({ classes, account }) => {
       // const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
       setEthApr(ethApr)
       setPolyApr(500.12)
-      setRwrdAmt(24.23)
+      const rwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
+      setRwrdAmt(rwrdsEarned)
     } catch (err) {
       console.log('ERR fetching rwrds and aprs', err)
     }
@@ -418,7 +419,7 @@ const StakingPage = ({ classes, account }) => {
                                         </Grid>
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            {ethLpBal}
+                                            {ethLpBal / Math.pow(10, 18)}
                                           </Typography>
                                         </Grid>
                                       </Grid>
@@ -586,7 +587,7 @@ const StakingPage = ({ classes, account }) => {
                                         </Grid>
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            {polyLpBal}
+                                            {polyLpBal / Math.pow(10, 18)}
                                           </Typography>
                                         </Grid>
                                       </Grid>
