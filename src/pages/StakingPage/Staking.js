@@ -20,7 +20,7 @@ const isMobile = window.innerWidth <= 600
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_LP_RWRDS_CONTRACT, POLY_LP_TOKEN, ETH_LP_TOKEN } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_LP_RWRDS_CONTRACT, POLY_LP_TOKEN, ETH_LP_TOKEN, ETH_LP_RWRDS_CONTRACT } = process.env
 
 const styles = theme => ({
   container: {
@@ -64,12 +64,12 @@ const StakingPage = ({ classes, account }) => {
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
   const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
-  const [ethStakeAmt, setEthStakeAmt] = useState(0)
-  const [polyStakeAmt, setPolyStakeAmt] = useState(0)
+  const [ethStakeAmt, setEthStakeAmt] = useState(3)
+  const [polyStakeAmt, setPolyStakeAmt] = useState(2)
   const [polyApr, setPolyApr] = useState(0)
   const [ethApr, setEthApr] = useState(0)
   const [rwrdAmt, setRwrdAmt] = useState(0)
-  const [polyLpBal, setPolyLpBal] = useState(0)
+  const [polyLpBal, setPolyLpBal] = useState(2)
   const [ethLpBal, setEthLpBal] = useState(0)
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
@@ -84,6 +84,8 @@ const StakingPage = ({ classes, account }) => {
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+  const handleEthStakeMax = () => setEthStakeAmt(ethLpBal)
+  const handlePolyStakeMax = () => setPolyStakeAmt(polyLpBal)
 
   useEffect(() => {
     setProvider(getPolygonWeb3Provider())
@@ -100,25 +102,20 @@ const StakingPage = ({ classes, account }) => {
   }, [provider])
 
   useEffect(() => {
-    console.log('contracts use effect is called')
+    if (!contracts) { return }
     getAprsAndRwrds()
     getStakeAmts()
     getBalances()
   }, [contracts])
 
-  // amt staked poly
-
-  //
-
   const getContracts = async () => {
     try {
       if (!provider) { return }
       const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LP_RWRDS_CONTRACT)
+      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LP_RWRDS_CONTRACT)
       const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN)
       const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_LP_TOKEN)
-      console.log('ethLpToken', ethLpToken)
-      setContracts({ polyLpToken, ethLpToken, polyLiquidity })
-      console.log('contracts', contracts)
+      setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
@@ -126,12 +123,10 @@ const StakingPage = ({ classes, account }) => {
   }
   const getBalances = async () => {
     try {
-      const poly = await contracts.polyLpToken.methods.balanceOf(address).call()
-      console.log('poly', poly)
-      setPolyLpBal(poly)
-      const eth = await contracts.ethLpToken.methods.balanceOf(address).call()
-      console.log('eth', eth)
-      setEthLpBal(eth)
+      const polyBal = await contracts.polyLpToken.methods.balanceOf(address).call({ from: address })
+      setPolyLpBal(polyBal / Math.pow(10, 18))
+      const ethBal = await contracts.ethLpToken.methods.balanceOf(address).call({ from: address })
+      setEthLpBal(ethBal / Math.pow(10, 18))
     } catch (err) {
       console.log('ERR getting balances', err)
     }
@@ -142,7 +137,7 @@ const StakingPage = ({ classes, account }) => {
       const ethApr = 5424
       // const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
       setEthApr(ethApr)
-      setPolyApr(500)
+      setPolyApr(500.12)
       setRwrdAmt(24.23)
     } catch (err) {
       console.log('ERR fetching rwrds and aprs', err)
@@ -151,11 +146,10 @@ const StakingPage = ({ classes, account }) => {
 
   const getStakeAmts = async () => {
     try {
-      if (!address) { return }
-      const polyAmt = await contracts.polyLiquidity.methods.balanceOf(address).call()
-      setPolyStakeAmt(polyAmt)
-      const ethAmt = await contracts.ethLiquidity.methods.balanceOf(address).call()
-      setEthStakeAmt(ethAmt)
+      const polyStake = await contracts.polyLiquidity.methods.balanceOf(address).call({ from: address })
+      setPolyStakeAmt(polyStake / Math.pow(10, 18))
+      const ethStake = await contracts.ethLiquidity.methods.balanceOf(address).call({ from: address })
+      setEthStakeAmt(ethStake / Math.pow(10, 18))
     } catch (err) {
       console.log('ERR getting stake amts', err)
     }
@@ -163,9 +157,6 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStaking = async () => {
     try {
-      if (!connector) {
-        setEthConnectorDialog(true)
-      }
       const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
       console.log('isStake', isStake)
       const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
@@ -177,9 +168,6 @@ const StakingPage = ({ classes, account }) => {
 
   const handlePolygonStaking = async () => {
     try {
-      if (!connector) {
-        setEthConnectorDialog(true)
-      }
       const stakeAmt = ethers.BigNumber.from(polyStakeAmt)
       await contracts.polyLiquidity.methods.stake(stakeAmt)
       console.log('activePolyTab', activePolyTab)
@@ -388,9 +376,11 @@ const StakingPage = ({ classes, account }) => {
                                           type='number'
                                           variant='outlined'
                                           size='small'
+                                          value={ethStakeAmt}
                                           onChange={handleEthStakeAmountChange}
                                           adornment={<Button size='xs'
                                             variant='contained'
+                                            onClick={handleEthStakeMax}
                                             className={classes.maxBtn}
                                                      >Max</Button>}
                                         />
@@ -554,9 +544,11 @@ const StakingPage = ({ classes, account }) => {
                                           type='number'
                                           variant='outlined'
                                           size='small'
+                                          value={polyStakeAmt}
                                           onChange={handlePolyStakeAmountChange}
                                           adornment={<Button size='xs'
                                             variant='contained'
+                                            onClick={handlePolyStakeMax}
                                             className={classes.maxBtn}
                                                      >Max</Button>}
                                         />
