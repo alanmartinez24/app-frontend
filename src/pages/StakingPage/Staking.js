@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles, useTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent, InputAdornment } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
@@ -54,7 +54,8 @@ const styles = theme => ({
   },
   card: {
     padding: 20,
-    border: '1px solid #616467'
+    border: '1px solid #616467',
+    background: theme.palette.alt.second
   }
 })
 
@@ -380,7 +381,7 @@ const StakingPage = ({ classes, account }) => {
                                           value={ethStakeAmt}
                                           onChange={handleEthStakeAmountChange}
                                           adornment={<Button size='xs'
-                                            variant='contained'
+                                            variant='default'
                                             onClick={handleEthStakeMax}
                                             className={classes.maxBtn}
                                                      >Max</Button>}
@@ -392,7 +393,7 @@ const StakingPage = ({ classes, account }) => {
                                         variant='contained'
                                         className={classes.submitBtn}
                                       >
-                                        <Typography variant='body2'
+                                        <Typography variant='body1'
                                           className={classes.submitBtnTxt}
                                           onClick={handleEthStaking}
                                         >
@@ -471,8 +472,8 @@ const StakingPage = ({ classes, account }) => {
                       xs={3}
                     >
                       <img style={{ width: '100%' }}
-                        src='images/graphics/yupeth.svg'
-                        alt='yupeth graphic'
+                        src='images/graphics/yupmatic.svg'
+                        alt='yupmatic graphic'
                       />
                     </Grid>
                     <Grid item
@@ -548,7 +549,7 @@ const StakingPage = ({ classes, account }) => {
                                           value={polyStakeAmt}
                                           onChange={handlePolyStakeAmountChange}
                                           adornment={<Button size='xs'
-                                            variant='contained'
+                                            variant='text'
                                             onClick={handlePolyStakeMax}
                                             className={classes.maxBtn}
                                                      >Max</Button>}
@@ -560,7 +561,7 @@ const StakingPage = ({ classes, account }) => {
                                         variant='contained'
                                         className={classes.submitBtn}
                                       >
-                                        <Typography variant='body2'
+                                        <Typography variant='body1'
                                           className={classes.submitBtnTxt}
                                           onClick={handlePolygonStaking}
                                         >
@@ -627,12 +628,13 @@ const StakingPage = ({ classes, account }) => {
                 </Grid>
                 <Grid item
                   xs={12}
-                  md={6}
                 >
                   <Grid
                     container
                     direction='column'
                     spacing={4}
+                    justifyContent='center'
+                    alignItems='center'
                   >
                     <Grid item>
                       <Typography variant='h5'>
@@ -640,109 +642,66 @@ const StakingPage = ({ classes, account }) => {
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Card
-                        className={classes.card}
+                      <Grid
+                        container
+                        direction='column'
+                        spacing={2}
                       >
-                        <Grid
-                          container
-                          direction='column'
-                          spacing={2}
-                        >
-                          <Grid item>
-                            <Grid
-                              spacing={5}
-                              container
-                            >
+                        <Grid item>
+                          <Grid
+                            spacing={5}
+                            container
+                          >
 
-                              <Grid item
-                                xs={12}
+                            <Grid item
+                              xs={12}
+                            >
+                              <Grid
+                                container
+                                direction='column'
+                                spacing={2}
                               >
-                                <Grid
-                                  container
-                                  direction='column'
-                                  spacing={2}
-                                >
-                                  <Grid item>
-                                    <Grid
-                                      container
-                                      direction='row'
-                                      spacing={1}
+                                <Grid item>
+                                  <Grid
+                                    container
+                                    direction='row'
+                                    spacing={1}
+                                  >
+                                    <Grid item
+                                      xs
                                     >
-                                      <Grid item
-                                        xs
+                                      <Grid
+                                        container
+                                        justify='space-between'
                                       >
-                                        <Grid
-                                          container
-                                          justify='space-between'
-                                        >
-                                          <YupInput
-                                            fullWidth
-                                            id='stake-amount'
-                                            maxLength='10'
-                                            type='number'
-                                            variant='outlined'
-                                            size='small'
-                                            disabled
-                                            value={rwrdAmt}
-                                          />
-                                        </Grid>
-                                      </Grid>
-                                      <Grid item>
-                                        <Button size='large'
-                                          variant='contained'
-                                          className={classes.submitBtn}
-                                        >
-                                          <Typography variant='body2'
-                                            className={classes.submitBtnTxt}
-                                          >
-                                            Collect
-                                          </Typography>
-                                        </Button>
+                                        <YupInput
+                                          fullWidth
+                                          id='stake-amount'
+                                          maxLength='10'
+                                          type='number'
+                                          variant='outlined'
+                                          size='small'
+                                          disabled
+                                          value={rwrdAmt}
+                                          startAdornment={
+                                            <InputAdornment position='start'>
+                                              <img src='public/images/logos/logo_g.svg' />
+                                            </InputAdornment>
+                                            }
+                                        />
                                       </Grid>
                                     </Grid>
-                                  </Grid>
-
-                                  <Grid item>
-                                    <Grid
-                                      container
-                                      direction='column'
-                                    >
-                                      <Grid item>
-                                        <Grid
-                                          container
-                                          direction='row'
-                                          justify='space-between'
+                                    <Grid item>
+                                      <Button size='large'
+                                        variant='contained'
+                                        className={classes.submitBtn}
+                                      >
+                                        <Typography variant='body1'
+                                          className={classes.submitBtnTxt}
                                         >
-                                          <Grid item>
-                                            <Typography variant='body2'>
-                                              Last collected:
-                                            </Typography>
-                                          </Grid>
-                                          <Grid item>
-                                            <Typography variant='body2'>
-                                              --
-                                            </Typography>
-                                          </Grid>
-                                        </Grid>
-                                        <Grid item>
-                                          <Grid
-                                            container
-                                            direction='row'
-                                            justify='space-between'
-                                          >
-                                            <Grid item>
-                                              <Typography variant='body2'>
-                                                Collected to date:
-                                              </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                              <Typography variant='body2'>
-                                                0
-                                              </Typography>
-                                            </Grid>
-                                          </Grid>
-                                        </Grid>
-                                      </Grid>
+                                          Collect
+                                        </Typography>
+                                      </Button>
                                     </Grid>
                                   </Grid>
                                 </Grid>
@@ -750,7 +709,7 @@ const StakingPage = ({ classes, account }) => {
                             </Grid>
                           </Grid>
                         </Grid>
-                      </Card>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
