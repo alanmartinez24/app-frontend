@@ -19,7 +19,8 @@ const styles = () => ({
   }
 })
 
-export const StyledSecondMenuList = withStyles(styles)(function SecondMenuList ({
+export const StyledSecondMenuList = withStyles(styles)(
+  function SecondMenuList ({
   classes
 }) {
   return (

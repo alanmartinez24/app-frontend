@@ -41,9 +41,9 @@ import axios from 'axios'
 import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
-import PrivateListItem from './PrivateListItem'
 import { StyledYupProductNav } from './StyledYupProductNav'
 import { StyledProfileAvatar } from './StyledProfileAvatar'
+import { StyledFirstMenuList } from './StyledFirstMenuList'
 import { StyledSecondMenuList } from './StyledSecondMenuList'
 
 const drawerWidth = 200
@@ -173,14 +173,6 @@ const styles = theme => ({
     width: '44px',
     [theme.breakpoints.down('xs')]: {
       width: 'auto'
-    }
-  },
-  listButton: {
-    opacity: 0.6,
-    fontWeight: '300',
-    margin: 0,
-    '&:hover': {
-      opacity: 1
     }
   },
   logoutBtn: {
@@ -724,143 +716,10 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           </DialogContent>
         </Dialog>
         {(isShown || isMobile) && (
-          <Grow in timeout={500}>
-            <List
-              component='nav'
-              aria-label='secondary'
-              className={classes.list1}
-              tourname='FeedsDrawer'
-              dense='true'
-            >
-              <ListSubheader
-                style={{
-                  color: palette.common.fifth,
-                  fontWeight: '500'
-                }}
-              >
-                Feeds
-              </ListSubheader>
-              <div style={{ maxHeight: 120, overflowY: 'scroll' }}>
-                <PrivateListItem>
-                  <ListItem
-                    className={classes.listItem}
-                    button
-                    dense
-                    component={Link}
-                    onClick={handleDrawerClose}
-                    to='/?feed=dailyhits'
-                  >
-                    <ListItemText
-                      primary='Your Daily Hits'
-                      className={classes.listButton}
-                    />
-                  </ListItem>
-                </PrivateListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=crypto'
-                >
-                  <ListItemText
-                    primary='Crypto'
-                    className={classes.listButton}
-                  />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=nfts'
-                >
-                  <ListItemText primary='NFTs' className={classes.listButton} />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=mirror'
-                >
-                  <ListItemText
-                    primary='Mirror Articles'
-                    style={{ margin: 0 }}
-                    className={classes.listButton}
-                  />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=politics'
-                >
-                  <ListItemText
-                    primary='Politics'
-                    className={classes.listButton}
-                  />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=non-corona'
-                >
-                  <ListItemText
-                    primary='Safe Space'
-                    className={classes.listButton}
-                  />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=latenightcool'
-                >
-                  <ListItemText
-                    primary='Popular'
-                    className={classes.listButton}
-                  />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=lol'
-                >
-                  <ListItemText
-                    primary='Funny'
-                    className={classes.listButton}
-                  />
-                </ListItem>
-                <ListItem
-                  className={classes.listItem}
-                  button
-                  dense
-                  component={Link}
-                  onClick={handleDrawerClose}
-                  to='/?feed=brainfood'
-                >
-                  <ListItemText
-                    primary='Smart'
-                    className={classes.listButton}
-                  />
-                </ListItem>
-              </div>
-            </List>
-          </Grow>
+          <StyledFirstMenuList
+            component={Link}
+            onClick={handleDrawerClose}
+          />
         )}
 
         {/* Second Menu: LISTS */}
@@ -878,7 +737,7 @@ const mapActionToProps = (dispatch) => {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     lightMode: state.lightMode.active
   }
