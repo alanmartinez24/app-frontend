@@ -44,6 +44,7 @@ import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
 import PrivateListItem from './PrivateListItem'
 import { StyledYupProductNav } from './StyledYupProductNav'
 import { StyledProfileAvatar } from './StyledProfileAvatar'
+import { StyledSecondMenuList } from './StyledSecondMenuList'
 
 const drawerWidth = 200
 const { BACKEND_API } = process.env
@@ -109,7 +110,9 @@ const styles = theme => ({
     borderRight: '0px solid',
     backdropFilter: 'blur(15px)',
     overflowX: 'hidden',
-    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(
+      1
+    )}px`,
     backgroundColor: `${theme.palette.alt.second}88`,
     borderRadius: '0.65rem',
     maxWidth: '200px',
@@ -123,7 +126,9 @@ const styles = theme => ({
     borderRight: '0px solid',
     backdropFilter: 'blur(0px)',
     overflowX: 'hidden',
-    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(
+      1
+    )}px`,
     backgroundColor: `${theme.palette.alt.second}00`,
     borderRadius: '0.65rem',
     maxWidth: '200px',
@@ -177,9 +182,6 @@ const styles = theme => ({
     '&:hover': {
       opacity: 1
     }
-  },
-  listInfoLinks: {
-    color: '#888888'
   },
   logoutBtn: {
     fontFamily: 'Gilroy',
@@ -294,6 +296,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
     setIsShown(false)
     setDialogOpen(false)
   }
+
   const handleToggleTheme = () => {
     localStorage.setItem('lightMode', !lightMode)
     toggleTheme()
@@ -536,7 +539,6 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                       size='small'
                       style={{ backgroundColor: `${palette.alt.third}70` }}
                     >
-                      {' '}
                       <img
                         style={{ width: '20px', aspectRatio: '1 / 1' }}
                         src={
@@ -566,10 +568,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           {isShown ? (
             <Grow in timeout={600}>
               <ListItemText>
-                <Typography variant='body2'>
-                  {' '}
-                  Home
-                </Typography>
+                <Typography variant='body2'>Home</Typography>
               </ListItemText>
             </Grow>
           ) : null}
@@ -593,9 +592,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           {isShown ? (
             <Grow in timeout={700}>
               <ListItemText>
-                <Typography variant='body2'>
-                  Leaderboards
-                </Typography>
+                <Typography variant='body2'>Leaderboards</Typography>
               </ListItemText>
             </Grow>
           ) : null}
@@ -614,10 +611,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           {isShown ? (
             <Grow in timeout={800}>
               <ListItemText>
-                <Typography variant='body2'>
-                  {' '}
-                  Collections
-                </Typography>
+                <Typography variant='body2'>Collections</Typography>
               </ListItemText>
             </Grow>
           ) : null}
@@ -651,9 +645,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             {isShown ? (
               <Grow in timeout={800}>
                 <ListItemText>
-                  <Typography variant='body2'>
-                    Analytics
-                  </Typography>
+                  <Typography variant='body2'>Analytics</Typography>
                 </ListItemText>
               </Grow>
             ) : null}
@@ -873,73 +865,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
         {/* Second Menu: LISTS */}
         {(isShown || isMobile) && (
-          <Grow in timeout={1000}>
-            <List
-              component='nav'
-              aria-label='secondary'
-              className={classes.list1}
-              tourname='InfoDrawer'
-            >
-              <ListItem
-                className={classes.listItem}
-                button
-                dense
-                style={{ bottom: '0', marginTop: '6vh' }}
-              >
-                <ListItemText>
-                  <p
-                    className={classes.listInfoLinks}
-                    style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      fontWeight: 300,
-                      fontSize: '12px'
-                    }}
-                  >
-                    <a
-                      href='https://yup.io'
-                      className={classes.listInfoLinks}
-                      target='_blank'
-                    >
-                      Main Site
-                    </a>
-                    ,&nbsp;
-                    <a
-                      href='https://yup.live'
-                      className={classes.listInfoLinks}
-                      target='_blank'
-                    >
-                      Explorer
-                    </a>
-                    ,&nbsp;
-                    <a
-                      href='https://blog.yup.io'
-                      className={classes.listInfoLinks}
-                      target='_blank'
-                    >
-                      Blog
-                    </a>
-                    ,&nbsp;
-                    <a
-                      href='https://docs.yup.io'
-                      className={classes.listInfoLinks}
-                      target='_blank'
-                    >
-                      Docs
-                    </a>
-                    ,&nbsp;
-                    <a
-                      href='https://docs.google.com/document/d/1LFrn0eeTfiy8lWAs8TPzWeydkRI-TRCDP0_NHCBOR0s/edit?usp=sharing'
-                      className={classes.listInfoLinks}
-                      target='_blank'
-                    >
-                      Privacy
-                    </a>
-                  </p>
-                </ListItemText>
-              </ListItem>
-            </List>
-          </Grow>
+          <StyledSecondMenuList />
         )}
       </Drawer>
     </ErrorBoundary>
