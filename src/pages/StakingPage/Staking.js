@@ -68,8 +68,8 @@ const StakingPage = ({ classes, account }) => {
   const [activeEthTab, setActiveEthTab] = useState(0)
   const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
 
-  const [ethStakeAmt, setEthStakeAmt] = useState(0) // amount of eth uni lp to stake
-  const [polyStakeAmt, setPolyStakeAmt] = useState(0) // amount of poly uni lp to stake
+  const [ethStakeInput, setEthStakeInput] = useState(0) // amount of eth uni lp to stake
+  const [polyStakeInput, setPolyStakeInput] = useState(0) // amount of poly uni lp to stake
 
   const [polyApr, setPolyApr] = useState(0)
   const [ethApr, setEthApr] = useState(0)
@@ -92,18 +92,18 @@ const StakingPage = ({ classes, account }) => {
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
   const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
-  const handleEthStakeAmountChange = ({ target }) => setEthStakeAmt(target.value)
-  const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
+  const handleEthStakeAmountChange = ({ target }) => setEthStakeInput(target.value)
+  const handlePolyStakeAmountChange = ({ target }) => setPolyStakeInput(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
   const handleEthStakeMax = () => {
     const isStake = !activeEthTab
-    setEthStakeAmt(isStake ? ethLpBal : currentStakeEth)
+    setEthStakeInput((isStake ? ethLpBal : currentStakeEth) / Math.pow(10, 18))
   }
   const handlePolyStakeMax = () => {
     const isStake = !activePolyTab
-    setPolyStakeAmt(isStake ? polyLpBal : currentStakePoly)
+    setPolyStakeInput((isStake ? polyLpBal : currentStakePoly) / Math.pow(10, 18))
   }
 
   useEffect(() => {
@@ -189,15 +189,16 @@ const StakingPage = ({ classes, account }) => {
   const handleEthStakeAction = async (txBody) => {
     try {
       const isStake = !activeEthTab
-      const stakeAmt = window.BigInt(Number(ethStakeAmt) * Math.pow(10, 18))
+      const stakeAmt = window.BigInt(Number(ethStakeInput) * Math.pow(10, 18))
 
-      const approveTx = {
-        ...txBody,
-        to: ETH_UNI_LP_TOKEN,
-        data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+      if (isStake) {
+        const approveTx = {
+          ...txBody,
+          to: ETH_UNI_LP_TOKEN,
+          data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+        }
+        await connector.sendTransaction(approveTx)
       }
-
-      await connector.sendTransaction(approveTx)
 
       const stakeTx = {
         ...txBody,
@@ -215,16 +216,15 @@ const StakingPage = ({ classes, account }) => {
   const handlePolyStakeAction = async (txBody) => {
     try {
       const isStake = !activePolyTab
-      const stakeAmt = window.BigInt(Number(polyStakeAmt) * Math.pow(10, 18))
-
-      const approveTx = {
-        ...txBody,
-        to: POLY_UNI_LP_TOKEN,
-        data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+      const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
+      if (isStake) {
+        const approveTx = {
+          ...txBody,
+          to: POLY_UNI_LP_TOKEN,
+          data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+        }
+        await connector.sendTransaction(approveTx)
       }
-
-      await connector.sendTransaction(approveTx)
-
       const stakeTx = {
         ...txBody,
         to: POLY_LIQUIDITY_REWARDS,
@@ -252,12 +252,12 @@ const StakingPage = ({ classes, account }) => {
         await connector.sendTransaction(ethCollectTx)
       }
       if (polyRwrdAmt > 0) {
-        const ethCollectTx = {
+        const polyCollectTx = {
           ...txBody,
           to: POLY_LIQUIDITY_REWARDS,
           data: contracts.polyLiquidity.methods.getReward().encodeABI()
         }
-        await connector.sendTransaction(ethCollectTx)
+        await connector.sendTransaction(polyCollectTx)
       }
       await getBalances()
     } catch (err) {
@@ -465,7 +465,7 @@ const StakingPage = ({ classes, account }) => {
                                           type='number'
                                           variant='outlined'
                                           size='small'
-                                          value={ethStakeAmt}
+                                          value={ethStakeInput}
                                           onChange={handleEthStakeAmountChange}
                                           adornment={<Button size='xs'
                                             variant='default'
@@ -633,7 +633,7 @@ const StakingPage = ({ classes, account }) => {
                                           type='number'
                                           variant='outlined'
                                           size='small'
-                                          value={polyStakeAmt}
+                                          value={polyStakeInput}
                                           onChange={handlePolyStakeAmountChange}
                                           adornment={<Button size='xs'
                                             variant='text'
