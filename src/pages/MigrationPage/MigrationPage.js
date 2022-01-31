@@ -62,12 +62,8 @@ class AirdropPage extends Component {
   state = {
     isLoading: false,
     polygonAddress: this.props.location.pathname.split('/')[2] || '',
-    airdrop: {
-      amount: 24
-    },
-    LPairdrop: {
-      amount: 4
-    },
+    airdrop: null,
+    lpAidrop: null,
     subscribeDialogOpen: false,
     snackbarMsg: null,
     activeStep: 0
@@ -76,6 +72,7 @@ class AirdropPage extends Component {
   incrementStep = () => this.setState((prevState, props) => ({
     activeStep: prevState.activeStep + 1
 }))
+  handleCopy = () => navigator.clipboard.writeText(window.location.href)
 
   handleInput = e => this.setState({ polygonAddress: (e.target.value).toLowerCase() })
 
@@ -85,7 +82,7 @@ class AirdropPage extends Component {
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   claimAirdrop = async () => {
-    const { polygonAddress } = this.state
+    const { polygonAddress, lpAidrop } = this.state
     const { account } = this.props
     if (!isAddress(polygonAddress)) {
       this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
@@ -95,13 +92,20 @@ class AirdropPage extends Component {
     this.setState({ isLoading: true, activeStep: 2 })
     const auth = await getAuth(account)
     const params = { polygonAddress, eosname: account.name, ...auth }
+    if (lpAidrop.amount > 0) {
+      try {
+        await axios.post(`${BACKEND_API}/lp-airdrop/claim`, params)
+      } catch (err) {
+        this.setState({ snackbarMsg: 'YUPETH airdrop claim failed. Try again later.' })
+      }
+    }
 
     try {
       await axios.post(`${BACKEND_API}/airdrop/claim`, params)
       this.setState({ activeStep: 3 })
     } catch (err) {
       rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
-      this.setState({ snackbarMsg: 'Something went wrong. Try again later.' })
+      this.setState({ snackbarMsg: 'YUP airdrop claim failed. Try again later.' })
     }
     this.setState({ isLoading: false })
   }
@@ -110,9 +114,8 @@ class AirdropPage extends Component {
     try {
       this.setState({ isLoading: true })
       const airdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
-      // not sure if LP airdrop is correct. need to check
-      const LPairdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
-      this.setState({ airdrop, LPairdrop, activeStep: 1 })
+      const lpAidrop = (await axios.get(`${BACKEND_API}/lp-airdrop?eosname=${this.props.account.name}`)).data
+      this.setState({ airdrop, lpAidrop, activeStep: 1 })
     } catch (err) {
       rollbar.error(`Error fetching airdrop data: ${JSON.stringify(err)}`)
       this.setState({ snackbarMsg: 'Something went wrong. Try again later.' })
@@ -122,7 +125,7 @@ class AirdropPage extends Component {
 
   render () {
     const { classes, account } = this.props
-    const { isLoading, airdrop, LPairdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
+    const { isLoading, airdrop, lpAidrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
     const isValidAddress = isAddress(polygonAddress)
 
     const enableClaim = airdrop && isValidAddress
@@ -150,10 +153,6 @@ class AirdropPage extends Component {
           justify='center'
           alignItems='center'
         >
-          {/* <YupStepper steps={steps}
-            activeStep={activeStep}
-            className={classes.stepper}
-    /> */}
           <Card className={classes.card}
             elevation={0}
           >
@@ -208,7 +207,7 @@ class AirdropPage extends Component {
                       />
                     </Typography>
                   </Grid>
-                  {LPairdrop
+                  {lpAidrop
                     ? <Grid item>
                       <Grid container
                         direction='column'
@@ -224,11 +223,10 @@ class AirdropPage extends Component {
                         </Grid>
                         <Grid item>
                           <Typography variant='h3'
-                            style={{ color: LPairdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                            style={{ color: lpAidrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
                           >
                             <CountUp
-                              end={LPairdrop && LPairdrop.amount}
-                            //  && LPairdrop.amount <-- is this necessary?
+                              end={lpAidrop && lpAidrop.amount}
                               decimals={2}
                               start={0}
                               duration={2}
@@ -241,7 +239,7 @@ class AirdropPage extends Component {
                       }
                 </Grid>
               </Grid> : '' }
-              { LPairdrop ? shareStep ? <Grid item>
+              { lpAidrop ? shareStep ? <Grid item>
                 <Button
                   fullWidth
                   onClick={`${WEB_APP_URL}/staking`}
@@ -312,7 +310,7 @@ class AirdropPage extends Component {
                       xs={6}
                     >
                       <TwitterShareButton
-                        url={`${WEB_APP_URL}/airdrop`}
+                        url={`${WEB_APP_URL}/migration`}
                         title={`Claiming #polygon airdrop on @yup_io`}
                         hashtags={['YUP']}
                         windowWidth={800}
@@ -337,7 +335,7 @@ class AirdropPage extends Component {
                     >
                       <Button
                         fullWidth
-                        onClick={this.handleSubscribeDialogOpen}
+                        onClick={this.handleCopy}
                         className={classes.btn}
                         variant='outlined'
                         startIcon={<Icon className='fa fa-copy fa-2x' />}
