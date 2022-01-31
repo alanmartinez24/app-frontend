@@ -22,6 +22,8 @@ const isMobile = window.innerWidth <= 600
 
 const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env
 
+const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
+
 const styles = theme => ({
   container: {
     minHeight: '100vh',
@@ -72,13 +74,14 @@ const StakingPage = ({ classes, account }) => {
   const [polyApr, setPolyApr] = useState(0)
   const [ethApr, setEthApr] = useState(0)
 
-  const [rwrdAmt, setRwrdAmt] = useState(0) // amt in rewards to claim
+  const [polyRwrdAmt, setPolyRwrdAmt] = useState(0) // amt in rewards poly uni lpto claim
+  const [ethRwrdAmt, setEthRwrdAmt] = useState(0) // amt in rewards eth uni lp to claim
 
   const [polyLpBal, setPolyLpBal] = useState(0) // available poly uni lp bal
   const [ethLpBal, setEthLpBal] = useState(0) // available eth uni lp bal
 
-  const [currentStakeEth, setCurrentStakeEth] = useState(0) // current amount stakes
-  const [currentStakePoly, setCurrentStakePoly] = useState(0) // current amount stakes
+  const [currentStakeEth, setCurrentStakeEth] = useState(0) // current amount staked
+  const [currentStakePoly, setCurrentStakePoly] = useState(0) // current amount staked
 
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
@@ -94,8 +97,14 @@ const StakingPage = ({ classes, account }) => {
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
-  const handleEthStakeMax = () => setEthStakeAmt(ethLpBal)
-  const handlePolyStakeMax = () => setPolyStakeAmt(polyLpBal)
+  const handleEthStakeMax = () => {
+    const isStake = !activeEthTab
+    setEthStakeAmt(isStake ? ethLpBal : currentStakeEth)
+  }
+  const handlePolyStakeMax = () => {
+    const isStake = !activePolyTab
+    setPolyStakeAmt(isStake ? polyLpBal : currentStakePoly)
+  }
 
   useEffect(() => {
     setConnector(getEthConnector())
@@ -114,15 +123,13 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     if (!contracts) { return }
-    getAprsAndRwrds()
-    getStakeAmts()
+    getAprs()
     getBalances()
   }, [contracts])
 
   const getContracts = async () => {
     try {
       if (!provider) { return }
-      const { POLY_LIQUIDITY_REWARDS, ETH_LIQUIDITY_REWARDS, ETH_UNI_LP_TOKEN, POLY_UNI_LP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
       const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
       const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
       const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
@@ -136,34 +143,29 @@ const StakingPage = ({ classes, account }) => {
   const getBalances = async () => {
     try {
       const polyBal = await contracts.polyLpToken.methods.balanceOf(address).call({ from: address })
-      setPolyLpBal(polyBal)
+      const polyStake = await contracts.polyLiquidity.methods.balanceOf(address).call({ from: address })
+      const ethStake = await contracts.ethLiquidity.methods.balanceOf(address).call({ from: address })
       const ethBal = await contracts.ethLpToken.methods.balanceOf(address).call({ from: address })
+      const polyRwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
+      const ethRwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
+      setPolyRwrdAmt(polyRwrdsEarned)
+      setEthRwrdAmt(ethRwrdsEarned)
+      setCurrentStakePoly(polyStake)
+      setCurrentStakeEth(ethStake)
+      setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
     } catch (err) {
       console.log('ERR getting balances', err)
     }
   }
 
-  const getAprsAndRwrds = async () => {
+  const getAprs = async () => {
     try {
       const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
       setEthApr(ethApr)
       setPolyApr(500.12)
-      const rwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
-      setRwrdAmt(rwrdsEarned)
     } catch (err) {
       console.log('ERR fetching rwrds and aprs', err)
-    }
-  }
-
-  const getStakeAmts = async () => {
-    try {
-      const polyStake = await contracts.polyLiquidity.methods.balanceOf(address).call({ from: address })
-      setCurrentStakePoly(polyStake)
-      const ethStake = await contracts.ethLiquidity.methods.balanceOf(address).call({ from: address })
-      setCurrentStakeEth(ethStake)
-    } catch (err) {
-      console.log('ERR getting stake amts', err)
     }
   }
 
@@ -189,8 +191,6 @@ const StakingPage = ({ classes, account }) => {
       const isStake = !activeEthTab
       const stakeAmt = window.BigInt(Number(ethStakeAmt) * Math.pow(10, 18))
 
-      const { ETH_LIQUIDITY_REWARDS, ETH_UNI_LP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
-
       const approveTx = {
         ...txBody,
         to: ETH_UNI_LP_TOKEN,
@@ -203,7 +203,7 @@ const StakingPage = ({ classes, account }) => {
         ...txBody,
         to: ETH_LIQUIDITY_REWARDS,
         data: isStake ? contracts.ethLiquidity.methods.stake(stakeAmt).encodeABI()
-        : contracts.ethLiquidity.methods.unstake(stakeAmt).encodeABI()
+        : contracts.ethLiquidity.methods.withdraw(stakeAmt).encodeABI()
       }
       await connector.sendTransaction(stakeTx)
     } catch (err) {
@@ -217,8 +217,6 @@ const StakingPage = ({ classes, account }) => {
       const isStake = !activePolyTab
       const stakeAmt = window.BigInt(Number(polyStakeAmt) * Math.pow(10, 18))
 
-      const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
-
       const approveTx = {
         ...txBody,
         to: POLY_UNI_LP_TOKEN,
@@ -231,13 +229,40 @@ const StakingPage = ({ classes, account }) => {
         ...txBody,
         to: POLY_LIQUIDITY_REWARDS,
         data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
-        : contracts.polyLiquidity.methods.unstake(stakeAmt).encodeABI()
+        : contracts.polyLiquidity.methods.withdraw(stakeAmt).encodeABI()
       }
-
       await connector.sendTransaction(stakeTx)
     } catch (err) {
       handleSnackbarOpen('There was a problem staking POLYGON UNI-LP V3')
       console.log('ERR handling polygon staking', err)
+    }
+  }
+  const collectRewards = async () => {
+    try {
+      const txBody = {
+        from: address,
+        gas: 800000
+      }
+      if (ethRwrdAmt > 0) {
+        const ethCollectTx = {
+          ...txBody,
+          to: ETH_LIQUIDITY_REWARDS,
+          data: contracts.ethLiquidity.methods.getReward().encodeABI()
+        }
+        await connector.sendTransaction(ethCollectTx)
+      }
+      if (polyRwrdAmt > 0) {
+        const ethCollectTx = {
+          ...txBody,
+          to: POLY_LIQUIDITY_REWARDS,
+          data: contracts.polyLiquidity.methods.getReward().encodeABI()
+        }
+        await connector.sendTransaction(ethCollectTx)
+      }
+      await getBalances()
+    } catch (err) {
+      handleSnackbarOpen('There was a problem collecting your rewards.')
+      console.log('ERR collecting rewards', err)
     }
   }
 
@@ -499,7 +524,7 @@ const StakingPage = ({ classes, account }) => {
                                           </Grid>
                                           <Grid item>
                                             <Typography variant='body2'>
-                                              {currentStakeEth}
+                                              {currentStakeEth / Math.pow(10, 18)}
                                             </Typography>
                                           </Grid>
                                         </Grid>
@@ -667,7 +692,7 @@ const StakingPage = ({ classes, account }) => {
                                           </Grid>
                                           <Grid item>
                                             <Typography variant='body2'>
-                                              {currentStakePoly}
+                                              {currentStakePoly / Math.pow(10, 18)}
                                             </Typography>
                                           </Grid>
                                         </Grid>
@@ -744,7 +769,7 @@ const StakingPage = ({ classes, account }) => {
                                           variant='outlined'
                                           size='small'
                                           disabled
-                                          value={rwrdAmt}
+                                          value={polyRwrdAmt + ethRwrdAmt}
                                           startAdornment={
                                             <InputAdornment position='start'>
                                               <img src='public/images/logos/logo_g.svg' />
@@ -760,6 +785,7 @@ const StakingPage = ({ classes, account }) => {
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
+                                          onClick={collectRewards}
                                         >
                                           Collect
                                         </Typography>
