@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 import { getAuth } from '../../utils/authentication'
 import rollbar from '../../utils/rollbar'
 import MetaTags from '../../components/Airdrop/MetaTags'
-import YupStepper from '../../components/Airdrop/YupStepper'
+// import YupStepper from '../../components/Airdrop/YupStepper'
 import LoaderButton from '../../components/Miscellaneous/LoaderButton'
 import { isAddress } from 'web3-utils'
 import { TwitterShareButton } from 'react-share'
@@ -23,21 +23,17 @@ const { WEB_APP_URL } = process.env
 
 const styles = theme => ({
   page: {
-    overflow: 'hidden',
     minHeight: '100vh',
     maxWidth: '100vw',
     backgroundColor: theme.palette.alt.second
   },
   balanceContainer: {
     borderRadius: '0.65rem',
-    border: `solid 2px ${Colors.B6}`,
-    padding: '2px 75px',
-    width: 300
+    border: `solid 2px ${Colors.B6}`
   },
   card: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(6),
     width: 450,
-    marginTop: 50,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
     backgroundColor: theme.palette.alt.second,
@@ -46,15 +42,8 @@ const styles = theme => ({
     }
   },
   btn: {
-    backgroundColor: Colors.Green,
-    fontFamily: 'Gilroy',
-    width: 300,
-    height: 35,
-    borderRadius: '0.65rem',
-    color: Colors.White,
-    '&:hover': {
-      backgroundColor: Colors.Green
-    }
+  },
+  rainbowBtn: {
   },
   stepper: {
     position: 'fixed',
@@ -71,6 +60,10 @@ class AirdropPage extends Component {
     snackbarMsg: null,
     activeStep: 0
   }
+
+  incrementStep = () => this.setState((prevState, props) => ({
+    activeStep: prevState.activeStep + 1
+}))
 
   handleInput = e => this.setState({ polygonAddress: (e.target.value).toLowerCase() })
 
@@ -120,7 +113,7 @@ class AirdropPage extends Component {
 
     const enableClaim = airdrop && isValidAddress
     const shareStep = activeStep === 3
-    const steps = ['Check', 'Claim', 'Share']
+//    const steps = ['Check', 'Claim', 'Share']
 
     return (
       <ErrorBoundary>
@@ -143,51 +136,102 @@ class AirdropPage extends Component {
           justify='center'
           alignItems='center'
         >
-          <YupStepper steps={steps}
+          {/* <YupStepper steps={steps}
             activeStep={activeStep}
             className={classes.stepper}
-          />
+    /> */}
           <Card className={classes.card}
             elevation={0}
           >
             <Grid container
-              alignItems='center'
+              alignItems='stretch'
               direction='column'
               justify='center'
               spacing={3}
-              style={{ height: 400 }}
             >
               <Grid
                 container
                 direction='row'
                 justify='space-around'
-                style={{ marginTop: 10 }}
               >
                 <img
-                  src='/images/graphics/yup-logo.svg'
+                  src='/images/graphics/yuppoly.png'
                   alt='yup logo'
                   height='90'
-                  style={{ marginLeft: 30 }}
-                />
-                <img
-                  src='/images/graphics/polygon-logo.svg'
-                  alt='polygon logo'
-                  height='90'
-                  style={{ marginRight: 30 }}
-
                 />
 
               </Grid>
               <Grid item>
                 <Typography
-                  variant='h4'
+                  variant='h5'
+                  align='center'
                 >
-                  {shareStep ? 'Let Everyone Know' : 'Polygon Airdrop'}
+                  {shareStep ? 'Congratulations' : 'Polygon Migration'}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant='body2'
+                  align='center'
+                >
+                  {shareStep ? "You've claimed" : 'You can claim'}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Grid container
+                  direction='column'
+                >
+                  <Grid item>
+                    <Typography variant='h3'
+                      style={{ color: airdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                    >
+                      <CountUp
+                        end={airdrop && airdrop.amount}
+                        decimals={2}
+                        start={0}
+                        duration={2}
+                        suffix=' YUP'
+                      />
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='h3'
+                      style={{ color: airdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                    >
+                      <CountUp
+                        end={airdrop && airdrop.amount}
+                        decimals={2}
+                        start={0}
+                        duration={2}
+                        suffix=' YUPETH'
+                      />
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {shareStep
+              ? <Grid item>
+                <Button
+                  fullWidth
+                  onClick={this.handleSubscribeDialogOpen}
+                  className={classes.rainbowBtn}
+                  variant='contained'
+                  startIcon={<Icon className='fa fa-upload' />}
+                >
+                  Stake
+                </Button>
+              </Grid> : <Grid item /> }
+              <Grid item>
+                <Typography
+                  variant='body2'
+                  align='center'
+                >
+                  {shareStep ? 'Let the people know!' : 'Input a Polygon address to link account & receive tokens'}
                 </Typography>
               </Grid>
               <Grid item>
                 <YupInput
-                  style={{ width: 300, display: shareStep ? 'none' : 'inherit' }}
+                  style={{ display: shareStep ? 'none' : 'inherit' }}
                   fullWidth
                   id='address'
                   maxLength={50}
@@ -198,23 +242,8 @@ class AirdropPage extends Component {
                   value={polygonAddress}
                   variant='outlined'
                   onChange={this.handleInput}
+                  onClick={this.incrementStep}
                 />
-              </Grid>
-
-              <Grid item
-                className={classes.balanceContainer}
-              >
-                <Typography variant='h4'
-                  style={{ color: airdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
-                >
-                  <CountUp
-                    end={airdrop && airdrop.amount}
-                    decimals={2}
-                    start={0}
-                    duration={2}
-                    suffix=' YUP'
-                  />
-                </Typography>
               </Grid>
               <Grid item>
                 {!shareStep ? account && account.name ? (
@@ -236,15 +265,38 @@ class AirdropPage extends Component {
               >
               Login
             </Button>
-            : <TwitterShareButton
-              url={`${WEB_APP_URL}/airdrop`}
-              title={`Claiming #polygon airdrop on @yup_io`}
-              hashtags={['YUP']}
-              windowWidth={800}
-              windowHeight={600}
-              >
-              <Icon className='fa fa-twitter fa-2x' />
-            </TwitterShareButton>
+                  : <Grid container
+                    direction='row'
+                    alignContent='stretch'
+                    >
+                    <Grid item
+                      xs={6}
+                    >
+                      <TwitterShareButton
+                        url={`${WEB_APP_URL}/airdrop`}
+                        title={`Claiming #polygon airdrop on @yup_io`}
+                        hashtags={['YUP']}
+                        windowWidth={800}
+                        windowHeight={600}
+                        className={classes.btn}
+                      >
+                        <Icon className='fa fa-twitter fa-2x' />
+                      </TwitterShareButton>
+                    </Grid>
+                    <Grid item
+                      xs={6}
+                    >
+                      <Button
+                        fullWidth
+                        onClick={this.handleSubscribeDialogOpen}
+                        className={classes.rainbowBtn}
+                        variant='outlined'
+                        startIcon={<Icon className='fa fa-copy fa-2x' />}
+                      >
+                        Copy
+                      </Button>
+                    </Grid>
+                  </Grid>
           }
               </Grid>
             </Grid>
