@@ -8,7 +8,7 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import { accountInfoSelector } from '../../redux/selectors'
-import { ethers, BigNumber } from 'ethers'
+import { ethers } from 'ethers'
 import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
@@ -170,8 +170,6 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStaking = async () => {
     try {
-      console.log('connector', connector)
-      console.log('account', account)
       if (!account) {
         setEthConnectorDialog(true)
       }
@@ -188,18 +186,32 @@ const StakingPage = ({ classes, account }) => {
     try {
       if (!connector) {
         setEthConnectorDialog(true)
+        return
       }
-      // const { YUP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
-      console.log('polyStakeAmt', typeof polyStakeAmt)
-      const stakeAmt = BigNumber.from(10).pow(18).mul(String(polyStakeAmt))
-      const tx = {
-        // to: YUP_TOKEN,
+      const stakeAmt = window.BigInt(Number(polyStakeAmt) * Math.pow(10, 18))
+
+      const { POLY_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
+      console.log('POLY_LIQUIDITY_REWARDS', POLY_LIQUIDITY_REWARDS)
+      const txBody = {
+        to: POLY_LIQUIDITY_REWARDS,
         from: address,
-        gas: 800000,
+        gas: 800000
+      }
+      console.log('contracts.polyLpToken', contracts.polyLpToken)
+
+      const approveTx = {
+        ...txBody,
+        data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, polyStakeAmt).encodeABI()
+      }
+
+      await connector.sendTransaction(approveTx)
+
+      const stakeTx = {
+        ...txBody,
         data: contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
       }
-      const txHash = await connector.sendTransaction(tx)
-      console.log('txHash', txHash)
+
+      await connector.sendTransaction(stakeTx)
     } catch (err) {
       console.log('ERR handling polygon staking', err)
     }
