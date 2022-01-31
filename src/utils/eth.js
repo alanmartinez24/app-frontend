@@ -3,12 +3,12 @@ import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 
-const WALLET_CONNECT_BRIDGE = process.env.WALLET_CONNECT_BRIDGE
+const { WALLET_CONNECT_BRIDGE, POLY_RPC_URL } = process.env
 
 export const getPolygonWeb3Provider = () => {
   const maticProvider = new WalletConnectProvider(
     {
-      host: 'https://polygon-mumbai.g.alchemy.com/v2/-zgJy51M1HK6nmQyqPE8yKZbPJQChI_i',
+      host: POLY_RPC_URL,
       callbacks: {
         onConnect: console.log('matic provider connected'),
         onDisconnect: console.log('matic provider disconnected')

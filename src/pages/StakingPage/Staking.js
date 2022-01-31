@@ -8,19 +8,19 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import { accountInfoSelector } from '../../redux/selectors'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
-// import axios from 'axios'
 import CountUp from 'react-countup'
+import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
 const isMobile = window.innerWidth <= 600
 // const isMedium = window.innerWidth <= 900
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_LP_RWRDS_CONTRACT, POLY_LP_TOKEN, ETH_LP_TOKEN, ETH_LP_RWRDS_CONTRACT } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID } = process.env
 
 const styles = theme => ({
   container: {
@@ -65,13 +65,21 @@ const StakingPage = ({ classes, account }) => {
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
   const [ethConnectorDialog, setEthConnectorDialog] = useState(false)
-  const [ethStakeAmt, setEthStakeAmt] = useState(3)
-  const [polyStakeAmt, setPolyStakeAmt] = useState(2)
+
+  const [ethStakeAmt, setEthStakeAmt] = useState(0) // amount of eth uni lp to stake
+  const [polyStakeAmt, setPolyStakeAmt] = useState(0) // amount of poly uni lp to stake
+
   const [polyApr, setPolyApr] = useState(0)
   const [ethApr, setEthApr] = useState(0)
-  const [rwrdAmt, setRwrdAmt] = useState(0)
-  const [polyLpBal, setPolyLpBal] = useState(2)
-  const [ethLpBal, setEthLpBal] = useState(0)
+
+  const [rwrdAmt, setRwrdAmt] = useState(0) // amt in rewards to claim
+
+  const [polyLpBal, setPolyLpBal] = useState(0) // available poly uni lp bal
+  const [ethLpBal, setEthLpBal] = useState(0) // available eth uni lp bal
+
+  const [currentStakeEth, setCurrentStakeEth] = useState(0) // current amount stakes
+  const [currentStakePoly, setCurrentStakePoly] = useState(0) // current amount stakes
+
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
@@ -85,20 +93,22 @@ const StakingPage = ({ classes, account }) => {
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeAmt(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
+
   const handleEthStakeMax = () => setEthStakeAmt(ethLpBal)
   const handlePolyStakeMax = () => setPolyStakeAmt(polyLpBal)
 
   useEffect(() => {
-    setProvider(getPolygonWeb3Provider())
     setConnector(getEthConnector())
+    setProvider(getPolygonWeb3Provider())
   }, [])
 
   useEffect(() => {
     if (!connector) { return }
-    setAddress(connector._accounts[0])
+    setAddress(connector.accounts[0])
   }, [connector])
 
   useEffect(() => {
+    if (!provider) { return }
     getContracts()
   }, [provider])
 
@@ -112,10 +122,11 @@ const StakingPage = ({ classes, account }) => {
   const getContracts = async () => {
     try {
       if (!provider) { return }
-      const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LP_RWRDS_CONTRACT)
-      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LP_RWRDS_CONTRACT)
-      const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_LP_TOKEN)
-      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_LP_TOKEN)
+      const { POLY_LIQUIDITY_REWARDS, ETH_LIQUIDITY_REWARDS, ETH_UNI_LP_TOKEN, POLY_UNI_LP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
+      const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
+      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
+      const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
+      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_UNI_LP_TOKEN)
       setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
@@ -149,9 +160,9 @@ const StakingPage = ({ classes, account }) => {
   const getStakeAmts = async () => {
     try {
       const polyStake = await contracts.polyLiquidity.methods.balanceOf(address).call({ from: address })
-      setPolyStakeAmt(polyStake / Math.pow(10, 18))
+      setCurrentStakePoly(polyStake)
       const ethStake = await contracts.ethLiquidity.methods.balanceOf(address).call({ from: address })
-      setEthStakeAmt(ethStake / Math.pow(10, 18))
+      setCurrentStakeEth(ethStake)
     } catch (err) {
       console.log('ERR getting stake amts', err)
     }
@@ -159,6 +170,11 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStaking = async () => {
     try {
+      console.log('connector', connector)
+      console.log('account', account)
+      if (!account) {
+        setEthConnectorDialog(true)
+      }
       const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
       console.log('isStake', isStake)
       const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
@@ -170,10 +186,20 @@ const StakingPage = ({ classes, account }) => {
 
   const handlePolygonStaking = async () => {
     try {
-      const stakeAmt = ethers.BigNumber.from(polyStakeAmt)
-      await contracts.polyLiquidity.methods.stake(stakeAmt)
-      console.log('activePolyTab', activePolyTab)
-      console.log('stakeAmt', stakeAmt)
+      if (!connector) {
+        setEthConnectorDialog(true)
+      }
+      // const { YUP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
+      console.log('polyStakeAmt', typeof polyStakeAmt)
+      const stakeAmt = BigNumber.from(10).pow(18).mul(String(polyStakeAmt))
+      const tx = {
+        // to: YUP_TOKEN,
+        from: address,
+        gas: 800000,
+        data: contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
+      }
+      const txHash = await connector.sendTransaction(tx)
+      console.log('txHash', txHash)
     } catch (err) {
       console.log('ERR handling polygon staking', err)
     }
@@ -437,7 +463,7 @@ const StakingPage = ({ classes, account }) => {
                                           </Grid>
                                           <Grid item>
                                             <Typography variant='body2'>
-                                              0
+                                              {currentStakeEth}
                                             </Typography>
                                           </Grid>
                                         </Grid>
@@ -605,7 +631,7 @@ const StakingPage = ({ classes, account }) => {
                                           </Grid>
                                           <Grid item>
                                             <Typography variant='body2'>
-                                              0
+                                              {currentStakePoly}
                                             </Typography>
                                           </Grid>
                                         </Grid>

@@ -17,12 +17,12 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
-const { BACKEND_API } = process.env
+const { BACKEND_API, ETH_CHAIN_ID, POLY_CHAIN_ID } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const INVALID_EMAIL_ERROR_MSG = `Please enter a valid email address.`
 const WHITELIST_MSG = 'Your Ethereum address is not whitelisted.'
 const VALIDATE_MSG = 'Username is invalid. Please try again.'
-const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
+const NOTMAINNET_MSG = 'Please connect with a mainnet address.'
 const EMAIL_MSG = 'Success. We will get back to you soon.'
 const MIRROR_MSG = 'Please wait while we create your YUP account...'
 const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
@@ -208,7 +208,11 @@ class SubscribeDialog extends Component {
       const chainId = connected ? payload._chainId : payload.params[0].chainId
       const accounts = connected ? payload._accounts : payload.params[0].accounts
 
-      if (chainId !== 1) {
+      console.log('chainId', chainId)
+      console.log('POLY_CHAIN_ID', POLY_CHAIN_ID)
+      console.log('ETH_CHAIN_ID', ETH_CHAIN_ID)
+
+      if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
         this.handleSnackbarOpen(NOTMAINNET_MSG, true)
         this.onDisconnect()
         return

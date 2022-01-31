@@ -10,8 +10,7 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
 
-// const { BACKEND_API } = process.env
-const BACKEND_API = 'http://localhost:4001'
+const { BACKEND_API, POLY_CHAIN_ID, ETH_CHAIN_ID } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
 
@@ -183,7 +182,11 @@ class ConnectEth extends Component {
       const accounts = connected ? payload._accounts : payload.params[0].accounts
       const eosname = this.props.account.name
 
-      if (chainId !== 1) {
+      console.log('chainId', chainId)
+      console.log('POLY_CHAIN_ID', POLY_CHAIN_ID)
+      console.log('ETH_CHAIN_ID', ETH_CHAIN_ID)
+
+      if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
         this.handleSnackbarOpen(NOTMAINNET_MSG, true)
         this.onDisconnect()
         return
@@ -200,10 +203,8 @@ class ConnectEth extends Component {
       const hexMsg = convertUtf8ToHex(challenge)
       const msgParams = [address, hexMsg]
       const signature = await this.state.connector.signMessage(msgParams)
-      this.setState({
-        activeStep: 2
-      })
-      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { address, eosname, signature })
+      this.setState({ activeStep: 2 })
+      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
