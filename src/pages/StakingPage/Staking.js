@@ -8,11 +8,11 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import { accountInfoSelector } from '../../redux/selectors'
-import { ethers } from 'ethers'
 import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
+import axios from 'axios'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
 const isMobile = window.innerWidth <= 600
@@ -20,7 +20,7 @@ const isMobile = window.innerWidth <= 600
 // const isLarge = window.innerWidth <= 1200
 // const isXL = window.innerWidth <= 1536
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env
 
 const styles = theme => ({
   container: {
@@ -146,8 +146,7 @@ const StakingPage = ({ classes, account }) => {
 
   const getAprsAndRwrds = async () => {
     try {
-      const ethApr = 5424
-      // const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
+      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
       setEthApr(ethApr)
       setPolyApr(500.12)
       const rwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
@@ -168,51 +167,76 @@ const StakingPage = ({ classes, account }) => {
     }
   }
 
-  const handleEthStaking = async () => {
-    try {
-      if (!account) {
-        setEthConnectorDialog(true)
-      }
-      const isStake = !activeEthTab // index 0 active tab is stake, 1 is unstake
-      console.log('isStake', isStake)
-      const stakeAmt = ethers.BigNumber.from(ethStakeAmt)
-      console.log('stakeAmt', stakeAmt)
-    } catch (err) {
-      console.log('ERR handling eth staking', err)
+  const handleStakingAction = async (lpToken) => {
+    if (!connector) {
+      setEthConnectorDialog(true)
+      return
     }
+    const txBody = {
+      from: address,
+      gas: 800000
+    }
+    if (lpToken === 'eth') {
+      await handleEthStakeAction(txBody)
+    } else if (lpToken === 'poly') {
+      await handlePolyStakeAction(txBody)
+    }
+    await getBalances()
   }
 
-  const handlePolygonStaking = async () => {
+  const handleEthStakeAction = async (txBody) => {
     try {
-      if (!connector) {
-        setEthConnectorDialog(true)
-        return
-      }
-      const stakeAmt = window.BigInt(Number(polyStakeAmt) * Math.pow(10, 18))
+      const isStake = !activeEthTab
+      const stakeAmt = window.BigInt(Number(ethStakeAmt) * Math.pow(10, 18))
 
-      const { POLY_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
-      console.log('POLY_LIQUIDITY_REWARDS', POLY_LIQUIDITY_REWARDS)
-      const txBody = {
-        to: POLY_LIQUIDITY_REWARDS,
-        from: address,
-        gas: 800000
-      }
-      console.log('contracts.polyLpToken', contracts.polyLpToken)
+      const { ETH_LIQUIDITY_REWARDS, ETH_UNI_LP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
 
       const approveTx = {
         ...txBody,
-        data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, polyStakeAmt).encodeABI()
+        to: ETH_UNI_LP_TOKEN,
+        data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
       }
 
       await connector.sendTransaction(approveTx)
 
       const stakeTx = {
         ...txBody,
-        data: contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
+        to: ETH_LIQUIDITY_REWARDS,
+        data: isStake ? contracts.ethLiquidity.methods.stake(stakeAmt).encodeABI()
+        : contracts.ethLiquidity.methods.unstake(stakeAmt).encodeABI()
+      }
+      await connector.sendTransaction(stakeTx)
+    } catch (err) {
+      handleSnackbarOpen('There was a problem staking ETH UNI-LP V2')
+      console.log('ERR handling eth staking', err)
+    }
+  }
+
+  const handlePolyStakeAction = async (txBody) => {
+    try {
+      const isStake = !activePolyTab
+      const stakeAmt = window.BigInt(Number(polyStakeAmt) * Math.pow(10, 18))
+
+      const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
+
+      const approveTx = {
+        ...txBody,
+        to: POLY_UNI_LP_TOKEN,
+        data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+      }
+
+      await connector.sendTransaction(approveTx)
+
+      const stakeTx = {
+        ...txBody,
+        to: POLY_LIQUIDITY_REWARDS,
+        data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
+        : contracts.polyLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
 
       await connector.sendTransaction(stakeTx)
     } catch (err) {
+      handleSnackbarOpen('There was a problem staking POLYGON UNI-LP V3')
       console.log('ERR handling polygon staking', err)
     }
   }
@@ -433,7 +457,7 @@ const StakingPage = ({ classes, account }) => {
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
-                                          onClick={handleEthStaking}
+                                          onClick={() => handleStakingAction('eth')}
                                         >
                                           {activeEthTab ? 'Unstake' : 'Stake'}
                                         </Typography>
@@ -601,7 +625,7 @@ const StakingPage = ({ classes, account }) => {
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
-                                          onClick={handlePolygonStaking}
+                                          onClick={() => handleStakingAction('poly')}
                                         >
                                           {activePolyTab ? 'Unstake' : 'Stake'}
                                         </Typography>
