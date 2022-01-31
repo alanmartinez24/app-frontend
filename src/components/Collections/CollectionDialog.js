@@ -113,10 +113,10 @@ const CollectionDialog = ({ postid, classes, dialogOpen, handleDialogClose, addC
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
         >
-          <Typography variant='h3'>New Collection</Typography>
+          <Typography variant='h5'>New Collection</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText variant='body1'>
+          <DialogContentText variant='body2'>
             Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else.
           </DialogContentText>
           <Grid
