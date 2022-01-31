@@ -42,8 +42,15 @@ const styles = theme => ({
     }
   },
   btn: {
+    width: '100%'
+  },
+  twitterBtn: {
+    width: '100%',
+    color: '#1DA1F2',
+    borderColor: '#1DA1F2'
   },
   rainbowBtn: {
+    background: theme.palette.rainbowGradient
   },
   stepper: {
     position: 'fixed',
@@ -55,7 +62,12 @@ class AirdropPage extends Component {
   state = {
     isLoading: false,
     polygonAddress: this.props.location.pathname.split('/')[2] || '',
-    airdrop: null,
+    airdrop: {
+      amount: 24
+    },
+    LPairdrop: {
+      amount: 4
+    },
     subscribeDialogOpen: false,
     snackbarMsg: null,
     activeStep: 0
@@ -98,7 +110,9 @@ class AirdropPage extends Component {
     try {
       this.setState({ isLoading: true })
       const airdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
-      this.setState({ airdrop, activeStep: 1 })
+      // not sure if LP airdrop is correct. need to check
+      const LPairdrop = (await axios.get(`${BACKEND_API}/airdrop?eosname=${this.props.account.name}`)).data
+      this.setState({ airdrop, LPairdrop, activeStep: 1 })
     } catch (err) {
       rollbar.error(`Error fetching airdrop data: ${JSON.stringify(err)}`)
       this.setState({ snackbarMsg: 'Something went wrong. Try again later.' })
@@ -108,7 +122,7 @@ class AirdropPage extends Component {
 
   render () {
     const { classes, account } = this.props
-    const { isLoading, airdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
+    const { isLoading, airdrop, LPairdrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
     const isValidAddress = isAddress(polygonAddress)
 
     const enableClaim = airdrop && isValidAddress
@@ -174,10 +188,10 @@ class AirdropPage extends Component {
                   variant='body2'
                   align='center'
                 >
-                  {shareStep ? "You've claimed" : 'You can claim'}
+                  {account && account.name ? shareStep ? "You've claimed" : 'You can claim' : 'Connect to your account to claim'}
                 </Typography>
               </Grid>
-              <Grid item>
+              { account && account.name ? <Grid item>
                 <Grid container
                   direction='column'
                 >
@@ -194,57 +208,81 @@ class AirdropPage extends Component {
                       />
                     </Typography>
                   </Grid>
-                  <Grid item>
-                    <Typography variant='h3'
-                      style={{ color: airdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
-                    >
-                      <CountUp
-                        end={airdrop && airdrop.amount}
-                        decimals={2}
-                        start={0}
-                        duration={2}
-                        suffix=' YUPETH'
-                      />
-                    </Typography>
-                  </Grid>
+                  {LPairdrop
+                    ? <Grid item>
+                      <Grid container
+                        direction='column'
+                        alignItems='center'
+                      >
+                        <Grid item>
+                          <Typography
+                            variant='s1'
+                            style={{ opacity: 0.3 }}
+                          >
+                            &
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography variant='h3'
+                            style={{ color: LPairdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                          >
+                            <CountUp
+                              end={LPairdrop && LPairdrop.amount}
+                            //  && LPairdrop.amount <-- is this necessary?
+                              decimals={2}
+                              start={0}
+                              duration={2}
+                              suffix=' YUPETH'
+                            />
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid> : ''
+                      }
                 </Grid>
-              </Grid>
-              {shareStep
-              ? <Grid item>
+              </Grid> : '' }
+              { LPairdrop ? shareStep ? <Grid item>
                 <Button
                   fullWidth
-                  onClick={this.handleSubscribeDialogOpen}
+                  onClick={`${WEB_APP_URL}/staking`}
                   className={classes.rainbowBtn}
                   variant='contained'
                   startIcon={<Icon className='fa fa-upload' />}
                 >
                   Stake
                 </Button>
-              </Grid> : <Grid item /> }
-              <Grid item>
-                <Typography
-                  variant='body2'
-                  align='center'
+              </Grid> : '' : ''}
+              {account && account.name ? <Grid item>
+                <Grid container
+                  spacing={2}
+                  direction='column'
                 >
-                  {shareStep ? 'Let the people know!' : 'Input a Polygon address to link account & receive tokens'}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <YupInput
-                  style={{ display: shareStep ? 'none' : 'inherit' }}
-                  fullWidth
-                  id='address'
-                  maxLength={50}
-                  label='Address'
-                  type='text'
-                  onSubmit={this.fetchAirdropData}
-                  inputIsValid={isValidAddress}
-                  value={polygonAddress}
-                  variant='outlined'
-                  onChange={this.handleInput}
-                  onClick={this.incrementStep}
-                />
-              </Grid>
+                  <Grid item>
+                    <Typography
+                      variant='body2'
+                      align='center'
+                    >
+                      {shareStep ? 'Let the people know!' : 'Input a Polygon address to link account & receive tokens'}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <YupInput
+                      style={{ display: shareStep ? 'none' : 'inherit' }}
+                      fullWidth
+                      id='address'
+                      maxLength={50}
+                      label='Address'
+                      type='text'
+                      onSubmit={this.fetchAirdropData}
+                      inputIsValid={isValidAddress}
+                      value={polygonAddress}
+                      variant='outlined'
+                      onChange={this.handleInput}
+                      onClick={this.incrementStep}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid> : '' }
               <Grid item>
                 {!shareStep ? account && account.name ? (
                   <LoaderButton
@@ -268,6 +306,7 @@ class AirdropPage extends Component {
                   : <Grid container
                     direction='row'
                     alignContent='stretch'
+                    spacing={1}
                     >
                     <Grid item
                       xs={6}
@@ -280,7 +319,17 @@ class AirdropPage extends Component {
                         windowHeight={600}
                         className={classes.btn}
                       >
-                        <Icon className='fa fa-twitter fa-2x' />
+                        <Button
+                          fullWidth
+                          onClick={this.handleSubscribeDialogOpen}
+                          className={classes.twitterBtn}
+                          variant='outlined'
+                          startIcon={<Icon style={{ color: '#1DA1F2' }}
+                            className='fa fa-twitter fa-2x'
+                                     />}
+                        >
+                          Share
+                        </Button>
                       </TwitterShareButton>
                     </Grid>
                     <Grid item
@@ -289,7 +338,7 @@ class AirdropPage extends Component {
                       <Button
                         fullWidth
                         onClick={this.handleSubscribeDialogOpen}
-                        className={classes.rainbowBtn}
+                        className={classes.btn}
                         variant='outlined'
                         startIcon={<Icon className='fa fa-copy fa-2x' />}
                       >
