@@ -138,6 +138,13 @@ export const theme = ({ palette }) => {
         color: palette.common.first
       }
     },
+    MuiLinearProgress: {
+      root: {
+        '& .MuiLinearProgress-barColorPrimary': {
+            backgroundColor: Colors.Green
+        }
+      }
+    },
     MuiDialogContent: {
       root: {
         color: palette.common.first

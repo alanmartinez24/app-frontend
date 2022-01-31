@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
+import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
 import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
@@ -88,6 +89,7 @@ const StakingPage = ({ classes, account }) => {
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [provider, setProvider] = useState(null)
   const [connector, setConnector] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
@@ -174,6 +176,7 @@ const StakingPage = ({ classes, account }) => {
       setEthConnectorDialog(true)
       return
     }
+    setIsLoading(true)
     const txBody = {
       from: address,
       gas: 800000
@@ -183,12 +186,12 @@ const StakingPage = ({ classes, account }) => {
     } else if (lpToken === 'poly') {
       await handlePolyStakeAction(txBody)
     }
-    await getBalances()
+    setIsLoading(false)
   }
 
   const handleEthStakeAction = async (txBody) => {
+    const isStake = !activeEthTab
     try {
-      const isStake = !activeEthTab
       const stakeAmt = window.BigInt(Number(ethStakeInput) * Math.pow(10, 18))
 
       if (isStake) {
@@ -208,14 +211,14 @@ const StakingPage = ({ classes, account }) => {
       }
       await connector.sendTransaction(stakeTx)
     } catch (err) {
-      handleSnackbarOpen('There was a problem staking ETH UNI-LP V2')
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2`)
       console.log('ERR handling eth staking', err)
     }
   }
 
   const handlePolyStakeAction = async (txBody) => {
+    const isStake = !activePolyTab
     try {
-      const isStake = !activePolyTab
       const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
       if (isStake) {
         const approveTx = {
@@ -233,12 +236,13 @@ const StakingPage = ({ classes, account }) => {
       }
       await connector.sendTransaction(stakeTx)
     } catch (err) {
-      handleSnackbarOpen('There was a problem staking POLYGON UNI-LP V3')
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} POLYGON UNI-LP V3`)
       console.log('ERR handling polygon staking', err)
     }
   }
   const collectRewards = async () => {
     try {
+      setIsLoading(true)
       const txBody = {
         from: address,
         gas: 800000
@@ -250,6 +254,7 @@ const StakingPage = ({ classes, account }) => {
           data: contracts.ethLiquidity.methods.getReward().encodeABI()
         }
         await connector.sendTransaction(ethCollectTx)
+        setEthRwrdAmt(0)
       }
       if (polyRwrdAmt > 0) {
         const polyCollectTx = {
@@ -258,8 +263,9 @@ const StakingPage = ({ classes, account }) => {
           data: contracts.polyLiquidity.methods.getReward().encodeABI()
         }
         await connector.sendTransaction(polyCollectTx)
+        setPolyRwrdAmt(0)
       }
-      await getBalances()
+      setIsLoading(false)
     } catch (err) {
       handleSnackbarOpen('There was a problem collecting your rewards.')
       console.log('ERR collecting rewards', err)
@@ -310,6 +316,7 @@ const StakingPage = ({ classes, account }) => {
         <Grid container
           className={classes.container}
         >
+
           <Grid className={classes.page}
             container
             direction='column'
@@ -317,6 +324,7 @@ const StakingPage = ({ classes, account }) => {
             alignItems='start'
             spacing={10}
           >
+            <LoadingBar isLoading={isLoading} />
             <Snackbar
               autoHideDuration={4000}
               onClose={handleSnackbarClose}
@@ -410,7 +418,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${ethApr.toFixed(2)}% APR`}
+                            {`${ethApr && ethApr.toFixed(2)}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -769,7 +777,7 @@ const StakingPage = ({ classes, account }) => {
                                           variant='outlined'
                                           size='small'
                                           disabled
-                                          value={polyRwrdAmt + ethRwrdAmt}
+                                          value={(polyRwrdAmt + ethRwrdAmt) / Math.pow(10, 18)}
                                           startAdornment={
                                             <InputAdornment position='start'>
                                               <img src='public/images/logos/logo_g.svg' />
