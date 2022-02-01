@@ -56,7 +56,7 @@ const styles = theme => ({
       paddingRight: '0vw'
     }
   },
-  Link: {
+  link: {
     textDecoration: 'none'
   },
   page: {
@@ -346,7 +346,7 @@ class Home extends Component {
                         </CardContent>
                         <CardActions>
                           {isUser ? (
-                            <Link className={classes.Link}
+                            <Link className={classes.link}
                               to={'/?feed=mirror'}
                             >
                               <Button
@@ -360,7 +360,7 @@ class Home extends Component {
                           ) : (
                             <>
                               <a
-                                className={classes.Link}
+                                className={classes.link}
                                 href={`${WEB_APP_URL}/?signupOpen=true`}
                               >
                                 <Button
@@ -373,7 +373,7 @@ class Home extends Component {
                                 </Button>
                               </a>
                               <a
-                                className={classes.Link}
+                                className={classes.link}
                                 href={YUP_LANDING}
                                 target='_blank'
                               >
@@ -427,7 +427,7 @@ class Home extends Component {
                           sm={3}
                         >
                           <Link to={item.link}
-                            className={classes.Link}
+                            className={classes.link}
                           >
                             <Grow in
                               timeout={500}
@@ -512,7 +512,7 @@ class Home extends Component {
                             to={`/collections/${encodeURIComponent(
                               coll.name.replace(/\s+|\//g, '-').toLowerCase()
                             )}/${coll._id}`}
-                            className={classes.Link}
+                            className={classes.link}
                           >
                             <Grid
                               container
@@ -591,7 +591,7 @@ class Home extends Component {
                               to={`/collections/${encodeURIComponent(
                                 coll.name.replace('/', '')
                               )}/${coll._id}`}
-                              className={classes.Link}
+                              className={classes.link}
                             >
                               <Grid
                                 container
