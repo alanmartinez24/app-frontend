@@ -28,7 +28,6 @@ const styles = theme => ({
 })
 
 const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) => {
-  console.log(`inputIsValid`, inputIsValid)
   const { palette } = useTheme()
   const endAdornment = onSubmit
     ? <InputAdornment position='end'>

@@ -140,6 +140,7 @@ export const theme = ({ palette }) => {
     },
     MuiLinearProgress: {
       root: {
+        width: '100vw',
         '& .MuiLinearProgress-barColorPrimary': {
             backgroundColor: Colors.Green
         }

@@ -4,13 +4,12 @@ import { LinearProgress } from '@material-ui/core'
 import Colors from '../../utils/colors'
 
 const LoadingBar = ({ isLoading, ...restProps }) => {
-  console.log('isLoading', isLoading)
   return (
       isLoading &&
         (<LinearProgress
           {...restProps}
           sx={{ width: '100%' }}
-          style={{ position: 'fixed', top: 0, zIndex: 999, width: '80%', backgroundColor: Colors.green }}
+          style={{ position: 'absolute', left: 0, top: 0, zIndex: 999, width: '100%', backgroundColor: Colors.green }}
          />
         )
   )

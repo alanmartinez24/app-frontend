@@ -172,10 +172,6 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handleStakingAction = async (lpToken) => {
-    if (!connector) {
-      setEthConnectorDialog(true)
-      return
-    }
     setIsLoading(true)
     const txBody = {
       from: address,
@@ -188,6 +184,8 @@ const StakingPage = ({ classes, account }) => {
     }
     setIsLoading(false)
   }
+
+  const toBaseNum = (num) => num / Math.pow(10, 18)
 
   const handleEthStakeAction = async (txBody) => {
     const isStake = !activeEthTab
@@ -210,13 +208,18 @@ const StakingPage = ({ classes, account }) => {
         : contracts.ethLiquidity.methods.withdraw(stakeAmt).encodeABI()
       }
       await connector.sendTransaction(stakeTx)
+      const updatedLpBal = isStake ? toBaseNum(ethLpBal) - Number(ethStakeInput) : toBaseNum(ethLpBal) + Number(ethStakeInput)
+      const updatedStake = isStake ? toBaseNum(currentStakeEth) + Number(ethStakeInput) : toBaseNum(currentStakeEth) - Number(ethStakeInput)
+      setEthLpBal(updatedLpBal * Math.pow(10, 18)) // optimistic balance update
+      setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2`)
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. ${err.message}`)
       console.log('ERR handling eth staking', err)
     }
   }
 
   const handlePolyStakeAction = async (txBody) => {
+    console.log('is called')
     const isStake = !activePolyTab
     try {
       const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
@@ -234,9 +237,17 @@ const StakingPage = ({ classes, account }) => {
         data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
         : contracts.polyLiquidity.methods.withdraw(stakeAmt).encodeABI()
       }
+      console.log('toBaseNum(polyLpBal)', toBaseNum(polyLpBal))
+      console.log('Number(polyStakeInput)', Number(polyStakeInput))
+      console.log('toBaseNum(currentStakePoly)', toBaseNum(currentStakePoly))
       await connector.sendTransaction(stakeTx)
+
+      const updatedLpBal = isStake ? toBaseNum(polyLpBal) - Number(polyStakeInput) : toBaseNum(polyLpBal) + Number(polyStakeInput)
+      const updatedStake = isStake ? toBaseNum(currentStakePoly) + Number(polyStakeInput) : toBaseNum(currentStakePoly) - Number(polyStakeInput)
+      setPolyLpBal(updatedLpBal * Math.pow(10, 18)) // optimistic balance update
+      setCurrentStakePoly(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} POLYGON UNI-LP V3`)
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} POLYGON UNI-LP V3. ${err.message}`)
       console.log('ERR handling polygon staking', err)
     }
   }
