@@ -12,14 +12,10 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
   Tooltip,
   Icon,
   ListItemIcon,
-  DialogTitle,
   Typography,
-  DialogContent,
-  Dialog,
   Badge,
   Grow
 } from '@material-ui/core'
