@@ -44,6 +44,7 @@ import { StyledYupProductNav } from './StyledYupProductNav'
 import { StyledProfileAvatar } from './StyledProfileAvatar'
 import { StyledFirstMenuList } from './StyledFirstMenuList'
 import { StyledSecondMenuList } from './StyledSecondMenuList'
+import { StyledSettingsModal } from './StyledSettingsModal'
 
 const drawerWidth = 200
 const { BACKEND_API } = process.env
@@ -59,7 +60,7 @@ const styles = theme => ({
     },
     background: 'transparent'
   },
-  topbuttons: {
+  topButtons: {
     container1: {
       [theme.breakpoints.down('xs')]: {
         justify: 'center'
@@ -163,21 +164,6 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       width: 'auto'
     }
-  },
-  logoutBtn: {
-    fontFamily: 'Gilroy',
-    margin: 'auto',
-    marginLeft: 15,
-    letterSpacing: '0.2em',
-    width: 100,
-    height: 35,
-    fontSize: 10,
-    [theme.breakpoints.down('xs')]: {
-      width: 75,
-      height: 30,
-      marginLeft: 5,
-      fontSize: 7
-    }
   }
 })
 
@@ -238,7 +224,10 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
   useEffect(() => {
     window.addEventListener('resize', setIsMobile(window.innerWidth <= 480))
-    return window.removeEventListener('resize', setIsMobile(window.innerWidth <= 480))
+    return window.removeEventListener(
+      'resize',
+      setIsMobile(window.innerWidth <= 480)
+    )
   })
 
   const fetchNotifs = () => {
@@ -392,7 +381,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                 {account && account.name ? (
                   <div onClick={logNotifsClick} className={classes.notifWrap}>
                     <NotifPopup
-                      className={classes.topbuttons}
+                      className={classes.topButtons}
                       notifications={notifications}
                     />
                   </div>
@@ -676,37 +665,16 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             ) : null}
           </Grid>
         </ListItem>
-        <Dialog
-          aria-labelledby='form-dialog-title'
-          onClose={handleSettingsClose}
-          open={settingsOpen}
-          className={classes.dialog}
-        >
-          <DialogTitle style={{ paddingLeft: '40px', paddingBottom: '10px' }}>
-            <Typography variant='h4'>Settings</Typography>
-          </DialogTitle>
-          <DialogContent>
-            <List className={classes.root}>
-              <ListItem>
-                <ListItemText
-                  id='switch-list-label-wifi'
-                  primary='Log out of Yup'
-                />
-                <ListItemSecondaryAction>
-                  <Button
-                    className={classes.logoutBtn}
-                    onClick={handleLogout}
-                    variant='outlined'
-                  >
-                    Log out
-                  </Button>
-                </ListItemSecondaryAction>
-              </ListItem>
-            </List>
-          </DialogContent>
-        </Dialog>
+        <StyledSettingsModal
+          handleSettingsClose={handleSettingsClose}
+          settingsOpen={settingsOpen}
+          handleLogout={handleLogout}
+        />
         {(isShown || isMobile) && (
-          <StyledFirstMenuList component={Link} onClick={handleDrawerClose} />
+          <StyledFirstMenuList
+            Link={Link}
+            handleDrawerClose={handleDrawerClose}
+          />
         )}
 
         {/* Second Menu: LISTS */}
