@@ -292,7 +292,7 @@ const StakingPage = ({ classes, account }) => {
             content='A page for claiming YUP and YUPETH associated with your Yup account, essentially migrating it to the Polygon blockchain.'
           />
           <meta property='image'
-            content=''
+            content='https://app-meta-images.s3.amazonaws.com/migrationthumbnail.jpg'
           />
           <meta name='twitter:card'
             content='summary_large_image'
@@ -310,7 +310,7 @@ const StakingPage = ({ classes, account }) => {
           />
           <meta
             name='twitter:image'
-            content=''
+            content='https://app-meta-images.s3.amazonaws.com/migrationthumbnail.jpg'
           />
           <meta
             property='og:title'
@@ -321,7 +321,7 @@ const StakingPage = ({ classes, account }) => {
             content='A page for claiming YUP and YUPETH associated with your Yup account, essentially migrating it to the Polygon blockchain.'
           />
           <meta property='og:image'
-            content=''
+            content='https://app-meta-images.s3.amazonaws.com/migrationthumbnail.jpg'
           />
         </Helmet>
         <Grid container
