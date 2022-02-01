@@ -288,7 +288,7 @@ class SubscribeDialog extends Component {
     })
   }
 
-  render() {
+  render () {
     const { handleDialogClose, dialogOpen, classes, account } = this.props
     if (account && !this.state.account) this.setState({ account: account })
     return (
@@ -319,7 +319,7 @@ class SubscribeDialog extends Component {
             handleDialogClose()
             this.setState({ walletConnectOpen: false })
           }}
-          aria-labelledby="form-dialog-title"
+          aria-labelledby='form-dialog-title'
           className={classes.dialog}
         >
           {!this.state.connected &&
@@ -328,23 +328,28 @@ class SubscribeDialog extends Component {
               <>
                 <DialogTitle style={{ paddingBottom: '10px' }}>
                   <Typography
-                    align="left"
+                    align='left'
                     className={classes.dialogTitleText}
-                    variant="h3"
+                    variant='h3'
                   >
                     Link your Ethereum account
                   </Typography>
                 </DialogTitle>
                 <DialogContent>
-                  <Grid container direction="column" spacing={1}>
+                  <Grid container
+                    direction='column'
+                    spacing={1}
+                  >
                     <Grid item>
                       <Button
-                        variant="outlined"
-                        size="large"
+                        variant='outlined'
+                        size='large'
                         onClick={this.initWalletConnect}
                         fullWidth
                       >
-                        <Typography align="left" className={classes.platforms}>
+                        <Typography align='left'
+                          className={classes.platforms}
+                        >
                           WalletConnect
                         </Typography>
                         {this.state.EthIsLoading ? (
@@ -354,8 +359,8 @@ class SubscribeDialog extends Component {
                           />
                         ) : (
                           <img
-                            alt="wallet connect"
-                            src="/images/icons/wallet_connect.png"
+                            alt='wallet connect'
+                            src='/images/icons/wallet_connect.png'
                             className={classes.walletConnectIcon}
                           />
                         )}
@@ -370,9 +375,9 @@ class SubscribeDialog extends Component {
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
                 <Typography
-                  align="left"
+                  align='left'
                   className={classes.dialogTitleText}
-                  variant="h5"
+                  variant='h5'
                 >
                   Sign Up / Login
                 </Typography>
@@ -385,14 +390,16 @@ class SubscribeDialog extends Component {
                 </DialogContentText>
                 <Stepper
                   activeStep={this.state.activeStep}
-                  orientation="vertical"
+                  orientation='vertical'
                   className={classes.stepper}
                 >
                   {this.state.steps.map(label => (
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
                       <StepContent>
-                        <Typography align="left" variant="body1">
+                        <Typography align='left'
+                          variant='body1'
+                        >
                           {this.getStepContent(this.state.activeStep)}
                         </Typography>
                       </StepContent>

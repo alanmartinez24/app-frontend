@@ -1,7 +1,7 @@
 import { voteConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function initialVotes(state = {}, action) {
+export function initialVotes (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_INITIAL_VOTES:

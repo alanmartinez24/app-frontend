@@ -24,14 +24,19 @@ export const StyledSecondMenuList = withStyles(styles)(
   classes
 }) {
   return (
-    <Grow in timeout={1000}>
+    <Grow in
+      timeout={1000}
+    >
       <List
         component='nav'
         aria-label='secondary'
         className={classes.list1}
         tourname='InfoDrawer'
       >
-        <ListItem className={classes.listItem} button dense>
+        <ListItem className={classes.listItem}
+          button
+          dense
+        >
           <ListItemText>
             <p
               className={classes.listInfoLinks}

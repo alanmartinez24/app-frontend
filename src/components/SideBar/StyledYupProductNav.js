@@ -22,8 +22,13 @@ export const StyledYupProductNav = withStyles(styles)(function YupProductNav ({
   }
 
   return (
-    <List component='nav' aria-label='main' className={classes.list1}>
-      <StyledExtensionListLink isShown={isShown} isMobile={isMobile} />
+    <List component='nav'
+      aria-label='main'
+      className={classes.list1}
+    >
+      <StyledExtensionListLink isShown={isShown}
+        isMobile={isMobile}
+      />
       <StyledAboutListLink />
     </List>
   )

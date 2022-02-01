@@ -30,7 +30,7 @@ const styles = theme => ({
   }
 })
 
-export const StyledSettingsModal = withStyles(styles)(function SettingsModal({
+export const StyledSettingsModal = withStyles(styles)(function SettingsModal ({
   classes,
   handleSettingsClose,
   settingsOpen,

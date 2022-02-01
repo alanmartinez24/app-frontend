@@ -25,7 +25,10 @@ const LinkPreview = ({
           : classes.LinkPreviewMain
       }
     >
-      <a className={classes.LinkPreviewAnchor} href={url} target="_blank">
+      <a className={classes.LinkPreviewAnchor}
+        href={url}
+        target='_blank'
+      >
         <div className={classes.LinkPreviewImageContainer}>
           <img
             className={
@@ -38,7 +41,10 @@ const LinkPreview = ({
           />
         </div>
       </a>
-      <a className={classes.LinkPreviewAnchor} href={url} target="_blank">
+      <a className={classes.LinkPreviewAnchor}
+        href={url}
+        target='_blank'
+      >
         <div
           className={
             size === 'large'

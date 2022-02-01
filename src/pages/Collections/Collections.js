@@ -223,11 +223,13 @@ const styles = theme => ({
   }
 })
 
-function TabPanel(props) {
+function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <div role="tabpanel" hidden={value !== index}>
+    <div role='tabpanel'
+      hidden={value !== index}
+    >
       <div>{children}</div>
     </div>
   )
@@ -284,11 +286,11 @@ class Collections extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.fetchCollectionInfo()
   }
 
-  componentDidUpdate({ location: prevLocation }) {
+  componentDidUpdate ({ location: prevLocation }) {
     const currLocation = this.props.location
     if (prevLocation.pathname !== currLocation.pathname) {
       this.fetchCollectionInfo()
@@ -347,7 +349,7 @@ class Collections extends Component {
     this.setState({ activeTab: newTab })
   }
 
-  isValidHttpUrl(string) {
+  isValidHttpUrl (string) {
     let url
     try {
       url = new URL(string)
@@ -357,7 +359,7 @@ class Collections extends Component {
     return url.protocol === 'http:' || url.protocol === 'https:'
   }
 
-  render() {
+  render () {
     const { classes, account, levels, dispatch, tour, theme } = this.props
     const {
       collection,
@@ -406,15 +408,15 @@ class Collections extends Component {
             <div className={classes.page}>
               <Grid
                 container
-                direction="column"
+                direction='column'
                 spacing={5}
                 style={{ width: '50%', margin: 'auto', alignItems: 'center' }}
               >
                 <Grid item>
                   <Typography
                     className={classes.accountErrorHeader}
-                    color="#ffffff"
-                    variant="h3"
+                    color='#ffffff'
+                    variant='h3'
                   >
                     <strong>Sorry this page is not available.</strong>
                   </Typography>
@@ -422,14 +424,17 @@ class Collections extends Component {
                 <Grid item>
                   <Typography
                     className={classes.accountErrorSub}
-                    color="#ffffff"
-                    variant="h4"
+                    color='#ffffff'
+                    variant='h4'
                   >
                     The page you're looking for does not exist.
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" size="large" href="/">
+                  <Button variant='contained'
+                    size='large'
+                    href='/'
+                  >
                     Go Home
                   </Button>
                 </Grid>
@@ -458,30 +463,38 @@ class Collections extends Component {
     return (
       <ErrorBoundary>
         <Helmet>
-          <meta charSet="utf-8" />
+          <meta charSet='utf-8' />
           <title>{`${collection.name} | ${collection.owner}`}</title>
-          <meta name="description" content={`${collection.description}`} />
-          <meta
-            property="og:title"
-            content={`${collection.name} | ${collection.owner}`}
-          />
-          <meta
-            property="og:description"
+          <meta name='description'
             content={`${collection.description}`}
           />
-          <meta property="og:image" content={`${collection.coverImgSrc}`} />
-          <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:site" content="@yup_io" />
           <meta
-            property="twitter:title"
+            property='og:title'
             content={`${collection.name} | ${collection.owner}`}
           />
           <meta
-            property="twitter:image"
+            property='og:description'
+            content={`${collection.description}`}
+          />
+          <meta property='og:image'
+            content={`${collection.coverImgSrc}`}
+          />
+          <meta property='twitter:card'
+            content='summary_large_image'
+          />
+          <meta property='twitter:site'
+            content='@yup_io'
+          />
+          <meta
+            property='twitter:title'
+            content={`${collection.name} | ${collection.owner}`}
+          />
+          <meta
+            property='twitter:image'
             content={`${collection.coverImgSrc}`}
           />
           <meta
-            property="twitter:description"
+            property='twitter:description'
             content={`${collection.description}`}
           />
         </Helmet>
@@ -491,10 +504,12 @@ class Collections extends Component {
           onClose={this.handleSnackbarClose}
           open={!!snackbarMsg}
         >
-          <SnackbarContent className={classes.snack} message={snackbarMsg} />
+          <SnackbarContent className={classes.snack}
+            message={snackbarMsg}
+          />
         </Snackbar>
         <Menu
-          id="short-menu"
+          id='short-menu'
           anchorEl={anchorEl}
           keepMounted
           open={menuOpen}
@@ -548,22 +563,24 @@ class Collections extends Component {
           collection={collection}
           dialogOpen={openReorderDialog}
         />
-        <div className={classes.container} onScroll={this.handleScroll}>
+        <div className={classes.container}
+          onScroll={this.handleScroll}
+        >
           <div className={classes.page}>
             <Grid
               container
-              direction="row"
-              justify="flex-start"
-              alignItems="flex-start"
+              direction='row'
+              justify='flex-start'
+              alignItems='flex-start'
               spacing={2}
               className={classes.collectionContainer}
             >
               <Grid
                 item
                 container
-                direction="row"
-                justify="flex-start"
-                alignItems="center"
+                direction='row'
+                justify='flex-start'
+                alignItems='center'
                 spacing={2}
                 lg={8}
                 xl={8}
@@ -571,14 +588,16 @@ class Collections extends Component {
                 className={[minimizeHeader, classes.collectionHeader]}
               >
                 <Grid item>
-                  <Fade in timeout={1000}>
+                  <Fade in
+                    timeout={1000}
+                  >
                     <Img
                       src={
                         this.isValidHttpUrl(headerImgSrc)
                           ? [headerImgSrc, DEFAULT_IMG]
                           : DEFAULT_IMG
                       }
-                      alt="thumbnail"
+                      alt='thumbnail'
                       loader={<div />}
                       className={`${classes.headerImg} ${minimize}`}
                     />
@@ -591,11 +610,16 @@ class Collections extends Component {
                   sm={8}
                   xs={6}
                 >
-                  <Grid container direction="column" spacing={1}>
+                  <Grid container
+                    direction='column'
+                    spacing={1}
+                  >
                     <Grid item>
-                      <Fade in timeout={400}>
+                      <Fade in
+                        timeout={400}
+                      >
                         <Typography
-                          variant="h3"
+                          variant='h3'
                           className={[
                             classes.headerText,
                             isMinimize ? classes.headerTitle : null
@@ -609,9 +633,11 @@ class Collections extends Component {
                       item
                       style={{ display: isMinimize ? 'none' : 'inherit' }}
                     >
-                      <Fade in timeout={800}>
+                      <Fade in
+                        timeout={800}
+                      >
                         <Typography
-                          variant="subtitle1"
+                          variant='subtitle1'
                           className={[classes.headerText, hidden]}
                         >
                           Curated by{' '}
@@ -634,7 +660,7 @@ class Collections extends Component {
                       style={{ display: isMinimize ? 'none' : 'inherit' }}
                     >
                       <Typography
-                        variant="body2"
+                        variant='body2'
                         className={[classes.headerText, hidden]}
                       >
                         {collection.description}
@@ -651,35 +677,35 @@ class Collections extends Component {
                   justify={isMinimize ? 'flex-end' : 'flex-start'}
                 >
                   <IconButton
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
+                    aria-label='more'
+                    aria-controls='long-menu'
+                    aria-haspopup='true'
                     onClick={this.shareCollection}
                   >
                     <Icon className={[classes.icons, 'fa fa-share']} />
                   </IconButton>
                   {isLoggedUserCollection ? (
                     <IconButton
-                      aria-label="more"
-                      aria-controls="long-menu"
-                      aria-haspopup="true"
+                      aria-label='more'
+                      aria-controls='long-menu'
+                      aria-haspopup='true'
                       onClick={this.handleMenuOpen}
                       className={classes.icons}
                     >
-                      <MenuIcon fontSize="small" />
+                      <MenuIcon fontSize='small' />
                     </IconButton>
                   ) : (
                     account &&
                     account.name && (
                       <IconButton
-                        aria-label="more"
-                        aria-controls="long-menu"
-                        aria-haspopup="true"
+                        aria-label='more'
+                        aria-controls='long-menu'
+                        aria-haspopup='true'
                         onClick={this.handleDuplicateDialogOpen}
                         className={classes.icons}
                       >
                         <Icon
-                          fontSize="small"
+                          fontSize='small'
                           className={[classes.icons, 'fas fa-copy']}
                         />
                       </IconButton>
@@ -689,12 +715,16 @@ class Collections extends Component {
               </Grid>
 
               <Hidden lgDown>
-                <Grid item lg={4} />
+                <Grid item
+                  lg={4}
+                />
               </Hidden>
 
               {showTabs ? (
                 <>
-                  <Grid item xs={12}>
+                  <Grid item
+                    xs={12}
+                  >
                     <Tabs
                       value={activeTab}
                       onChange={this.handleChange}
@@ -702,13 +732,22 @@ class Collections extends Component {
                         style: { backgroundColor: theme.palette.common.first }
                       }}
                     >
-                      <Tab label="Feed" className={classes.tabs} />
-                      <Tab label="Recommended" className={classes.tabs} />
+                      <Tab label='Feed'
+                        className={classes.tabs}
+                      />
+                      <Tab label='Recommended'
+                        className={classes.tabs}
+                      />
                     </Tabs>
                   </Grid>
 
-                  <TabPanel value={activeTab} index={0}>
-                    <Grid item xs={12} tourname="CollectionPosts">
+                  <TabPanel value={activeTab}
+                    index={0}
+                  >
+                    <Grid item
+                      xs={12}
+                      tourname='CollectionPosts'
+                    >
                       <Feed
                         isLoading={isLoading}
                         hasMore={false}
@@ -720,13 +759,15 @@ class Collections extends Component {
                     </Grid>
                   </TabPanel>
 
-                  <TabPanel value={activeTab} index={1}>
+                  <TabPanel value={activeTab}
+                    index={1}
+                  >
                     <Grid
                       item
                       container
                       column
                       spacing={4}
-                      tourname="RecommendedCollections"
+                      tourname='RecommendedCollections'
                       className={[
                         classes.recommended,
                         classes.recommendedMobile
@@ -751,36 +792,36 @@ class Collections extends Component {
                           ]}
                         >
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
@@ -792,7 +833,11 @@ class Collections extends Component {
                 </>
               ) : (
                 <>
-                  <Grid item lg={6} xs={12} tourname="CollectionPosts">
+                  <Grid item
+                    lg={6}
+                    xs={12}
+                    tourname='CollectionPosts'
+                  >
                     <Feed
                       isLoading={isLoading}
                       hasMore={false}
@@ -808,13 +853,17 @@ class Collections extends Component {
                     container
                     lg={4}
                     spacing={2}
-                    tourname="RecommendedCollections"
+                    tourname='RecommendedCollections'
                     className={classes.recommended}
                   >
-                    <Grid item xs={12}>
-                      <Typography variant="h5">Recommended</Typography>
+                    <Grid item
+                      xs={12}
+                    >
+                      <Typography variant='h5'>Recommended</Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item
+                      xs={12}
+                    >
                       {!recommendedLoading ? (
                         recommended.map(rec => {
                           return (
@@ -825,38 +874,40 @@ class Collections extends Component {
                           )
                         })
                       ) : (
-                        <Grid item xs={12}>
+                        <Grid item
+                          xs={12}
+                        >
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
                           <Skeleton
-                            variant="rect"
-                            animation="wave"
+                            variant='rect'
+                            animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
@@ -876,13 +927,13 @@ class Collections extends Component {
                 dispatch(setTourAction({ isTourOpen: false }))
               }}
               className={classes.Tour}
-              accentColor="#00E08E"
+              accentColor='#00E08E'
               rounded={10}
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
                 <Button
-                  variant="outlined"
+                  variant='outlined'
                   style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                   small
                 >
@@ -892,7 +943,7 @@ class Collections extends Component {
               prevButton={
                 <Button
                   small
-                  variant="outlined"
+                  variant='outlined'
                   style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
                 >
                   Back
@@ -902,7 +953,7 @@ class Collections extends Component {
             />
             <Fab
               className={classes.tourFab}
-              variant="extended"
+              variant='extended'
               onClick={() => {
                 dispatch(setTourAction({ isTourOpen: true }))
               }}
@@ -922,10 +973,14 @@ const steps = [
     selector: '[tourName="CollectionPosts"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📰 Collection Posts
         </Typography>
-        <Typography variant="body2" className="tourText">
+        <Typography variant='body2'
+          className='tourText'
+        >
           These are the curated posts in this collection.
         </Typography>
       </div>
@@ -935,10 +990,14 @@ const steps = [
     selector: '[tourName="RecommendedCollections"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📖 Recommended Collections
         </Typography>
-        <Typography variant="body2" className="tourText">
+        <Typography variant='body2'
+          className='tourText'
+        >
           These are some other collections you should check out!
         </Typography>
       </div>
@@ -948,16 +1007,20 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📡 Feeds
         </Typography>
-        <Typography variant="body2" className="tourText">
+        <Typography variant='body2'
+          className='tourText'
+        >
           These are your feeds.
         </Typography>
         <a
-          href="https://docs.yup.io/products/app#feed"
-          target="_blank"
-          className="tourLink"
+          href='https://docs.yup.io/products/app#feed'
+          target='_blank'
+          className='tourLink'
         >
           Learn more
         </a>
@@ -968,16 +1031,20 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📈 Leaderboard
         </Typography>
-        <Typography variant="body2" className="tourText">
+        <Typography variant='body2'
+          className='tourText'
+        >
           Find content and users ranked by category and platform.
         </Typography>
         <a
-          href="https://docs.yup.io/products/app#lists"
-          target="_blank"
-          className="tourLink"
+          href='https://docs.yup.io/products/app#lists'
+          target='_blank'
+          className='tourLink'
         >
           Learn more
         </a>
@@ -987,43 +1054,47 @@ const steps = [
   {
     content: (
       <div>
-        <Typography variant="h4" className="tourHeader">
+        <Typography variant='h4'
+          className='tourHeader'
+        >
           👏 That's it!
         </Typography>
-        <Typography variant="body2" className="tourText">
+        <Typography variant='body2'
+          className='tourText'
+        >
           That's all for now. Learn more with some of these resources:
         </Typography>
-        <div className="tourResources">
+        <div className='tourResources'>
           <Button
-            size="medium"
-            variant="contained"
+            size='medium'
+            variant='contained'
             style={{ fontWeight: 400 }}
             small
-            className="tourButton"
-            href="https://docs.yup.io"
-            target="_blank"
+            className='tourButton'
+            href='https://docs.yup.io'
+            target='_blank'
           >
             Docs
           </Button>
           <Button
-            size="medium"
-            variant="contained"
+            size='medium'
+            variant='contained'
             style={{ fontWeight: 400 }}
             small
-            className="tourButton"
-            href="https://yup.io"
-            target="_blank"
+            className='tourButton'
+            href='https://yup.io'
+            target='_blank'
           >
             Website
           </Button>
           <Button
-            size="medium"
-            variant="contained"
+            size='medium'
+            variant='contained'
             style={{ fontWeight: 400 }}
             small
-            className="tourButton"
-            href="https://blog.yup.io"
-            target="_blank"
+            className='tourButton'
+            href='https://blog.yup.io'
+            target='_blank'
           >
             Blog
           </Button>

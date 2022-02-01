@@ -15,7 +15,7 @@ const styles = () => ({
     border: '0px solid #e6e6e6'
   },
   listItem: {
-    borderRadius: '0.4rem',
+    borderRadius: '0.4rem'
   },
   listInfoLinks: {
     color: '#888888'
@@ -39,7 +39,9 @@ export const StyledFirstMenuList = withStyles(styles)(
   const { palette } = useTheme()
 
   return (
-    <Grow in timeout={500}>
+    <Grow in
+      timeout={500}
+    >
       <List
         component='nav'
         aria-label='secondary'
@@ -79,7 +81,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=crypto'
           >
-            <ListItemText primary='Crypto' className={classes.listButton} />
+            <ListItemText primary='Crypto'
+              className={classes.listButton}
+            />
           </ListItem>
           <ListItem
             className={classes.listItem}
@@ -89,7 +93,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=nfts'
           >
-            <ListItemText primary='NFTs' className={classes.listButton} />
+            <ListItemText primary='NFTs'
+              className={classes.listButton}
+            />
           </ListItem>
           <ListItem
             className={classes.listItem}
@@ -113,7 +119,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=politics'
           >
-            <ListItemText primary='Politics' className={classes.listButton} />
+            <ListItemText primary='Politics'
+              className={classes.listButton}
+            />
           </ListItem>
           <ListItem
             className={classes.listItem}
@@ -123,7 +131,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=non-corona'
           >
-            <ListItemText primary='Safe Space' className={classes.listButton} />
+            <ListItemText primary='Safe Space'
+              className={classes.listButton}
+            />
           </ListItem>
           <ListItem
             className={classes.listItem}
@@ -133,7 +143,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=latenightcool'
           >
-            <ListItemText primary='Popular' className={classes.listButton} />
+            <ListItemText primary='Popular'
+              className={classes.listButton}
+            />
           </ListItem>
           <ListItem
             className={classes.listItem}
@@ -143,7 +155,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=lol'
           >
-            <ListItemText primary='Funny' className={classes.listButton} />
+            <ListItemText primary='Funny'
+              className={classes.listButton}
+            />
           </ListItem>
           <ListItem
             className={classes.listItem}
@@ -153,7 +167,9 @@ export const StyledFirstMenuList = withStyles(styles)(
             onClick={handleDrawerClose}
             to='/?feed=brainfood'
           >
-            <ListItemText primary='Smart' className={classes.listButton} />
+            <ListItemText primary='Smart'
+              className={classes.listButton}
+            />
           </ListItem>
         </div>
       </List>

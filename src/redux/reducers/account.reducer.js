@@ -1,7 +1,7 @@
 import { accountConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function currencyBalance(state = {}, action) {
+export function currencyBalance (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_CURRENCY_BALANCE:
@@ -44,7 +44,7 @@ export function currencyBalance(state = {}, action) {
   })
 }
 
-export function resourceUsage(state = {}, action) {
+export function resourceUsage (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_RESOURCE_USAGE:
@@ -74,7 +74,7 @@ export function resourceUsage(state = {}, action) {
   })
 }
 
-export function socialLevels(state = { isLoading: true, levels: {} }, action) {
+export function socialLevels (state = { isLoading: true, levels: {} }, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_SOCIAL_LEVEL:
@@ -151,7 +151,7 @@ export function socialLevels(state = { isLoading: true, levels: {} }, action) {
   })
 }
 
-export function ethAuth(
+export function ethAuth (
   state = { address: null, signature: null, account: null },
   action
 ) {
@@ -174,7 +174,7 @@ export function ethAuth(
   })
 }
 
-export function authInfo(
+export function authInfo (
   state = { signature: null, eosname: null, isLoading: false, error: null },
   action
 ) {

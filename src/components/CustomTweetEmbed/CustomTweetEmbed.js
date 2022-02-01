@@ -241,7 +241,7 @@ const styles = theme => ({
 })
 
 class CustomTweetEmbed extends Component {
-  render() {
+  render () {
     const { tweetData, classes } = this.props
     if (!tweetData || !tweetData.tweetInfo) {
       return <div />
@@ -257,15 +257,25 @@ class CustomTweetEmbed extends Component {
       : false
 
     return (
-      <Fade in timeout={1000}>
+      <Fade in
+        timeout={1000}
+      >
         {retweet ? (
-          <Retweet tweetData={tweetData} classes={classes} />
+          <Retweet tweetData={tweetData}
+            classes={classes}
+          />
         ) : quoted ? (
-          <Quoted tweetData={tweetData} classes={classes} />
+          <Quoted tweetData={tweetData}
+            classes={classes}
+          />
         ) : reply ? (
-          <Reply tweetData={tweetData} classes={classes} />
+          <Reply tweetData={tweetData}
+            classes={classes}
+          />
         ) : (
-          <Original tweetData={tweetData} classes={classes} />
+          <Original tweetData={tweetData}
+            classes={classes}
+          />
         )}
       </Fade>
     )

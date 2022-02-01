@@ -105,7 +105,7 @@ class Analytics extends Component {
     ratingPower: 100
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.loadUserData()
     if (window.analytics) {
       window.analytics.page('User')
@@ -409,7 +409,7 @@ class Analytics extends Component {
     })()
   }
 
-  render() {
+  render () {
     const { classes } = this.props
     const {
       account,
@@ -433,11 +433,15 @@ class Analytics extends Component {
         <ErrorBoundary>
           <div className={classes.container}>
             <div className={classes.page}>
-              <div align="center">
-                <Typography className={classes.accountErrorHeader} variant="h1">
+              <div align='center'>
+                <Typography className={classes.accountErrorHeader}
+                  variant='h1'
+                >
                   <strong>Sorry this page is not available.</strong>
                 </Typography>
-                <Typography className={classes.accountErrorSub} variant="h2">
+                <Typography className={classes.accountErrorSub}
+                  variant='h2'
+                >
                   The page you're looking for does not exist.
                 </Typography>
               </div>
@@ -465,9 +469,9 @@ class Analytics extends Component {
           <div className={classes.page}>
             <Grid
               container
-              direction="row"
-              alignItems="center"
-              justify="left"
+              direction='row'
+              alignItems='center'
+              justify='left'
               className={classes.graphContainers}
               spacing={3}
             >
@@ -481,18 +485,20 @@ class Analytics extends Component {
                 />
               </Grid>
               <Grid item>
-                <Typography align="left" variant="h2">
+                <Typography align='left'
+                  variant='h2'
+                >
                   <LinesEllipsis
-                    basedOn="letters"
-                    ellipsis="..."
-                    maxLine="4"
+                    basedOn='letters'
+                    ellipsis='...'
+                    maxLine='4'
                     text={account.fullname || account.username || account._id}
                     trimRight
                   />
                 </Typography>
                 <Typography
-                  align="left"
-                  variant="subtitle2"
+                  align='left'
+                  variant='subtitle2'
                   className={`${classes.username}`}
                 >
                   <span
@@ -512,37 +518,49 @@ class Analytics extends Component {
 
             <Grid
               container
-              direction="row"
-              alignItems="center"
-              justify="center"
+              direction='row'
+              alignItems='center'
+              justify='center'
               spacing={3}
             >
-              <Grid item sm={6} xs={12}>
+              <Grid item
+                sm={6}
+                xs={12}
+              >
                 <BarChart
                   chartData={influence}
-                  chartTitle="Influence"
+                  chartTitle='Influence'
                   color={socialLevelColor}
                 />
               </Grid>
-              <Grid item sm={6} xs={12}>
+              <Grid item
+                sm={6}
+                xs={12}
+              >
                 <BarChart
                   chartData={ratingPower}
-                  chartTitle="Rating Power"
-                  color=""
+                  chartTitle='Rating Power'
+                  color=''
                 />
               </Grid>
-              <Grid item sm={6} xs={12}>
+              <Grid item
+                sm={6}
+                xs={12}
+              >
                 <LineChart
                   headerNumber={totalClaimedRewards}
                   chartData={{ name: 'Earnings', data: userEarnings }}
-                  chartTitle="Earnings"
+                  chartTitle='Earnings'
                 />
               </Grid>
-              <Grid item sm={6} xs={12}>
+              <Grid item
+                sm={6}
+                xs={12}
+              >
                 <LineChart
                   headerNumber={account.balance.YUP}
                   chartData={{ name: 'Holdings', data: userHoldings }}
-                  chartTitle="Holdings"
+                  chartTitle='Holdings'
                 />
               </Grid>
               {/* <Grid item
@@ -567,14 +585,19 @@ class Analytics extends Component {
                   colors={[Colors.Blue, Colors.Green, Colors.Orange, Colors.Red]}
                 />
               </Grid> */}
-              <Grid item xs={12}>
+              <Grid item
+                xs={12}
+              >
                 <Grid
                   container
-                  direction="row"
+                  direction='row'
                   spacing={3}
-                  alignItems="stretch"
+                  alignItems='stretch'
                 >
-                  <Grid item xs={12} sm={6}>
+                  <Grid item
+                    xs={12}
+                    sm={6}
+                  >
                     <DonutChart
                       chartData={platformDistribution}
                       colors={[
@@ -584,14 +607,17 @@ class Analytics extends Component {
                         Colors.Green
                       ]}
                       className={classes}
-                      chartTitle="Platform Distribution"
+                      chartTitle='Platform Distribution'
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item
+                    xs={12}
+                    sm={6}
+                  >
                     <DonutChart
                       chartData={categoryDistribution}
                       className={classes}
-                      chartTitle="Categories Distribution"
+                      chartTitle='Categories Distribution'
                       colors={[
                         Colors.Blue,
                         Colors.Red,

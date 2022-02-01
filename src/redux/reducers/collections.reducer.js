@@ -1,7 +1,7 @@
 import { collectionsConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function userCollections(state = {}, action) {
+export function userCollections (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_USER_COLLECTIONS:

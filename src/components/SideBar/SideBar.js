@@ -248,7 +248,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
     setIsShown(isTourOpen)
   }, [isTourOpen])
 
-  function handleDrawerOpen() {
+  function handleDrawerOpen () {
     setIsShown(true)
     setOpen(true)
   }
@@ -283,7 +283,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
     }
   }
 
-  function handleLogout() {
+  function handleLogout () {
     localStorage.removeItem('twitterMirrorInfo')
     localStorage.removeItem('YUP_ETH_AUTH')
     setAccount(null)
@@ -328,7 +328,9 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             justify='space-between'
           >
             <Grid item>
-              <Grid alignItems='center' container>
+              <Grid alignItems='center'
+                container
+              >
                 <Grid item>
                   <IconButton
                     size='small'
@@ -344,7 +346,9 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                         avatar={avatar}
                       />
                     ) : (
-                      <Grow in timeout={400}>
+                      <Grow in
+                        timeout={400}
+                      >
                         <Icon
                           alt='menu'
                           className='fal fa-bars'
@@ -358,24 +362,35 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                     )}
                   </IconButton>
                 </Grid>
-                <Grid className={classes.search} item tourname='Search'>
+                <Grid className={classes.search}
+                  item
+                  tourname='Search'
+                >
                   {!history.location.pathname.includes('leaderboard') ? (
                     <SearchBar />
                   ) : null}
                 </Grid>
               </Grid>
             </Grid>
-            <Grid className={classes.searchMobile} item>
+            <Grid className={classes.searchMobile}
+              item
+            >
               {!history.location.pathname.includes('leaderboard') ? (
                 <SearchBar />
               ) : (
                 <YupListSearchBar />
               )}
             </Grid>
-            <Grow in timeout={500}>
-              <Grid className={classes.icons} item>
+            <Grow in
+              timeout={500}
+            >
+              <Grid className={classes.icons}
+                item
+              >
                 {account && account.name ? (
-                  <div onClick={logNotifsClick} className={classes.notifWrap}>
+                  <div onClick={logNotifsClick}
+                    className={classes.notifWrap}
+                  >
                     <NotifPopup
                       className={classes.topButtons}
                       notifications={notifications}
@@ -462,7 +477,9 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                   </Badge>
                 </ListItemAvatar>
                 {isShown ? (
-                  <Grow in timeout={500}>
+                  <Grow in
+                    timeout={500}
+                  >
                     <ListItemText
                       style={{ margin: 0 }}
                       primary={
@@ -532,10 +549,14 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           style={{ paddingLeft: '0px' }}
         >
           <ListItemIcon>
-            <Icon fontSize='small' className='fal fa-home' />
+            <Icon fontSize='small'
+              className='fal fa-home'
+            />
           </ListItemIcon>
           {isShown ? (
-            <Grow in timeout={600}>
+            <Grow in
+              timeout={600}
+            >
               <ListItemText>
                 <Typography variant='body2'>Home</Typography>
               </ListItemText>
@@ -559,7 +580,9 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             />
           </ListItemIcon>
           {isShown ? (
-            <Grow in timeout={700}>
+            <Grow in
+              timeout={700}
+            >
               <ListItemText>
                 <Typography variant='body2'>Leaderboards</Typography>
               </ListItemText>
@@ -575,10 +598,14 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           style={{ paddingLeft: '0px' }}
         >
           <ListItemIcon>
-            <Icon fontSize='small' className='fal fa-list' />
+            <Icon fontSize='small'
+              className='fal fa-list'
+            />
           </ListItemIcon>
           {isShown ? (
-            <Grow in timeout={800}>
+            <Grow in
+              timeout={800}
+            >
               <ListItemText>
                 <Typography variant='body2'>Collections</Typography>
               </ListItemText>
@@ -612,7 +639,9 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
               />
             </ListItemIcon>
             {isShown ? (
-              <Grow in timeout={800}>
+              <Grow in
+                timeout={800}
+              >
                 <ListItemText>
                   <Typography variant='body2'>Analytics</Typography>
                 </ListItemText>
@@ -620,9 +649,15 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             ) : null}
           </ListItem>
         )}
-        <ListItem dense style={{ bottom: 10, position: 'absolute' }}>
-          <Grid container direction='row'>
-            <Grid item xs={3}>
+        <ListItem dense
+          style={{ bottom: 10, position: 'absolute' }}
+        >
+          <Grid container
+            direction='row'
+          >
+            <Grid item
+              xs={3}
+            >
               <IconButton
                 aria-label='delete'
                 size='small'
@@ -636,8 +671,12 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
               </IconButton>
             </Grid>
             {isShown ? (
-              <Grow in timeout={500}>
-                <Grid item xs={3}>
+              <Grow in
+                timeout={500}
+              >
+                <Grid item
+                  xs={3}
+                >
                   <IconButton
                     aria-label='theme-mode'
                     size='small'

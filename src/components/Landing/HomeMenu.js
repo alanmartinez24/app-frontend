@@ -29,12 +29,7 @@ const isMobile = window.innerWidth <= 600
 const AWS_DEFAULT_COLLECTION_IMG_URLS = [...Array(5)].map(
   (_, i) => `https://app-gradients.s3.amazonaws.com/gradient${i + 1}.png`
 )
-const getRandomGradientImg = () =>
-  `${
-    AWS_DEFAULT_COLLECTION_IMG_URLS[
-      Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)
-    ]
-  }`
+const getRandomGradientImg = () => `${AWS_DEFAULT_COLLECTION_IMG_URLS[Math.floor(Math.random() * AWS_DEFAULT_COLLECTION_IMG_URLS.length)]}`
 
 const styles = theme => ({
   container: {
@@ -234,11 +229,11 @@ class Home extends Component {
     cardItems: [],
     recommendedCollections: []
   }
-  componentDidMount() {
+  componentDidMount () {
     this.fetchHomeConfig()
   }
 
-  fetchHomeConfig() {
+  fetchHomeConfig () {
     axios
       .get(`${BACKEND_API}/home-config/v2`)
       .then(({ data: { cardItems, linkItems } }) => {
@@ -251,7 +246,7 @@ class Home extends Component {
       })
   }
 
-  render() {
+  render () {
     const { classes, isUser, userCollections, theme } = this.props
     const { linkItems, cardItems, recommendedCollections } = this.state
 
@@ -262,26 +257,35 @@ class Home extends Component {
             <Grid
               className={classes.gridContainer}
               container
-              direction="row"
-              justify="flex-start"
+              direction='row'
+              justify='flex-start'
               spacing={5}
-              alignItems="flex-start"
-              alignContent="flex-start"
+              alignItems='flex-start'
+              alignContent='flex-start'
             >
-              <Grid item xs={12}>
+              <Grid item
+                xs={12}
+              >
                 <div className={classes.banner}>
                   <div className={classes.bannerBg} />
                 </div>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item
+                xs={12}
+              >
                 <Grid
                   container
-                  direction="row"
+                  direction='row'
                   spacing={3}
-                  alignItems="stretch"
+                  alignItems='stretch'
                 >
-                  <Grid item md={12} xs={12}>
-                    <Fade in timeout={300}>
+                  <Grid item
+                    md={12}
+                    xs={12}
+                  >
+                    <Fade in
+                      timeout={300}
+                    >
                       <Card
                         elevation={0}
                         className={classes.bannerCard}
@@ -294,13 +298,15 @@ class Home extends Component {
                         <CardContent>
                           <Grid
                             container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
+                            direction='row'
+                            justify='space-between'
+                            alignItems='center'
                           >
-                            <Grid item xs={isMobile ? 12 : 7}>
+                            <Grid item
+                              xs={isMobile ? 12 : 7}
+                            >
                               <Typography
-                                variant="h1"
+                                variant='h1'
                                 className={classes.titlePlain}
                               >
                                 {isUser
@@ -308,7 +314,7 @@ class Home extends Component {
                                   : `Social Network for Curators`}
                               </Typography>
                               <Typography
-                                variant="subtitle1"
+                                variant='subtitle1'
                                 className={classes.subtitle}
                               >
                                 {isUser
@@ -319,7 +325,7 @@ class Home extends Component {
                             <Grid
                               item
                               container
-                              justify="center"
+                              justify='center'
                               xs={5}
                               style={{ display: isMobile ? 'none' : 'inherit' }}
                             >
@@ -340,10 +346,12 @@ class Home extends Component {
                         </CardContent>
                         <CardActions>
                           {isUser ? (
-                            <Link className={classes.Link} to={'/?feed=mirror'}>
+                            <Link className={classes.Link}
+                              to={'/?feed=mirror'}
+                            >
                               <Button
-                                size="large"
-                                variant="contained"
+                                size='large'
+                                variant='contained'
                                 className={classes.primaryButton}
                               >
                                 Enter
@@ -356,8 +364,8 @@ class Home extends Component {
                                 href={`${WEB_APP_URL}/?signupOpen=true`}
                               >
                                 <Button
-                                  size="large"
-                                  variant="contained"
+                                  size='large'
+                                  variant='contained'
                                   className={classes.primaryButton}
                                 >
                                   {' '}
@@ -367,9 +375,11 @@ class Home extends Component {
                               <a
                                 className={classes.Link}
                                 href={YUP_LANDING}
-                                target="_blank"
+                                target='_blank'
                               >
-                                <Button size="large" variant="contained">
+                                <Button size='large'
+                                  variant='contained'
+                                >
                                   Learn More
                                 </Button>
                               </a>
@@ -395,7 +405,11 @@ class Home extends Component {
                     )}
                 </Grid>
               </Grid>
-              <Grid item container direction="column" xs={12}>
+              <Grid item
+                container
+                direction='column'
+                xs={12}
+              >
                 <Grid
                   item
                   container
@@ -412,11 +426,15 @@ class Home extends Component {
                           xs={6}
                           sm={3}
                         >
-                          <Link to={item.link} className={classes.Link}>
-                            <Grow in timeout={500}>
+                          <Link to={item.link}
+                            className={classes.Link}
+                          >
+                            <Grow in
+                              timeout={500}
+                            >
                               <Grid
                                 container
-                                direction="column"
+                                direction='column'
                                 spacing={1}
                                 style={{ display: 'block' }}
                               >
@@ -440,7 +458,7 @@ class Home extends Component {
                                       <Grid container>
                                         <Grid item>
                                           <Typography
-                                            variant="h5"
+                                            variant='h5'
                                             style={{ color: Colors.W2 }}
                                           >
                                             {item.title}
@@ -461,13 +479,17 @@ class Home extends Component {
               <Grid
                 item
                 container
-                direction="column"
+                direction='column'
                 xs={12}
                 style={{ display: isUser ? 'inherit' : 'none' }}
               >
-                <Grid item xs={12}>
-                  <Fade in timeout={2000}>
-                    <Typography variant="h5">Your Collections</Typography>
+                <Grid item
+                  xs={12}
+                >
+                  <Fade in
+                    timeout={2000}
+                  >
+                    <Typography variant='h5'>Your Collections</Typography>
                   </Fade>
                 </Grid>
                 <Grid
@@ -494,9 +516,9 @@ class Home extends Component {
                           >
                             <Grid
                               container
-                              direction="row"
-                              justify="flex-start"
-                              alignItems="center"
+                              direction='row'
+                              justify='flex-start'
+                              alignItems='center'
                               spacing={2}
                               className={classes.recommendedContainer}
                             >
@@ -509,15 +531,19 @@ class Home extends Component {
                               >
                                 <Img
                                   src={[coll.imgSrcUrl, getRandomGradientImg()]}
-                                  alt="thumbnail"
+                                  alt='thumbnail'
                                   className={classes.recommendedImg}
                                 />
                               </Grid>
-                              <Grid item xs={8} lg={8} xl={8}>
-                                <Typography variant="subtitle1">
+                              <Grid item
+                                xs={8}
+                                lg={8}
+                                xl={8}
+                              >
+                                <Typography variant='subtitle1'>
                                   {coll.name}
                                 </Typography>
-                                <Typography variant="body2">
+                                <Typography variant='body2'>
                                   {coll.postIds.length === 1
                                     ? `1 post`
                                     : `${coll.postIds.length} posts`}
@@ -531,16 +557,23 @@ class Home extends Component {
                 </Grid>
               </Grid>
               <Grid item>
-                <Grid container direction="column" xs={12}>
+                <Grid container
+                  direction='column'
+                  xs={12}
+                >
                   <Grid
                     item
                     container
                     spacing={3}
                     className={classes.ItemsContainer}
                   >
-                    <Grid item xs={12}>
-                      <Fade in timeout={2000}>
-                        <Typography variant="h5">Browse</Typography>
+                    <Grid item
+                      xs={12}
+                    >
+                      <Fade in
+                        timeout={2000}
+                      >
+                        <Typography variant='h5'>Browse</Typography>
                       </Fade>
                     </Grid>
                     {recommendedCollections &&
@@ -562,9 +595,9 @@ class Home extends Component {
                             >
                               <Grid
                                 container
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="center"
+                                direction='row'
+                                justify='flex-start'
+                                alignItems='center'
                                 spacing={2}
                                 className={classes.recommendedContainer}
                               >
@@ -580,15 +613,19 @@ class Home extends Component {
                                       coll.imgSrcUrl,
                                       getRandomGradientImg()
                                     ]}
-                                    alt="thumbnail"
+                                    alt='thumbnail'
                                     className={classes.recommendedImg}
                                   />
                                 </Grid>
-                                <Grid item xs={8} lg={8} xl={8}>
-                                  <Typography variant="subtitle1">
+                                <Grid item
+                                  xs={8}
+                                  lg={8}
+                                  xl={8}
+                                >
+                                  <Typography variant='subtitle1'>
                                     {coll.name}
                                   </Typography>
-                                  <Typography variant="body2">
+                                  <Typography variant='body2'>
                                     {coll.owner}
                                   </Typography>
                                 </Grid>

@@ -167,25 +167,32 @@ const User = ({ classes, user }) => {
     >
       <Grid
         container
-        direction="row"
-        justify="flex-start"
-        alignItems="center"
+        direction='row'
+        justify='flex-start'
+        alignItems='center'
         className={classes.user}
         spacing={4}
       >
-        <Grid item md={4} xs={3}>
+        <Grid item
+          md={4}
+          xs={3}
+        >
           <UserAvatar
             className={classes.avatar}
             src={user.avatar}
             username={user.username}
-            alt="avatar"
+            alt='avatar'
           />
         </Grid>
-        <Grid item md={8} xs={9} style={{ marginBottom: '8px' }}>
-          <Typography variant="body1">
+        <Grid item
+          md={8}
+          xs={9}
+          style={{ marginBottom: '8px' }}
+        >
+          <Typography variant='body1'>
             <strong>{user.fullname || user._id || user.username}</strong>
           </Typography>
-          <Typography variant="body1">
+          <Typography variant='body1'>
             @{user.username || user.eosname}
           </Typography>
         </Grid>
@@ -205,28 +212,34 @@ const People = props => {
   return (
     <Grid
       container
-      direction="row"
-      justify="center"
-      alignItems="center"
+      direction='row'
+      justify='center'
+      alignItems='center'
       spacing={2}
       className={classes.peopleContainer}
     >
       {/* TODO: need better way to display users in three rows */}
       <Grid item>
         {people.slice(0, DISPLAYED_USERS).map(user => (
-          <User classes={classes} user={user} />
+          <User classes={classes}
+            user={user}
+          />
         ))}
       </Grid>
       <Grid item>
         {people
           .slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS)
           .map(user => (
-            <User classes={classes} user={user} />
+            <User classes={classes}
+              user={user}
+            />
           ))}
       </Grid>
       <Grid item>
         {people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map(user => (
-          <User classes={classes} user={user} />
+          <User classes={classes}
+            user={user}
+          />
         ))}
       </Grid>
     </Grid>
@@ -238,11 +251,13 @@ People.propTypes = {
   people: PropTypes.array.isRequired
 }
 
-function TabPanel(props) {
+function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <div role="tabpanel" hidden={value !== index}>
+    <div role='tabpanel'
+      hidden={value !== index}
+    >
       {value === index && <div>{children}</div>}
     </div>
   )
@@ -273,7 +288,7 @@ class Search extends Component {
     this.setState({ activeTab: newTab })
   }
 
-  render() {
+  render () {
     const {
       classes,
       postSearchResults,
@@ -290,17 +305,21 @@ class Search extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            <Fade in timeout={1000}>
+            <Fade in
+              timeout={1000}
+            >
               <Grid
                 container
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
+                direction='row'
+                justify='flex-start'
+                alignItems='flex-start'
                 spacing={4}
                 className={classes.resultsContainer}
               >
-                <Grid item xs={12}>
-                  <Typography variant="body1">
+                <Grid item
+                  xs={12}
+                >
+                  <Typography variant='body1'>
                     Results for "{searchText}"
                   </Typography>
                 </Grid>
@@ -309,9 +328,12 @@ class Search extends Component {
                   posts.length === 0 &&
                   users.length === 0 &&
                   collections.length === 0 && (
-                    <Grid item xs={12} style={{ height: '100%' }}>
+                    <Grid item
+                      xs={12}
+                      style={{ height: '100%' }}
+                    >
                       <Typography
-                        variant="h5"
+                        variant='h5'
                         className={classes.headerText}
                         style={{ textAlign: 'center' }}
                       >
@@ -325,7 +347,9 @@ class Search extends Component {
                     users.length > 0 ||
                     collections.length > 0) && (
                     <>
-                      <Grid item xs={12}>
+                      <Grid item
+                        xs={12}
+                      >
                         <Tabs
                           value={activeTab}
                           onChange={this.handleChange}
@@ -333,14 +357,19 @@ class Search extends Component {
                             style: { backgroundColor: '#fff' }
                           }}
                         >
-                          <Tab label="Posts" />
-                          <Tab label="People" />
-                          <Tab label="Collections" />
+                          <Tab label='Posts' />
+                          <Tab label='People' />
+                          <Tab label='Collections' />
                         </Tabs>
                       </Grid>
 
-                      <TabPanel value={activeTab} index={0}>
-                        <Grid item xs={12} className={classes.feedContainer}>
+                      <TabPanel value={activeTab}
+                        index={0}
+                      >
+                        <Grid item
+                          xs={12}
+                          className={classes.feedContainer}
+                        >
                           <Feed
                             isLoading={isLoading}
                             hasMore
@@ -351,14 +380,24 @@ class Search extends Component {
                         </Grid>
                       </TabPanel>
 
-                      <TabPanel value={activeTab} index={1}>
-                        <Grid item xs={12}>
-                          <People classes={classes} people={users} />
+                      <TabPanel value={activeTab}
+                        index={1}
+                      >
+                        <Grid item
+                          xs={12}
+                        >
+                          <People classes={classes}
+                            people={users}
+                          />
                         </Grid>
                       </TabPanel>
 
-                      <TabPanel value={activeTab} index={2}>
-                        <Grid item xs={12}>
+                      <TabPanel value={activeTab}
+                        index={2}
+                      >
+                        <Grid item
+                          xs={12}
+                        >
                           {collections.map(rec => {
                             return (
                               <RecommendedCollections
@@ -382,13 +421,15 @@ class Search extends Component {
                         lg={!isLoading && users.length === 0 ? 12 : 5}
                         md={!isLoading && users.length === 0 ? 12 : 8}
                         xs={12}
-                        tourname="SearchPosts"
+                        tourname='SearchPosts'
                         style={{
                           display:
                             !isLoading && posts.length === 0 ? 'none' : ''
                         }}
                       >
-                        <Typography variant="h5" className={classes.headerText}>
+                        <Typography variant='h5'
+                          className={classes.headerText}
+                        >
                           Posts
                         </Typography>
                         <Feed
@@ -401,37 +442,41 @@ class Search extends Component {
                       </Grid>
                       <Grid
                         container
-                        direction="column"
+                        direction='column'
                         item
                         lg={!isLoading && posts.length === 0 ? 12 : 7}
                         md={!isLoading && posts.length === 0 ? 12 : 4}
                         xs={12}
-                        tourname="SearchUsers"
+                        tourname='SearchUsers'
                         style={{
                           display:
                             !isLoading && users.length === 0 ? 'none' : ''
                         }}
                       >
-                        <Grid item xs={12}>
+                        <Grid item
+                          xs={12}
+                        >
                           <Typography
-                            variant="h5"
+                            variant='h5'
                             className={classes.headerText}
                           >
                             People
                           </Typography>
-                          <People classes={classes} people={users} />
+                          <People classes={classes}
+                            people={users}
+                          />
                         </Grid>
                         <Grid
                           item
                           xs={12}
-                          tourname="SearchUsers"
+                          tourname='SearchUsers'
                           style={{
                             display:
                               !isLoading && users.length === 0 ? 'none' : ''
                           }}
                         >
                           <Typography
-                            variant="h5"
+                            variant='h5'
                             className={classes.headerText}
                           >
                             Collections
@@ -456,26 +501,33 @@ class Search extends Component {
               isOpen={this.state.isTourOpen}
               onRequestClose={this.closeTour}
               className={classes.Tour}
-              accentColor="#00E08E"
+              accentColor='#00E08E'
               rounded={10}
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button size="small" variant="outlined" small>
+                <Button size='small'
+                  variant='outlined'
+                  small
+                >
                   Next
                 </Button>
               }
               prevButton={
-                <Button size="small" variant="outlined">
+                <Button size='small'
+                  variant='outlined'
+                >
                   Back
                 </Button>
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}
             />
-            <Fade in={this.state.showTour} timeout={1000}>
+            <Fade in={this.state.showTour}
+              timeout={1000}
+            >
               <Fab
                 className={classes.tourFab}
-                variant="extended"
+                variant='extended'
                 onClick={this.openTour}
               >
                 10-Second Tutorial
@@ -493,10 +545,12 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           🔍 Search
         </Typography>
-        <p className="tourText">
+        <p className='tourText'>
           Search for users and elevant posts across the web.
         </p>
       </div>
@@ -506,10 +560,12 @@ const steps = [
     selector: '[tourName="SearchPosts"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📰 Posts
         </Typography>
-        <p className="tourText">These are your search results for posts.</p>
+        <p className='tourText'>These are your search results for posts.</p>
       </div>
     )
   },
@@ -517,10 +573,12 @@ const steps = [
     selector: '[tourName="SearchUsers"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           👥 Users
         </Typography>
-        <p className="tourText">These are the search results for users.</p>
+        <p className='tourText'>These are the search results for users.</p>
       </div>
     )
   },
@@ -528,14 +586,16 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📡 Feeds
         </Typography>
-        <p className="tourText">These are your feeds.</p>
+        <p className='tourText'>These are your feeds.</p>
         <a
-          href="https://docs.yup.io/products/app#feed"
-          target="_blank"
-          className="tourLink"
+          href='https://docs.yup.io/products/app#feed'
+          target='_blank'
+          className='tourLink'
         >
           Learn more
         </a>
@@ -546,16 +606,18 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <Typography className="tourHeader" variant="h4">
+        <Typography className='tourHeader'
+          variant='h4'
+        >
           📈 Leaderboard
         </Typography>
-        <p className="tourText">
+        <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
         <a
-          href="https://docs.yup.io/products/app#lists"
-          target="_blank"
-          className="tourLink"
+          href='https://docs.yup.io/products/app#lists'
+          target='_blank'
+          className='tourLink'
         >
           Learn more
         </a>
@@ -565,43 +627,45 @@ const steps = [
   {
     content: (
       <div>
-        <Typography className="tourHeader" variant="h3">
+        <Typography className='tourHeader'
+          variant='h3'
+        >
           👏 That's it !
         </Typography>
-        <p className="tourText">
+        <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
-        <div className="tourResources">
+        <div className='tourResources'>
           <Button
-            size="medium"
-            variant="contained"
+            size='medium'
+            variant='contained'
             style={{ fontWeight: 400 }}
             small
-            className="tourButton"
-            href="https://docs.yup.io"
-            target="_blank"
+            className='tourButton'
+            href='https://docs.yup.io'
+            target='_blank'
           >
             Docs
           </Button>
           <Button
-            size="medium"
-            variant="contained"
+            size='medium'
+            variant='contained'
             style={{ fontWeight: 400 }}
             small
-            className="tourButton"
-            href="https://yup.io"
-            target="_blank"
+            className='tourButton'
+            href='https://yup.io'
+            target='_blank'
           >
             Website
           </Button>
           <Button
-            size="medium"
-            variant="contained"
+            size='medium'
+            variant='contained'
             style={{ fontWeight: 400 }}
             small
-            className="tourButton"
-            href="https://blog.yup.io"
-            target="_blank"
+            className='tourButton'
+            href='https://blog.yup.io'
+            target='_blank'
           >
             Blog
           </Button>

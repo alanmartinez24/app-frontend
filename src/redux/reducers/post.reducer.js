@@ -1,7 +1,7 @@
 import { postConstants as constants } from '../constants'
 import produce from 'immer'
 
-export function postWeight(state = {}, action) {
+export function postWeight (state = {}, action) {
   return produce(state, draft => {
     let postWeightInfo
     switch (action.type) {
@@ -85,7 +85,7 @@ export function postWeight(state = {}, action) {
   })
 }
 
-export function postInfo(state = {}, action) {
+export function postInfo (state = {}, action) {
   return produce(state, draft => {
     switch (action.type) {
       case constants.FETCH_POST:
