@@ -123,7 +123,7 @@ class FollowersDialog extends Component {
               id='customized-dialog-title'
               onClose={this.handleClose}
             >
-              <Typography variant='h3'>Followers</Typography>
+              <Typography variant='h5'>Followers</Typography>
               <IconButton
                 aria-label='Close'
                 className={classes.closeButton}
@@ -145,7 +145,7 @@ class FollowersDialog extends Component {
                   {' '}
                   {followers.length === 0 ? (
                     <Typography
-                      variant='h5'
+                      variant='subtitle1'
                     >
                       No followers
                     </Typography>

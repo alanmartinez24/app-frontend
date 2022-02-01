@@ -328,13 +328,7 @@ class SubscribeDialog extends Component {
           {this.state.connected &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  variant='h5'
-                >
-                  Sign Up / Login
-                </Typography>
+                Sign Up / Login
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved </DialogContentText>

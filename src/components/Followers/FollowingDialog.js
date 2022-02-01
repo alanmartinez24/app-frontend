@@ -124,7 +124,7 @@ class FollowingDialog extends Component {
             >
               <Typography
                 align='left'
-                variant='h3'
+                variant='h5'
               >
                 Following
               </Typography>

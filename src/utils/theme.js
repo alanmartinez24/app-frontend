@@ -136,11 +136,6 @@ export const theme = ({ palette }) => {
         color: palette.common.first
       }
     },
-    MuiDialogContent: {
-      root: {
-        color: palette.common.first
-      }
-    },
     MuiAvatar: {
       colorDefault: {
         color: palette.common.first
@@ -241,7 +236,7 @@ export const theme = ({ palette }) => {
     },
     MuiDialog: {
       paper: {
-        backgroundColor: `${palette.alt.second}99`,
+        backgroundColor: `${palette.alt.second}cc`,
         borderRadius: '25px',
         backdropFilter: 'blur(45px)',
         boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
@@ -251,6 +246,19 @@ export const theme = ({ palette }) => {
       },
       backdrop: {
         backdropFilter: 'blur(3px)'
+      }
+    },
+    MuiDialogContent: {
+      root: {
+        color: palette.common.first
+      }
+    },
+    MuiDialogTitle: {
+      root: {
+        fontWeight: 100,
+        fontSize: '2.441rem',
+        lineHeight: '105%',
+        color: `${palette.common.second}EE`
       }
     },
     MuiPaper: {
@@ -320,7 +328,7 @@ export const theme = ({ palette }) => {
       'Arial',
       'sans-serif'
     ].join(','),
-    fonStyle: 'normal',
+    fontStyle: 'normal',
     h1: {
       fontWeight: 600,
       fontSize: '3.815rem',
