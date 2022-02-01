@@ -334,7 +334,7 @@ class SubscribeDialog extends Component {
   }
 
   signUp = async () => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, noRedirect } = this.props
     const { username } = this.state
     const rewards = localStorage.getItem('YUP_CLAIM_RWRDS')
     let validate
@@ -373,7 +373,7 @@ class SubscribeDialog extends Component {
 
         this.logEthSignup(mirrorStatus.data.account)
         const profileUrl = `/${username}${rewards ? `?rewards=${rewards}` : ''}`
-        if (window.location.href.split('/').pop() === username) {
+        if (window.location.href.split('/').pop() === username || noRedirect) {
           window.location.reload()
         } else {
           history.push(profileUrl)
@@ -388,7 +388,7 @@ class SubscribeDialog extends Component {
   }
 
   signIn = async (payload) => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, noRedirect } = this.props
     let txStatus
     try {
       txStatus = await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address: this.state.address, signature: this.state.signature })
@@ -413,7 +413,7 @@ class SubscribeDialog extends Component {
 
     const profileUrl = `/${account.username}`
     // already on user page
-    if (window.location.href.split('/').pop() === account.username) {
+    if (window.location.href.split('/').pop() === account.username || noRedirect) {
       window.location.reload()
     } else {
       history.push(profileUrl)
@@ -796,6 +796,7 @@ SubscribeDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  noRedirect: PropTypes.bool
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))

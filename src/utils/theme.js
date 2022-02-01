@@ -17,6 +17,7 @@ export const darkPalette = {
       fourth: Colors.B4,
       fifth: Colors.B5
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     primary: {
       main: Colors.W1,
       gradient: Gradients.background.dark
@@ -275,15 +276,29 @@ export const theme = ({ palette }) => {
     },
     MuiStepIcon: {
       root: {
-        color: `${Colors.YupGreen} !important`
-      },
-      text: {
-        fill: `${palette.alt.first} !important`
+        display: 'none'
+        // background: 'linear-gradient(45deg, #00e08e, #f0c909, #eb3650)'
+      }
+    },
+    MuiStepper: {
+      root: {
+        justifyContent: 'space-around',
+        marginBottom: 20
+      }
+    },
+    MuiStepConnector: {
+      root: {
+        display: 'none'
       }
     },
     MuiStepLabel: {
       label: {
-        color: `${palette.common.first} !important`
+        color: `${palette.common.first} !important`,
+        display: 'flex',
+        opacity: 0.5
+      },
+      active: {
+        opacity: 1
       }
     },
     MuiBackdrop: {
@@ -302,6 +317,11 @@ export const theme = ({ palette }) => {
     MuiTouchRipple: {
       root: {
         opacity: 0.2
+      }
+    },
+    MuiCard: {
+      root: {
+        border: `1px solid ${palette.alt.fifth}`
       }
     },
     MuiSkeleton: {
@@ -405,11 +425,6 @@ export const theme = ({ palette }) => {
     },
     colorError: {
       color: Colors.Red
-    }
-  },
-  props: {
-    MuiWithWidth: {
-      initialWidth: 'lg'
     }
   }
 }

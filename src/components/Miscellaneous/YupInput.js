@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '@material-ui/core'
+import { TextField, InputAdornment, IconButton } from '@material-ui/core'
 import { withStyles, useTheme } from '@material-ui/core/styles'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
 const styles = theme => ({
   input: {
@@ -26,8 +27,19 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, maxLength, adornment, ...restProps }) => {
-  const { palette } = useTheme()
+const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) => {
+  console.log(`inputIsValid`, inputIsValid)
+  const theme = useTheme()
+  const endAdornment = onSubmit
+    ? <InputAdornment position='end'>
+      <IconButton
+        onClick={onSubmit}
+        edge='end'
+      >
+        <ArrowForwardIcon style={{ opacity: inputIsValid ? 1 : 0.5 }} />
+      </IconButton>
+    </InputAdornment> : null
+
   return (
     <TextField
       {...restProps}
@@ -53,7 +65,12 @@ const YupInput = ({ classes, maxLength, adornment, ...restProps }) => {
 YupInput.propTypes = {
     classes: PropTypes.object.isRequired,
     maxLength: PropTypes.number,
+<<<<<<< HEAD
     adornment: PropTypes.object
+=======
+    onSubmit: PropTypes.func,
+    inputIsValid: PropTypes.bool.isRequired
+>>>>>>> eg-airdrop-page
   }
 
 export default (withStyles(styles)(YupInput))
