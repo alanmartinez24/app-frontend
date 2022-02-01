@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListSubheader,
   ListItemSecondaryAction,
   Tooltip,
   Icon,
@@ -52,8 +51,8 @@ const { BACKEND_API } = process.env
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 5,
-    boxShadow: `0px 0px 0px ${theme.palette.common.first}`,
-    borderBottom: `0px solid ${theme.palette.common.first}`,
+    boxShadow: `0 0 0 ${theme.palette.common.first}`,
+    borderBottom: `0 solid ${theme.palette.common.first}`,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
@@ -68,20 +67,20 @@ const styles = theme => ({
     }
   },
   signupBtn: {
-    backgroundColor: '#00E08E',
+    backgroundColor: theme.palette.secondary.main,
     fontFamily: 'Gilroy',
     width: '100%',
-    height: '45px',
+    height: 45,
     borderRadius: '0.65rem',
     '&:hover': {
-      backgroundColor: '#00E08E'
+      backgroundColor: levelColors.first
     },
     [theme.breakpoints.down('sm')]: {
-      height: '40px',
-      fontSize: '12px'
+      height: 40,
+      fontSize: 12
     },
     [theme.breakpoints.down('xs')]: {
-      marginRight: '0'
+      marginRight: 0
     }
   },
   searchMobile: {
@@ -107,53 +106,43 @@ const styles = theme => ({
   },
   drawerPaperOpen: {
     height: `calc(100vh - ${theme.spacing(2)}px)`,
-    borderRight: '0px solid',
+    borderRight: '0 solid',
     backdropFilter: 'blur(15px)',
     overflowX: 'hidden',
-    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(
+    margin: `${theme.spacing(1)}px 0 ${theme.spacing(1)}px ${theme.spacing(
       1
     )}px`,
     backgroundColor: `${theme.palette.alt.second}88`,
     borderRadius: '0.65rem',
-    maxWidth: '200px',
+    maxWidth: 200,
     zIndex: 1000,
-    padding: `0px ${theme.spacing(1)}px`,
+    padding: `0 ${theme.spacing(1)}px`,
     transition: 'max-width 3s',
     'transition-timing-function': 'ease-in'
   },
   drawerPaperMini: {
     height: `calc(100vh - ${theme.spacing(2)}px)`,
-    borderRight: '0px solid',
-    backdropFilter: 'blur(0px)',
+    borderRight: '0 solid',
+    backdropFilter: 'blur(0)',
     overflowX: 'hidden',
-    margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(
+    margin: `${theme.spacing(1)}px 0 ${theme.spacing(1)}px ${theme.spacing(
       1
     )}px`,
     backgroundColor: `${theme.palette.alt.second}00`,
     borderRadius: '0.65rem',
-    maxWidth: '200px',
+    maxWidth: 200,
     zIndex: 1000,
-    padding: `0px ${theme.spacing(1)}px`,
+    padding: `0 ${theme.spacing(1)}px`,
     transition: 'max-width 3s',
     'transition-timing-function': 'ease-in'
   },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    padding: '0 0px',
+    padding: 0,
     ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
     color: Orange
-  },
-  list1: {
-    background: 'transparent',
-    border: '0px solid #e6e6e6'
-  },
-  listItemLink: {
-    borderRadius: '0.65rem',
-    '&:hover': {
-      backgroundColor: `${theme.palette.alt.second}40`
-    }
   },
   listItem: {
     borderRadius: '0.4rem'
@@ -170,7 +159,7 @@ const styles = theme => ({
     }
   },
   notifWrap: {
-    width: '44px',
+    width: 44,
     [theme.breakpoints.down('xs')]: {
       width: 'auto'
     }
@@ -178,30 +167,16 @@ const styles = theme => ({
   logoutBtn: {
     fontFamily: 'Gilroy',
     margin: 'auto',
-    marginLeft: '15px',
+    marginLeft: 15,
     letterSpacing: '0.2em',
-    width: '100px',
-    height: '35px',
-    fontSize: '10px',
+    width: 100,
+    height: 35,
+    fontSize: 10,
     [theme.breakpoints.down('xs')]: {
-      width: '75px',
-      height: '30px',
-      marginLeft: '5px',
-      fontSize: '7px'
-    },
-    Toolbar: {
-      [theme.breakpoints.down('xs')]: {
-        padding: 0
-      }
-    },
-    logo: {
-      width: '40px',
-      height: '40px',
-      marginRight: '25px',
-      [theme.breakpoints.down('xs')]: {
-        width: '30px',
-        height: '30px'
-      }
+      width: 75,
+      height: 30,
+      marginLeft: 5,
+      fontSize: 7
     }
   }
 })
@@ -220,13 +195,13 @@ const defaultLevelInfo = {
 }
 
 function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
-  // use material ui to create dynamic breakpoints ------------------------------------------------ //
+  // create dynamic breakpoints <------------------------------------------------------------------------------
   const isMobile = window.innerWidth <= 480
   const [open, setOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [account, setAccount] = useState(null)
-  const [isShown, setIsShown] = useState((isMobile || isTourOpen) || false)
+  const [isShown, setIsShown] = useState(isMobile || isTourOpen || false)
   const [notifications, setNotifications] = useState([])
   const [level, setLevel] = useState(defaultLevelInfo)
   const [collectionDialogOpen, setCollectionDialogOpen] = useState(null)
@@ -246,7 +221,8 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
   useEffect(() => {
     if (authInfo && authInfo.account && authInfo.account.name) {
-      axios.get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
+      axios
+        .get(`${BACKEND_API}/levels/user/${authInfo.account.name}`)
         .then(res => {
           const levelInfo = res.data
           setLevel({
@@ -260,20 +236,26 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
   }, [accountName])
 
   const fetchNotifs = () => {
-    if (!accountName || notifications.length) { return }
+    if (!accountName || notifications.length) {
+      return
+    }
     try {
-      (axios.get(`${BACKEND_API}/notifications/${accountName}`)).then(({ data: notifs }) => {
-        setNotifications(notifs.reverse())
-      })
+      axios
+        .get(`${BACKEND_API}/notifications/${accountName}`)
+        .then(({ data: notifs }) => {
+          setNotifications(notifs.reverse())
+        })
     } catch (err) {}
   }
 
   useEffect(() => {
-    if (isTourOpen === undefined) { return }
+    if (isTourOpen === undefined) {
+      return
+    }
     setIsShown(isTourOpen)
   }, [isTourOpen])
 
-  function handleDrawerOpen () {
+  function handleDrawerOpen() {
     setIsShown(true)
     setOpen(true)
   }
@@ -296,25 +278,27 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
   const logProfileClick = () => {
     if (!window.analytics) {
-    const userId = account && account.name
-     window.analytics.track('My Profile Click', { userId })
+      const userId = account && account.name
+      window.analytics.track('My Profile Click', { userId })
     }
   }
 
   const logNotifsClick = () => {
     if (!window.analytics) {
-    const userId = account && account.name
-    window.analytics.track('My Notifications Click', { userId })
+      const userId = account && account.name
+      window.analytics.track('My Notifications Click', { userId })
     }
   }
 
-  function handleLogout () {
+  function handleLogout() {
     localStorage.removeItem('twitterMirrorInfo')
     localStorage.removeItem('YUP_ETH_AUTH')
     setAccount(null)
   }
 
-  const listVariant = !['xl', 'lg', 'md'].includes(width) ? 'temporary' : 'permanent'
+  const listVariant = !['xl', 'lg', 'md'].includes(width)
+    ? 'temporary'
+    : 'permanent'
   const avatar = level && level.levelInfo.avatar
 
   const yupBalance =
@@ -323,13 +307,14 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
     level.levelInfo.balance &&
     level.levelInfo.balance.YUP
   const weight = level && level.levelInfo && level.levelInfo.weight
-  const formattedYupBalance = yupBalance && numeral(Number(yupBalance)).format('0,0.00')
+  const formattedYupBalance =
+    yupBalance && numeral(Number(yupBalance)).format('0,0.00')
   const formattedWeight = numeral(Math.floor(Number(weight))).format('0,0')
 
   const quantile = level && level.levelInfo.quantile
   const socialLevelColor = levelColors[quantile]
 
-  const username = (level && level.levelInfo.username)
+  const username = level && level.levelInfo.username
 
   const { palette } = useTheme()
 
@@ -338,7 +323,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
       <AppBar
         className={classes.appBar}
         position='fixed'
-        // switch isMobile for materal ui breakpoints ------------------------------------------------ //
+        // switch isMobile for materal ui breakpoints <-----------------------------------------------------------
         onMouseEnter={isMobile ? 'handleDrawerOpen' : null}
         onMouseLeave={isMobile ? 'handleDrawerClose' : null}
       >
@@ -648,7 +633,6 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             <Grid item xs={3}>
               <IconButton
                 aria-label='delete'
-                className={classes.margin}
                 size='small'
                 onClick={handleSettingsOpen}
               >
@@ -664,7 +648,6 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                 <Grid item xs={3}>
                   <IconButton
                     aria-label='theme-mode'
-                    className={classes.margin}
                     size='small'
                     onClick={handleToggleTheme}
                   >
@@ -716,16 +699,11 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           </DialogContent>
         </Dialog>
         {(isShown || isMobile) && (
-          <StyledFirstMenuList
-            component={Link}
-            onClick={handleDrawerClose}
-          />
+          <StyledFirstMenuList component={Link} onClick={handleDrawerClose} />
         )}
 
         {/* Second Menu: LISTS */}
-        {(isShown || isMobile) && (
-          <StyledSecondMenuList />
-        )}
+        {(isShown || isMobile) && <StyledSecondMenuList />}
       </Drawer>
     </ErrorBoundary>
   )
