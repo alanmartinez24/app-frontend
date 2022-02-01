@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography, Card, Button, Snackbar, SnackbarContent, Icon } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
+import LoaderButton from '../../components/Miscellaneous/LoaderButton'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import CountUp from 'react-countup'
@@ -13,13 +14,12 @@ import { getAuth } from '../../utils/authentication'
 import rollbar from '../../utils/rollbar'
 import MetaTags from '../../components/Airdrop/MetaTags'
 // import YupStepper from '../../components/Airdrop/YupStepper'
-import LoaderButton from '../../components/Miscellaneous/LoaderButton'
 import { isAddress } from 'web3-utils'
 import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
 
-const BACKEND_API = 'http://localhost:4001'
-const { WEB_APP_URL } = process.env
+// const BACKEND_API = 'http://localhost:4001'
+const { WEB_APP_URL, BACKEND_API } = process.env
 
 const styles = theme => ({
   page: {
@@ -66,12 +66,11 @@ class AirdropPage extends Component {
     lpAidrop: null,
     subscribeDialogOpen: false,
     snackbarMsg: null,
-    activeStep: 0
+    activeStep: 0,
+    lpClaimSuccess: false,
+    claimSuccess: false
   }
 
-  incrementStep = () => this.setState((prevState, props) => ({
-    activeStep: prevState.activeStep + 1
-}))
   handleCopy = () => navigator.clipboard.writeText(window.location.href)
 
   handleInput = e => this.setState({ polygonAddress: (e.target.value).toLowerCase() })
@@ -82,7 +81,7 @@ class AirdropPage extends Component {
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   claimAirdrop = async () => {
-    const { polygonAddress, lpAidrop } = this.state
+    const { polygonAddress, lpAidrop, lpClaimSuccess, claimSuccess } = this.state
     const { account } = this.props
     if (!isAddress(polygonAddress)) {
       this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
@@ -92,20 +91,24 @@ class AirdropPage extends Component {
     this.setState({ isLoading: true, activeStep: 2 })
     const auth = await getAuth(account)
     const params = { polygonAddress, eosname: account.name, ...auth }
-    if (lpAidrop.amount > 0) {
+    if (lpAidrop.amount > 0 && !lpClaimSuccess) {
       try {
         await axios.post(`${BACKEND_API}/lp-airdrop/claim`, params)
+        this.setState({ lpClaimSuccess: true })
       } catch (err) {
-        this.setState({ snackbarMsg: 'YUPETH airdrop claim failed. Try again later.' })
+        this.setState({ snackbarMsg: err.message })
       }
     }
 
     try {
       await axios.post(`${BACKEND_API}/airdrop/claim`, params)
-      this.setState({ activeStep: 3 })
+      this.setState({ claimSuccess: true })
     } catch (err) {
       rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
-      this.setState({ snackbarMsg: 'YUP airdrop claim failed. Try again later.' })
+      this.setState({ snackbarMsg: err.message })
+    }
+    if (claimSuccess && lpClaimSuccess) {
+      this.setState({ activeStep: 3 })
     }
     this.setState({ isLoading: false })
   }
@@ -130,7 +133,6 @@ class AirdropPage extends Component {
 
     const enableClaim = airdrop && isValidAddress
     const shareStep = activeStep === 3
-//    const steps = ['Check', 'Claim', 'Share']
 
     return (
       <ErrorBoundary>
@@ -235,10 +237,10 @@ class AirdropPage extends Component {
                           </Typography>
                         </Grid>
                       </Grid>
-                    </Grid> : ''
+                    </Grid> : null
                       }
                 </Grid>
-              </Grid> : '' }
+              </Grid> : null }
               { lpAidrop ? shareStep ? <Grid item>
                 <Button
                   fullWidth
@@ -249,7 +251,7 @@ class AirdropPage extends Component {
                 >
                   Stake
                 </Button>
-              </Grid> : '' : ''}
+              </Grid> : null : null}
               {account && account.name ? <Grid item>
                 <Grid container
                   spacing={2}
@@ -276,7 +278,6 @@ class AirdropPage extends Component {
                       value={polygonAddress}
                       variant='outlined'
                       onChange={this.handleInput}
-                      onClick={this.incrementStep}
                     />
                   </Grid>
                 </Grid>
@@ -351,6 +352,7 @@ class AirdropPage extends Component {
         </Grid>
         <SubscribeDialog
           account={account}
+          noRedirect
           dialogOpen={subscribeDialogOpen}
           handleDialogClose={this.handleSubscribeDialogClose}
         />
