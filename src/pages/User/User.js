@@ -244,7 +244,7 @@ class User extends Component {
     start: 0,
     isLoading: true,
     dialogOpen: false,
-    twitterDialogOpen: true,
+    twitterDialogOpen: false,
     hasShared: false,
     ratingCount: 0,
     limit: 15,
