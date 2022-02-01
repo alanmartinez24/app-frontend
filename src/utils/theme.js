@@ -22,7 +22,6 @@ export const darkPalette = {
       main: Colors.W1,
       gradient: Gradients.background.dark
     },
-    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     secondary: {
       main: Colors.Green
     },

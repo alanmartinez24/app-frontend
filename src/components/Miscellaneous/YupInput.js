@@ -29,7 +29,7 @@ const styles = theme => ({
 
 const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) => {
   console.log(`inputIsValid`, inputIsValid)
-  const theme = useTheme()
+  const { palette } = useTheme()
   const endAdornment = onSubmit
     ? <InputAdornment position='end'>
       <IconButton
@@ -46,7 +46,7 @@ const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) 
       className={classes.textField}
       inputProps={{ maxLength, borderBottomColor: palette.second }}
       InputProps={{
-                endAdornment: adornment,
+                endAdornment,
                 classes: {
                     root: classes.inputRoot,
                     input: classes.inputInput
@@ -65,12 +65,8 @@ const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) 
 YupInput.propTypes = {
     classes: PropTypes.object.isRequired,
     maxLength: PropTypes.number,
-<<<<<<< HEAD
-    adornment: PropTypes.object
-=======
     onSubmit: PropTypes.func,
     inputIsValid: PropTypes.bool.isRequired
->>>>>>> eg-airdrop-page
   }
 
 export default (withStyles(styles)(YupInput))
