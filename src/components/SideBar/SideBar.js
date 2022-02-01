@@ -195,8 +195,7 @@ const defaultLevelInfo = {
 }
 
 function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }) {
-  // create dynamic breakpoints <------------------------------------------------------------------------------
-  const isMobile = window.innerWidth <= 480
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480)
   const [open, setOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -231,9 +230,16 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
             levelInfo
           })
         })
-        .catch(() => {})
+        .catch(err => {
+          console.log(err)
+        })
     }
   }, [accountName])
+
+  useEffect(() => {
+    window.addEventListener('resize', setIsMobile(window.innerWidth <= 480))
+    return window.removeEventListener('resize', setIsMobile(window.innerWidth <= 480))
+  })
 
   const fetchNotifs = () => {
     if (!accountName || notifications.length) {
@@ -245,7 +251,9 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
         .then(({ data: notifs }) => {
           setNotifications(notifs.reverse())
         })
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   useEffect(() => {
@@ -323,7 +331,6 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
       <AppBar
         className={classes.appBar}
         position='fixed'
-        // switch isMobile for materal ui breakpoints <-----------------------------------------------------------
         onMouseEnter={isMobile ? 'handleDrawerOpen' : null}
         onMouseLeave={isMobile ? 'handleDrawerClose' : null}
       >
