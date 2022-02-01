@@ -319,11 +319,6 @@ export const theme = ({ palette }) => {
         opacity: 0.2
       }
     },
-    MuiCard: {
-      root: {
-        border: `1px solid ${palette.alt.fifth}`
-      }
-    },
     MuiSkeleton: {
       wave: {
         background: `${palette.alt.fourth}AA`,

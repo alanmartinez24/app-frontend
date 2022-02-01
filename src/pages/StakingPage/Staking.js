@@ -57,8 +57,8 @@ const styles = theme => ({
   },
   card: {
     padding: 20,
-    border: '1px solid #616467',
-    background: theme.palette.alt.second
+    background: theme.palette.alt.second,
+    border: `1px solid ${theme.palette.alt.fifth}`
   }
 })
 
@@ -287,9 +287,9 @@ const StakingPage = ({ classes, account }) => {
       <ErrorBoundary>
         <Helmet>
           <meta charSet='utf-8' />
-          <title> Yup LP Staking </title>
+          <title> Yup Staking </title>
           <meta property='description'
-            content=''
+            content='A page for claiming YUP and YUPETH associated with your Yup account, essentially migrating it to the Polygon blockchain.'
           />
           <meta property='image'
             content=''
@@ -299,14 +299,14 @@ const StakingPage = ({ classes, account }) => {
           />
           <meta
             name='twitter:title'
-            content=''
+            content='Yup Polygon Migration'
           />
           <meta name='twitter:site'
             content='@yup_io'
           />
           <meta
             name='twitter:description'
-            content=''
+            content='A page for claiming YUP and YUPETH associated with your Yup account, essentially migrating it to the Polygon blockchain.'
           />
           <meta
             name='twitter:image'
@@ -314,11 +314,11 @@ const StakingPage = ({ classes, account }) => {
           />
           <meta
             property='og:title'
-            content=''
+            content='Yup Polygon Migration'
           />
           <meta
             property='og:description'
-            content=''
+            content='A page for claiming YUP and YUPETH associated with your Yup account, essentially migrating it to the Polygon blockchain.'
           />
           <meta property='og:image'
             content=''
