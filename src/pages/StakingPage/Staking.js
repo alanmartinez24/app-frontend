@@ -16,11 +16,6 @@ import CountUp from 'react-countup'
 import axios from 'axios'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const isMobile = window.innerWidth <= 600
-// const isMedium = window.innerWidth <= 900
-// const isLarge = window.innerWidth <= 1200
-// const isXL = window.innerWidth <= 1536
-
 const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
@@ -29,9 +24,12 @@ const styles = theme => ({
   container: {
     minHeight: '100vh',
     maxWidth: '100vw',
-    padding: `${isMobile ? '80px 2vw 80px 2vw' : '80px 8vw 80px 8vw'}`,
+    padding: '80px 8vw 80px 8vw',
     overflowY: 'hidden',
-    backgroundColor: theme.palette.alt.second
+    backgroundColor: theme.palette.alt.second,
+    [theme.breakpoints.down('xs')]: {
+      padding: '80px 2vw 80px 2vw'
+    }
   },
   submitBtnTxt: {
     color: theme.palette.alt.second
@@ -90,6 +88,7 @@ const StakingPage = ({ classes, account }) => {
   const [provider, setProvider] = useState(null)
   const [connector, setConnector] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [walletIsConnected, setWalletIsConnected] = useState(false)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
@@ -101,20 +100,22 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeMax = () => {
     const isStake = !activeEthTab
-    setEthStakeInput((isStake ? ethLpBal : currentStakeEth) / Math.pow(10, 18))
+    setEthStakeInput(toBaseNum(isStake ? ethLpBal : currentStakeEth))
   }
   const handlePolyStakeMax = () => {
     const isStake = !activePolyTab
-    setPolyStakeInput((isStake ? polyLpBal : currentStakePoly) / Math.pow(10, 18))
+    setPolyStakeInput(toBaseNum(isStake ? polyLpBal : currentStakePoly))
   }
 
   useEffect(() => {
     setConnector(getEthConnector())
     setProvider(getPolygonWeb3Provider())
+    getAprs()
   }, [])
 
   useEffect(() => {
-    if (!connector) { return }
+    if (!connector || !connector._connected) { return }
+    setWalletIsConnected(true)
     setAddress(connector.accounts[0])
   }, [connector])
 
@@ -124,8 +125,7 @@ const StakingPage = ({ classes, account }) => {
   }, [provider])
 
   useEffect(() => {
-    if (!contracts) { return }
-    getAprs()
+    if (!contracts || !address) { return }
     getBalances()
   }, [contracts])
 
@@ -142,20 +142,22 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR getting token contracts', err)
     }
   }
-  const getBalances = async () => {
+  const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
-      const polyBal = await contracts.polyLpToken.methods.balanceOf(address).call({ from: address })
-      const polyStake = await contracts.polyLiquidity.methods.balanceOf(address).call({ from: address })
-      const ethStake = await contracts.ethLiquidity.methods.balanceOf(address).call({ from: address })
-      const ethBal = await contracts.ethLpToken.methods.balanceOf(address).call({ from: address })
-      const polyRwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
-      const ethRwrdsEarned = await contracts.polyLiquidity.methods.earned(address).call({ from: address })
+      const acct = addressParam || address
+      const polyBal = await contracts.polyLpToken.methods.balanceOf(acct).call({ from: acct })
+      const polyStake = await contracts.polyLiquidity.methods.balanceOf(acct).call({ from: acct })
+      const ethStake = await contracts.ethLiquidity.methods.balanceOf(acct).call({ from: acct })
+      const ethBal = await contracts.ethLpToken.methods.balanceOf(acct).call({ from: acct })
+      const polyRwrdsEarned = await contracts.polyLiquidity.methods.earned(acct).call({ from: acct })
+      const ethRwrdsEarned = await contracts.polyLiquidity.methods.earned(acct).call({ from: acct })
       setPolyRwrdAmt(polyRwrdsEarned)
       setEthRwrdAmt(ethRwrdsEarned)
       setCurrentStakePoly(polyStake)
       setCurrentStakeEth(ethStake)
       setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
+      setWalletIsConnected(true)
     } catch (err) {
       console.log('ERR getting balances', err)
     }
@@ -172,6 +174,10 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handleStakingAction = async (lpToken) => {
+    if (!walletIsConnected) {
+      setEthConnectorDialog(true)
+      return
+    }
     setIsLoading(true)
     const txBody = {
       from: address,
@@ -186,11 +192,13 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const toBaseNum = (num) => num / Math.pow(10, 18)
+  const toGwei = (num) => num * Math.pow(10, 18)
+  const formatDecimals = (num) => Number(Number(num).toFixed(3))
 
   const handleEthStakeAction = async (txBody) => {
     const isStake = !activeEthTab
     try {
-      const stakeAmt = window.BigInt(Number(ethStakeInput) * Math.pow(10, 18))
+      const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
 
       if (isStake) {
         const approveTx = {
@@ -210,7 +218,7 @@ const StakingPage = ({ classes, account }) => {
       await connector.sendTransaction(stakeTx)
       const updatedLpBal = isStake ? toBaseNum(ethLpBal) - Number(ethStakeInput) : toBaseNum(ethLpBal) + Number(ethStakeInput)
       const updatedStake = isStake ? toBaseNum(currentStakeEth) + Number(ethStakeInput) : toBaseNum(currentStakeEth) - Number(ethStakeInput)
-      setEthLpBal(updatedLpBal * Math.pow(10, 18)) // optimistic balance update
+      setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. ${err.message}`)
@@ -219,7 +227,6 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handlePolyStakeAction = async (txBody) => {
-    console.log('is called')
     const isStake = !activePolyTab
     try {
       const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
@@ -237,22 +244,23 @@ const StakingPage = ({ classes, account }) => {
         data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
         : contracts.polyLiquidity.methods.withdraw(stakeAmt).encodeABI()
       }
-      console.log('toBaseNum(polyLpBal)', toBaseNum(polyLpBal))
-      console.log('Number(polyStakeInput)', Number(polyStakeInput))
-      console.log('toBaseNum(currentStakePoly)', toBaseNum(currentStakePoly))
       await connector.sendTransaction(stakeTx)
 
       const updatedLpBal = isStake ? toBaseNum(polyLpBal) - Number(polyStakeInput) : toBaseNum(polyLpBal) + Number(polyStakeInput)
       const updatedStake = isStake ? toBaseNum(currentStakePoly) + Number(polyStakeInput) : toBaseNum(currentStakePoly) - Number(polyStakeInput)
-      setPolyLpBal(updatedLpBal * Math.pow(10, 18)) // optimistic balance update
-      setCurrentStakePoly(updatedStake * Math.pow(10, 18)) // optimistic stake update
+      setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
+      setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} POLYGON UNI-LP V3. ${err.message}`)
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
       console.log('ERR handling polygon staking', err)
     }
   }
   const collectRewards = async () => {
     try {
+      if (!connector) {
+        setEthConnectorDialog(true)
+        return
+      }
       setIsLoading(true)
       const txBody = {
         from: address,
@@ -282,7 +290,6 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR collecting rewards', err)
     }
   }
-
     return (
       <ErrorBoundary>
         <Helmet>
@@ -364,7 +371,7 @@ const StakingPage = ({ classes, account }) => {
                       end={Math.max(polyApr, ethApr)}
                       decimals={2}
                       start={0}
-                      duration={1}
+                      duration={3}
                       suffix='% APR'
                     />
                   </Typography>
@@ -429,7 +436,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${ethApr && ethApr.toFixed(2)}% APR`}
+                            {`${ethApr && formatDecimals(ethApr)}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -503,7 +510,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={() => handleStakingAction('eth')}
                                         >
-                                          {activeEthTab ? 'Unstake' : 'Stake'}
+                                          {walletIsConnected ? activeEthTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -526,7 +533,7 @@ const StakingPage = ({ classes, account }) => {
                                         </Grid>
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            {ethLpBal / Math.pow(10, 18)}
+                                            {formatDecimals(toBaseNum(ethLpBal))}
                                           </Typography>
                                         </Grid>
                                       </Grid>
@@ -543,7 +550,7 @@ const StakingPage = ({ classes, account }) => {
                                           </Grid>
                                           <Grid item>
                                             <Typography variant='body2'>
-                                              {currentStakeEth / Math.pow(10, 18)}
+                                              {formatDecimals(toBaseNum(currentStakeEth))}
                                             </Typography>
                                           </Grid>
                                         </Grid>
@@ -597,7 +604,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${polyApr.toFixed(2)}% APR`}
+                            {`${polyApr && formatDecimals(polyApr)}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -671,7 +678,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={() => handleStakingAction('poly')}
                                         >
-                                          {activePolyTab ? 'Unstake' : 'Stake'}
+                                          {walletIsConnected ? activePolyTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -694,7 +701,7 @@ const StakingPage = ({ classes, account }) => {
                                         </Grid>
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            {polyLpBal / Math.pow(10, 18)}
+                                            {formatDecimals(toBaseNum(polyLpBal))}
                                           </Typography>
                                         </Grid>
                                       </Grid>
@@ -711,7 +718,7 @@ const StakingPage = ({ classes, account }) => {
                                           </Grid>
                                           <Grid item>
                                             <Typography variant='body2'>
-                                              {currentStakePoly / Math.pow(10, 18)}
+                                              {formatDecimals(toBaseNum(currentStakePoly))}
                                             </Typography>
                                           </Grid>
                                         </Grid>
@@ -788,7 +795,7 @@ const StakingPage = ({ classes, account }) => {
                                           variant='outlined'
                                           size='small'
                                           disabled
-                                          value={(polyRwrdAmt + ethRwrdAmt) / Math.pow(10, 18)}
+                                          value={formatDecimals(toBaseNum(polyRwrdAmt + ethRwrdAmt))}
                                           startAdornment={
                                             <InputAdornment position='start'>
                                               <img src='public/images/logos/logo_g.svg' />
@@ -806,7 +813,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={collectRewards}
                                         >
-                                          Collect
+                                          {walletIsConnected ? 'Collect' : 'Connect'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -824,6 +831,8 @@ const StakingPage = ({ classes, account }) => {
             </Grid>
             <ConnectEth
               account={account}
+              getBalances={getBalances}
+              setConnector={setConnector}
               dialogOpen={ethConnectorDialog}
               handleDialogClose={handleEthConnectorDialogClose}
             />

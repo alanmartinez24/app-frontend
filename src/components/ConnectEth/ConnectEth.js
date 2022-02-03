@@ -10,7 +10,7 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
 
-const { BACKEND_API, POLY_CHAIN_ID, ETH_CHAIN_ID } = process.env
+const { BACKEND_API, POLY_CHAIN_ID } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
 
@@ -182,11 +182,7 @@ class ConnectEth extends Component {
       const accounts = connected ? payload._accounts : payload.params[0].accounts
       const eosname = this.props.account.name
 
-      console.log('chainId', chainId)
-      console.log('POLY_CHAIN_ID', POLY_CHAIN_ID)
-      console.log('ETH_CHAIN_ID', ETH_CHAIN_ID)
-
-      if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
+      if (chainId !== Number(POLY_CHAIN_ID)) {
         this.handleSnackbarOpen(NOTMAINNET_MSG, true)
         this.onDisconnect()
         return
@@ -208,6 +204,8 @@ class ConnectEth extends Component {
       this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
+      this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
+      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
       } catch (err) {
         console.error(err)
@@ -368,6 +366,8 @@ ConnectEth.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
+  getBalances: PropTypes.func,
+  setConnector: PropTypes.func,
   dispatch: PropTypes.func.isRequired
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(ConnectEth))))
