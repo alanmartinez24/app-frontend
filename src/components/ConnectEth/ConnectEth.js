@@ -193,17 +193,27 @@ class ConnectEth extends Component {
         connected: true,
         activeStep: 1
       })
+      console.log('before before')
 
       const address = accounts[0]
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
+      console.log('challenge', challenge)
       const hexMsg = convertUtf8ToHex(challenge)
+      console.log('hexMsg', hexMsg)
       const msgParams = [address, hexMsg]
       const signature = await this.state.connector.signMessage(msgParams)
+      console.log('signature', signature)
       this.setState({ activeStep: 2 })
+      console.log('before')
       await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
+      console.log('0')
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
+      console.log('1')
+      console.log(this.props.handleDialogClose)
       this.props.handleDialogClose()
+      console.log('2')
+
       this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })

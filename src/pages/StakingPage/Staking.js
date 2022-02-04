@@ -9,7 +9,7 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
-import { getPolygonProvider, getConnector } from '../../utils/eth'
+import { getContractProvider, getConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
@@ -86,14 +86,18 @@ const StakingPage = ({ classes, account }) => {
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
-  const [provider, setProvider] = useState(null)
+  // const [txProvider, setTxProvider] = useState(null)
+  const [contractProvider, setContractProvider] = useState(null)
   const [connector, setConnector] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [walletIsConnected, setWalletIsConnected] = useState(false)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
-  const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
+  const handleEthConnectorDialogClose = () => {
+    console.log(' handleEthConnectorDialogCloseis called')
+    setEthConnectorDialog(false)
+}
   const handleEthStakeAmountChange = ({ target }) => setEthStakeInput(target.value)
   const handlePolyStakeAmountChange = ({ target }) => setPolyStakeInput(target.value)
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
@@ -110,14 +114,18 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     setConnector(getConnector())
-    setProvider(getPolygonProvider())
+    // setTxProvider(getTransactionProvider())
+    setContractProvider(getContractProvider())
     getAprs()
   }, [])
 
   useEffect(() => {
     if (!connector || !connector._connected) { return }
     console.log('connector.chainId', connector.chainId)
+    console.log('Number(POLY_CHAIN_ID', Number(POLY_CHAIN_ID))
+    console.log('connector', connector)
     if (connector.chainId !== Number(POLY_CHAIN_ID)) {
+      connector.killSession()
       handleSnackbarOpen('Wrong network. Please connect to Polygon.')
       return
     }
@@ -126,9 +134,9 @@ const StakingPage = ({ classes, account }) => {
   }, [connector])
 
   useEffect(() => {
-    if (!provider) { return }
+    if (!contractProvider) { return }
     getContracts()
-  }, [provider])
+  }, [contractProvider])
 
   useEffect(() => {
     if (!contracts || !address) { return }
@@ -137,11 +145,11 @@ const StakingPage = ({ classes, account }) => {
 
   const getContracts = async () => {
     try {
-      if (!provider) { return }
-      const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
-      const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
-      const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
-      const ethLpToken = new provider.eth.Contract(YUPETH_ABI, ETH_UNI_LP_TOKEN)
+      if (!contractProvider) { return }
+      const polyLiquidity = new contractProvider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
+      const ethLiquidity = new contractProvider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
+      const polyLpToken = new contractProvider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
+      const ethLpToken = new contractProvider.eth.Contract(YUPETH_ABI, ETH_UNI_LP_TOKEN)
       setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
@@ -150,6 +158,8 @@ const StakingPage = ({ classes, account }) => {
   }
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
+      console.log('getBalances is called')
+      console.log('contracts.methods', contracts.polyLpToken)
       const acct = addressParam || address
       const polyBal = await contracts.polyLpToken.methods.balanceOf(acct).call({ from: acct })
       const polyStake = await contracts.polyLiquidity.methods.balanceOf(acct).call({ from: acct })
@@ -158,6 +168,8 @@ const StakingPage = ({ classes, account }) => {
       const polyRwrdsEarned = await contracts.polyLiquidity.methods.earned(acct).call({ from: acct })
       const ethRwrdsEarned = await contracts.polyLiquidity.methods.earned(acct).call({ from: acct })
       setPolyRwrdAmt(polyRwrdsEarned)
+      console.log('polyStake', polyStake)
+      console.log('polyRwrdsEarned', polyRwrdsEarned)
       setEthRwrdAmt(ethRwrdsEarned)
       setCurrentStakePoly(polyStake)
       setCurrentStakeEth(ethStake)
@@ -854,13 +866,15 @@ const StakingPage = ({ classes, account }) => {
                 </Grid>
               </Grid>
             </Grid>
-            <ConnectEth
-              account={account}
-              getBalances={getBalances}
-              setConnector={setConnector}
-              dialogOpen={ethConnectorDialog}
-              handleDialogClose={handleEthConnectorDialogClose}
-            />
+            {ethConnectorDialog && (
+              <ConnectEth
+                account={account}
+                getBalances={getBalances}
+                setConnector={setConnector}
+                dialogOpen={ethConnectorDialog}
+                handleDialogClose={handleEthConnectorDialogClose}
+              />
+            )}
           </Grid>
         </Grid>
       </ErrorBoundary>
