@@ -9,7 +9,7 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
-import { getPolygonWeb3Provider, getEthConnector } from '../../utils/eth'
+import { getPolygonProvider, getConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
@@ -109,8 +109,8 @@ const StakingPage = ({ classes, account }) => {
   }
 
   useEffect(() => {
-    setConnector(getEthConnector())
-    setProvider(getPolygonWeb3Provider())
+    setConnector(getConnector())
+    setProvider(getPolygonProvider())
     getAprs()
   }, [])
 

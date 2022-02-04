@@ -2,7 +2,7 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, Portal, Snackbar, SnackbarContent, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { getEthConnector } from '../../utils/eth'
+import { getConnector } from '../../utils/eth'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { convertUtf8ToHex } from '@walletconnect/utils'
@@ -127,7 +127,7 @@ class ConnectEth extends Component {
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
     // create new connector
-    const connector = await getEthConnector()
+    const connector = await getConnector()
     this.setState({ connector })
 
     // already logged in

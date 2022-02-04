@@ -5,10 +5,10 @@ import QRCodeModal from '@walletconnect/qrcode-modal'
 
 const { WALLET_CONNECT_BRIDGE, POLY_RPC_URL, POLY_CHAIN_ID } = process.env
 
-export const getPolygonWeb3Provider = () => {
+export const getPolygonProvider = () => {
   const maticProvider = new WalletConnectProvider(
     {
-      bridge: 'https://aave.bridge.walletconnect.org',
+      bridge: WALLET_CONNECT_BRIDGE,
       rpc: {
         [POLY_CHAIN_ID]: POLY_RPC_URL
       },
@@ -22,7 +22,7 @@ export const getPolygonWeb3Provider = () => {
   return maticWeb3
 }
 
-export const getEthConnector = () => {
+export const getConnector = () => {
   try {
     const connector = new WalletConnect({ bridge: WALLET_CONNECT_BRIDGE, qrcodeModal: QRCodeModal })
     return connector
