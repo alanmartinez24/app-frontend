@@ -1,14 +1,17 @@
 import Web3 from 'web3'
-import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 
-const { WALLET_CONNECT_BRIDGE, POLY_RPC_URL } = process.env
+const { WALLET_CONNECT_BRIDGE, POLY_RPC_URL, POLY_CHAIN_ID } = process.env
 
 export const getPolygonWeb3Provider = () => {
   const maticProvider = new WalletConnectProvider(
     {
-      host: POLY_RPC_URL,
+      bridge: 'https://aave.bridge.walletconnect.org',
+      rpc: {
+        [POLY_CHAIN_ID]: POLY_RPC_URL
+      },
       callbacks: {
         onConnect: console.log('matic provider connected'),
         onDisconnect: console.log('matic provider disconnected')

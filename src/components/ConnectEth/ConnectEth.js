@@ -208,7 +208,7 @@ class ConnectEth extends Component {
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
       } catch (err) {
-        this.handleSnackbarOpen(ERROR_MSG, true)
+        this.handleSnackbarOpen(err.msg, true)
         this.onDisconnect()
       }
   }

