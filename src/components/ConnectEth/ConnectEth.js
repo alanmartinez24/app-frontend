@@ -11,8 +11,8 @@ import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
 
 const { BACKEND_API, POLY_CHAIN_ID } = process.env
-const ERROR_MSG = `Unable to link your account. Please try again.`
-const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
+const ERROR_MSG = `Make sure you are logged into yup and please try again.`
+const NOT_POLYGON_MSG = 'Make sure you are connecting to Polygon from your wallet.'
 
 const styles = theme => ({
   dialog: {
@@ -183,7 +183,7 @@ class ConnectEth extends Component {
       const eosname = this.props.account.name
 
       if (chainId !== Number(POLY_CHAIN_ID)) {
-        this.handleSnackbarOpen(NOTMAINNET_MSG, true)
+        this.handleSnackbarOpen(NOT_POLYGON_MSG, true)
         this.onDisconnect()
         return
       }
@@ -208,13 +208,12 @@ class ConnectEth extends Component {
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
       } catch (err) {
-        console.error(err)
         this.handleSnackbarOpen(ERROR_MSG, true)
         this.onDisconnect()
       }
   }
 
-  onDisconnect = () => {
+  onDisconnect = async () => {
     this.setState({
       connected: false,
       connector: null,

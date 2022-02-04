@@ -115,6 +115,10 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     if (!connector || !connector._connected) { return }
+    if (connector.chainId !== Number(POLY_CHAIN_ID)) {
+      handleSnackbarOpen('Wrong network. Please connect to Polygon')
+      return
+    }
     setWalletIsConnected(true)
     setAddress(connector.accounts[0])
   }, [connector])
@@ -197,6 +201,10 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeAction = async (txBody) => {
     const isStake = !activeEthTab
+    if (ethStakeInput === '0') {
+      handleSnackbarOpen('Please enter a valid amount.')
+      return
+    }
     try {
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
 
@@ -228,6 +236,10 @@ const StakingPage = ({ classes, account }) => {
 
   const handlePolyStakeAction = async (txBody) => {
     const isStake = !activePolyTab
+    if (polyStakeInput === '0') {
+      handleSnackbarOpen('Please enter a valid amount.')
+      return
+    }
     try {
       const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
       if (isStake) {
