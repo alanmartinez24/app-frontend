@@ -18,7 +18,6 @@ import { isAddress } from 'web3-utils'
 import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
 
-// const BACKEND_API = 'http://localhost:4001'
 const { WEB_APP_URL, BACKEND_API } = process.env
 
 const styles = theme => ({
@@ -69,6 +68,9 @@ class AirdropPage extends Component {
     activeStep: 0,
     lpClaimSuccess: false,
     claimSuccess: false
+  }
+  componentDidMount () {
+    localStorage.setItem('twitterRedirect', 'migration') // ensure twitter login process brings them back to this page
   }
 
   handleCopy = () => navigator.clipboard.writeText(window.location.href)
