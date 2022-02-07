@@ -2,7 +2,7 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, Portal, Snackbar, SnackbarContent, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { getConnector } from '../../utils/eth'
+import { getConnector, signMessage } from '../../utils/eth'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { convertUtf8ToHex } from '@walletconnect/utils'
@@ -198,7 +198,8 @@ class ConnectEth extends Component {
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
       const hexMsg = convertUtf8ToHex(challenge)
       const msgParams = [address, hexMsg]
-      const signature = await this.state.connector.signMessage(msgParams)
+      const signature = signMessage(this.state.connector, msgParams)
+      // const signature = await this.state.connector.signMessage(msgParams)
       this.setState({ activeStep: 2 })
       await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
@@ -207,10 +208,13 @@ class ConnectEth extends Component {
       this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
-      } catch (err) {
-        this.handleSnackbarOpen(err.msg, true)
-        this.onDisconnect()
-      }
+    } catch (err) {
+      console.log('err', err)
+      this.handleSnackbarOpen(err.msg, true)
+      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+
+      this.onDisconnect()
+    }
   }
 
   onDisconnect = async () => {

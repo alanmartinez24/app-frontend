@@ -116,11 +116,11 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     if (!connector || !connector._connected) { return }
-    console.log('connector.chainId', connector.chainId)
-    if (connector.chainId !== Number(POLY_CHAIN_ID)) {
-      handleSnackbarOpen('Wrong network. Please connect to Polygon.')
-      return
-    }
+    // if (connector.chainId !== Number(POLY_CHAIN_ID)) {
+    //   handleSnackbarOpen('Wrong network. Please connect to Polygon.')
+    //   return
+    // }
+    console.log('connector', connector)
     setWalletIsConnected(true)
     setAddress(connector.accounts[0])
   }, [connector])

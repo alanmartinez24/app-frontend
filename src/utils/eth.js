@@ -22,6 +22,24 @@ export const getPolygonProvider = () => {
   return maticWeb3
 }
 
+export const signMessage = (connector, params) => {
+  const customRequest = {
+    id: 1337,
+    jsonrpc: '2.0',
+    method: 'eth_sign',
+    params
+  }
+
+  connector
+    .sendCustomRequest(customRequest)
+    .then(result => {
+      console.log(result)
+    })
+    .catch(error => {
+      console.error(error)
+    })
+}
+
 export const getConnector = () => {
   try {
     const connector = new WalletConnect({ bridge: WALLET_CONNECT_BRIDGE, qrcodeModal: QRCodeModal })
