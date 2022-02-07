@@ -70,7 +70,12 @@ class AirdropPage extends Component {
     claimSuccess: false
   }
   componentDidMount () {
-    localStorage.setItem('twitterRedirect', 'migration') // ensure twitter login process brings them back to this page
+    const redirect = localStorage.getItem('twitterRedirect')
+    if (redirect) {
+      localStorage.removeItem('twitterRedirect')
+    } else {
+      localStorage.setItem('twitterRedirect', 'migration') // ensure twitter login process brings them back to this page
+    }
   }
 
   handleCopy = () => navigator.clipboard.writeText(window.location.href)

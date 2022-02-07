@@ -6,7 +6,7 @@ import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import { keccak256 } from 'web3-utils'
+import { convertUtf8ToHex } from '@walletconnect/utils'
 import Portal from '@material-ui/core/Portal'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
@@ -17,12 +17,12 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
-const { BACKEND_API, ETH_CHAIN_ID, POLY_CHAIN_ID } = process.env
+const { BACKEND_API, WALLET_CONNECT_BRIDGE } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const INVALID_EMAIL_ERROR_MSG = `Please enter a valid email address.`
 const WHITELIST_MSG = 'Your Ethereum address is not whitelisted.'
 const VALIDATE_MSG = 'Username is invalid. Please try again.'
-const NOTMAINNET_MSG = 'Please connect with a mainnet address.'
+// const NOTMAINNET_MSG = 'Please connect with a mainnet address.'
 const EMAIL_MSG = 'Success. We will get back to you soon.'
 const MIRROR_MSG = 'Please wait while we create your YUP account...'
 const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
@@ -97,7 +97,6 @@ const styles = theme => ({
   inputText: {
     fontSize: '16px',
     padding: '0px',
-    fontFamily: '"Gilroy", sans-serif',
     fontWeight: '200',
     color: theme.palette.common.first,
     [theme.breakpoints.down('xs')]: {
@@ -152,9 +151,7 @@ class SubscribeDialog extends Component {
     if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
-    const bridge = 'https://bridge.walletconnect.org'
-    // create new connector
-    const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
+    const connector = new WalletConnect({ bridge: WALLET_CONNECT_BRIDGE, qrcodeModal: QRCodeModal })
     this.setState({ connector })
 
     // already logged in
@@ -205,18 +202,14 @@ class SubscribeDialog extends Component {
      if (!this.state.connector || !payload) { return }
 
      try {
-      const chainId = connected ? payload._chainId : payload.params[0].chainId
+      // const chainId = connected ? payload._chainId : payload.params[0].chainId
       const accounts = connected ? payload._accounts : payload.params[0].accounts
 
-      console.log('chainId', chainId)
-      console.log('POLY_CHAIN_ID', POLY_CHAIN_ID)
-      console.log('ETH_CHAIN_ID', ETH_CHAIN_ID)
-
-      if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
-        this.handleSnackbarOpen(NOTMAINNET_MSG, true)
-        this.onDisconnect()
-        return
-      }
+      // if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
+      //   this.handleSnackbarOpen(NOTMAINNET_MSG, true)
+      //   this.onDisconnect()
+      //   return
+      // }
 
       this.handleSnackbarOpen('Successfully connected.', false)
       this.setState({
@@ -226,10 +219,8 @@ class SubscribeDialog extends Component {
 
       const address = accounts[0]
       const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
-      const msgParams = [
-        address,
-        keccak256('\x19Ethereum Signed Message:\n' + challenge.length + challenge)
-      ]
+      const hexMsg = convertUtf8ToHex(challenge)
+      const msgParams = [address, hexMsg]
       const signature = await this.state.connector.signMessage(msgParams)
 
       this.setState({
