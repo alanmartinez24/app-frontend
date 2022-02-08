@@ -175,9 +175,10 @@ const StakingPage = ({ classes, account }) => {
 
   const getAprs = async () => {
     try {
-      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/apy`)).data.APY
+      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/apy`)).data
+      const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/poly`)).data
       setEthApr(ethApr)
-      setPolyApr(500.12)
+      setPolyApr(polyApr)
     } catch (err) {
       console.log('ERR fetching rwrds and aprs', err)
     }
