@@ -12,7 +12,7 @@ import { fetchSocialLevel } from '../../redux/actions'
 
 const { BACKEND_API, POLY_CHAIN_ID } = process.env
 const ERROR_MSG = `Make sure you are logged into yup and please try again.`
-const NOT_POLYGON_MSG = 'Make sure you are connecting to Polygon from your wallet.'
+const NOT_POLYGON_MSG = 'Make sure you are connecting to Polygon from your wallet. You can use Metamask mobile.'
 
 const styles = theme => ({
   dialog: {
@@ -208,10 +208,10 @@ class ConnectEth extends Component {
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
     } catch (err) {
-      console.log('err', err)
       this.handleSnackbarOpen(err.msg, true)
+      localStorage.removeItem('walletconnect')
+      this.props.handleDisconnect && this.props.handleDisconnect()
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
-
       this.onDisconnect()
     }
   }
@@ -369,6 +369,7 @@ ConnectEth.propTypes = {
   handleDialogClose: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
   getBalances: PropTypes.func,
+  handleDisconnect: PropTypes.func,
   setConnector: PropTypes.func,
   dispatch: PropTypes.func.isRequired
 }

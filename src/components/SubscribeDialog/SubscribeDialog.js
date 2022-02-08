@@ -221,7 +221,7 @@ class SubscribeDialog extends Component {
       const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
       const hexMsg = convertUtf8ToHex(challenge)
       const msgParams = [address, hexMsg]
-      const signature = await this.state.connector.signMessage(msgParams)
+      const signature = await this.state.connector.signPersonalMessage(msgParams)
 
       this.setState({
         address,

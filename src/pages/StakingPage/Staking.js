@@ -120,7 +120,6 @@ const StakingPage = ({ classes, account }) => {
     //   handleSnackbarOpen('Wrong network. Please connect to Polygon.')
     //   return
     // }
-    console.log('connector', connector)
     setWalletIsConnected(true)
     setAddress(connector.accounts[0])
   }, [connector])
@@ -148,6 +147,11 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR getting token contracts', err)
     }
   }
+  const handleDisconnect = () => {
+    setWalletIsConnected(false)
+    setConnector(null)
+  }
+
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
       const acct = addressParam || address
@@ -186,15 +190,7 @@ const StakingPage = ({ classes, account }) => {
    } else if (!walletIsConnected) {
       setEthConnectorDialog(true)
       return
-    } else if (walletIsConnected) {
-      const tx = {
-        from: connector.accounts[0],
-        to: '0x63f878a7d75B09633008350eA6290A63e61b5eEe',
-        value: 500,
-        gas: 80000
-      }
-      await connector.sendTransaction(tx)
-    }
+   }
     setIsLoading(true)
     const txBody = {
       from: address,
@@ -234,7 +230,7 @@ const StakingPage = ({ classes, account }) => {
         ...txBody,
         to: ETH_LIQUIDITY_REWARDS,
         data: isStake ? contracts.ethLiquidity.methods.stake(stakeAmt).encodeABI()
-        : contracts.ethLiquidity.methods.withdraw(stakeAmt).encodeABI()
+        : contracts.ethLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
       await connector.sendTransaction(stakeTx)
       const updatedLpBal = isStake ? toBaseNum(ethLpBal) - Number(ethStakeInput) : toBaseNum(ethLpBal) + Number(ethStakeInput)
@@ -267,7 +263,7 @@ const StakingPage = ({ classes, account }) => {
         ...txBody,
         to: POLY_LIQUIDITY_REWARDS,
         data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
-        : contracts.polyLiquidity.methods.withdraw(stakeAmt).encodeABI()
+        : contracts.polyLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
       await connector.sendTransaction(stakeTx)
 
@@ -855,6 +851,7 @@ const StakingPage = ({ classes, account }) => {
               </Grid>
             </Grid>
             <ConnectEth
+              handleDisconnect={handleDisconnect}
               account={account}
               getBalances={getBalances}
               setConnector={setConnector}

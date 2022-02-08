@@ -549,7 +549,7 @@
     "name": "rewardsToken",
     "outputs": [
       {
-        "internalType": "contract ERC20PresetMinterPauserUpgradeable",
+        "internalType": "contract IERC20",
         "name": "",
         "type": "address"
       }
@@ -588,7 +588,7 @@
     "name": "stakingToken",
     "outputs": [
       {
-        "internalType": "contract ERC20PresetMinterPauserUpgradeable",
+        "internalType": "contract IERC20",
         "name": "",
         "type": "address"
       }
@@ -631,6 +631,19 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "unstake",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "",
         "type": "address"
@@ -649,6 +662,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "amount",
