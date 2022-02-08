@@ -350,64 +350,64 @@ export const theme = ({ palette }) => {
     fonStyle: 'normal',
     h1: {
       fontWeight: 600,
-      fontSize: '3.815rem',
-      lineHeight: '105%',
+      fontSize: '4.5rem',
+      lineHeight: '115%',
       marginBottom: '0.2rem',
-      color: `${palette.common.first}EE`
+      color: `${palette.common.first}FE`
     },
     h2: {
       fontWeight: 700,
-      fontSize: '3.052rem',
-      lineHeight: '105%',
-      color: `${palette.common.first}EE`
+      fontSize: '3.4375rem',
+      lineHeight: '115%',
+      color: `${palette.common.first}FE`
     },
     h3: {
       fontWeight: 600,
-      fontSize: '2.441rem',
-      lineHeight: '105%',
-      color: `${palette.common.second}EE`
+      fontSize: '2.75rem',
+      lineHeight: '115%',
+      color: `${palette.common.second}FE`
     },
     h4: {
       fontWeight: 400,
-      fontSize: '1.953rem',
-      lineHeight: '105%',
-      color: `${palette.common.third}EE`
+      fontSize: '2.125rem',
+      lineHeight: '115%',
+      color: `${palette.common.third}FE`
     },
     h5: {
       fontWeight: 700,
-      fontSize: '1.562rem',
-      lineHeight: '105%',
-      color: `${palette.common.third}EE`
+      fontSize: '1.5rem',
+      lineHeight: '115%',
+      color: `${palette.common.third}FE`
     },
     h6: {
       fontWeight: 600,
-      fontSize: '1.339rem',
-      lineHeight: '105%',
-      color: `${palette.common.third}EE`
+      fontSize: '1.25rem',
+      lineHeight: '115%',
+      color: `${palette.common.third}FE`
     },
     subtitle1: {
-      fontWeight: 400,
+      fontWeight: 500,
       fontSize: '1.25rem',
-      lineHeight: '105%',
+      lineHeight: '120%',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
-      fontWeight: 700,
+      fontWeight: 600,
       fontSize: '1rem',
-      lineHeight: '105%',
+      lineHeight: '120%',
       color: `${palette.common.third}DD`
     },
     body1: {
-      fontWeight: 800,
-      fontSize: '0.8rem',
+      fontWeight: 600,
+      fontSize: '0.9375rem',
       lineHeight: '105%',
-      color: `${palette.common.third}EE`
+      color: `${palette.common.third}DE`
     },
     body2: {
       fontWeight: 400,
-      fontSize: '0.8rem',
-      lineHeight: '105%',
-      color: `${palette.common.first}DE`
+      fontSize: '0.9375rem',
+      lineHeight: '125%',
+      color: `${palette.common.first}EE`
     },
     caption: {
       fontStyle: '600',
@@ -415,7 +415,7 @@ export const theme = ({ palette }) => {
       color: `${palette.common.third}DE`
     },
     tooltip: {
-      fontSize: '0.75rem',
+      fontSize: '0.875rem',
       fontWeight: '200'
     },
     colorError: {
