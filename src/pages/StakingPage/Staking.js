@@ -620,7 +620,7 @@ const StakingPage = ({ classes, account }) => {
                       >
                         <Grid item>
                           <Typography variant='subtitle1'>
-                            Stake YUP-WETH Uniswap V3 LP Tokens from Polygon
+                            Stake YUP-WETH Uniswap V2 LP Tokens from Polygon (Quickswap)
                           </Typography>
                         </Grid>
                         <Grid item>
