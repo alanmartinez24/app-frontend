@@ -159,7 +159,7 @@ export const theme = ({ palette }) => {
     MuiTab: {
       root: {
         textTransform: 'capitalize',
-        fontSize: '1.2rem'
+        fontSize: '0.8rem'
       }
     },
     MuiTooltip: {
