@@ -43,6 +43,8 @@ export const signMessage = (connector, params) => {
 export const getConnector = () => {
   try {
     const connector = new WalletConnect({ bridge: WALLET_CONNECT_BRIDGE, qrcodeModal: QRCodeModal })
+    connector.rpcUrl = POLY_RPC_URL
+    connector.chainId = POLY_CHAIN_ID
     return connector
   } catch (err) {
     throw err

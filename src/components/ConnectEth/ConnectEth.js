@@ -2,7 +2,7 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, Portal, Snackbar, SnackbarContent, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { getConnector, signMessage } from '../../utils/eth'
+import { getConnector } from '../../utils/eth'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { convertUtf8ToHex } from '@walletconnect/utils'
@@ -197,9 +197,8 @@ class ConnectEth extends Component {
       const address = accounts[0]
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
       const hexMsg = convertUtf8ToHex(challenge)
-      const msgParams = [address, hexMsg]
-      const signature = signMessage(this.state.connector, msgParams)
-      // const signature = await this.state.connector.signMessage(msgParams)
+      const msgParams = [hexMsg, address]
+      const signature = await this.state.connector.signPersonalMessage(msgParams)
       this.setState({ activeStep: 2 })
       await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
