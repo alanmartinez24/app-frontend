@@ -187,7 +187,7 @@ class AirdropPage extends Component {
                   variant='h5'
                   align='center'
                 >
-                  {shareStep ? 'Congratulations' : 'Polygon Migration'}
+                  {shareStep ? 'Congratulations. Your tokens will arrive in about 6 hours.' : 'Polygon Migration'}
                 </Typography>
               </Grid>
               <Grid item>
