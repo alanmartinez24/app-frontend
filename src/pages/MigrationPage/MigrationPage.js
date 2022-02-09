@@ -94,10 +94,12 @@ class AirdropPage extends Component {
       return
     }
 
+    const hasAvailableLpAirdrop = lpAidrop.amount > 0 && !lpClaimSuccess && !lpAidrop.claimed
+
     this.setState({ isLoading: true, activeStep: 2 })
     const auth = await getAuth(account)
     const params = { polygonAddress, eosname: account.name, ...auth }
-    if (lpAidrop.amount > 0 && !lpClaimSuccess) {
+    if (hasAvailableLpAirdrop) {
       try {
         await axios.post(`${BACKEND_API}/lp-airdrop/claim`, params)
         this.setState({ lpClaimSuccess: true })
@@ -113,7 +115,7 @@ class AirdropPage extends Component {
       rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
       this.setState({ snackbarMsg: err.message })
     }
-    if (claimSuccess && lpClaimSuccess) {
+    if (claimSuccess && !hasAvailableLpAirdrop) {
       this.setState({ activeStep: 3 })
     }
     this.setState({ isLoading: false })
