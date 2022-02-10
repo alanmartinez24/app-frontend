@@ -94,7 +94,7 @@ class AirdropPage extends Component {
       return
     }
 
-    const hasAvailableLpAirdrop = lpAidrop.amount > 0 && !lpClaimSuccess && !lpAidrop.claimed
+    let hasAvailableLpAirdrop = lpAidrop.amount > 0 && !lpClaimSuccess && !lpAidrop.claimed
 
     this.setState({ isLoading: true, activeStep: 2 })
     const auth = await getAuth(account)
@@ -103,6 +103,7 @@ class AirdropPage extends Component {
       try {
         await axios.post(`${BACKEND_API}/lp-airdrop/claim`, params)
         this.setState({ lpClaimSuccess: true })
+        hasAvailableLpAirdrop = false
       } catch (err) {
         this.setState({ snackbarMsg: err.message })
       }
