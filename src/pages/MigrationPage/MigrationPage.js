@@ -17,7 +17,8 @@ import { isAddress } from 'web3-utils'
 import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
 
-const { WEB_APP_URL, BACKEND_API } = process.env
+const { WEB_APP_URL } = process.env
+const BACKEND_API = 'http://localhost:4001'
 
 const styles = theme => ({
   page: {
@@ -105,7 +106,7 @@ class AirdropPage extends Component {
         this.setState({ lpClaimSuccess: true })
         hasAvailableLpAirdrop = false
       } catch (err) {
-        this.setState({ snackbarMsg: err.message })
+        this.setState({ snackbarMsg: err.response && err.response.data.message })
       }
     }
 
@@ -114,7 +115,7 @@ class AirdropPage extends Component {
       this.setState({ claimSuccess: true })
     } catch (err) {
       rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
-      this.setState({ snackbarMsg: err.message })
+      this.setState({ snackbarMsg: err.response && err.response.data.message })
     }
     if (claimSuccess && !hasAvailableLpAirdrop) {
       this.setState({ activeStep: 3 })
