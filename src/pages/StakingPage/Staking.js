@@ -453,7 +453,9 @@ const StakingPage = ({ classes, account }) => {
                       >
                         <Grid item>
                           <Typography variant='subtitle1'>
-                            Stake YUP-ETH Uniswap V2 LP Tokens from Ethereum
+                            Stake YUP-ETH LP Tokens
+                            <br />
+                            Uniswap V2 • Ethereum
                           </Typography>
                         </Grid>
                         <Grid item>
@@ -469,6 +471,7 @@ const StakingPage = ({ classes, account }) => {
                       <Grid item>
                         <Card
                           className={classes.card}
+                          elevation={0}
                         >
                           <Grid
                             container
@@ -580,11 +583,6 @@ const StakingPage = ({ classes, account }) => {
                                     </Grid>
                                   </Grid>
                                 </Grid>
-                                <Grid item>
-                                  <Typography variant='body2'>
-                                    Pending YUP rewards will be automatically collected when you stake or unstake.
-                                  </Typography>
-                                </Grid>
                               </Grid>
                             </Grid>
                           </Grid>
@@ -621,7 +619,7 @@ const StakingPage = ({ classes, account }) => {
                       >
                         <Grid item>
                           <Typography variant='subtitle1'>
-                            Stake YUP-WETH Uniswap V2 LP Tokens from Polygon (Quickswap)
+                            Stake YUP-WETH LP Tokens <br /> Quickswap • Polygon
                           </Typography>
                         </Grid>
                         <Grid item>
@@ -637,6 +635,7 @@ const StakingPage = ({ classes, account }) => {
                       <Grid item>
                         <Card
                           className={classes.card}
+                          elevation={0}
                         >
                           <Grid
                             container
@@ -718,7 +717,7 @@ const StakingPage = ({ classes, account }) => {
                                       >
                                         <Grid item>
                                           <Typography variant='body2'>
-                                            UNI V3 YUP-WETH LP in wallet:
+                                            UNI V2 YUP-WETH LP in wallet:
                                           </Typography>
                                         </Grid>
                                         <Grid item>
@@ -747,11 +746,6 @@ const StakingPage = ({ classes, account }) => {
                                       </Grid>
                                     </Grid>
                                   </Grid>
-                                </Grid>
-                                <Grid item>
-                                  <Typography variant='body2'>
-                                    Pending YUP rewards will be automatically collected when you stake or unstake.
-                                  </Typography>
                                 </Grid>
                               </Grid>
                             </Grid>
