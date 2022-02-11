@@ -3896,10 +3896,10 @@
   resolved "https://registry.npmjs.org/@xtuc/long/-/long-4.2.1.tgz"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
-"@yupio/contract-addresses@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@yupio/contract-addresses/-/contract-addresses-1.0.1.tgz#788b40cc4bda536f20c3e2a45e54d5f2f5f4ff9f"
-  integrity sha512-Z7RzimiQH7+pMojgZ9D9MufzEsJ03i8YL4RXwai1dGTkPl3OOVLrbwVB6fq29/UpSinN3v1HNu4YuSSr2z5W2g==
+"@yupio/contract-addresses@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@yupio/contract-addresses/-/contract-addresses-1.0.11.tgz#a6538f9353e0bf6e08a70595c010ad239fde6c89"
+  integrity sha512-xtSZ3t5zdovcDoSW0zkSEyrNeEIQ8WCNSfmAioPA0c/S9VS+fugfufZKLJmlJgwcW+/JeC8PppXWRhFsWu1y+g==
   dependencies:
     typescript "^4.5.2"
 
