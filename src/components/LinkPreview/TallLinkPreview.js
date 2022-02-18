@@ -46,10 +46,10 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.MONO.100
+      color: theme.palette.M100
     },
     maxHeight: '500px'
   },
@@ -57,8 +57,8 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '18px',
     fontWeight: 600,
-    textShadow: `0px 0px 5px ${theme.palette.MONO.900}aa`,
-    color: theme.palette.MONO.100,
+    textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
+    color: theme.palette.M100,
     opacity: 0.9,
     [theme.breakpoints.down('xs')]: {
       width: '60vw',
@@ -68,7 +68,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '14px',
-    textShadow: `0px 0px 5px ${theme.palette.MONO.900}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
 
     display: 'none',
     fontWeight: 500,
@@ -93,7 +93,7 @@ const styles = theme => ({
     textAlign: 'left',
     zIndex: 5,
     background:
-      `linear-gradient(${theme.palette.MONO.800}00, ${theme.palette.MONO.800}46, ${theme.palette.MONO.800}ae, ${theme.palette.MONO.800}dd, ${theme.palette.MONO.800}ed, ${theme.palette.MONO.800}fe, ${theme.palette.MONO.800}, ${theme.palette.MONO.800})`,
+      `linear-gradient(${theme.palette.M800}00, ${theme.palette.M800}46, ${theme.palette.M800}ae, ${theme.palette.M800}dd, ${theme.palette.M800}ed, ${theme.palette.M800}fe, ${theme.palette.M800}, ${theme.palette.M800})`,
     padding: '0% 3%',
     width: '100%',
     backdropFilter: 'blur(2px)'

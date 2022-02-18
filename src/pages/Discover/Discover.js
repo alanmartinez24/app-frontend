@@ -25,7 +25,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflowY: 'hidden',
-    backgroundColor: theme.palette.MONO.800
+    backgroundColor: theme.palette.M800
   },
   page: {
     width: '100%',
@@ -61,13 +61,13 @@ const styles = theme => ({
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
     padding: '20px 40px 20px 30px !important',
-    backgroundColor: `${theme.palette.MONO.700} !important`
+    backgroundColor: `${theme.palette.M700} !important`
   },
   tourFab: {
     position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    color: theme.palette.MONO.300,
+    color: theme.palette.M300,
     zIndex: '1000',
     [theme.breakpoints.down('xs')]: {
       display: 'none'
@@ -231,7 +231,7 @@ const StyledFeedContainer = withStyles(theme => ({
     margin: '0 auto',
     width: '100%',
     fontSize: '20px',
-    color: theme.palette.MONO.100
+    color: theme.palette.M100
   }
 }))(FeedContainer)
 

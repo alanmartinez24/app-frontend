@@ -92,13 +92,13 @@ const styles = theme => ({
   ItemContainer: {
     '&:hover': {
       ImageCard: {
-        boxShadow: `0px 0px 30px ${theme.palette.MONO.100}`
+        boxShadow: `0px 0px 30px ${theme.palette.M100}`
       },
       fontWeight: '500 !important'
     }
   },
   ItemSubHeader: {
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     fontSize: '15px',
     marginTop: theme.spacing(1),
     fontFamily: 'Gilroy',
@@ -138,7 +138,7 @@ const styles = theme => ({
     borderRadius: 10,
     margin: '5px 0px',
     '&:hover': {
-      background: `${theme.palette.MONO.500}10`
+      background: `${theme.palette.M500}10`
     }
   },
   recommendedImgContainer: {
@@ -158,7 +158,7 @@ const styles = theme => ({
     width: '100%',
     height: `${theme.spacing(48)}px`,
     backgroundSize: 'cover',
-    backgroundImage: `linear-gradient(to top, ${theme.palette.MONO.800}, ${theme.palette.MONO.800}cc),
+    backgroundImage: `linear-gradient(to top, ${theme.palette.M800}, ${theme.palette.M800}cc),
 url('images/feeds/rainbowbanner.svg')`,
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'auto'
@@ -193,7 +193,7 @@ url('images/feeds/rainbowbanner.svg')`,
     fontSize: `${theme.spacing(8)}px`,
     color: Colors.W100,
     lineHeight: `${theme.spacing(8)}px`,
-    textShadow: `0px 0px 40px ${theme.palette.MONO.900}33`,
+    textShadow: `0px 0px 40px ${theme.palette.M900}33`,
     [theme.breakpoints.down('xs')]: {
       fontSize: `${theme.spacing(4)}px`,
       lineHeight: `${theme.spacing(4)}px`
@@ -273,7 +273,7 @@ class Home extends Component {
                     >
                       <Card elevation={0}
                         className={classes.bannerCard}
-                        style={{ backgroundImage: isUser ? `linear-gradient(to top, ${theme.palette.MONO.500}, ${theme.palette.MONO.600})` : "url('images/feeds/rainbowbanner.svg')" }}
+                        style={{ backgroundImage: isUser ? `linear-gradient(to top, ${theme.palette.M500}, ${theme.palette.M600})` : "url('images/feeds/rainbowbanner.svg')" }}
                       >
                         <CardContent>
                           <Grid container

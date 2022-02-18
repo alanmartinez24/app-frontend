@@ -38,7 +38,7 @@ const styles = theme => ({
   },
   notifPaper: {
     overflow: 'hidden',
-    backgroundColor: `${theme.palette.MONO.700}cc`,
+    backgroundColor: `${theme.palette.M700}cc`,
     backdropFilter: 'blur(20px)'
   },
   menuList: {

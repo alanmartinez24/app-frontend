@@ -21,7 +21,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     overflowY: 'hidden',
-    backgroundColor: theme.palette.MONO.800
+    backgroundColor: theme.palette.M800
   },
   page: {
     width: '100%',
@@ -42,7 +42,7 @@ const styles = theme => ({
     marginBottom: 0,
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
-    backgroundColor: theme.palette.MONO.800,
+    backgroundColor: theme.palette.M800,
     [theme.breakpoints.down('xs')]: {
       marginBottom: '20vh',
       width: '90%'

@@ -14,8 +14,8 @@ const styles = theme => ({
     bottom: theme.spacing(3),
     right: theme.spacing(5),
     zIndex: '1000',
-    color: theme.palette.MONO.100,
-    backgroundColor: theme.palette.MONO.800,
+    color: theme.palette.M100,
+    backgroundColor: theme.palette.M800,
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }

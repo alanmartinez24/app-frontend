@@ -51,8 +51,8 @@ const { BACKEND_API, EXTENSION_LINK } = process.env
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 5,
-    boxShadow: `0px 0px 0px ${theme.palette.MONO.100}`,
-    borderBottom: `0px solid ${theme.palette.MONO.100}`,
+    boxShadow: `0px 0px 0px ${theme.palette.M100}`,
+    borderBottom: `0px solid ${theme.palette.M100}`,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
@@ -110,7 +110,7 @@ const styles = theme => ({
     backdropFilter: 'blur(15px)',
     overflowX: 'hidden',
     margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
-    backgroundColor: `${theme.palette.MONO.800}88`,
+    backgroundColor: `${theme.palette.M800}88`,
     borderRadius: '0.65rem',
     maxWidth: '200px',
     zIndex: 1000,
@@ -124,7 +124,7 @@ const styles = theme => ({
     backdropFilter: 'blur(0px)',
     overflowX: 'hidden',
     margin: `${theme.spacing(1)}px 0px ${theme.spacing(1)}px ${theme.spacing(1)}px`,
-    backgroundColor: `${theme.palette.MONO.800}00`,
+    backgroundColor: `${theme.palette.M800}00`,
     borderRadius: '0.65rem',
     maxWidth: '200px',
     zIndex: 1000,
@@ -147,7 +147,7 @@ const styles = theme => ({
   listItemLink: {
     borderRadius: '0.65rem',
     '&:hover': {
-      backgroundColor: `${theme.palette.MONO.800}40`
+      backgroundColor: `${theme.palette.M800}40`
     }
   },
   bottomBar: {
@@ -663,7 +663,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     secondary={
                       <span
                         style={{
-                              color: palette.MONO.400,
+                              color: palette.M400,
                               fontWeight: 300,
                               fontSize: '10px'
                             }}
@@ -687,7 +687,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         ) : (
                           <ListItemIcon>
                             <IconButton size='small'
-                              style={{ backgroundColor: `${palette.MONO.700}70` }}
+                              style={{ backgroundColor: `${palette.M700}70` }}
                             > <img style={{ width: '20px', aspectRatio: '1 / 1' }}
                               src={lightMode
                                   ? '/images/logos/logo.svg'
@@ -834,7 +834,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 <Icon
                   fontSize='small'
                   className='fal fa-gear'
-                  style={{ color: palette.MONO.400 }}
+                  style={{ color: palette.M400 }}
                 />
               </IconButton>
             </Grid>
@@ -856,10 +856,10 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                 lightMode ? <Icon
                   fontSize='small'
                   className='fal fa-moon'
-                  style={{ color: palette.MONO.400 }}
+                  style={{ color: palette.M400 }}
                             />
                 : <WbSunnyRoundedIcon
-                  style={{ color: palette.MONO.400 }}
+                  style={{ color: palette.M400 }}
                   fontSize='small'
                   />
               }
@@ -913,7 +913,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
           >
             <ListSubheader
               style={{
-                        color: palette.MONO.500,
+                        color: palette.M500,
                         fontWeight: '500'
                       }}
             >

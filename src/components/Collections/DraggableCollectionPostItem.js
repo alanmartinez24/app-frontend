@@ -32,11 +32,11 @@ const styles = theme => ({
       borderRadius: 10,
       margin: 0,
       '&:hover': {
-        background: `${theme.palette.MONO.200}05`
+        background: `${theme.palette.M200}05`
       }
     },
     draggingListItem: {
-      background: `${theme.palette.MONO.200}05`
+      background: `${theme.palette.M200}05`
     }
 })
 

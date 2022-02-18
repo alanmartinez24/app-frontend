@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 const styles = theme => ({
   panelText: {
     fontFamily: '"Gilroy", sans-serif',
-    color: `${theme.palette.MONO.300}`
+    color: `${theme.palette.M300}`
   },
   menuItem: {
     fontSize: '20px',
@@ -23,7 +23,7 @@ const styles = theme => ({
   comment: {
     fontWeight: '500',
     textDecoration: 'none',
-    color: `${theme.palette.MONO.300}`
+    color: `${theme.palette.M300}`
   }
 })
 

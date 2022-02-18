@@ -37,14 +37,14 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '600',
     fontSize: '1.5rem',
-    color: theme.palette.MONO.100
+    color: theme.palette.M100
   },
   accountErrorSub: {
     paddingTop: '25px',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
     fontSize: '1rem',
-    color: theme.palette.MONO.100
+    color: theme.palette.M100
   },
   container: {
     height: '100vh',
@@ -121,10 +121,10 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: theme.palette.MONO.100
+    color: theme.palette.M100
   },
   tabs: {
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     fontSize: '1.2rem',
     marginLeft: '35px',
     textTransform: 'capitalize',
@@ -133,7 +133,7 @@ const styles = theme => ({
     }
   },
   collections: {
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     zIndex: '999',
     marginLeft: '20px',
     maxWidth: '25%',
@@ -154,7 +154,7 @@ const styles = theme => ({
     padding: '8px 8px 8px 16px !important'
   },
   showAll: {
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     width: '100px',
     fontSize: '0.8rem',
     fontWeight: '400',
@@ -163,7 +163,7 @@ const styles = theme => ({
     }
   },
   chip: {
-    color: `${theme.palette.MONO.200}77`
+    color: `${theme.palette.M200}77`
   }
 })
 
@@ -599,7 +599,7 @@ class User extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
-                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.MONO.100 } }}
+                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.M100 } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}
@@ -668,7 +668,7 @@ class User extends Component {
                         >
                           <Typography
                             variant='subtitle2'
-                            style={{ marginRight: '10%', color: theme.palette.MONO.100 }}
+                            style={{ marginRight: '10%', color: theme.palette.M100 }}
                             className={classes.collectionContainer}
                           >
                             Create new collection

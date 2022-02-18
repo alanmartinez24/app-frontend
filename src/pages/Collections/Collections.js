@@ -65,11 +65,11 @@ const styles = theme => ({
   collectionHeader: {
     position: 'sticky',
     top: '60px',
-    background: `linear-gradient(${theme.palette.MONO.800} 100%, ${theme.palette.MONO.800}dd 10%)`,
+    background: `linear-gradient(${theme.palette.M800} 100%, ${theme.palette.M800}dd 10%)`,
     borderRadius: '5px',
     zIndex: 1000,
     marginBottom: '25px',
-    boxShadow: `0px -60px 0px ${theme.palette.MONO.800}`,
+    boxShadow: `0px -60px 0px ${theme.palette.M800}`,
     [theme.breakpoints.down('xs')]: {
       top: 0,
       marginBottom: '0px',
@@ -112,7 +112,7 @@ const styles = theme => ({
     flex: 1
   },
   Skeleton: {
-    background: theme.palette.MONO.600,
+    background: theme.palette.M600,
      margin: '20px 0 ',
      borderRadius: '8px'
   },
@@ -121,14 +121,14 @@ const styles = theme => ({
     padding: '20px 40px 20px 30px !important'
   },
   tourText: {
-    color: theme.palette.MONO.800
+    color: theme.palette.M800
   },
   tourFab: {
     position: 'fixed',
     bottom: theme.spacing(3),
     right: theme.spacing(12),
-    background: theme.palette.MONO.100,
-    color: theme.palette.MONO.800,
+    background: theme.palette.M100,
+    color: theme.palette.M800,
     zIndex: 1000,
     [theme.breakpoints.down('md')]: {
       display: 'none'
@@ -171,10 +171,10 @@ const styles = theme => ({
     }
   },
   icons: {
-    color: `${theme.palette.MONO.100} !important`
+    color: `${theme.palette.M100} !important`
   },
   curatedByName: {
-    color: theme.palette.MONO.100
+    color: theme.palette.M100
   },
   hidden: {
     display: 'none'
@@ -198,7 +198,7 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   tabs: {
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     fontSize: '1.2rem',
     marginLeft: '35px',
     textTransform: 'capitalize',
@@ -690,7 +690,7 @@ class Collections extends Component {
                   >
                     <Tabs value={activeTab}
                       onChange={this.handleChange}
-                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.MONO.100 } }}
+                      TabIndicatorProps={{ style: { backgroundColor: theme.palette.M100 } }}
                     >
                       <Tab label='Feed'
                         className={classes.tabs}

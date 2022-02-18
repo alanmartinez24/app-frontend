@@ -67,9 +67,8 @@ export const lightPalette = {
     P600: Colors.P400,
     P700: Colors.P300,
     P750: Colors.P200,
-    P800: Colors.P200,
-    P900: Colors.P150,
-    P900: Colors.P100,
+    P800: Colors.P150,
+    P850: Colors.P100,
     P900: Colors.P50,
   },
     primary: {

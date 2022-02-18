@@ -29,7 +29,7 @@ const styles = theme => ({
     padding: '0px',
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '200',
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     [theme.breakpoints.down('xs')]: {
       fontSize: '14px'
     }

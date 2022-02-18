@@ -12,7 +12,7 @@ const styles = theme => ({
     padding: '16px',
     height: '100%',
     '&:hover': {
-      boxShadow: `0px 0px 0px 2px ${theme.palette.MONO.700}`
+      boxShadow: `0px 0px 0px 2px ${theme.palette.M700}`
     }
   },
   gridContainer: {

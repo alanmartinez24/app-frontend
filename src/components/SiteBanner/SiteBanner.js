@@ -16,7 +16,7 @@ const styles = theme => ({
     position: 'absolute'
   },
   link: {
-    color: theme.palette.MONO.900,
+    color: theme.palette.M900,
     textDecoration: 'none'
   }
 })

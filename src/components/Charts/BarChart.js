@@ -17,7 +17,7 @@ const styles = theme => ({
       marginTop: '0px',
       marginBottom: '-4px',
       borderRadius: '100%',
-      border: `solid 3px ${theme.palette.MONO.700}`,
+      border: `solid 3px ${theme.palette.M700}`,
       position: 'absolute',
       [theme.breakpoints.down('xs')]: {
         fontSize: '50px',
@@ -32,14 +32,14 @@ const styles = theme => ({
     },
     card: {
       padding: theme.spacing(2),
-      background: `${theme.palette.MONO.700}dd`,
+      background: `${theme.palette.M700}dd`,
       backgroundSize: 'cover',
       margin: 'auto',
       maxWidth: '100%',
       position: 'relative',
       borderRadius: '0.5rem',
-      border: `0px solid ${theme.palette.MONO.400}10`,
-      boxShadow: `0px 0px 40px ${theme.palette.MONO.900}02`,
+      border: `0px solid ${theme.palette.M400}10`,
+      boxShadow: `0px 0px 40px ${theme.palette.M900}02`,
       [theme.breakpoints.down('xs')]: {
         width: '100%'
       }
@@ -54,7 +54,7 @@ const styles = theme => ({
       color: 'contrastText'
     },
     Skeleton: {
-      background: `${theme.palette.MONO.600}AA`
+      background: `${theme.palette.M600}AA`
     }
   })
 

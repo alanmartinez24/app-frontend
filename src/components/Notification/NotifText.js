@@ -9,7 +9,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 const styles = theme => ({
   text: {
     display: 'inline-block',
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     margin: '0'
   },
   icon: {
@@ -26,7 +26,7 @@ const styles = theme => ({
   },
   dotdotdot: {
     whiteSpace: 'normal',
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     width: '100%',
     lineHeight: '20px'
   }

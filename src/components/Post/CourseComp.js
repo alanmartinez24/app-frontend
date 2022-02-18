@@ -21,7 +21,7 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '22px',
     fontWeight: 600,
-    textShadow: `0px 0px 5px ${theme.palette.MONO.900}aa`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}aa`,
     width: '500px',
     [theme.breakpoints.down('xs')]: {
       width: '70vw'
@@ -39,7 +39,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '18px',
-    textShadow: `0px 0px 5px ${theme.palette.MONO.900}88`,
+    textShadow: `0px 0px 5px ${theme.palette.M900}88`,
     fontWeight: 100,
     wordWrap: 'break-all'
   },
@@ -73,7 +73,7 @@ const styles = theme => ({
   previewData: {
     position: 'absolute',
     top: '0',
-    backgroundColor: theme.palette.MONO.900,
+    backgroundColor: theme.palette.M900,
     textAlign: 'left',
     zIndex: 5,
     padding: '0% 3%',

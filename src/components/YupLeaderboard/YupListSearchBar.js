@@ -19,9 +19,9 @@ const styles = theme => ({
     position: 'relative',
     borderRadius: '0.65rem',
     border: '0px solid #fff',
-    backgroundColor: theme.palette.MONO.800,
+    backgroundColor: theme.palette.M800,
     '&:hover': {
-      backgroundColor: theme.palette.MONO.700
+      backgroundColor: theme.palette.M700
     },
     justifyContent: 'flex-start',
     width: '',
@@ -37,7 +37,7 @@ const styles = theme => ({
     position: 'absolute',
     pointerEvents: 'none',
     display: 'flex',
-    color: theme.palette.MONO.100,
+    color: theme.palette.M100,
     maxWidth: '5vw',
     alignItems: 'center',
     justifyContent: 'flex-start'
