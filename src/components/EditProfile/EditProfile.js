@@ -102,7 +102,7 @@ const styles = theme => ({
   },
   editButton: {
     fontFamily: 'Gilroy',
-    backgroundColor: theme.palette.MONO.700,
+    backgroundColor: theme.palette.M700,
     zIndex: 1000,
     flex: 1,
     fontSize: '10px',

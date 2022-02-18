@@ -19,16 +19,16 @@ const styles = theme => ({
     borderRadius: '0.65rem',
     border: '0px solid #fff',
     '&:hover': {
-      backgroundColor: theme.palette.MONO.700
+      backgroundColor: theme.palette.M700
     },
     '&:focus': {
-      backgroundColor: theme.palette.MONO.700
+      backgroundColor: theme.palette.M700
     },
     marginLeft: '1rem',
     justify: 'center',
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    boxShadow: `20px 20px 20px 0px ${theme.palette.MONO.100}02, -2px -2px 20px ${theme.palette.MONO.900}04, inset 12px 3px 20px 0px ${theme.palette.MONO.100}04, inset -3px -7px 17px 0px ${theme.palette.MONO.800}a, 5px 5px 9px 0px ${theme.palette.MONO.100}04, -20px -20px 12px ${theme.palette.MONO.900}02, inset 1px 1px 6px 0px ${theme.palette.MONO.100}02, inset -1px -1px 2px 0px ${theme.palette.MONO.800}d`,
+    boxShadow: `20px 20px 20px 0px ${theme.palette.M100}02, -2px -2px 20px ${theme.palette.M900}04, inset 12px 3px 20px 0px ${theme.palette.M100}04, inset -3px -7px 17px 0px ${theme.palette.M800}a, 5px 5px 9px 0px ${theme.palette.M100}04, -20px -20px 12px ${theme.palette.M900}02, inset 1px 1px 6px 0px ${theme.palette.M100}02, inset -1px -1px 2px 0px ${theme.palette.M800}d`,
     color: '#fff',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0px'
@@ -38,7 +38,7 @@ const styles = theme => ({
     }
   },
   searchIcon: {
-    color: theme.palette.MONO.300,
+    color: theme.palette.M300,
     maxWidth: '5vw',
     height: '100%',
     position: 'absolute',
@@ -55,10 +55,10 @@ const styles = theme => ({
     fontWeight: 400,
     color: 'inherit',
     margin: '0%',
-    backgroundColor: theme.palette.MONO.300,
+    backgroundColor: theme.palette.M300,
     width: 'flex',
     '&:hover': {
-      background: theme.palette.MONO.400
+      background: theme.palette.M400
     },
     [theme.breakpoints.down('xs')]: {
       padding: '5px 10px'
@@ -101,7 +101,7 @@ const styles = theme => ({
   },
   closeIcon: {
     float: 'right',
-    color: theme.palette.MONO.300,
+    color: theme.palette.M300,
     opacity: '0.7',
     width: '25px',
     height: 'auto',
@@ -112,7 +112,7 @@ const styles = theme => ({
       width: '20px'
     },
     '&:hover': {
-      color: theme.palette.MONO.200
+      color: theme.palette.M200
     }
   }
 })
