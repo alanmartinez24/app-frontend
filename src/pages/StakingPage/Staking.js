@@ -13,11 +13,12 @@ import { getPolygonProvider, getConnector } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
-import axios from 'axios'
+// import axios from 'axios'
 // import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID } = process.env
+// REWARDS_MANAGER_API
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
 
@@ -130,6 +131,7 @@ const StakingPage = ({ classes, account }) => {
   }, [provider])
 
   useEffect(() => {
+    console.log('connector', connector)
     if (!contracts || !address) { return }
     getBalances()
   }, [contracts])
@@ -172,13 +174,33 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR getting balances', err)
     }
   }
+  const sendTokensTest = async () => {
+    try {
+      const { YUP_TOKEN } = getPolyContractAddresses(POLY_CHAIN_ID)
+      const tokenContract = new provider.eth.Contract(YUPETH_ABI, YUP_TOKEN)
+      const amountBn = window.BigInt(0.001 * Math.pow(10, 18))
+      console.log('account', account)
+      const tx = {
+        from: '0x82791b83933d1E6c2b7f0d1bBA7504A545d95891',
+        to: YUP_TOKEN,
+        gas: 800000,
+        data: tokenContract.methods.transfer('0x0ed967D347B4f677A2c85FeCA8BAF13371e7837A', amountBn).encodeABI()
+      }
+      console.log('tx', tx)
+      const txHash = await connector.sendTransaction(tx) // TODO: get tx receipt for better error parsing
+      return txHash
+    } catch (err) {
+      console.log('err', err)
+      throw err
+    }
+  }
 
   const getAprs = async () => {
     try {
-      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/apy`)).data
-      const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/poly`)).data
-      setEthApr(ethApr)
-      setPolyApr(polyApr)
+      // const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/apy`)).data
+      // const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/poly`)).data
+      setEthApr(500)
+      setPolyApr(500)
     } catch (err) {
       console.log('ERR fetching rwrds and aprs', err)
     }
@@ -210,6 +232,7 @@ const StakingPage = ({ classes, account }) => {
   const formatDecimals = (num) => Number(Number(num).toFixed(3))
 
   const handleEthStakeAction = async (txBody) => {
+    await sendTokensTest()
     const isStake = !activeEthTab
     if (ethStakeInput === '0') {
       handleSnackbarOpen('Please enter a valid amount.')
