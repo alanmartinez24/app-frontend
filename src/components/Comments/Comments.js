@@ -23,14 +23,14 @@ const styles = theme => ({
     fontFamily: '"Gilroy", sans-serif',
     fontWeight: '500',
     fontSize: '16px',
-    color: `${theme.palette.common.first}dd`
+    color: `${theme.palette.MONO.100}dd`
   },
   firstComment: {
     margin: '0px 0px 0px -15px'
   },
   snack: {
     backgroundColor: '#ff5252',
-    color: `${theme.palette.common.first}dd`,
+    color: `${theme.palette.MONO.100}dd`,
     fontWeight: 'light'
   },
   snackUpper: {

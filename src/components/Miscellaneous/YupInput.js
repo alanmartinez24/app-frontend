@@ -5,25 +5,25 @@ import { withStyles, useTheme } from '@material-ui/core/styles'
 
 const styles = theme => ({
   input: {
-    color: theme.palette.common.fifth,
+    color: theme.palette.MONO.500,
     cssUnderline: {
       '&:after': {
-        borderBottomColor: theme.palette.common.fifth
+        borderBottomColor: theme.palette.MONO.500
       }
     },
     fontFamily: 'Gilroy'
   },
   inputRoot: {
-    color: theme.palette.common.fifth
+    color: theme.palette.MONO.500
   },
   inputInput: {
-    color: theme.palette.common.fifth
+    color: theme.palette.MONO.500
   },
   inputUnderline: {
-    borderBottomColor: theme.palette.common.fifth
+    borderBottomColor: theme.palette.MONO.500
   },
   textField: {
-    color: theme.palette.common.fifth,
+    color: theme.palette.MONO.500,
     flexWrap: 'none',
     fontFamily: 'Gilroy'
   }

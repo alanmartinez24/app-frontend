@@ -19,7 +19,7 @@ import isEqual from 'lodash/isEqual'
 const styles = theme => ({
   infoCard: {
     borderRadius: '1px',
-    border: `1px solid ${theme.palette.common.second}`,
+    border: `1px solid ${theme.palette.MONO.200}`,
     boxShadow: '0px 0px 0px white',
     textAlign: 'left',
     marginLeft: '0%',

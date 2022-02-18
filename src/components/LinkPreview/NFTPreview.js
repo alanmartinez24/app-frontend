@@ -72,17 +72,17 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: theme.palette.common.first,
+    color: theme.palette.MONO.100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.common.first
+      color: theme.palette.MONO.100
     },
     maxHeight: '500px'
   },
   title: {
     position: 'relative',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
-    color: theme.palette.common.first,
+    textShadow: `0px 0px 5px ${theme.palette.MONO.900}aa`,
+    color: theme.palette.MONO.100,
     opacity: 0.9,
     [theme.breakpoints.down('md')]: {
       width: 'auto'
@@ -94,7 +94,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '12px',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.MONO.900}88`,
     fontWeight: 300,
     lineHeight: 1.3,
     [theme.breakpoints.down('xs')]: {
@@ -104,7 +104,7 @@ const styles = theme => ({
   credits: {
     position: 'relative',
     fontSize: '14px',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.MONO.900}88`,
     fontWeight: 400,
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
@@ -128,7 +128,7 @@ const styles = theme => ({
     textAlign: 'left',
     width: '100%',
     zIndex: 5,
-    background: `linear-gradient(${theme.palette.alt.second}00, ${theme.palette.alt.second}46, ${theme.palette.alt.second}ae, ${theme.palette.alt.second}dd, ${theme.palette.alt.second}ed, ${theme.palette.alt.second}fe, ${theme.palette.alt.second}, ${theme.palette.alt.second})`,
+    background: `linear-gradient(${theme.palette.MONO.800}00, ${theme.palette.MONO.800}46, ${theme.palette.MONO.800}ae, ${theme.palette.MONO.800}dd, ${theme.palette.MONO.800}ed, ${theme.palette.MONO.800}fe, ${theme.palette.MONO.800}, ${theme.palette.MONO.800})`,
     padding: '2% 3% 3% 3%',
     backdropFilter: 'blur(2px)'
   }

@@ -37,7 +37,7 @@ const styles = theme => ({
     minHeight: 100 - theme.spacing(3),
     fontSize: '70px',
     borderRadius: '100%',
-    border: `solid 3px ${theme.palette.common.third}`,
+    border: `solid 3px ${theme.palette.MONO.300}`,
     [theme.breakpoints.down('xs')]: {
       fontSize: '50px',
       borderRadius: '100%',

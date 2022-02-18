@@ -29,13 +29,13 @@ const styles = theme => ({
       }
     },
     card: {
-      background: `${theme.palette.alt.third}dd`,
+      background: `${theme.palette.MONO.700}dd`,
       backgroundSize: 'cover',
       maxWidth: '100%',
       position: 'relative',
       borderRadius: '0.5rem',
-      border: `0px solid ${theme.palette.common.fourth}10`,
-      boxShadow: `0px 0px 40px ${theme.palette.alt.first}02`,
+      border: `0px solid ${theme.palette.MONO.400}10`,
+      boxShadow: `0px 0px 40px ${theme.palette.MONO.900}02`,
       [theme.breakpoints.down('xs')]: {
         width: '100vw'
       }
@@ -44,11 +44,11 @@ const styles = theme => ({
       padding: theme.spacing(2)
     },
     text: {
-      color: `${theme.palette.common.third}AA`,
+      color: `${theme.palette.MONO.300}AA`,
       fontWeight: 400
     },
     Skeleton: {
-      background: theme.palette.alt.fourth
+      background: theme.palette.MONO.600
     }
   })
 

@@ -78,7 +78,7 @@ const styles = theme => ({
 const SideDrawer = ({ classes }) => {
   return (
     <ErrorBoundary>
-      <div className='w3-hide-small'>
+      <div className='W150-hide-small'>
         <Drawer
           classes={{ paper: classes.drawerPaper }}
           className={classes.drawer}

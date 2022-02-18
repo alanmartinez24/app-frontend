@@ -28,7 +28,7 @@ const styles = theme => ({
     marginTop: 0,
     marginBottom: -4,
     borderRadius: '100%',
-    border: `solid 3px ${theme.palette.common.third}`,
+    border: `solid 3px ${theme.palette.MONO.300}`,
     position: 'absolute',
     [theme.breakpoints.down('xs')]: {
       fontSize: 45,
@@ -56,7 +56,7 @@ const styles = theme => ({
   card: {
     paddingTop: theme.spacing(-10),
     paddingBottom: theme.spacing(-10),
-    boxShadow: `0px 0px 0px ${theme.palette.alt.third}81`,
+    boxShadow: `0px 0px 0px ${theme.palette.MONO.700}81`,
     background: 'transparent',
     backgroundSize: 'cover',
     width: '100%',
@@ -75,7 +75,7 @@ const styles = theme => ({
     }
   },
   chip: {
-    backgroundColor: theme.palette.alt.third,
+    backgroundColor: theme.palette.MONO.700,
     color: theme.palette.text.secondary,
     display: 'flex',
     justifyContent: 'center',

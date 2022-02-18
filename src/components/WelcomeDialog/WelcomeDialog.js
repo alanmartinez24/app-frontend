@@ -11,7 +11,7 @@ const styles = theme => ({
   dialogTitleText: {
     fontFamily: 'Gilroy',
     fontWeight: '300',
-    color: theme.palette.common.first,
+    color: theme.palette.MONO.100,
     fontSize: '20'
   },
   dialogContentText: {

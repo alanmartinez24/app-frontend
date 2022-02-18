@@ -92,13 +92,13 @@ const styles = theme => ({
   ItemContainer: {
     '&:hover': {
       ImageCard: {
-        boxShadow: `0px 0px 30px ${theme.palette.common.first}`
+        boxShadow: `0px 0px 30px ${theme.palette.MONO.100}`
       },
       fontWeight: '500 !important'
     }
   },
   ItemSubHeader: {
-    color: theme.palette.common.first,
+    color: theme.palette.MONO.100,
     fontSize: '15px',
     marginTop: theme.spacing(1),
     fontFamily: 'Gilroy',
@@ -138,7 +138,7 @@ const styles = theme => ({
     borderRadius: 10,
     margin: '5px 0px',
     '&:hover': {
-      background: `${theme.palette.alt.fifth}10`
+      background: `${theme.palette.MONO.500}10`
     }
   },
   recommendedImgContainer: {
@@ -158,7 +158,7 @@ const styles = theme => ({
     width: '100%',
     height: `${theme.spacing(48)}px`,
     backgroundSize: 'cover',
-    backgroundImage: `linear-gradient(to top, ${theme.palette.alt.second}, ${theme.palette.alt.second}cc),
+    backgroundImage: `linear-gradient(to top, ${theme.palette.MONO.800}, ${theme.palette.MONO.800}cc),
 url('images/feeds/rainbowbanner.svg')`,
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'auto'
@@ -191,16 +191,16 @@ url('images/feeds/rainbowbanner.svg')`,
   titlePlain: {
     paddingBottom: `${theme.spacing(1)}px`,
     fontSize: `${theme.spacing(8)}px`,
-    color: Colors.W2,
+    color: Colors.W100,
     lineHeight: `${theme.spacing(8)}px`,
-    textShadow: `0px 0px 40px ${theme.palette.alt.first}33`,
+    textShadow: `0px 0px 40px ${theme.palette.MONO.900}33`,
     [theme.breakpoints.down('xs')]: {
       fontSize: `${theme.spacing(4)}px`,
       lineHeight: `${theme.spacing(4)}px`
     }
   },
   subtitle: {
-    color: Colors.W2
+    color: Colors.W100
   },
   primaryButton: {
     backgroundColor: Colors.Green,
@@ -273,7 +273,7 @@ class Home extends Component {
                     >
                       <Card elevation={0}
                         className={classes.bannerCard}
-                        style={{ backgroundImage: isUser ? `linear-gradient(to top, ${theme.palette.alt.fifth}, ${theme.palette.alt.fourth})` : "url('images/feeds/rainbowbanner.svg')" }}
+                        style={{ backgroundImage: isUser ? `linear-gradient(to top, ${theme.palette.MONO.500}, ${theme.palette.MONO.600})` : "url('images/feeds/rainbowbanner.svg')" }}
                       >
                         <CardContent>
                           <Grid container
@@ -401,7 +401,7 @@ class Home extends Component {
                                       <Grid item>
                                         <Typography
                                           variant='h5'
-                                          style={{ color: Colors.W2 }}
+                                          style={{ color: Colors.W100 }}
                                         >
                                           {item.title}
                                         </Typography>

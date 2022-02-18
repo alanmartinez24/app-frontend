@@ -23,8 +23,8 @@ const styles = theme => ({
     color: 'white'
   },
   followButton: {
-    color: theme.palette.common.first,
-    backgroundColor: `${theme.palette.alt.third}90`,
+    color: theme.palette.MONO.100,
+    backgroundColor: `${theme.palette.MONO.700}90`,
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
     }

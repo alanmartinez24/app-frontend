@@ -51,10 +51,10 @@ const styles = theme => ({
   },
   previewContainer: {
     textDecoration: 'none',
-    color: theme.palette.common.first,
+    color: theme.palette.MONO.100,
     '&:visited': {
       textDecoration: 'none',
-      color: theme.palette.common.first
+      color: theme.palette.MONO.100
     },
     maxHeight: '500px'
   },
@@ -62,8 +62,8 @@ const styles = theme => ({
     position: 'relative',
     fontSize: '1rem',
     fontWeight: 500,
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}aa`,
-    color: theme.palette.common.first,
+    textShadow: `0px 0px 5px ${theme.palette.MONO.900}aa`,
+    color: theme.palette.MONO.100,
     opacity: 0.9,
     width: '400px',
     [theme.breakpoints.down('xs')]: {
@@ -73,7 +73,7 @@ const styles = theme => ({
   description: {
     position: 'relative',
     fontSize: '0.7rem',
-    textShadow: `0px 0px 5px ${theme.palette.alt.first}88`,
+    textShadow: `0px 0px 5px ${theme.palette.MONO.900}88`,
     fontWeight: 200,
     maxWidth: '400px',
     [theme.breakpoints.down('xs')]: {

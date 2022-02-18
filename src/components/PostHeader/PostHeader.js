@@ -60,7 +60,7 @@ const styles = theme => ({
   time: {
     paddingRight: '2px',
     marginLeft: 'auto',
-    color: theme.palette.common.fifth,
+    color: theme.palette.MONO.500,
     fontSize: '14px',
     lineHeight: '14px',
     paddingTop: '0px',
@@ -81,7 +81,7 @@ const styles = theme => ({
     height: '22px'
   },
   arrow: {
-    color: theme.palette.common.first
+    color: theme.palette.MONO.100
   }
 })
 
