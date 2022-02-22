@@ -182,7 +182,7 @@ class ConnectEth extends Component {
       const accounts = connected ? payload._accounts : payload.params[0].accounts
       const eosname = this.props.account.name
 
-      if (chainId !== Number(POLY_CHAIN_ID)) {
+      if (Number(chainId) !== Number(POLY_CHAIN_ID)) {
         this.handleSnackbarOpen(NOT_POLYGON_MSG, true)
         this.onDisconnect()
         return
@@ -204,6 +204,7 @@ class ConnectEth extends Component {
       this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
+      this.props.setAddress && this.props.setAddress(accounts[0]) // set address for account if getBalance function is pased down
       this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
       this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
@@ -371,6 +372,7 @@ ConnectEth.propTypes = {
   getBalances: PropTypes.func,
   handleDisconnect: PropTypes.func,
   setConnector: PropTypes.func,
+  setAddress: PropTypes.func,
   dispatch: PropTypes.func.isRequired
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(ConnectEth))))

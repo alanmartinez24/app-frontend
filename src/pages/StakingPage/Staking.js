@@ -14,6 +14,7 @@ import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
 import axios from 'axios'
+import { ethers } from 'ethers'
 // import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
@@ -89,7 +90,6 @@ const StakingPage = ({ classes, account }) => {
   const [provider, setProvider] = useState(null)
   const [connector, setConnector] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [walletIsConnected, setWalletIsConnected] = useState(false)
 
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
@@ -114,15 +114,11 @@ const StakingPage = ({ classes, account }) => {
     getAprs()
   }, [])
 
-  useEffect(() => {
-    if (!connector || !connector._connected) { return }
-    // if (connector.chainId !== Number(POLY_CHAIN_ID)) {
-    //   handleSnackbarOpen('Wrong network. Please connect to Polygon.')
-    //   return
-    // }
-    setWalletIsConnected(true)
-    setAddress(connector.accounts[0])
-  }, [connector])
+  // useEffect(() => {
+  //   if (!connector || !connector._connected) { return }
+  //   setWalletIsConnected(true)
+  //   (connector.accounts[0])
+  // }, [connector])
 
   useEffect(() => {
     if (!provider) { return }
@@ -148,7 +144,7 @@ const StakingPage = ({ classes, account }) => {
     }
   }
   const handleDisconnect = () => {
-    setWalletIsConnected(false)
+    setAddress(null)
     setConnector(null)
   }
 
@@ -167,7 +163,6 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakeEth(ethStake)
       setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
-      setWalletIsConnected(true)
     } catch (err) {
       console.log('ERR getting balances', err)
     }
@@ -188,14 +183,15 @@ const StakingPage = ({ classes, account }) => {
    if (!account || !account.name) {
     handleSnackbarOpen('Please sign into your YUP account first.')
     return
-   } else if (!walletIsConnected) {
+   } else if (!address) {
       setEthConnectorDialog(true)
       return
    }
+   const gas = ethers.utils.parseUnits(ethers.utils.formatUnits((await provider.getGasPrice()).mul(2), 'gwei'), 'gwei')
     setIsLoading(true)
     const txBody = {
       from: address,
-      gas: 800000
+      gas
     }
     if (lpToken === 'eth') {
       await handleEthStakeAction(txBody)
@@ -283,10 +279,12 @@ const StakingPage = ({ classes, account }) => {
         setEthConnectorDialog(true)
         return
       }
+
       setIsLoading(true)
+      const gas = ethers.utils.parseUnits(ethers.utils.formatUnits((await provider.getGasPrice()).mul(2), 'gwei'), 'gwei')
       const txBody = {
         from: address,
-        gas: 800000
+        gas
       }
       if (ethRwrdAmt > 0) {
         const ethCollectTx = {
@@ -535,7 +533,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={() => handleStakingAction('eth')}
                                         >
-                                          {walletIsConnected ? activeEthTab ? 'Unstake' : 'Stake' : 'Connect'}
+                                          {address ? activeEthTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -699,7 +697,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={() => handleStakingAction('poly')}
                                         >
-                                          {walletIsConnected ? activePolyTab ? 'Unstake' : 'Stake' : 'Connect'}
+                                          {address ? activePolyTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -829,7 +827,7 @@ const StakingPage = ({ classes, account }) => {
                                           className={classes.submitBtnTxt}
                                           onClick={collectRewards}
                                         >
-                                          {walletIsConnected ? 'Collect' : 'Connect'}
+                                          {address ? 'Collect' : 'Connect'}
                                         </Typography>
                                       </Button>
                                     </Grid>
@@ -850,6 +848,7 @@ const StakingPage = ({ classes, account }) => {
               account={account}
               getBalances={getBalances}
               setConnector={setConnector}
+              setAddress={setAddress}
               dialogOpen={ethConnectorDialog}
               handleDialogClose={handleEthConnectorDialogClose}
             />
