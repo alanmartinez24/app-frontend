@@ -7,6 +7,7 @@ export const levelColors = {
   fifth: '#EB3650',
   sixth: '#EB3650' // Shouldn't be used, kept here for backwards compatibility
 }
+
 export const Gradients = {
   background: {
     dark: 'linear-gradient(180deg, #2A2A2A 0%, #161616 100%)',
