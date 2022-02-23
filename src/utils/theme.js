@@ -1,4 +1,4 @@
-import Colors, { Gradients, levelColors } from './colors'
+import Colors, { Gradients } from './colors'
 
 export const darkPalette = {
   palette: {
@@ -414,7 +414,7 @@ export const theme = ({ palette }) => {
         fontWeight: '200'
       },
       colorError: {
-        color: levelColors.fifth
+        color: '#EB3650'
       }
     },
     props: {
