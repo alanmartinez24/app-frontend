@@ -177,8 +177,8 @@ const StakingPage = ({ classes, account }) => {
 
   const getAprs = async () => {
     try {
-      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/apy`)).data
-      const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/poly`)).data
+      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/aprs/eth`)).data
+      const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/aprs/poly`)).data
       setEthApr(ethApr)
       setPolyApr(polyApr)
     } catch (err) {
@@ -199,8 +199,6 @@ const StakingPage = ({ classes, account }) => {
       setEthConnectorDialog(true)
       return
    }
-   // connector.chainId = POLY_CHAIN_ID
-   // connector.rpcUrl = POLY_RPC_URL
     setIsLoading(true)
     const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(2), 'gwei'), 'gwei')
     console.log('gasPrice', gasPrice)
@@ -302,10 +300,10 @@ const StakingPage = ({ classes, account }) => {
       }
 
       setIsLoading(true)
-      const gas = ethers.utils.parseUnits(ethers.utils.formatUnits((await provider.eth.getGasPrice()).mul(2), 'gwei'), 'gwei')
+      const gasPrice = await provider.eth.getGasPrice()
       const txBody = {
         from: address,
-        gas
+        gasPrice
       }
       if (ethRwrdAmt > 0) {
         const ethCollectTx = {
