@@ -133,8 +133,6 @@ const StakingPage = ({ classes, account }) => {
   const getContracts = async () => {
     try {
       if (!provider) { return }
-      console.log((await provider.eth.getGasPrice()))
-
       const polyLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
       const ethLiquidity = new provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
       const polyLpToken = new provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
@@ -172,8 +170,8 @@ const StakingPage = ({ classes, account }) => {
 
   const getAprs = async () => {
     try {
-      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/apy`)).data
-      const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/prices/eth/poly`)).data
+      const ethApr = (await axios.get(`${REWARDS_MANAGER_API}/aprs/eth`)).data
+      const polyApr = (await axios.get(`${REWARDS_MANAGER_API}/aprs/poly`)).data
       setEthApr(ethApr)
       setPolyApr(polyApr)
     } catch (err) {
@@ -189,12 +187,10 @@ const StakingPage = ({ classes, account }) => {
       setEthConnectorDialog(true)
       return
    }
-   console.log((await provider.eth.getGasPrice()))
-   const gas = ethers.utils.parseUnits(ethers.utils.formatUnits(window.BigInt((await provider.eth.getGasPrice())).mul(2), 'gwei'), 'gwei')
-    setIsLoading(true)
+   const gasPrice = await provider.eth.getGasPrice()
     const txBody = {
       from: address,
-      gas
+      gasPrice
     }
     if (lpToken === 'eth') {
       await handleEthStakeAction(txBody)
@@ -283,10 +279,10 @@ const StakingPage = ({ classes, account }) => {
       }
 
       setIsLoading(true)
-      const gas = ethers.utils.parseUnits(ethers.utils.formatUnits((await provider.eth.getGasPrice()).mul(2), 'gwei'), 'gwei')
+      const gasPrice = await provider.eth.getGasPrice()
       const txBody = {
         from: address,
-        gas
+        gasPrice
       }
       if (ethRwrdAmt > 0) {
         const ethCollectTx = {
