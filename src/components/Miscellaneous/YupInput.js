@@ -27,9 +27,9 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) => {
+const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, endAdornment, ...restProps }) => {
   const { palette } = useTheme()
-  const endAdornment = onSubmit
+  const arrowEndAdornment = onSubmit
     ? <InputAdornment position='end'>
       <IconButton
         onClick={onSubmit}
@@ -45,27 +45,29 @@ const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, ...restProps }) 
       className={classes.textField}
       inputProps={{ maxLength, borderBottomColor: palette.second }}
       InputProps={{
-                endAdornment,
-                classes: {
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                    // underline: classes.inputUnderline
-                },
-                className: classes.input }}
+        endAdornment: endAdornment || arrowEndAdornment,
+        classes: {
+          root: classes.inputRoot,
+          input: classes.inputInput
+          // underline: classes.inputUnderline
+        },
+        className: classes.input
+        }}
       InputLabelProps={{
-                style: {
-                    color: palette.third
-                }
-            }}
+        style: {
+          color: palette.third
+        }
+      }}
     />
   )
 }
 
 YupInput.propTypes = {
-    classes: PropTypes.object.isRequired,
-    maxLength: PropTypes.number,
-    onSubmit: PropTypes.func,
-    inputIsValid: PropTypes.bool.isRequired
-  }
+  classes: PropTypes.object.isRequired,
+  maxLength: PropTypes.number,
+  onSubmit: PropTypes.func,
+  inputIsValid: PropTypes.bool.isRequired,
+  endAdornment: PropTypes.symbol.isRequired
+}
 
 export default (withStyles(styles)(YupInput))

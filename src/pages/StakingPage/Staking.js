@@ -518,11 +518,11 @@ const StakingPage = ({ classes, account }) => {
                                           size='small'
                                           value={ethStakeInput}
                                           onChange={handleEthStakeAmountChange}
-                                          adornment={<Button size='xs'
+                                          endAdornment={<Button size='xs'
                                             variant='default'
                                             onClick={handleEthStakeMax}
                                             className={classes.maxBtn}
-                                                     >Max</Button>}
+                                                        >Max</Button>}
                                         />
                                       </Grid>
                                     </Grid>
@@ -682,11 +682,11 @@ const StakingPage = ({ classes, account }) => {
                                           size='small'
                                           value={polyStakeInput}
                                           onChange={handlePolyStakeAmountChange}
-                                          adornment={<Button size='xs'
+                                          endAdornment={<Button size='xs'
                                             variant='text'
                                             onClick={handlePolyStakeMax}
                                             className={classes.maxBtn}
-                                                     >Max</Button>}
+                                                        >Max</Button>}
                                         />
                                       </Grid>
                                     </Grid>
