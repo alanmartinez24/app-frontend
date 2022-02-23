@@ -221,15 +221,13 @@ const StakingPage = ({ classes, account }) => {
     }
     try {
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
-      await enableAndSwitchProvider(provider)
-      const web3Provider = getWeb3InstanceOfProvider(provider)
       if (isStake) {
         const approveTx = {
           ...txBody,
           to: ETH_UNI_LP_TOKEN,
           data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
         }
-        await web3Provider.eth.sendTransaction(approveTx)
+        await sendTx(approveTx)
       }
       const stakeTx = {
         ...txBody,
@@ -237,7 +235,7 @@ const StakingPage = ({ classes, account }) => {
         data: isStake ? contracts.ethLiquidity.methods.stake(stakeAmt).encodeABI()
         : contracts.ethLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
-      await web3Provider.eth.sendTransaction(stakeTx)
+      await sendTx(stakeTx)
       const updatedLpBal = isStake ? toBaseNum(ethLpBal) - Number(ethStakeInput) : toBaseNum(ethLpBal) + Number(ethStakeInput)
       const updatedStake = isStake ? toBaseNum(currentStakeEth) + Number(ethStakeInput) : toBaseNum(currentStakeEth) - Number(ethStakeInput)
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
@@ -246,6 +244,11 @@ const StakingPage = ({ classes, account }) => {
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. ${err.message}`)
       console.log('ERR handling eth staking', err)
     }
+  }
+  const sendTx = async (tx) => {
+    await enableAndSwitchProvider(provider)
+    const web3Provider = getWeb3InstanceOfProvider(provider)
+    await web3Provider.eth.sendTransaction(tx)
   }
 
   const handlePolyStakeAction = async (txBody) => {
@@ -262,7 +265,7 @@ const StakingPage = ({ classes, account }) => {
           to: POLY_UNI_LP_TOKEN,
           data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
         }
-        await connector.sendTransaction(approveTx)
+        await sendTx(approveTx)
       }
       const stakeTx = {
         ...txBody,
@@ -270,7 +273,7 @@ const StakingPage = ({ classes, account }) => {
         data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
         : contracts.polyLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
-      await connector.sendTransaction(stakeTx)
+      await sendTx(stakeTx)
 
       const updatedLpBal = isStake ? toBaseNum(polyLpBal) - Number(polyStakeInput) : toBaseNum(polyLpBal) + Number(polyStakeInput)
       const updatedStake = isStake ? toBaseNum(currentStakePoly) + Number(polyStakeInput) : toBaseNum(currentStakePoly) - Number(polyStakeInput)
@@ -295,7 +298,7 @@ const StakingPage = ({ classes, account }) => {
           to: ETH_LIQUIDITY_REWARDS,
           data: contracts.ethLiquidity.methods.getReward().encodeABI()
         }
-        await connector.sendTransaction(ethCollectTx)
+        await sendTx(ethCollectTx)
         setEthRwrdAmt(0)
       }
       if (polyRwrdAmt > 0) {
@@ -304,7 +307,7 @@ const StakingPage = ({ classes, account }) => {
           to: POLY_LIQUIDITY_REWARDS,
           data: contracts.polyLiquidity.methods.getReward().encodeABI()
         }
-        await connector.sendTransaction(polyCollectTx)
+        await sendTx(polyCollectTx)
         setPolyRwrdAmt(0)
       }
       setIsLoading(false)
