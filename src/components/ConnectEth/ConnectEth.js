@@ -2,7 +2,7 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, Portal, Snackbar, SnackbarContent, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { getConnector } from '../../utils/eth'
+import { getConnector, getConnectorNoModal } from '../../utils/eth'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { convertUtf8ToHex } from '@walletconnect/utils'
@@ -127,7 +127,7 @@ class ConnectEth extends Component {
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
     // create new connector
-    const connector = await getConnector()
+    const connector = this.props.noModal ? await getConnectorNoModal() : await getConnector()
     this.setState({ connector })
 
     // already logged in
@@ -216,8 +216,8 @@ class ConnectEth extends Component {
   }
 
   updateParentSuccess = () => {
-    this.props.setAddress && this.props.setAddress(this.address) // set address for account if getBalance function is pased down
-    this.props.getBalances && this.props.getBalances(this.address) // get balance for account if getBalance function is pased down
+    this.props.setAddress && this.props.setAddress(this.account) // set address for account if getBalance function is pased down
+    this.props.getBalances && this.props.getBalances(this.account) // get balance for account if getBalance function is pased down
     this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
   }
 
@@ -382,6 +382,7 @@ ConnectEth.propTypes = {
   handleDisconnect: PropTypes.func,
   setConnector: PropTypes.func,
   setAddress: PropTypes.func,
+  noModal: PropTypes.bool,
   dispatch: PropTypes.func.isRequired
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(ConnectEth))))

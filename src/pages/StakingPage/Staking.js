@@ -21,7 +21,6 @@ import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
 import axios from 'axios'
 import { ethers } from 'ethers'
-// import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
 const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env // POLY_RPC_URL
@@ -192,8 +191,8 @@ const StakingPage = ({ classes, account }) => {
 
   const handleStakingAction = async (lpToken) => {
     if (!account || !account.name) {
-    handleSnackbarOpen('Please sign into your YUP account first.')
-    return
+      handleSnackbarOpen('Please sign into your YUP account first.')
+      return
    } else if (!address) {
       setEthConnectorDialog(true)
       return
@@ -246,7 +245,7 @@ const StakingPage = ({ classes, account }) => {
     }
   }
   const sendTx = async (tx) => {
-    await enableAndSwitchProvider(provider)
+    await enableAndSwitchProvider()
     const web3Provider = getWeb3InstanceOfProvider(provider)
     await web3Provider.eth.sendTransaction(tx)
   }
@@ -852,6 +851,7 @@ const StakingPage = ({ classes, account }) => {
             <ConnectEth
               handleDisconnect={handleDisconnect}
               account={account}
+              noModal
               getBalances={getBalances}
               setConnector={setConnector}
               setAddress={setAddress}
