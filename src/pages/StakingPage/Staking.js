@@ -215,7 +215,7 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeAction = async (txBody) => {
     const isStake = !activeEthTab
-    if (ethStakeInput === '0') {
+    if (polyStakeInput === '0' || isNaN(Number(ethStakeInput))) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -253,7 +253,7 @@ const StakingPage = ({ classes, account }) => {
 
   const handlePolyStakeAction = async (txBody) => {
     const isStake = !activePolyTab
-    if (polyStakeInput === '0') {
+    if (polyStakeInput === '0' || isNaN(Number(polyStakeInput))) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
