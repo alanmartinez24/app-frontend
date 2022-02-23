@@ -8,23 +8,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 
 const { WALLET_CONNECT_BRIDGE, POLY_RPC_URL, POLY_CHAIN_ID } = process.env
 
-// export const getPolygonProvider = () => {
-//   const maticProvider = new WalletConnectProvider(
-//     {
-//       host: POLY_RPC_URL,
-//       callbacks: {
-//         onConnect: console.log('matic provider connected'),
-//         onDisconnect: console.log('matic provider disconnected')
-//       }
-//     }
-//   )
-//   const maticWeb3 = new Web3(maticProvider)
-//   return maticWeb3
-// }
-
-export const getPriceProvider = () => {
-  return new providers.JsonRpcProvider(POLY_RPC_URL)
-}
+export const getPriceProvider = () => new providers.JsonRpcProvider(POLY_RPC_URL)
 
 export const getPolygonProvider = () => {
   const maticProvider = new WalletConnectProvider(
@@ -48,9 +32,7 @@ export const enableAndSwitchProvider = async (provider) => {
   provider.updateRpcUrl(POLY_CHAIN_ID)
 }
 
-export const getWeb3InstanceOfProvider = (provider) => {
-  return new Web3(provider)
-}
+export const getWeb3InstanceOfProvider = (provider) => new Web3(provider)
 
 export const getConnector = async () => {
   try {
