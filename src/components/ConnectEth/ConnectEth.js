@@ -216,8 +216,8 @@ class ConnectEth extends Component {
   }
 
   updateParentSuccess = () => {
-    this.props.setAddress && this.props.setAddress(this.address) // set address for account if getBalance function is pased down
-    this.props.getBalances && this.props.getBalances(this.address) // get balance for account if getBalance function is pased down
+    this.props.setAddress && this.props.setAddress(this.account) // set address for account if getBalance function is pased down
+    this.props.getBalances && this.props.getBalances(this.account) // get balance for account if getBalance function is pased down
     this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
   }
 
