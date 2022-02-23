@@ -188,7 +188,6 @@ class ConnectEth extends Component {
         return
       }
 
-      this.handleSnackbarOpen('Successfully connected.', false)
       this.setState({
         connected: true,
         activeStep: 1
@@ -200,7 +199,8 @@ class ConnectEth extends Component {
       const msgParams = [hexMsg, address]
       const signature = await this.state.connector.signPersonalMessage(msgParams)
       this.setState({ activeStep: 2 })
-      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
+      console.log('signature', signature)
+      // await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
