@@ -100,14 +100,8 @@ const StakingPage = ({ classes, account }) => {
   const handleSnackbarOpen = msg => setSnackbarMsg(msg)
   const handleSnackbarClose = () => setSnackbarMsg('')
 
-  const handleEthStakeMax = () => {
-    const isStake = !activeEthTab
-    setEthStakeInput(toBaseNum(isStake ? ethLpBal : currentStakeEth))
-  }
-  const handlePolyStakeMax = () => {
-    const isStake = !activePolyTab
-    setPolyStakeInput(toBaseNum(isStake ? polyLpBal : currentStakePoly))
-  }
+  const handleEthStakeMax = () => setEthStakeInput(toBaseNum(!activeEthTab ? ethLpBal : currentStakeEth))
+  const handlePolyStakeMax = () => setPolyStakeInput(toBaseNum(!activePolyTab ? polyLpBal : currentStakePoly))
 
   useEffect(() => {
     localStorage.removeItem('walletconnect')
@@ -202,18 +196,17 @@ const StakingPage = ({ classes, account }) => {
 
   const handleStakingAction = async (lpToken) => {
     if (!account || !account.name) {
-    handleSnackbarOpen('Please sign into your YUP account first.')
-    return
+      handleSnackbarOpen('Please sign into your YUP account first.')
+      return
    } else if (!address) {
       setEthConnectorDialog(true)
       return
    }
     setIsLoading(true)
-    const txBody = await getTxBody()
     if (lpToken === 'eth') {
-      await handleEthStakeAction(txBody)
+      await handleEthStakeAction()
     } else if (lpToken === 'poly') {
-      await handlePolyStakeAction(txBody)
+      await handlePolyStakeAction()
     }
     setIsLoading(false)
   }
@@ -221,18 +214,22 @@ const StakingPage = ({ classes, account }) => {
   const toBaseNum = (num) => num / Math.pow(10, 18)
   const toGwei = (num) => num * Math.pow(10, 18)
   const formatDecimals = (num) => Number(Number(num).toFixed(3))
+
   const isValidStakeAmt = (amt) => {
     const stakeAmt = Number(amt)
     return !isNaN(stakeAmt) && stakeAmt > 0
   }
 
-  const handleEthStakeAction = async (txBody) => {
-    const isStake = !activeEthTab
+  const handleEthStakeAction = async () => {
     if (!isValidStakeAmt(ethStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
+
+    const isStake = !activePolyTab
+
     try {
+      const txBody = await getTxBody()
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
       if (isStake) {
         const approveTx = {
@@ -266,12 +263,14 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handlePolyStakeAction = async (txBody) => {
-    const isStake = !activePolyTab
     if (isValidStakeAmt(polyStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
+
+    const isStake = !activePolyTab
     try {
+      const txBody = await getTxBody()
       const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
       if (isStake) {
         const approveTx = {
@@ -294,14 +293,14 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
-      incrementRetryCount()
+      if (err && err.code !== 4001) { incrementRetryCount() }
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
       console.log('ERR handling polygon staking', err)
     }
   }
   const collectRewards = async () => {
     try {
-      if (!connector) {
+      if (!address) {
         setEthConnectorDialog(true)
         return
       }
@@ -327,7 +326,7 @@ const StakingPage = ({ classes, account }) => {
       }
       setIsLoading(false)
     } catch (err) {
-      incrementRetryCount()
+      if (err && err.code !== 4001) { incrementRetryCount() }
       handleSnackbarOpen('There was a problem collecting your rewards.')
       console.log('ERR collecting rewards', err)
     }
