@@ -65,8 +65,7 @@ class AirdropPage extends Component {
     subscribeDialogOpen: false,
     snackbarMsg: null,
     activeStep: 0,
-    lpClaimSuccess: false,
-    claimSuccess: false
+    lpClaimSuccess: false
   }
   componentDidMount () {
     const redirect = localStorage.getItem('twitterRedirect')
@@ -87,7 +86,7 @@ class AirdropPage extends Component {
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
   claimAirdrop = async () => {
-    const { polygonAddress, lpAidrop, lpClaimSuccess, claimSuccess } = this.state
+    const { polygonAddress, lpAidrop, lpClaimSuccess } = this.state
     const { account } = this.props
     if (!isAddress(polygonAddress)) {
       this.setState({ snackbarMsg: 'Please enter a valid polygon address' })
@@ -102,7 +101,7 @@ class AirdropPage extends Component {
     if (hasAvailableLpAirdrop) {
       try {
         await axios.post(`${BACKEND_API}/lp-airdrop/claim`, params)
-        this.setState({ lpClaimSuccess: true })
+        this.setState({ lpClaimSuccess: true, activeStep: 3 })
         hasAvailableLpAirdrop = false
       } catch (err) {
         this.setState({ snackbarMsg: err.response && err.response.data.message })
@@ -111,15 +110,12 @@ class AirdropPage extends Component {
 
     try {
       await axios.post(`${BACKEND_API}/airdrop/claim`, params)
-      this.setState({ claimSuccess: true })
+      this.setState({ activeStep: 3 })
     } catch (err) {
       rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
       this.setState({ snackbarMsg: err.response && err.response.data.message })
     }
 
-    if (claimSuccess || lpClaimSuccess) {
-      this.setState({ activeStep: 3 })
-    }
     this.setState({ isLoading: false })
   }
 
