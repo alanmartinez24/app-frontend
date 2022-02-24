@@ -15,7 +15,10 @@ import {
   getWeb3InstanceOfProvider
  } from '../../utils/eth'
 
-const { BACKEND_API, POLY_CHAIN_ID } = process.env
+const { BACKEND_API } = process.env
+const POLY_CHAIN_ID = Number(process.env.POLY_CHAIN_ID)
+const ETH_CHAIN_ID = Number(process.env.ETH_CHAIN_ID)
+
 const ERROR_MSG = `Make sure you are logged into yup and please try again.`
 const NOT_POLYGON_MSG = 'Make sure you are connecting to Polygon from your wallet. You can use Metamask mobile.'
 
@@ -174,7 +177,7 @@ class ConnectEth extends Component {
       const chainId = await web3.eth.getChainId()
       const eosname = this.props.account.name
 
-      if (Number(chainId) !== Number(POLY_CHAIN_ID)) {
+      if (chainId !== POLY_CHAIN_ID && chainId !== ETH_CHAIN_ID) {
         this.handleSnackbarOpen(NOT_POLYGON_MSG, true)
         this.onDisconnect()
       }
@@ -189,7 +192,7 @@ class ConnectEth extends Component {
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
       const hexMsg = convertUtf8ToHex(challenge)
       const signature = await web3.eth.personal.sign(hexMsg, address)
-      console.log(signature)
+      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
       this.setState({ activeStep: 2 })
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
