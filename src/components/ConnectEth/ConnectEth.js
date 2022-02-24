@@ -256,6 +256,7 @@ class ConnectEth extends Component {
       })
 
       const address = accounts[0]
+      this.account = address
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
       const hexMsg = convertUtf8ToHex(challenge)
       const msgParams = [hexMsg, address]
@@ -265,18 +266,26 @@ class ConnectEth extends Component {
       // await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
+      this.updateParentSuccess()
       this.props.handleDialogClose()
-      this.props.setAddress && this.props.setAddress(accounts[0]) // set address for account if getBalance function is pased down
-      this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
-      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.setState({ walletConnectOpen: false })
     } catch (err) {
+      this.updateParentFail()
       this.handleSnackbarOpen(err.msg, true)
       localStorage.removeItem('walletconnect')
-      this.props.handleDisconnect && this.props.handleDisconnect()
-      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
       this.onDisconnect()
     }
+  }
+
+  updateParentSuccess = () => {
+    this.props.setAddress && this.props.setAddress(this.account) // set address for account if getBalance function is pased down
+    this.props.getBalances && this.props.getBalances(this.account) // get balance for account if getBalance function is pased down
+    this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+  }
+
+  updateParentFail = () => {
+    this.props.handleDisconnect && this.props.handleDisconnect()
+    this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
   }
 
   onDisconnect = async () => {

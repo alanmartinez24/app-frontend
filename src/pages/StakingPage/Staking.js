@@ -115,12 +115,6 @@ const StakingPage = ({ classes, account }) => {
     getAprs()
   }, [])
 
-  // useEffect(() => {
-  //   if (!connector || !connector._connected) { return }
-  //   setWalletIsConnected(true)
-  //   (connector.accounts[0])
-  // }, [connector])
-
   useEffect(() => {
     if (!provider) { return }
     getContracts()
@@ -181,6 +175,16 @@ const StakingPage = ({ classes, account }) => {
     }
   }
 
+  const getTxBody = async () => {
+    const livePrice = (await (getPriceProvider()).getGasPrice())
+    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits(livePrice.mul(2), 'gwei'), 'gwei')
+    const txBody = {
+      from: address,
+      gasPrice
+    }
+    return txBody
+  }
+
   const handleStakingAction = async (lpToken) => {
     if (!account || !account.name) {
     handleSnackbarOpen('Please sign into your YUP account first.')
@@ -209,7 +213,7 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeAction = async (txBody) => {
     const isStake = !activeEthTab
-    if (ethStakeInput === '0') {
+    if (polyStakeInput === '0' || isNaN(Number(ethStakeInput))) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -222,8 +226,7 @@ const StakingPage = ({ classes, account }) => {
           to: ETH_UNI_LP_TOKEN,
           data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
         }
-        console.log('stakeTx', approveTx)
-        await web3Provider.eth.sendTransaction(approveTx)
+        await sendTx(approveTx)
       }
       const stakeTx = {
         ...txBody,
@@ -231,7 +234,7 @@ const StakingPage = ({ classes, account }) => {
         data: isStake ? contracts.ethLiquidity.methods.stake(stakeAmt).encodeABI()
         : contracts.ethLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
-      await web3Provider.eth.sendTransaction(stakeTx)
+      await sendTx(stakeTx)
       const updatedLpBal = isStake ? toBaseNum(ethLpBal) - Number(ethStakeInput) : toBaseNum(ethLpBal) + Number(ethStakeInput)
       const updatedStake = isStake ? toBaseNum(currentStakeEth) + Number(ethStakeInput) : toBaseNum(currentStakeEth) - Number(ethStakeInput)
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
@@ -241,10 +244,15 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR handling eth staking', err)
     }
   }
+  const sendTx = async (tx) => {
+    await enableAndSwitchProvider(provider)
+    const web3Provider = getWeb3InstanceOfProvider(provider)
+    await web3Provider.eth.sendTransaction(tx)
+  }
 
   const handlePolyStakeAction = async (txBody) => {
     const isStake = !activePolyTab
-    if (polyStakeInput === '0') {
+    if (polyStakeInput === '0' || isNaN(Number(polyStakeInput))) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -256,7 +264,7 @@ const StakingPage = ({ classes, account }) => {
           to: POLY_UNI_LP_TOKEN,
           data: contracts.polyLpToken.methods.approve(POLY_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
         }
-        await connector.sendTransaction(approveTx)
+        await sendTx(approveTx)
       }
       const stakeTx = {
         ...txBody,
@@ -264,7 +272,7 @@ const StakingPage = ({ classes, account }) => {
         data: isStake ? contracts.polyLiquidity.methods.stake(stakeAmt).encodeABI()
         : contracts.polyLiquidity.methods.unstake(stakeAmt).encodeABI()
       }
-      await connector.sendTransaction(stakeTx)
+      await sendTx(stakeTx)
 
       const updatedLpBal = isStake ? toBaseNum(polyLpBal) - Number(polyStakeInput) : toBaseNum(polyLpBal) + Number(polyStakeInput)
       const updatedStake = isStake ? toBaseNum(currentStakePoly) + Number(polyStakeInput) : toBaseNum(currentStakePoly) - Number(polyStakeInput)
@@ -281,20 +289,15 @@ const StakingPage = ({ classes, account }) => {
         setEthConnectorDialog(true)
         return
       }
-
       setIsLoading(true)
-      const gasPrice = await provider.eth.getGasPrice()
-      const txBody = {
-        from: address,
-        gasPrice
-      }
+      const txBody = await getTxBody()
       if (ethRwrdAmt > 0) {
         const ethCollectTx = {
           ...txBody,
           to: ETH_LIQUIDITY_REWARDS,
           data: contracts.ethLiquidity.methods.getReward().encodeABI()
         }
-        await connector.sendTransaction(ethCollectTx)
+        await sendTx(ethCollectTx)
         setEthRwrdAmt(0)
       }
       if (polyRwrdAmt > 0) {
@@ -303,7 +306,7 @@ const StakingPage = ({ classes, account }) => {
           to: POLY_LIQUIDITY_REWARDS,
           data: contracts.polyLiquidity.methods.getReward().encodeABI()
         }
-        await connector.sendTransaction(polyCollectTx)
+        await sendTx(polyCollectTx)
         setPolyRwrdAmt(0)
       }
       setIsLoading(false)

@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const AIRDROP_IMG = 'https://miro.medium.com/max/1400/0*zvnqZxE7NNDduw6c.png'
+const AIRDROP_IMG = 'https://t18031686.p.clickup-attachments.com/t18031686/ec779359-7e16-4eca-9d4b-a932518eaf2c/Thumbnail.jpeg'
 
 const MetaTags = ({ polygonAddress, airdrop }) => {
   const metaDescription = polygonAddress
