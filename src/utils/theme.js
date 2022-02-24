@@ -17,6 +17,7 @@ export const darkPalette = {
       fourth: Colors.B4,
       fifth: Colors.B5
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     primary: {
       main: Colors.W1,
       gradient: Gradients.background.dark
@@ -55,6 +56,7 @@ export const lightPalette = {
       fourth: Colors.W4,
       fifth: Colors.W5
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     primary: {
       main: Colors.B2,
       gradient: Gradients.background.light
@@ -136,6 +138,14 @@ export const theme = ({ palette }) => {
         color: palette.common.first
       }
     },
+    MuiLinearProgress: {
+      root: {
+        width: '100vw',
+        '& .MuiLinearProgress-barColorPrimary': {
+            backgroundColor: Colors.Green
+        }
+      }
+    },
     MuiAvatar: {
       colorDefault: {
         color: palette.common.first
@@ -144,7 +154,7 @@ export const theme = ({ palette }) => {
     MuiTab: {
       root: {
         textTransform: 'capitalize',
-        fontSize: '1.2rem'
+        fontSize: '0.8rem'
       }
     },
     MuiTooltip: {
@@ -204,6 +214,9 @@ export const theme = ({ palette }) => {
       },
       input: {
         padding: '10px 14px'
+      },
+      adornedEnd: {
+        padding: 0
       }
     },
     MuiTextField: {
@@ -271,15 +284,29 @@ export const theme = ({ palette }) => {
     },
     MuiStepIcon: {
       root: {
-        color: `${Colors.YupGreen} !important`
-      },
-      text: {
-        fill: `${palette.alt.first} !important`
+        display: 'none'
+        // background: 'linear-gradient(45deg, #00e08e, #f0c909, #eb3650)'
+      }
+    },
+    MuiStepper: {
+      root: {
+        justifyContent: 'space-around',
+        marginBottom: 20
+      }
+    },
+    MuiStepConnector: {
+      root: {
+        display: 'none'
       }
     },
     MuiStepLabel: {
       label: {
-        color: `${palette.common.first} !important`
+        color: `${palette.common.first} !important`,
+        display: 'flex',
+        opacity: 0.5
+      },
+      active: {
+        opacity: 1
       }
     },
     MuiBackdrop: {
@@ -395,16 +422,11 @@ export const theme = ({ palette }) => {
       color: `${palette.common.third}DE`
     },
     tooltip: {
-      fontSize: '0.75rem',
+      fontSize: '0.875rem',
       fontWeight: '200'
     },
     colorError: {
       color: Colors.Red
-    }
-  },
-  props: {
-    MuiWithWidth: {
-      initialWidth: 'lg'
     }
   }
 }

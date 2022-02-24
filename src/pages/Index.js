@@ -22,9 +22,11 @@ import User from './User/User'
 import PostPage from './PostPage/PostPage'
 import ScorePage from './ScorePage/ScorePage'
 import RewardsPage from './RewardsPage/RewardsPage'
+import MigrationPage from './MigrationPage/MigrationPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
+import StakingPage from './StakingPage/Staking'
 import Footer from '../components/Footer/Footer'
 import Header from '../components/Header/Header'
 
@@ -183,9 +185,16 @@ class Index extends Component {
                     <Route component={RewardsPage}
                       path='/rewards'
                     />
+                    <Route component={MigrationPage}
+                      path='/migration'
+                    />
                     <Route component={Analytics}
                       exact
                       path='/:username/analytics'
+                    />
+                    <Route component={StakingPage}
+                      exact
+                      path='/staking'
                     />
                     <Route component={Collections}
                       exact

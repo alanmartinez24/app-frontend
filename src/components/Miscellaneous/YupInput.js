@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '@material-ui/core'
+import { TextField, InputAdornment, IconButton } from '@material-ui/core'
 import { withStyles, useTheme } from '@material-ui/core/styles'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
 const styles = theme => ({
   input: {
@@ -19,9 +20,6 @@ const styles = theme => ({
   inputInput: {
     color: theme.palette.common.fifth
   },
-  inputUnderline: {
-    borderBottomColor: theme.palette.common.fifth
-  },
   textField: {
     color: theme.palette.common.fifth,
     flexWrap: 'none',
@@ -29,32 +27,47 @@ const styles = theme => ({
   }
 })
 
-const YupInput = ({ classes, maxLength, ...restProps }) => {
-  const theme = useTheme()
+const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, endAdornment, ...restProps }) => {
+  const { palette } = useTheme()
+  const arrowEndAdornment = onSubmit
+    ? <InputAdornment position='end'>
+      <IconButton
+        onClick={onSubmit}
+        edge='end'
+      >
+        <ArrowForwardIcon style={{ opacity: inputIsValid ? 1 : 0.5 }} />
+      </IconButton>
+    </InputAdornment> : null
+
   return (
     <TextField
       {...restProps}
       className={classes.textField}
-      inputProps={{ maxLength, borderBottomColor: theme.palette.second }}
+      inputProps={{ maxLength, borderBottomColor: palette.second }}
       InputProps={{
-                classes: {
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                    underline: classes.inputUnderline
-                },
-                className: classes.input }}
+        endAdornment: endAdornment || arrowEndAdornment,
+        classes: {
+          root: classes.inputRoot,
+          input: classes.inputInput
+          // underline: classes.inputUnderline
+        },
+        className: classes.input
+        }}
       InputLabelProps={{
-                style: {
-                    color: theme.palette.third
-                }
-            }}
+        style: {
+          color: palette.third
+        }
+      }}
     />
   )
 }
 
 YupInput.propTypes = {
-    classes: PropTypes.object.isRequired,
-    maxLength: PropTypes.number
-  }
+  classes: PropTypes.object.isRequired,
+  maxLength: PropTypes.number,
+  onSubmit: PropTypes.func,
+  inputIsValid: PropTypes.bool.isRequired,
+  endAdornment: PropTypes.symbol.isRequired
+}
 
 export default (withStyles(styles)(YupInput))
