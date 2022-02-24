@@ -42,11 +42,11 @@ const SiteBanner = ({ classes }) => {
 
   const message = (
     <a
-      href='https://yup.mirror.xyz/rzRK52lDvnsO3Hxp8Tctdt2gjcVVmb4Jp6mxGVSi1KQ'
+      href='https://yup.mirror.xyz/aGpM1O8aZS00At2KcoGsBJDtyICNxuYVrDPAqfJfs-A'
       target='_blank'
       className={classes.link}
     >
-      We just raised our $3.5M seed round! 🥳 Learn more here.
+      Yup is migrating to Polygon! 🥳 Learn more here.
     </a>
   )
 
