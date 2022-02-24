@@ -9,24 +9,18 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
-import {
-   getPolygonProvider,
-   getConnector,
-   getPriceProvider,
-   getWeb3InstanceOfProvider,
-   enableAndSwitchProvider
-  } from '../../utils/eth'
+import { getPriceProvider, getWeb3InstanceOfProvider } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
 import axios from 'axios'
 import { ethers } from 'ethers'
-// import WalletConnectProvider from '@maticnetwork/walletconnect-provider'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env // POLY_RPC_URL
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL } = process.env
+const POLY_BACKUP_RPC_URLS = POLY_BACKUP_RPC_URL.split(',')
 
-const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
+const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
 
 const styles = theme => ({
   container: {
@@ -89,6 +83,7 @@ const StakingPage = ({ classes, account }) => {
 
   const [currentStakeEth, setCurrentStakeEth] = useState(0) // current amount staked
   const [currentStakePoly, setCurrentStakePoly] = useState(0) // current amount staked
+  const [retryCount, setRetryCount] = useState(-1) // switch RPC URLs on timeout/fail
 
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
@@ -115,8 +110,6 @@ const StakingPage = ({ classes, account }) => {
   }
 
   useEffect(async () => {
-    setConnector(await getConnector())
-    setProvider(getPolygonProvider())
     getAprs()
   }, [])
 
@@ -133,7 +126,7 @@ const StakingPage = ({ classes, account }) => {
   const getContracts = async () => {
     try {
       if (!provider) { return }
-      const web3Provider = getWeb3InstanceOfProvider(provider)
+      const web3Provider = await (await getWeb3InstanceOfProvider(provider))
       const polyLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
       const ethLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
       const polyLpToken = new web3Provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
@@ -165,7 +158,18 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
     } catch (err) {
+      incrementRetryCount()
+      handleSnackbarOpen('There was a problem fetching your balances, try again.')
       console.log('ERR getting balances', err)
+    }
+  }
+
+  const incrementRetryCount = () => {
+    handleDisconnect()
+    setRetryCount(retryCount + 1)
+    if (retryCount === POLY_BACKUP_RPC_URLS.length - 1) {
+      handleSnackbarOpen('Retry limit reached. Try changing the RPC URL on your wallet. We recommend Alchemy. ')
+      setRetryCount(0)
     }
   }
 
@@ -199,8 +203,11 @@ const StakingPage = ({ classes, account }) => {
       return
    }
     setIsLoading(true)
-    const txBody = await getTxBody()
-
+    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
+    const txBody = {
+      from: address,
+      gasPrice
+    }
     if (lpToken === 'eth') {
       await handleEthStakeAction(txBody)
     } else if (lpToken === 'poly') {
@@ -241,12 +248,12 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. ${err.message}`)
+      incrementRetryCount()
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
       console.log('ERR handling eth staking', err)
     }
   }
   const sendTx = async (tx) => {
-    await enableAndSwitchProvider(provider)
     const web3Provider = getWeb3InstanceOfProvider(provider)
     await web3Provider.eth.sendTransaction(tx)
   }
@@ -280,6 +287,7 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
+      incrementRetryCount()
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
       console.log('ERR handling polygon staking', err)
     }
@@ -312,6 +320,7 @@ const StakingPage = ({ classes, account }) => {
       }
       setIsLoading(false)
     } catch (err) {
+      incrementRetryCount()
       handleSnackbarOpen('There was a problem collecting your rewards.')
       console.log('ERR collecting rewards', err)
     }
@@ -857,6 +866,9 @@ const StakingPage = ({ classes, account }) => {
               setAddress={setAddress}
               dialogOpen={ethConnectorDialog}
               handleDialogClose={handleEthConnectorDialogClose}
+              isProvider
+              backupRpc={POLY_BACKUP_RPC_URLS[retryCount]}
+              setProvider={setProvider}
             />
           </Grid>
         </Grid>

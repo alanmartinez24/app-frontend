@@ -2,13 +2,13 @@ import { Helmet } from 'react-helmet'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const AIRDROP_IMG = 'https://t18031686.p.clickup-attachments.com/t18031686/ec779359-7e16-4eca-9d4b-a932518eaf2c/Thumbnail.jpeg'
+const AIRDROP_IMG = 'https://app-meta-images.s3.amazonaws.com/migration.png'
 
 const MetaTags = ({ polygonAddress, airdrop }) => {
   const metaDescription = polygonAddress
   ? `${polygonAddress.slice(0, 5)}...${polygonAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
   : `Claim your airdrop on Polygon`
-  const metaTitle = 'yup NFT Creator Rewards'
+  const metaTitle = 'Yup Polygon Aidrop'
   return (
     <Helmet>
       <meta charSet='utf-8' />
