@@ -290,7 +290,7 @@ class ConnectEth extends Component {
   updateParentFail = () => {
     try {
       this.props.handleDisconnect && this.props.handleDisconnect()
-      this.props.setConnector && this.props.setConnector(this.state.connector) 
+      this.props.setConnector && this.props.setConnector(this.state.connector)
     } catch {}
   }
 
