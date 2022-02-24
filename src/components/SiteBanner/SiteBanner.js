@@ -4,6 +4,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
+const { WEB_APP_URL } = process.env
+
 const styles = theme => ({
   root: {
     width: '100vw',
@@ -42,11 +44,11 @@ const SiteBanner = ({ classes }) => {
 
   const message = (
     <a
-      href='https://yup.mirror.xyz/aGpM1O8aZS00At2KcoGsBJDtyICNxuYVrDPAqfJfs-A'
+      href={`${WEB_APP_URL}/migration`}
       target='_blank'
       className={classes.link}
     >
-      Yup is migrating to Polygon! 🥳 Learn more here.
+      Yup is migrating to Polygon! Claim your YUP tokens on Polygon now 🥳
     </a>
   )
 
