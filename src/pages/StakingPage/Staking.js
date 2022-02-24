@@ -168,6 +168,7 @@ const StakingPage = ({ classes, account }) => {
     handleDisconnect()
     setRetryCount(retryCount + 1)
     if (retryCount === POLY_BACKUP_RPC_URLS.length - 1) {
+      handleSnackbarOpen('Retry limit reached. Try changing the RPC URL on your wallet. We recommend Alchemy. ')
       setRetryCount(0)
     }
   }
