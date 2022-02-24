@@ -291,8 +291,6 @@ class ConnectEth extends Component {
     try {
       this.props.handleDisconnect && this.props.handleDisconnect()
       this.props.setConnector && this.props.setConnector(this.state.connector) 
-      localStorage.removeItem('walletconnect')
-      this.onDisconnect()// set connector for account if setConnector function is pased down
     } catch {}
   }
 
@@ -331,7 +329,6 @@ class ConnectEth extends Component {
 
   render () {
     const { handleDialogClose, dialogOpen, classes, account } = this.props
-    console.log(this.state.connected, "connected")
     if (account && !this.state.account) this.setState({ account: account })
     return (
       <ErrorBoundary>
