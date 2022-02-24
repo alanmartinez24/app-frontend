@@ -2,13 +2,19 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, Portal, Snackbar, SnackbarContent, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { getConnector } from '../../utils/eth'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { convertUtf8ToHex } from '@walletconnect/utils'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
+import {
+  getPolygonWeb3Modal,
+  getPolygonProvider,
+  getConnector,
+  getWeb3InstanceOfProvider
+ } from '../../utils/eth'
+import Web3 from 'web3'
 
 const { BACKEND_API, POLY_CHAIN_ID } = process.env
 const ERROR_MSG = `Make sure you are logged into yup and please try again.`
@@ -98,6 +104,7 @@ class ConnectEth extends Component {
     ethIsLoading: false,
     account: null,
     connector: null,
+    provider: null,
     connected: false,
     showWhitelist: false,
     showUsername: false,
@@ -127,6 +134,19 @@ class ConnectEth extends Component {
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
     // create new connector
+    if (this.props.isProvider) {
+      const provider = await getPolygonProvider(getPolygonWeb3Modal())
+      this.setState({ provider })
+      console.log('provider', provider)
+
+    // already logged in
+    if (provider.connected && !localStorage.getItem('YUP_ETH_AUTH')) {
+      localStorage.removeItem('walletconnect')
+      this.initWalletConnect()
+    }
+    this.subscribeToEventsProvider()
+    // await this.subscribeToEventsProvider()
+    } else {
     const connector = await getConnector()
     this.setState({ connector })
 
@@ -141,6 +161,54 @@ class ConnectEth extends Component {
     }
 
     await this.subscribeToEvents()
+  }
+}
+  subscribeToEventsProvider = async () => {
+    const provider = this.state.provider
+
+  provider.on('accountsChanged', (accounts) => {
+       // Should handle in the future
+  })
+    // Subscribe to provider disconnection
+  provider.on('disconnect', () => {
+      this.onDisconnect()
+  })
+      try {
+      const web3 = await getWeb3InstanceOfProvider(this.state.provider)
+      const accounts = await web3.eth.getAccounts()
+      const chainId = await web3.eth.getChainId()
+      const eosname = this.props.account.name
+
+      if (Number(chainId) !== Number(POLY_CHAIN_ID)) {
+        this.handleSnackbarOpen(NOT_POLYGON_MSG, true)
+        this.onDisconnect()
+      }
+
+      this.setState({
+        connected: true,
+        activeStep: 1
+      })
+
+      const address = accounts[0]
+      const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
+      const shaMsg = Web3.utils.sha3(challenge)
+      const signature = await web3.eth.personal.sign(shaMsg, address)
+      console.log(signature)
+      this.props.dispatch(fetchSocialLevel(eosname))
+      this.setState({ activeStep: 2 })
+      this.handleSnackbarOpen('Successfully linked ETH account.', false)
+      this.props.handleDialogClose()
+      this.props.setAddress && this.props.setAddress(accounts[0]) // set address for account if getBalance function is pased down
+      this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
+      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+      this.setState({ walletConnectOpen: false })
+    } catch (err) {
+      this.handleSnackbarOpen(err.msg, true)
+      localStorage.removeItem('walletconnect')
+      this.props.handleDisconnect && this.props.handleDisconnect()
+      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+      this.onDisconnect()
+    }
   }
 
    subscribeToEvents = async () => {
@@ -172,7 +240,7 @@ class ConnectEth extends Component {
       this.setState({ connector })
       this.onConnect(connector, true)
     }
-  };
+   }
 
    onConnect = async (payload, connected) => {
      if (!this.state.connector || !payload) { return }
@@ -199,7 +267,8 @@ class ConnectEth extends Component {
       const msgParams = [hexMsg, address]
       const signature = await this.state.connector.signPersonalMessage(msgParams)
       this.setState({ activeStep: 2 })
-      await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
+      console.log('signature', signature)
+      // await axios.post(`${BACKEND_API}/accounts/linked/eth`, { authType: 'ETH', address, eosname, signature })
       this.props.dispatch(fetchSocialLevel(eosname))
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
@@ -372,6 +441,7 @@ ConnectEth.propTypes = {
   handleDisconnect: PropTypes.func,
   setConnector: PropTypes.func,
   setAddress: PropTypes.func,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  isProvider: PropTypes.bool
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(ConnectEth))))

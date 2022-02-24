@@ -11,10 +11,10 @@ import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
 import {
    getPolygonProvider,
-   getConnector,
    getPriceProvider,
    getWeb3InstanceOfProvider,
-   enableAndSwitchProvider
+   enableAndSwitchProvider,
+   getPolygonWeb3Modal
   } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
@@ -26,7 +26,7 @@ import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
 const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env // POLY_RPC_URL
 
-const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(POLY_CHAIN_ID)
+const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
 
 const styles = theme => ({
   container: {
@@ -115,8 +115,8 @@ const StakingPage = ({ classes, account }) => {
   }
 
   useEffect(async () => {
-    setConnector(await getConnector())
-    setProvider(getPolygonProvider())
+    setProvider(await getPolygonProvider(await getPolygonWeb3Modal()))
+    console.log('provider', provider)
     getAprs()
   }, [])
 
@@ -139,7 +139,8 @@ const StakingPage = ({ classes, account }) => {
   const getContracts = async () => {
     try {
       if (!provider) { return }
-      const web3Provider = getWeb3InstanceOfProvider(provider)
+      const web3Provider = await (await getWeb3InstanceOfProvider(provider))
+      console.log('ssss', web3Provider)
       const polyLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
       const ethLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
       const polyLpToken = new web3Provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
@@ -157,6 +158,7 @@ const StakingPage = ({ classes, account }) => {
 
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
+      await enableAndSwitchProvider(provider)
       const acct = addressParam || address
       const polyBal = await contracts.polyLpToken.methods.balanceOf(acct).call({ from: acct })
       const polyStake = await contracts.polyLiquidity.methods.balanceOf(acct).call({ from: acct })
@@ -200,7 +202,7 @@ const StakingPage = ({ classes, account }) => {
       return
    }
     setIsLoading(true)
-    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(2), 'gwei'), 'gwei')
+    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
     console.log('gasPrice', gasPrice)
     const txBody = {
       from: address,
@@ -227,7 +229,7 @@ const StakingPage = ({ classes, account }) => {
     try {
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
       await enableAndSwitchProvider(provider)
-      const web3Provider = getWeb3InstanceOfProvider(provider)
+      const web3Provider = await getWeb3InstanceOfProvider(provider)
       console.log('web3Provider', web3Provider)
       const accounts = await web3Provider.eth.getAccounts()
       const chainId = await web3Provider.eth.getChainId()
@@ -870,6 +872,7 @@ const StakingPage = ({ classes, account }) => {
               setAddress={setAddress}
               dialogOpen={ethConnectorDialog}
               handleDialogClose={handleEthConnectorDialogClose}
+              isProvider
             />
           </Grid>
         </Grid>
