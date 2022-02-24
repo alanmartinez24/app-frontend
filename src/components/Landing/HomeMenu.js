@@ -1,18 +1,19 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions, Button } from '@material-ui/core'
+import { Grid, Typography, Fade, Grow, Card, CardContent, CardActions } from '@material-ui/core'
 import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import Tilt from 'react-tilt'
 import { Link } from 'react-router-dom'
-import '../../pages/Discover/discover.scss'
+import '../../pages/Discover/discover.css'
 import axios from 'axios'
 import Colors from '../../utils/colors.js'
 import Img from 'react-image'
 import { accountInfoSelector } from '../../redux/selectors'
 import HomeMenuLinkItem from './HomeMenuLinkItem'
 import { connect } from 'react-redux'
+import YupButton from '../Miscellaneous/YupButton'
 // import { Skeleton } from '@material-ui/lab'
 
 const { BACKEND_API, YUP_LANDING, WEB_APP_URL } = process.env
@@ -314,30 +315,28 @@ class Home extends Component {
                            ? <Link className={classes.Link}
                              to={'/?feed=mirror'}
                              >
-                             <Button size='large'
+                             <YupButton size='large'
                                variant='contained'
-                               className={classes.primaryButton}
-                             >
-                               Enter</Button></Link>
+                               buttonText={'Enter'}
+                             />
+                           </Link>
                                 : <>
                                   <a className={classes.Link}
                                     href={`${WEB_APP_URL}/?signupOpen=true`}
                                   >
-                                    <Button size='large'
+                                    <YupButton size='large'
                                       variant='contained'
-                                      className={classes.primaryButton}
-                                    > Start Now
-                                    </Button>
+                                      buttonText={'Start Now'}
+                                    />
                                   </a>
                                   <a className={classes.Link}
                                     href={YUP_LANDING}
                                     target='_blank'
                                   >
-                                    <Button size='large'
+                                    <YupButton size='large'
                                       variant='contained'
-                                    >
-                                      Learn More
-                                    </Button>
+                                      buttonText={'Learn More'}
+                                    />
                                   </a>
                                 </>
                           }
