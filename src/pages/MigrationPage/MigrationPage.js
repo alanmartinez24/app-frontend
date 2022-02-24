@@ -69,6 +69,9 @@ class AirdropPage extends Component {
   }
   componentDidMount () {
     const redirect = localStorage.getItem('twitterRedirect')
+    setTimeout(() => {
+      this.fetchAirdropData()
+    }, 1000)
     if (redirect) {
       localStorage.removeItem('twitterRedirect')
     } else {
