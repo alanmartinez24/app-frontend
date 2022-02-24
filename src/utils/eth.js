@@ -44,13 +44,6 @@ export const getPolygonProvider = async (polygonWeb3Modal) => {
   }
 }
 
-export const enableAndSwitchProvider = async (provider) => {
-  console.log(provider)
-  // provider.updateRpcUrl(Number(POLY_CHAIN_ID), POLY_RPC_URL)
-  // await provider.enable()
-  // provider.updateRpcUrl(Number(POLY_CHAIN_ID), POLY_RPC_URL)
-}
-
 export const getWeb3InstanceOfProvider = (provider) => new Web3(provider)
 
 export const getConnector = async () => {

@@ -11,8 +11,7 @@ import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
 import {
    getPriceProvider,
-   getWeb3InstanceOfProvider,
-   enableAndSwitchProvider
+   getWeb3InstanceOfProvider
   } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
@@ -153,7 +152,6 @@ const StakingPage = ({ classes, account }) => {
 
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
-      await enableAndSwitchProvider(provider)
       const acct = addressParam || address
       const polyBal = await contracts.polyLpToken.methods.balanceOf(acct).call({ from: acct })
       const polyStake = await contracts.polyLiquidity.methods.balanceOf(acct).call({ from: acct })
@@ -217,7 +215,6 @@ const StakingPage = ({ classes, account }) => {
     }
     try {
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
-      await enableAndSwitchProvider(provider)
       const web3Provider = await getWeb3InstanceOfProvider(provider)
       if (isStake) {
         const approveTx = {
