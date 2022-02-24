@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Typography from '@material-ui/core/Typography'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import YupButton from '../Miscellaneous/YupButton'
 
 class PolicyDialog extends React.Component {
   state = {
@@ -141,18 +142,16 @@ class PolicyDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button
+              <YupButton
                 variant='outlined'
                 onClick={this.handleClose}
-              >
-                Cancel
-              </Button>
-              <Button
+                buttonText={'Cancel'}
+              />
+              <YupButton
                 variant='contained'
                 onClick={this.handleClose}
-              >
-                Subscribe
-              </Button>
+                buttonText={'Subscribe'}
+              />
             </DialogActions>
           </Dialog>
         </div>
