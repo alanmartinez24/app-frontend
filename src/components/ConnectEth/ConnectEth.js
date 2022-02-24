@@ -17,7 +17,6 @@ import {
 
 const { BACKEND_API } = process.env
 const POLY_CHAIN_ID = Number(process.env.POLY_CHAIN_ID)
-const ETH_CHAIN_ID = Number(process.env.ETH_CHAIN_ID)
 
 const ERROR_MSG = `Make sure you are logged into yup and please try again.`
 const NOT_POLYGON_MSG = 'Make sure you are connecting to Polygon from your wallet. You can use Metamask mobile.'
@@ -177,9 +176,10 @@ class ConnectEth extends Component {
       const chainId = await web3.eth.getChainId()
       const eosname = this.props.account.name
 
-      if (chainId !== POLY_CHAIN_ID && chainId !== ETH_CHAIN_ID) {
+      if (chainId !== POLY_CHAIN_ID) {
         this.handleSnackbarOpen(NOT_POLYGON_MSG, true)
         this.onDisconnect()
+        return
       }
 
       this.setState({
