@@ -137,6 +137,7 @@ class ConnectEth extends Component {
     if (this.props.isProvider) {
       const provider = await getPolygonProvider(getPolygonWeb3Modal())
       this.setState({ provider })
+      this.props.setProvider(provider)
       console.log('provider', provider)
 
     // already logged in
@@ -442,6 +443,7 @@ ConnectEth.propTypes = {
   setConnector: PropTypes.func,
   setAddress: PropTypes.func,
   dispatch: PropTypes.func.isRequired,
-  isProvider: PropTypes.bool
+  isProvider: PropTypes.bool,
+  setProvider: PropTypes.func
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(ConnectEth))))

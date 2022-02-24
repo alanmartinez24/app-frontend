@@ -10,11 +10,9 @@ import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
 import {
-   getPolygonProvider,
    getPriceProvider,
    getWeb3InstanceOfProvider,
-   enableAndSwitchProvider,
-   getPolygonWeb3Modal
+   enableAndSwitchProvider
   } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
@@ -115,8 +113,6 @@ const StakingPage = ({ classes, account }) => {
   }
 
   useEffect(async () => {
-    setProvider(await getPolygonProvider(await getPolygonWeb3Modal()))
-    console.log('provider', provider)
     getAprs()
   }, [])
 
@@ -873,6 +869,7 @@ const StakingPage = ({ classes, account }) => {
               dialogOpen={ethConnectorDialog}
               handleDialogClose={handleEthConnectorDialogClose}
               isProvider
+              setProvider={setProvider}
             />
           </Grid>
         </Grid>

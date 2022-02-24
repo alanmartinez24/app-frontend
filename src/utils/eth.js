@@ -23,10 +23,7 @@ export const getPolygonWeb3Modal = () => {
           callbacks: {
             onConnect: () => console.log('matic provider connected'),
             onDisconnect: () => console.log('matic provider disconnected')
-          },
-          qrcodeModal: QRCodeModal,
-          chainId: Number(POLY_CHAIN_ID),
-          network: 'polygon'
+          }
       }
     }
   }
@@ -38,8 +35,13 @@ export const getPolygonWeb3Modal = () => {
 }
 
 export const getPolygonProvider = async (polygonWeb3Modal) => {
-  const provider = await polygonWeb3Modal.connect()
+  try {
+    const provider = await polygonWeb3Modal.connect()
   return provider
+  } catch (error) {
+    const provider = await getPolygonProvider(polygonWeb3Modal)
+    return provider
+  }
 }
 
 export const enableAndSwitchProvider = async (provider) => {
