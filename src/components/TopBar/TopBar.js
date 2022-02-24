@@ -4,7 +4,6 @@ import { toggleColorTheme } from '../../redux/actions'
 import {
   AppBar,
   ListItemAvatar,
-  Button,
   Toolbar,
   IconButton,
   Grid,
@@ -44,6 +43,7 @@ import axios from 'axios'
 import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
+import YupButton from '../Miscellaneous/YupButton'
 
 const drawerWidth = 200
 const { BACKEND_API, EXTENSION_LINK } = process.env
@@ -574,14 +574,13 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         </Typography>
                       }
                     >
-                      <Button
+                      <YupButton
                         fullWidth
                         className={classes.signupBtn}
                         onClick={handleDialogOpen}
                         variant='contained'
-                      >
-                        Sign Up/Login
-                      </Button>
+                        buttonText={'Sign Up/Login'}
+                      />
                     </Tooltip>
                   )}
               </Grid>
@@ -888,13 +887,12 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                   primary='Log out of Yup'
                 />
                 <ListItemSecondaryAction>
-                  <Button
+                  <YupButton
                     className={classes.logoutBtn}
                     onClick={handleLogout}
                     variant='outlined'
-                  >
-                    Log out
-                  </Button>
+                    buttonText={'Log out'}
+                  />
                 </ListItemSecondaryAction>
               </ListItem>
             </List>
