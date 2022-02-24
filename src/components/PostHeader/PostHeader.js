@@ -48,7 +48,8 @@ const styles = theme => ({
     opacity: '0.7',
     minHeight: '40px',
     height: '40px',
-    marginBottom: '-5px',
+    marginBottom: -5,
+    marginTop: 10,
     [theme.breakpoints.down('xs')]: {
       padding: '0px 3%'
     }

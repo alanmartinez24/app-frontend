@@ -110,10 +110,10 @@ const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDial
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
         >
-          <Typography variant='h3'>Duplicate Collection</Typography>
+          <Typography variant='h5'>Duplicate Collection</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText variant='body1'>
+          <DialogContentText variant='body2'>
             Start here to duplicate the collection.
           </DialogContentText>
           <Grid

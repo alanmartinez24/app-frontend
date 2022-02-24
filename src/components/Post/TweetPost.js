@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import './tweet.css'
 
-const styles = theme => ({
+const styles = (theme) => ({
   postContainer: {
     transition: 'opacity 2s ease-in',
     padding: '0% 0% 0% 0%',
@@ -14,7 +14,8 @@ const styles = theme => ({
     borderTopLeftRadius: '10px',
     borderTopRightRadius: '10px',
     [theme.breakpoints.down('sm')]: {
-      borderRadius: '0px'
+      borderRadius: '0px',
+      minHeight: '0'
     }
   },
   tweetEl: {
@@ -27,7 +28,7 @@ const styles = theme => ({
       minWidth: '100vw'
     },
     marginLeft: '0px',
-    zoom: '115%',
+    zoom: '100%',
     marginRight: 'auto',
     marginTop: '-10px'
   }

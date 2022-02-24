@@ -57,6 +57,21 @@ const styles = theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       width: '100%'
+      width: '100vw',
+    }
+  },
+  collectionHeader: {
+    position: 'sticky',
+    top: '60px',
+    background: `linear-gradient(${theme.palette.alt.second} 100%, ${theme.palette.alt.second}dd 10%)`,
+    borderRadius: '5px',
+    zIndex: 1000,
+    marginBottom: '25px',
+    boxShadow: `0px -60px 0px ${theme.palette.alt.second}`,
+    [theme.breakpoints.down('xs')]: {
+      top: 0,
+      marginBottom: '0px',
+      marginLeft: '0px'
     }
   },
   menuItem: {

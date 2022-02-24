@@ -254,7 +254,7 @@ export const theme = ({ palette }) => {
     },
     MuiDialog: {
       paper: {
-        backgroundColor: `${palette.alt.second}99`,
+        backgroundColor: `${palette.alt.second}cc`,
         borderRadius: '25px',
         backdropFilter: 'blur(45px)',
         boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
@@ -264,6 +264,19 @@ export const theme = ({ palette }) => {
       },
       backdrop: {
         backdropFilter: 'blur(3px)'
+      }
+    },
+    MuiDialogContent: {
+      root: {
+        color: palette.common.first
+      }
+    },
+    MuiDialogTitle: {
+      root: {
+        fontWeight: 100,
+        fontSize: '2.441rem',
+        lineHeight: '105%',
+        color: `${palette.common.second}EE`
       }
     },
     MuiPaper: {
@@ -347,7 +360,7 @@ export const theme = ({ palette }) => {
       'Arial',
       'sans-serif'
     ].join(','),
-    fonStyle: 'normal',
+    fontStyle: 'normal',
     h1: {
       fontWeight: 600,
       fontSize: '4.5rem',
@@ -384,6 +397,9 @@ export const theme = ({ palette }) => {
       fontSize: '1.25rem',
       lineHeight: '115%',
       color: `${palette.common.third}FE`
+      fontSize: '3.815rem',
+      lineHeight: '100%',
+      color: `${palette.common.first}EE`
     },
     subtitle1: {
       fontWeight: 500,
@@ -408,6 +424,8 @@ export const theme = ({ palette }) => {
       fontSize: '0.9375rem',
       lineHeight: '125%',
       color: `${palette.common.first}EE`
+      lineHeight: '100%',
+      color: `${palette.common.third}DD`
     },
     caption: {
       fontStyle: '600',

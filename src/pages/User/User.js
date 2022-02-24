@@ -142,6 +142,9 @@ const styles = theme => ({
       width: '100%',
       maxWidth: '100%'
     },
+    [theme.breakpoints.up('lg')]: {
+      margin: '0px 0px 0px 60px'
+    },
     [theme.breakpoints.down('xs')]: {
       margin: '0px 0px 0px 8px'
     }

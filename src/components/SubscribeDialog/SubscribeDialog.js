@@ -28,15 +28,6 @@ const MIRROR_MSG = 'Please wait while we create your YUP account...'
 const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
 
 const styles = theme => ({
-  dialog: {
-      width: '100%'
-  },
-  dialogTitleText: {
-    fontWeight: '500'
-  },
-  dialogContentText: {
-    fontWeight: '200'
-  },
   buttons: {
     backgroundColor: 'transparent',
     fontWeight: '400',
@@ -550,6 +541,7 @@ class SubscribeDialog extends Component {
         </Portal>
 
         <Dialog open={dialogOpen}
+          fullWidth='md'
           onClose={() => {
             handleDialogClose()
             this.setState({ walletConnectOpen: false })
@@ -559,25 +551,21 @@ class SubscribeDialog extends Component {
         >
           {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
             <>
-              <DialogTitle style={{ paddingBottom: '10px' }}>
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  variant='h3'
-                >
+              <DialogTitle
+                style={{ paddingBottom: '10px' }}
+              >
+                <Typography variant='h5'>
                   Sign Up / Login
                 </Typography>
               </DialogTitle>
               <DialogContent>
-                <DialogContentText style={{ padding: '20px 0px' }}>
+                <DialogContentText>
                   <Typography
                     align='left'
-                    className={classes.dialogContentText}
-                    variant='h5'
+                    variant='subtitle1'
                   >
                     <span className={classes.desktop}>
-                      Earn money & clout for rating content anywhere on the internet.<br />
-                      Get extra rewards for joining today.
+                      Earn money & clout for rating content anywhere on the internet. Get extra rewards for joining today.
                     </span>
                   </Typography>
                 </DialogContentText>
@@ -650,7 +638,7 @@ class SubscribeDialog extends Component {
                                       >
                           <Icon fontSize='small'
                             className='fal fa-arrow-right'
-                            style={{ marginRight: '20px' }}
+                            style={{ marginRight: '20px', cursor: 'pointer' }}
                           /></InputAdornment>}
                         aria-describedby='filled-weight-helper-text'
                         variant='outlined'
@@ -672,13 +660,7 @@ class SubscribeDialog extends Component {
           {this.state.connected &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  variant='h5'
-                >
-                  Sign Up / Login
-                </Typography>
+                Sign Up / Login
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved </DialogContentText>

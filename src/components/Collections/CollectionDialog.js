@@ -72,14 +72,16 @@ const CollectionDialog = ({ postid, classes, dialogOpen, handleDialogClose, addC
       setIsLoading(true)
       const postId = postid === 'routeFromUrl' ? undefined : postid
       const auth = await getAuth(account)
-      const params = { name, description, postId, ...auth }
+      const params = { name, description, postId, eosname: account.name, ...auth }
       const { data } = await axios.post(`${BACKEND_API}/collections`, params)
-      addCollectionToRedux(auth.eosname, data)
+      addCollectionToRedux(auth.eosname || account.name, data)
       setNewCollectionInfo(data)
       handleSnackbarOpen(`Succesfully created ${name}`)
       handleDialogClose()
       setIsLoading(false)
     } catch (err) {
+      setIsLoading(false)
+      handleSnackbarOpen(`There was a problem creating your collection`)
       console.error(err)
     }
   }
@@ -111,10 +113,10 @@ const CollectionDialog = ({ postid, classes, dialogOpen, handleDialogClose, addC
         <DialogTitle className={classes.dialogTitleText}
           id='form-dialog-title'
         >
-          <Typography variant='h3'>New Collection</Typography>
+          <Typography variant='h5'>New Collection</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText variant='body1'>
+          <DialogContentText variant='body2'>
             Start here to make a new collection. You can add any content, person, URL, address, NFT or anything else.
           </DialogContentText>
           <Grid
