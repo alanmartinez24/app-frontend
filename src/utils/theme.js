@@ -146,11 +146,6 @@ export const theme = ({ palette }) => {
         }
       }
     },
-    MuiDialogContent: {
-      root: {
-        color: palette.common.first
-      }
-    },
     MuiAvatar: {
       colorDefault: {
         color: palette.common.first
@@ -363,69 +358,63 @@ export const theme = ({ palette }) => {
     fontStyle: 'normal',
     h1: {
       fontWeight: 600,
-      fontSize: '4.5rem',
-      lineHeight: '115%',
-      marginBottom: '0.2rem',
-      color: `${palette.common.first}FE`
-    },
-    h2: {
-      fontWeight: 700,
-      fontSize: '3.4375rem',
-      lineHeight: '115%',
-      color: `${palette.common.first}FE`
-    },
-    h3: {
-      fontWeight: 600,
-      fontSize: '2.75rem',
-      lineHeight: '115%',
-      color: `${palette.common.second}FE`
-    },
-    h4: {
-      fontWeight: 400,
-      fontSize: '2.125rem',
-      lineHeight: '115%',
-      color: `${palette.common.third}FE`
-    },
-    h5: {
-      fontWeight: 700,
-      fontSize: '1.5rem',
-      lineHeight: '115%',
-      color: `${palette.common.third}FE`
-    },
-    h6: {
-      fontWeight: 600,
-      fontSize: '1.25rem',
-      lineHeight: '115%',
-      color: `${palette.common.third}FE`
       fontSize: '3.815rem',
       lineHeight: '100%',
       color: `${palette.common.first}EE`
     },
+    h2: {
+      fontWeight: 700,
+      fontSize: '3.052rem',
+      lineHeight: '100%',
+      color: `${palette.common.first}EE`
+    },
+    h3: {
+      fontWeight: 600,
+      fontSize: '2.441rem',
+      lineHeight: '100%',
+      color: `${palette.common.second}EE`
+    },
+    h4: {
+      fontWeight: 400,
+      fontSize: '1.953rem',
+      lineHeight: '100%',
+      color: `${palette.common.third}EE`
+    },
+    h5: {
+      fontWeight: 700,
+      fontSize: '1.562rem',
+      lineHeight: '105%',
+      color: `${palette.common.third}EE`
+    },
+    h6: {
+      fontWeight: 600,
+      fontSize: '1.339rem',
+      lineHeight: '105%',
+      color: `${palette.common.third}EE`
+    },
     subtitle1: {
-      fontWeight: 500,
+      fontWeight: 400,
       fontSize: '1.25rem',
-      lineHeight: '120%',
+      lineHeight: '100%',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: '1rem',
-      lineHeight: '120%',
+      lineHeight: '100%',
       color: `${palette.common.third}DD`
     },
     body1: {
-      fontWeight: 600,
-      fontSize: '0.9375rem',
-      lineHeight: '105%',
-      color: `${palette.common.third}DE`
+      fontWeight: 800,
+      fontSize: '0.875rem',
+      lineHeight: '110%',
+      color: `${palette.common.third}EE`
     },
     body2: {
       fontWeight: 400,
-      fontSize: '0.9375rem',
-      lineHeight: '125%',
-      color: `${palette.common.first}EE`
-      lineHeight: '100%',
-      color: `${palette.common.third}DD`
+      fontSize: '0.875rem',
+      lineHeight: '110%',
+      color: `${palette.common.first}DE`
     },
     caption: {
       fontStyle: '600',

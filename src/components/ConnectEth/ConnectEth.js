@@ -14,12 +14,6 @@ import {
   getConnector,
   getWeb3InstanceOfProvider
  } from '../../utils/eth'
-import Portal from '@material-ui/core/Portal'
-import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
-import { withRouter } from 'react-router'
-import { connect } from 'react-redux'
-import { fetchSocialLevel } from '../../redux/actions'
 
 const { BACKEND_API, POLY_CHAIN_ID } = process.env
 const ERROR_MSG = `Make sure you are logged into yup and please try again.`
