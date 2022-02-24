@@ -109,7 +109,7 @@ const StakingPage = ({ classes, account }) => {
     setPolyStakeInput(toBaseNum(isStake ? polyLpBal : currentStakePoly))
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     getAprs()
   }, [])
 
@@ -140,6 +140,12 @@ const StakingPage = ({ classes, account }) => {
   const handleDisconnect = () => {
     setAddress(null)
     setConnector(null)
+    setPolyRwrdAmt(null)
+    setEthRwrdAmt(null)
+    setCurrentStakePoly(null)
+    setCurrentStakeEth(null)
+    setPolyLpBal(null)
+    setEthLpBal(null)
   }
 
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
@@ -219,10 +225,14 @@ const StakingPage = ({ classes, account }) => {
   const toBaseNum = (num) => num / Math.pow(10, 18)
   const toGwei = (num) => num * Math.pow(10, 18)
   const formatDecimals = (num) => Number(Number(num).toFixed(3))
+  const isValidStakeAmt = (amt) => {
+    const stakeAmt = Number(amt)
+    return isNaN(stakeAmt) && stakeAmt > 0
+  }
 
   const handleEthStakeAction = async (txBody) => {
     const isStake = !activeEthTab
-    if (polyStakeInput === '0' || isNaN(Number(ethStakeInput))) {
+    if (!isValidStakeAmt(ethStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -248,7 +258,8 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      incrementRetryCount()
+      // Dont logout if user rejects transaction
+      if (err && err.code !== 4001) { incrementRetryCount() }
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
       console.log('ERR handling eth staking', err)
     }
@@ -260,7 +271,7 @@ const StakingPage = ({ classes, account }) => {
 
   const handlePolyStakeAction = async (txBody) => {
     const isStake = !activePolyTab
-    if (polyStakeInput === '0' || isNaN(Number(polyStakeInput))) {
+    if (isValidStakeAmt(polyStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -858,18 +869,19 @@ const StakingPage = ({ classes, account }) => {
                 </Grid>
               </Grid>
             </Grid>
+            {ethConnectorDialog && (
             <ConnectEth
               handleDisconnect={handleDisconnect}
               account={account}
               getBalances={getBalances}
               setConnector={setConnector}
               setAddress={setAddress}
-              dialogOpen={ethConnectorDialog}
+              dialogOpen
               handleDialogClose={handleEthConnectorDialogClose}
               isProvider
               backupRpc={POLY_BACKUP_RPC_URLS[retryCount]}
               setProvider={setProvider}
-            />
+            />)}
           </Grid>
         </Grid>
       </ErrorBoundary>
