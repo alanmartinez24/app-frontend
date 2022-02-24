@@ -419,11 +419,11 @@ const StakingPage = ({ classes, account }) => {
                     className={classes.aprText}
                   >
                     <CountUp
-                      end={Math.max(polyApr, ethApr)}
+                      end={Math.min(Math.max(polyApr, ethApr), 5000)}
                       decimals={2}
                       start={0}
                       duration={3}
-                      suffix='% APR'
+                      suffix={ethApr > 5000 || polyApr > 5000 ? '+% APR' : '%APR'}
                     />
                   </Typography>
                 </Grid>
@@ -489,7 +489,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${ethApr && formatDecimals(ethApr)}% APR`}
+                            {`${ethApr && formatDecimals(Math.min(ethApr, 5000))}${ethApr > 5000 ? '+' : ''}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -653,7 +653,7 @@ const StakingPage = ({ classes, account }) => {
                         </Grid>
                         <Grid item>
                           <Typography variant='h5'>
-                            {`${polyApr && formatDecimals(polyApr)}% APR`}
+                            {`${polyApr && formatDecimals(Math.min(polyApr, 5000))}${polyApr > 5000 ? '+' : ''}% APR`}
                           </Typography>
                         </Grid>
                       </Grid>
