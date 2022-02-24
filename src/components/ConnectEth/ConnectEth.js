@@ -21,7 +21,8 @@ const NOT_POLYGON_MSG = 'Make sure you are connecting to Polygon from your walle
 
 const styles = theme => ({
   dialog: {
-      width: '100%'
+      width: '100%',
+      zIndex: 10
   },
   dialogTitleText: {
     fontWeight: '500'
@@ -137,9 +138,9 @@ class ConnectEth extends Component {
       const provider = await getPolygonProvider(getPolygonWeb3Modal())
       this.setState({ provider })
       this.props.setProvider(provider)
-    if (provider) {
-      await this.subscribeToEventsProvider()
-    }
+      if (provider) {
+        await this.subscribeToEventsProvider()
+      }
     } else {
     const connector = await getConnector()
     this.setState({ connector })
@@ -160,13 +161,13 @@ class ConnectEth extends Component {
   subscribeToEventsProvider = async () => {
     const provider = this.state.provider
 
-  provider.on('accountsChanged', (accounts) => {
-       // Should handle in the future
-  })
-    // Subscribe to provider disconnection
-  provider.on('disconnect', () => {
-      this.onDisconnect()
-  })
+    provider.on('accountsChanged', (accounts) => {
+        // Should handle in the future
+    })
+      // Subscribe to provider disconnection
+    provider.on('disconnect', () => {
+        this.onDisconnect()
+    })
       try {
       const web3 = await getWeb3InstanceOfProvider(this.state.provider)
       const accounts = await web3.eth.getAccounts()
