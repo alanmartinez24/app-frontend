@@ -136,7 +136,6 @@ const StakingPage = ({ classes, account }) => {
     try {
       if (!provider) { return }
       const web3Provider = await (await getWeb3InstanceOfProvider(provider))
-      console.log('ssss', web3Provider)
       const polyLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
       const ethLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
       const polyLpToken = new web3Provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
@@ -185,11 +184,6 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handleStakingAction = async (lpToken) => {
-// const txHash = await web3.eth.sendTransaction(tx);
-// const signedTx = await web3.eth.signTransaction(tx);
-// const signedMessage = await web3.eth.sign(msg);
-// const signedTypedData = await web3.eth.signTypedData(msg);
-    console.log('handleStakingAction', address)
     if (!account || !account.name) {
     handleSnackbarOpen('Please sign into your YUP account first.')
     return
@@ -199,7 +193,6 @@ const StakingPage = ({ classes, account }) => {
    }
     setIsLoading(true)
     const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
-    console.log('gasPrice', gasPrice)
     const txBody = {
       from: address,
       gasPrice
@@ -226,11 +219,6 @@ const StakingPage = ({ classes, account }) => {
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
       await enableAndSwitchProvider(provider)
       const web3Provider = await getWeb3InstanceOfProvider(provider)
-      console.log('web3Provider', web3Provider)
-      const accounts = await web3Provider.eth.getAccounts()
-      const chainId = await web3Provider.eth.getChainId()
-      const networkId = await web3Provider.eth.net.getId()
-      console.log(accounts, chainId, networkId)
       if (isStake) {
         const approveTx = {
           ...txBody,

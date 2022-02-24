@@ -137,11 +137,9 @@ class ConnectEth extends Component {
       const provider = await getPolygonProvider(getPolygonWeb3Modal())
       this.setState({ provider })
       this.props.setProvider(provider)
-      console.log('provider', provider)
     if (provider) {
-      this.subscribeToEventsProvider()
+      await this.subscribeToEventsProvider()
     }
-    // await this.subscribeToEventsProvider()
     } else {
     const connector = await getConnector()
     this.setState({ connector })
