@@ -185,6 +185,7 @@ class ConnectEth extends Component {
       })
 
       const address = accounts[0]
+      this.account = address
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
       const hexMsg = convertUtf8ToHex(challenge)
       const signature = await web3.eth.personal.sign(hexMsg, address)
