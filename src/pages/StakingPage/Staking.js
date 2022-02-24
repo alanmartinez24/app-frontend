@@ -251,10 +251,13 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      // Dont logout if user rejects transaction
-      if (err && err.code !== 4001) { incrementRetryCount() }
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
-      console.log('ERR handling eth staking', err)
+      if (err && err.code !== 4001) {  
+        handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
+      } else {
+        incrementRetryCount()
+        handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
+        console.log('ERR handling eth staking', err)
+       }
     }
   }
   const sendTx = async (tx) => {
@@ -262,7 +265,7 @@ const StakingPage = ({ classes, account }) => {
     await web3Provider.eth.sendTransaction(tx)
   }
 
-  const handlePolyStakeAction = async (txBody) => {
+  const handlePolyStakeAction = async () => {
     if (isValidStakeAmt(polyStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
@@ -293,11 +296,14 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
-      if (err && err.code !== 4001) { incrementRetryCount() }
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
-      console.log('ERR handling polygon staking', err)
+      if (err && err.code === 4001) {
+        handleSnackbarOpen('User rejected transaction.')
+      } else {
+        incrementRetryCount()
+        handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
     }
   }
+
   const collectRewards = async () => {
     try {
       if (!address) {
@@ -326,9 +332,12 @@ const StakingPage = ({ classes, account }) => {
       }
       setIsLoading(false)
     } catch (err) {
-      if (err && err.code !== 4001) { incrementRetryCount() }
-      handleSnackbarOpen('There was a problem collecting your rewards.')
-      console.log('ERR collecting rewards', err)
+      if (err && err.code === 4001) {
+        handleSnackbarOpen('User rejected transaction.')
+      } else {
+         incrementRetryCount()
+        console.log('ERR collecting rewards', err)
+      }
     }
   }
     return (
