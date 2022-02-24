@@ -215,13 +215,13 @@ const StakingPage = ({ classes, account }) => {
   const toGwei = (num) => num * Math.pow(10, 18)
   const formatDecimals = (num) => Number(Number(num).toFixed(3))
 
-  const isValidStakeAmt = (amt) => {
+  const isInvalidStakeAmt = (amt) => {
     const stakeAmt = Number(amt)
-    return !isNaN(stakeAmt) && stakeAmt > 0
+    return isNaN(stakeAmt) || stakeAmt <= 0
   }
 
   const handleEthStakeAction = async () => {
-    if (!isValidStakeAmt(ethStakeInput)) {
+    if (isInvalidStakeAmt(ethStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -251,7 +251,7 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      if (err && err.code !== 4001) {  
+      if (err && err.code !== 4001) {
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
@@ -266,7 +266,7 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handlePolyStakeAction = async () => {
-    if (isValidStakeAmt(polyStakeInput)) {
+    if (isInvalidStakeAmt(polyStakeInput)) {
       handleSnackbarOpen('Please enter a valid amount.')
       return
     }
@@ -301,12 +301,13 @@ const StakingPage = ({ classes, account }) => {
       } else {
         incrementRetryCount()
         handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
+      }
     }
   }
 
   const collectRewards = async () => {
     try {
-      if (!address) {
+      if (!address && !connector) {
         setEthConnectorDialog(true)
         return
       }
