@@ -116,7 +116,8 @@ class AirdropPage extends Component {
       rollbar.error(`Error claiming airdrop: ${JSON.stringify(err)}`)
       this.setState({ snackbarMsg: err.response && err.response.data.message })
     }
-    if (claimSuccess && !hasAvailableLpAirdrop) {
+
+    if (claimSuccess || lpClaimSuccess) {
       this.setState({ activeStep: 3 })
     }
     this.setState({ isLoading: false })
@@ -140,7 +141,7 @@ class AirdropPage extends Component {
     const { isLoading, airdrop, lpAidrop, snackbarMsg, polygonAddress, activeStep, subscribeDialogOpen } = this.state
     const isValidAddress = isAddress(polygonAddress)
 
-    const enableClaim = airdrop && isValidAddress
+    const enableClaim = (airdrop || lpAidrop) && isValidAddress
     const shareStep = activeStep === 3
 
     return (
