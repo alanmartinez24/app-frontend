@@ -109,7 +109,7 @@ const StakingPage = ({ classes, account }) => {
     setPolyStakeInput(toBaseNum(isStake ? polyLpBal : currentStakePoly))
   }
 
-  useEffect(async () => {
+  useEffect( () => {
     getAprs()
   }, [])
 
@@ -140,6 +140,12 @@ const StakingPage = ({ classes, account }) => {
   const handleDisconnect = () => {
     setAddress(null)
     setConnector(null)
+    setPolyRwrdAmt(null)
+    setEthRwrdAmt(null)
+    setCurrentStakePoly(null)
+    setCurrentStakeEth(null)
+    setPolyLpBal(null)
+    setEthLpBal(null)
   }
 
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
@@ -195,10 +201,12 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const handleStakingAction = async (lpToken) => {
+    console.log(address)
     if (!account || !account.name) {
     handleSnackbarOpen('Please sign into your YUP account first.')
     return
    } else if (!address) {
+     console.log(address)
       setEthConnectorDialog(true)
       return
    }
@@ -248,7 +256,8 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      incrementRetryCount()
+      //Dont logout if user rejects transaction
+      if(err &&err.code!==4001) incrementRetryCount()
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
       console.log('ERR handling eth staking', err)
     }
@@ -858,18 +867,19 @@ const StakingPage = ({ classes, account }) => {
                 </Grid>
               </Grid>
             </Grid>
+            {ethConnectorDialog&& (
             <ConnectEth
               handleDisconnect={handleDisconnect}
               account={account}
               getBalances={getBalances}
               setConnector={setConnector}
               setAddress={setAddress}
-              dialogOpen={ethConnectorDialog}
+              dialogOpen={true}
               handleDialogClose={handleEthConnectorDialogClose}
               isProvider
               backupRpc={POLY_BACKUP_RPC_URLS[retryCount]}
               setProvider={setProvider}
-            />
+            />)}
           </Grid>
         </Grid>
       </ErrorBoundary>
