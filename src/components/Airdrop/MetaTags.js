@@ -8,7 +8,7 @@ const MetaTags = ({ polygonAddress, airdrop }) => {
   const metaDescription = polygonAddress
   ? `${polygonAddress.slice(0, 5)}...${polygonAddress.slice(-6, -1)} has ${Math.round(airdrop)} $YUP ready to be airdropped to Polygon`
   : `Claim your airdrop on Polygon`
-  const metaTitle = 'yup NFT Creator Rewards'
+  const metaTitle = 'Yup Polygon Aidrop'
   return (
     <Helmet>
       <meta charSet='utf-8' />
