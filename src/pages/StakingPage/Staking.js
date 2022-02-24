@@ -192,8 +192,7 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const getTxBody = async () => {
-    const livePrice = (await (getPriceProvider()).getGasPrice())
-    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits(livePrice.mul(2), 'gwei'), 'gwei')
+    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
     const txBody = {
       from: address,
       gasPrice
@@ -210,11 +209,7 @@ const StakingPage = ({ classes, account }) => {
       return
    }
     setIsLoading(true)
-    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
-    const txBody = {
-      from: address,
-      gasPrice
-    }
+    const txBody = await getTxBody()
     if (lpToken === 'eth') {
       await handleEthStakeAction(txBody)
     } else if (lpToken === 'poly') {
@@ -228,7 +223,7 @@ const StakingPage = ({ classes, account }) => {
   const formatDecimals = (num) => Number(Number(num).toFixed(3))
   const isValidStakeAmt = (amt) => {
     const stakeAmt = Number(amt)
-    return isNaN(stakeAmt) && stakeAmt > 0
+    return !isNaN(stakeAmt) && stakeAmt > 0
   }
 
   const handleEthStakeAction = async (txBody) => {
