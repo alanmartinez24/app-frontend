@@ -11,14 +11,14 @@ const { WALLET_CONNECT_BRIDGE, POLY_RPC_URL, POLY_CHAIN_ID } = process.env
 
 export const getPriceProvider = () => new providers.JsonRpcProvider(POLY_RPC_URL)
 
-export const getPolygonWeb3Modal = () => {
+export const getPolygonWeb3Modal = (backupRpc = null) => {
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
           bridge: WALLET_CONNECT_BRIDGE,
           rpc: {
-            [POLY_CHAIN_ID]: POLY_RPC_URL
+            [POLY_CHAIN_ID]: backupRpc || POLY_RPC_URL
           },
           callbacks: {
             onConnect: () => console.log('matic provider connected'),
