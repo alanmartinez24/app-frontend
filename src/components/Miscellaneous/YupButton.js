@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core'
 
 const YupButton = ({ buttonText, variant, ...restProps }) => {
   return (
-    <Button variant={variant}
+    <Button variant={variant || null}
       {...restProps}
     >
       {buttonText}

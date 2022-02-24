@@ -11,6 +11,7 @@ import { updateAccountInfo } from '../../redux/actions'
 import UserAvatar from '../UserAvatar/UserAvatar'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import YupInput from '../Miscellaneous/YupInput'
+import YupButton from '../Miscellaneous/YupButton'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import { accountInfoSelector, ethAuthSelector, userLevelSelector } from '../../redux/selectors'
@@ -109,6 +110,10 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
     }
+  },
+  removePhoto: {
+    fontFamily: 'Gilroy',
+    marginLeft: 30
   },
   snackbar: {
     position: 'absolute',
@@ -430,13 +435,12 @@ class EditProfile extends Component {
     )
 
     const EditButton = props => (
-      <Button
+      <YupButton
         className={classes.editButton}
         onClick={this.handleDialogOpen}
         variant='contained'
-      >
-        Edit
-      </Button>
+        buttonText={'Edit'}
+      />
     )
 
     const filePreview = (files[0] && files[0].preview) || ''
@@ -459,12 +463,11 @@ class EditProfile extends Component {
     const RemovePhoto = props => {
       if (!cropTime && files.length === 0 && this.state.avatar !== '') {
         return (
-          <Button
+          <YupButton
+            className={classes.removePhoto}
             onClick={this.handleRemoveCurrentPhoto}
-            style={{ fontFamily: 'Gilroy', marginLeft: 30 }}
-          >
-            Remove Current Photo
-          </Button>
+            buttonText={'Remove Current Photo'}
+          />
         )
       }
       return null
@@ -481,10 +484,7 @@ class EditProfile extends Component {
             open={this.state.open}
             className={classes.dialog}
           >
-            <DialogTitle
-              className={classes.dialogTitle}
-              id='form-dialog-title'
-            >
+            <DialogTitle className={classes.dialogTitle} id='form-dialog-title'>
               <Typography variant='h3'>Edit Profile</Typography>
             </DialogTitle>
             <DialogContent>
@@ -512,40 +512,41 @@ class EditProfile extends Component {
                             src={filePreview}
                             width='100%'
                           />
-                          ) : (
-                            <UserAvatar
-                              align='center'
-                              alt='Add'
-                              username={username}
-                              className={classes.dropzoneImg}
-                              style={{ fontSize: '100px' }}
-                              height='auto'
-                              src={this.state.avatar}
-                              width='100%'
-                            />
-                          )}
+                        ) : (
+                          <UserAvatar
+                            align='center'
+                            alt='Add'
+                            username={username}
+                            className={classes.dropzoneImg}
+                            style={{ fontSize: '100px' }}
+                            height='auto'
+                            src={this.state.avatar}
+                            width='100%'
+                          />
+                        )}
                       </Dropzone>
                     </div>
-                    ) : (
-                      <ReactCrop
-                        crop={crop}
-                        imageStyle={{
-                          width: '100%',
-                          height: 'auto',
-                          objectFit: 'contain',
-                          marginTop: 0,
-                          maxWidth: '100%',
-                          maxHeight: '400px'
-                        }}
-                        onChange={this.onCropChange}
-                        onImageLoaded={this.onImageLoaded}
-                        src={filePreview}
-                      />
-                    )}
+                  ) : (
+                    <ReactCrop
+                      crop={crop}
+                      imageStyle={{
+                        width: '100%',
+                        height: 'auto',
+                        objectFit: 'contain',
+                        marginTop: 0,
+                        maxWidth: '100%',
+                        maxHeight: '400px'
+                      }}
+                      onChange={this.onCropChange}
+                      onImageLoaded={this.onImageLoaded}
+                      src={filePreview}
+                    />
+                  )}
                   <CropIcon />
                   <RemovePhoto />
                 </Grid>
-                <Grid item
+                <Grid
+                  item
                   container
                   direction='column'
                   alignItems='stretch'
@@ -576,7 +577,9 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
-                  {accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address ? (
+                  {accountInfo &&
+                  accountInfo.ethInfo &&
+                  accountInfo.ethInfo.address ? (
                     <Grid item>
                       <YupInput
                         autoFocus
@@ -591,35 +594,31 @@ class EditProfile extends Component {
                         variant='outlined'
                       />
                     </Grid>
-
                   ) : (
-                    <Grid item >
-                      <Button
+                    <Grid item>
+                      <YupButton
                         fullWidth
                         className={classes.signupBtn}
                         onClick={this.handleEthDialogOpen}
                         variant='contained'
-                      >
-                        Connect Eth
-                      </Button>
+                        buttonText={'Connect Eth'}
+                      />
                     </Grid>
-                      )}
+                  )}
                 </Grid>
               </Grid>
             </DialogContent>
             <DialogActions>
-              <Button
+              <YupButton
                 onClick={this.handleDialogClose}
                 variant='outlined'
-              >
-                Cancel
-              </Button>
-              <Button
-                variant='contained'
+                buttonText={'Cancel'}
+              />
+              <YupButton
                 onClick={this.handleAccountInfoSubmit}
-              >
-                Update
-              </Button>
+                variant='contained'
+                buttonText={'Update'}
+              />
             </DialogActions>
           </Dialog>
           <ConnectEth
