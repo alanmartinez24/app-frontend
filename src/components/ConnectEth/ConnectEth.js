@@ -14,7 +14,6 @@ import {
   getConnector,
   getWeb3InstanceOfProvider
  } from '../../utils/eth'
-import Web3 from 'web3'
 
 const { BACKEND_API, POLY_CHAIN_ID } = process.env
 const ERROR_MSG = `Make sure you are logged into yup and please try again.`
@@ -139,13 +138,9 @@ class ConnectEth extends Component {
       this.setState({ provider })
       this.props.setProvider(provider)
       console.log('provider', provider)
-
-    // already logged in
-    if (provider.connected && !localStorage.getItem('YUP_ETH_AUTH')) {
-      localStorage.removeItem('walletconnect')
-      this.initWalletConnect()
+    if (provider) {
+      this.subscribeToEventsProvider()
     }
-    this.subscribeToEventsProvider()
     // await this.subscribeToEventsProvider()
     } else {
     const connector = await getConnector()
@@ -192,8 +187,8 @@ class ConnectEth extends Component {
 
       const address = accounts[0]
       const { data: challenge } = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data
-      const shaMsg = Web3.utils.sha3(challenge)
-      const signature = await web3.eth.personal.sign(shaMsg, address)
+      const hexMsg = convertUtf8ToHex(challenge)
+      const signature = await web3.eth.personal.sign(hexMsg, address)
       console.log(signature)
       this.props.dispatch(fetchSocialLevel(eosname))
       this.setState({ activeStep: 2 })

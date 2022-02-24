@@ -39,8 +39,8 @@ export const getPolygonProvider = async (polygonWeb3Modal) => {
     const provider = await polygonWeb3Modal.connect()
   return provider
   } catch (error) {
-    const provider = await getPolygonProvider(polygonWeb3Modal)
-    return provider
+    console.log(error)
+    return null
   }
 }
 
