@@ -17,7 +17,8 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API } = process.env // POLY_RPC_URL
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL } = process.env
+const POLY_BACKUP_RPC_URLS = POLY_BACKUP_RPC_URL.split(',')
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
 
@@ -82,6 +83,7 @@ const StakingPage = ({ classes, account }) => {
 
   const [currentStakeEth, setCurrentStakeEth] = useState(0) // current amount staked
   const [currentStakePoly, setCurrentStakePoly] = useState(0) // current amount staked
+  const [retryCount, setRetryCount] = useState(-1) // switch RPC URLs on timeout/fail
 
   const [contracts, setContracts] = useState(null)
   const [address, setAddress] = useState('')
@@ -156,7 +158,17 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
     } catch (err) {
+      incrementRetryCount()
+      handleSnackbarOpen('There was a problem fetching your balances, try again.')
       console.log('ERR getting balances', err)
+    }
+  }
+
+  const incrementRetryCount = () => {
+    handleDisconnect()
+    setRetryCount(retryCount + 1)
+    if (retryCount === POLY_BACKUP_RPC_URLS.length - 1) {
+      setRetryCount(0)
     }
   }
 
@@ -235,7 +247,8 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. ${err.message}`)
+      incrementRetryCount()
+      handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
       console.log('ERR handling eth staking', err)
     }
   }
@@ -273,6 +286,7 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
+      incrementRetryCount()
       handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
       console.log('ERR handling polygon staking', err)
     }
@@ -305,6 +319,7 @@ const StakingPage = ({ classes, account }) => {
       }
       setIsLoading(false)
     } catch (err) {
+      incrementRetryCount()
       handleSnackbarOpen('There was a problem collecting your rewards.')
       console.log('ERR collecting rewards', err)
     }
@@ -851,6 +866,7 @@ const StakingPage = ({ classes, account }) => {
               dialogOpen={ethConnectorDialog}
               handleDialogClose={handleEthConnectorDialogClose}
               isProvider
+              backupRpc={POLY_BACKUP_RPC_URLS[retryCount]}
               setProvider={setProvider}
             />
           </Grid>

@@ -135,7 +135,7 @@ class ConnectEth extends Component {
     this.onDisconnect()
     // create new connector
     if (this.props.isProvider) {
-      const provider = await getPolygonProvider(getPolygonWeb3Modal())
+      const provider = await getPolygonProvider(getPolygonWeb3Modal(this.props.backupRpc))
       this.setState({ provider })
       this.props.setProvider(provider)
       if (provider) {
@@ -193,9 +193,7 @@ class ConnectEth extends Component {
       this.setState({ activeStep: 2 })
       this.handleSnackbarOpen('Successfully linked ETH account.', false)
       this.props.handleDialogClose()
-      this.props.setAddress && this.props.setAddress(accounts[0]) // set address for account if getBalance function is pased down
-      this.props.getBalances && this.props.getBalances(accounts[0]) // get balance for account if getBalance function is pased down
-      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+      this.updateParentSuccess()
       this.setState({ walletConnectOpen: false })
     } catch (err) {
       this.handleSnackbarOpen(err.msg, true)
@@ -279,14 +277,18 @@ class ConnectEth extends Component {
   }
 
   updateParentSuccess = () => {
-    this.props.setAddress && this.props.setAddress(this.account) // set address for account if getBalance function is pased down
-    this.props.getBalances && this.props.getBalances(this.account) // get balance for account if getBalance function is pased down
-    this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+    try {
+      this.props.setAddress && this.props.setAddress(this.account) // set address for account if getBalance function is pased down
+      this.props.getBalances && this.props.getBalances(this.account) // get balance for account if getBalance function is pased down
+      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+    } catch {}
   }
 
   updateParentFail = () => {
-    this.props.handleDisconnect && this.props.handleDisconnect()
-    this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+    try {
+      this.props.handleDisconnect && this.props.handleDisconnect()
+      this.props.setConnector && this.props.setConnector(this.state.connector) // set connector for account if setConnector function is pased down
+    } catch {}
   }
 
   onDisconnect = async () => {
@@ -442,6 +444,7 @@ ConnectEth.propTypes = {
   handleDialogClose: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
   getBalances: PropTypes.func,
+  backupRpc: PropTypes.string,
   handleDisconnect: PropTypes.func,
   setConnector: PropTypes.func,
   setAddress: PropTypes.func,
