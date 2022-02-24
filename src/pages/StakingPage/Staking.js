@@ -110,6 +110,7 @@ const StakingPage = ({ classes, account }) => {
   }
 
   useEffect(() => {
+    localStorage.removeItem('walletconnect')
     getAprs()
   }, [])
 
