@@ -17,8 +17,7 @@ import { isAddress } from 'web3-utils'
 import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
 
-const { WEB_APP_URL } = process.env
-const BACKEND_API = 'http://localhost:4001'
+const { WEB_APP_URL, BACKEND_API } = process.env
 
 const styles = theme => ({
   page: {
