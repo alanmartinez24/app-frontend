@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Colors from '../../utils/colors'
 import YupInput from '../../components/Miscellaneous/YupInput'
+import YupButton from '../../components/Miscellaneous/YupButton'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import CountUp from 'react-countup'
@@ -243,14 +244,13 @@ class RewardsPage extends Component {
             </Card>
             {rewards !== null && (
               <>
-                <Button
+                <YupButton
                   fullWidth
                   className={classes.btn}
                   onClick={this.openWalletConnectDialog}
                   variant='contained'
-                >
-                  Claim
-                </Button>
+                  buttonText={'Claim'}
+                />
                 <SubscribeDialog
                   dialogOpen={dialogOpen}
                   handleDialogClose={this.handleDialogClose}
