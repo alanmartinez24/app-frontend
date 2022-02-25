@@ -9,7 +9,7 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
-import { getPriceProvider, getWeb3InstanceOfProvider } from '../../utils/eth'
+import { getWeb3InstanceOfProvider } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
@@ -186,7 +186,11 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const getTxBody = async () => {
-    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
+    const minGas = ethers.utils.parseUnits('65', 'gwei')
+    const maxGas = ethers.utils.parseUnits('250', 'gwei')
+    let gasPrice = (await provider.getGasPrice()).mul(3)
+    if (gasPrice.lte(minGas)) gasPrice = minGas
+    if (gasPrice.gte(maxGas)) gasPrice = maxGas
     const txBody = {
       from: address,
       gasPrice
@@ -312,6 +316,7 @@ const StakingPage = ({ classes, account }) => {
         return
       }
       setIsLoading(true)
+      handleSnackbarOpen('Sign the transactions to collect you rewards. There will be one transaction for each pool you are in.')
       const txBody = await getTxBody()
       if (ethRwrdAmt > 0) {
         const ethCollectTx = {
@@ -331,12 +336,13 @@ const StakingPage = ({ classes, account }) => {
         await sendTx(polyCollectTx)
         setPolyRwrdAmt(0)
       }
+      handleSnackbarOpen('You have succesfully collected your rewards!')
       setIsLoading(false)
     } catch (err) {
       if (err && err.code === 4001) {
         handleSnackbarOpen('User rejected transaction.')
       } else {
-         incrementRetryCount()
+        incrementRetryCount()
         console.log('ERR collecting rewards', err)
       }
     }
@@ -840,7 +846,7 @@ const StakingPage = ({ classes, account }) => {
                                           variant='outlined'
                                           size='small'
                                           disabled
-                                          value={formatDecimals(toBaseNum(polyRwrdAmt + ethRwrdAmt))}
+                                          value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
                                           startAdornment={
                                             <InputAdornment position='start'>
                                               <img src='public/images/logos/logo_g.svg' />
