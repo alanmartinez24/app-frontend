@@ -2,13 +2,14 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, InputAdornment, Icon, Button } from '@material-ui/core'
+import { Grid, Typography, Card, InputAdornment, Icon } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import '../../components/Tour/tourstyles.css'
 import isEqual from 'lodash/isEqual'
 import YupInput from '../../components/Miscellaneous/YupInput'
+import YupButton from '../../components/Miscellaneous/YupButton'
 import Colors from '../../utils/colors'
 import axios from 'axios'
 
@@ -173,10 +174,12 @@ class ScorePage extends Component {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Button style={{ opacity: 0.2 }}
+                  <YupButton
                     size='small'
                     content='text'
-                  >Twitter</Button>
+                    style={{ opacity: 0.2 }}
+                    buttonText={'Twitter'}
+                  />
                 </Grid>
 
                 <Grid item
