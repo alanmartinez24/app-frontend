@@ -105,12 +105,12 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     localStorage.removeItem('walletconnect')
+    handleSnackbarOpen('Connect your wallet to see your balance and perform staking actions.')
     getAprs()
   }, [])
 
   useEffect(() => {
     if (!provider) { return }
-    handleSnackbarOpen('Connect your wallet to see your balance and perform staking actions.')
     getContracts()
   }, [provider])
 
