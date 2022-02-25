@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import Img from 'react-image'
-import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, Menu, MenuItem } from '@material-ui/core'
+import { Fab, Typography, Grid, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Hidden, Menu, MenuItem } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
@@ -22,6 +22,7 @@ import CreateCollectionFab from '../../components/Miscellaneous/CreateCollection
 import { setTourAction, fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
 import { Skeleton } from '@material-ui/lab'
+import YupButton from '../../components/Miscellaneous/YupButton'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -133,6 +134,13 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       display: 'none'
     }
+  },
+  tourButton: {
+    fontWeight: 400
+  },
+  nextAndPrevButtons: {
+    fontWeight: 400,
+    backgroundColor: '#00E08E'
   },
   headerTitle: {
     [theme.breakpoints.down('xs')]: {
@@ -408,12 +416,11 @@ class Collections extends Component {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Button variant='contained'
-                    size='large'
+                  <YupButton size='large'
+                    variant='contained'
                     href='/'
-                  >
-                    Go Home
-                  </Button>
+                    buttonText={'Go Home'}
+                  />
                 </Grid>
               </Grid>
             </div>
@@ -867,22 +874,16 @@ class Collections extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button
+                <YupButton small
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
-                  small
-                >
-                  Next
-                </Button>
+                  buttonText={'Next'}
+                />
               }
               prevButton={
-                <Button
-                  small
+                <YupButton small
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
-                >
-                  Back
-                </Button>
+                  buttonText={'Back'}
+                />
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}
             />
@@ -986,44 +987,39 @@ const steps = [
           className='tourText'
         >That's all for now. Learn more with some of these resources:</Typography>
         <div className='tourResources'>
-          <Button
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://docs.yup.io'
             target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
+            buttonText={'Docs'}
+          />
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://yup.io'
             target='_blank'
-          >
-            Website
-          </Button>
-          <Button
+            buttonText={'Website'}
+          />
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://blog.yup.io'
             target='_blank'
-          >
-            Blog
-          </Button>
+            buttonText={'Blog'}
+          />
         </div>
       </div>
     )
   }
 ]
+
 Collections.propTypes = {
   dispatch: PropTypes.func.isRequired,
   levels: PropTypes.object.isRequired,
