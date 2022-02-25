@@ -152,7 +152,7 @@ const StakingPage = ({ classes, account }) => {
       const ethStake = await contracts.ethLiquidity.methods.balanceOf(acct).call({ from: acct })
       const ethBal = await contracts.ethLpToken.methods.balanceOf(acct).call({ from: acct })
       const polyRwrdsEarned = await contracts.polyLiquidity.methods.earned(acct).call({ from: acct })
-      const ethRwrdsEarned = await contracts.polyLiquidity.methods.earned(acct).call({ from: acct })
+      const ethRwrdsEarned = await contracts.ethLiquidity.methods.earned(acct).call({ from: acct })
       setPolyRwrdAmt(polyRwrdsEarned)
       setEthRwrdAmt(ethRwrdsEarned)
       setCurrentStakePoly(polyStake)
