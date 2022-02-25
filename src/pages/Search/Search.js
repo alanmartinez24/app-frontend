@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles } from '@material-ui/core/styles'
-import { Fab, Typography, Grid, Button, Tabs, Tab } from '@material-ui/core'
+import { Fab, Typography, Grid, Tabs, Tab } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { Link } from 'react-router-dom'
 import Tour from 'reactour'
@@ -12,6 +12,7 @@ import Fade from '@material-ui/core/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
 import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
+import YupButton from '../../components/Miscellaneous/YupButton'
 
 const DISPLAYED_USERS = 2
 const showTabs = window.innerWidth <= 960
@@ -297,7 +298,6 @@ class Search extends Component {
     const { posts, searchText, isLoading } = postSearchResults
     const { users } = userSearchResults
     const { collections } = collectionSearchResults
-    console.log(collections, 'collections')
 
     return (
       <ErrorBoundary>
@@ -478,21 +478,18 @@ class Search extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button
+                <YupButton
                   size='small'
                   variant='outlined'
-                  small
-                >
-                  Next
-                </Button>
+                  buttonText={'Next'}
+                />
               }
               prevButton={
-                <Button
+                <YupButton
                   size='small'
                   variant='outlined'
-                >
-                  Back
-                </Button>
+                  buttonText={'Back'}
+                />
               }
               lastStepNextButton={
                 <div
