@@ -434,14 +434,12 @@ class Discover extends Component {
             nextButton={
               <YupButton small
                 variant='outlined'
-                buttonText={'Next'}
-              />
+              >Next</YupButton>
             }
             prevButton={
               <YupButton small
                 variant='outlined'
-                buttonText={'Back'}
-              />
+              >Back</YupButton>
             }
             lastStepNextButton={<div style={{ display: 'none' }} />}
           />

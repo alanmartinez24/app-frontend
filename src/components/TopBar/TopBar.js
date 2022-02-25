@@ -579,8 +579,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                         className={classes.signupBtn}
                         onClick={handleDialogOpen}
                         variant='contained'
-                        buttonText={'Sign Up/Login'}
-                      />
+                      >Sign Up/Login</YupButton>
                     </Tooltip>
                   )}
               </Grid>
@@ -891,8 +890,7 @@ function TopBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme }
                     className={classes.logoutBtn}
                     onClick={handleLogout}
                     variant='outlined'
-                    buttonText={'Log out'}
-                  />
+                  >Log out</YupButton>
                 </ListItemSecondaryAction>
               </ListItem>
             </List>

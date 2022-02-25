@@ -713,8 +713,7 @@ class User extends Component {
                               className={classes.showAll}
                               onClick={this.handleShowAll}
                               size='medium'
-                              buttonText={'Show all'}
-                            />
+                            >Show all</YupButton>
                           </Grid>
                         )}
                       </Grid>
@@ -842,16 +841,14 @@ class User extends Component {
                   size='small'
                   variant='outlined'
                   className={classes.nextAndPrevButtons}
-                  buttonText={'Next'}
-                />
+                >Next</YupButton>
               }
               prevButton={
                 <YupButton
                   size='small'
                   variant='outlined'
                   className={classes.nextAndPrevButtons}
-                  buttonText={'Back'}
-                />
+                >Back</YupButton>
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}
             />

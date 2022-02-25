@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Snackbar, SnackbarContent } from '@material-ui/core'
+import { Grid, Typography, Card, Snackbar, SnackbarContent } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -249,8 +249,7 @@ class RewardsPage extends Component {
                   className={classes.btn}
                   onClick={this.openWalletConnectDialog}
                   variant='contained'
-                  buttonText={'Claim'}
-                />
+                >Claim</YupButton>
                 <SubscribeDialog
                   dialogOpen={dialogOpen}
                   handleDialogClose={this.handleDialogClose}

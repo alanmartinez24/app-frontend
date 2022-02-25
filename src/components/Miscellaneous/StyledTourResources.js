@@ -27,8 +27,7 @@ export const StyledTourResources = withStyles(styles)(function TourResources ({
         className={classes.tourButton}
         href='https://docs.yup.io'
         target='_blank'
-        buttonText={'Docs'}
-      />
+      >Docs</YupButton>
       <YupButton
         small
         size='medium'
@@ -36,8 +35,7 @@ export const StyledTourResources = withStyles(styles)(function TourResources ({
         className={classes.tourButton}
         href='https://yup.io'
         target='_blank'
-        buttonText={'Website'}
-      />
+      >Website</YupButton>
       <YupButton
         small
         size='medium'
@@ -45,8 +43,7 @@ export const StyledTourResources = withStyles(styles)(function TourResources ({
         className={classes.tourButton}
         href='https://blog.yup.io'
         target='_blank'
-        buttonText={'Blog'}
-      />
+      >Blog</YupButton>
     </div>
   )
 })

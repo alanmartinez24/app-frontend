@@ -481,15 +481,13 @@ class Search extends Component {
                 <YupButton
                   size='small'
                   variant='outlined'
-                  buttonText={'Next'}
-                />
+                >Next</YupButton>
               }
               prevButton={
                 <YupButton
                   size='small'
                   variant='outlined'
-                  buttonText={'Back'}
-                />
+                >Back</YupButton>
               }
               lastStepNextButton={
                 <div

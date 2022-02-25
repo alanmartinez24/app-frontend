@@ -317,8 +317,7 @@ class Home extends Component {
                              >
                              <YupButton size='large'
                                variant='contained'
-                               buttonText={'Enter'}
-                             />
+                             >Enter</YupButton>
                            </Link>
                                 : <>
                                   <a className={classes.Link}
@@ -326,8 +325,7 @@ class Home extends Component {
                                   >
                                     <YupButton size='large'
                                       variant='contained'
-                                      buttonText={'Start Now'}
-                                    />
+                                    >Start Now</YupButton>
                                   </a>
                                   <a className={classes.Link}
                                     href={YUP_LANDING}
@@ -335,8 +333,7 @@ class Home extends Component {
                                   >
                                     <YupButton size='large'
                                       variant='contained'
-                                      buttonText={'Learn More'}
-                                    />
+                                    >Learn More</YupButton>
                                   </a>
                                 </>
                           }

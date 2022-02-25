@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, Grid, Snackbar, SnackbarContent } from '@material-ui/core'
 import ReactCrop from 'react-image-crop'
 import './ReactCrop.css'
 import PropTypes from 'prop-types'
@@ -439,8 +439,7 @@ class EditProfile extends Component {
         className={classes.editButton}
         onClick={this.handleDialogOpen}
         variant='contained'
-        buttonText={'Edit'}
-      />
+      >Edit</YupButton>
     )
 
     const filePreview = (files[0] && files[0].preview) || ''
@@ -466,8 +465,7 @@ class EditProfile extends Component {
           <YupButton
             className={classes.removePhoto}
             onClick={this.handleRemoveCurrentPhoto}
-            buttonText={'Remove Current Photo'}
-          />
+          >Remove Current Photo</YupButton>
         )
       }
       return null
@@ -484,7 +482,9 @@ class EditProfile extends Component {
             open={this.state.open}
             className={classes.dialog}
           >
-            <DialogTitle className={classes.dialogTitle} id='form-dialog-title'>
+            <DialogTitle className={classes.dialogTitle}
+              id='form-dialog-title'
+            >
               <Typography variant='h3'>Edit Profile</Typography>
             </DialogTitle>
             <DialogContent>
@@ -601,8 +601,7 @@ class EditProfile extends Component {
                         className={classes.signupBtn}
                         onClick={this.handleEthDialogOpen}
                         variant='contained'
-                        buttonText={'Connect Eth'}
-                      />
+                      >Connect Eth</YupButton>
                     </Grid>
                   )}
                 </Grid>
@@ -612,13 +611,11 @@ class EditProfile extends Component {
               <YupButton
                 onClick={this.handleDialogClose}
                 variant='outlined'
-                buttonText={'Cancel'}
-              />
+              >Cancel</YupButton>
               <YupButton
                 onClick={this.handleAccountInfoSubmit}
                 variant='contained'
-                buttonText={'Update'}
-              />
+              >Update</YupButton>
             </DialogActions>
           </Dialog>
           <ConnectEth

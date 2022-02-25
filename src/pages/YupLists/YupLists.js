@@ -2,7 +2,7 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import YupLeaderboard from '../../components/YupLeaderboard/YupList'
 import { connect } from 'react-redux'
-import { Grid, Fab, Button, Typography } from '@material-ui/core'
+import { Grid, Fab, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { setListOptions, setTourAction } from '../../redux/actions'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
@@ -14,6 +14,7 @@ import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
+import YupButton from '../../components/Miscellaneous/YupButton'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -127,23 +128,18 @@ class YupLists extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button
+                <YupButton
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
-                  small
-                >
-                  Next
-                </Button>
+                  className={classes.nextAndPrevButtons}
+                >Next</YupButton>
               }
               prevButton={
-                <Button
+                <YupButton
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
-                >
-                  Back
-                </Button>
+                  className={classes.nextAndPrevButtons}
+                >Back</YupButton>
               }
               lastStepNextButton={
                 <div

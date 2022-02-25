@@ -417,8 +417,7 @@ class Collections extends Component {
                   <YupButton size='large'
                     variant='contained'
                     href='/'
-                    buttonText={'Go Home'}
-                  />
+                  >Go Home</YupButton>
                 </Grid>
               </Grid>
             </div>
@@ -873,15 +872,15 @@ class Collections extends Component {
               highlightedMaskClassName={classes.Mask}
               nextButton={
                 <YupButton small
+                  className={classes.nextAndPrevButtons}
                   variant='outlined'
-                  buttonText={'Next'}
-                />
+                >Next</YupButton>
               }
               prevButton={
                 <YupButton small
+                  className={classes.nextAndPrevButtons}
                   variant='outlined'
-                  buttonText={'Back'}
-                />
+                >Back</YupButton>
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}
             />

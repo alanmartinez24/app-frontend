@@ -145,13 +145,11 @@ class PolicyDialog extends React.Component {
               <YupButton
                 variant='outlined'
                 onClick={this.handleClose}
-                buttonText={'Cancel'}
-              />
+              >Cancel</YupButton>
               <YupButton
                 variant='contained'
                 onClick={this.handleClose}
-                buttonText={'Subscribe'}
-              />
+              >Subscribe</YupButton>
             </DialogActions>
           </Dialog>
         </div>

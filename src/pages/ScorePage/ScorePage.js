@@ -178,8 +178,7 @@ class ScorePage extends Component {
                     size='small'
                     content='text'
                     style={{ opacity: 0.2 }}
-                    buttonText={'Twitter'}
-                  />
+                  >Twitter</YupButton>
                 </Grid>
 
                 <Grid item

@@ -111,8 +111,7 @@ class WelcomeDialog extends Component {
                 <YupButton wide
                   className={classes.primaryBtn}
                   href='https://chrome.google.com/webstore/detail/yup-the-opinion-layer-of/nhmeoaahigiljjdkoagafdccikgojjoi?hl=en'
-                  buttonText={'Download Yup Extension'}
-                />
+                >Download Yup Extension</YupButton>
               </Grid>
               { showProductTour && <>
                 <Grid item
@@ -121,8 +120,7 @@ class WelcomeDialog extends Component {
                   <YupButton
                     className={classes.linkBtn}
                     onClick={this.openTour}
-                    buttonText={'10 second tutorial'}
-                  />
+                  >10 second tutorial</YupButton>
                 </Grid>
                 <Grid item
                   className={classes.mobileDialogContentText}
@@ -130,8 +128,7 @@ class WelcomeDialog extends Component {
                   <YupButton fullWidth
                     className={classes.primaryBtn}
                     onClick={this.openTour}
-                    buttonText={'10 Second Tutorial'}
-                  />
+                  >10 Second Tutorial</YupButton>
                 </Grid>
                 </>}
             </Grid>

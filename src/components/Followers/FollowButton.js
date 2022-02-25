@@ -139,8 +139,7 @@ class FollowButton extends Component {
             : <YupButton
               className={classes.followButton}
               onClick={() => { this.handleUnfollow(eosname) }}
-              buttonText={'Following'}
-              />
+              >Following</YupButton>
           }
           </Fragment>
         </ErrorBoundary>
@@ -169,12 +168,10 @@ class FollowButton extends Component {
             : <YupButton
               className={classes.followButton}
               onClick={() => { this.handleFollow(eosname) }}
-              buttonText={'Follow'}
-              />
+              >Follow</YupButton>
           }
           </Fragment>
         </ErrorBoundary>
-
       )
     }
   }
