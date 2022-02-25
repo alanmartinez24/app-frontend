@@ -169,7 +169,6 @@ const StakingPage = ({ classes, account }) => {
   const incrementRetryCount = () => {
     handleDisconnect()
     setRetryCount(retryCount + 1)
-    console.log('retryCount', retryCount)
     if (retryCount === POLY_BACKUP_RPC_URLS.length - 1) {
       handleSnackbarOpen('Retry limit reached. Try changing the RPC URL on your wallet. We recommend Alchemy. ')
       setRetryCount(0)
@@ -232,9 +231,8 @@ const StakingPage = ({ classes, account }) => {
       return
     }
 
-    const isStake = !activePolyTab
-
     try {
+      const isStake = !activePolyTab
       const txBody = await getTxBody()
       const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
       if (isStake) {
@@ -261,7 +259,7 @@ const StakingPage = ({ classes, account }) => {
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
-        handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'} ETH UNI-LP V2. Try again. ${err.message}`)
+        handleSnackbarOpen(`We encountered a problem. ${err.message}`)
         console.log('ERR handling eth staking', err)
        }
     }
@@ -269,20 +267,14 @@ const StakingPage = ({ classes, account }) => {
 
   const sendTx = async (tx) => {
     const web3Provider = getWeb3InstanceOfProvider(provider)
-    await web3Provider.eth.sendTransaction(tx)
+    await Promise.race([txTimeout(2 * 60 * 1000), web3Provider.eth.sendTransaction(tx)]) // 2 min timeout
   }
 
-//   const sendTx = async (tx) => {
-//     const web3Provider = getWeb3InstanceOfProvider(provider)
-//     const x = await Promise.race([txTimeout(2 * 1000), web3Provider.eth.sendTransaction(tx)])
-//     console.log('x', x)
-//   }
-
-//   const txTimeout = (ms) => {
-//     return new Promise((resolve, reject) => {
-//        setTimeout(() => reject(incrementRetryCount), ms)
-//     })
-//  }
+  const txTimeout = (ms) => {
+    return new Promise((resolve, reject) => {
+       setTimeout(() => reject(new Error('Transaction timed out. Try again.')), ms)
+    })
+ }
 
   const handlePolyStakeAction = async () => {
     if (isInvalidStakeAmt(polyStakeInput)) {
@@ -319,7 +311,7 @@ const StakingPage = ({ classes, account }) => {
         handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
-        handleSnackbarOpen(`There was a problem ${isStake ? 'staking' : 'unstaking'}. ${err.message}`)
+        handleSnackbarOpen(`We encountered a problem. ${err.message}`)
       }
     }
   }
@@ -358,7 +350,7 @@ const StakingPage = ({ classes, account }) => {
         handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
-        console.log('ERR collecting rewards', err)
+        handleSnackbarOpen(`We encountered a problem. ${err.message}`)
       }
     }
   }
