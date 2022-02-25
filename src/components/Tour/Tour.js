@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Fab, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import YupButton from '../Miscellaneous/YupButton'
+import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
 
 const styles = theme => ({
     Tour: {
@@ -239,35 +239,7 @@ const steps = [
         <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
-        <div className='tourResources'>
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-            buttonText={'Docs'}
-          />
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-            buttonText={'Website'}
-          />
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-            buttonText={'Blog'}
-          />
-        </div>
+        <StyledTourResources />
       </div>
     )
   }

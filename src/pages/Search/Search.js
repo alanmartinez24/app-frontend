@@ -11,6 +11,7 @@ import '../../components/Tour/tourstyles.css'
 import Fade from '@material-ui/core/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
+import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
 
 const DISPLAYED_USERS = 2
 const showTabs = window.innerWidth <= 960
@@ -617,41 +618,7 @@ const steps = [
         <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
-        <div className='tourResources'>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-          >
-            Website
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-          >
-            Blog
-          </Button>
-        </div>
+        <StyledTourResources />
       </div>
     )
   }

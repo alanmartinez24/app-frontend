@@ -19,6 +19,7 @@ import AddIcon from '@material-ui/icons/Add'
 import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
 import CollectionItem from '../../components/Collections/CollectionItem.js'
 import ShareTwitterDialog from '../../components/ShareTwitterDialog/ShareTwitterDialog.js'
 import { Link } from 'react-router-dom'
@@ -1027,41 +1028,7 @@ const steps = [
           className='tourHeader'
         >👏 That's it !</Typography>
         <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
-        <div className='tourResources'>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-          >
-            Website
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-          >
-            Blog
-          </Button>
-        </div>
+        <StyledTourResources />
         <ReactPlayer
           controls
           style={{ overFlow: 'hidden', maxHeight: '200px' }}

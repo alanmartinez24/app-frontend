@@ -19,10 +19,11 @@ import RecommendedCollections from '../../components/Collections/RecommendedColl
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
+import YupButton from '../../components/Miscellaneous/YupButton'
 import { setTourAction, fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
 import { Skeleton } from '@material-ui/lab'
-import YupButton from '../../components/Miscellaneous/YupButton'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -134,9 +135,6 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       display: 'none'
     }
-  },
-  tourButton: {
-    fontWeight: 400
   },
   nextAndPrevButtons: {
     fontWeight: 400,
@@ -986,35 +984,7 @@ const steps = [
         <Typography variant='body2'
           className='tourText'
         >That's all for now. Learn more with some of these resources:</Typography>
-        <div className='tourResources'>
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-            buttonText={'Docs'}
-          />
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-            buttonText={'Website'}
-          />
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-            buttonText={'Blog'}
-          />
-        </div>
+        <StyledTourResources />
       </div>
     )
   }

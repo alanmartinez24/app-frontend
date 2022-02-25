@@ -14,8 +14,9 @@ import './discover.css'
 import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import { setTourAction } from '../../redux/actions'
+import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
 import YupButton from '../../components/Miscellaneous/YupButton'
+import { setTourAction } from '../../redux/actions'
 
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
@@ -73,9 +74,6 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
-  },
-  tourButton: {
-    fontWeight: 400
   },
   hideOnMobile: {
     display: 'inherit',
@@ -560,35 +558,7 @@ const steps = [
           className='tourHeader'
         >👏 That's it !</Typography>
         <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
-        <div className='tourResources'>
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-            buttonText={'Docs'}
-          />
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-            buttonText={'Website'}
-          />
-          <YupButton
-            small
-            size='medium'
-            variant='contained'
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-            buttonText={'Blog'}
-          />
-        </div>
+        <StyledTourResources />
         <ReactPlayer
           controls
           style={{ overFlow: 'hidden', maxHeight: '200px' }}

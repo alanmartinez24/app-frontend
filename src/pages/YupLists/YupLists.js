@@ -13,6 +13,7 @@ import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
@@ -264,41 +265,7 @@ const steps = [
         <p className='tourText'>
           That's all for now. Learn more with some of these resources:
         </p>
-        <div className='tourResources'>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://docs.yup.io'
-            target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://yup.io'
-            target='_blank'
-          >
-            Website
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            style={{ fontWeight: 400 }}
-            small
-            className='tourButton'
-            href='https://blog.yup.io'
-            target='_blank'
-          >
-            Blog
-          </Button>
-        </div>
+        <StyledTourResources />
         <ReactPlayer
           controls
           style={{ overFlow: 'hidden', maxHeight: '200px' }}
