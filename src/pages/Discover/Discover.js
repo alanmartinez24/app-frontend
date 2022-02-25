@@ -3,7 +3,7 @@ import HomeMenu from '../../components/Landing/HomeMenu'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import { Grid, Fab, Button, Typography, Fade } from '@material-ui/core'
+import { Grid, Fab, Typography, Fade } from '@material-ui/core'
 import FeedHOC from '../../components/Feed/FeedHOC'
 import { Helmet } from 'react-helmet'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -15,6 +15,7 @@ import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { setTourAction } from '../../redux/actions'
+import YupButton from '../../components/Miscellaneous/YupButton'
 
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
 
@@ -72,6 +73,9 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
+  },
+  tourButton: {
+    fontWeight: 400
   },
   hideOnMobile: {
     display: 'inherit',
@@ -430,20 +434,16 @@ class Discover extends Component {
             disableInteraction
             highlightedMaskClassName={classes.Mask}
             nextButton={
-              <Button
+              <YupButton small
                 variant='outlined'
-                small
-              >
-                Next
-              </Button>
+                buttonText={'Next'}
+              />
             }
             prevButton={
-              <Button
-                small
+              <YupButton small
                 variant='outlined'
-              >
-                Back
-              </Button>
+                buttonText={'Back'}
+              />
             }
             lastStepNextButton={<div style={{ display: 'none' }} />}
           />
@@ -561,39 +561,33 @@ const steps = [
         >👏 That's it !</Typography>
         <p className='tourText'>That's all for now. Learn more with some of these resources:</p>
         <div className='tourResources'>
-          <Button
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://docs.yup.io'
             target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
+            buttonText={'Docs'}
+          />
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://yup.io'
             target='_blank'
-          >
-            Website
-          </Button>
-          <Button
+            buttonText={'Website'}
+          />
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://blog.yup.io'
             target='_blank'
-          >
-            Blog
-          </Button>
+            buttonText={'Blog'}
+          />
         </div>
         <ReactPlayer
           controls
