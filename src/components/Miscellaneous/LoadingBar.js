@@ -9,7 +9,7 @@ const LoadingBar = ({ isLoading, ...restProps }) => {
         (<LinearProgress
           {...restProps}
           sx={{ width: '100%' }}
-          style={{ position: 'absolute', left: 0, top: 0, zIndex: 999, width: '100%', backgroundColor: Colors.green }}
+          style={{ position: 'fixed', left: 0, top: 0, zIndex: 999, width: '100%', backgroundColor: Colors.green }}
          />
         )
   )
