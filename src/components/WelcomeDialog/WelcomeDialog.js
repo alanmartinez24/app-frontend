@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Typography, Grid } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Typography, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import YupButton from '../Miscellaneous/YupButton'
 
 const styles = theme => ({
   dialog: {
@@ -107,26 +108,30 @@ class WelcomeDialog extends Component {
               <Grid item
                 className={classes.desktopDialogContentText}
               >
-                <Button wide
+                <YupButton wide
                   className={classes.primaryBtn}
                   href='https://chrome.google.com/webstore/detail/yup-the-opinion-layer-of/nhmeoaahigiljjdkoagafdccikgojjoi?hl=en'
-                > Download Yup Extension </Button>
+                  buttonText={'Download Yup Extension'}
+                />
               </Grid>
               { showProductTour && <>
                 <Grid item
                   className={classes.desktopDialogContentText}
                 >
-                  <Button className={classes.linkBtn}
+                  <YupButton
+                    className={classes.linkBtn}
                     onClick={this.openTour}
-                  > 10 second tutorial </Button>
+                    buttonText={'10 second tutorial'}
+                  />
                 </Grid>
                 <Grid item
                   className={classes.mobileDialogContentText}
                 >
-                  <Button fullWidth
+                  <YupButton fullWidth
                     className={classes.primaryBtn}
                     onClick={this.openTour}
-                  > 10 Second Tutorial </Button>
+                    buttonText={'10 Second Tutorial'}
+                  />
                 </Grid>
                 </>}
             </Grid>
