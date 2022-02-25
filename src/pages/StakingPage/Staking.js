@@ -132,6 +132,7 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR getting token contracts', err)
     }
   }
+
   const handleDisconnect = () => {
     setAddress(null)
     setConnector(null)
@@ -168,6 +169,7 @@ const StakingPage = ({ classes, account }) => {
   const incrementRetryCount = () => {
     handleDisconnect()
     setRetryCount(retryCount + 1)
+    console.log('retryCount', retryCount)
     if (retryCount === POLY_BACKUP_RPC_URLS.length - 1) {
       handleSnackbarOpen('Retry limit reached. Try changing the RPC URL on your wallet. We recommend Alchemy. ')
       setRetryCount(0)
@@ -186,7 +188,11 @@ const StakingPage = ({ classes, account }) => {
   }
 
   const getTxBody = async () => {
-    const gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits((await (getPriceProvider()).getGasPrice()).mul(3), 'gwei'), 'gwei')
+    const minGas = ethers.utils.parseUnits('65', 'gwei')
+    const maxGas = ethers.utils.parseUnits('250', 'gwei')
+    const liveGas = await (getPriceProvider()).getGasPrice()
+    let gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits(liveGas.mul(3), 'gwei'), 'gwei')
+    gasPrice.lte(minGas) ? gasPrice = minGas : gasPrice = maxGas
     const txBody = {
       from: address,
       gasPrice
@@ -251,7 +257,7 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      if (err && err.code !== 4001) {
+      if (err && err.code && err.code !== 4001) {
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
@@ -260,10 +266,23 @@ const StakingPage = ({ classes, account }) => {
        }
     }
   }
+
   const sendTx = async (tx) => {
     const web3Provider = getWeb3InstanceOfProvider(provider)
     await web3Provider.eth.sendTransaction(tx)
   }
+
+//   const sendTx = async (tx) => {
+//     const web3Provider = getWeb3InstanceOfProvider(provider)
+//     const x = await Promise.race([txTimeout(2 * 1000), web3Provider.eth.sendTransaction(tx)])
+//     console.log('x', x)
+//   }
+
+//   const txTimeout = (ms) => {
+//     return new Promise((resolve, reject) => {
+//        setTimeout(() => reject(incrementRetryCount), ms)
+//     })
+//  }
 
   const handlePolyStakeAction = async () => {
     if (isInvalidStakeAmt(polyStakeInput)) {
@@ -296,7 +315,7 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
-      if (err && err.code === 4001) {
+      if (err && err.code && err.code !== 4001) {
         handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
@@ -312,6 +331,7 @@ const StakingPage = ({ classes, account }) => {
         return
       }
       setIsLoading(true)
+      handleSnackbarOpen('Sign the transactions to collect you rewards. There will be one transaction for each pool you are in.')
       const txBody = await getTxBody()
       if (ethRwrdAmt > 0) {
         const ethCollectTx = {
@@ -331,12 +351,13 @@ const StakingPage = ({ classes, account }) => {
         await sendTx(polyCollectTx)
         setPolyRwrdAmt(0)
       }
+      handleSnackbarOpen('You have succesfully collected your rewards!')
       setIsLoading(false)
     } catch (err) {
-      if (err && err.code === 4001) {
+      if (err && err.code && err.code === 4001) {
         handleSnackbarOpen('User rejected transaction.')
       } else {
-         incrementRetryCount()
+        incrementRetryCount()
         console.log('ERR collecting rewards', err)
       }
     }
@@ -840,7 +861,7 @@ const StakingPage = ({ classes, account }) => {
                                           variant='outlined'
                                           size='small'
                                           disabled
-                                          value={formatDecimals(toBaseNum(polyRwrdAmt + ethRwrdAmt))}
+                                          value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
                                           startAdornment={
                                             <InputAdornment position='start'>
                                               <img src='public/images/logos/logo_g.svg' />
