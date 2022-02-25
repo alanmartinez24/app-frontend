@@ -19,7 +19,7 @@ import RecommendedCollections from '../../components/Collections/RecommendedColl
 import { Helmet } from 'react-helmet'
 import { levelColors } from '../../utils/colors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
+import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
 import YupButton from '../../components/Miscellaneous/YupButton'
 import { setTourAction, fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'

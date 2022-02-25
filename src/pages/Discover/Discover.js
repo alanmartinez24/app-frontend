@@ -14,7 +14,7 @@ import './discover.css'
 import isEqual from 'lodash/isEqual'
 import ReactPlayer from 'react-player'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
+import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
 import YupButton from '../../components/Miscellaneous/YupButton'
 import { setTourAction } from '../../redux/actions'
 

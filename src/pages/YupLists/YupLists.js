@@ -13,7 +13,7 @@ import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import { StyledTourResources } from '../../components/Miscellaneous/TourResources'
+import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'
