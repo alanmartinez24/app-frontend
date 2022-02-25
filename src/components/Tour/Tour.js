@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Fab, Button, Typography } from '@material-ui/core'
+import { Fab, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import YupButton from '../Miscellaneous/YupButton'
 
 const styles = theme => ({
     Tour: {
@@ -19,6 +20,9 @@ const styles = theme => ({
       [theme.breakpoints.down('xs')]: {
         display: 'none'
       }
+    },
+    tourButton: {
+      fontWeight: 400
     },
     hideOnMobile: {
       display: 'inherit',
@@ -236,39 +240,33 @@ const steps = [
           That's all for now. Learn more with some of these resources:
         </p>
         <div className='tourResources'>
-          <Button
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://docs.yup.io'
             target='_blank'
-          >
-            Docs
-          </Button>
-          <Button
+            buttonText={'Docs'}
+          />
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://yup.io'
             target='_blank'
-          >
-            Website
-          </Button>
-          <Button
+            buttonText={'Website'}
+          />
+          <YupButton
+            small
             size='medium'
             variant='contained'
-            style={{ fontWeight: 400 }}
-            small
             className='tourButton'
             href='https://blog.yup.io'
             target='_blank'
-          >
-            Blog
-          </Button>
+            buttonText={'Blog'}
+          />
         </div>
       </div>
     )
