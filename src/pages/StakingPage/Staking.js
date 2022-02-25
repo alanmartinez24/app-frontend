@@ -9,7 +9,7 @@ import YupInput from '../../components/Miscellaneous/YupInput'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
 import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
-import { getWeb3InstanceOfProvider } from '../../utils/eth'
+import { getPriceProvider, getWeb3InstanceOfProvider } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
 import YUPETH_ABI from '../../abis/YUPETH.json'
 import CountUp from 'react-countup'
@@ -132,6 +132,7 @@ const StakingPage = ({ classes, account }) => {
       console.log('ERR getting token contracts', err)
     }
   }
+
   const handleDisconnect = () => {
     setAddress(null)
     setConnector(null)
@@ -168,6 +169,7 @@ const StakingPage = ({ classes, account }) => {
   const incrementRetryCount = () => {
     handleDisconnect()
     setRetryCount(retryCount + 1)
+    console.log('retryCount', retryCount)
     if (retryCount === POLY_BACKUP_RPC_URLS.length - 1) {
       handleSnackbarOpen('Retry limit reached. Try changing the RPC URL on your wallet. We recommend Alchemy. ')
       setRetryCount(0)
@@ -188,9 +190,9 @@ const StakingPage = ({ classes, account }) => {
   const getTxBody = async () => {
     const minGas = ethers.utils.parseUnits('65', 'gwei')
     const maxGas = ethers.utils.parseUnits('250', 'gwei')
-    let gasPrice = (await provider.getGasPrice()).mul(3)
-    if (gasPrice.lte(minGas)) gasPrice = minGas
-    if (gasPrice.gte(maxGas)) gasPrice = maxGas
+    const liveGas = await (getPriceProvider()).getGasPrice()
+    let gasPrice = ethers.utils.parseUnits(ethers.utils.formatUnits(liveGas.mul(3), 'gwei'), 'gwei')
+    gasPrice.lte(minGas) ? gasPrice = minGas : gasPrice = maxGas
     const txBody = {
       from: address,
       gasPrice
@@ -255,7 +257,7 @@ const StakingPage = ({ classes, account }) => {
       setEthLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
-      if (err && err.code !== 4001) {
+      if (err && err.code && err.code !== 4001) {
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
@@ -264,10 +266,23 @@ const StakingPage = ({ classes, account }) => {
        }
     }
   }
+
   const sendTx = async (tx) => {
     const web3Provider = getWeb3InstanceOfProvider(provider)
     await web3Provider.eth.sendTransaction(tx)
   }
+
+//   const sendTx = async (tx) => {
+//     const web3Provider = getWeb3InstanceOfProvider(provider)
+//     const x = await Promise.race([txTimeout(2 * 1000), web3Provider.eth.sendTransaction(tx)])
+//     console.log('x', x)
+//   }
+
+//   const txTimeout = (ms) => {
+//     return new Promise((resolve, reject) => {
+//        setTimeout(() => reject(incrementRetryCount), ms)
+//     })
+//  }
 
   const handlePolyStakeAction = async () => {
     if (isInvalidStakeAmt(polyStakeInput)) {
@@ -300,7 +315,7 @@ const StakingPage = ({ classes, account }) => {
       setPolyLpBal(toGwei(updatedLpBal)) // optimistic balance update
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
-      if (err && err.code === 4001) {
+      if (err && err.code && err.code !== 4001) {
         handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
@@ -339,7 +354,7 @@ const StakingPage = ({ classes, account }) => {
       handleSnackbarOpen('You have succesfully collected your rewards!')
       setIsLoading(false)
     } catch (err) {
-      if (err && err.code === 4001) {
+      if (err && err.code && err.code === 4001) {
         handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
