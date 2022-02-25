@@ -20,6 +20,7 @@ import CollectionDialog from '../../components/Collections/CollectionDialog.js'
 import { accountInfoSelector } from '../../redux/selectors'
 import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
 import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
+import YupButton from '../../components/Miscellaneous/YupButton'
 import CollectionItem from '../../components/Collections/CollectionItem.js'
 import ShareTwitterDialog from '../../components/ShareTwitterDialog/ShareTwitterDialog.js'
 import { Link } from 'react-router-dom'
@@ -120,6 +121,10 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
+  },
+  nextAndPrevButtons: {
+    fontWeight: 400,
+    backgroundColor: '#00E08E'
   },
   icons: {
     color: theme.palette.M100
@@ -704,13 +709,12 @@ class User extends Component {
                             alignItems='center'
                             justify='center'
                           >
-                            <Button
+                            <YupButton
                               className={classes.showAll}
-                              size='medium'
                               onClick={this.handleShowAll}
-                            >
-                              Show all
-                            </Button>
+                              size='medium'
+                              buttonText={'Show all'}
+                            />
                           </Grid>
                         )}
                       </Grid>
@@ -834,23 +838,20 @@ class User extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button
+                <YupButton
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
-                  small
-                >
-                  Next
-                </Button>
+                  className={classes.nextAndPrevButtons}
+                  buttonText={'Next'}
+                />
               }
               prevButton={
-                <Button
+                <YupButton
                   size='small'
                   variant='outlined'
-                  style={{ fontWeight: 400, backgroundColor: '#00E08E' }}
-                >
-                  Back
-                </Button>
+                  className={classes.nextAndPrevButtons}
+                  buttonText={'Back'}
+                />
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}
             />
