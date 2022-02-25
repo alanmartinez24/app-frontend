@@ -21,9 +21,6 @@ const styles = theme => ({
         display: 'none'
       }
     },
-    tourButton: {
-      fontWeight: 400
-    },
     hideOnMobile: {
       display: 'inherit',
       [theme.breakpoints.down('xs')]: {

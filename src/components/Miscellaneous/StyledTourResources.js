@@ -4,7 +4,14 @@ import YupButton from './YupButton'
 
 const styles = () => ({
   tourButton: {
+    margin: '10px 10px 0 0 !important',
+    backgroundColor: '#00E08E !important',
+    color: '#aaa !important',
     fontWeight: 400
+  },
+  tourResources: {
+    textAlign: 'center',
+    marginBottom: '1em'
   }
 })
 
@@ -12,7 +19,7 @@ export const StyledTourResources = withStyles(styles)(function TourResources ({
   classes
 }) {
   return (
-    <div className='tourResources'>
+    <div className={classes.tourResources}>
       <YupButton
         small
         size='medium'
