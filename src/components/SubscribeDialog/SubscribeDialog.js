@@ -1,6 +1,6 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, TextField, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, InputAdornment, OutlinedInput, FormControl, Icon, Grid } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, InputAdornment, OutlinedInput, FormControl, Icon, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
@@ -14,6 +14,7 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { updateEthAuthInfo } from '../../redux/actions'
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
+import YupButton from '../Miscellaneous/YupButton'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
@@ -577,7 +578,7 @@ class SubscribeDialog extends Component {
                   spacing={1}
                 >
                   <Grid item>
-                    <Button
+                    <YupButton
                       variant='outlined'
                       size='large'
                       onClick={this.initWalletConnect}
@@ -598,14 +599,14 @@ class SubscribeDialog extends Component {
                       className={classes.walletConnectIcon}
                       />
                   }
-                    </Button>
+                    </YupButton>
                   </Grid>
                   <Grid item>
-                    <Button
-                      variant='outlined'
-                      size='large'
-                      onClick={this.startTwitterOAuth}
+                    <YupButton
                       fullWidth
+                      size='large'
+                      variant='outlined'
+                      onClick={this.startTwitterOAuth}
                     >
                       <Typography
                         align='left'
@@ -622,7 +623,7 @@ class SubscribeDialog extends Component {
                       className={classes.twitterIcon}
                       />
                   }
-                    </Button>
+                    </YupButton>
                   </Grid>
                   <Grid item>
                     <FormControl fullWidth>
@@ -704,7 +705,7 @@ class SubscribeDialog extends Component {
                                 },
                                 className: classes.stepperInput,
                                 endAdornment: (
-                                  <Button
+                                  <YupButton
                                     onClick={this.handleWhitelist}
                                     style={{ width: 'auto' }}
                                   >
@@ -714,7 +715,7 @@ class SubscribeDialog extends Component {
                                       />
                                     : <KeyboardArrowRightIcon alt='submit' />
                                     }
-                                  </Button>
+                                  </YupButton>
                                 )
                               }}
                             />
@@ -740,7 +741,8 @@ class SubscribeDialog extends Component {
                               InputProps={{ classes: { notchedOutline: classes.outline },
                                 className: classes.stepperInput,
                                 endAdornment: (
-                                  <Button className={classes.button}
+                                  <YupButton
+                                    className={classes.button}
                                     onClick={this.handleUsername}
                                     style={{ width: 'auto' }}
                                   >
@@ -748,7 +750,7 @@ class SubscribeDialog extends Component {
                                     ? <CircularProgress size={13.5} />
                                     : <KeyboardArrowRightIcon alt='submit' />
                                   }
-                                  </Button>
+                                  </YupButton>
                                 )
                               }}
                             />

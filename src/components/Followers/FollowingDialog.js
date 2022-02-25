@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -18,6 +17,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { connect } from 'react-redux'
 import numeral from 'numeral'
 import { fetchSocialLevel } from '../../redux/actions'
+import YupButton from '../Miscellaneous/YupButton'
 
 const styles = theme => ({
   dialogTitle: {
@@ -98,7 +98,7 @@ class FollowingDialog extends Component {
     return (
       <ErrorBoundary>
         <Fragment>
-          <Button
+          <YupButton
             disableRipple
             onClick={this.handleClickOpen}
           >
@@ -108,7 +108,7 @@ class FollowingDialog extends Component {
             >
               <a style={{ fontWeight: 700 }}>{formattedFollowing} </a> following
             </Typography>
-          </Button>
+          </YupButton>
           <Dialog
             aria-labelledby='customized-dialog-title'
             fullWidth

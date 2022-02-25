@@ -1,6 +1,6 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogContentText, Typography, CircularProgress, Stepper, Step, StepLabel, StepContent, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
@@ -13,6 +13,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
+import YupButton from '../Miscellaneous/YupButton'
 
 const { BACKEND_API } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
@@ -297,11 +298,11 @@ class SubscribeDialog extends Component {
                   spacing={1}
                 >
                   <Grid item>
-                    <Button
-                      variant='outlined'
-                      size='large'
-                      onClick={this.initWalletConnect}
+                    <YupButton
                       fullWidth
+                      size='large'
+                      variant='outlined'
+                      onClick={this.initWalletConnect}
                     >
                       <Typography
                         align='left'
@@ -318,7 +319,7 @@ class SubscribeDialog extends Component {
                       className={classes.walletConnectIcon}
                       />
                   }
-                    </Button>
+                    </YupButton>
                   </Grid>
                 </Grid>
               </DialogContent>

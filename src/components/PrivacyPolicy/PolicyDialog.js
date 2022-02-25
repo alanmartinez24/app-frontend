@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -27,13 +26,13 @@ class PolicyDialog extends React.Component {
     return (
       <ErrorBoundary>
         <div style={{ zIndex: 50000 }}>
-          <Button onClick={this.handleClickOpen('paper')}>
+          <YupButton onClick={this.handleClickOpen('paper')}>
             <Typography align='left'
               component='h6'
               style={{ fontFamily: 'Gilroy', color: '#c0c0c0' }}
             >
               Privacy Policy
-            </Typography></Button>
+            </Typography></YupButton>
           <Dialog
             aria-labelledby='scroll-dialog-title'
             onClose={this.handleClose}
