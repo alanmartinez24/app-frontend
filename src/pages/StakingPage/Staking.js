@@ -110,6 +110,7 @@ const StakingPage = ({ classes, account }) => {
 
   useEffect(() => {
     if (!provider) { return }
+    handleSnackbarOpen('Connect your wallet to see your balance and perform staking actions.')
     getContracts()
   }, [provider])
 
@@ -121,7 +122,7 @@ const StakingPage = ({ classes, account }) => {
   const getContracts = async () => {
     try {
       if (!provider) { return }
-      const web3Provider = await (await getWeb3InstanceOfProvider(provider))
+      const web3Provider = await getWeb3InstanceOfProvider(provider)
       const polyLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, POLY_LIQUIDITY_REWARDS)
       const ethLiquidity = new web3Provider.eth.Contract(LIQUIDITY_ABI, ETH_LIQUIDITY_REWARDS)
       const polyLpToken = new web3Provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
