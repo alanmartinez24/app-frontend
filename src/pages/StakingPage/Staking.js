@@ -235,7 +235,7 @@ const StakingPage = ({ classes, account }) => {
     try {
       const isStake = !activePolyTab
       const txBody = await getTxBody()
-      const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
+      const stakeAmt = ethers.utils.parseEther(ethStakeInput).toString()
       if (isStake) {
         const approveTx = {
           ...txBody,
@@ -283,10 +283,10 @@ const StakingPage = ({ classes, account }) => {
       return
     }
 
-    const isStake = !activePolyTab
     try {
+      const isStake = !activePolyTab
       const txBody = await getTxBody()
-      const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
+      const stakeAmt = ethers.utils.parseEther(polyStakeInput).toString()
       if (isStake) {
         const approveTx = {
           ...txBody,
