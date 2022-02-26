@@ -257,7 +257,6 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
-        console.log('err.code', err.code)
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
@@ -310,8 +309,7 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
-        console.log('err.message', err.message)
-        handleSnackbarOpen('User rejected transaction.')
+s        handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
         handleSnackbarOpen(`We encountered a problem. ${err.message}`)
