@@ -233,14 +233,15 @@ const StakingPage = ({ classes, account }) => {
     }
 
     try {
-      const isStake = !activePolyTab
+      const isStake = !activeEthTab
       const txBody = await getTxBody()
-      const stakeAmt = ethers.utils.parseEther(ethStakeInput).toString()
+      const stakeAmt = (ethers.utils.parseEther(ethStakeInput.toString())).toString()
+      console.log('isStake', isStake)
       if (isStake) {
         const approveTx = {
           ...txBody,
           to: ETH_UNI_LP_TOKEN,
-          data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+          data: contracts.ethLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
         }
         await sendTx(approveTx)
       }
@@ -257,6 +258,7 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
+        console.log('err.message', err.message)
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
@@ -286,7 +288,7 @@ const StakingPage = ({ classes, account }) => {
     try {
       const isStake = !activePolyTab
       const txBody = await getTxBody()
-      const stakeAmt = ethers.utils.parseEther(polyStakeInput).toString()
+      const stakeAmt = (ethers.utils.parseEther(polyStakeInput.toString())).toString()
       if (isStake) {
         const approveTx = {
           ...txBody,
@@ -309,6 +311,7 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
+        console.log('err.message', err.message)
         handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
