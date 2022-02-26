@@ -236,7 +236,6 @@ const StakingPage = ({ classes, account }) => {
       const isStake = !activeEthTab
       const txBody = await getTxBody()
       const stakeAmt = (ethers.utils.parseEther(ethStakeInput.toString())).toString()
-      console.log('isStake', isStake)
       if (isStake) {
         const approveTx = {
           ...txBody,
@@ -258,7 +257,7 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakeEth(updatedStake * Math.pow(10, 18)) // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
-        console.log('err.message', err.message)
+        console.log('err.code', err.code)
         handleSnackbarOpen('User rejected transaction.')// Dont logout if user rejects transaction
       } else {
         incrementRetryCount()
