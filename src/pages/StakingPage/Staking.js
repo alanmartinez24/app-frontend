@@ -309,7 +309,7 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakePoly(toGwei(updatedStake)) // optimistic stake update
     } catch (err) {
       if (err && err.code && err.code !== 4001) {
-s        handleSnackbarOpen('User rejected transaction.')
+        handleSnackbarOpen('User rejected transaction.')
       } else {
         incrementRetryCount()
         handleSnackbarOpen(`We encountered a problem. ${err.message}`)
