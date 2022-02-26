@@ -233,14 +233,14 @@ const StakingPage = ({ classes, account }) => {
     }
 
     try {
-      const isStake = !activePolyTab
+      const isStake = !activeEthTab
       const txBody = await getTxBody()
-      const stakeAmt = window.BigInt(toGwei(Number(ethStakeInput)))
+      const stakeAmt = (ethers.utils.parseEther(ethStakeInput.toString())).toString()
       if (isStake) {
         const approveTx = {
           ...txBody,
           to: ETH_UNI_LP_TOKEN,
-          data: contracts.polyLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
+          data: contracts.ethLpToken.methods.approve(ETH_LIQUIDITY_REWARDS, stakeAmt).encodeABI()
         }
         await sendTx(approveTx)
       }
@@ -283,10 +283,10 @@ const StakingPage = ({ classes, account }) => {
       return
     }
 
-    const isStake = !activePolyTab
     try {
+      const isStake = !activePolyTab
       const txBody = await getTxBody()
-      const stakeAmt = window.BigInt(Number(polyStakeInput) * Math.pow(10, 18))
+      const stakeAmt = (ethers.utils.parseEther(polyStakeInput.toString())).toString()
       if (isStake) {
         const approveTx = {
           ...txBody,
