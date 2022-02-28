@@ -8,8 +8,7 @@ import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import '../../components/Tour/tourstyles.css'
 import isEqual from 'lodash/isEqual'
-import YupInput from '../../components/Miscellaneous/YupInput'
-import YupButton from '../../components/Miscellaneous/YupButton'
+import { YupInput, YupButton } from '../../components/Miscellaneous'
 import Colors from '../../utils/colors'
 import axios from 'axios'
 
@@ -42,7 +41,7 @@ const styles = theme => ({
     width: '300px',
     marginBottom: 0,
     boxShadow:
-      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
+      `0px 0px 30px 0px ${theme.shadow.first}44, 0px 0px 0.75px  ${theme.shadow.first}66`,
     backgroundColor: theme.palette.M800,
     [theme.breakpoints.down('xs')]: {
       marginBottom: '20vh',

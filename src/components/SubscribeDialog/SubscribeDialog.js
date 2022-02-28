@@ -14,7 +14,7 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { updateEthAuthInfo } from '../../redux/actions'
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
-import YupButton from '../Miscellaneous/YupButton'
+import { YupButton } from '../Miscellaneous'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 

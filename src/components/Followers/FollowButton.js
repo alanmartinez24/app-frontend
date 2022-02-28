@@ -11,7 +11,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
 import { accountInfoSelector } from '../../redux/selectors'
 import { getAuth } from '../../utils/authentication'
-import YupButton from '../Miscellaneous/YupButton'
+import { YupButton } from '../Miscellaneous'
 
 const { BACKEND_API } = process.env
 

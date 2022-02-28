@@ -11,8 +11,7 @@ import '../../components/Tour/tourstyles.css'
 import Fade from '@material-ui/core/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
 import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
-import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
-import YupButton from '../../components/Miscellaneous/YupButton'
+import { StyledTourResources, YupButton } from '../../components/Miscellaneous'
 
 const DISPLAYED_USERS = 2
 const showTabs = window.innerWidth <= 960

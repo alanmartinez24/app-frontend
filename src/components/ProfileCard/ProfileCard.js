@@ -76,7 +76,7 @@ const styles = theme => ({
   },
   chip: {
     backgroundColor: theme.palette.M700,
-    color: theme.palette.text.secondary,
+    color: theme.text.secondary,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

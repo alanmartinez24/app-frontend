@@ -6,8 +6,7 @@ import { Grid, Tooltip, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import CldImg from '../../components/Miscellaneous/CldImg'
-import CldVid from '../../components/Miscellaneous/CldVid'
+import { CldImg, CldVid } from '../../components/Miscellaneous'
 import { trimURL, getFavicon } from '../../utils/url'
 
 const { RARIBLE_API } = process.env

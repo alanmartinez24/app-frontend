@@ -43,7 +43,7 @@ import axios from 'axios'
 import numeral from 'numeral'
 import { accountInfoSelector } from '../../redux/selectors'
 import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded'
-import YupButton from '../Miscellaneous/YupButton'
+import { YupButton } from '../Miscellaneous'
 
 const drawerWidth = 200
 const { BACKEND_API, EXTENSION_LINK } = process.env

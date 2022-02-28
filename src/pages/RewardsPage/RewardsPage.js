@@ -6,8 +6,7 @@ import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Colors from '../../utils/colors'
-import YupInput from '../../components/Miscellaneous/YupInput'
-import YupButton from '../../components/Miscellaneous/YupButton'
+import { YupInput, YupButton } from '../../components/Miscellaneous'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import CountUp from 'react-countup'
@@ -48,7 +47,7 @@ const styles = theme => ({
     width: 380,
     marginBottom: 0,
     boxShadow:
-      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
+      `0px 0px 30px 0px ${theme.shadow.first}44, 0px 0px 0.75px  ${theme.shadow.first}66`,
     backgroundColor: theme.palette.M800,
     [theme.breakpoints.down('xs')]: {
       marginBottom: '20vh',

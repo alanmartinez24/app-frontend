@@ -14,7 +14,7 @@ const styles = theme => ({
   article: {
     borderRadius: '0.5rem',
     boxShadow:
-      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
+      `0px 0px 30px 0px ${theme.shadow.first}44, 0px 0px 0.75px  ${theme.shadow.first}66`,
     backgroundSize: 'cover',
     marginLeft: '0%',
     marginRight: '0%',
@@ -71,6 +71,7 @@ const styles = theme => ({
 class PostHOC extends PureComponent {
   componentDidMount () {
     this.loadPostData()
+    console.log(styles)
   }
 
   loadPostData () {

@@ -15,7 +15,7 @@ const styles = () => ({
   }
 })
 
-export const StyledTourResources = withStyles(styles)(function TourResources ({
+const StyledTourResources = withStyles(styles)(function TourResources ({
   classes
 }) {
   return (
@@ -47,3 +47,5 @@ export const StyledTourResources = withStyles(styles)(function TourResources ({
     </div>
   )
 })
+
+export default StyledTourResources

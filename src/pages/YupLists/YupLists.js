@@ -12,9 +12,7 @@ import axios from 'axios'
 import ReactPlayer from 'react-player'
 import Fade from '@material-ui/core/Fade'
 import isEqual from 'lodash/isEqual'
-import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
-import { StyledTourResources } from '../../components/Miscellaneous/StyledTourResources'
-import YupButton from '../../components/Miscellaneous/YupButton'
+import { CreateCollectionFab, StyledTourResources, YupButton } from '../../components/Miscellaneous'
 
 const { BACKEND_API } = process.env
 const EXPLAINER_VIDEO = 'https://www.youtube.com/watch?v=UUi8_A5V7Cc'

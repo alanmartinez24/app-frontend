@@ -45,7 +45,7 @@ const YupInput = ({ classes, maxLength, ...restProps }) => {
                 className: classes.input }}
       InputLabelProps={{
                 style: {
-                    color: theme.palette.third
+                    color: theme.third
                 }
             }}
     />

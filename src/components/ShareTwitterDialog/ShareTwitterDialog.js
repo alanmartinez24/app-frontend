@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Typography, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
-import LoaderButton from '../Miscellaneous/LoaderButton'
-import {
-TwitterShareButton
-} from 'react-share'
+import { LoaderButton } from '../Miscellaneous'
+import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
 
 const WEB_APP_URL = process.env.WEB_APP_URL

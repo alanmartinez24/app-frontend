@@ -18,7 +18,7 @@ import numeral from 'numeral'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
-import YupButton from '../Miscellaneous/YupButton'
+import { YupButton } from '../Miscellaneous'
 
 const styles = theme => ({
   dialogTitle: {
@@ -43,7 +43,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.text.secondary
   },
   dialogContent: {
     root: {

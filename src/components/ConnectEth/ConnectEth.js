@@ -13,7 +13,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchSocialLevel } from '../../redux/actions'
-import YupButton from '../Miscellaneous/YupButton'
+import { YupButton } from '../Miscellaneous'
 
 const { BACKEND_API } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`

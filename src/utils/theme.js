@@ -33,7 +33,7 @@ export const darkPalette = {
     secondary: Colors.M100
   },
   shadow: {
-    first: '#000000',
+    first: Colors.M900,
     second: Colors.M900
   },
   action: {

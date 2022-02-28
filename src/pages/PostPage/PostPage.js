@@ -7,7 +7,7 @@ import '../../components/Twitter/twitter.css'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import path from 'path'
 import axios from 'axios'
-import CreateCollectionFab from '../../components/Miscellaneous/CreateCollectionFab.js'
+import { CreateCollectionFab } from '../../components/Miscellaneous'
 
 const { BACKEND_API } = process.env
 
