@@ -4,18 +4,18 @@ import { Button } from '@material-ui/core'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
 const YupButton = ({ variant, children, adornment, ...restProps }) => {
-  const rightAdornment = adornment === 'right icon' || adornment === 'both icons' ? <ArrowForwardIcon /> : null
-  const leftAdornment = adornment === 'left icon' || adornment === 'both icons' ? <ArrowForwardIcon /> : null
+  const rightAdornment = adornment === 'rightIcon' || adornment === 'bothIcons' ? <ArrowForwardIcon /> : null
+  const leftAdornment = adornment === 'leftIcon' || adornment === 'bothIcons' ? <ArrowForwardIcon /> : null
 
-  if (adornment === 'one icon') {
-    return <Button variant={variant || null}
+  if (adornment === 'oneIcon') {
+    return <Button variant={variant}
       {...restProps}
            ><ArrowForwardIcon /></Button>
   }
 
   return (
     <Button
-      variant={variant || null}
+      variant={variant}
       {...restProps}
     >
       {leftAdornment}
@@ -28,7 +28,7 @@ const YupButton = ({ variant, children, adornment, ...restProps }) => {
 YupButton.propTypes = {
   variant: PropTypes.string.isRequired,
   children: PropTypes.object.isRequired,
-  adornment: PropTypes.object.isRequired
+  adornment: PropTypes.string.isRequired
 }
 
 export default YupButton

@@ -20,10 +20,10 @@ class PolicyDialog extends React.Component {
   render () {
     return (
       <ErrorBoundary>
-        <div style={{ zIndex: 50000 }}>
+        <div>
           <YupButton onClick={this.handleClickOpen('paper')}>
             <Typography align='left'
-              component='h6'
+              variant='h6'
               style={{ fontFamily: 'Gilroy', color: '#c0c0c0' }}
             >
               Privacy Policy
