@@ -102,36 +102,39 @@ export const theme = ({ palette }) => {
       },
       MuiButton: {
         root: {
+          borderRadius: '0.55rem',
           textTransform: 'capitalize',
-          borderRadius: '0.65rem'
+          letterSpacing: '1%',
+          lineHeight: '23px',
+          fontWeight: '500'
         },
         outlined: {
-          borderRadius: '0.65rem',
+          border: 'none',
           borderWidth: '0.15rem',
-          borderColor: palette.M200,
-          color: palette.M200,
-          lineHeight: '23px',
-          letterSpacing: '1%',
-          fontWeight: '500',
+          backgroundColor: palette.P900,
+          color: palette.P400,
           '&:hover': {
-            backgroundColor: 'inherit'
+            backgroundColor: palette.P800,
+            boxShadow: `0 0 0 2px ${palette.P800}`
           }
         },
         contained: {
-          borderRadius: '0.55rem',
           border: 'none',
-          backgroundColor: palette.M700,
-          color: palette.M200,
+          backgroundColor: palette.P400,
+          color: palette.M900,
           boxShadow: 'none',
-          lineHeight: '23px',
-          letterSpacing: '1%',
-          fontWeight: '500',
           '&:hover': {
-            backgroundColor: palette.M700,
-            boxShadow: `0px 0px 0px 2px ${palette.M700}`
+            backgroundColor: palette.P300,
+            boxShadow: `0 0 0 2px ${palette.P300}`
           },
           '&:active': {
             boxShadow: 'none'
+          }
+        },
+        text: {
+          color: palette.P400,
+          '&:hover': {
+            backgroundColor: 'transparent'
           }
         }
       },
@@ -348,66 +351,66 @@ export const theme = ({ palette }) => {
         fontWeight: 600,
         fontSize: '3.815rem',
         lineHeight: '100%',
-        color: `${palette.M100}EE`
+        color: `${palette.M50}EE`
       },
       h2: {
         fontWeight: 700,
         fontSize: '3.052rem',
         lineHeight: '100%',
-        color: `${palette.M100}EE`
+        color: `${palette.M50}EE`
       },
       h3: {
         fontWeight: 600,
         fontSize: '2.441rem',
         lineHeight: '100%',
-        color: `${palette.M200}EE`
+        color: `${palette.M50}EE`
       },
       h4: {
         fontWeight: 400,
         fontSize: '1.953rem',
         lineHeight: '100%',
-        color: `${palette.M300}EE`
+        color: `${palette.M50}EE`
       },
       h5: {
         fontWeight: 700,
         fontSize: '1.562rem',
         lineHeight: '105%',
-        color: `${palette.M300}EE`
+        color: `${palette.M50}EE`
       },
       h6: {
         fontWeight: 600,
         fontSize: '1.339rem',
         lineHeight: '105%',
-        color: `${palette.M300}EE`
+        color: `${palette.M50}EE`
       },
       subtitle1: {
         fontWeight: 400,
         fontSize: '1.25rem',
         lineHeight: '100%',
-        color: `${palette.M300}DD`
+        color: `${palette.M50}DD`
       },
       subtitle2: {
         fontWeight: 700,
         fontSize: '1rem',
         lineHeight: '100%',
-        color: `${palette.M300}DD`
+        color: `${palette.M50}DD`
       },
       body1: {
         fontWeight: 800,
         fontSize: '0.875rem',
         lineHeight: '110%',
-        color: `${palette.M300}EE`
+        color: `${palette.M50}EE`
       },
       body2: {
         fontWeight: 400,
         fontSize: '0.875rem',
         lineHeight: '110%',
-        color: `${palette.M100}DE`
+        color: `${palette.M50}DE`
       },
       caption: {
         fontStyle: '600',
         fontSize: '1rem',
-        color: `${palette.M300}DE`
+        color: `${palette.M50}DE`
       },
       tooltip: {
         fontSize: '0.75rem',

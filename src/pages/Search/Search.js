@@ -10,7 +10,7 @@ import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
 import Fade from '@material-ui/core/Fade'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
-import RecommendedCollections from '../../components/Collections/RecommendedCollections.js'
+import { RecommendedCollections } from '../../components/Collections'
 import { StyledTourResources, YupButton } from '../../components/Miscellaneous'
 
 const DISPLAYED_USERS = 2
