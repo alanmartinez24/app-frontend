@@ -411,9 +411,7 @@ class EditProfile extends Component {
 
   render () {
     const { cropTime, files, ethOpen, crop } = this.state
-    const { account, username, classes, userLevel } = this.props
-
-    const accountInfo = userLevel
+    const { account, username, classes, accountInfo } = this.props
     const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
