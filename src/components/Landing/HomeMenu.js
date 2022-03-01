@@ -309,7 +309,7 @@ class Home extends Component {
                         <CardActions>
                           {isUser
                            ? <Link className={classes.Link}
-                             to={'/?feed=mirror'}
+                               to={'/?feed=mirror'}
                              >
                              <Button size='large'
                                variant='contained'
@@ -449,7 +449,6 @@ class Home extends Component {
                       >
                         <Link
                           to={`/collections/${encodeURIComponent(coll.name.replace(/\s+|\//g, '-').toLowerCase())}/${coll._id}`}
-
                           className={classes.Link}
                         >
                           <Grid

@@ -197,18 +197,18 @@ class CustomTweetEmbed extends Component {
         {
           retweet
           ? <Retweet tweetData={tweetData}
-            classes={classes}
+              classes={classes}
             />
           : quoted
           ? <Quoted tweetData={tweetData}
-            classes={classes}
+              classes={classes}
             />
           : reply
           ? <Reply tweetData={tweetData}
-            classes={classes}
+              classes={classes}
             />
           : <Original tweetData={tweetData}
-            classes={classes}
+              classes={classes}
             />
         }
       </Fade>

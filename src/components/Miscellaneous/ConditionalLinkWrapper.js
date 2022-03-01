@@ -11,8 +11,8 @@ const ConditionalLinkWrapper = ({ children, href, ...restProps }) => {
     to={href.replace(WEB_APP_URL, '')}
                            >{children}</Link>
   : <a href={href}
-    target='_blank'
-    {...restProps}
+      target='_blank'
+      {...restProps}
     >
     {children}</a>
 }
