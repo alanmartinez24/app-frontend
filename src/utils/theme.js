@@ -108,32 +108,55 @@ export const theme = ({ palette }) => {
           lineHeight: '23px',
           fontWeight: '500'
         },
-        outlined: {
-          border: 'none',
-          borderWidth: '0.15rem',
-          backgroundColor: palette.P900,
-          color: palette.P400,
-          '&:hover': {
-            backgroundColor: palette.P800,
-            boxShadow: `0 0 0 2px ${palette.P800}`
-          }
-        },
         contained: {
           border: 'none',
-          backgroundColor: palette.P400,
-          color: palette.M900,
           boxShadow: 'none',
+          color: palette.M900,
+          backgroundColor: palette.P400,
           '&:hover': {
-            backgroundColor: palette.P300,
-            boxShadow: `0 0 0 2px ${palette.P300}`
+            boxShadow: `0 0 0 2px ${palette.P300}`,
+            backgroundColor: palette.P300
           },
           '&:active': {
             boxShadow: 'none'
+          },
+          '&:disabled': {
+            backgroundColor: palette.P700
+          },
+          '&:selected': {
+            backgroundColor: palette.P600
+          }
+        },
+        outlined: {
+          border: 'none',
+          color: palette.P400,
+          backgroundColor: palette.P850,
+          '&:hover': {
+            boxShadow: `0 0 0 2px ${palette.P800}`,
+            color: palette.P300,
+            backgroundColor: palette.P800
+          },
+          '&:disabled': {
+            color: palette.P600,
+            backgroundColor: palette.P900
+          },
+          '&:selected': {
+            color: palette.P500,
+            backgroundColor: palette.P900
           }
         },
         text: {
           color: palette.P400,
           '&:hover': {
+            color: palette.P300,
+            backgroundColor: 'transparent'
+          },
+          '&:disabled': {
+            color: palette.P600,
+            backgroundColor: 'transparent'
+          },
+          '&:selected': {
+            color: palette.P500,
             backgroundColor: 'transparent'
           }
         }
@@ -169,7 +192,6 @@ export const theme = ({ palette }) => {
       MuiTooltip: {
         tooltip: {
           color: '#fff',
-          // backgroundColor: palette.M500,
           fontSize: '12px'
         }
       },
@@ -197,8 +219,7 @@ export const theme = ({ palette }) => {
         },
         outlined: {
           transform: 'translate(15%, 85%) scale(1)'
-        },
-        formControl: {}
+        }
       },
       MuiMenu: {
         paper: {
@@ -257,7 +278,7 @@ export const theme = ({ palette }) => {
           backgroundColor: `${palette.M800}cc`,
           borderRadius: '25px',
           backdropFilter: 'blur(45px)',
-          boxShadow: `0px 0px 20px 6px ${palette.M100}05`,
+          boxShadow: `0 0 20px 6px ${palette.M100}05`,
           width: '80%',
           padding: '1rem 0.5rem',
           maxWidth: '500px'

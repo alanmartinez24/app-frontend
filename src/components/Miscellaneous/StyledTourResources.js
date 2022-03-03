@@ -1,12 +1,12 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
 import YupButton from './YupButton'
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = () => ({
   tourButton: {
-    margin: '10px 10px 0 0 !important',
-    backgroundColor: '#00E08E !important',
     color: '#aaa !important',
+    backgroundColor: '#00E08E !important',
+    margin: '10px 10px 0 0 !important',
     fontWeight: 400
   },
   tourResources: {

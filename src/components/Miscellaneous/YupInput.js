@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextField } from '@material-ui/core'
-import { withStyles, useTheme } from '@material-ui/core/styles'
+import { TextField, withStyles, useTheme } from '@material-ui/core'
 
 const styles = theme => ({
   input: {
