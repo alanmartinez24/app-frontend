@@ -46,10 +46,34 @@ const styles = theme => ({
     '&:selected': {
       color: theme.palette.M100
     }
+  },
+  largeOneIconButton: {
+    borderRadius: '50%',
+    maxWidth: '42px',
+    maxHeight: '42px',
+    minWidth: '42px',
+    minHeight: '42px',
+    padding: 0
+  },
+  mediumOneIconButton: {
+    borderRadius: '50%',
+    maxWidth: '32px',
+    maxHeight: '32px',
+    minWidth: '32px',
+    minHeight: '32px',
+    padding: 0
+  },
+  smallOneIconButton: {
+    borderRadius: '50%',
+    maxWidth: '27px',
+    maxHeight: '27px',
+    minWidth: '27px',
+    minHeight: '27px',
+    padding: 0
   }
 })
 
-const YupButton = ({ color, variant, classes, children, adornment, ...restProps }) => {
+const YupButton = ({ size, color, variant, classes, children, adornment, ...restProps }) => {
   const leftAdornment = adornment === 'leftIcon' || adornment === 'bothIcons' ? <ArrowForwardIcon /> : null
   const rightAdornment = adornment === 'rightIcon' || adornment === 'bothIcons' ? <ArrowForwardIcon /> : null
 
@@ -58,10 +82,14 @@ const YupButton = ({ color, variant, classes, children, adornment, ...restProps 
   if (color === 'mono' && variant === 'outlined') classname = classes.outlined
   if (color === 'mono' && variant === 'text') classname = classes.text
 
+  let buttonSize
+  if (size === 'large') buttonSize = classes.largeOneIconButton
+  if (size === 'medium') buttonSize = classes.mediumOneIconButton
+  if (size === 'small') buttonSize = classes.smallOneIconButton
+
   if (adornment === 'oneIcon') {
     return <Button variant={variant}
-      className={classname}
-      sx={{ borderRadius: '50%' }}
+      className={`${classname} ${buttonSize}`}
       {...restProps}
            ><ArrowForwardIcon /></Button>
   }
@@ -71,18 +99,19 @@ const YupButton = ({ color, variant, classes, children, adornment, ...restProps 
       variant={variant}
       className={classname}
       {...restProps}
+      startIcon={leftAdornment}
+      endIcon={rightAdornment}
     >
-      {leftAdornment}
       {children}
-      {rightAdornment}
     </Button>
   )
 }
 
 YupButton.propTypes = {
+  size: PropTypes.string.isRequired,
   color: PropTypes.string,
   variant: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   children: PropTypes.object.isRequired,
   adornment: PropTypes.string
 }
