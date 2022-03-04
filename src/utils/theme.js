@@ -102,9 +102,9 @@ export const theme = ({ palette }) => {
       },
       MuiButton: {
         root: {
-          borderRadius: '0.55rem',
+          borderRadius: '8px',
           textTransform: 'capitalize',
-          letterSpacing: '1%',
+          letterSpacing: '0.02em',
           lineHeight: '23px',
           fontWeight: '500'
         },

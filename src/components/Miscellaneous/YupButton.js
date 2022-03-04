@@ -91,16 +91,17 @@ const YupButton = ({ size, color, variant, classes, children, adornment, ...rest
     return <Button variant={variant}
       className={`${classname} ${buttonSize}`}
       {...restProps}
-           ><ArrowForwardIcon /></Button>
+           ><ArrowForwardIcon fontSize={size} /></Button>
   }
 
   return (
     <Button
+      size={size}
       variant={variant}
       className={classname}
-      {...restProps}
       startIcon={leftAdornment}
       endIcon={rightAdornment}
+      {...restProps}
     >
       {children}
     </Button>
