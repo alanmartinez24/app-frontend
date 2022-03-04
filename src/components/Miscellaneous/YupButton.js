@@ -102,8 +102,6 @@ const YupButton = ({ size, color, variant, classes, children, adornment, ...rest
       startIcon={leftAdornment}
       endIcon={rightAdornment}
       {...restProps}
-      startIcon={leftAdornment}
-      endIcon={rightAdornment}
     >
       {children}
     </Button>
