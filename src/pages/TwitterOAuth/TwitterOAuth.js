@@ -81,7 +81,7 @@ class TwitterOAuth extends Component {
         // reload because of unknown race condition
         setTimeout(() => {
           window.location.reload()
-        }, 1000)
+        }, 300)
       } catch (err) {
         if (err.toString().includes('Error: Request failed with status code 429')) {
           this.setState({ errorMessage: 'Request failed. You have attempted to create too many accounts.' })
@@ -93,6 +93,7 @@ class TwitterOAuth extends Component {
 
   render () {
     const { classes } = this.props
+    const customRedirect = localStorage.getItem('twitterRedirect')
     const { isLoading, username, existingAcct, errorMessage } = this.state
     if (isLoading) {
       return (
@@ -136,7 +137,7 @@ class TwitterOAuth extends Component {
     }
 
     if (username !== null) {
-      return <Redirect to={`/${username}`} />
+      return <Redirect to={`/${customRedirect || username}`} />
     }
 
     return (

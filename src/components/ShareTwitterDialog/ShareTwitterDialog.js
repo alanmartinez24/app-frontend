@@ -4,12 +4,8 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, Typography, Grid
 import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import LoaderButton from '../Miscellaneous/LoaderButton'
-import {
-TwitterShareButton
-} from 'react-share'
+import { TwitterShareButton } from 'react-share'
 import Colors from '../../utils/colors'
-
-const WEB_APP_URL = process.env.WEB_APP_URL
 
 const styles = theme => ({
   dialog: {
@@ -24,7 +20,7 @@ const styles = theme => ({
 })
 class ShareTwitterDialog extends Component {
     render () {
-        const { handleDialogClose, dialogOpen, classes, rewards } = this.props
+        const { handleDialogClose, dialogOpen, classes, headerText, bodyText, tweetTitle, url } = this.props
         return (
           <ErrorBoundary >
             <Dialog open={dialogOpen}
@@ -34,28 +30,28 @@ class ShareTwitterDialog extends Component {
             ><DialogTitle style={{ paddingBottom: '10px' }}>
               <Typography
                 align='left'
-                className={classes.dialogTitleText}
+                // className={classes.dialogTitleText}
                 variant='h3'
               >
-                {`You have been allocated ${Math.round(rewards)} YUP!`}
+                {headerText}
               </Typography>
             </DialogTitle>
               <DialogContent>
                 <DialogContentText style={{ padding: '20px 0px' }}>
                   <Typography
                     align='left'
-                    className={classes.dialogContentText}
+                    // className={classes.dialogContentText}
                     variant='h5'
                   >
                     <span className={classes.desktop}>
-                      Please share on Twitter to claim your rewards. You should receive your tokens within a few minutes.
+                      {bodyText}
                     </span>
                   </Typography>
                 </DialogContentText>
                 <TwitterShareButton
                   className={classes.twitterButton}
-                  url={`${WEB_APP_URL}/rewards`}
-                  title={`Claiming creator rewards on @yup_io`}
+                  url={url}
+                  title={tweetTitle}
                   hashtags={['YUP']}
                   windowWidth={20000}
                   windowHeight={20000}
@@ -85,9 +81,12 @@ class ShareTwitterDialog extends Component {
 }
 
 ShareTwitterDialog.propTypes = {
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object,
     dialogOpen: PropTypes.bool.isRequired,
     handleDialogClose: PropTypes.func.isRequired,
-    rewards: PropTypes.number
+    bodyText: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    tweetTitle: PropTypes.string.isRequired,
+    headerText: PropTypes.string.isRequired
   }
   export default withStyles(styles)(ShareTwitterDialog)

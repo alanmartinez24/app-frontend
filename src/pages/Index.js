@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import DotSpinner from '../components/DotSpinner/DotSpinner'
 import Search from './Search/Search'
-// import SiteBanner from '../components/SiteBanner/SiteBanner'
+import SiteBanner from '../components/SiteBanner/SiteBanner'
 
 import YupLists from './YupLists/YupLists'
 import Discover from './Discover/Discover'
@@ -22,9 +22,11 @@ import User from './User/User'
 import PostPage from './PostPage/PostPage'
 import ScorePage from './ScorePage/ScorePage'
 import RewardsPage from './RewardsPage/RewardsPage'
+import MigrationPage from './MigrationPage/MigrationPage'
 import TwitterOAuth from './TwitterOAuth/TwitterOAuth'
 import Collections from './Collections/Collections'
 import Analytics from './Analytics/Analytics'
+import StakingPage from './StakingPage/Staking'
 import Footer from '../components/Footer/Footer'
 import Header from '../components/Header/Header'
 
@@ -139,7 +141,7 @@ class Index extends Component {
     const metaTitle = 'Yup • Social Network for Curators in Web3'
     const activePalette = lightMode ? lightPalette : darkPalette
     const themeWithPalette = createMuiTheme({ ...theme(activePalette), ...activePalette })
-
+    const hideSiteBanner = pathname.startsWith('/staking') || pathname.startsWith('/migration')
     return (
       <>
         <MuiThemeProvider theme={themeWithPalette}>
@@ -157,7 +159,9 @@ class Index extends Component {
               >
                 <div>
                   <Header isTourOpen={tour} />
-                  {/* <SiteBanner /> */}
+                  {!hideSiteBanner &&
+                  (
+                    <SiteBanner />)}
                   <Switch>
                     <Route component={Discover}
                       exact
@@ -183,9 +187,16 @@ class Index extends Component {
                     <Route component={RewardsPage}
                       path='/rewards'
                     />
+                    <Route component={MigrationPage}
+                      path='/migration'
+                    />
                     <Route component={Analytics}
                       exact
                       path='/:username/analytics'
+                    />
+                    <Route component={StakingPage}
+                      exact
+                      path='/staking'
                     />
                     <Route component={Collections}
                       exact

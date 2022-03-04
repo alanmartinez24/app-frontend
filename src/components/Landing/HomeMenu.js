@@ -39,9 +39,6 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100vw - 190px)`
     },
-    [theme.breakpoints.up('1600')]: {
-      width: `calc(100vw - 190px)`
-    },
     [theme.breakpoints.down('xs')]: {
       backgroundSize: 'contain'
     },

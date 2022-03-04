@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-// import Img from 'react-image'
+import Img from 'react-image'
 import { Grid, Tooltip, Typography } from '@material-ui/core'
 import LinesEllipsis from 'react-lines-ellipsis'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -219,8 +219,9 @@ class NFTPreview extends Component {
     if (url != null) {
       faviconURL = getFavicon(url)
     }
-
-    const isVideo = image && ((image.substring(image.lastIndexOf('.') + 1, image.length) === 'mp4') || (mimeType && mimeType.includes('video')))
+    const fileType = image && ((image.substring(image.lastIndexOf('.') + 1, image.length)))
+    const isVideo = fileType === 'mp4' || (mimeType && mimeType.includes('video'))
+    const isGif = fileType === 'gif'
 
     return (
       <ErrorBoundary>
@@ -254,13 +255,19 @@ class NFTPreview extends Component {
                   loop
                   playsinline
                 />
-              ) : (
-                <CldImg
-                  className={classes.linkImg}
-                  postid={postid}
-                  src={image}
+              ) : isGif ? (
+                <img src={image}
                   alt={description}
+                  className={classes.linkImg}
                 />
+              )
+               : (
+                 <CldImg
+                   className={classes.linkImg}
+                   postid={postid}
+                   src={image}
+                   alt={description}
+                 />
               )}
               <div className={classes.previewData}>
                 <Grid container
@@ -274,7 +281,7 @@ class NFTPreview extends Component {
                       direction='row'
                     >
                       <Grid item>
-                        <CldImg
+                        <Img
                           align='right'
                           href={url}
                           src={faviconURL}

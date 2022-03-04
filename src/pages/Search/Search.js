@@ -39,7 +39,6 @@ const styles = theme => ({
     height: '800px',
     minHeight: '800px',
     marginLeft: '-5px',
-    overflowY: 'scroll',
     [theme.breakpoints.down('md')]: {
       marginLeft: '0px',
       width: '100vw',
@@ -159,14 +158,12 @@ const styles = theme => ({
 
 const User = ({ classes, user }) => {
   return (
-    <Link
-      className={classes.people}
+    <Link className={classes.people}
       key={user._id}
       to={`/${user.username || user._id}`}
       style={{ textDecoration: 'none' }}
     >
-      <Grid
-        container
+      <Grid container
         direction='row'
         justify='flex-start'
         alignItems='center'
@@ -177,8 +174,7 @@ const User = ({ classes, user }) => {
           md={4}
           xs={3}
         >
-          <UserAvatar
-            className={classes.avatar}
+          <UserAvatar className={classes.avatar}
             src={user.avatar}
             username={user.username}
             alt='avatar'
@@ -206,12 +202,11 @@ User.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-const People = props => {
+const People = (props) => {
   const { classes, people } = props
 
   return (
-    <Grid
-      container
+    <Grid container
       direction='row'
       justify='center'
       alignItems='center'
@@ -220,27 +215,31 @@ const People = props => {
     >
       {/* TODO: need better way to display users in three rows */}
       <Grid item>
-        {people.slice(0, DISPLAYED_USERS).map(user => (
-          <User classes={classes}
-            user={user}
-          />
-        ))}
-      </Grid>
-      <Grid item>
-        {people
-          .slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS)
-          .map(user => (
+        {
+          people.slice(0, DISPLAYED_USERS).map((user) => (
             <User classes={classes}
               user={user}
             />
-          ))}
+          ))
+        }
       </Grid>
       <Grid item>
-        {people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map(user => (
-          <User classes={classes}
-            user={user}
-          />
-        ))}
+        {
+          people.slice(DISPLAYED_USERS, DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
+      </Grid>
+      <Grid item>
+        {
+          people.slice(DISPLAYED_USERS + DISPLAYED_USERS).map((user) => (
+            <User classes={classes}
+              user={user}
+            />
+          ))
+        }
       </Grid>
     </Grid>
   )
@@ -255,10 +254,13 @@ function TabPanel (props) {
   const { children, value, index } = props
 
   return (
-    <div role='tabpanel'
+    <div
+      role='tabpanel'
       hidden={value !== index}
     >
-      {value === index && <div>{children}</div>}
+      {value === index && (
+        <div>{children}</div>
+      )}
     </div>
   )
 }
@@ -289,12 +291,7 @@ class Search extends Component {
   }
 
   render () {
-    const {
-      classes,
-      postSearchResults,
-      userSearchResults,
-      collectionSearchResults
-    } = this.props
+    const { classes, postSearchResults, userSearchResults, collectionSearchResults } = this.props
     const { activeTab } = this.state
     const { posts, searchText, isLoading } = postSearchResults
     const { users } = userSearchResults
@@ -308,8 +305,7 @@ class Search extends Component {
             <Fade in
               timeout={1000}
             >
-              <Grid
-                container
+              <Grid container
                 direction='row'
                 justify='flex-start'
                 alignItems='flex-start'
@@ -324,175 +320,150 @@ class Search extends Component {
                   </Typography>
                 </Grid>
 
-                {!isLoading &&
-                  posts.length === 0 &&
-                  users.length === 0 &&
-                  collections.length === 0 && (
+                {!isLoading && posts.length === 0 && users.length === 0 && collections.length === 0 &&
+                  <Grid item
+                    xs={12}
+                    style={{ height: '100%' }}
+                  >
+                    <Typography
+                      variant='h5'
+                      className={classes.headerText}
+                      style={{ textAlign: 'center' }}
+                    >
+                      Try searching for posts, users, or keywords
+                    </Typography>
+                  </Grid>
+                }
+
+                {showTabs && (posts.length > 0 || users.length > 0 || collections.length > 0) &&
+                  <>
                     <Grid item
                       xs={12}
-                      style={{ height: '100%' }}
                     >
-                      <Typography
-                        variant='h5'
-                        className={classes.headerText}
-                        style={{ textAlign: 'center' }}
+                      <Tabs value={activeTab}
+                        onChange={this.handleChange}
+                        TabIndicatorProps={{ style: { backgroundColor: '#fff' } }}
                       >
-                        Try searching for posts, users, or keywords
-                      </Typography>
+                        <Tab label='Posts' />
+                        <Tab label='People' />
+                        <Tab label='Collections' />
+                      </Tabs>
                     </Grid>
-                  )}
 
-                {showTabs &&
-                  (posts.length > 0 ||
-                    users.length > 0 ||
-                    collections.length > 0) && (
-                    <>
+                    <TabPanel value={activeTab}
+                      index={0}
+                    >
                       <Grid item
                         xs={12}
+                        className={classes.feedContainer}
                       >
-                        <Tabs
-                          value={activeTab}
-                          onChange={this.handleChange}
-                          TabIndicatorProps={{
-                            style: { backgroundColor: '#fff' }
-                          }}
-                        >
-                          <Tab label='Posts' />
-                          <Tab label='People' />
-                          <Tab label='Collections' />
-                        </Tabs>
-                      </Grid>
-
-                      <TabPanel value={activeTab}
-                        index={0}
-                      >
-                        <Grid item
-                          xs={12}
-                          className={classes.feedContainer}
-                        >
-                          <Feed
-                            isLoading={isLoading}
-                            hasMore
-                            classes={classes}
-                            posts={posts}
-                            hideInteractions
-                          />
-                        </Grid>
-                      </TabPanel>
-
-                      <TabPanel value={activeTab}
-                        index={1}
-                      >
-                        <Grid item
-                          xs={12}
-                        >
-                          <People classes={classes}
-                            people={users}
-                          />
-                        </Grid>
-                      </TabPanel>
-
-                      <TabPanel value={activeTab}
-                        index={2}
-                      >
-                        <Grid item
-                          xs={12}
-                        >
-                          {collections.map(rec => {
-                            return (
-                              <RecommendedCollections
-                                classes={classes}
-                                collection={rec}
-                              />
-                            )
-                          })}
-                        </Grid>
-                      </TabPanel>
-                    </>
-                  )}
-
-                {!showTabs &&
-                  (posts.length > 0 ||
-                    users.length > 0 ||
-                    collections.length > 0) && (
-                    <>
-                      <Grid
-                        item
-                        lg={!isLoading && users.length === 0 ? 12 : 5}
-                        md={!isLoading && users.length === 0 ? 12 : 8}
-                        xs={12}
-                        tourname='SearchPosts'
-                        style={{
-                          display:
-                            !isLoading && posts.length === 0 ? 'none' : ''
-                        }}
-                      >
-                        <Typography variant='h5'
-                          className={classes.headerText}
-                        >
-                          Posts
-                        </Typography>
-                        <Feed
-                          isLoading={isLoading}
+                        <Feed isLoading={isLoading}
                           hasMore
                           classes={classes}
                           posts={posts}
                           hideInteractions
                         />
                       </Grid>
-                      <Grid
-                        container
-                        direction='column'
-                        item
-                        lg={!isLoading && posts.length === 0 ? 12 : 7}
-                        md={!isLoading && posts.length === 0 ? 12 : 4}
+                    </TabPanel>
+
+                    <TabPanel value={activeTab}
+                      index={1}
+                    >
+                      <Grid item
                         xs={12}
-                        tourname='SearchUsers'
-                        style={{
-                          display:
-                            !isLoading && users.length === 0 ? 'none' : ''
-                        }}
                       >
-                        <Grid item
-                          xs={12}
-                        >
-                          <Typography
-                            variant='h5'
-                            className={classes.headerText}
-                          >
-                            People
-                          </Typography>
-                          <People classes={classes}
-                            people={users}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs={12}
-                          tourname='SearchUsers'
-                          style={{
-                            display:
-                              !isLoading && users.length === 0 ? 'none' : ''
-                          }}
-                        >
-                          <Typography
-                            variant='h5'
-                            className={classes.headerText}
-                          >
-                            Collections
-                          </Typography>
-                          {collections.map(rec => {
-                            return (
-                              <RecommendedCollections
-                                classes={classes}
-                                collection={rec}
-                              />
-                            )
-                          })}
-                        </Grid>
+                        <People classes={classes}
+                          people={users}
+                        />
                       </Grid>
-                    </>
-                  )}
+                    </TabPanel>
+
+                    <TabPanel value={activeTab}
+                      index={2}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        {collections.map(rec => {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                      })}
+                      </Grid>
+                    </TabPanel>
+                  </>
+                }
+
+                {!showTabs && (posts.length > 0 || users.length > 0 || collections.length > 0) &&
+                  <>
+                    <Grid item
+                      lg={!isLoading && users.length === 0 ? 12 : 5}
+                      md={!isLoading && users.length === 0 ? 12 : 8}
+                      xs={12}
+                      tourname='SearchPosts'
+                      style={{ display: !isLoading && posts.length === 0 ? 'none' : '' }}
+                    >
+                      <Typography
+                        variant='h5'
+                        className={classes.headerText}
+                      >
+                        Posts
+                      </Typography>
+                      <Feed isLoading={isLoading}
+                        hasMore
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                      />
+                    </Grid>
+                    <Grid container
+                      direction='column'
+                      item
+                      lg={!isLoading && posts.length === 0 ? 12 : 7}
+                      md={!isLoading && posts.length === 0 ? 12 : 4}
+                      xs={12}
+                      tourname='SearchUsers'
+                      style={{ display: users.length === 0 ? 'none' : 'inherit' }}
+                    >
+                      <Grid item
+                        xs={12}
+                      >
+                        <Typography
+                          variant='h5'
+                          className={classes.headerText}
+                        >
+                          People
+                        </Typography>
+                        <People classes={classes}
+                          people={users}
+                        />
+                      </Grid>
+                      <Grid item
+                        xs={12}
+                        tourname='collections'
+                        style={{ display: collections.length === 0 ? 'none' : 'inherit' }}
+                      >
+                        <Typography
+                          variant='h5'
+                          className={classes.headerText}
+                        >
+                          Collections
+                        </Typography>
+                        {collections.map(rec => {
+                          return (
+                            <RecommendedCollections
+                              classes={classes}
+                              collection={rec}
+                            />
+                          )
+                      })}
+                      </Grid>
+                    </Grid>
+                  </>
+                }
               </Grid>
             </Fade>
 
@@ -506,7 +477,8 @@ class Search extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <Button size='small'
+                <Button
+                  size='small'
                   variant='outlined'
                   small
                 >
@@ -514,13 +486,18 @@ class Search extends Component {
                 </Button>
               }
               prevButton={
-                <Button size='small'
+                <Button
+                  size='small'
                   variant='outlined'
                 >
                   Back
                 </Button>
               }
-              lastStepNextButton={<div style={{ display: 'none' }} />}
+              lastStepNextButton={
+                <div
+                  style={{ display: 'none' }}
+                />
+              }
             />
             <Fade in={this.state.showTour}
               timeout={1000}
@@ -545,10 +522,11 @@ const steps = [
     selector: '[tourName="Search"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          🔍 Search
+          🔍  Search
         </Typography>
         <p className='tourText'>
           Search for users and elevant posts across the web.
@@ -560,12 +538,15 @@ const steps = [
     selector: '[tourName="SearchPosts"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          📰 Posts
+          📰  Posts
         </Typography>
-        <p className='tourText'>These are your search results for posts.</p>
+        <p className='tourText'>
+          These are your search results for posts.
+        </p>
       </div>
     )
   },
@@ -573,12 +554,15 @@ const steps = [
     selector: '[tourName="SearchUsers"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          👥 Users
+          👥  Users
         </Typography>
-        <p className='tourText'>These are the search results for users.</p>
+        <p className='tourText'>
+          These are the search results for users.
+        </p>
       </div>
     )
   },
@@ -586,19 +570,19 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          📡 Feeds
+          📡  Feeds
         </Typography>
-        <p className='tourText'>These are your feeds.</p>
-        <a
-          href='https://docs.yup.io/products/app#feed'
+        <p className='tourText'>
+          These are your feeds.
+        </p>
+        <a href='https://docs.yup.io/products/app#feed'
           target='_blank'
           className='tourLink'
-        >
-          Learn more
-        </a>
+        >Learn more</a>
       </div>
     )
   },
@@ -606,21 +590,19 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
         >
-          📈 Leaderboard
+          📈  Leaderboard
         </Typography>
         <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
-        <a
-          href='https://docs.yup.io/products/app#lists'
+        <a href='https://docs.yup.io/products/app#lists'
           target='_blank'
           className='tourLink'
-        >
-          Learn more
-        </a>
+        >Learn more</a>
       </div>
     )
   },
@@ -675,7 +657,7 @@ const steps = [
   }
 ]
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     userSearchResults: state.searchResults.userSearchResults, // userSearchResultsSelector(state),
     postSearchResults: state.searchResults.postSearchResults, // postSearchResultsSelector(state)

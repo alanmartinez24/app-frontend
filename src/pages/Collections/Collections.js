@@ -4,22 +4,7 @@ import PropTypes from 'prop-types'
 import Feed from '../../components/Feed/Feed'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import Img from 'react-image'
-import {
-  Fab,
-  Typography,
-  Grid,
-  Button,
-  IconButton,
-  Icon,
-  SnackbarContent,
-  Snackbar,
-  Fade,
-  Tabs,
-  Tab,
-  Hidden,
-  Menu,
-  MenuItem
-} from '@material-ui/core'
+import { Fab, Typography, Grid, Button, IconButton, Icon, SnackbarContent, Snackbar, Fade, Tabs, Tab, Menu, MenuItem } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import Tour from 'reactour'
 import '../../components/Tour/tourstyles.css'
@@ -66,15 +51,13 @@ const styles = theme => ({
     overflowY: 'scroll'
   },
   feedPage: {
-    marginLeft: '0px',
     width: '550px',
     [theme.breakpoints.down('lg')]: {
-      marginLeft: '0px',
       maxWidth: '550px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: '90vw',
-      marginLeft: '5vw'
+      width: '100vw',
+      marginLeft: '0vw'
     }
   },
   collectionHeader: {
@@ -96,35 +79,53 @@ const styles = theme => ({
       fontSize: '10px'
     }
   },
-  collectionContainer: {
-    marginLeft: 20,
-    [theme.breakpoints.down('xs')]: {
-      width: '100vw',
-      margin: '0px'
-    }
-  },
   Mask: {
     outline: 'solid 0px #FAFAFA44'
   },
   page: {
     width: '100vw',
-    marginTop: '50px',
+    backgroundSize: 'contain',
+    overflowX: 'hidden'
+  },
+  pageHeader: {
+    width: '100vw',
+    position: 'sticky',
+    top: 0,
+    background: `linear-gradient(${theme.palette.alt.second} 100%, ${theme.palette.alt.second}dd 10%)`,
+    borderRadius: '5px',
+    zIndex: 1000,
+    [theme.breakpoints.up('lg')]: {
+      padding: '80px calc((100vw - 1200px)/2) 12px'
+    },
+    [theme.breakpoints.down('lg')]: {
+      padding: '80px calc((100vw - 1000px)/2) 12px'
+    },
     [theme.breakpoints.down('md')]: {
-      marginLeft: 0
+      padding: '80px calc((100vw - 800px)/2) 12px'
     },
     [theme.breakpoints.down('sm')]: {
-      marginTop: 50
-    },
-    [theme.breakpoints.up('md')]: {
-      marginLeft: '200px',
-      width: `calc(100vw - 200px)`,
-      marginTop: '50px'
+      padding: '60px calc((100vw - 550px)/2) 12px'
     },
     [theme.breakpoints.down('xs')]: {
-      backgroundSize: 'contain',
-      overflowX: 'hidden'
+      padding: '60px 8px 12px'
+    }
+  },
+  pageBody: {
+    [theme.breakpoints.up('lg')]: {
+      padding: '0px calc((100vw - 1200px)/2)'
     },
-    flex: 1
+    [theme.breakpoints.down('lg')]: {
+      padding: '0px calc((100vw - 1000px)/2)'
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '0px calc((100vw - 800px)/2)'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '0px calc((100vw - 550px)/2)'
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: 'inherit'
+    }
   },
   Skeleton: {
     background: theme.palette.alt.fourth,
@@ -158,14 +159,12 @@ const styles = theme => ({
   recommended: {
     display: 'inline-block',
     position: 'sticky',
-    top: 200,
-    margin: '0 0 0 20px',
+    top: 180,
     opacity: 0.7,
     '&:hover': {
       opacity: 1
     },
     [theme.breakpoints.down('md')]: {
-      margin: '0px 0px 0px 50px',
       width: '500px'
     },
     [theme.breakpoints.down('xs')]: {
@@ -405,7 +404,10 @@ class Collections extends Component {
       return (
         <ErrorBoundary>
           <div className={classes.container}>
-            <div className={classes.page}>
+            <Grid container
+              direction='column'
+              className={classes.page}
+            >
               <Grid
                 container
                 direction='column'
@@ -439,7 +441,7 @@ class Collections extends Component {
                   </Button>
                 </Grid>
               </Grid>
-            </div>
+            </Grid>
           </div>
         </ErrorBoundary>
       )
@@ -566,134 +568,130 @@ class Collections extends Component {
         <div className={classes.container}
           onScroll={this.handleScroll}
         >
-          <div className={classes.page}>
-            <Grid
-              container
-              direction='row'
-              justify='flex-start'
-              alignItems='flex-start'
-              spacing={2}
-              className={classes.collectionContainer}
+          <Grid container
+            direction='row'
+            className={classes.page}
+          >
+            <Grid item
+              className={classes.pageHeader}
             >
               <Grid
-                item
                 container
                 direction='row'
                 justify='flex-start'
-                alignItems='center'
+                alignItems='flex-start'
                 spacing={2}
-                lg={8}
-                xl={8}
-                xs={12}
-                className={[minimizeHeader, classes.collectionHeader]}
               >
-                <Grid item>
-                  <Fade in
-                    timeout={1000}
-                  >
-                    <Img
-                      src={
-                        this.isValidHttpUrl(headerImgSrc)
-                          ? [headerImgSrc, DEFAULT_IMG]
-                          : DEFAULT_IMG
-                      }
-                      alt='thumbnail'
-                      loader={<div />}
-                      className={`${classes.headerImg} ${minimize}`}
-                    />
-                  </Fade>
-                </Grid>
                 <Grid
                   item
-                  lg={isMinimize ? 7 : 6}
-                  md={isMinimize ? 7 : 6}
-                  sm={8}
-                  xs={6}
+                  xs={12}
+                  className={minimizeHeader}
                 >
                   <Grid container
-                    direction='column'
-                    spacing={1}
+                    direction='row'
+                    justify='flex-start'
+                    alignItems='center'
+                    spacing={2}
                   >
-                    <Grid item>
+                    <Grid
+                      item
+                    >
                       <Fade in
-                        timeout={400}
+                        timeout={1000}
                       >
-                        <Typography
-                          variant='h3'
-                          className={[
-                            classes.headerText,
-                            isMinimize ? classes.headerTitle : null
-                          ]}
-                        >
-                          {collection.name}
-                        </Typography>
+                        <Img
+                          src={this.isValidHttpUrl(headerImgSrc) ? [headerImgSrc, DEFAULT_IMG] : DEFAULT_IMG}
+                          alt='thumbnail'
+                          loader={<div />}
+                          className={`${classes.headerImg} ${minimize}`}
+                        />
                       </Fade>
                     </Grid>
                     <Grid
                       item
-                      style={{ display: isMinimize ? 'none' : 'inherit' }}
+                      lg={isMinimize ? 7 : 6}
+                      md={isMinimize ? 7 : 6}
+                      sm
+                      xs
                     >
-                      <Fade in
-                        timeout={800}
+                      <Grid container
+                        direction='column'
+                        spacing={1}
                       >
-                        <Typography
-                          variant='subtitle1'
-                          className={[classes.headerText, hidden]}
-                        >
-                          Curated by{' '}
-                          <Link
-                            to={`/${collection.owner}`}
-                            style={{
-                              textDecoration: color
-                                ? `1px solid underline ${color}`
-                                : 'none'
-                            }}
-                            className={classes.curatedByName}
+                        <Grid item>
+                          <Fade in
+                            timeout={400}
                           >
-                            {collection.owner}
-                          </Link>
-                        </Typography>
-                      </Fade>
+                            <Typography variant='h3'
+                              className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
+                            >
+                              {collection.name}
+                            </Typography>
+                          </Fade>
+                        </Grid>
+                        <Grid item
+                          style={{ display: isMinimize ? 'none' : 'inherit' }}
+                        >
+                          <Fade in
+                            timeout={800}
+                          >
+                            <Typography
+                              variant='subtitle1'
+                              className={[classes.headerText, hidden]}
+                            >
+                              Curated by{' '}
+                              <Link
+                                to={`/${collection.owner}`}
+                                style={{
+                          textDecoration: color
+                            ? `1px solid underline ${color}`
+                            : 'none'
+                        }}
+                                className={classes.curatedByName}
+                              >
+                                {collection.owner}
+                              </Link>
+                            </Typography>
+                          </Fade>
+                        </Grid>
+                        <Grid item
+                          style={{ display: isMinimize ? 'none' : 'inherit' }}
+                        >
+                          <Typography
+                            variant='body2'
+                            className={[classes.headerText, hidden]}
+                          >
+                            {collection.description}
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid
-                      item
-                      style={{ display: isMinimize ? 'none' : 'inherit' }}
+                    <Grid item
+                      lg={isMinimize ? 3 : 4}
+                      sm={isMinimize ? 2 : 1}
+                      xs={isMinimize ? 4 : 2}
                     >
-                      <Typography
-                        variant='body2'
-                        className={[classes.headerText, hidden]}
+                      <Grid container
+                        justify={isMinimize ? 'flex-end' : 'flex-start'}
                       >
-                        {collection.description}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid
-                  item
-                  container
-                  lg={isMinimize ? 3 : 4}
-                  sm={2}
-                  xs={isMinimize ? 4 : 2}
-                  justify={isMinimize ? 'flex-end' : 'flex-start'}
-                >
-                  <IconButton
-                    aria-label='more'
-                    aria-controls='long-menu'
-                    aria-haspopup='true'
-                    onClick={this.shareCollection}
-                  >
-                    <Icon className={[classes.icons, 'fa fa-share']} />
-                  </IconButton>
-                  {isLoggedUserCollection ? (
-                    <IconButton
-                      aria-label='more'
-                      aria-controls='long-menu'
-                      aria-haspopup='true'
-                      onClick={this.handleMenuOpen}
-                      className={classes.icons}
-                    >
-                      <MenuIcon fontSize='small' />
-                    </IconButton>
+                        <IconButton
+                          aria-label='more'
+                          aria-controls='long-menu'
+                          aria-haspopup='true'
+                          onClick={this.shareCollection}
+                        >
+                          <Icon className={[classes.icons, 'fa fa-share']} />
+                        </IconButton>
+                        {isLoggedUserCollection ? (
+                          <IconButton
+                            aria-label='more'
+                            aria-controls='long-menu'
+                            aria-haspopup='true'
+                            onClick={this.handleMenuOpen}
+                            className={classes.icons}
+                          >
+                            <MenuIcon fontSize='small' />
+                          </IconButton>
                   ) : (
                     account &&
                     account.name && (
@@ -711,132 +709,122 @@ class Collections extends Component {
                       </IconButton>
                     )
                   )}
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
-
-              <Hidden lgDown>
-                <Grid item
-                  lg={4}
-                />
-              </Hidden>
-
-              {showTabs ? (
-                <>
-                  <Grid item
-                    xs={12}
-                  >
-                    <Tabs
-                      value={activeTab}
-                      onChange={this.handleChange}
-                      TabIndicatorProps={{
-                        style: { backgroundColor: theme.palette.common.first }
-                      }}
+            </Grid>
+            <Grid item
+              xs={12}
+            >
+              <Grid
+                container
+                direction='row'
+                justify='flex-start'
+                alignItems='flex-start'
+                spacing={showTabs ? 2 : 6}
+                className={classes.pageBody}
+              >
+                {showTabs ? (
+                  <>
+                    <Grid item
+                      xs={12}
                     >
-                      <Tab label='Feed'
-                        className={classes.tabs}
-                      />
-                      <Tab label='Recommended'
-                        className={classes.tabs}
-                      />
-                    </Tabs>
-                  </Grid>
-
-                  <TabPanel value={activeTab}
-                    index={0}
-                  >
+                      <Tabs value={activeTab}
+                        onChange={this.handleChange}
+                        TabIndicatorProps={{ style: { backgroundColor: theme.palette.common.first } }}
+                      >
+                        <Tab label='Feed'
+                          className={classes.tabs}
+                        />
+                        <Tab label='Recommended'
+                          className={classes.tabs}
+                        />
+                      </Tabs>
+                    </Grid>
                     <Grid item
                       xs={12}
                       tourname='CollectionPosts'
                     >
-                      <Feed
-                        isLoading={isLoading}
-                        hasMore={false}
-                        classes={classes}
-                        posts={posts}
-                        hideInteractions
-                        renderObjects
-                      />
-                    </Grid>
-                  </TabPanel>
+                      <TabPanel value={activeTab}
+                        index={0}
+                      >
+                        <Feed
+                          isLoading={isLoading}
+                          hasMore={false}
+                          classes={classes}
+                          posts={posts}
+                          hideInteractions
+                          renderObjects
+                        />
+                      </TabPanel>
 
-                  <TabPanel value={activeTab}
-                    index={1}
-                  >
-                    <Grid
-                      item
-                      container
-                      column
-                      spacing={4}
-                      tourname='RecommendedCollections'
-                      className={[
-                        classes.recommended,
-                        classes.recommendedMobile
-                      ]}
-                    >
-                      {!recommendedLoading ? (
-                        recommended.map(rec => {
-                          return (
-                            <RecommendedCollections
-                              classes={classes}
-                              collection={rec}
-                            />
-                          )
-                        })
-                      ) : (
+                      <TabPanel value={activeTab}
+                        index={1}
+                      >
                         <Grid
-                          item
-                          xs={7}
-                          className={[
-                            classes.recommended,
-                            classes.recommendedMobile
-                          ]}
+                          container
+                          direction='column'
+                          spacing={2}
+                          className={[classes.recommended, classes.recommendedMobile]}
+                          tourname='RecommendedCollections'
                         >
-                          <Skeleton
-                            variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton
-                            variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton
-                            variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton
-                            variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton
-                            variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
+                          {!recommendedLoading ? (recommended.map(rec => {
+                            return (
+                              <Grid item>
+                                <RecommendedCollections
+                                  classes={classes}
+                                  collection={rec}
+                                />
+                              </Grid>
+                          )
+                            }))
+                              : (
+                                <Grid item
+                                  xs={7}
+                                  className={[classes.recommended, classes.recommendedMobile]}
+                                >
+                                  <Skeleton variant='rect'
+                                    animation='wave'
+                                    className={classes.Skeleton}
+                                    width={'100%'}
+                                    height={70}
+                                  />
+                                  <Skeleton variant='rect'
+                                    animation='wave'
+                                    className={classes.Skeleton}
+                                    width={'100%'}
+                                    height={70}
+                                  />
+                                  <Skeleton variant='rect'
+                                    animation='wave'
+                                    className={classes.Skeleton}
+                                    width={'100%'}
+                                    height={70}
+                                  />
+                                  <Skeleton variant='rect'
+                                    animation='wave'
+                                    className={classes.Skeleton}
+                                    width={'100%'}
+                                    height={70}
+                                  />
+                                  <Skeleton variant='rect'
+                                    animation='wave'
+                                    className={classes.Skeleton}
+                                    width={'100%'}
+                                    height={70}
+                                  />
+                                </Grid>)}
                         </Grid>
-                      )}
+                      </TabPanel>
                     </Grid>
-                  </TabPanel>
-                </>
+                  </>
               ) : (
                 <>
                   <Grid item
-                    lg={6}
-                    xs={12}
                     tourname='CollectionPosts'
+                    style={{ paddingTop: '48px' }}
                   >
                     <Feed
                       isLoading={isLoading}
@@ -850,22 +838,25 @@ class Collections extends Component {
 
                   <Grid
                     item
-                    container
-                    lg={4}
-                    spacing={2}
-                    tourname='RecommendedCollections'
+                    md
+                    sm={12}
                     className={classes.recommended}
                   >
-                    <Grid item
-                      xs={12}
+                    <Grid
+                      container
+                      direction='column'
+                      spacing={2}
+                      tourname='RecommendedCollections'
                     >
-                      <Typography variant='h5'>Recommended</Typography>
-                    </Grid>
-                    <Grid item
-                      xs={12}
-                    >
-                      {!recommendedLoading ? (
-                        recommended.map(rec => {
+                      <Grid item
+                        xs={12}
+                      >
+                        <Typography variant='h5'>Recommended</Typography>
+                      </Grid>
+                      <Grid item
+                        xs={12}
+                      >
+                        {!recommendedLoading ? recommended.map(rec => {
                           return (
                             <RecommendedCollections
                               classes={classes}
@@ -873,7 +864,7 @@ class Collections extends Component {
                             />
                           )
                         })
-                      ) : (
+                       : (
                         <Grid item
                           xs={12}
                         >
@@ -912,12 +903,13 @@ class Collections extends Component {
                             width={'100%'}
                             height={70}
                           />
-                        </Grid>
-                      )}
+                        </Grid>)}
+                      </Grid>
                     </Grid>
                   </Grid>
                 </>
               )}
+              </Grid>
             </Grid>
 
             <Tour
@@ -961,7 +953,7 @@ class Collections extends Component {
               10-Second Tutorial
             </Fab>
             <CreateCollectionFab />
-          </div>
+          </Grid>
         </div>
       </ErrorBoundary>
     )

@@ -6,7 +6,7 @@ import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import axios from 'axios'
-import { keccak256 } from 'web3-utils'
+import { convertUtf8ToHex } from '@walletconnect/utils'
 import Portal from '@material-ui/core/Portal'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
@@ -17,26 +17,17 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
-const { BACKEND_API } = process.env
+const { BACKEND_API, WALLET_CONNECT_BRIDGE } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const INVALID_EMAIL_ERROR_MSG = `Please enter a valid email address.`
 const WHITELIST_MSG = 'Your Ethereum address is not whitelisted.'
 const VALIDATE_MSG = 'Username is invalid. Please try again.'
-const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
+// const NOTMAINNET_MSG = 'Please connect with a mainnet address.'
 const EMAIL_MSG = 'Success. We will get back to you soon.'
 const MIRROR_MSG = 'Please wait while we create your YUP account...'
 const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
 
 const styles = theme => ({
-  dialog: {
-      width: '100%'
-  },
-  dialogTitleText: {
-    fontWeight: '500'
-  },
-  dialogContentText: {
-    fontWeight: '200'
-  },
   buttons: {
     backgroundColor: 'transparent',
     fontWeight: '400',
@@ -97,7 +88,6 @@ const styles = theme => ({
   inputText: {
     fontSize: '16px',
     padding: '0px',
-    fontFamily: '"Gilroy", sans-serif',
     fontWeight: '200',
     color: theme.palette.common.first,
     [theme.breakpoints.down('xs')]: {
@@ -152,9 +142,7 @@ class SubscribeDialog extends Component {
     if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
-    const bridge = 'https://bridge.walletconnect.org'
-    // create new connector
-    const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
+    const connector = new WalletConnect({ bridge: WALLET_CONNECT_BRIDGE, qrcodeModal: QRCodeModal })
     this.setState({ connector })
 
     // already logged in
@@ -205,14 +193,14 @@ class SubscribeDialog extends Component {
      if (!this.state.connector || !payload) { return }
 
      try {
-      const chainId = connected ? payload._chainId : payload.params[0].chainId
+      // const chainId = connected ? payload._chainId : payload.params[0].chainId
       const accounts = connected ? payload._accounts : payload.params[0].accounts
 
-      if (chainId !== 1) {
-        this.handleSnackbarOpen(NOTMAINNET_MSG, true)
-        this.onDisconnect()
-        return
-      }
+      // if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
+      //   this.handleSnackbarOpen(NOTMAINNET_MSG, true)
+      //   this.onDisconnect()
+      //   return
+      // }
 
       this.handleSnackbarOpen('Successfully connected.', false)
       this.setState({
@@ -222,11 +210,9 @@ class SubscribeDialog extends Component {
 
       const address = accounts[0]
       const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
-      const msgParams = [
-        address,
-        keccak256('\x19Ethereum Signed Message:\n' + challenge.length + challenge)
-      ]
-      const signature = await this.state.connector.signMessage(msgParams)
+      const hexMsg = convertUtf8ToHex(challenge)
+      const msgParams = [address, hexMsg]
+      const signature = await this.state.connector.signPersonalMessage(msgParams)
 
       this.setState({
         address,
@@ -330,7 +316,7 @@ class SubscribeDialog extends Component {
   }
 
   signUp = async () => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, noRedirect } = this.props
     const { username } = this.state
     const rewards = localStorage.getItem('YUP_CLAIM_RWRDS')
     let validate
@@ -369,7 +355,7 @@ class SubscribeDialog extends Component {
 
         this.logEthSignup(mirrorStatus.data.account)
         const profileUrl = `/${username}${rewards ? `?rewards=${rewards}` : ''}`
-        if (window.location.href.split('/').pop() === username) {
+        if (window.location.href.split('/').pop() === username || noRedirect) {
           window.location.reload()
         } else {
           history.push(profileUrl)
@@ -384,7 +370,7 @@ class SubscribeDialog extends Component {
   }
 
   signIn = async (payload) => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, noRedirect } = this.props
     let txStatus
     try {
       txStatus = await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address: this.state.address, signature: this.state.signature })
@@ -409,7 +395,7 @@ class SubscribeDialog extends Component {
 
     const profileUrl = `/${account.username}`
     // already on user page
-    if (window.location.href.split('/').pop() === account.username) {
+    if (window.location.href.split('/').pop() === account.username || noRedirect) {
       window.location.reload()
     } else {
       history.push(profileUrl)
@@ -555,6 +541,7 @@ class SubscribeDialog extends Component {
         </Portal>
 
         <Dialog open={dialogOpen}
+          fullWidth='md'
           onClose={() => {
             handleDialogClose()
             this.setState({ walletConnectOpen: false })
@@ -564,25 +551,21 @@ class SubscribeDialog extends Component {
         >
           {!this.state.connected && (!this.state.showWhitelist && !this.state.showUsername) &&
             <>
-              <DialogTitle style={{ paddingBottom: '10px' }}>
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  variant='h3'
-                >
+              <DialogTitle
+                style={{ paddingBottom: '10px' }}
+              >
+                <Typography variant='h5'>
                   Sign Up / Login
                 </Typography>
               </DialogTitle>
               <DialogContent>
-                <DialogContentText style={{ padding: '20px 0px' }}>
+                <DialogContentText>
                   <Typography
                     align='left'
-                    className={classes.dialogContentText}
-                    variant='h5'
+                    variant='subtitle1'
                   >
                     <span className={classes.desktop}>
-                      Earn money & clout for rating content anywhere on the internet.<br />
-                      Get extra rewards for joining today.
+                      Earn money & clout for rating content anywhere on the internet. Get extra rewards for joining today.
                     </span>
                   </Typography>
                 </DialogContentText>
@@ -655,7 +638,7 @@ class SubscribeDialog extends Component {
                                       >
                           <Icon fontSize='small'
                             className='fal fa-arrow-right'
-                            style={{ marginRight: '20px' }}
+                            style={{ marginRight: '20px', cursor: 'pointer' }}
                           /></InputAdornment>}
                         aria-describedby='filled-weight-helper-text'
                         variant='outlined'
@@ -677,13 +660,7 @@ class SubscribeDialog extends Component {
           {this.state.connected &&
             <>
               <DialogTitle style={{ paddingBottom: '10px' }}>
-                <Typography
-                  align='left'
-                  className={classes.dialogTitleText}
-                  variant='h5'
-                >
-                  Sign Up / Login
-                </Typography>
+                Sign Up / Login
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>Please sign up with an 'active' wallet, one that has held some ETH or YUP before. Fresh unused wallets will not be whitelisted and will need to be approved </DialogContentText>
@@ -792,6 +769,7 @@ SubscribeDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  noRedirect: PropTypes.bool
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))

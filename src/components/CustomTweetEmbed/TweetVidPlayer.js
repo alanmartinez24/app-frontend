@@ -10,7 +10,7 @@ const TweetVidPlayer = ({ url }) => {
         controls
         url={url}
         width={'100%'}
-        height={320}
+        height={'100%'}
       />
 
     )

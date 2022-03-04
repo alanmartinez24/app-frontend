@@ -17,6 +17,7 @@ export const darkPalette = {
       fourth: Colors.B4,
       fifth: Colors.B5
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     primary: {
       main: Colors.W1,
       gradient: Gradients.background.dark
@@ -55,6 +56,7 @@ export const lightPalette = {
       fourth: Colors.W4,
       fifth: Colors.W5
     },
+    rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)',
     primary: {
       main: Colors.B2,
       gradient: Gradients.background.light
@@ -136,9 +138,12 @@ export const theme = ({ palette }) => {
         color: palette.common.first
       }
     },
-    MuiDialogContent: {
+    MuiLinearProgress: {
       root: {
-        color: palette.common.first
+        width: '100vw',
+        '& .MuiLinearProgress-barColorPrimary': {
+            backgroundColor: Colors.Green
+        }
       }
     },
     MuiAvatar: {
@@ -149,7 +154,7 @@ export const theme = ({ palette }) => {
     MuiTab: {
       root: {
         textTransform: 'capitalize',
-        fontSize: '1.2rem'
+        fontSize: '0.8rem'
       }
     },
     MuiTooltip: {
@@ -209,6 +214,9 @@ export const theme = ({ palette }) => {
       },
       input: {
         padding: '10px 14px'
+      },
+      adornedEnd: {
+        padding: 0
       }
     },
     MuiTextField: {
@@ -241,7 +249,7 @@ export const theme = ({ palette }) => {
     },
     MuiDialog: {
       paper: {
-        backgroundColor: `${palette.alt.second}99`,
+        backgroundColor: `${palette.alt.second}cc`,
         borderRadius: '25px',
         backdropFilter: 'blur(45px)',
         boxShadow: `0px 0px 20px 6px ${palette.common.first}05`,
@@ -251,6 +259,19 @@ export const theme = ({ palette }) => {
       },
       backdrop: {
         backdropFilter: 'blur(3px)'
+      }
+    },
+    MuiDialogContent: {
+      root: {
+        color: palette.common.first
+      }
+    },
+    MuiDialogTitle: {
+      root: {
+        fontWeight: 100,
+        fontSize: '2.441rem',
+        lineHeight: '105%',
+        color: `${palette.common.second}EE`
       }
     },
     MuiPaper: {
@@ -263,15 +284,29 @@ export const theme = ({ palette }) => {
     },
     MuiStepIcon: {
       root: {
-        color: `${Colors.YupGreen} !important`
-      },
-      text: {
-        fill: `${palette.alt.first} !important`
+        display: 'none'
+        // background: 'linear-gradient(45deg, #00e08e, #f0c909, #eb3650)'
+      }
+    },
+    MuiStepper: {
+      root: {
+        justifyContent: 'space-around',
+        marginBottom: 20
+      }
+    },
+    MuiStepConnector: {
+      root: {
+        display: 'none'
       }
     },
     MuiStepLabel: {
       label: {
-        color: `${palette.common.first} !important`
+        color: `${palette.common.first} !important`,
+        display: 'flex',
+        opacity: 0.5
+      },
+      active: {
+        opacity: 1
       }
     },
     MuiBackdrop: {
@@ -320,29 +355,29 @@ export const theme = ({ palette }) => {
       'Arial',
       'sans-serif'
     ].join(','),
-    fonStyle: 'normal',
+    fontStyle: 'normal',
     h1: {
       fontWeight: 600,
       fontSize: '3.815rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.first}EE`
     },
     h2: {
       fontWeight: 700,
       fontSize: '3.052rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.first}EE`
     },
     h3: {
       fontWeight: 600,
       fontSize: '2.441rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.second}EE`
     },
     h4: {
       fontWeight: 400,
       fontSize: '1.953rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.third}EE`
     },
     h5: {
@@ -360,25 +395,25 @@ export const theme = ({ palette }) => {
     subtitle1: {
       fontWeight: 400,
       fontSize: '1.25rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.third}DD`
     },
     subtitle2: {
       fontWeight: 700,
       fontSize: '1rem',
-      lineHeight: '105%',
+      lineHeight: '100%',
       color: `${palette.common.third}DD`
     },
     body1: {
       fontWeight: 800,
-      fontSize: '0.8rem',
-      lineHeight: '105%',
+      fontSize: '0.875rem',
+      lineHeight: '110%',
       color: `${palette.common.third}EE`
     },
     body2: {
       fontWeight: 400,
-      fontSize: '0.8rem',
-      lineHeight: '105%',
+      fontSize: '0.875rem',
+      lineHeight: '110%',
       color: `${palette.common.first}DE`
     },
     caption: {
@@ -387,16 +422,11 @@ export const theme = ({ palette }) => {
       color: `${palette.common.third}DE`
     },
     tooltip: {
-      fontSize: '0.75rem',
+      fontSize: '0.875rem',
       fontWeight: '200'
     },
     colorError: {
       color: Colors.Red
-    }
-  },
-  props: {
-    MuiWithWidth: {
-      initialWidth: 'lg'
     }
   }
 }

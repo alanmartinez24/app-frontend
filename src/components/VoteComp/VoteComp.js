@@ -45,7 +45,7 @@ class VoteComp extends Component {
         dispatch(fetchSocialLevel(account.name))
      }
      const level = levels[account.name]
-     if (level && !level.isLoading && level.levelInfo.weight) {
+     if (level && !level.isLoading && level.levelInfo && level.levelInfo.weight) {
        voterWeight = level.levelInfo.weight
      }
     }
