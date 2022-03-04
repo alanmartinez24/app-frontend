@@ -24,9 +24,9 @@ import { accountInfoSelector } from '../../redux/selectors'
 import { Skeleton } from '@material-ui/lab'
 
 const BACKEND_API = process.env.BACKEND_API
-const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${
-  Math.floor(Math.random() * 5) + 1
-}.png`
+const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
+  Math.random() * 5
+) + 1}.png`
 const showTabs = window.innerWidth <= 960
 
 const styles = theme => ({
@@ -129,8 +129,8 @@ const styles = theme => ({
   },
   Skeleton: {
     background: theme.palette.alt.fourth,
-    margin: '20px 0 ',
-    borderRadius: '8px'
+     margin: '20px 0 ',
+     borderRadius: '8px'
   },
   Tour: {
     fontFamily: '"Gilroy", sans-serif',
@@ -264,17 +264,14 @@ class Collections extends Component {
 
     let collection, recommended
     try {
-      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`))
-        .data
+      collection = (await axios.get(`${BACKEND_API}/collections/name/${id}`)).data
       this.setState({
         isLoading: false,
         collection,
         posts: collection.posts.reverse()
       })
       const requQuery = `name=${collection.name}&description=${collection.description}&id=${id}`
-      recommended = (
-        await axios.get(`${BACKEND_API}/collections/recommended?${requQuery}`)
-      ).data
+      recommended = (await axios.get(`${BACKEND_API}/collections/recommended?${requQuery}`)).data
       this.setState({
         recommendedLoading: false,
         recommended
@@ -320,22 +317,17 @@ class Collections extends Component {
   handleSnackbarOpen = snackbarMsg => this.setState({ snackbarMsg })
   handleSnackbarClose = () => this.setState({ snackbarMsg: '' })
 
-  handleMenuOpen = ({ currentTarget }) =>
-    this.setState({ anchorEl: currentTarget })
+  handleMenuOpen = ({ currentTarget }) => this.setState({ anchorEl: currentTarget })
   handleMenuClose = () => this.setState({ anchorEl: null })
 
-  handleReorderDialogOpen = () =>
-    this.setState({ openReorderDialog: true, anchorEl: null })
+  handleReorderDialogOpen = () => this.setState({ openReorderDialog: true, anchorEl: null })
   handleReorderDialogClose = () => this.setState({ openReorderDialog: false })
 
-  handleEditDialogOpen = () =>
-    this.setState({ editDialogOpen: true, anchorEl: null })
+  handleEditDialogOpen = () => this.setState({ editDialogOpen: true, anchorEl: null })
   handleEditDialogClose = () => this.setState({ editDialogOpen: false })
 
-  handleDuplicateDialogOpen = () =>
-    this.setState({ duplicateDialogOpen: true, anchorEl: null })
-  handleDuplicateDialogClose = () =>
-    this.setState({ duplicateDialogOpen: false })
+  handleDuplicateDialogOpen = () => this.setState({ duplicateDialogOpen: true, anchorEl: null })
+  handleDuplicateDialogClose = () => this.setState({ duplicateDialogOpen: false })
 
   getSocialLevel = async id => {
     const res = (await axios.get(`${BACKEND_API}/levels/user/${id}`)).data
@@ -348,7 +340,7 @@ class Collections extends Component {
     this.setState({ activeTab: newTab })
   }
 
-  isValidHttpUrl (string) {
+   isValidHttpUrl (string) {
     let url
     try {
       url = new URL(string)
@@ -383,7 +375,7 @@ class Collections extends Component {
         dispatch(fetchSocialLevel(account.name))
       }
       if (levels[account.name] && !levels[account.name].isLoading) {
-        color = levelColors[levels[account.name].levelInfo.quantile]
+      color = levelColors[levels[account.name].levelInfo.quantile]
       }
     }
 
@@ -530,21 +522,19 @@ class Collections extends Component {
             horizontal: 'right'
           }}
         >
-          <MenuItem
-            dense
+          <MenuItem dense
             onClick={this.handleEditDialogOpen}
             className={classes.menuItem}
           >
             Edit
           </MenuItem>
           {!!collection.posts.length && (
-            <MenuItem
-              dense
-              onClick={this.handleReorderDialogOpen}
-              className={classes.menuItem}
-            >
-              Reorder
-            </MenuItem>
+          <MenuItem dense
+            onClick={this.handleReorderDialogOpen}
+            className={classes.menuItem}
+          >
+            Reorder
+          </MenuItem>
           )}
         </Menu>
         <CollectionEditDialog
@@ -693,8 +683,7 @@ class Collections extends Component {
                             <MenuIcon fontSize='small' />
                           </IconButton>
                   ) : (
-                    account &&
-                    account.name && (
+                    (account && account.name) && (
                       <IconButton
                         aria-label='more'
                         aria-controls='long-menu'
@@ -702,12 +691,10 @@ class Collections extends Component {
                         onClick={this.handleDuplicateDialogOpen}
                         className={classes.icons}
                       >
-                        <Icon
-                          fontSize='small'
+                        <Icon fontSize='small'
                           className={[classes.icons, 'fas fa-copy']}
                         />
-                      </IconButton>
-                    )
+                      </IconButton>)
                   )}
                       </Grid>
                     </Grid>
@@ -863,41 +850,35 @@ class Collections extends Component {
                               collection={rec}
                             />
                           )
-                        })
-                       : (
+                      }) : (
                         <Grid item
                           xs={12}
                         >
-                          <Skeleton
-                            variant='rect'
+                          <Skeleton variant='rect'
                             animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
-                          <Skeleton
-                            variant='rect'
+                          <Skeleton variant='rect'
                             animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
-                          <Skeleton
-                            variant='rect'
+                          <Skeleton variant='rect'
                             animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
-                          <Skeleton
-                            variant='rect'
+                          <Skeleton variant='rect'
                             animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
                             height={70}
                           />
-                          <Skeleton
-                            variant='rect'
+                          <Skeleton variant='rect'
                             animation='wave'
                             className={classes.Skeleton}
                             width={'100%'}
@@ -915,9 +896,7 @@ class Collections extends Component {
             <Tour
               steps={steps}
               isOpen={tour}
-              onRequestClose={() => {
-                dispatch(setTourAction({ isTourOpen: false }))
-              }}
+              onRequestClose={() => { dispatch(setTourAction({ isTourOpen: false })) }}
               className={classes.Tour}
               accentColor='#00E08E'
               rounded={10}
@@ -946,9 +925,7 @@ class Collections extends Component {
             <Fab
               className={classes.tourFab}
               variant='extended'
-              onClick={() => {
-                dispatch(setTourAction({ isTourOpen: true }))
-              }}
+              onClick={() => { dispatch(setTourAction({ isTourOpen: true })) }}
             >
               10-Second Tutorial
             </Fab>
@@ -965,16 +942,14 @@ const steps = [
     selector: '[tourName="CollectionPosts"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
-        >
-          📰 Collection Posts
-        </Typography>
-        <Typography variant='body2'
+        >📰 Collection Posts</Typography>
+        <Typography
+          variant='body2'
           className='tourText'
-        >
-          These are the curated posts in this collection.
-        </Typography>
+        >These are the curated posts in this collection.</Typography>
       </div>
     )
   },
@@ -982,16 +957,14 @@ const steps = [
     selector: '[tourName="RecommendedCollections"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
-        >
-          📖 Recommended Collections
-        </Typography>
-        <Typography variant='body2'
+        >📖 Recommended Collections</Typography>
+        <Typography
+          variant='body2'
           className='tourText'
-        >
-          These are some other collections you should check out!
-        </Typography>
+        >These are some other collections you should check out!</Typography>
       </div>
     )
   },
@@ -999,16 +972,14 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
-        >
-          📡 Feeds
-        </Typography>
-        <Typography variant='body2'
+        >📡 Feeds</Typography>
+        <Typography
+          variant='body2'
           className='tourText'
-        >
-          These are your feeds.
-        </Typography>
+        >These are your feeds.</Typography>
         <a
           href='https://docs.yup.io/products/app#feed'
           target='_blank'
@@ -1023,16 +994,14 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <div>
-        <Typography className='tourHeader'
+        <Typography
+          className='tourHeader'
           variant='h4'
-        >
-          📈 Leaderboard
-        </Typography>
-        <Typography variant='body2'
+        >📈 Leaderboard</Typography>
+        <Typography
+          variant='body2'
           className='tourText'
-        >
-          Find content and users ranked by category and platform.
-        </Typography>
+        >Find content and users ranked by category and platform.</Typography>
         <a
           href='https://docs.yup.io/products/app#lists'
           target='_blank'
@@ -1048,14 +1017,10 @@ const steps = [
       <div>
         <Typography variant='h4'
           className='tourHeader'
-        >
-          👏 That's it!
-        </Typography>
+        >👏 That's it!</Typography>
         <Typography variant='body2'
           className='tourText'
-        >
-          That's all for now. Learn more with some of these resources:
-        </Typography>
+        >That's all for now. Learn more with some of these resources:</Typography>
         <div className='tourResources'>
           <Button
             size='medium'
@@ -1120,6 +1085,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(
-  withStyles(styles)(withTheme(Collections))
-)
+export default connect(mapStateToProps)(withStyles(styles)(withTheme(Collections)))
