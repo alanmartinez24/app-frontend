@@ -28,6 +28,7 @@ export const darkPalette = {
     P850: Colors.P850,
     P900: Colors.P900
   },
+  rainbowGradient: Gradients.rainbowGradient,
   text: {
     primary: Colors.M50,
     secondary: Colors.M100
@@ -71,6 +72,7 @@ export const lightPalette = {
     P850: Colors.P100,
     P900: Colors.P50
   },
+  rainbowGradient: Gradients.rainbowGradient,
   primary: {
     main: Colors.M850,
     gradient: Gradients.background.light

@@ -12,7 +12,8 @@ export const Gradients = {
   background: {
     dark: 'linear-gradient(180deg, #2A2A2A 0%, #161616 100%)',
     light: 'linear-gradient(315deg, #fbfbfb 0%, #fdfdfd 74%)'
-  }
+  },
+  rainbowGradient: 'linear-gradient(110.59deg, #00EAB7 0%, #6FC248 22.4%, #E4E751 42.71%, #EA7E00 70.31%, #C73211 100%)'
 }
 
 export default {

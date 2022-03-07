@@ -73,7 +73,9 @@ class YupLists extends Component {
   }
   async fetchListOptions () {
     const { setListOpts } = this.props
-    const updatedListOpts = (await axios.get(`${BACKEND_API}/v1/lists/listInfo`)).data
+    const updatedListOpts = (
+      await axios.get(`${BACKEND_API}/v1/lists/listInfo`)
+    ).data
     setListOpts(updatedListOpts)
     this.setState({ isLoading: false })
   }
@@ -108,18 +110,21 @@ class YupLists extends Component {
       <ErrorBoundary>
         <div className={classes.container}>
           <div className={classes.page}>
-            {!this.state.isLoading &&
-              <Grid className={classes.gridContainer}
+            {!this.state.isLoading && (
+              <Grid
+                className={classes.gridContainer}
                 container
                 justify='center'
               >
                 <YupLeaderboard />
               </Grid>
-            }
+            )}
             <Tour
               steps={steps}
               isOpen={tour}
-              onRequestClose={() => { setTour({ isTourOpen: false }) }}
+              onRequestClose={() => {
+                setTour({ isTourOpen: false })
+              }}
               className={classes.Tour}
               accentColor='#00E08E'
               rounded={10}
@@ -139,11 +144,7 @@ class YupLists extends Component {
                   className={classes.nextAndPrevButtons}
                 >Back</YupButton>
               }
-              lastStepNextButton={
-                <div
-                  style={{ display: 'none' }}
-                />
-              }
+              lastStepNextButton={<div style={{ display: 'none' }} />}
             />
             <Fade in={this.state.showTour}
               timeout={1000}
@@ -151,7 +152,9 @@ class YupLists extends Component {
               <Fab
                 className={classes.tourFab}
                 variant='extended'
-                onClick={() => { setTour({ isTourOpen: true }) }}
+                onClick={() => {
+                  setTour({ isTourOpen: true })
+                }}
               >
                 10-Second Tutorial
               </Fab>
@@ -176,19 +179,21 @@ const steps = [
     selector: '[tourName="LeaderboardButton"]',
     content: (
       <>
-        <Typography
-          className='tourHeader'
+        <Typography className='tourHeader'
           variant='h4'
         >
-          📈  Leaderboard
+          📈 Leaderboard
         </Typography>
         <p className='tourText'>
           Find content and users ranked by category and platform.
         </p>
-        <a href='https://docs.yup.io/products/app#lists'
+        <a
+          href='https://docs.yup.io/products/app#lists'
           target='_blank'
           className='tourLink'
-        >Learn more</a>
+        >
+          Learn more
+        </a>
       </>
     )
   },
@@ -196,15 +201,12 @@ const steps = [
     selector: '[tourName="LeaderboardMenu"]',
     content: (
       <div>
-        <Typography
-          className='tourHeader'
+        <Typography className='tourHeader'
           variant='h4'
         >
-          ‍📊  Leaderboard Menu
+          ‍📊 Leaderboard Menu
         </Typography>
-        <p className='tourText'>
-          Here you can edit and filter leaderboards.
-        </p>
+        <p className='tourText'>Here you can edit and filter leaderboards.</p>
       </div>
     )
   },
@@ -212,19 +214,22 @@ const steps = [
     selector: '[tourName="Rating"]',
     content: (
       <div>
-        <Typography
-          className='tourHeader'
+        <Typography className='tourHeader'
           variant='h4'
         >
-          🤔  Rating
+          🤔 Rating
         </Typography>
         <p className='tourText'>
-          You can rate content out of 5 in different categories, such as like ♥️, smart 💡, funny 😂, etc.
+          You can rate content out of 5 in different categories, such as like
+          ♥️, smart 💡, funny 😂, etc.
         </p>
-        <a href='https://docs.yup.io/basic/rating'
+        <a
+          href='https://docs.yup.io/basic/rating'
           target='_blank'
           className='tourLink'
-        >Learn more</a>
+        >
+          Learn more
+        </a>
       </div>
     )
   },
@@ -232,19 +237,19 @@ const steps = [
     selector: '[tourName="FeedsDrawer"]',
     content: (
       <div>
-        <Typography
-          className='tourHeader'
+        <Typography className='tourHeader'
           variant='h4'
         >
-          📡  Feeds
+          📡 Feeds
         </Typography>
-        <p className='tourText'>
-          These are your feeds.
-        </p>
-        <a href='https://docs.yup.io/products/app#feed'
+        <p className='tourText'>These are your feeds.</p>
+        <a
+          href='https://docs.yup.io/products/app#feed'
           target='_blank'
           className='tourLink'
-        >Learn more</a>
+        >
+          Learn more
+        </a>
       </div>
     )
   },
@@ -278,9 +283,11 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    setListOpts: (listOpts) => dispatch(setListOptions(listOpts)),
-    setTour: (tour) => dispatch(setTourAction(tour))
+    setListOpts: listOpts => dispatch(setListOptions(listOpts)),
+    setTour: tour => dispatch(setTourAction(tour))
   }
 }
 
-export default memo(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(YupLists)))
+export default memo(
+  connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(YupLists))
+)

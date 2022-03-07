@@ -18,12 +18,12 @@ import { YupButton } from '../Miscellaneous'
 
 const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
 
-const { BACKEND_API } = process.env
+const { BACKEND_API, WALLET_CONNECT_BRIDGE } = process.env
 const ERROR_MSG = `Unable to link your account. Please try again.`
 const INVALID_EMAIL_ERROR_MSG = `Please enter a valid email address.`
 const WHITELIST_MSG = 'Your Ethereum address is not whitelisted.'
 const VALIDATE_MSG = 'Username is invalid. Please try again.'
-const NOTMAINNET_MSG = 'Please connect with a mainnet Ethereum address.'
+// const NOTMAINNET_MSG = 'Please connect with a mainnet address.'
 const EMAIL_MSG = 'Success. We will get back to you soon.'
 const MIRROR_MSG = 'Please wait while we create your YUP account...'
 const REDIRECT_MSG = 'Success! Redirecting to your Yup account profile.'
@@ -89,7 +89,6 @@ const styles = theme => ({
   inputText: {
     fontSize: '16px',
     padding: '0px',
-    fontFamily: '"Gilroy", sans-serif',
     fontWeight: '200',
     color: theme.palette.M100,
     [theme.breakpoints.down('xs')]: {
@@ -144,9 +143,7 @@ class SubscribeDialog extends Component {
     if (this.state.walletConnectOpen) { return }
     this.setState({ walletConnectOpen: true })
     this.onDisconnect()
-    const bridge = 'https://bridge.walletconnect.org'
-    // create new connector
-    const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal })
+    const connector = new WalletConnect({ bridge: WALLET_CONNECT_BRIDGE, qrcodeModal: QRCodeModal })
     this.setState({ connector })
 
     // already logged in
@@ -197,14 +194,14 @@ class SubscribeDialog extends Component {
      if (!this.state.connector || !payload) { return }
 
      try {
-      const chainId = connected ? payload._chainId : payload.params[0].chainId
+      // const chainId = connected ? payload._chainId : payload.params[0].chainId
       const accounts = connected ? payload._accounts : payload.params[0].accounts
 
-      if (chainId !== 1) {
-        this.handleSnackbarOpen(NOTMAINNET_MSG, true)
-        this.onDisconnect()
-        return
-      }
+      // if (chainId !== Number(POLY_CHAIN_ID) || chainId !== Number(POLY_CHAIN_ID)) {
+      //   this.handleSnackbarOpen(NOTMAINNET_MSG, true)
+      //   this.onDisconnect()
+      //   return
+      // }
 
       this.handleSnackbarOpen('Successfully connected.', false)
       this.setState({
@@ -216,7 +213,7 @@ class SubscribeDialog extends Component {
       const challenge = (await axios.get(`${BACKEND_API}/v1/eth/challenge`, { params: { address } })).data.data
       const hexMsg = convertUtf8ToHex(challenge)
       const msgParams = [address, hexMsg]
-      const signature = await this.state.connector.signMessage(msgParams)
+      const signature = await this.state.connector.signPersonalMessage(msgParams)
 
       this.setState({
         address,
@@ -320,7 +317,7 @@ class SubscribeDialog extends Component {
   }
 
   signUp = async () => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, noRedirect } = this.props
     const { username } = this.state
     const rewards = localStorage.getItem('YUP_CLAIM_RWRDS')
     let validate
@@ -359,7 +356,7 @@ class SubscribeDialog extends Component {
 
         this.logEthSignup(mirrorStatus.data.account)
         const profileUrl = `/${username}${rewards ? `?rewards=${rewards}` : ''}`
-        if (window.location.href.split('/').pop() === username) {
+        if (window.location.href.split('/').pop() === username || noRedirect) {
           window.location.reload()
         } else {
           history.push(profileUrl)
@@ -374,7 +371,7 @@ class SubscribeDialog extends Component {
   }
 
   signIn = async (payload) => {
-    const { history, dispatch } = this.props
+    const { history, dispatch, noRedirect } = this.props
     let txStatus
     try {
       txStatus = await axios.post(`${BACKEND_API}/v1/eth/challenge/verify`, { address: this.state.address, signature: this.state.signature })
@@ -399,7 +396,7 @@ class SubscribeDialog extends Component {
 
     const profileUrl = `/${account.username}`
     // already on user page
-    if (window.location.href.split('/').pop() === account.username) {
+    if (window.location.href.split('/').pop() === account.username || noRedirect) {
       window.location.reload()
     } else {
       history.push(profileUrl)
@@ -774,6 +771,7 @@ SubscribeDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   handleDialogClose: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  noRedirect: PropTypes.bool
 }
 export default memo(withRouter(connect(null)(withStyles(styles)(SubscribeDialog))))

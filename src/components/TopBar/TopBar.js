@@ -113,7 +113,7 @@ const styles = theme => ({
     backgroundColor: `${theme.palette.M800}88`,
     borderRadius: '0.65rem',
     maxWidth: '200px',
-    zIndex: 1000,
+    zIndex: 2000,
     padding: `0px ${theme.spacing(1)}px`,
     transition: 'max-width 3s',
     'transition-timing-function': 'ease-in'
@@ -127,7 +127,7 @@ const styles = theme => ({
     backgroundColor: `${theme.palette.M800}00`,
     borderRadius: '0.65rem',
     maxWidth: '200px',
-    zIndex: 1000,
+    zIndex: 2000,
     padding: `0px ${theme.spacing(1)}px`,
     transition: 'max-width 3s',
     'transition-timing-function': 'ease-in'
@@ -275,6 +275,7 @@ const StyledAboutListLink = withStyles(styles)(function AboutListLink ({ classes
     </ListItem>
   )
 })
+
 const StyledExtensionListLink = withStyles(styles)(function ExtensionListLink ({
   classes, isShown, isMobile
 }) {

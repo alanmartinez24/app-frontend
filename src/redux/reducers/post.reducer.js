@@ -20,7 +20,7 @@ export function postWeight (state = {}, action) {
         }
 
         Object.keys(action.weights).map(k => {
-          draft[action.postid].weights[k] = Math.trunc((action.weights[k]))
+          draft[action.postid].weights[k] = Math.trunc(action.weights[k])
         })
         break
       case constants.FETCH_POST_WEIGHT_FAILURE:
@@ -36,9 +36,13 @@ export function postWeight (state = {}, action) {
           if (postWeightInfo.weights) {
             const existingWeight = postWeightInfo.weights[action.category]
             if (existingWeight) {
-              postWeightInfo.weights[action.category] += Math.trunc(action.amount)
+              postWeightInfo.weights[action.category] += Math.trunc(
+                action.amount
+              )
             } else {
-              postWeightInfo.weights[action.category] = Math.trunc(action.amount)
+              postWeightInfo.weights[action.category] = Math.trunc(
+                action.amount
+              )
             }
           } else {
             postWeightInfo.weights = {
@@ -55,26 +59,26 @@ export function postWeight (state = {}, action) {
           }
         }
         break
-        case constants.SET_POST_WEIGHT:
-          postWeightInfo = draft[action.postid]
-          if (postWeightInfo) {
-            if (postWeightInfo.weights) {
-                postWeightInfo.weights[action.category] = Math.trunc(action.amount)
-            } else {
-              postWeightInfo.weights = {
-                [action.category]: Math.trunc(action.amount)
-              }
-            }
+      case constants.SET_POST_WEIGHT:
+        postWeightInfo = draft[action.postid]
+        if (postWeightInfo) {
+          if (postWeightInfo.weights) {
+            postWeightInfo.weights[action.category] = Math.trunc(action.amount)
           } else {
-            draft[action.postid] = {
-              isLoading: null,
-              error: null,
-              weights: {
-                [action.category]: Math.trunc(action.amount)
-              }
+            postWeightInfo.weights = {
+              [action.category]: Math.trunc(action.amount)
             }
           }
-          break
+        } else {
+          draft[action.postid] = {
+            isLoading: null,
+            error: null,
+            weights: {
+              [action.category]: Math.trunc(action.amount)
+            }
+          }
+        }
+        break
       default:
         return state
     }

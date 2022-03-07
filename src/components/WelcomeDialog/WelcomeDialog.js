@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Typography, Grid } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Typography, Grid, withStyles } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { YupButton } from '../Miscellaneous'
 
