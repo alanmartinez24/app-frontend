@@ -109,7 +109,7 @@ export const theme = ({ palette }) => {
           letterSpacing: '0.02em',
           fontStyle: 'normal'
         },
-        contained: {
+        containedPrimary: {
           border: 'none',
           boxShadow: 'none',
           color: palette.M900,
@@ -128,8 +128,9 @@ export const theme = ({ palette }) => {
             backgroundColor: palette.P600
           }
         },
-        outlined: {
+        outlinedPrimary: {
           border: 'none',
+          boxShadow: 'none',
           color: palette.P400,
           backgroundColor: palette.P850,
           '&:hover': {
@@ -146,7 +147,9 @@ export const theme = ({ palette }) => {
             backgroundColor: palette.P900
           }
         },
-        text: {
+        textPrimary: {
+          border: 'none',
+          boxShadow: 'none',
           color: palette.P400,
           '&:hover': {
             color: palette.P300,
@@ -159,6 +162,55 @@ export const theme = ({ palette }) => {
           '&:selected': {
             color: palette.P500,
             backgroundColor: 'transparent'
+          }
+        },
+        containedSecondary: {
+          border: 'none',
+          boxShadow: 'none',
+          color: palette.M900,
+          backgroundColor: palette.M100,
+          '&:hover': {
+            boxShadow: `0 0 0 2px ${palette.M50}`,
+            backgroundColor: palette.M50
+          },
+          '&:disabled': {
+            backgroundColor: palette.M400
+          },
+          '&:selected': {
+            backgroundColor: palette.M150
+          }
+        },
+        outlinedSecondary: {
+          border: 'none',
+          boxShadow: 'none',
+          color: palette.M100,
+          backgroundColor: palette.M700,
+          '&:hover': {
+            boxShadow: `0 0 0 2px ${palette.M600}`,
+            color: palette.M50,
+            backgroundColor: palette.M600
+          },
+          '&:disabled': {
+            color: palette.M200,
+            backgroundColor: palette.M800
+          },
+          '&:selected': {
+            color: palette.M100,
+            backgroundColor: palette.M600
+          }
+        },
+        textSecondary: {
+          border: 'none',
+          boxShadow: 'none',
+          color: palette.M100,
+          '&:hover': {
+            color: palette.M50
+          },
+          '&:disabled': {
+            color: palette.M200
+          },
+          '&:selected': {
+            color: palette.M100
           }
         },
         sizeSmall: {
