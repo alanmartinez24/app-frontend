@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { YupButton } from '../Miscellaneous'
 
-const styles = theme => ({
+const styles = () => ({
   dialogTitle: {
     paddingLeft: '40px',
     paddingBottom: '10px'

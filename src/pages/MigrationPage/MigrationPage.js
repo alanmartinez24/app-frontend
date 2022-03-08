@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Snackbar, SnackbarContent, Icon } from '@material-ui/core'
+import { Grid, Typography, Card, Snackbar, SnackbarContent, Icon, withStyles } from '@material-ui/core'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import YupInput from '../../components/Miscellaneous/YupInput'
-import LoaderButton from '../../components/Miscellaneous/LoaderButton'
+import { YupInput, YupButton, LoaderButton } from '../../components/Miscellaneous'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
 import CountUp from 'react-countup'
@@ -251,7 +249,7 @@ class AirdropPage extends Component {
                 </Grid>
               </Grid> : null }
               { lpAidrop ? shareStep ? <Grid item>
-                <Button
+                <YupButton
                   fullWidth
                   onClick={`${WEB_APP_URL}/staking`}
                   className={classes.rainbowBtn}
@@ -259,7 +257,7 @@ class AirdropPage extends Component {
                   startIcon={<Icon className='fa fa-upload' />}
                 >
                   Stake
-                </Button>
+                </YupButton>
               </Grid> : null : null}
               {account && account.name ? <Grid item>
                 <Grid container
@@ -303,14 +301,14 @@ class AirdropPage extends Component {
                     onClick={this.claimAirdrop}
                   />
             )
-            : <Button
+            : <YupButton
               fullWidth
               onClick={this.handleSubscribeDialogOpen}
               className={classes.btn}
               variant='contained'
               >
               Login
-            </Button>
+            </YupButton>
                   : <Grid container
                     direction='row'
                     alignContent='stretch'
@@ -327,7 +325,7 @@ class AirdropPage extends Component {
                         windowHeight={600}
                         className={classes.btn}
                       >
-                        <Button
+                        <YupButton
                           fullWidth
                           onClick={this.handleSubscribeDialogOpen}
                           className={classes.twitterBtn}
@@ -337,13 +335,13 @@ class AirdropPage extends Component {
                                      />}
                         >
                           Share
-                        </Button>
+                        </YupButton>
                       </TwitterShareButton>
                     </Grid>
                     <Grid item
                       xs={6}
                     >
-                      <Button
+                      <YupButton
                         fullWidth
                         onClick={this.handleCopy}
                         className={classes.btn}
@@ -351,7 +349,7 @@ class AirdropPage extends Component {
                         startIcon={<Icon className='fa fa-copy fa-2x' />}
                       >
                         Copy
-                      </Button>
+                      </YupButton>
                     </Grid>
                   </Grid>
           }
