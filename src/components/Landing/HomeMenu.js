@@ -354,7 +354,7 @@ class Home extends Component {
                                   >
                                     <YupButton size='large'
                                       variant='outlined'
-                                      color='primary'
+                                      color='secondary'
                                     >Learn More</YupButton>
                                   </a>
                                 </>

@@ -45,7 +45,7 @@ export const StyledSettingsModal = withStyles(styles)(function SettingsModal ({
               <YupButton
                 onClick={handleLogout}
                 variant='outlined'
-                mono
+                color='secondary'
               >
                 Log out
               </YupButton>

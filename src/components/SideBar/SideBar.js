@@ -404,6 +404,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                       className={classes.signupBtn}
                       onClick={handleDialogOpen}
                       variant='contained'
+                      color='primary'
                     >Sign Up/Login</YupButton>
                   </Tooltip>
                 )}

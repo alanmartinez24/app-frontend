@@ -557,7 +557,7 @@ const StakingPage = ({ classes, account }) => {
                                           onChange={handleEthStakeAmountChange}
                                           endAdornment={<YupButton size='xs'
                                             variant='text'
-                                            mono
+                                            color='secondary'
                                             onClick={handleEthStakeMax}
                                                         >Max</YupButton>}
                                         />
@@ -721,7 +721,7 @@ const StakingPage = ({ classes, account }) => {
                                           onChange={handlePolyStakeAmountChange}
                                           endAdornment={<YupButton size='xs'
                                             variant='text'
-                                            mono
+                                            color='secondary'
                                             onClick={handlePolyStakeMax}
                                                         >Max</YupButton>}
                                         />

@@ -145,6 +145,7 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             buttonText='Update'
             isLoading={isLoadingUpdate}
             variant='contained'
+            color='primary'
           />
         </DialogActions>
       </Dialog>
