@@ -351,7 +351,8 @@ class Home extends Component {
                                     target='_blank'
                                   >
                                     <YupButton size='large'
-                                      variant='contained'
+                                      variant='outlined'
+                                      mono
                                     >Learn More</YupButton>
                                   </a>
                                 </>

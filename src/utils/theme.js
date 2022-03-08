@@ -107,9 +107,7 @@ export const theme = ({ palette }) => {
           borderRadius: '8px',
           textTransform: 'capitalize',
           letterSpacing: '0.02em',
-          lineHeight: '23px',
-          fontWeight: '500',
-          textDecoration: 'none'
+          fontStyle: 'normal'
         },
         contained: {
           border: 'none',
@@ -162,6 +160,24 @@ export const theme = ({ palette }) => {
             color: palette.P500,
             backgroundColor: 'transparent'
           }
+        },
+        sizeSmall: {
+          padding: '6px 12px',
+          fontSize: '15px',
+          fontWeight: 600,
+          lineHeight: '125%'
+        },
+        sizeMedium: {
+          padding: '8px 12px',
+          fontSize: '16px',
+          fontWeight: 600,
+          lineHeight: '135%'
+        },
+        sizeLarge: {
+          padding: '10px 14px',
+          fontSize: '18px',
+          fontWeight: 'normal',
+          lineHeight: '135%'
         }
       },
       MuiIconButton: {
