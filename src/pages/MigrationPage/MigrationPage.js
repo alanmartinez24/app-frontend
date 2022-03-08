@@ -21,18 +21,18 @@ const styles = theme => ({
   page: {
     minHeight: '100vh',
     maxWidth: '100vw',
-    backgroundColor: theme.palette.alt.second
+    backgroundColor: theme.palette.M900
   },
   balanceContainer: {
     borderRadius: '0.65rem',
-    border: `solid 2px ${Colors.B6}`
+    border: `solid 2px ${theme.palette.M700}`
   },
   card: {
     padding: theme.spacing(6),
     width: 450,
     boxShadow:
-      `0px 0px 30px 0px ${theme.palette.shadow.first}44, 0px 0px 0.75px  ${theme.palette.shadow.first}66`,
-    backgroundColor: theme.palette.alt.second,
+      `0px 0px 30px 0px ${theme.palette.M400}44, 0px 0px 0.75px  ${theme.palette.M400}66`,
+    backgroundColor: theme.palette.M900,
     [theme.breakpoints.down('xs')]: {
       width: 350
     }
@@ -205,7 +205,7 @@ class AirdropPage extends Component {
                 >
                   <Grid item>
                     <Typography variant='h3'
-                      style={{ color: airdrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                      style={{ color: airdrop ? Colors.P500 : Colors.M900, textAlign: 'center' }}
                     >
                       <CountUp
                         end={airdrop && airdrop.amount}
@@ -232,7 +232,7 @@ class AirdropPage extends Component {
                         </Grid>
                         <Grid item>
                           <Typography variant='h3'
-                            style={{ color: lpAidrop ? Colors.Green : Colors.B6, textAlign: 'center' }}
+                            style={{ color: lpAidrop ? Colors.P500 : Colors.M900, textAlign: 'center' }}
                           >
                             <CountUp
                               end={lpAidrop && lpAidrop.amount}
