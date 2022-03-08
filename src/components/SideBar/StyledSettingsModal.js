@@ -1,5 +1,4 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
 import {
   List,
   ListItem,
@@ -8,25 +7,15 @@ import {
   DialogTitle,
   Typography,
   DialogContent,
-  Dialog
+  Dialog,
+  withStyles
 } from '@material-ui/core'
 import { YupButton } from '../Miscellaneous'
 
 const styles = theme => ({
-  logoutBtn: {
-    fontFamily: 'Gilroy',
-    margin: 'auto',
-    marginLeft: 15,
-    letterSpacing: '0.2em',
-    width: 100,
-    height: 35,
-    fontSize: 10,
-    [theme.breakpoints.down('xs')]: {
-      width: 75,
-      height: 30,
-      marginLeft: 5,
-      fontSize: 7
-    }
+  dialogTitle: {
+    paddingLeft: '40px',
+    paddingBottom: '10px'
   }
 })
 
@@ -42,7 +31,7 @@ export const StyledSettingsModal = withStyles(styles)(function SettingsModal ({
       onClose={handleSettingsClose}
       open={settingsOpen}
     >
-      <DialogTitle style={{ paddingLeft: '40px', paddingBottom: '10px' }}>
+      <DialogTitle className={classes.dialogTitle}>
         <Typography variant='h4'>Settings</Typography>
       </DialogTitle>
       <DialogContent>
@@ -54,9 +43,9 @@ export const StyledSettingsModal = withStyles(styles)(function SettingsModal ({
             />
             <ListItemSecondaryAction>
               <YupButton
-                className={classes.logoutBtn}
                 onClick={handleLogout}
                 variant='outlined'
+                mono
               >
                 Log out
               </YupButton>

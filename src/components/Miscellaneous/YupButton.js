@@ -73,14 +73,14 @@ const styles = theme => ({
   }
 })
 
-const YupButton = ({ size, color, variant, classes, children, adornment, ...restProps }) => {
+const YupButton = ({ size, mono, variant, classes, children, adornment, ...restProps }) => {
   const leftAdornment = adornment === 'leftIcon' || adornment === 'bothIcons' ? <ArrowForwardIcon /> : null
   const rightAdornment = adornment === 'rightIcon' || adornment === 'bothIcons' ? <ArrowForwardIcon /> : null
 
   let classname
-  if (color === 'mono' && variant === 'contained') classname = classes.contained
-  if (color === 'mono' && variant === 'outlined') classname = classes.outlined
-  if (color === 'mono' && variant === 'text') classname = classes.text
+  if (mono && variant === 'contained') classname = classes.contained
+  if (mono && variant === 'outlined') classname = classes.outlined
+  if (mono && variant === 'text') classname = classes.text
 
   let buttonSize
   if (size === 'large') buttonSize = classes.largeOneIconButton
@@ -110,7 +110,7 @@ const YupButton = ({ size, color, variant, classes, children, adornment, ...rest
 
 YupButton.propTypes = {
   size: PropTypes.string.isRequired,
-  color: PropTypes.string,
+  mono: PropTypes.bool,
   variant: PropTypes.string.isRequired,
   classes: PropTypes.object,
   children: PropTypes.object.isRequired,
