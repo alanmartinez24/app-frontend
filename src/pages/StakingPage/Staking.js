@@ -57,7 +57,7 @@ const styles = theme => ({
 })
 
 const StakingPage = ({ classes, account }) => {
-  const { theme } = useTheme()
+  const theme = useTheme()
 
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
