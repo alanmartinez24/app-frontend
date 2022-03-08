@@ -2,12 +2,11 @@ import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles, useTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent, InputAdornment } from '@material-ui/core'
+import { Grid, Typography, Card, Tabs, Tab, Snackbar, SnackbarContent, InputAdornment } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import YupInput from '../../components/Miscellaneous/YupInput'
+import { YupInput, YupButton, LoadingBar } from '../../components/Miscellaneous'
 import ConnectEth from '../../components/ConnectEth/ConnectEth'
-import LoadingBar from '../../components/Miscellaneous/LoadingBar'
 import { accountInfoSelector } from '../../redux/selectors'
 import { getPriceProvider, getWeb3InstanceOfProvider } from '../../utils/eth'
 import LIQUIDITY_ABI from '../../abis/LiquidityRewards.json'
@@ -40,11 +39,6 @@ const styles = theme => ({
     width: '100%',
     marginLeft: 0,
     overflowX: 'hidden'
-  },
-  maxBtn: {
-    lineHeight: 0,
-    maxWidth: 30,
-    height: '100%'
   },
   submitBtn: {
     background: theme.palette.rainbowGradient,
@@ -447,15 +441,15 @@ const StakingPage = ({ classes, account }) => {
                   spacing={2}
                 >
                   <Grid item>
-                    <Button variant='outlined'
+                    <YupButton variant='outlined'
                       href={YUP_BUY_LINK}
                       target='_blank'
-                    > Buy YUP </Button>
+                    > Buy YUP </YupButton>
                   </Grid>
                   <Grid item>
-                    <Button href={`${YUP_DOCS_URL}/protocol/yup-protocol`}
+                    <YupButton href={`${YUP_DOCS_URL}/protocol/yup-protocol`}
                       target='_blank'
-                    > Learn More </Button>
+                    > Learn More </YupButton>
                   </Grid>
                 </Grid>
               </Grid>
@@ -561,16 +555,16 @@ const StakingPage = ({ classes, account }) => {
                                           size='small'
                                           value={ethStakeInput}
                                           onChange={handleEthStakeAmountChange}
-                                          endAdornment={<Button size='xs'
-                                            variant='default'
+                                          endAdornment={<YupButton size='xs'
+                                            variant='text'
+                                            mono
                                             onClick={handleEthStakeMax}
-                                            className={classes.maxBtn}
-                                                        >Max</Button>}
+                                                        >Max</YupButton>}
                                         />
                                       </Grid>
                                     </Grid>
                                     <Grid item>
-                                      <Button size='large'
+                                      <YupButton size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
                                       >
@@ -580,7 +574,7 @@ const StakingPage = ({ classes, account }) => {
                                         >
                                           {address ? activeEthTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
-                                      </Button>
+                                      </YupButton>
                                     </Grid>
                                   </Grid>
                                 </Grid>
@@ -725,16 +719,16 @@ const StakingPage = ({ classes, account }) => {
                                           size='small'
                                           value={polyStakeInput}
                                           onChange={handlePolyStakeAmountChange}
-                                          endAdornment={<Button size='xs'
+                                          endAdornment={<YupButton size='xs'
                                             variant='text'
+                                            mono
                                             onClick={handlePolyStakeMax}
-                                            className={classes.maxBtn}
-                                                        >Max</Button>}
+                                                        >Max</YupButton>}
                                         />
                                       </Grid>
                                     </Grid>
                                     <Grid item>
-                                      <Button size='large'
+                                      <YupButton size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
                                       >
@@ -744,7 +738,7 @@ const StakingPage = ({ classes, account }) => {
                                         >
                                           {address ? activePolyTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
-                                      </Button>
+                                      </YupButton>
                                     </Grid>
                                   </Grid>
                                 </Grid>
@@ -864,7 +858,7 @@ const StakingPage = ({ classes, account }) => {
                                       </Grid>
                                     </Grid>
                                     <Grid item>
-                                      <Button size='large'
+                                      <YupButton size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
                                       >
@@ -874,7 +868,7 @@ const StakingPage = ({ classes, account }) => {
                                         >
                                           {address ? 'Collect' : 'Connect'}
                                         </Typography>
-                                      </Button>
+                                      </YupButton>
                                     </Grid>
                                   </Grid>
                                 </Grid>

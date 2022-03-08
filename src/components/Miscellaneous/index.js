@@ -3,9 +3,11 @@ import CldVid from './CldVid'
 import ConditionalLinkWrapper from './ConditionalLinkWrapper'
 import CreateCollectionFab from './CreateCollectionFab'
 import LoaderButton from './LoaderButton'
+import LoadingBar from './LoadingBar'
 import StyledTourResources from './StyledTourResources'
 import YupButton from './YupButton'
 import YupInput from './YupInput'
+import YupStepper from './YupStepper'
 
 export {
   CldImg,
@@ -13,7 +15,9 @@ export {
   ConditionalLinkWrapper,
   CreateCollectionFab,
   LoaderButton,
+  LoadingBar,
   StyledTourResources,
   YupButton,
-  YupInput
+  YupInput,
+  YupStepper
 }
