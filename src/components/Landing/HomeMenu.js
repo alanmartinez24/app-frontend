@@ -331,7 +331,7 @@ class Home extends Component {
                         </CardContent>
                         <CardActions>
                           {isUser
-                           ? <Link className={classes.Link}
+                           ? <Link className={classes.link}
                              to={'/?feed=mirror'}
                              >
                              <YupButton size='large'
@@ -339,14 +339,14 @@ class Home extends Component {
                              >Enter</YupButton>
                            </Link>
                                 : <>
-                                  <a className={classes.Link}
+                                  <a className={classes.link}
                                     href={`${WEB_APP_URL}/?signupOpen=true`}
                                   >
                                     <YupButton size='large'
                                       variant='contained'
                                     >Start Now</YupButton>
                                   </a>
-                                  <a className={classes.Link}
+                                  <a className={classes.link}
                                     href={YUP_LANDING}
                                     target='_blank'
                                   >

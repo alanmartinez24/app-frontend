@@ -41,7 +41,7 @@ const styles = theme => ({
     overflowX: 'hidden'
   },
   submitBtn: {
-    background: theme.palette.rainbowGradient,
+    background: theme.rainbowGradient,
     height: '100%'
   },
   aprText: {
@@ -57,7 +57,7 @@ const styles = theme => ({
 })
 
 const StakingPage = ({ classes, account }) => {
-  const { palette } = useTheme()
+  const { theme } = useTheme()
 
   const [activePolyTab, setActivePolyTab] = useState(0)
   const [activeEthTab, setActiveEthTab] = useState(0)
@@ -519,7 +519,7 @@ const StakingPage = ({ classes, account }) => {
                               <Tabs
                                 value={activeEthTab}
                                 onChange={handleEthTabChange}
-                                TabIndicatorProps={{ style: { background: palette.rainbowGradient } }}
+                                TabIndicatorProps={{ style: { background: theme.rainbowGradient } }}
                               >
                                 <Tab label='Staked' />
                                 <Tab label='Unstaked' />
@@ -683,7 +683,7 @@ const StakingPage = ({ classes, account }) => {
                               <Tabs
                                 value={activePolyTab}
                                 onChange={handlePolyTabChange}
-                                TabIndicatorProps={{ style: { background: palette.rainbowGradient } }}
+                                TabIndicatorProps={{ style: { background: theme.rainbowGradient } }}
                               >
                                 <Tab label='Staked' />
                                 <Tab label='Unstaked' />

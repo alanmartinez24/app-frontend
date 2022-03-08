@@ -108,7 +108,8 @@ export const theme = ({ palette }) => {
           textTransform: 'capitalize',
           letterSpacing: '0.02em',
           lineHeight: '23px',
-          fontWeight: '500'
+          fontWeight: '500',
+          textDecoration: 'none'
         },
         contained: {
           border: 'none',
