@@ -576,10 +576,10 @@ class SubscribeDialog extends Component {
                 >
                   <Grid item>
                     <YupButton
-                      variant='outlined'
-                      size='large'
-                      onClick={this.initWalletConnect}
                       fullWidth
+                      size='large'
+                      variant='outlined'
+                      onClick={this.initWalletConnect}
                     >
                       <Typography
                         align='left'

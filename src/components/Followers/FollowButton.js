@@ -16,15 +16,7 @@ import { YupButton } from '../Miscellaneous'
 const { BACKEND_API } = process.env
 
 const styles = theme => ({
-  button: {
-    width: 14,
-    height: 14,
-    padding: 5,
-    color: 'white'
-  },
   followButton: {
-    color: theme.palette.M100,
-    backgroundColor: `${theme.palette.M700}90`,
     [theme.breakpoints.down('xs')]: {
       fontSize: '12px'
     }
@@ -137,6 +129,9 @@ class FollowButton extends Component {
               style={{ color: 'white', marginTop: '3px', marginRight: '20px' }}
               />
             : <YupButton
+              size='small'
+              color='secondary'
+              variant='outlined'
               className={classes.followButton}
               onClick={() => { this.handleUnfollow(eosname) }}
               >Following</YupButton>
@@ -166,6 +161,9 @@ class FollowButton extends Component {
               style={{ color: 'white', marginTop: '3px', marginRight: '20px' }}
               />
             : <YupButton
+              size='small'
+              color='secondary'
+              variant='outlined'
               className={classes.followButton}
               onClick={() => { this.handleFollow(eosname) }}
               >Follow</YupButton>

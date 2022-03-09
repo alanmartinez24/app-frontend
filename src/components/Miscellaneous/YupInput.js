@@ -50,8 +50,8 @@ const YupInput = ({ classes, maxLength, onSubmit, inputIsValid, endAdornment, ..
         endAdornment: endAdornment || arrowEndAdornment,
         classes: {
           root: classes.inputRoot,
-          input: classes.inputInput
-          // underline: classes.inputUnderline
+          input: classes.inputInput,
+          underline: classes.inputUnderline
         },
         className: classes.input
         }}

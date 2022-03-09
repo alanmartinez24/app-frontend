@@ -37,16 +37,13 @@ const styles = theme => ({
       width: 350
     }
   },
-  btn: {
-    width: '100%'
-  },
   twitterBtn: {
     width: '100%',
     color: '#1DA1F2',
     borderColor: '#1DA1F2'
   },
   rainbowBtn: {
-    background: theme.palette.rainbowGradient
+    background: theme.rainbowGradient
   },
   stepper: {
     position: 'fixed',
@@ -293,8 +290,8 @@ class AirdropPage extends Component {
                 {!shareStep ? account && account.name ? (
                   <LoaderButton
                     fullWidth
-                    className={classes.btn}
-                    variant='contained'
+                    variant='outlined'
+                    color='secondary'
                     buttonText='Claim'
                     disabled={!enableClaim}
                     isLoading={isLoading}
@@ -304,8 +301,8 @@ class AirdropPage extends Component {
             : <YupButton
               fullWidth
               onClick={this.handleSubscribeDialogOpen}
-              className={classes.btn}
               variant='contained'
+              color='primary'
               >
               Login
             </YupButton>
@@ -323,7 +320,6 @@ class AirdropPage extends Component {
                         hashtags={['YUP']}
                         windowWidth={800}
                         windowHeight={600}
-                        className={classes.btn}
                       >
                         <YupButton
                           fullWidth
@@ -344,8 +340,8 @@ class AirdropPage extends Component {
                       <YupButton
                         fullWidth
                         onClick={this.handleCopy}
-                        className={classes.btn}
                         variant='outlined'
+                        color='secondary'
                         startIcon={<Icon className='fa fa-copy fa-2x' />}
                       >
                         Copy

@@ -430,13 +430,15 @@ class Discover extends Component {
             disableInteraction
             highlightedMaskClassName={classes.Mask}
             nextButton={
-              <YupButton small
-                variant='outlined'
+              <YupButton size='small'
+                variant='contained'
+                color='primary'
               >Next</YupButton>
             }
             prevButton={
-              <YupButton small
-                variant='outlined'
+              <YupButton size='small'
+                variant='contained'
+                color='primary'
               >Back</YupButton>
             }
             lastStepNextButton={<div style={{ display: 'none' }} />}

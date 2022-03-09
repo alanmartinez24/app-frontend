@@ -24,16 +24,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.M800
   },
   btn: {
-    backgroundColor: '#00E08E',
-    fontFamily: 'Gilroy',
     width: 380,
     height: '45px',
-    borderRadius: '0.65rem',
-    marginTop: 15,
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#00E08E'
-    }
+    marginTop: 15
   },
   page: {
     width: '100%',
@@ -246,8 +239,9 @@ class RewardsPage extends Component {
                 <YupButton
                   fullWidth
                   className={classes.btn}
-                  onClick={this.openWalletConnectDialog}
                   variant='contained'
+                  color='primary'
+                  onClick={this.openWalletConnectDialog}
                 >Claim</YupButton>
                 <SubscribeDialog
                   dialogOpen={dialogOpen}

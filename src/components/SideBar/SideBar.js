@@ -489,8 +489,8 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
                         <span
                           style={{
                             color: palette.M400,
-                            fontWeight: 300,
-                            fontSize: '10px'
+                            fontSize: '10px',
+                            fontWeight: 300
                           }}
                         >
                           {formattedYupBalance} YUP

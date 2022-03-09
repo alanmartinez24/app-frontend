@@ -477,22 +477,18 @@ class Search extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <YupButton
-                  size='small'
-                  variant='outlined'
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
                 >Next</YupButton>
               }
               prevButton={
-                <YupButton
-                  size='small'
-                  variant='outlined'
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
                 >Back</YupButton>
               }
-              lastStepNextButton={
-                <div
-                  style={{ display: 'none' }}
-                />
-              }
+              lastStepNextButton={<div style={{ display: 'none' }} />}
             />
             <Fade in={this.state.showTour}
               timeout={1000}

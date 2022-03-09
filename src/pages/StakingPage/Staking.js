@@ -441,13 +441,18 @@ const StakingPage = ({ classes, account }) => {
                   spacing={2}
                 >
                   <Grid item>
-                    <YupButton variant='outlined'
+                    <YupButton
+                      color='secondary'
+                      variant='outlined'
                       href={YUP_BUY_LINK}
                       target='_blank'
                     > Buy YUP </YupButton>
                   </Grid>
                   <Grid item>
-                    <YupButton href={`${YUP_DOCS_URL}/protocol/yup-protocol`}
+                    <YupButton
+                      color='secondary'
+                      variant='outlined'
+                      href={`${YUP_DOCS_URL}/protocol/yup-protocol`}
                       target='_blank'
                     > Learn More </YupButton>
                   </Grid>

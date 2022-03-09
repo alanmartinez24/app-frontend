@@ -24,7 +24,7 @@ class PolicyDialog extends React.Component {
           <YupButton onClick={this.handleClickOpen('paper')}>
             <Typography align='left'
               variant='h6'
-              style={{ fontFamily: 'Gilroy', color: '#c0c0c0' }}
+              style={{ color: '#c0c0c0' }}
             >
               Privacy Policy
             </Typography></YupButton>
@@ -137,10 +137,12 @@ class PolicyDialog extends React.Component {
             </DialogContent>
             <DialogActions>
               <YupButton
+                color='secondary'
                 variant='outlined'
                 onClick={this.handleClose}
               >Cancel</YupButton>
               <YupButton
+                color='primary'
                 variant='contained'
                 onClick={this.handleClose}
               >Subscribe</YupButton>

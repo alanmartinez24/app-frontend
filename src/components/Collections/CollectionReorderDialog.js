@@ -100,10 +100,10 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, ac
         <LoaderButton
           onClick={handleCollectionReorder}
           fullWidth
-          variant='contained'
-          color='primary'
           buttonText='Save'
           isLoading={isLoading}
+          variant='outlined'
+          color='secondary'
         />
       </DialogActions>
     </Dialog>

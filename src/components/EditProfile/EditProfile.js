@@ -101,8 +101,6 @@ const styles = theme => ({
     borderRadius: '50%'
   },
   editButton: {
-    fontFamily: 'Gilroy',
-    backgroundColor: theme.palette.M700,
     zIndex: 1000,
     flex: 1,
     fontSize: '10px',
@@ -437,7 +435,8 @@ class EditProfile extends Component {
       <YupButton
         className={classes.editButton}
         onClick={this.handleDialogOpen}
-        variant='contained'
+        variant='outlined'
+        color='secondary'
       >Edit</YupButton>
     )
 
@@ -597,9 +596,9 @@ class EditProfile extends Component {
                     <Grid item>
                       <YupButton
                         fullWidth
-                        className={classes.signupBtn}
                         onClick={this.handleEthDialogOpen}
-                        variant='contained'
+                        variant='outlined'
+                        color='secondary'
                       >Connect Eth</YupButton>
                     </Grid>
                   )}
@@ -610,10 +609,12 @@ class EditProfile extends Component {
               <YupButton
                 onClick={this.handleDialogClose}
                 variant='outlined'
+                color='secondary'
               >Cancel</YupButton>
               <YupButton
                 onClick={this.handleAccountInfoSubmit}
-                variant='contained'
+                variant='outlined'
+                color='secondary'
               >Update</YupButton>
             </DialogActions>
           </Dialog>

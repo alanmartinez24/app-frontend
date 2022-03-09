@@ -30,7 +30,6 @@ class ShareTwitterDialog extends Component {
             ><DialogTitle style={{ paddingBottom: '10px' }}>
               <Typography
                 align='left'
-                // className={classes.dialogTitleText}
                 variant='h3'
               >
                 {headerText}
@@ -40,7 +39,6 @@ class ShareTwitterDialog extends Component {
                 <DialogContentText style={{ padding: '20px 0px' }}>
                   <Typography
                     align='left'
-                    // className={classes.dialogContentText}
                     variant='h5'
                   >
                     <span className={classes.desktop}>

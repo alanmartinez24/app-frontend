@@ -147,10 +147,6 @@ const styles = theme => ({
       display: 'none'
     }
   },
-  nextAndPrevButtons: {
-    fontWeight: 400,
-    backgroundColor: '#00E08E'
-  },
   headerTitle: {
     [theme.breakpoints.down('xs')]: {
       lineHeight: 1,
@@ -427,7 +423,8 @@ class Collections extends Component {
                 </Grid>
                 <Grid item>
                   <YupButton size='large'
-                    variant='contained'
+                    variant='outlined'
+                    color='secondary'
                     href='/'
                   >Go Home</YupButton>
                 </Grid>
@@ -902,15 +899,15 @@ class Collections extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <YupButton small
-                  className={classes.nextAndPrevButtons}
-                  variant='outlined'
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
                 >Next</YupButton>
               }
               prevButton={
-                <YupButton small
-                  className={classes.nextAndPrevButtons}
-                  variant='outlined'
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
                 >Back</YupButton>
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}

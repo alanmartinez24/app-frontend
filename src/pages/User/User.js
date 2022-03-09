@@ -119,10 +119,6 @@ const styles = theme => ({
       display: 'none'
     }
   },
-  nextAndPrevButtons: {
-    fontWeight: 400,
-    backgroundColor: '#00E08E'
-  },
   icons: {
     color: theme.palette.M100
   },
@@ -834,17 +830,15 @@ class User extends Component {
               disableInteraction
               highlightedMaskClassName={classes.Mask}
               nextButton={
-                <YupButton
-                  size='small'
-                  variant='outlined'
-                  className={classes.nextAndPrevButtons}
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
                 >Next</YupButton>
               }
               prevButton={
-                <YupButton
-                  size='small'
-                  variant='outlined'
-                  className={classes.nextAndPrevButtons}
+                <YupButton size='small'
+                  variant='contained'
+                  color='primary'
                 >Back</YupButton>
               }
               lastStepNextButton={<div style={{ display: 'none' }} />}

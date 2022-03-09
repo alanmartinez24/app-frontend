@@ -313,11 +313,11 @@ function ProfileCard (props) {
               >
                 {isLoggedIn ? (
                   <EditProfile
-                    accountInfo={accountInfo}
-                    className={classes.button}
-                    username={username}
                     size='small'
-                    variant='contained'
+                    color='secondary'
+                    variant='outlined'
+                    accountInfo={accountInfo}
+                    username={username}
                   />
                 ) : (
                   <FollowButton
@@ -457,7 +457,6 @@ function ProfileCard (props) {
                     className={classes.largeStat}
                     style={{
                       display: 'inline-block',
-                      // fontFamily: 'Gilroy',
                       color: socialLevelColor
                     }}
                     variant='caption'

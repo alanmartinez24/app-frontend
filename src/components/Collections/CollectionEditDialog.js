@@ -139,13 +139,14 @@ const CollectionEditDialog = ({ collection, classes, dialogOpen, handleDialogClo
             buttonText={deleteButtonText}
             isLoading={isLoadingDelete}
             variant='outlined'
+            color='secondary'
           />
           <LoaderButton onClick={handleEditCollection}
             fullWidth
             buttonText='Update'
             isLoading={isLoadingUpdate}
-            variant='contained'
-            color='primary'
+            variant='outlined'
+            color='secondary'
           />
         </DialogActions>
       </Dialog>

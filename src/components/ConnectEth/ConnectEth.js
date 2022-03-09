@@ -378,6 +378,7 @@ class ConnectEth extends Component {
                       fullWidth
                       size='large'
                       variant='outlined'
+                      color='secondary'
                       onClick={this.initWalletConnect}
                     >
                       <Typography
