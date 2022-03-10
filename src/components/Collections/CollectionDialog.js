@@ -157,7 +157,7 @@ const CollectionDialog = ({ postid, classes, dialogOpen, handleDialogClose, addC
             fullWidth
             buttonText='Create Collection'
             isLoading={isLoading}
-            variant='outlined'
+            variant='contained'
             color='secondary'
           />
         </DialogActions>

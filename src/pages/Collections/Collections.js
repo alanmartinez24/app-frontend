@@ -88,7 +88,7 @@ const styles = theme => ({
     width: '100vw',
     position: 'sticky',
     top: 0,
-    background: `linear-gradient(${theme.palette.alt.second} 100%, ${theme.palette.alt.second}dd 10%)`,
+    background: `linear-gradient(${theme.palette.M900} 100%, ${theme.palette.M900}dd 10%)`,
     borderRadius: '5px',
     zIndex: 1000,
     [theme.breakpoints.up('lg')]: {

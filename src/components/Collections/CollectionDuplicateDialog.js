@@ -156,7 +156,7 @@ const CollectionDuplicateDialog = ({ collection, classes, dialogOpen, handleDial
             fullWidth
             buttonText='Duplicate'
             isLoading={isLoading}
-            variant='outlined'
+            variant='contained'
             color='secondary'
           />
         </DialogActions>

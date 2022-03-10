@@ -608,12 +608,12 @@ class EditProfile extends Component {
             <DialogActions>
               <YupButton
                 onClick={this.handleDialogClose}
-                variant='outlined'
+                variant='contained'
                 color='secondary'
               >Cancel</YupButton>
               <YupButton
                 onClick={this.handleAccountInfoSubmit}
-                variant='outlined'
+                variant='contained'
                 color='secondary'
               >Update</YupButton>
             </DialogActions>

@@ -102,7 +102,7 @@ const CollectionReorderDialog = ({ collection, dialogOpen, handleDialogClose, ac
           fullWidth
           buttonText='Save'
           isLoading={isLoading}
-          variant='outlined'
+          variant='contained'
           color='secondary'
         />
       </DialogActions>

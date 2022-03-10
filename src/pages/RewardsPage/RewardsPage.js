@@ -40,7 +40,7 @@ const styles = theme => ({
     width: 380,
     marginBottom: 0,
     boxShadow:
-      `0px 0px 30px 0px ${theme.shadow.first}44, 0px 0px 0.75px  ${theme.shadow.first}66`,
+      `0px 0px 30px 0px ${theme.M900}44, 0px 0px 0.75px  ${theme.M900}66`,
     backgroundColor: theme.palette.M800,
     [theme.breakpoints.down('xs')]: {
       marginBottom: '20vh',

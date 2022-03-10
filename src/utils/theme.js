@@ -28,7 +28,12 @@ export const darkPalette = {
     P850: Colors.P850,
     P900: Colors.P900
   },
-  rainbowGradient: Gradients.rainbowGradient,
+  gradients: {
+    horizontal: Gradients.brand.horizontal,
+    vertical: Gradients.brand.vertical,
+    D225: Gradients.brand.D225,
+    D135: Gradients.brand.D135
+  },
   text: {
     primary: Colors.M50,
     secondary: Colors.M100
@@ -72,7 +77,12 @@ export const lightPalette = {
     P850: Colors.P100,
     P900: Colors.P50
   },
-  rainbowGradient: Gradients.rainbowGradient,
+  gradients: {
+    horizontal: Gradients.brand.horizontal,
+    vertical: Gradients.brand.vertical,
+    D225: Gradients.brand.D225,
+    D135: Gradients.brand.D135
+  },
   primary: {
     main: Colors.M850,
     gradient: Gradients.background.light
@@ -104,10 +114,10 @@ export const theme = ({ palette }) => {
       },
       MuiButton: {
         root: {
+          fontStyle: 'normal',
           borderRadius: '8px',
-          textTransform: 'capitalize',
           letterSpacing: '0.02em',
-          fontStyle: 'normal'
+          textTransform: 'capitalize'
         },
         containedPrimary: {
           border: 'none',
@@ -204,13 +214,16 @@ export const theme = ({ palette }) => {
           boxShadow: 'none',
           color: palette.M100,
           '&:hover': {
-            color: palette.M50
+            color: palette.M50,
+            backgroundColor: 'transparent'
           },
           '&:disabled': {
-            color: palette.M200
+            color: palette.M200,
+            backgroundColor: 'transparent'
           },
           '&:selected': {
-            color: palette.M100
+            color: palette.M100,
+            backgroundColor: 'transparent'
           }
         },
         sizeSmall: {
