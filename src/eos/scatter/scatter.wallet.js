@@ -51,7 +51,7 @@ class ScatterWallet {
       try {
         await axios.get(`${BACKEND_API}/accounts/${this.identity.name}`)
       } catch (e) {
-        if (e.response.data.statusCode === 404) {
+        if (e.response && e.response.data.statusCode === 404) {
           axios.post(`${BACKEND_API}/accounts/${this.identity.name}`)
         }
       }
