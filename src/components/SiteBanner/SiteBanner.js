@@ -11,10 +11,14 @@ const styles = theme => ({
     width: '100vw',
     textAlign: 'center',
     marginTop: -22,
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 10
+    },
+    justifyContent: 'center',
     maxHeight: 50
   },
   message: {
-    width: '95vw',
+    width: '100vw',
     position: 'absolute'
   },
   link: {
