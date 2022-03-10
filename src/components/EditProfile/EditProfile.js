@@ -649,7 +649,6 @@ EditProfile.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  userLevel: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired
 }
 
