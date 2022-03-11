@@ -8,7 +8,7 @@ import Tilt from 'react-tilt'
 import { Link } from 'react-router-dom'
 import '../../pages/Discover/discover.css'
 import axios from 'axios'
-import Colors from '../../utils/colors.js'
+import { Mono } from '../../utils/colors.js'
 import Img from 'react-image'
 import { accountInfoSelector } from '../../redux/selectors'
 import HomeMenuLinkItem from './HomeMenuLinkItem'
@@ -191,7 +191,7 @@ url('images/feeds/rainbowbanner.svg')`,
   titlePlain: {
     paddingBottom: `${theme.spacing(1)}px`,
     fontSize: `${theme.spacing(8)}px`,
-    color: Colors.W100,
+    color: theme.palette.M50,
     lineHeight: `${theme.spacing(8)}px`,
     textShadow: `0px 0px 40px ${theme.palette.M900}33`,
     [theme.breakpoints.down('xs')]: {
@@ -200,15 +200,7 @@ url('images/feeds/rainbowbanner.svg')`,
     }
   },
   subtitle: {
-    color: Colors.W100
-  },
-  primaryButton: {
-    backgroundColor: Colors.Green,
-    color: Colors.B2,
-    '&:hover': {
-      backgroundColor: Colors.Green,
-      boxShadow: `0px 0px 0px 2px ${Colors.Green}`
-    }
+    color: theme.palette.M50
   }
 })
 
@@ -433,7 +425,7 @@ class Home extends Component {
                                         <Grid item>
                                           <Typography
                                             variant='h5'
-                                            style={{ color: Colors.W2 }}
+                                            style={{ color: Mono.M50 }}
                                           >
                                             {item.title}
                                           </Typography>

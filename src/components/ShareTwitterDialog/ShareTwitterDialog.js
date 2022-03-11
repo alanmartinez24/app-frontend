@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { LoaderButton } from '../Miscellaneous'
 import { TwitterShareButton } from 'react-share'
-import Colors from '../../utils/colors'
+import { Brand } from '../../utils/colors'
 
 const styles = theme => ({
   dialog: {
@@ -15,7 +15,7 @@ const styles = theme => ({
     width: '100%'
   },
   loaderButton: {
-    background: Colors.Green
+    background: Brand.mint
   }
 })
 class ShareTwitterDialog extends Component {

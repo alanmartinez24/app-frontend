@@ -10,7 +10,7 @@ import axios from 'axios'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import { isSameDay } from 'date-fns'
 import UserAvatar from '../../components/UserAvatar/UserAvatar'
-import Colors, { levelColors } from '../../utils/colors'
+import { levelColors, Brand, Other } from '../../utils/colors'
 import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { connect } from 'react-redux'
@@ -601,10 +601,10 @@ class Analytics extends Component {
                     <DonutChart
                       chartData={platformDistribution}
                       colors={[
-                        Colors.Blue,
-                        Colors.Red,
-                        Colors.Orange,
-                        Colors.Green
+                        Other.blue,
+                        Brand.red,
+                        Brand.orange,
+                        Brand.mint
                       ]}
                       className={classes}
                       chartTitle='Platform Distribution'
@@ -619,10 +619,10 @@ class Analytics extends Component {
                       className={classes}
                       chartTitle='Categories Distribution'
                       colors={[
-                        Colors.Blue,
-                        Colors.Red,
-                        Colors.Orange,
-                        Colors.Green
+                        Other.blue,
+                        Brand.red,
+                        Brand.orange,
+                        Brand.mint
                       ]}
                     />
                   </Grid>

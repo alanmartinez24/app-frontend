@@ -5,7 +5,7 @@ import { Grid, Typography, Card, Snackbar, SnackbarContent } from '@material-ui/
 import { Skeleton } from '@material-ui/lab'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
-import Colors from '../../utils/colors'
+import { Brand, Other } from '../../utils/colors'
 import { YupInput, YupButton } from '../../components/Miscellaneous'
 import SubscribeDialog from '../../components/SubscribeDialog/SubscribeDialog'
 import axios from 'axios'
@@ -48,7 +48,7 @@ const styles = theme => ({
     }
   },
   Skeleton: {
-    background: `linear-gradient(90deg, ${Colors.Green}33, ${Colors.Moss}33, ${Colors.Yellow}33, ${Colors.Orange}33,  ${Colors.Red}33)`
+    background: `linear-gradient(90deg, ${Brand.mint}33, ${Other.moss}33, ${Brand.yellow}33, ${Brand.orange}33,  ${Brand.red}33)`
   }
 })
 

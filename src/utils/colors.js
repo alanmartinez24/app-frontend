@@ -29,6 +29,11 @@ export const Brand = {
   mint: '#00E08E'
 }
 
+export const Other = {
+  blue: '#3EBDC8',
+  moss: '#80B91C'
+}
+
 export const Warning = {
   W50: '#FFD1B3',
   W100: '#FFC29A',

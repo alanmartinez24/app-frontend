@@ -13,7 +13,7 @@ import rollbar from '../../utils/rollbar'
 import MetaTags from '../../components/Airdrop/MetaTags'
 import { isAddress } from 'web3-utils'
 import { TwitterShareButton } from 'react-share'
-import Colors from '../../utils/colors'
+import { Mono, Prime } from '../../utils/colors'
 
 const { WEB_APP_URL, BACKEND_API } = process.env
 
@@ -202,7 +202,7 @@ class AirdropPage extends Component {
                 >
                   <Grid item>
                     <Typography variant='h3'
-                      style={{ color: airdrop ? Colors.P500 : Colors.M900, textAlign: 'center' }}
+                      style={{ color: airdrop ? Prime.P500 : Mono.M900, textAlign: 'center' }}
                     >
                       <CountUp
                         end={airdrop && airdrop.amount}
@@ -229,7 +229,7 @@ class AirdropPage extends Component {
                         </Grid>
                         <Grid item>
                           <Typography variant='h3'
-                            style={{ color: lpAidrop ? Colors.P500 : Colors.M900, textAlign: 'center' }}
+                            style={{ color: lpAidrop ? Prime.P500 : Mono.M900, textAlign: 'center' }}
                           >
                             <CountUp
                               end={lpAidrop && lpAidrop.amount}

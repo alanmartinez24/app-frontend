@@ -9,7 +9,7 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import '../../components/Tour/tourstyles.css'
 import isEqual from 'lodash/isEqual'
 import { YupInput, YupButton } from '../../components/Miscellaneous'
-import Colors from '../../utils/colors'
+import { Brand, Other } from '../../utils/colors'
 import axios from 'axios'
 
 const BACKEND_API = process.env.BACKEND_API
@@ -41,7 +41,7 @@ const styles = theme => ({
     width: '300px',
     marginBottom: 0,
     boxShadow:
-      `0px 0px 30px 0px ${theme.shadow.first}44, 0px 0px 0.75px  ${theme.shadow.first}66`,
+      `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
     backgroundColor: theme.palette.M800,
     [theme.breakpoints.down('xs')]: {
       marginBottom: '20vh',
@@ -49,7 +49,7 @@ const styles = theme => ({
     }
   },
   Skeleton: {
-    background: `linear-gradient(90deg, ${Colors.Green}33, ${Colors.Moss}33, ${Colors.Yellow}33, ${Colors.Orange}33,  ${Colors.Red}33)`
+    background: `linear-gradient(90deg, ${Brand.mint}33, ${Other.moss}33, ${Brand.yellow}33, ${Brand.orange}33,  ${Brand.red}33)`
   }
 })
 
@@ -105,7 +105,7 @@ class ScorePage extends Component {
     const username = user.twitterUsername
     const YupScore = Math.round(user.score)
     console.log(user)
-    const socialLevelColor = YupScore >= 80 && YupScore <= 1000 ? Colors.Green : YupScore >= 60 && YupScore <= 80 ? Colors.Moss : YupScore >= 40 && YupScore <= 60 ? Colors.Yellow : YupScore >= 20 && YupScore <= 40 ? Colors.Orange : Colors.Red
+    const socialLevelColor = YupScore >= 80 && YupScore <= 1000 ? Brand.mint : YupScore >= 60 && YupScore <= 80 ? Other.moss : YupScore >= 40 && YupScore <= 60 ? Brand.yellow : YupScore >= 20 && YupScore <= 40 ? Brand.orange : Brand.red
 
     return (
       <ErrorBoundary>
