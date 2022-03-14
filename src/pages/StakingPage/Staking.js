@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles, useTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent, InputAdornment } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
@@ -17,7 +17,7 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL, SUBGRAPH_API } = process.env
 const POLY_BACKUP_RPC_URLS = POLY_BACKUP_RPC_URL.split(',')
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
@@ -37,7 +37,6 @@ const styles = theme => ({
     color: theme.palette.alt.second
   },
   page: {
-    width: '100%',
     marginLeft: 0,
     overflowX: 'hidden'
   },
@@ -86,6 +85,7 @@ const StakingPage = ({ classes, account }) => {
   const [retryCount, setRetryCount] = useState(-1) // switch RPC URLs on timeout/fail
 
   const [contracts, setContracts] = useState(null)
+  const [earnings, setEarnings] = useState(null)
   const [address, setAddress] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [provider, setProvider] = useState(null)
@@ -102,7 +102,7 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeMax = () => setEthStakeInput(toBaseNum(!activeEthTab ? ethLpBal : currentStakeEth))
   const handlePolyStakeMax = () => setPolyStakeInput(toBaseNum(!activePolyTab ? polyLpBal : currentStakePoly))
-
+console.log(earnings, 'Earnings')
   useEffect(() => {
     localStorage.removeItem('walletconnect')
     handleSnackbarOpen('Connect your wallet to see your balance and perform staking actions.')
@@ -115,9 +115,11 @@ const StakingPage = ({ classes, account }) => {
   }, [provider])
 
   useEffect(() => {
+    console.log(address, contracts)
     if (!contracts || !address) { return }
-    getBalances()
-  }, [contracts])
+    console.log('GETTTTINGIGNIGNGINGINIGNGIGNIGNGIN')
+    getTotalRewards(address)
+  }, [contracts, address])
 
   const getContracts = async () => {
     try {
@@ -128,6 +130,25 @@ const StakingPage = ({ classes, account }) => {
       const polyLpToken = new web3Provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
       const ethLpToken = new web3Provider.eth.Contract(YUPETH_ABI, ETH_UNI_LP_TOKEN)
       setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
+    } catch (err) {
+      handleSnackbarOpen('An error occured. Try again later.')
+      console.log('ERR getting token contracts', err)
+    }
+  }
+
+  const getTotalRewards = async (address) => {
+    try {
+      console.log('totalRewards')
+      const totalRewards = (await axios.post(`${SUBGRAPH_API}`, {
+        query: `{
+          balances(where: {id: "${address}"}) {
+            id
+            address
+            count
+          }
+        }`
+      })).data
+    setEarnings({ ...totalRewards?.data?.balances[0] })
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
@@ -147,6 +168,7 @@ const StakingPage = ({ classes, account }) => {
 
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
+      console.log('BALALALALLALALANCES')
       const acct = addressParam || address
       const polyBal = await contracts.polyLpToken.methods.balanceOf(acct).call({ from: acct })
       const polyStake = await contracts.polyLiquidity.methods.balanceOf(acct).call({ from: acct })
@@ -219,7 +241,7 @@ const StakingPage = ({ classes, account }) => {
 
   const toBaseNum = (num) => num / Math.pow(10, 18)
   const toGwei = (num) => num * Math.pow(10, 18)
-  const formatDecimals = (num) => Number(Number(num).toFixed(3))
+  const formatDecimals = (num) => Number(Number(num).toFixed(5))
 
   const isInvalidStakeAmt = (amt) => {
     const stakeAmt = Number(amt)
@@ -461,20 +483,28 @@ const StakingPage = ({ classes, account }) => {
               </Grid>
             </Grid>
 
-            <Grid item>
-              <Grid
-                container
-                direction='row'
-                justify='space-between'
-                alignItems='start'
-                spacing={5}
+            <Grid
+              container
+              direction='row'
+              justify='center'
+              alignItems='center'
+              spacing={6}
+            >
+              <Grid item
+                xs={12}
               >
-                <Grid item
-                  xs={12}
-                  md={6}
+                <Grid
+                  container
+                  direction='row'
+                  justify='start'
+                  alignItems='center'
+                  spacing={5}
                 >
                   <Grid
                     container
+                    item
+                    xs={12}
+                    md={6}
                     direction='row'
                     spacing={4}
                   >
@@ -633,14 +663,12 @@ const StakingPage = ({ classes, account }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid item
-                  xs={12}
-                  md={6}
-                >
                   <Grid
                     container
+                    item
+                    xs={12}
+                    md={6}
                     direction='row'
                     spacing={4}
                   >
@@ -798,15 +826,20 @@ const StakingPage = ({ classes, account }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item
-                  xs={12}
+              </Grid>
+              <Grid item>
+                <Grid
+                  container
+                  direction='column'
+                  justify='center'
+                  alignItems='center'
+                  spacing={3}
                 >
-                  <Grid
+                  <Grid item
                     container
-                    direction='column'
-                    spacing={4}
-                    justifyContent='center'
+                    justify='space-between'
                     alignItems='center'
+                    spacing={5}
                   >
                     <Grid item>
                       <Typography variant='h5'>
@@ -814,77 +847,79 @@ const StakingPage = ({ classes, account }) => {
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Grid
-                        container
-                        direction='column'
-                        spacing={2}
-                      >
-                        <Grid item>
-                          <Grid
-                            spacing={5}
-                            container
-                          >
-
-                            <Grid item
-                              xs={12}
-                            >
-                              <Grid
-                                container
-                                direction='column'
-                                spacing={2}
-                              >
-                                <Grid item>
-                                  <Grid
-                                    container
-                                    direction='row'
-                                    spacing={1}
-                                  >
-                                    <Grid item
-                                      xs
-                                    >
-                                      <Grid
-                                        container
-                                        justify='space-between'
-                                      >
-                                        <YupInput
-                                          fullWidth
-                                          id='stake-amount'
-                                          maxLength='10'
-                                          type='number'
-                                          variant='outlined'
-                                          size='small'
-                                          disabled
-                                          value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
-                                          startAdornment={
-                                            <InputAdornment position='start'>
-                                              <img src='public/images/logos/logo_g.svg' />
-                                            </InputAdornment>
-                                            }
-                                        />
-                                      </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                      <Button size='large'
-                                        variant='contained'
-                                        className={classes.submitBtn}
-                                      >
-                                        <Typography variant='body1'
-                                          className={classes.submitBtnTxt}
-                                          onClick={collectRewards}
-                                        >
-                                          {address ? 'Collect' : 'Connect'}
-                                        </Typography>
-                                      </Button>
-                                    </Grid>
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                      <Typography variant='body2'>
+                        What’s this?
+                      </Typography>
                     </Grid>
                   </Grid>
+                  <Grid item
+                    container
+                    justify='center'
+                    alignItems='center'
+                    spacing={2}
+                  >
+                    <Grid item>
+                      <Typography variant='h3'>
+                        {formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))} YUP
+                      </Typography>
+                      {/* <YupInput
+                                      fullWidth
+                                      id='stake-amount'
+                                      maxLength='10'
+                                      type='number'
+                                      variant='outlined'
+                                      size='small'
+                                      disabled
+                                      value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
+                                      startAdornment={
+                                        <InputAdornment position='start'>
+                                          <img src='public/images/logos/logo_g.svg' />
+                                        </InputAdornment>
+                                            }
+                                          /> */}
+                    </Grid>
+                    <Grid item>
+                      <Button size='large'
+                        variant='contained'
+                        className={classes.submitBtn}
+                      >
+                        <Typography variant='body1'
+                          className={classes.submitBtnTxt}
+                          onClick={collectRewards}
+                        >
+                          {address ? 'Collect' : 'Connect'}
+                        </Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  {earnings && earnings.count && (
+                  <Grid item
+                    container
+                    justify='center'
+                    alignItems='center'
+                    spacing={2}
+                  >
+                    <Grid item>
+                      <Typography variant='subtitle2'>
+                        {formatDecimals(toBaseNum(earnings.count))} YUP Earned in Total
+                      </Typography>
+                      {/* <YupInput
+                                      fullWidth
+                                      id='stake-amount'
+                                      maxLength='10'
+                                      type='number'
+                                      variant='outlined'
+                                      size='small'
+                                      disabled
+                                      value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
+                                      startAdornment={
+                                        <InputAdornment position='start'>
+                                          <img src='public/images/logos/logo_g.svg' />
+                                        </InputAdornment>
+                                            }
+                                          /> */}
+                    </Grid>
+                  </Grid>)}
                 </Grid>
               </Grid>
             </Grid>
