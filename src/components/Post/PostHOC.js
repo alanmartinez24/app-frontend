@@ -71,7 +71,6 @@ const styles = theme => ({
 class PostHOC extends PureComponent {
   componentDidMount () {
     this.loadPostData()
-    console.log(styles)
   }
 
   loadPostData () {

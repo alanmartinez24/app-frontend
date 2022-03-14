@@ -498,72 +498,77 @@ export const theme = ({ palette }) => {
       fontStyle: 'normal',
       h1: {
         fontWeight: 600,
-        fontSize: '3.815rem',
-        lineHeight: '100%',
+        fontSize: '4.5rem',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       h2: {
         fontWeight: 700,
-        fontSize: '3.052rem',
-        lineHeight: '100%',
+        fontSize: '3.4375rem',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       h3: {
         fontWeight: 600,
-        fontSize: '2.441rem',
-        lineHeight: '100%',
+        fontSize: '2.75rem',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       h4: {
         fontWeight: 400,
-        fontSize: '1.953rem',
-        lineHeight: '100%',
+        fontSize: '2.125rem',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       h5: {
         fontWeight: 700,
-        fontSize: '1.562rem',
-        lineHeight: '105%',
+        fontSize: '1.5rem',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       h6: {
         fontWeight: 600,
-        fontSize: '1.339rem',
-        lineHeight: '105%',
+        fontSize: '1.25rem',
+        lineHeight: '125%',
         color: `${palette.M50}EE`
       },
       subtitle1: {
-        fontWeight: 400,
+        fontWeight: 500,
         fontSize: '1.25rem',
-        lineHeight: '100%',
+        lineHeight: '125%',
         color: `${palette.M50}DD`
       },
       subtitle2: {
-        fontWeight: 700,
+        fontWeight: 600,
         fontSize: '1rem',
-        lineHeight: '100%',
+        lineHeight: '135%',
         color: `${palette.M50}DD`
       },
       body1: {
-        fontWeight: 800,
-        fontSize: '0.875rem',
-        lineHeight: '110%',
+        fontWeight: 600,
+        fontSize: '0.9375rem',
+        lineHeight: '135%',
         color: `${palette.M50}EE`
       },
       body2: {
         fontWeight: 400,
-        fontSize: '0.875rem',
-        lineHeight: '110%',
+        fontSize: '0.9375rem',
+        lineHeight: '135%',
         color: `${palette.M50}DE`
       },
       caption: {
-        fontStyle: '600',
+        fontStyle: 600,
         fontSize: '1rem',
         color: `${palette.M50}DE`
       },
       tooltip: {
-        fontSize: '0.75rem',
-        fontWeight: '200'
+        fontWeight: 200,
+        fontSize: '0.75rem'
+      },
+      label: {
+        fontWeight: 700,
+        fontSize: '0.8rem',
+        lineHeight: '135%'
       },
       colorError: {
         color: '#EB3650'

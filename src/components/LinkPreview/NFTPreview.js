@@ -295,7 +295,7 @@ class NFTPreview extends Component {
                         />
                       </Grid>
                       <Grid item>
-                        <Typography variant='h6'
+                        <Typography variant='subtitle2'
                           className={classes.title}
                         >
                           <LinesEllipsis

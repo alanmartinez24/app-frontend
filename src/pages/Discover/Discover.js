@@ -44,6 +44,9 @@ const styles = theme => ({
     },
     flex: 1
   },
+  feedTitle: {
+    backgroundColor: 'transparent'
+  },
   sideFeed: {
     position: 'fixed',
     marginLeft: '38vw',
@@ -150,7 +153,7 @@ function FeedContainer ({ classes, feed, headerWidth, query, isMinimize }) {
   return (
     <ErrorBoundary>
       <div id='feedTitleContainer'
-        className={classes.feed}
+        className={classes.feedTitle}
       >
         <Helmet>
           <meta charSet='utf-8' />
