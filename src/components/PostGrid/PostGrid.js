@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import VoteComp from '../VoteComp/VoteComp'
-import Typography from '@material-ui/core/Typography'
+import { YupButton } from '../Miscellaneous'
 import { levelColors } from '../../utils/colors'
-import { withStyles } from '@material-ui/core/styles'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { CollectionPostMenu } from '../Collections'
+import { Icon, withStyles, Typography, Grid } from '@material-ui/core'
 
 const voteCompPadding = window.innerWidth >= 440 ? '0 0 3vh 3vh' : '0 0 3vh 1vh'
 const styles = theme => ({
@@ -63,6 +63,17 @@ function PostGrid ({ account,
             listType={listType}
             postType={postType}
           />
+          <YupButton size='small'
+            variant='outlined'
+            color='secondary'
+            startIcon={<Icon className='far fa-rectangle-history' />}
+          >
+            <Typography
+              variant='body2'
+            >
+              Collect
+            </Typography>
+          </YupButton>
           <CollectionPostMenu
             accountName={account && account.name}
             postid={postid}
