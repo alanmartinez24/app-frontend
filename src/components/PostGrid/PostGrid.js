@@ -52,28 +52,37 @@ function PostGrid ({ account,
         <div className={`${classes.voteComp} ${listStyle}`}
           tourname='Rating'
         >
-          <VoteComp
-            caption={caption}
-            account={account}
-            postid={postid}
-            quantiles={quantiles}
-            rating={rating}
-            weights={weights}
-            categories={categories}
-            listType={listType}
-            postType={postType}
-          />
-          <YupButton size='small'
-            variant='outlined'
-            color='secondary'
-            startIcon={<Icon className='far fa-rectangle-history' />}
+          <Grid container
+            direction='row'
+            justifyContent='space-between'
           >
-            <Typography
-              variant='body2'
-            >
-              Collect
-            </Typography>
-          </YupButton>
+            <Grid item>
+              <VoteComp
+                caption={caption}
+                account={account}
+                postid={postid}
+                quantiles={quantiles}
+                rating={rating}
+                weights={weights}
+                categories={categories}
+                listType={listType}
+                postType={postType}
+              />
+            </Grid>
+            <Grid item>
+              <YupButton size='small'
+                variant='outlined'
+                color='secondary'
+                startIcon={<Icon className='far fa-rectangle-history' />}
+              >
+                <Typography
+                  variant='body2'
+                >
+                  Collect
+                </Typography>
+              </YupButton>
+            </Grid>
+          </Grid>
           <CollectionPostMenu
             accountName={account && account.name}
             postid={postid}

@@ -240,6 +240,7 @@ export const theme = ({ palette }) => {
           color: palette.M100,
           backgroundColor: palette.M700,
           '&:hover': {
+            border: 'none',
             boxShadow: `0 0 0 2px ${palette.M600}`,
             color: palette.M50,
             backgroundColor: palette.M600
