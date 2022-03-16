@@ -364,19 +364,29 @@ export const theme = ({ palette }) => {
       MuiOutlinedInput: {
         root: {
           borderRadius: '0.625rem',
-          color: palette.M100
+          color: palette.M300,
+          BorderColor: palette.M300,
+          '&focused': {
+            BorderColor: palette.M100,
+            outline: 'none'
+          }
         },
-        notchedOutline: {
-          borderColor: palette.M500,
-          color: palette.M100
-        },
+        // notchedOutline: {
+        //   borderColor: palette.M500,
+        //   color: palette.M100
+        // },
         input: {
           padding: '10px 14px'
         }
       },
       MuiTextField: {
         root: {
-          color: palette.M100
+          color: palette.M300,
+          BorderColor: palette.M300,
+          '&focused': {
+            BorderColor: palette.M100,
+            outline: 'none'
+          }
         }
       },
       MuiSelect: {

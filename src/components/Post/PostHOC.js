@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Comments from '../Comments/Comments'
 import PostGrid from '../PostGrid/PostGrid'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
@@ -128,7 +127,6 @@ class PostHOC extends PureComponent {
                   postType={postType}
                   rating={rating}
                 />
-                <Comments postid={postid} />
               </Typography>
               <Divider
                 className={classes.divider}
