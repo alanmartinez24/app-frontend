@@ -592,6 +592,11 @@ export const theme = ({ palette }) => {
       }
     },
     custom: {
+      page: {
+        width: '100vw',
+        backgroundSize: 'contain',
+        overflowX: 'hidden'
+      },
       pageHeader: {
         width: '100vw',
         position: 'sticky',
@@ -636,10 +641,12 @@ export const theme = ({ palette }) => {
   }
 }
 
-const breakpoints = createBreakpoints({ values: {
-    xs: 600,
-    sm: 900,
-    md: 1200,
-    lg: 1488,
-    xl: 1864
-  } })
+const breakpoints = createBreakpoints({})
+
+// const breakpoints = createBreakpoints({ values: {
+//     xs: 600,
+//     sm: 900,
+//     md: 1200,
+//     lg: 1488,
+//     xl: 1864
+//   } })

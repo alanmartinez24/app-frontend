@@ -79,11 +79,11 @@ const styles = theme => ({
   Mask: {
     outline: 'solid 0px #FAFAFA44'
   },
-  page: {
-    width: '100vw',
-    backgroundSize: 'contain',
-    overflowX: 'hidden'
-  },
+  // page: {
+  //   width: '100vw',
+  //   backgroundSize: 'contain',
+  //   overflowX: 'hidden'
+  // },
   // pageHeader: {
   //   width: '100vw',
   //   position: 'sticky',
@@ -395,7 +395,7 @@ class Collections extends Component {
           <div className={classes.container}>
             <Grid container
               direction='column'
-              className={classes.page}
+              className={theme.custom.page}
             >
               <Grid
                 container
@@ -556,10 +556,11 @@ class Collections extends Component {
         >
           <Grid container
             direction='row'
-            className={classes.page}
+            className={theme.custom.page}
           >
             <Grid item
-              className={theme.custom.pageHeader}
+              // className={classes.pageHeader}
+              style={theme.custom.pageHeader}
             >
               <Grid
                 container
@@ -707,7 +708,8 @@ class Collections extends Component {
                 justify='flex-start'
                 alignItems='flex-start'
                 spacing={showTabs ? 2 : 6}
-                className={theme.custom.pageBody}
+                // className={classes.pageBody}
+                style={theme.custom.pageBody}
               >
                 {showTabs ? (
                   <>
