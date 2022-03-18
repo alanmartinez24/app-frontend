@@ -1,4 +1,5 @@
 import { Gradients, Warning, Error, Mono, Prime } from './colors'
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints'
 
 export const darkPalette = {
   palette: {
@@ -590,14 +591,55 @@ export const theme = ({ palette }) => {
         initialWidth: 'lg'
       }
     },
-    breakpoints: {
-      values: {
-        xs: 600,
-        sm: 900,
-        md: 1200,
-        lg: 1488,
-        xl: 1864
+    custom: {
+      pageHeader: {
+        width: '100vw',
+        position: 'sticky',
+        top: 0,
+        background: `linear-gradient(${palette.M900} 100%, ${palette.M900}dd 10%)`,
+        borderRadius: '5px',
+        zIndex: 1000,
+        [breakpoints.up('lg')]: {
+          padding: '80px calc((100vw - 1200px)/2) 12px'
+        },
+        [breakpoints.down('lg')]: {
+          padding: '80px calc((100vw - 1000px)/2) 12px'
+        },
+        [breakpoints.down('md')]: {
+          padding: '80px calc((100vw - 800px)/2) 12px'
+        },
+        [breakpoints.down('sm')]: {
+          padding: '60px calc((100vw - 550px)/2) 12px'
+        },
+        [breakpoints.down('xs')]: {
+          padding: '60px 8px 12px'
+        }
+      },
+        pageBody: {
+        [breakpoints.up('lg')]: {
+          padding: '0px calc((100vw - 1200px)/2)'
+        },
+        [breakpoints.down('lg')]: {
+          padding: '0px calc((100vw - 1000px)/2)'
+        },
+        [breakpoints.down('md')]: {
+          padding: '0px calc((100vw - 800px)/2)'
+        },
+        [breakpoints.down('sm')]: {
+          padding: '0px calc((100vw - 550px)/2)'
+        },
+        [breakpoints.down('xs')]: {
+          padding: 'inherit'
+        }
       }
     }
   }
 }
+
+const breakpoints = createBreakpoints({ values: {
+    xs: 600,
+    sm: 900,
+    md: 1200,
+    lg: 1488,
+    xl: 1864
+  } })

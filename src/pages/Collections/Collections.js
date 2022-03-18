@@ -84,46 +84,46 @@ const styles = theme => ({
     backgroundSize: 'contain',
     overflowX: 'hidden'
   },
-  pageHeader: {
-    width: '100vw',
-    position: 'sticky',
-    top: 0,
-    background: `linear-gradient(${theme.palette.M900} 100%, ${theme.palette.M900}dd 10%)`,
-    borderRadius: '5px',
-    zIndex: 1000,
-    [theme.breakpoints.up('lg')]: {
-      padding: '80px calc((100vw - 1200px)/2) 12px'
-    },
-    [theme.breakpoints.down('lg')]: {
-      padding: '80px calc((100vw - 1000px)/2) 12px'
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '80px calc((100vw - 800px)/2) 12px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '60px calc((100vw - 550px)/2) 12px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding: '60px 8px 12px'
-    }
-  },
-  pageBody: {
-    [theme.breakpoints.up('lg')]: {
-      padding: '0px calc((100vw - 1200px)/2)'
-    },
-    [theme.breakpoints.down('lg')]: {
-      padding: '0px calc((100vw - 1000px)/2)'
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '0px calc((100vw - 800px)/2)'
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '0px calc((100vw - 550px)/2)'
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding: 'inherit'
-    }
-  },
+  // pageHeader: {
+  //   width: '100vw',
+  //   position: 'sticky',
+  //   top: 0,
+  //   background: `linear-gradient(${theme.palette.M900} 100%, ${theme.palette.M900}dd 10%)`,
+  //   borderRadius: '5px',
+  //   zIndex: 1000,
+  //   [theme.breakpoints.up('lg')]: {
+  //     padding: '80px calc((100vw - 1200px)/2) 12px'
+  //   },
+  //   [theme.breakpoints.down('lg')]: {
+  //     padding: '80px calc((100vw - 1000px)/2) 12px'
+  //   },
+  //   [theme.breakpoints.down('md')]: {
+  //     padding: '80px calc((100vw - 800px)/2) 12px'
+  //   },
+  //   [theme.breakpoints.down('sm')]: {
+  //     padding: '60px calc((100vw - 550px)/2) 12px'
+  //   },
+  //   [theme.breakpoints.down('xs')]: {
+  //     padding: '60px 8px 12px'
+  //   }
+  // },
+  // pageBody: {
+  //   [theme.breakpoints.up('lg')]: {
+  //     padding: '0px calc((100vw - 1200px)/2)'
+  //   },
+  //   [theme.breakpoints.down('lg')]: {
+  //     padding: '0px calc((100vw - 1000px)/2)'
+  //   },
+  //   [theme.breakpoints.down('md')]: {
+  //     padding: '0px calc((100vw - 800px)/2)'
+  //   },
+  //   [theme.breakpoints.down('sm')]: {
+  //     padding: '0px calc((100vw - 550px)/2)'
+  //   },
+  //   [theme.breakpoints.down('xs')]: {
+  //     padding: 'inherit'
+  //   }
+  // },
   Skeleton: {
     background: theme.palette.M600,
      margin: '20px 0 ',
@@ -559,7 +559,7 @@ class Collections extends Component {
             className={classes.page}
           >
             <Grid item
-              className={classes.pageHeader}
+              className={theme.custom.pageHeader}
             >
               <Grid
                 container
@@ -707,7 +707,7 @@ class Collections extends Component {
                 justify='flex-start'
                 alignItems='flex-start'
                 spacing={showTabs ? 2 : 6}
-                className={classes.pageBody}
+                className={theme.custom.pageBody}
               >
                 {showTabs ? (
                   <>
