@@ -371,10 +371,10 @@ export const theme = ({ palette }) => {
             outline: 'none'
           }
         },
-        // notchedOutline: {
-        //   borderColor: palette.M500,
-        //   color: palette.M100
-        // },
+        notchedOutline: {
+          borderColor: palette.M500,
+          color: palette.M100
+        },
         input: {
           padding: '10px 14px'
         }
@@ -588,6 +588,15 @@ export const theme = ({ palette }) => {
     props: {
       MuiWithWidth: {
         initialWidth: 'lg'
+      }
+    },
+    breakpoints: {
+      values: {
+        xs: 600,
+        sm: 900,
+        md: 1200,
+        lg: 1488,
+        xl: 1864
       }
     }
   }

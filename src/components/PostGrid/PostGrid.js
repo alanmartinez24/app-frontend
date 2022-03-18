@@ -45,63 +45,65 @@ function PostGrid ({ account,
 }) {
     const rankQuantile = quantiles[rankCategory]
     const rankQuantileColor = rank ? levelColors[rankQuantile] : null
-    const listStyle = isList ? `${classes.listVoteComp}` : ''
+    // const listStyle = isList ? `${classes.listVoteComp}` : ''
 
     return (
       <ErrorBoundary>
-        <div className={`${classes.voteComp} ${listStyle}`}
-          tourname='Rating'
+        <Grid container
+          direction='row'
+          justifyContent='space-between'
         >
-          <Grid container
-            direction='row'
-            justifyContent='space-between'
+          <Grid item
+            tourname='Rating'
           >
-            <Grid item>
-              <VoteComp
-                caption={caption}
-                account={account}
-                postid={postid}
-                quantiles={quantiles}
-                rating={rating}
-                weights={weights}
-                categories={categories}
-                listType={listType}
-                postType={postType}
-              />
-            </Grid>
-            <Grid item>
-              <YupButton size='small'
-                variant='outlined'
-                color='secondary'
-                startIcon={<Icon className='far fa-rectangle-history' />}
-              >
-                <Typography
-                  variant='body2'
-                >
-                  Collect
-                </Typography>
-              </YupButton>
-            </Grid>
+            {/* <div className={`${classes.voteComp} ${listStyle}`}
+              tourname='Rating'
+            > */}
+            <VoteComp
+              caption={caption}
+              account={account}
+              postid={postid}
+              quantiles={quantiles}
+              rating={rating}
+              weights={weights}
+              categories={categories}
+              listType={listType}
+              postType={postType}
+            />
+            {/* </div> */}
           </Grid>
-          <CollectionPostMenu
-            accountName={account && account.name}
-            postid={postid}
-          />
-          {
-          rank
-          ? <Typography style={{
-            background: '#1A1A1A40',
-            borderRadius: '100%',
-            minWidth: '1rem',
-            padding: '0.5rem',
-            fontFamily: 'Gilroy',
-            color: rankQuantileColor,
-            fontWeight: '400',
-            fontSize: '14px' }}
-            > {`#${rank}`} </Typography>
-          : null
-        }
-        </div>
+          <Grid item>
+            <YupButton size='small'
+              variant='outlined'
+              color='secondary'
+              startIcon={<Icon className='far fa-rectangle-history' />}
+            >
+              <Typography
+                variant='body2'
+              >
+                Collect
+              </Typography>
+            </YupButton>
+          </Grid>
+        </Grid>
+        <CollectionPostMenu
+          accountName={account && account.name}
+          postid={postid}
+        />
+        {
+        rank
+        ? <Typography style={{
+          background: '#1A1A1A40',
+          borderRadius: '100%',
+          minWidth: '1rem',
+          padding: '0.5rem',
+          fontFamily: 'Gilroy',
+          color: rankQuantileColor,
+          fontWeight: '400',
+          fontSize: '14px' }}
+          > {`#${rank}`} </Typography>
+        : null
+      }
       </ErrorBoundary>
     )
 }
