@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, Chip, Icon } from '@material-ui/core'
@@ -245,8 +245,9 @@ function ProfileCard (props) {
 
   const avatar = levelInfo && levelInfo.avatar
   const twitterName = accountInfo && accountInfo.twitterInfo && accountInfo.twitterInfo.username
-  const ethAddress = accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
-
+  const [ethAddress, setEth] = useState(
+    accountInfo ? accountInfo.ethInfo ? accountInfo.ethInfo.address : '' : ''
+  )
   const logo = lightMode ? '/images/logos/logo_outline_b.svg' : '/images/logos/logo_outline_w.svg'
   return (
     <ErrorBoundary>
@@ -318,6 +319,7 @@ function ProfileCard (props) {
                     username={username}
                     size='small'
                     variant='contained'
+                    setEth={setEth}
                   />
                 ) : (
                   <FollowButton
