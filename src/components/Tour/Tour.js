@@ -65,7 +65,7 @@ class Tour extends Component {
           </Fab>
         </div>
       </ErrorBoundary>
-  )
+    )
 }
 }
 

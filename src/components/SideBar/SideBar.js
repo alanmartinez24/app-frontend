@@ -248,7 +248,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
     setIsShown(isTourOpen)
   }, [isTourOpen])
 
-  function handleDrawerOpen () {
+  const handleDrawerOpen = () => {
     setIsShown(true)
     setOpen(true)
   }
@@ -283,7 +283,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
     }
   }
 
-  function handleLogout () {
+  const handleLogout = () => {
     localStorage.removeItem('twitterMirrorInfo')
     localStorage.removeItem('YUP_ETH_AUTH')
     setAccount(null)

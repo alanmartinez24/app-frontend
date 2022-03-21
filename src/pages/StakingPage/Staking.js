@@ -22,6 +22,10 @@ const POLY_BACKUP_RPC_URLS = POLY_BACKUP_RPC_URL.split(',')
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
 
+const toBaseNum = (num) => num / Math.pow(10, 18)
+const toGwei = (num) => num * Math.pow(10, 18)
+const formatDecimals = (num) => Number(Number(num).toFixed(5))
+
 const styles = theme => ({
   container: {
     minHeight: '100vh',
@@ -58,6 +62,12 @@ const styles = theme => ({
     padding: 20,
     background: theme.palette.alt.second,
     border: `1px solid ${theme.palette.alt.fifth}`
+  },
+  counterSizeFixed: {
+    width: '320px',
+    [theme.breakpoints.down('xs')]: {
+      width: '250px'
+    }
   }
 })
 
@@ -86,12 +96,14 @@ const StakingPage = ({ classes, account }) => {
 
   const [contracts, setContracts] = useState(null)
   const [earnings, setEarnings] = useState(null)
+  const [predictedRewardRate, setPredictedRewardRate] = useState(null)
+  const [predictedRewards, setPredictedRewards] = useState({ prev: 0, new: 0 })
+
   const [address, setAddress] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [provider, setProvider] = useState(null)
   const [connector, setConnector] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
   const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
@@ -102,7 +114,6 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeMax = () => setEthStakeInput(toBaseNum(!activeEthTab ? ethLpBal : currentStakeEth))
   const handlePolyStakeMax = () => setPolyStakeInput(toBaseNum(!activePolyTab ? polyLpBal : currentStakePoly))
-console.log(earnings, 'Earnings')
   useEffect(() => {
     localStorage.removeItem('walletconnect')
     handleSnackbarOpen('Connect your wallet to see your balance and perform staking actions.')
@@ -117,9 +128,27 @@ console.log(earnings, 'Earnings')
   useEffect(() => {
     console.log(address, contracts)
     if (!contracts || !address) { return }
-    console.log('GETTTTINGIGNIGNGINGINIGNGIGNIGNGIN')
     getTotalRewards(address)
   }, [contracts, address])
+
+  useEffect(() => {
+    console.log(address, contracts)
+    if (!ethLpBal || !polyLpBal) { return }
+    getPredictedRewardRate(address)
+  }, [ethLpBal, polyLpBal])
+
+  useEffect(() => {
+    if (!predictedRewardRate) { return }
+    updateRewardStream()
+  }, [predictedRewardRate])
+
+  const updateRewardStream = async () => {
+    setTimeout(() => {
+      setPredictedRewards((prevState) => ({ prev: prevState.new,
+        new: prevState.new + predictedRewardRate }))
+      updateRewardStream()
+    }, 1000)
+  }
 
   const getContracts = async () => {
     try {
@@ -138,7 +167,6 @@ console.log(earnings, 'Earnings')
 
   const getTotalRewards = async (address) => {
     try {
-      console.log('totalRewards')
       const totalRewards = (await axios.post(`${SUBGRAPH_API}`, {
         query: `{
           balances(where: {id: "${address}"}) {
@@ -148,7 +176,9 @@ console.log(earnings, 'Earnings')
           }
         }`
       })).data
-    setEarnings({ ...totalRewards?.data?.balances[0] })
+      if (totalRewards && totalRewards.data && totalRewards.data.balances) {
+        setEarnings({ ...totalRewards.data.balances[0] })
+      }
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
@@ -168,7 +198,6 @@ console.log(earnings, 'Earnings')
 
   const getBalances = async (addressParam = null) => { // pass in address from child comp if function called from ConnectEth comp
     try {
-      console.log('BALALALALLALALANCES')
       const acct = addressParam || address
       const polyBal = await contracts.polyLpToken.methods.balanceOf(acct).call({ from: acct })
       const polyStake = await contracts.polyLiquidity.methods.balanceOf(acct).call({ from: acct })
@@ -182,6 +211,21 @@ console.log(earnings, 'Earnings')
       setCurrentStakeEth(ethStake)
       setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
+    } catch (err) {
+      incrementRetryCount()
+      handleSnackbarOpen('There was a problem fetching your balances, try again.')
+      console.log('ERR getting balances', err)
+    }
+  }
+  const getPredictedRewardRate = async (address) => {
+    try {
+      const polyBal = await contracts.polyLpToken.methods.balanceOf(POLY_LIQUIDITY_REWARDS).call()
+      const ethBal = await contracts.ethLpToken.methods.balanceOf(ETH_LIQUIDITY_REWARDS).call()
+      const polyRR = await contracts.polyLiquidity.methods.rewardRate().call()
+      const ethRR = await contracts.ethLiquidity.methods.rewardRate().call()
+      const ethPredictedRR = toBaseNum(currentStakeEth) * toBaseNum(ethRR) / toBaseNum(ethBal)
+      const polyPredictedRR = toBaseNum(currentStakePoly) * toBaseNum(polyRR) / toBaseNum(polyBal)
+      setPredictedRewardRate(ethPredictedRR + polyPredictedRR)
     } catch (err) {
       incrementRetryCount()
       handleSnackbarOpen('There was a problem fetching your balances, try again.')
@@ -238,10 +282,6 @@ console.log(earnings, 'Earnings')
     }
     setIsLoading(false)
   }
-
-  const toBaseNum = (num) => num / Math.pow(10, 18)
-  const toGwei = (num) => num * Math.pow(10, 18)
-  const formatDecimals = (num) => Number(Number(num).toFixed(5))
 
   const isInvalidStakeAmt = (amt) => {
     const stakeAmt = Number(amt)
@@ -603,10 +643,10 @@ console.log(earnings, 'Earnings')
                                       <Button size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
+                                        onClick={() => handleStakingAction('eth')}
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
-                                          onClick={() => handleStakingAction('eth')}
                                         >
                                           {address ? activeEthTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
@@ -765,10 +805,10 @@ console.log(earnings, 'Earnings')
                                       <Button size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
+                                        onClick={() => handleStakingAction('poly')}
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
-                                          onClick={() => handleStakingAction('poly')}
                                         >
                                           {address ? activePolyTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
@@ -858,9 +898,18 @@ console.log(earnings, 'Earnings')
                     alignItems='center'
                     spacing={2}
                   >
-                    <Grid item>
+                    <Grid item
+                      className={classes.counterSizeFixed}
+                    >
                       <Typography variant='h3'>
-                        {formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))} YUP
+                        {toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) === 0 ? (0 + ' YUP') : (
+                          <CountUp
+                            end={toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) + predictedRewards.new}
+                            start={toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) + predictedRewards.prev}
+                            decimals={5}
+                            duration={1}
+                            suffix={' YUP'}
+                          />)}
                       </Typography>
                       {/* <YupInput
                                       fullWidth
@@ -882,10 +931,10 @@ console.log(earnings, 'Earnings')
                       <Button size='large'
                         variant='contained'
                         className={classes.submitBtn}
+                        onClick={collectRewards}
                       >
                         <Typography variant='body1'
                           className={classes.submitBtnTxt}
-                          onClick={collectRewards}
                         >
                           {address ? 'Collect' : 'Connect'}
                         </Typography>
