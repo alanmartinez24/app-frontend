@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles, useTheme } from '@material-ui/core/styles'
-import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent, InputAdornment } from '@material-ui/core'
+import { Grid, Typography, Card, Button, Tabs, Tab, Snackbar, SnackbarContent } from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 import YupInput from '../../components/Miscellaneous/YupInput'
@@ -17,10 +17,14 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL, SUBGRAPH_API_POLY, SUBGRAPH_API_ETH } = process.env
 const POLY_BACKUP_RPC_URLS = POLY_BACKUP_RPC_URL.split(',')
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
+
+const toBaseNum = (num) => num / Math.pow(10, 18)
+const toGwei = (num) => num * Math.pow(10, 18)
+const formatDecimals = (num) => Number(Number(num).toFixed(5))
 
 const styles = theme => ({
   container: {
@@ -37,7 +41,6 @@ const styles = theme => ({
     color: theme.palette.alt.second
   },
   page: {
-    width: '100%',
     marginLeft: 0,
     overflowX: 'hidden'
   },
@@ -59,6 +62,12 @@ const styles = theme => ({
     padding: 20,
     background: theme.palette.alt.second,
     border: `1px solid ${theme.palette.alt.fifth}`
+  },
+  counterSizeFixed: {
+    width: '320px',
+    [theme.breakpoints.down('xs')]: {
+      width: '250px'
+    }
   }
 })
 
@@ -86,12 +95,15 @@ const StakingPage = ({ classes, account }) => {
   const [retryCount, setRetryCount] = useState(-1) // switch RPC URLs on timeout/fail
 
   const [contracts, setContracts] = useState(null)
+  const [earnings, setEarnings] = useState(null)
+  const [predictedRewardRate, setPredictedRewardRate] = useState(null)
+  const [predictedRewards, setPredictedRewards] = useState({ prev: 0, new: 0 })
+
   const [address, setAddress] = useState('')
   const [snackbarMsg, setSnackbarMsg] = useState('')
   const [provider, setProvider] = useState(null)
   const [connector, setConnector] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
   const handleEthTabChange = (e, newTab) => setActiveEthTab(newTab)
   const handlePolyTabChange = (e, newTab) => setActivePolyTab(newTab)
   const handleEthConnectorDialogClose = () => setEthConnectorDialog(false)
@@ -102,7 +114,6 @@ const StakingPage = ({ classes, account }) => {
 
   const handleEthStakeMax = () => setEthStakeInput(toBaseNum(!activeEthTab ? ethLpBal : currentStakeEth))
   const handlePolyStakeMax = () => setPolyStakeInput(toBaseNum(!activePolyTab ? polyLpBal : currentStakePoly))
-
   useEffect(() => {
     localStorage.removeItem('walletconnect')
     handleSnackbarOpen('Connect your wallet to see your balance and perform staking actions.')
@@ -115,9 +126,29 @@ const StakingPage = ({ classes, account }) => {
   }, [provider])
 
   useEffect(() => {
+    console.log(address, contracts)
     if (!contracts || !address) { return }
-    getBalances()
-  }, [contracts])
+    getTotalRewards(address)
+  }, [contracts, address])
+
+  useEffect(() => {
+    console.log(address, contracts)
+    if (!ethLpBal || !polyLpBal) { return }
+    getPredictedRewardRate(address)
+  }, [ethLpBal, polyLpBal])
+
+  useEffect(() => {
+    if (!predictedRewardRate) { return }
+    updateRewardStream()
+  }, [predictedRewardRate])
+
+  const updateRewardStream = async () => {
+    setTimeout(() => {
+      setPredictedRewards((prevState) => ({ prev: prevState.new,
+        new: prevState.new + predictedRewardRate }))
+      updateRewardStream()
+    }, 1000)
+  }
 
   const getContracts = async () => {
     try {
@@ -128,6 +159,34 @@ const StakingPage = ({ classes, account }) => {
       const polyLpToken = new web3Provider.eth.Contract(YUPETH_ABI, POLY_UNI_LP_TOKEN)
       const ethLpToken = new web3Provider.eth.Contract(YUPETH_ABI, ETH_UNI_LP_TOKEN)
       setContracts({ polyLpToken, ethLpToken, polyLiquidity, ethLiquidity })
+    } catch (err) {
+      handleSnackbarOpen('An error occured. Try again later.')
+      console.log('ERR getting token contracts', err)
+    }
+  }
+
+  const getTotalRewards = async (address) => {
+    try {
+      const polyRewards = (await axios.post(`${SUBGRAPH_API_POLY}`, {
+        query: `{
+          balances(where: {address: "${address}"}) {
+            id
+            address
+            count
+          }
+        }`
+      })).data
+
+      const ethRewards = (await axios.post(`${SUBGRAPH_API_ETH}`, {
+        query: `{
+          balances(where: {address: "${address}"}) {
+            id
+            address
+            count
+          }
+        }`
+      })).data
+        setEarnings(Number(ethRewards.data.balances[0].count) + Number(polyRewards.data.balances[0].count))
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
@@ -160,6 +219,21 @@ const StakingPage = ({ classes, account }) => {
       setCurrentStakeEth(ethStake)
       setPolyLpBal(polyBal)
       setEthLpBal(ethBal)
+    } catch (err) {
+      incrementRetryCount()
+      handleSnackbarOpen('There was a problem fetching your balances, try again.')
+      console.log('ERR getting balances', err)
+    }
+  }
+  const getPredictedRewardRate = async (address) => {
+    try {
+      const polyBal = await contracts.polyLpToken.methods.balanceOf(POLY_LIQUIDITY_REWARDS).call()
+      const ethBal = await contracts.ethLpToken.methods.balanceOf(ETH_LIQUIDITY_REWARDS).call()
+      const polyRR = await contracts.polyLiquidity.methods.rewardRate().call()
+      const ethRR = await contracts.ethLiquidity.methods.rewardRate().call()
+      const ethPredictedRR = toBaseNum(currentStakeEth) * toBaseNum(ethRR) / toBaseNum(ethBal)
+      const polyPredictedRR = toBaseNum(currentStakePoly) * toBaseNum(polyRR) / toBaseNum(polyBal)
+      setPredictedRewardRate(ethPredictedRR + polyPredictedRR)
     } catch (err) {
       incrementRetryCount()
       handleSnackbarOpen('There was a problem fetching your balances, try again.')
@@ -216,10 +290,6 @@ const StakingPage = ({ classes, account }) => {
     }
     setIsLoading(false)
   }
-
-  const toBaseNum = (num) => num / Math.pow(10, 18)
-  const toGwei = (num) => num * Math.pow(10, 18)
-  const formatDecimals = (num) => Number(Number(num).toFixed(3))
 
   const isInvalidStakeAmt = (amt) => {
     const stakeAmt = Number(amt)
@@ -461,20 +531,28 @@ const StakingPage = ({ classes, account }) => {
               </Grid>
             </Grid>
 
-            <Grid item>
-              <Grid
-                container
-                direction='row'
-                justify='space-between'
-                alignItems='start'
-                spacing={5}
+            <Grid
+              container
+              direction='row'
+              justify='center'
+              alignItems='center'
+              spacing={6}
+            >
+              <Grid item
+                xs={12}
               >
-                <Grid item
-                  xs={12}
-                  md={6}
+                <Grid
+                  container
+                  direction='row'
+                  justify='start'
+                  alignItems='center'
+                  spacing={5}
                 >
                   <Grid
                     container
+                    item
+                    xs={12}
+                    md={6}
                     direction='row'
                     spacing={4}
                   >
@@ -573,10 +651,10 @@ const StakingPage = ({ classes, account }) => {
                                       <Button size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
+                                        onClick={() => handleStakingAction('eth')}
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
-                                          onClick={() => handleStakingAction('eth')}
                                         >
                                           {address ? activeEthTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
@@ -633,14 +711,12 @@ const StakingPage = ({ classes, account }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid item
-                  xs={12}
-                  md={6}
-                >
                   <Grid
                     container
+                    item
+                    xs={12}
+                    md={6}
                     direction='row'
                     spacing={4}
                   >
@@ -737,10 +813,10 @@ const StakingPage = ({ classes, account }) => {
                                       <Button size='large'
                                         variant='contained'
                                         className={classes.submitBtn}
+                                        onClick={() => handleStakingAction('poly')}
                                       >
                                         <Typography variant='body1'
                                           className={classes.submitBtnTxt}
-                                          onClick={() => handleStakingAction('poly')}
                                         >
                                           {address ? activePolyTab ? 'Unstake' : 'Stake' : 'Connect'}
                                         </Typography>
@@ -798,15 +874,20 @@ const StakingPage = ({ classes, account }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item
-                  xs={12}
+              </Grid>
+              <Grid item>
+                <Grid
+                  container
+                  direction='column'
+                  justify='center'
+                  alignItems='center'
+                  spacing={3}
                 >
-                  <Grid
+                  <Grid item
                     container
-                    direction='column'
-                    spacing={4}
-                    justifyContent='center'
+                    justify='space-between'
                     alignItems='center'
+                    spacing={5}
                   >
                     <Grid item>
                       <Typography variant='h5'>
@@ -814,77 +895,88 @@ const StakingPage = ({ classes, account }) => {
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Grid
-                        container
-                        direction='column'
-                        spacing={2}
-                      >
-                        <Grid item>
-                          <Grid
-                            spacing={5}
-                            container
-                          >
-
-                            <Grid item
-                              xs={12}
-                            >
-                              <Grid
-                                container
-                                direction='column'
-                                spacing={2}
-                              >
-                                <Grid item>
-                                  <Grid
-                                    container
-                                    direction='row'
-                                    spacing={1}
-                                  >
-                                    <Grid item
-                                      xs
-                                    >
-                                      <Grid
-                                        container
-                                        justify='space-between'
-                                      >
-                                        <YupInput
-                                          fullWidth
-                                          id='stake-amount'
-                                          maxLength='10'
-                                          type='number'
-                                          variant='outlined'
-                                          size='small'
-                                          disabled
-                                          value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
-                                          startAdornment={
-                                            <InputAdornment position='start'>
-                                              <img src='public/images/logos/logo_g.svg' />
-                                            </InputAdornment>
-                                            }
-                                        />
-                                      </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                      <Button size='large'
-                                        variant='contained'
-                                        className={classes.submitBtn}
-                                      >
-                                        <Typography variant='body1'
-                                          className={classes.submitBtnTxt}
-                                          onClick={collectRewards}
-                                        >
-                                          {address ? 'Collect' : 'Connect'}
-                                        </Typography>
-                                      </Button>
-                                    </Grid>
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                      <Typography variant='body2'>
+                        What’s this?
+                      </Typography>
                     </Grid>
                   </Grid>
+                  <Grid item
+                    container
+                    justify='center'
+                    alignItems='center'
+                    spacing={2}
+                  >
+                    <Grid item
+                      className={classes.counterSizeFixed}
+                    >
+                      <Typography variant='h3'>
+                        {toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) === 0 ? (0 + ' YUP') : (
+                          <CountUp
+                            end={toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) + predictedRewards.new}
+                            start={toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) + predictedRewards.prev}
+                            decimals={5}
+                            duration={1}
+                            suffix={' YUP'}
+                          />)}
+                      </Typography>
+                      {/* <YupInput
+                                      fullWidth
+                                      id='stake-amount'
+                                      maxLength='10'
+                                      type='number'
+                                      variant='outlined'
+                                      size='small'
+                                      disabled
+                                      value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
+                                      startAdornment={
+                                        <InputAdornment position='start'>
+                                          <img src='public/images/logos/logo_g.svg' />
+                                        </InputAdornment>
+                                            }
+                                          /> */}
+                    </Grid>
+                    <Grid item>
+                      <Button size='large'
+                        variant='contained'
+                        className={classes.submitBtn}
+                        onClick={collectRewards}
+                      >
+                        <Typography variant='body1'
+                          className={classes.submitBtnTxt}
+                        >
+                          {address ? 'Collect' : 'Connect'}
+                        </Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  {earnings && (
+                  <Grid item
+                    container
+                    justify='center'
+                    alignItems='center'
+                    spacing={2}
+                  >
+                    <Grid item>
+                      <Typography variant='subtitle2'>
+                        {formatDecimals(toBaseNum(earnings) + toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) + predictedRewards.new)} YUP Earned in Total
+                      </Typography>
+                      {/* <YupInput
+                                      fullWidth
+                                      id='stake-amount'
+                                      maxLength='10'
+                                      type='number'
+                                      variant='outlined'
+                                      size='small'
+                                      disabled
+                                      value={formatDecimals(toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt))}
+                                      startAdornment={
+                                        <InputAdornment position='start'>
+                                          <img src='public/images/logos/logo_g.svg' />
+                                        </InputAdornment>
+                                            }
+                                          /> */}
+                    </Grid>
+                  </Grid>)}
                 </Grid>
               </Grid>
             </Grid>
