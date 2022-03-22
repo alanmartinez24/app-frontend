@@ -17,7 +17,7 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import { getPolyContractAddresses } from '@yupio/contract-addresses'
 
-const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL, SUBGRAPH_API } = process.env
+const { YUP_DOCS_URL, YUP_BUY_LINK, POLY_CHAIN_ID, REWARDS_MANAGER_API, POLY_BACKUP_RPC_URL, SUBGRAPH_API_POLY, SUBGRAPH_API_ETH } = process.env
 const POLY_BACKUP_RPC_URLS = POLY_BACKUP_RPC_URL.split(',')
 
 const { POLY_LIQUIDITY_REWARDS, POLY_UNI_LP_TOKEN, ETH_UNI_LP_TOKEN, ETH_LIQUIDITY_REWARDS } = getPolyContractAddresses(Number(POLY_CHAIN_ID))
@@ -167,18 +167,26 @@ const StakingPage = ({ classes, account }) => {
 
   const getTotalRewards = async (address) => {
     try {
-      const totalRewards = (await axios.post(`${SUBGRAPH_API}`, {
+      const polyRewards = (await axios.post(`${SUBGRAPH_API_POLY}`, {
         query: `{
-          balances(where: {id: "${address}"}) {
+          balances(where: {address: "${address}"}) {
             id
             address
             count
           }
         }`
       })).data
-      if (totalRewards && totalRewards.data && totalRewards.data.balances) {
-        setEarnings({ ...totalRewards.data.balances[0] })
-      }
+
+      const ethRewards = (await axios.post(`${SUBGRAPH_API_ETH}`, {
+        query: `{
+          balances(where: {address: "${address}"}) {
+            id
+            address
+            count
+          }
+        }`
+      })).data
+        setEarnings(Number(ethRewards.data.balances[0].count) + Number(polyRewards.data.balances[0].count))
     } catch (err) {
       handleSnackbarOpen('An error occured. Try again later.')
       console.log('ERR getting token contracts', err)
@@ -941,7 +949,7 @@ const StakingPage = ({ classes, account }) => {
                       </Button>
                     </Grid>
                   </Grid>
-                  {earnings && earnings.count && (
+                  {earnings && (
                   <Grid item
                     container
                     justify='center'
@@ -950,7 +958,7 @@ const StakingPage = ({ classes, account }) => {
                   >
                     <Grid item>
                       <Typography variant='subtitle2'>
-                        {formatDecimals(toBaseNum(earnings.count))} YUP Earned in Total
+                        {formatDecimals(toBaseNum(earnings) + toBaseNum(polyRwrdAmt) + toBaseNum(ethRwrdAmt) + predictedRewards.new)} YUP Earned in Total
                       </Typography>
                       {/* <YupInput
                                       fullWidth
