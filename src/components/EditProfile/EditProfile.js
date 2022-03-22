@@ -415,8 +415,9 @@ class EditProfile extends Component {
   }
 
   render () {
-    const { cropTime, files, ethOpen, crop, ethAddress } = this.state
-    const { account, username, classes } = this.props
+    const { cropTime, files, ethOpen, crop } = this.state
+    const { account, username, classes, accountInfo } = this.props
+    const ethAddress = this.state.ethAddress ? this.state.ethAddress : accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
     const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
