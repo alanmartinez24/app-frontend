@@ -14,7 +14,6 @@ import {
   getConnector,
   getWeb3InstanceOfProvider
  } from '../../utils/eth'
-
 const { BACKEND_API } = process.env
 const POLY_CHAIN_ID = Number(process.env.POLY_CHAIN_ID)
 
@@ -149,6 +148,7 @@ class ConnectEth extends Component {
 
     // already logged in
     if (connector.connected && !localStorage.getItem('YUP_ETH_AUTH')) {
+      await connector.killSession()
       localStorage.removeItem('walletconnect')
       this.initWalletConnect()
     }

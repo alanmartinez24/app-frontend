@@ -400,6 +400,11 @@ class EditProfile extends Component {
     }
   }
 
+  setEthAddress = (ethAddress) => {
+    this.setState({ ethAddress })
+    this.props.setEth && this.props.setEth(ethAddress)
+  }
+
   componentWillUnmount () {
     const { files } = this.state
     files.forEach(file => {
@@ -412,6 +417,7 @@ class EditProfile extends Component {
   render () {
     const { cropTime, files, ethOpen, crop } = this.state
     const { account, username, classes, accountInfo } = this.props
+    const ethAddress = this.state.ethAddress ? this.state.ethAddress : accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address
     const Snack = props => (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -574,11 +580,11 @@ class EditProfile extends Component {
                       variant='outlined'
                     />
                   </Grid>
-                  {accountInfo && accountInfo.ethInfo && accountInfo.ethInfo.address ? (
+                  {ethAddress ? (
                     <Grid item>
                       <YupInput
                         autoFocus
-                        defaultValue={accountInfo.ethInfo.address}
+                        defaultValue={ethAddress}
                         fullWidth
                         disabled
                         id='name'
@@ -624,6 +630,7 @@ class EditProfile extends Component {
             account={account}
             dialogOpen={ethOpen}
             handleDialogClose={this.handleEthDialogClose}
+            setAddress={this.setEthAddress}
           />
         </>
       </ErrorBoundary>
@@ -649,7 +656,8 @@ EditProfile.propTypes = {
   accountInfo: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  account: PropTypes.object.isRequired
+  account: PropTypes.object.isRequired,
+  setEth: PropTypes.func
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(EditProfile))
