@@ -85,6 +85,7 @@ const styles = theme => ({
     }
   },
   drawer: {
+    zindex: 1000,
     flexShrink: 4,
     paperAnchorDockedLeft: {
       borderRight: '4px solid'

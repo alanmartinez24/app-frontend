@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
   pageHeader: {
     top: 0,
-    zIndex: 1000,
+    zIndex: 500,
     width: '100vw',
     position: 'sticky',
     borderRadius: '5px',
