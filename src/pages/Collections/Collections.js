@@ -79,51 +79,50 @@ const styles = theme => ({
   Mask: {
     outline: 'solid 0px #FAFAFA44'
   },
-  // page: {
-  //   width: '100vw',
-  //   backgroundSize: 'contain',
-  //   overflowX: 'hidden'
-  // },
-  // pageHeader: {
-  //   width: '100vw',
-  //   position: 'sticky',
-  //   top: 0,
-  //   background: `linear-gradient(${theme.palette.M900} 100%, ${theme.palette.M900}dd 10%)`,
-  //   borderRadius: '5px',
-  //   zIndex: 1000,
-  //   [theme.breakpoints.up('lg')]: {
-  //     padding: '80px calc((100vw - 1200px)/2) 12px'
-  //   },
-  //   [theme.breakpoints.down('lg')]: {
-  //     padding: '80px calc((100vw - 1000px)/2) 12px'
-  //   },
-  //   [theme.breakpoints.down('md')]: {
-  //     padding: '80px calc((100vw - 800px)/2) 12px'
-  //   },
-  //   [theme.breakpoints.down('sm')]: {
-  //     padding: '60px calc((100vw - 550px)/2) 12px'
-  //   },
-  //   [theme.breakpoints.down('xs')]: {
-  //     padding: '60px 8px 12px'
-  //   }
-  // },
-  // pageBody: {
-  //   [theme.breakpoints.up('lg')]: {
-  //     padding: '0px calc((100vw - 1200px)/2)'
-  //   },
-  //   [theme.breakpoints.down('lg')]: {
-  //     padding: '0px calc((100vw - 1000px)/2)'
-  //   },
-  //   [theme.breakpoints.down('md')]: {
-  //     padding: '0px calc((100vw - 800px)/2)'
-  //   },
-  //   [theme.breakpoints.down('sm')]: {
-  //     padding: '0px calc((100vw - 550px)/2)'
-  //   },
-  //   [theme.breakpoints.down('xs')]: {
-  //     padding: 'inherit'
-  //   }
-  // },
+  page: {
+    width: '100vw',
+    backgroundSize: 'contain',
+    overflowX: 'hidden'
+  },
+  pageHeader: {
+    width: '100vw',
+    position: 'sticky',
+    top: 0,
+    borderRadius: '5px',
+    zIndex: 1000,
+    [theme.breakpoints.up('lg')]: {
+      padding: '24px 316px 0px'
+    },
+    [theme.breakpoints.down('lg')]: {
+      padding: '24px 316px 0px'
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '24px 103px 0px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '23px 117px 0px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: '23px 24px 0px'
+    }
+  },
+  pageBody: {
+    [theme.breakpoints.up('lg')]: {
+      padding: '8px 316px'
+    },
+    [theme.breakpoints.down('lg')]: {
+      padding: '8px 316px'
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '8px 103px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '8px 117px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: '8px 24px'
+    }
+  },
   Skeleton: {
     background: theme.palette.M600,
      margin: '20px 0 ',
@@ -395,7 +394,7 @@ class Collections extends Component {
           <div className={classes.container}>
             <Grid container
               direction='column'
-              className={theme.custom.page}
+              className={classes.page}
             >
               <Grid
                 container
@@ -556,11 +555,10 @@ class Collections extends Component {
         >
           <Grid container
             direction='row'
-            className={theme.custom.page}
+            className={classes.page}
           >
             <Grid item
-              // className={classes.pageHeader}
-              style={theme.custom.pageHeader}
+              className={classes.pageHeader}
             >
               <Grid
                 container
@@ -708,8 +706,7 @@ class Collections extends Component {
                 justify='flex-start'
                 alignItems='flex-start'
                 spacing={showTabs ? 2 : 6}
-                // className={classes.pageBody}
-                style={theme.custom.pageBody}
+                className={classes.pageBody}
               >
                 {showTabs ? (
                   <>
