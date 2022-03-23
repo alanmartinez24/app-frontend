@@ -19,6 +19,7 @@ import { CreateCollectionFab, StyledTourResources, YupButton } from '../../compo
 import { setTourAction, fetchSocialLevel } from '../../redux/actions'
 import { accountInfoSelector } from '../../redux/selectors'
 import { Skeleton } from '@material-ui/lab'
+import { PageHeader, PageBody } from '../pageLayouts'
 
 const BACKEND_API = process.env.BACKEND_API
 const DEFAULT_IMG = `https://app-gradients.s3.amazonaws.com/gradient${Math.floor(
@@ -84,45 +85,23 @@ const styles = theme => ({
     backgroundSize: 'contain',
     overflowX: 'hidden'
   },
-  pageHeader: {
-    width: '100vw',
-    position: 'sticky',
-    top: 0,
-    borderRadius: '5px',
-    zIndex: 1000,
-    [theme.breakpoints.up('lg')]: {
-      padding: '24px 316px 0px'
-    },
-    [theme.breakpoints.down('lg')]: {
-      padding: '24px 316px 0px'
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '24px 103px 0px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '23px 117px 0px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding: '23px 24px 0px'
-    }
-  },
-  pageBody: {
-    [theme.breakpoints.up('lg')]: {
-      padding: '8px 316px'
-    },
-    [theme.breakpoints.down('lg')]: {
-      padding: '8px 316px'
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '8px 103px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '8px 117px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding: '8px 24px'
-    }
-  },
+  // pageBody: {
+  //   [theme.breakpoints.up('lg')]: {
+  //     padding: '8px 316px'
+  //   },
+  //   [theme.breakpoints.down('lg')]: {
+  //     padding: '8px 316px'
+  //   },
+  //   [theme.breakpoints.down('md')]: {
+  //     padding: '8px 103px'
+  //   },
+  //   [theme.breakpoints.down('sm')]: {
+  //     padding: '8px 117px'
+  //   },
+  //   [theme.breakpoints.down('xs')]: {
+  //     padding: '8px 24px'
+  //   }
+  // },
   Skeleton: {
     background: theme.palette.M600,
      margin: '20px 0 ',
@@ -557,335 +536,337 @@ class Collections extends Component {
             direction='row'
             className={classes.page}
           >
-            <Grid item
-              className={classes.pageHeader}
-            >
-              <Grid
-                container
-                direction='row'
-                justify='flex-start'
-                alignItems='flex-start'
-                spacing={2}
-              >
+            <PageHeader>
+              <Grid item>
                 <Grid
-                  item
-                  xs={12}
-                  className={minimizeHeader}
+                  container
+                  direction='row'
+                  justify='flex-start'
+                  alignItems='flex-start'
+                  spacing={2}
                 >
-                  <Grid container
-                    direction='row'
-                    justify='flex-start'
-                    alignItems='center'
-                    spacing={2}
+                  <Grid
+                    item
+                    xs={12}
+                    className={minimizeHeader}
                   >
-                    <Grid
-                      item
+                    <Grid container
+                      direction='row'
+                      justify='flex-start'
+                      alignItems='center'
+                      spacing={2}
                     >
-                      <Fade in
-                        timeout={1000}
+                      <Grid
+                        item
                       >
-                        <Img
-                          src={this.isValidHttpUrl(headerImgSrc) ? [headerImgSrc, DEFAULT_IMG] : DEFAULT_IMG}
-                          alt='thumbnail'
-                          loader={<div />}
-                          className={`${classes.headerImg} ${minimize}`}
-                        />
-                      </Fade>
-                    </Grid>
-                    <Grid
-                      item
-                      lg={isMinimize ? 7 : 6}
-                      md={isMinimize ? 7 : 6}
-                      sm
-                      xs
-                    >
-                      <Grid container
-                        direction='column'
-                        spacing={1}
-                      >
-                        <Grid item>
-                          <Fade in
-                            timeout={400}
-                          >
-                            <Typography variant='h3'
-                              className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
-                            >
-                              {collection.name}
-                            </Typography>
-                          </Fade>
-                        </Grid>
-                        <Grid item
-                          style={{ display: isMinimize ? 'none' : 'inherit' }}
+                        <Fade in
+                          timeout={1000}
                         >
-                          <Fade in
-                            timeout={800}
+                          <Img
+                            src={this.isValidHttpUrl(headerImgSrc) ? [headerImgSrc, DEFAULT_IMG] : DEFAULT_IMG}
+                            alt='thumbnail'
+                            loader={<div />}
+                            className={`${classes.headerImg} ${minimize}`}
+                          />
+                        </Fade>
+                      </Grid>
+                      <Grid
+                        item
+                        lg={isMinimize ? 7 : 6}
+                        md={isMinimize ? 7 : 6}
+                        sm
+                        xs
+                      >
+                        <Grid container
+                          direction='column'
+                          spacing={1}
+                        >
+                          <Grid item>
+                            <Fade in
+                              timeout={400}
+                            >
+                              <Typography variant='h3'
+                                className={[classes.headerText, isMinimize ? classes.headerTitle : null]}
+                              >
+                                {collection.name}
+                              </Typography>
+                            </Fade>
+                          </Grid>
+                          <Grid item
+                            style={{ display: isMinimize ? 'none' : 'inherit' }}
+                          >
+                            <Fade in
+                              timeout={800}
+                            >
+                              <Typography
+                                variant='subtitle1'
+                                className={[classes.headerText, hidden]}
+                              >
+                                Curated by{' '}
+                                <Link
+                                  to={`/${collection.owner}`}
+                                  style={{
+                            textDecoration: color
+                              ? `1px solid underline ${color}`
+                              : 'none'
+                          }}
+                                  className={classes.curatedByName}
+                                >
+                                  {collection.owner}
+                                </Link>
+                              </Typography>
+                            </Fade>
+                          </Grid>
+                          <Grid item
+                            style={{ display: isMinimize ? 'none' : 'inherit' }}
                           >
                             <Typography
-                              variant='subtitle1'
+                              variant='body2'
                               className={[classes.headerText, hidden]}
                             >
-                              Curated by{' '}
-                              <Link
-                                to={`/${collection.owner}`}
-                                style={{
-                          textDecoration: color
-                            ? `1px solid underline ${color}`
-                            : 'none'
-                        }}
-                                className={classes.curatedByName}
-                              >
-                                {collection.owner}
-                              </Link>
+                              {collection.description}
                             </Typography>
-                          </Fade>
-                        </Grid>
-                        <Grid item
-                          style={{ display: isMinimize ? 'none' : 'inherit' }}
-                        >
-                          <Typography
-                            variant='body2'
-                            className={[classes.headerText, hidden]}
-                          >
-                            {collection.description}
-                          </Typography>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid item
-                      lg={isMinimize ? 3 : 4}
-                      sm={isMinimize ? 2 : 1}
-                      xs={isMinimize ? 4 : 2}
-                    >
-                      <Grid container
-                        justify={isMinimize ? 'flex-end' : 'flex-start'}
+                      <Grid item
+                        lg={isMinimize ? 3 : 4}
+                        sm={isMinimize ? 2 : 1}
+                        xs={isMinimize ? 4 : 2}
                       >
-                        <IconButton
-                          aria-label='more'
-                          aria-controls='long-menu'
-                          aria-haspopup='true'
-                          onClick={this.shareCollection}
+                        <Grid container
+                          justify={isMinimize ? 'flex-end' : 'flex-start'}
                         >
-                          <Icon className={[classes.icons, 'fa fa-share']} />
-                        </IconButton>
-                        {isLoggedUserCollection ? (
                           <IconButton
                             aria-label='more'
                             aria-controls='long-menu'
                             aria-haspopup='true'
-                            onClick={this.handleMenuOpen}
-                            className={classes.icons}
+                            onClick={this.shareCollection}
                           >
-                            <MenuIcon fontSize='small' />
+                            <Icon className={[classes.icons, 'fa fa-share']} />
                           </IconButton>
-                  ) : (
-                    (account && account.name) && (
-                      <IconButton
-                        aria-label='more'
-                        aria-controls='long-menu'
-                        aria-haspopup='true'
-                        onClick={this.handleDuplicateDialogOpen}
-                        className={classes.icons}
-                      >
-                        <Icon fontSize='small'
-                          className={[classes.icons, 'fas fa-copy']}
-                        />
-                      </IconButton>)
-                  )}
+                          {isLoggedUserCollection ? (
+                            <IconButton
+                              aria-label='more'
+                              aria-controls='long-menu'
+                              aria-haspopup='true'
+                              onClick={this.handleMenuOpen}
+                              className={classes.icons}
+                            >
+                              <MenuIcon fontSize='small' />
+                            </IconButton>
+                    ) : (
+                      (account && account.name) && (
+                        <IconButton
+                          aria-label='more'
+                          aria-controls='long-menu'
+                          aria-haspopup='true'
+                          onClick={this.handleDuplicateDialogOpen}
+                          className={classes.icons}
+                        >
+                          <Icon fontSize='small'
+                            className={[classes.icons, 'fas fa-copy']}
+                          />
+                        </IconButton>)
+                    )}
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            </PageHeader>
             <Grid item
               xs={12}
             >
-              <Grid
-                container
-                direction='row'
-                justify='flex-start'
-                alignItems='flex-start'
-                spacing={showTabs ? 2 : 6}
-                className={classes.pageBody}
-              >
-                {showTabs ? (
-                  <>
-                    <Grid item
-                      xs={12}
-                    >
-                      <Tabs value={activeTab}
-                        onChange={this.handleChange}
-                        TabIndicatorProps={{ style: { backgroundColor: theme.palette.common.first } }}
-                      >
-                        <Tab label='Feed'
-                          className={classes.tabs}
-                        />
-                        <Tab label='Recommended'
-                          className={classes.tabs}
-                        />
-                      </Tabs>
-                    </Grid>
-                    <Grid item
-                      xs={12}
-                      tourname='CollectionPosts'
-                    >
-                      <TabPanel value={activeTab}
-                        index={0}
-                      >
-                        <Feed
-                          isLoading={isLoading}
-                          hasMore={false}
-                          classes={classes}
-                          posts={posts}
-                          hideInteractions
-                          renderObjects
-                        />
-                      </TabPanel>
-
-                      <TabPanel value={activeTab}
-                        index={1}
-                      >
-                        <Grid
-                          container
-                          direction='column'
-                          spacing={2}
-                          className={[classes.recommended, classes.recommendedMobile]}
-                          tourname='RecommendedCollections'
-                        >
-                          {!recommendedLoading ? (recommended.map(rec => {
-                            return (
-                              <Grid item>
-                                <RecommendedCollections
-                                  classes={classes}
-                                  collection={rec}
-                                />
-                              </Grid>
-                          )
-                            }))
-                              : (
-                                <Grid item
-                                  xs={7}
-                                  className={[classes.recommended, classes.recommendedMobile]}
-                                >
-                                  <Skeleton variant='rect'
-                                    animation='wave'
-                                    className={classes.Skeleton}
-                                    width={'100%'}
-                                    height={70}
-                                  />
-                                  <Skeleton variant='rect'
-                                    animation='wave'
-                                    className={classes.Skeleton}
-                                    width={'100%'}
-                                    height={70}
-                                  />
-                                  <Skeleton variant='rect'
-                                    animation='wave'
-                                    className={classes.Skeleton}
-                                    width={'100%'}
-                                    height={70}
-                                  />
-                                  <Skeleton variant='rect'
-                                    animation='wave'
-                                    className={classes.Skeleton}
-                                    width={'100%'}
-                                    height={70}
-                                  />
-                                  <Skeleton variant='rect'
-                                    animation='wave'
-                                    className={classes.Skeleton}
-                                    width={'100%'}
-                                    height={70}
-                                  />
-                                </Grid>)}
-                        </Grid>
-                      </TabPanel>
-                    </Grid>
-                  </>
-              ) : (
-                <>
-                  <Grid item
-                    tourname='CollectionPosts'
-                    style={{ paddingTop: '48px' }}
-                  >
-                    <Feed
-                      isLoading={isLoading}
-                      hasMore={false}
-                      classes={classes}
-                      posts={posts}
-                      hideInteractions
-                      renderObjects
-                    />
-                  </Grid>
-
-                  <Grid
-                    item
-                    md
-                    sm={12}
-                    className={classes.recommended}
-                  >
-                    <Grid
-                      container
-                      direction='column'
-                      spacing={2}
-                      tourname='RecommendedCollections'
-                    >
+              <PageBody>
+                <Grid
+                  container
+                  direction='row'
+                  justify='flex-start'
+                  alignItems='flex-start'
+                  spacing={showTabs ? 2 : 6}
+                  // className={classes.pageBody}
+                >
+                  {showTabs ? (
+                    <>
                       <Grid item
                         xs={12}
                       >
-                        <Typography variant='h5'>Recommended</Typography>
+                        <Tabs value={activeTab}
+                          onChange={this.handleChange}
+                          TabIndicatorProps={{ style: { backgroundColor: theme.palette.common.first } }}
+                        >
+                          <Tab label='Feed'
+                            className={classes.tabs}
+                          />
+                          <Tab label='Recommended'
+                            className={classes.tabs}
+                          />
+                        </Tabs>
                       </Grid>
                       <Grid item
                         xs={12}
+                        tourname='CollectionPosts'
                       >
-                        {!recommendedLoading ? recommended.map(rec => {
-                          return (
-                            <RecommendedCollections
-                              classes={classes}
-                              collection={rec}
-                            />
-                          )
-                      }) : (
+                        <TabPanel value={activeTab}
+                          index={0}
+                        >
+                          <Feed
+                            isLoading={isLoading}
+                            hasMore={false}
+                            classes={classes}
+                            posts={posts}
+                            hideInteractions
+                            renderObjects
+                          />
+                        </TabPanel>
+
+                        <TabPanel value={activeTab}
+                          index={1}
+                        >
+                          <Grid
+                            container
+                            direction='column'
+                            spacing={2}
+                            className={[classes.recommended, classes.recommendedMobile]}
+                            tourname='RecommendedCollections'
+                          >
+                            {!recommendedLoading ? (recommended.map(rec => {
+                              return (
+                                <Grid item>
+                                  <RecommendedCollections
+                                    classes={classes}
+                                    collection={rec}
+                                  />
+                                </Grid>
+                            )
+                              }))
+                                : (
+                                  <Grid item
+                                    xs={7}
+                                    className={[classes.recommended, classes.recommendedMobile]}
+                                  >
+                                    <Skeleton variant='rect'
+                                      animation='wave'
+                                      className={classes.Skeleton}
+                                      width={'100%'}
+                                      height={70}
+                                    />
+                                    <Skeleton variant='rect'
+                                      animation='wave'
+                                      className={classes.Skeleton}
+                                      width={'100%'}
+                                      height={70}
+                                    />
+                                    <Skeleton variant='rect'
+                                      animation='wave'
+                                      className={classes.Skeleton}
+                                      width={'100%'}
+                                      height={70}
+                                    />
+                                    <Skeleton variant='rect'
+                                      animation='wave'
+                                      className={classes.Skeleton}
+                                      width={'100%'}
+                                      height={70}
+                                    />
+                                    <Skeleton variant='rect'
+                                      animation='wave'
+                                      className={classes.Skeleton}
+                                      width={'100%'}
+                                      height={70}
+                                    />
+                                  </Grid>)}
+                          </Grid>
+                        </TabPanel>
+                      </Grid>
+                    </>
+                ) : (
+                  <>
+                    <Grid item
+                      tourname='CollectionPosts'
+                      style={{ paddingTop: '48px' }}
+                    >
+                      <Feed
+                        isLoading={isLoading}
+                        hasMore={false}
+                        classes={classes}
+                        posts={posts}
+                        hideInteractions
+                        renderObjects
+                      />
+                    </Grid>
+
+                    <Grid
+                      item
+                      md
+                      sm={12}
+                      className={classes.recommended}
+                    >
+                      <Grid
+                        container
+                        direction='column'
+                        spacing={2}
+                        tourname='RecommendedCollections'
+                      >
                         <Grid item
                           xs={12}
                         >
-                          <Skeleton variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                          <Skeleton variant='rect'
-                            animation='wave'
-                            className={classes.Skeleton}
-                            width={'100%'}
-                            height={70}
-                          />
-                        </Grid>)}
+                          <Typography variant='h5'>Recommended</Typography>
+                        </Grid>
+                        <Grid item
+                          xs={12}
+                        >
+                          {!recommendedLoading ? recommended.map(rec => {
+                            return (
+                              <RecommendedCollections
+                                classes={classes}
+                                collection={rec}
+                              />
+                            )
+                        }) : (
+                          <Grid item
+                            xs={12}
+                          >
+                            <Skeleton variant='rect'
+                              animation='wave'
+                              className={classes.Skeleton}
+                              width={'100%'}
+                              height={70}
+                            />
+                            <Skeleton variant='rect'
+                              animation='wave'
+                              className={classes.Skeleton}
+                              width={'100%'}
+                              height={70}
+                            />
+                            <Skeleton variant='rect'
+                              animation='wave'
+                              className={classes.Skeleton}
+                              width={'100%'}
+                              height={70}
+                            />
+                            <Skeleton variant='rect'
+                              animation='wave'
+                              className={classes.Skeleton}
+                              width={'100%'}
+                              height={70}
+                            />
+                            <Skeleton variant='rect'
+                              animation='wave'
+                              className={classes.Skeleton}
+                              width={'100%'}
+                              height={70}
+                            />
+                          </Grid>)}
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </>
-              )}
-              </Grid>
+                  </>
+                )}
+                </Grid>
+              </PageBody>
             </Grid>
 
             <Tour

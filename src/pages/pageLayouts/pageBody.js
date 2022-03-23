@@ -1,7 +1,34 @@
 import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
 
-export default function pageBody() {
+const styles = theme => ({
+  pageBody: {
+    [theme.breakpoints.up('lg')]: {
+      padding: '8px 316px'
+    },
+    [theme.breakpoints.down('lg')]: {
+      padding: '8px 316px'
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '8px 103px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '8px 117px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: '8px 24px'
+    }
+  }
+})
+
+const PageBody = withStyles(styles)(function PageBody ({
+  classes, children
+}) {
   return (
-    <div>pageBody</div>
+    <div className={classes.pageBody} >
+      {children}
+    </div>
   )
-}
+})
+
+export default PageBody
