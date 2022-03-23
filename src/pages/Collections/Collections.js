@@ -85,23 +85,6 @@ const styles = theme => ({
     backgroundSize: 'contain',
     overflowX: 'hidden'
   },
-  // pageBody: {
-  //   [theme.breakpoints.up('lg')]: {
-  //     padding: '8px 316px'
-  //   },
-  //   [theme.breakpoints.down('lg')]: {
-  //     padding: '8px 316px'
-  //   },
-  //   [theme.breakpoints.down('md')]: {
-  //     padding: '8px 103px'
-  //   },
-  //   [theme.breakpoints.down('sm')]: {
-  //     padding: '8px 117px'
-  //   },
-  //   [theme.breakpoints.down('xs')]: {
-  //     padding: '8px 24px'
-  //   }
-  // },
   Skeleton: {
     background: theme.palette.M600,
      margin: '20px 0 ',
@@ -686,7 +669,6 @@ class Collections extends Component {
                   justify='flex-start'
                   alignItems='flex-start'
                   spacing={showTabs ? 2 : 6}
-                  // className={classes.pageBody}
                 >
                   {showTabs ? (
                     <>

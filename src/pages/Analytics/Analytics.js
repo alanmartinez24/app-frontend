@@ -15,6 +15,7 @@ import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
+import { Page } from '../pageLayouts'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -47,13 +48,13 @@ const styles = theme => ({
       minWidth: '70px'
     }
   },
-  container: {
-    minHeight: '100vh',
-    width: '100vw',
-    overflowX: 'hidden',
-    display: 'flex',
-    flexDirection: 'column'
-  },
+  // container: {
+  //   minHeight: '100vh',
+  //   width: '100vw',
+  //   overflowX: 'hidden',
+  //   display: 'flex',
+  //   flexDirection: 'column'
+  // },
   cardContainer: {
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column'
@@ -79,16 +80,16 @@ const styles = theme => ({
   Mask: {
     outline: 'solid 0px #FAFAFA44'
   },
-  page: {
-    width: '100%',
-    [theme.breakpoints.down('md')]: {
-      padding: '0px 20vw'
-    },
-    [theme.breakpoints.up('md')]: {
-      padding: '0px 17vw'
-    },
-    flex: 1
-  },
+  // page: {
+  //   width: '100%',
+  //   [theme.breakpoints.down('md')]: {
+  //     padding: '0px 20vw'
+  //   },
+  //   [theme.breakpoints.up('md')]: {
+  //     padding: '0px 17vw'
+  //   },
+  //   flex: 1
+  // },
   graphContainers: {
     padding: '90px 0px 20px 0px'
   }
@@ -431,22 +432,24 @@ class Analytics extends Component {
     if (!isLoading && hasError) {
       return (
         <ErrorBoundary>
-          <div className={classes.container}>
-            <div className={classes.page}>
-              <div align='center'>
-                <Typography className={classes.accountErrorHeader}
-                  variant='h1'
-                >
-                  <strong>Sorry this page is not available.</strong>
-                </Typography>
-                <Typography className={classes.accountErrorSub}
-                  variant='h2'
-                >
-                  The page you're looking for does not exist.
-                </Typography>
-              </div>
+          {/* <div className={classes.container}> */}
+          {/* <div className={classes.page}> */}
+          <Page>
+            <div align='center'>
+              <Typography className={classes.accountErrorHeader}
+                variant='h1'
+              >
+                <strong>Sorry this page is not available.</strong>
+              </Typography>
+              <Typography className={classes.accountErrorSub}
+                variant='h2'
+              >
+                The page you're looking for does not exist.
+              </Typography>
             </div>
-          </div>
+          </Page>
+          {/* </div> */}
+          {/* </div> */}
         </ErrorBoundary>
       )
     } else if (isLoading) {
@@ -463,174 +466,157 @@ class Analytics extends Component {
         </div>
       )
     }
+
     return (
       <ErrorBoundary>
-        <div className={classes.container}>
-          <div className={classes.page}>
-            <Grid
-              container
-              direction='row'
-              alignItems='center'
-              justify='left'
-              className={classes.graphContainers}
-              spacing={3}
-            >
-              <Grid item>
-                <UserAvatar
-                  alt={account._id}
-                  username={account.username}
-                  className={classes.avatarImage}
-                  src={account.avatar}
-                  style={{ border: `solid 3px ${socialLevelColor}` }}
-                />
-              </Grid>
-              <Grid item>
-                <Typography align='left'
-                  variant='h2'
-                >
-                  <LinesEllipsis
-                    basedOn='letters'
-                    ellipsis='...'
-                    maxLine='4'
-                    text={account.fullname || account.username || account._id}
-                    trimRight
-                  />
-                </Typography>
-                <Typography
-                  align='left'
-                  variant='subtitle2'
-                  className={`${classes.username}`}
-                >
-                  <span
-                    style={{
-                      textDecoration: socialLevelColor ? 'none' : 'none',
-                      textDecorationColor: socialLevelColor,
-                      textDecorationStyle: socialLevelColor ? 'solid' : 'none',
-                      fontWeight: isMirror ? '200' : '200',
-                      padding: '0px'
-                    }}
-                  >
-                    @{account.username}
-                  </span>
-                </Typography>
-              </Grid>
+        {/* <div className={classes.container}> */}
+        {/* <div className={classes.page}> */}
+        <Page>
+          <Grid
+            item
+            container
+            direction='row'
+            alignItems='center'
+            justify='left'
+            className={classes.graphContainers}
+            spacing={3}
+          >
+            <Grid item>
+              <UserAvatar
+                alt={account._id}
+                username={account.username}
+                className={classes.avatarImage}
+                src={account.avatar}
+                style={{ border: `solid 3px ${socialLevelColor}` }}
+              />
             </Grid>
-
-            <Grid
-              container
-              direction='row'
-              alignItems='center'
-              justify='center'
-              spacing={3}
-            >
-              <Grid item
-                sm={6}
-                xs={12}
+            <Grid item>
+              <Typography align='left'
+                variant='h2'
               >
-                <BarChart
-                  chartData={influence}
-                  chartTitle='Influence'
-                  color={socialLevelColor}
+                <LinesEllipsis
+                  basedOn='letters'
+                  ellipsis='...'
+                  maxLine='4'
+                  text={account.fullname || account.username || account._id}
+                  trimRight
                 />
-              </Grid>
-              <Grid item
-                sm={6}
-                xs={12}
+              </Typography>
+              <Typography
+                align='left'
+                variant='subtitle2'
+                className={`${classes.username}`}
               >
-                <BarChart
-                  chartData={ratingPower}
-                  chartTitle='Rating Power'
-                  color=''
-                />
-              </Grid>
-              <Grid item
-                sm={6}
-                xs={12}
-              >
-                <LineChart
-                  headerNumber={totalClaimedRewards}
-                  chartData={{ name: 'Earnings', data: userEarnings }}
-                  chartTitle='Earnings'
-                />
-              </Grid>
-              <Grid item
-                sm={6}
-                xs={12}
-              >
-                <LineChart
-                  headerNumber={account.balance.YUP}
-                  chartData={{ name: 'Holdings', data: userHoldings }}
-                  chartTitle='Holdings'
-                />
-              </Grid>
-              {/* <Grid item
-                xs={12}
-                sm={6}
-              >
-                <RadialChart
-                  chartData={platformDistribution}
-                  colors={[Colors.Blue, Colors.Green, Colors.Orange, Colors.Red]}
-                  className={classes}
-                  chartTitle='Platform Distribution'
-                />
-              </Grid>
-              <Grid item
-                xs={12}
-                sm={6}
-              >
-                <RadialChart
-                  chartData={categoryDistribution}
-                  className={classes}
-                  chartTitle='Categories Distribution'
-                  colors={[Colors.Blue, Colors.Green, Colors.Orange, Colors.Red]}
-                />
-              </Grid> */}
-              <Grid item
-                xs={12}
-              >
-                <Grid
-                  container
-                  direction='row'
-                  spacing={3}
-                  alignItems='stretch'
+                <span
+                  style={{
+                    textDecoration: socialLevelColor ? 'none' : 'none',
+                    textDecorationColor: socialLevelColor,
+                    textDecorationStyle: socialLevelColor ? 'solid' : 'none',
+                    fontWeight: isMirror ? '200' : '200',
+                    padding: '0px'
+                  }}
                 >
-                  <Grid item
-                    xs={12}
-                    sm={6}
-                  >
-                    <DonutChart
-                      chartData={platformDistribution}
-                      colors={[
-                        Other.blue,
-                        Brand.red,
-                        Brand.orange,
-                        Brand.mint
-                      ]}
-                      className={classes}
-                      chartTitle='Platform Distribution'
-                    />
-                  </Grid>
-                  <Grid item
-                    xs={12}
-                    sm={6}
-                  >
-                    <DonutChart
-                      chartData={categoryDistribution}
-                      className={classes}
-                      chartTitle='Categories Distribution'
-                      colors={[
-                        Other.blue,
-                        Brand.red,
-                        Brand.orange,
-                        Brand.mint
-                      ]}
-                    />
-                  </Grid>
+                  @{account.username}
+                </span>
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid
+            item
+            container
+            direction='row'
+            alignItems='center'
+            justify='center'
+            spacing={3}
+          >
+            <Grid item
+              sm={6}
+              xs={12}
+            >
+              <BarChart
+                chartData={influence}
+                chartTitle='Influence'
+                color={socialLevelColor}
+              />
+            </Grid>
+            <Grid item
+              sm={6}
+              xs={12}
+            >
+              <BarChart
+                chartData={ratingPower}
+                chartTitle='Rating Power'
+                color=''
+              />
+            </Grid>
+            <Grid item
+              sm={6}
+              xs={12}
+            >
+              <LineChart
+                headerNumber={totalClaimedRewards}
+                chartData={{ name: 'Earnings', data: userEarnings }}
+                chartTitle='Earnings'
+              />
+            </Grid>
+            <Grid item
+              sm={6}
+              xs={12}
+            >
+              <LineChart
+                headerNumber={account.balance.YUP}
+                chartData={{ name: 'Holdings', data: userHoldings }}
+                chartTitle='Holdings'
+              />
+            </Grid>
+            <Grid item
+              xs={12}
+            >
+              <Grid
+                container
+                direction='row'
+                spacing={3}
+                alignItems='stretch'
+              >
+                <Grid item
+                  xs={12}
+                  sm={6}
+                >
+                  <DonutChart
+                    chartData={platformDistribution}
+                    colors={[
+                      Other.blue,
+                      Brand.red,
+                      Brand.orange,
+                      Brand.mint
+                    ]}
+                    className={classes}
+                    chartTitle='Platform Distribution'
+                  />
+                </Grid>
+                <Grid item
+                  xs={12}
+                  sm={6}
+                >
+                  <DonutChart
+                    chartData={categoryDistribution}
+                    className={classes}
+                    chartTitle='Categories Distribution'
+                    colors={[
+                      Other.blue,
+                      Brand.red,
+                      Brand.orange,
+                      Brand.mint
+                    ]}
+                  />
                 </Grid>
               </Grid>
             </Grid>
-          </div>
-        </div>
+          </Grid>
+        </Page>
+        {/* </div> */}
+        {/* </div> */}
       </ErrorBoundary>
     )
   }
