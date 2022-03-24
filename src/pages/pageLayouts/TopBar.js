@@ -2,41 +2,35 @@ import React from 'react'
 import { withStyles } from '@material-ui/core'
 
 const styles = theme => ({
-  page: {
-    margin: 'auto',
-    // direction: 'row',
-    overflowX: 'hidden',
-    // alignItems: 'flex-start',
-    // justifyContent: 'center',
-    // backgroundSize: 'contain',
+  topBar: {
     [theme.breakpoints.up('lg')]: {
-      width: '1232px'
+      padding: '16px 316px'
     },
     [theme.breakpoints.down('lg')]: {
-      width: '1232px'
+      padding: '16px 316px'
     },
     [theme.breakpoints.down('md')]: {
-      width: '994px'
+      padding: '16px 103px'
     },
     [theme.breakpoints.down('sm')]: {
-      width: '668px'
+      padding: '16px 117px'
     },
     [theme.breakpoints.down('xs')]: {
-      width: 'auto'
+      padding: '16px 24px'
     }
   }
 })
 
-const Page = withStyles(styles)(function Page ({
+const TopBar = withStyles(styles)(function TopBar ({
   classes, children
 }) {
   return (
     <div
-      className={classes.page}
+      className={classes.topBar}
     >
       {children}
     </div>
   )
 })
 
-export default Page
+export default TopBar
