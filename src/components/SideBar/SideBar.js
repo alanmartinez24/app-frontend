@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { toggleColorTheme } from '../../redux/actions'
 import {
-  AppBar,
   ListItemAvatar,
   Toolbar,
   IconButton,
@@ -41,21 +40,11 @@ import { StyledFirstMenuList } from './StyledFirstMenuList'
 import { StyledSecondMenuList } from './StyledSecondMenuList'
 import { StyledSettingsModal } from './StyledSettingsModal'
 import { YupButton } from '../Miscellaneous'
+import { TopBar } from '../../pages/pageLayouts'
 
-const drawerWidth = 200
 const { BACKEND_API } = process.env
 
 const styles = theme => ({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 5,
-    boxShadow: `0 0 0 ${theme.palette.M100}`,
-    borderBottom: `0 solid ${theme.palette.M100}`,
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth
-    },
-    background: 'transparent'
-  },
   topButtons: {
     container1: {
       [theme.breakpoints.down('xs')]: {
@@ -311,8 +300,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
 
   return (
     <ErrorBoundary>
-      <AppBar
-        className={classes.appBar}
+      <TopBar
         position='fixed'
         onMouseEnter={isMobile ? 'handleDrawerOpen' : null}
         onMouseLeave={isMobile ? 'handleDrawerClose' : null}
@@ -428,7 +416,7 @@ function SideBar ({ classes, history, width, isTourOpen, lightMode, toggleTheme 
           postid={'routeFromUrl'}
           handleDialogClose={handleCollectionDialogClose}
         />
-      </AppBar>
+      </TopBar>
       <Drawer
         anchor='left'
         classes={{

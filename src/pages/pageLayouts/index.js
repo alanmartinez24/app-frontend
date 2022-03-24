@@ -1,9 +1,9 @@
 import PageHeader from './PageHeader'
 import PageBody from './PageBody'
-import Page from './TopBar'
+import TopBar from './TopBar'
 
 export {
   PageHeader,
   PageBody,
-  Page
+  TopBar
 }

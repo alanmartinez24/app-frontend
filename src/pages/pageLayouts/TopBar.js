@@ -1,13 +1,23 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core'
+import { withStyles, AppBar } from '@material-ui/core'
+
+const drawerWidth = 200
 
 const styles = theme => ({
   topBar: {
+    background: 'transparent',
+    zIndex: theme.zIndex.drawer + 5,
+    boxShadow: `0 0 0 ${theme.palette.M100}`,
+    borderBottom: `0 solid ${theme.palette.M100}`,
     [theme.breakpoints.up('lg')]: {
       padding: '16px 316px'
     },
     [theme.breakpoints.down('lg')]: {
       padding: '16px 316px'
+    },
+    [theme.breakpoints.up('md')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth
     },
     [theme.breakpoints.down('md')]: {
       padding: '16px 103px'
@@ -22,14 +32,15 @@ const styles = theme => ({
 })
 
 const TopBar = withStyles(styles)(function TopBar ({
-  classes, children
+  classes, children, ...restProps
 }) {
   return (
-    <div
+    <AppBar
       className={classes.topBar}
+      {...restProps}
     >
       {children}
-    </div>
+    </AppBar>
   )
 })
 
