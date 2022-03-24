@@ -1,11 +1,14 @@
 import React from 'react'
-import { Grid, Box, withStyles } from '@material-ui/core'
+import { withStyles } from '@material-ui/core'
 
 const styles = theme => ({
   page: {
     margin: 'auto',
+    // direction: 'row',
     overflowX: 'hidden',
-    backgroundSize: 'contain',
+    // alignItems: 'flex-start',
+    // justifyContent: 'center',
+    // backgroundSize: 'contain',
     [theme.breakpoints.up('lg')]: {
       width: '1232px'
     },
@@ -28,14 +31,11 @@ const Page = withStyles(styles)(function Page ({
   classes, children
 }) {
   return (
-    <Box className={classes.page}>
-      <Grid container
-        direction='column'
-        justifyContent='center'
-      >
-        {children}
-      </Grid>
-    </Box>
+    <div
+      className={classes.page}
+    >
+      {children}
+    </div>
   )
 })
 

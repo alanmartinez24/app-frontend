@@ -15,7 +15,7 @@ import { setCache, getCache } from '../../utils/cache'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { connect } from 'react-redux'
 import { accountInfoSelector } from '../../redux/selectors'
-import { Page } from '../pageLayouts'
+import { PageBody } from '../pageLayouts'
 
 const BACKEND_API = process.env.BACKEND_API
 
@@ -48,13 +48,6 @@ const styles = theme => ({
       minWidth: '70px'
     }
   },
-  // container: {
-  //   minHeight: '100vh',
-  //   width: '100vw',
-  //   overflowX: 'hidden',
-  //   display: 'flex',
-  //   flexDirection: 'column'
-  // },
   cardContainer: {
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column'
@@ -80,16 +73,6 @@ const styles = theme => ({
   Mask: {
     outline: 'solid 0px #FAFAFA44'
   },
-  // page: {
-  //   width: '100%',
-  //   [theme.breakpoints.down('md')]: {
-  //     padding: '0px 20vw'
-  //   },
-  //   [theme.breakpoints.up('md')]: {
-  //     padding: '0px 17vw'
-  //   },
-  //   flex: 1
-  // },
   graphContainers: {
     padding: '90px 0px 20px 0px'
   }
@@ -432,9 +415,7 @@ class Analytics extends Component {
     if (!isLoading && hasError) {
       return (
         <ErrorBoundary>
-          {/* <div className={classes.container}> */}
-          {/* <div className={classes.page}> */}
-          <Page>
+          <PageBody>
             <div align='center'>
               <Typography className={classes.accountErrorHeader}
                 variant='h1'
@@ -447,9 +428,7 @@ class Analytics extends Component {
                 The page you're looking for does not exist.
               </Typography>
             </div>
-          </Page>
-          {/* </div> */}
-          {/* </div> */}
+          </PageBody>
         </ErrorBoundary>
       )
     } else if (isLoading) {
@@ -469,11 +448,8 @@ class Analytics extends Component {
 
     return (
       <ErrorBoundary>
-        {/* <div className={classes.container}> */}
-        {/* <div className={classes.page}> */}
-        <Page>
+        <PageBody>
           <Grid
-            item
             container
             direction='row'
             alignItems='center'
@@ -523,7 +499,6 @@ class Analytics extends Component {
           </Grid>
 
           <Grid
-            item
             container
             direction='row'
             alignItems='center'
@@ -614,9 +589,7 @@ class Analytics extends Component {
               </Grid>
             </Grid>
           </Grid>
-        </Page>
-        {/* </div> */}
-        {/* </div> */}
+        </PageBody>
       </ErrorBoundary>
     )
   }
