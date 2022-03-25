@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import PostGrid from '../PostGrid/PostGrid'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
-import { fetchPostComments } from '../../redux/actions'
 import PostHeader from '../PostHeader/PostHeader'
 import { Divider, Fade, Typography } from '@material-ui/core'
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
@@ -70,21 +69,6 @@ const styles = theme => ({
 })
 
 class PostHOC extends PureComponent {
-  componentDidMount () {
-    this.loadPostData()
-  }
-
-  loadPostData () {
-    (async () => {
-      await this.fetchComments()
-    })()
-  }
-
-  fetchComments = async () => {
-    const { dispatch, postid } = this.props
-    await dispatch(fetchPostComments(postid))
-  }
-
   render () {
     const {
       classes,
