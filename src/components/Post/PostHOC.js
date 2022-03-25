@@ -84,6 +84,7 @@ class PostHOC extends PureComponent {
       rating,
       component: Component
     } = this.props
+    console.log('postid:', postid)
     return (
       <ErrorBoundary>
         <Fade in

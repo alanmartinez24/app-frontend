@@ -20,13 +20,6 @@ const styles = theme => ({
     marginLeft: '0px',
     paddingBottom: '20px'
   },
-  mainFeed: {
-    paddingLeft: '0vw',
-    paddingRight: '0',
-    [theme.breakpoints.down('md')]: {
-      paddingRight: '0vw'
-    }
-  },
   page: {
     background: 'transparent',
     width: '100%',
