@@ -27,10 +27,13 @@ const styles = theme => ({
 })
 
 const PageHeader = withStyles(styles)(function PageHeader ({
-  classes, children
+  classes, children, ...restProps
 }) {
   return (
-    <div className={classes.pageHeader} >
+    <div
+      className={classes.pageHeader}
+      {...restProps}
+    >
       {children}
     </div>
   )

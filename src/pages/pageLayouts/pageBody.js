@@ -22,10 +22,13 @@ const styles = theme => ({
 })
 
 const PageBody = withStyles(styles)(function PageBody ({
-  classes, children
+  classes, children, ...restProps
 }) {
   return (
-    <div className={classes.pageBody} >
+    <div
+      className={classes.pageBody}
+      {...restProps}
+    >
       {children}
     </div>
   )
