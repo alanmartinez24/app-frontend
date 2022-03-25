@@ -33,20 +33,6 @@ const styles = theme => ({
       maxHeight: '1500px'
     }
   },
-  user: {
-    display: 'flex',
-    padding: '0% 0% 0% 0%'
-  },
-  avatar: {
-    maxWidth: '50px',
-    maxHeight: '50px',
-    paddingRight: '3%'
-  },
-  avatarImage: {
-    width: '50px',
-    height: '50px',
-    borderRadius: '50%'
-  },
   postCaptionHeader: {
     padding: '0.1vh 1vw',
     width: '100%',
@@ -55,11 +41,6 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       zoom: '80%'
     }
-  },
-  postCaption: {
-    padding: '16px 16px',
-    wordBreak: 'break-word',
-    width: '100%'
   },
   divider: {
     [theme.breakpoints.up('580')]: {
@@ -84,7 +65,7 @@ class PostHOC extends PureComponent {
       rating,
       component: Component
     } = this.props
-    console.log('postid:', postid)
+
     return (
       <ErrorBoundary>
         <Fade in
