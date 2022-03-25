@@ -9,19 +9,19 @@ const styles = theme => ({
     position: 'sticky',
     backgroundColor: theme.palette.M800,
     [theme.breakpoints.up('lg')]: {
-      padding: '24px 316px 0px'
+      padding: '80px 316px 12px'
     },
     [theme.breakpoints.down('lg')]: {
-      padding: '24px 316px 0px'
+      padding: '80px 316px 12px'
     },
     [theme.breakpoints.down('md')]: {
-      padding: '24px 103px 0px'
+      padding: '80px 103px 12px'
     },
     [theme.breakpoints.down('sm')]: {
-      padding: '23px 117px 0px'
+      padding: '80px 117px 12px'
     },
     [theme.breakpoints.down('xs')]: {
-      padding: '23px 24px 0px'
+      padding: '80px 24px 12px'
     }
   }
 })
