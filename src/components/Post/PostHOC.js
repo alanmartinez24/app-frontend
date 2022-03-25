@@ -10,14 +10,16 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import { accountInfoSelector } from '../../redux/selectors'
 
 const styles = theme => ({
+  post: {
+    background: 'transparent',
+    paddingTop: '0.25rem',
+    margin: '1rem 0'
+  },
   article: {
     borderRadius: '0.5rem',
     boxShadow:
       `0px 0px 30px 0px ${theme.palette.M900}44, 0px 0px 0.75px  ${theme.palette.M900}66`,
     backgroundSize: 'cover',
-    marginLeft: '0%',
-    marginRight: '0%',
-    marginBottom: '1rem',
     minWidth: '0px',
     [theme.breakpoints.down('md')]: {
       margin: 'auto',
@@ -104,7 +106,7 @@ class PostHOC extends PureComponent {
           timeout={2000}
         >
           <div
-            style={{ background: 'transparent', paddingTop: '0.25rem' }}
+            className={classes.post}
           >
             <PostHeader
               postid={postid}
