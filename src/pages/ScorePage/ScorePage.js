@@ -243,9 +243,9 @@ class ScorePage extends Component {
                   >
                     { inputEntered ? isLoading
                     ? <Skeleton
-                      animation='pulse'
-                      className={classes.Skeleton}
-                      style={{ transform: 'none' }}
+                        animation='pulse'
+                        className={classes.Skeleton}
+                        style={{ transform: 'none' }}
                       >&nbsp;&nbsp;&nbsp;&nbsp;</Skeleton> : YupScore : '??' }
                   </Typography>
                   <Typography variant='h5'>

@@ -324,7 +324,7 @@ class Home extends Component {
                         <CardActions>
                           {isUser
                            ? <Link className={classes.link}
-                             to={'/?feed=mirror'}
+                               to={'/?feed=mirror'}
                              >
                              <YupButton size='large'
                                variant='contained'

@@ -299,17 +299,17 @@ class AirdropPage extends Component {
                   />
             )
             : <YupButton
-              fullWidth
-              onClick={this.handleSubscribeDialogOpen}
-              variant='contained'
-              color='primary'
+                fullWidth
+                onClick={this.handleSubscribeDialogOpen}
+                variant='contained'
+                color='primary'
               >
               Login
             </YupButton>
                   : <Grid container
-                    direction='row'
-                    alignContent='stretch'
-                    spacing={1}
+                      direction='row'
+                      alignContent='stretch'
+                      spacing={1}
                     >
                     <Grid item
                       xs={6}

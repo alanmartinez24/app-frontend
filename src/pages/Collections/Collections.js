@@ -761,7 +761,7 @@ class Collections extends Component {
                                   collection={rec}
                                 />
                               </Grid>
-                          )
+                            )
                             }))
                               : (
                                 <Grid item

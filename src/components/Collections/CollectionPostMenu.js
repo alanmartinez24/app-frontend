@@ -138,7 +138,7 @@ class CollectionPostMenu extends Component {
                 >
                   Add to {collection.name}
                 </MenuItem>
-            )
+              )
               } else {
                 return (
                   <MenuItem dense
@@ -160,7 +160,7 @@ class CollectionPostMenu extends Component {
           handleDialogClose={this.handleDialogClose}
         />
       </>
-  )
+    )
       }
 }
 
