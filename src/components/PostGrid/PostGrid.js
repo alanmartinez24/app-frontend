@@ -15,7 +15,7 @@ const styles = theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0.5vh 0vw 0px 0vw',
+    padding: '0.5vh 0vw 0 0vw',
     height: '60px',
     [theme.breakpoints.down('xs')]: {
       padding: voteCompPadding
@@ -27,6 +27,15 @@ const styles = theme => ({
   listVoteComp: {
     height: '100px',
     background: 'transparent'
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: '4px'
+  },
+  collectButton: {
+    marginRight: '10px'
   }
 })
 
@@ -51,8 +60,7 @@ function PostGrid ({ account,
     return (
       <ErrorBoundary>
         <Grid container
-          // direction='row'
-          justifyContent='space-between'
+          className={classes.container}
         >
           <Grid item
             tourname='Rating'
@@ -74,6 +82,7 @@ function PostGrid ({ account,
             <YupButton size='small'
               variant='outlined'
               color='secondary'
+              className={classes.collectButton}
               startIcon={<Icon className='far fa-rectangle-history' />}
             >
               <Typography
