@@ -82,9 +82,6 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       flexShrink: 0
     },
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    },
     overflowX: 'hidden'
   },
   drawerPaperOpen: {

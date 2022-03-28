@@ -8,6 +8,7 @@ import { CollectionPostMenu } from '../Collections'
 import { Icon, withStyles, Typography, Grid } from '@material-ui/core'
 
 const voteCompPadding = window.innerWidth >= 440 ? '0 0 3vh 3vh' : '0 0 3vh 1vh'
+
 const styles = theme => ({
   voteComp: {
     display: 'flex',
@@ -45,20 +46,18 @@ function PostGrid ({ account,
 }) {
     const rankQuantile = quantiles[rankCategory]
     const rankQuantileColor = rank ? levelColors[rankQuantile] : null
-    // const listStyle = isList ? `${classes.listVoteComp}` : ''
+    const listStyle = isList ? `${classes.listVoteComp}` : ''
 
     return (
       <ErrorBoundary>
         <Grid container
-          direction='row'
+          // direction='row'
           justifyContent='space-between'
         >
           <Grid item
             tourname='Rating'
+            className={`${classes.voteComp} ${listStyle}`}
           >
-            {/* <div className={`${classes.voteComp} ${listStyle}`}
-              tourname='Rating'
-            > */}
             <VoteComp
               caption={caption}
               account={account}
@@ -70,7 +69,6 @@ function PostGrid ({ account,
               listType={listType}
               postType={postType}
             />
-            {/* </div> */}
           </Grid>
           <Grid item>
             <YupButton size='small'
