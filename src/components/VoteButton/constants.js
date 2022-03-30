@@ -1,14 +1,3 @@
-export const dislikeRatingConversion = {
-  1: 2,
-  2: 1
-}
-
-export const likeRatingConversion = {
-  1: 3,
-  2: 4,
-  3: 5
-}
-
 export const labels = {
   1: '1',
   2: '2',

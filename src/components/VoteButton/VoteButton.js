@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { Grid, Grow, Portal, Tooltip, SvgIcon, Snackbar } from '@material-ui/core'
+import { Portal, Snackbar } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import polly from 'polly-js'
@@ -18,20 +18,12 @@ import rollbar from '../../utils/rollbar'
 import isEqual from 'lodash/isEqual'
 import { accountInfoSelector, ethAuthSelector } from '../../redux/selectors'
 import { deletevote, editvote, createvotev4, postvotev4, postvotev3, createvote } from '../../eos/actions/vote'
-import PostStats from './PostStats'
-import IconContainer from './IconContainer'
 import {
-  CAT_DESC,
   CREATE_VOTE_LIMIT,
-  DEFAULT_WAIT_AND_RETRY,
-  dislikeRatingConversion,
-  likeRatingConversion,
-  ratingConversion
+  DEFAULT_WAIT_AND_RETRY
 } from './constants'
-import { convertRating } from './helpers'
-import StyledRating from './StyledRating'
-import CatIcon from './CatIcon'
 import styles from './styles'
+import VoteActionIcon from '../VoteActionIcon'
 
 const { BACKEND_API } = process.env
 
@@ -229,10 +221,10 @@ class VoteButton extends Component {
     const signedInWithEth = !scatter.connected && !!ethAuth
     const signedInWithTwitter = !scatter.connected && !!localStorage.getItem('twitterMirrorInfo')
 
-    // Converts 1-5 rating to like/dislike range
-    const rating = ratingConversion[newRating]
-    const like = newRating > 2
-    const oldRating = ratingConversion[prevRating]
+    // Converts -2 ~ 3 rating to like/dislike range
+    const rating = Math.abs(newRating)
+    const like = newRating > 0
+    const oldRating = Math.abs(prevRating)
 
     this.setState({ voteLoading: true })
     dispatch(updateVoteLoading(postid, account.name, category, true))
@@ -352,23 +344,20 @@ class VoteButton extends Component {
         CREATE_VOTE_LIMIT > actionUsage.createVoteCount
       ) {
         let forcedVoteRating
-        const highestLike = 3
-        const highestDislike = 2
         const remainingVotes = CREATE_VOTE_LIMIT - actionUsage.createVoteCount
-        let highestPossibleRating
-        if (newRating > 2) {
-          highestPossibleRating = Math.min(
-            Math.floor(Math.sqrt(remainingVotes)),
-            highestLike
-          )
+        if (newRating > 0) {
+          // If it's `like`
           // TODO: Throw if the remaining votes is 0
-          forcedVoteRating = likeRatingConversion[highestPossibleRating]
-        } else {
-          highestPossibleRating = Math.min(
+          forcedVoteRating = Math.min(
             Math.floor(Math.sqrt(remainingVotes)),
-            highestDislike
+            3
           )
-          forcedVoteRating = dislikeRatingConversion[highestPossibleRating]
+        } else {
+          // If it's `dislike`
+          forcedVoteRating = -Math.min(
+            Math.floor(Math.sqrt(remainingVotes)),
+            2
+          )
         }
         await this.submitVote(prevRating, forcedVoteRating, true)
         return
@@ -488,8 +477,7 @@ class VoteButton extends Component {
     return false
   }
 
-  handleRatingChange = async (e, newRating) => {
-    e.preventDefault()
+  handleRatingChange = async (newRating) => {
     const { currRating } = this.state
     const prevRating = currRating || this.props.currRating
     await this.handleVote(prevRating, newRating)
@@ -497,8 +485,8 @@ class VoteButton extends Component {
   }
 
   render () {
-    const { classes, category, postInfo, isShown } = this.props
-    const { currWeight, currTotalVoters, voteLoading, hoverValue } = this.state
+    const { classes, category, postInfo } = this.props
+    const { currWeight, currRating } = this.state
     let currPostCatQuantile = this.state.currPostCatQuantile
     const { post } = postInfo
 
@@ -507,132 +495,18 @@ class VoteButton extends Component {
     const totalVotes = ups + downs
     const formattedWeight = totalVotes === 0 ? 0 : this.formatWeight(currWeight)
 
-    const ratingAvg =
-      post.rating && post.rating[category]
-        ? post.rating[category].ratingAvg
-        : 0
-
     const cachedTwitterMirrorInfo = localStorage.getItem('twitterMirrorInfo')
     const twitterInfo = cachedTwitterMirrorInfo && JSON.parse(cachedTwitterMirrorInfo)
 
     return (
       <>
-        <div style={{ display: 'flex', direction: 'row' }}>
-          <Grid
-            alignItems='flex-start'
-            container
-            spacing='12'
-            direction='row'
-            justify='space-around'
-            width='200px'
-            wrap='nowrap'
-          >
-            <Grid item>
-              <Tooltip title={CAT_DESC[category] || category}>
-                <Grid
-                  alignItems='center'
-                  item
-                  direction='column'
-                  justify='space-around'
-                >
-                  <Grid item>
-                    <CatIcon
-                      category={category}
-                      handleDefaultVote={this.handleDefaultVote}
-                      voteLoading={voteLoading}
-                      quantile={currPostCatQuantile}
-                    />
-                  </Grid>
-                </Grid>
-              </Tooltip>
-            </Grid>
-            <Grid
-              className={classes.postWeight}
-              item
-              style={{ textAlign: '-webkit-left', minWidth: '50px', minHeight: '56px' }}
-            >
-              <Grid container
-                direction='column'
-                justify='space-between'
-              >
-                <Grid
-                  container
-                  alignItems='flex-start'
-                  direction='column'
-                  spacing={2}
-                >
-                  <Grid item>
-                    <Grid item>
-                      {isShown && (
-                      <Grow in
-                        timeout={300}
-                      >
-                        <StyledRating
-                          name='customized-color'
-                          max={5}
-                          precision={1}
-                          onChangeActive={this.onChangeActive}
-                          IconContainerComponent={(props) => (
-                            <IconContainer
-                              {...props}
-                              quantile={currPostCatQuantile}
-                              ratingAvg={ratingAvg}
-                              handleRatingChange={this.handleRatingChange}
-                              hoverValue={hoverValue}
-                              vote={this.props.vote}
-                              currRating={
-                                this.state.currRating || this.props.currRating
-                              }
-                            />
-                          )}
-                          icon={
-                            window.matchMedia('(max-width: 520px)') ? (
-                              <SvgIcon className={classes.mobileBtn}>
-                                <circle cy='12'
-                                  cx='12'
-                                  r='4'
-                                  strokeWidth='1'
-                                />{' '}
-                              </SvgIcon>
-                            ) : (
-                              <SvgIcon>
-                                <circle cy='12'
-                                  cx='12'
-                                  r='5'
-                                  strokeWidth='2'
-                                />{' '}
-                              </SvgIcon>
-                            )
-                          }
-                        />
-                      </Grow>
-                        )}
-                    </Grid>
-                    <Grid
-                      item
-                      style={{
-                        marginTop: !isShown ? (window.innerWidth > 2000 ? '-8px' : '-14px') : '-20px',
-                        marginLeft: '5px',
-                          fontWeight: 400,
-                          width: '70px',
-                          height: '50px',
-                          marginRight: '12px'
-                        }}
-                    >
-                      <PostStats
-                        style={{ marginLeft: '15px' }}
-                        totalVoters={currTotalVoters}
-                        weight={formattedWeight}
-                        isShown={isShown}
-                        quantile={currPostCatQuantile}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </div>
+        <VoteActionIcon
+          category={category}
+          quantile={currPostCatQuantile}
+          initialRating={currRating || this.props.currRating}
+          weight={formattedWeight}
+          onUpdateRating={this.handleRatingChange}
+        />
         <Portal>
           <Snackbar
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -681,8 +555,8 @@ const mapStateToProps = (state, ownProps) => {
     }
     if (userVotesForPost) {
       initialVote = userVotesForPost.votes[category]
-      if (initialVote) {
-        currRating = convertRating(initialVote.like, initialVote.rating)
+      if (initialVote?.rating) {
+        currRating = initialVote.like ? initialVote.rating : -initialVote.rating
       }
     }
   }
@@ -707,16 +581,11 @@ VoteButton.propTypes = {
   catWeight: PropTypes.number.isRequired,
   currRating: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
-  voterWeight: PropTypes.number.isRequired,
-  rating: PropTypes.object.isRequired,
-  initialVote: PropTypes.object.isRequired,
-  quantile: PropTypes.string.isRequired,
   vote: PropTypes.object.isRequired,
   listType: PropTypes.string,
   votesForPost: PropTypes.object.isRequired,
   postInfo: PropTypes.object.isRequired,
-  ethAuth: PropTypes.object,
-  isShown: PropTypes.bool
+  ethAuth: PropTypes.object
 }
 
 export default withRouter(connect(mapStateToProps)(withStyles(styles)(VoteButton))
